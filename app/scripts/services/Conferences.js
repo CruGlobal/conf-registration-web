@@ -4,12 +4,12 @@ angular.module('confRegistrationWebApp')
   .factory('Conferences', function () {
     var conferences = [
       {
-        "id": "012",
-        "name": "A Sweet Fall Retreat",
-        "pages": [
+        'id': '012',
+        'name': 'A Sweet Fall Retreat',
+        'pages': [
           {
-            "id": "1",
-            "title": "Start",
+            'id': '1',
+            'title': 'Start',
             'blocks': [
               {
                 'title': 'Important Information',
@@ -26,27 +26,27 @@ angular.module('confRegistrationWebApp')
               }
             ]
           },
-          { "id": "2", "title": "Next" },
-          { "id": "3", "title": "After" },
-          { "id": "4", "title": "Then" },
-          { "id": "5", "title": "End" }
+          { 'id': '2', 'title': 'Next' },
+          { 'id': '3', 'title': 'After' },
+          { 'id': '4', 'title': 'Then' },
+          { 'id': '5', 'title': 'End' }
         ]
       },
       {
-        "id": "123",
-        "name": "Fall Retreat WOOO"
+        'id': '123',
+        'name': 'Fall Retreat WOOO'
       },
       {
-        "id": "234",
-        "name": "Fall Retreat!"
+        'id': '234',
+        'name': 'Fall Retreat!'
       },
       {
-        "id": "345",
-        "name": "Yet Another Fall Retreat (YAFR)"
+        'id': '345',
+        'name': 'Yet Another Fall Retreat (YAFR)'
       },
       {
-        "id": "456",
-        "name": "Fall Retreat Is Never Gonna Give You Up"
+        'id': '456',
+        'name': 'Fall Retreat Is Never Gonna Give You Up'
       }
     ];
 
