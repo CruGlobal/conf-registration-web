@@ -12,12 +12,17 @@ angular.module('confRegistrationWebApp')
             "title": "Start",
             'blocks': [
               {
-                'title': 'What\'s your name?',
-                'type': 'text'
+                'title': 'Important Information',
+                'type': 'paragraphContent',
+                'content': 'Some really important text.'
               },
               {
-                'title': 'What school did you graduate from?',
-                'type': 'text'
+                'title': 'What\'s your name?',
+                'type': 'textQuestion'
+              },
+              {
+                'title': 'What school do you currently attend?',
+                'type': 'textQuestion'
               }
             ]
           },
