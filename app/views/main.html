@@ -5,7 +5,7 @@
 
       <p>Demo Conferences:</p>
       <ul>
-        <li ng-repeat="conference in conferences">{{conference.name}}</li>
+        <li ng-repeat="conference in conferences"><a href="#/register/{{conference.id}}">{{conference.name}}</a></li>
       </ul>
     </div>
   </div>
