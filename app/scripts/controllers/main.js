@@ -1,10 +1,6 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('MainCtrl', function ($scope, Conferences) {
+    $scope.conferences = Conferences.getAll();
   });
