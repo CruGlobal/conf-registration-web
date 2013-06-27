@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegisterCtrl', function ($scope, conference) {
-    $scope.conference = conference;
+  .controller('RegisterCtrl', function ($scope, conference, $location) {
+    $location.path('/register/' + conference.id + '/page/' + conference.pages[0]);
   });

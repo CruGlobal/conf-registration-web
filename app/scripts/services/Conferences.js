@@ -5,7 +5,27 @@ angular.module('confRegistrationWebApp')
     var conferences = [
       {
         "id": "012",
-        "name": "A Sweet Fall Retreat"
+        "name": "A Sweet Fall Retreat",
+        "pages": [
+          {
+            "id": "1",
+            "title": "Start",
+            'blocks': [
+              {
+                'title': 'What\'s your name?',
+                'type': 'text'
+              },
+              {
+                'title': 'What school did you graduate from?',
+                'type': 'text'
+              }
+            ]
+          },
+          { "id": "2", "title": "Next" },
+          { "id": "3", "title": "After" },
+          { "id": "4", "title": "Then" },
+          { "id": "5", "title": "End" }
+        ]
       },
       {
         "id": "123",
