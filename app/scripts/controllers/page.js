@@ -14,7 +14,9 @@ angular.module('confRegistrationWebApp')
       }
     }
 
-    $scope.page = getPageById($routeParams.pageId);
+    var pageId = $routeParams.pageId;
+    $scope.activePageId = pageId;
+    $scope.page = getPageById(pageId);
 
     function getPageAfterById(pageId) {
       var pages = conference.pages;
@@ -26,7 +28,7 @@ angular.module('confRegistrationWebApp')
       }
     }
 
-    $scope.nextPage = getPageAfterById($routeParams.pageId);
+    $scope.nextPage = getPageAfterById(pageId);
 
     $scope.validateAndGoToNext = function () {
       $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);

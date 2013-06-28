@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="span12">
+    <h2>{{page.title}}</h2>
+  </div>
+</div>
+<form data-ng-submit="validateAndGoToNext()" name="pageForm">
+  <div class="row" data-ng-repeat="block in page.blocks">
+    <div class="span12">
+      <div class="well">
+        <h3>{{block.title}}</h3>
+        <ng-switch on="block.type">
+          <p ng-switch-when="paragraphContent">{{block.content}}</p>
+          <text-question block="block" ng-switch-when="textQuestion"></text-question>
+          <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+        </ng-switch>
+        <span ng-show="block.required">(required)</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span3 pull-right">
+      <button class="btn btn-block btn-success btn-large"
+              type="submit"
+              data-ng-disabled="!pageForm.$valid"
+              ng-show="nextPage">Next Page</button>
+    </div>
+  </div>
+</form>
