@@ -9,13 +9,13 @@ angular.module('confRegistrationWebApp')
         'pages': [
           {
             'id': '1',
-            'title': 'Start',
+            'title': 'About You',
             'blocks': [
               {
                 'id': 'block-1',
                 'title': 'Important Information',
                 'type': 'paragraphContent',
-                'content': 'Some really important text.'
+                'content': 'We are glad you are coming to Fall Retreat!'
               },
               {
                 'id': 'block-2',
@@ -40,10 +40,77 @@ angular.module('confRegistrationWebApp')
               }
             ]
           },
-          { 'id': '2', 'title': 'Next' },
-          { 'id': '3', 'title': 'After' },
-          { 'id': '4', 'title': 'Then' },
-          { 'id': '5', 'title': 'End' }
+          {
+            'id': '2',
+            'title': 'Rides',
+            'blocks': [
+              {
+                'id': 'block-1',
+                'title': 'Ride Situation',
+                'type': 'paragraphContent',
+                'content': 'If you are driving, please give someone a ride.'
+              },
+              {
+                'id': 'block-4',
+                'title': 'Do you have a car?',
+                'type': 'radioQuestion',
+                'required': true,
+                'choices': [
+                  'Yes',
+                  'No'
+                ]
+              },
+              {
+                'id': 'block-4',
+                'title': 'Do you need a ride?',
+                'type': 'radioQuestion',
+                'required': true,
+                'choices': [
+                  'Yes',
+                  'No'
+                ]
+              }
+            ]
+          },
+          {
+            'id': '3',
+            'title': 'Food',
+            'blocks': [
+              {
+                'id': 'block-4',
+                'title': 'What do you want to eat for breakfast?',
+                'type': 'radioQuestion',
+                'required': true,
+                'choices': [
+                  'Pancakes',
+                  'Waffles',
+                  'Omelettes'
+                ]
+              },
+              {
+                'id': 'block-4',
+                'title': 'What do you want to eat for lunch?',
+                'type': 'radioQuestion',
+                'required': true,
+                'choices': [
+                  'Sandwich',
+                  'Soup',
+                  'Burger'
+                ]
+              },
+              {
+                'id': 'block-4',
+                'title': 'What do you want to eat for dinner?',
+                'type': 'radioQuestion',
+                'required': true,
+                'choices': [
+                  'Steak',
+                  'Shrimp',
+                  'Lobster'
+                ]
+              }
+            ]
+          }
         ]
       },
       {
