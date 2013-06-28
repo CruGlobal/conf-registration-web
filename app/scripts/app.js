@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngMockE2E'])
+angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -20,8 +20,14 @@ angular.module('confRegistrationWebApp', ['ngMockE2E'])
         templateUrl: 'views/page.html',
         controller: 'PageCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', function ($route, Conferences) {
-            return Conferences.getById($route.current.params.conferenceId); // todo handle a not found conference
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
           }]
         }
       })

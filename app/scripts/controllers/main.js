@@ -2,5 +2,5 @@
 
 angular.module('confRegistrationWebApp')
   .controller('MainCtrl', function ($scope, Conferences) {
-    $scope.conferences = Conferences.getAll();
+    $scope.conferences = Conferences.query();
   });
