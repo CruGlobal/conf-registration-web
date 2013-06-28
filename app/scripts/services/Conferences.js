@@ -31,6 +31,7 @@ angular.module('confRegistrationWebApp')
                 'id': 'block-4',
                 'title': 'Man or Lady?',
                 'type': 'radioQuestion',
+                'required': true,
                 'choices': [
                   'Man',
                   'Lady'

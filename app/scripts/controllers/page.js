@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('PageCtrl', function ($scope, conference, $routeParams) {
+  .controller('PageCtrl', function ($scope, conference, $routeParams, $location) {
     $scope.conference = conference;
 
     function getPageById(pageId) {
@@ -27,4 +27,8 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.nextPage = getPageAfterById($routeParams.pageId);
+
+    $scope.validateAndGoToNext = function () {
+      $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
+    }
   });
