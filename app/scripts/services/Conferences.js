@@ -51,7 +51,7 @@ angular.module('confRegistrationWebApp')
                 'content': 'If you are driving, please give someone a ride.'
               },
               {
-                'id': 'block-4',
+                'id': 'block-5',
                 'title': 'Do you have a car?',
                 'type': 'radioQuestion',
                 'required': true,
@@ -61,7 +61,7 @@ angular.module('confRegistrationWebApp')
                 ]
               },
               {
-                'id': 'block-4',
+                'id': 'block-6',
                 'title': 'Do you need a ride?',
                 'type': 'radioQuestion',
                 'required': true,
