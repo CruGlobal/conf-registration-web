@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope) {
         $scope.updateAnswer = function () {
           console.log('block ' + $scope.block.id + ' answer changed to ' + $scope.answer);
-        }
+        };
       },
       restrict: 'E',
       link: function (scope, elements) {

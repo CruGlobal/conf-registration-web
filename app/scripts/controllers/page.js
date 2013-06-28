@@ -30,5 +30,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.validateAndGoToNext = function () {
       $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
-    }
+    };
   });
