@@ -1,0 +1,7 @@
+<form name="{{block.id}}">
+  <ul class="unstyled">
+    <li data-ng-repeat="choice in block.choices">
+      <input name="{{block.id}}" type="radio" ng-click="updateAnswer(choice)"> {{choice}}
+    </li>
+  </ul>
+</form>

@@ -26,6 +26,15 @@ angular.module('confRegistrationWebApp')
                 'id': 'block-3',
                 'title': 'What school do you currently attend?',
                 'type': 'textQuestion'
+              },
+              {
+                'id': 'block-4',
+                'title': 'Man or Lady?',
+                'type': 'radioQuestion',
+                'choices': [
+                  'Man',
+                  'Lady'
+                ]
               }
             ]
           },
