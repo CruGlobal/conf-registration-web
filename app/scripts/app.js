@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', [])
+angular.module('confRegistrationWebApp', ['ngMockE2E'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
