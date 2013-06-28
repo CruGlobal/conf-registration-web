@@ -11,7 +11,6 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope) {
         $scope.updateAnswer = function (answer) {
           console.log('block ' + $scope.block.id + ' answer changed to ' + answer);
-          $scope.answer = answer;
         };
       }
     };

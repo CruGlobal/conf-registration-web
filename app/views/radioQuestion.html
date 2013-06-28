@@ -1,27 +1,12 @@
 <div ng-form="blockForm">
   <ul class="unstyled">
     <li data-ng-repeat="choice in block.choices">
-      <input name="{{block.id}}" type="radio" ng-click="updateAnswer(choice)" ng-required="block.required"> {{choice}}
+      <input name="{{block.id}}"
+             type="radio"
+             ng-required="block.required"
+             ng-model="$parent.answer"
+             ng-value="choice"
+             ng-change="updateAnswer(choice)"> {{choice}}
     </li>
   </ul>
-  <input type="hidden" data-ng-model="answer" ng-required="block.required">
-</div>
-<div class="row-fluid">
-  <div class="span3">
-    <pre>blockForm.$pristine = {{blockForm.$pristine}}</pre>
-  </div>
-  <div class="span3">
-    <pre>blockForm.$dirty = {{blockForm.$dirty}}</pre>
-  </div>
-  <div class="span3">
-    <pre>blockForm.$valid = {{blockForm.$valid}}</pre>
-  </div>
-  <div class="span3">
-    <pre>blockForm.$invalid = {{blockForm.$invalid}}</pre>
-  </div>
-</div>
-<div class="row-fluid">
-  <div class="span12">
-    <pre>blockForm.$error = {{blockForm.$error | json}}</pre>
-  </div>
 </div>
