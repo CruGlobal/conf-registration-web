@@ -8,8 +8,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         controller: 'MainCtrl'
       })
       .when('/register/:conferenceId/page/:pageId', {
-        templateUrl: 'views/page.html',
-        controller: 'PageCtrl',
+        templateUrl: 'views/registration.html',
+        controller: 'RegistrationCtrl',
         resolve: {
           conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
             var defer = $q.defer();

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('PageCtrl', function ($scope, conference, $routeParams, $location) {
+  .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location) {
     $scope.conference = conference;
 
     function getPageById(pageId) {
