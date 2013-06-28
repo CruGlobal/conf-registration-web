@@ -14,8 +14,7 @@ angular.module('confRegistrationWebApp')
       },
       restrict: 'E',
       link: function (scope, elements) {
-        var child = elements[0].firstChild;
-        $(child).bind('blur', function () { // todo this is fragile and will break if the template changes
+        elements.find('input').bind('blur', function () { // todo this is fragile and will break if the template changes
           scope.updateAnswer();
         });
       }
