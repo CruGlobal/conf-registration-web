@@ -24,7 +24,7 @@
       <h3>{{block.title}}</h3>
       <ng-switch on="block.type">
         <p ng-switch-when="paragraphContent">{{block.content}}</p>
-        <input ng-switch-when="textQuestion" type="text"/>
+        <text-question block="block" ng-switch-when="textQuestion"></text-question>
       </ng-switch>
     </div>
   </div>
