@@ -9,6 +9,7 @@ angular.module('confRegistrationWebApp', [])
       })
       .when('/register/:conferenceId', {
         controller: 'RegisterCtrl',
+        template: '',
         resolve: {
           conference: function (Conferences, $route) {
             return Conferences.getById($route.current.params.conferenceId); // todo handle a not found conference
