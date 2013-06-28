@@ -77,7 +77,7 @@ angular.module('confRegistrationWebApp')
             'title': 'Food',
             'blocks': [
               {
-                'id': 'block-4',
+                'id': 'block-7',
                 'title': 'What do you want to eat for breakfast?',
                 'type': 'radioQuestion',
                 'required': true,
@@ -88,7 +88,7 @@ angular.module('confRegistrationWebApp')
                 ]
               },
               {
-                'id': 'block-4',
+                'id': 'block-8',
                 'title': 'What do you want to eat for lunch?',
                 'type': 'radioQuestion',
                 'required': true,
@@ -99,7 +99,7 @@ angular.module('confRegistrationWebApp')
                 ]
               },
               {
-                'id': 'block-4',
+                'id': 'block-9',
                 'title': 'What do you want to eat for dinner?',
                 'type': 'radioQuestion',
                 'required': true,
