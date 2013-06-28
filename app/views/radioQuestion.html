@@ -4,4 +4,5 @@
       <input name="{{block.id}}" type="radio" ng-click="updateAnswer(choice)" ng-required="block.required"> {{choice}}
     </li>
   </ul>
+  <input type="hidden" data-ng-model="answer" ng-required="block.required">
 </div>
