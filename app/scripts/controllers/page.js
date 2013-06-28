@@ -15,4 +15,16 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.page = getPageById($routeParams.pageId);
+
+    function getPageAfterById(pageId) {
+      var pages = conference.pages;
+
+      for (var i = 0; i < pages.length; i++) {
+        if(angular.equals(pageId, pages[i].id)) {
+          return pages[i+1];
+        }
+      }
+    }
+
+    $scope.nextPage = getPageAfterById($routeParams.pageId);
   });
