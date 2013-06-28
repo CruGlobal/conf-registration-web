@@ -20,6 +20,7 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-2',
                 'title': 'What\'s your name?',
+                'required': true,
                 'type': 'textQuestion'
               },
               {

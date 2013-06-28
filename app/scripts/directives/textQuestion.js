@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp')
   .directive('textQuestion', function () {
     return {
-      template: '<input type="text" data-ng-model="answer">',
+      templateUrl: 'views/textQuestion.html',
       scope: {
         block: '='
       },
