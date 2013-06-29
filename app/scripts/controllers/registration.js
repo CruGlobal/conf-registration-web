@@ -3,13 +3,9 @@
 angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location) {
     $scope.validPages = {};
-    $scope.$on('pageValid', function (event) {
+    $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
-      $scope.validPages[event.targetScope.page.id] = true;
-    });
-    $scope.$on('pageInvalid', function (event) {
-      event.stopPropagation();
-      $scope.validPages[event.targetScope.page.id] = false;
+      $scope.validPages[event.targetScope.page.id] = validity;
     });
 
     $scope.conference = conference;
