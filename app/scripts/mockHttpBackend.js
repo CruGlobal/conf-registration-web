@@ -114,7 +114,6 @@ angular.module('confRegistrationWebApp')
       ]
     };
 
-
     var conferences = [
       {
         'id': '012',

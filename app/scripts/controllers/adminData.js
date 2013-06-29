@@ -8,8 +8,9 @@ angular.module('confRegistrationWebApp')
 
     angular.forEach(conference.pages, function (page) {
       angular.forEach(page.blocks, function (block) {
-        if(block.type !== "paragraphContent")
-        $scope.blocks.push(block);
+        if(block.type !== 'paragraphContent') { // todo come up with better idea to filter out content blocks
+          $scope.blocks.push(block);
+        }
       });
     });
 
