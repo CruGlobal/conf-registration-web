@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
 
     angular.forEach(conference.pages, function (page) {
       angular.forEach(page.blocks, function (block) {
-        if(block.type !== 'paragraphContent') { // todo come up with better idea to filter out content blocks
+        if(block.type.indexOf('Content') == -1) {
           $scope.blocks.push(block);
         }
       });
