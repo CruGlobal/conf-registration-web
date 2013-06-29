@@ -10,6 +10,46 @@ angular.module('confRegistrationWebApp')
       {
         'id': '012',
         'name': 'A Sweet Fall Retreat',
+        'landingPage': {
+          'blocks':[
+            {
+              'id': 'landingpage-1',
+              'title': 'Location',
+              'type': 'paragraphContent',
+              'content': '123 Main St. Orlando, FL, 32828'
+            },
+            {
+              'id': 'landingpage-2',
+              'title': 'Registration Begins',
+              'type': 'paragraphContent',
+              'content': 'August 19, 2013 12:00 AM Eastern Time'
+            },
+            {
+              'id': 'landingpage-2',
+              'title': 'Registration Ends',
+              'type': 'paragraphContent',
+              'content': 'October 12, 2013 3:00 AM Eastern Time'
+            },
+            {
+              'id': 'landingpage-2',
+              'title': 'Fall Retreat Starts',
+              'type': 'paragraphContent',
+              'content': 'October 18, 2013 6:00 PM Eastern Time'
+            },
+            {
+              'id': 'landingpage-2',
+              'title': 'Fall Retreat Ends',
+              'type': 'paragraphContent',
+              'content': 'October 20, 2013 10:00 AM Eastern Time'
+            },
+            {
+              'id': 'landingpage-2',
+              'title': 'Contact Info',
+              'type': 'paragraphContent',
+              'content': 'John Smith <john.smith@example.com> 555-555-5555'
+            }
+          ]
+        },
         'pages': [
           {
             'id': '1',
