@@ -42,6 +42,26 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           }]
         }
       })
+      .when('/adminData/:conferenceId', {
+        templateUrl: 'views/adminData.html',
+        controller: 'AdminDataCtrl',
+        resolve: {
+          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations) {
+            return Registrations.getForConference($route.current.params.conferenceId).then(function (registrations) {
+              return registrations;
+            });
+          }],
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
