@@ -19,6 +19,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             });
 
             return defer.promise;
+          }],
+          answers: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
+            return Registrations.getForConference($route.current.params.conferenceId).then(function (registration) {
+              return registration.answers;
+            });
           }]
         }
       })

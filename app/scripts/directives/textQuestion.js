@@ -4,9 +4,6 @@ angular.module('confRegistrationWebApp')
   .directive('textQuestion', function () {
     return {
       templateUrl: 'views/textQuestion.html',
-      scope: {
-        block: '='
-      },
       controller: function ($scope) {
         $scope.updateAnswer = function () {
           console.log('block ' + $scope.block.id + ' answer changed to ' + $scope.answer);

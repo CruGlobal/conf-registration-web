@@ -187,5 +187,21 @@ angular.module('confRegistrationWebApp')
         var headers = {};
         return [200, conference, headers];
       });
+
+      $httpBackend.whenGET('conferences/' + conference.id + '/registrations').respond(function () {
+        console.log('GET /conferences/' + conference.id + '/registrations');
+
+        var headers = {};
+        var registration = {
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Robby'
+            }
+          ]
+        };
+        return [200, registration, headers];
+      });
+
     });
   });
