@@ -175,8 +175,17 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(conferences);
+    $httpBackend.whenGET('conferences').respond(function () {
+      console.log('GET /conferences');
+      var headers = {};
+      return [200, conferences, headers];
+    });
     angular.forEach(conferences, function (conference) {
-      $httpBackend.whenGET('conferences/' + conference.id).respond(conference);
+      $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
+        console.log('GET /conference/' + conference.id);
+
+        var headers = {};
+        return [200, conference, headers];
+      });
     });
   });
