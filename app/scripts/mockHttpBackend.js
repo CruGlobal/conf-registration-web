@@ -290,7 +290,7 @@ angular.module('confRegistrationWebApp')
     });
     angular.forEach(conferences, function (conference) {
       $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
-        console.log('GET /conference/' + conference.id);
+        console.log('GET /conferences/' + conference.id);
 
         var headers = {};
         return [200, conference, headers];
