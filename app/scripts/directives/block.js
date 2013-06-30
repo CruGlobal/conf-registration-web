@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
         'prefillAnswer': '=answer'
       },
       controller: function ($scope) {
-        $scope.answer = {};
+        $scope.answer = angular.copy($scope.prefillAnswer) || {};
 
         $scope.updateAnswer = function () {
 //          $scope.answer.$save();
