@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     var Registrations = $resource('registrations/:id');
 
     Registrations.getForConference = function (conferenceId) {
-      return $http.get('conferences/' + conferenceId + '/registrations').then(function (response) {
+      return $http.get('conferences/' + conferenceId + '/registrations/current').then(function (response) {
         return response.data;
       });
     };
