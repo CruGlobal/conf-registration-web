@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="span12">
+    <div class="well">
+      <p>Demo Conferences:</p>
+      <ul>
+        <li ng-repeat="conference in conferences" ng-show="conference.pages[0].id">
+          <a href="#/info/{{conference.id}}">{{conference.name}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/admin-dashboard.html',
         controller: 'MainCtrl'
       })
       .when('/register/:conferenceId/page/:pageId', {
