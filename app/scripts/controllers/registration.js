@@ -13,11 +13,9 @@ angular.module('confRegistrationWebApp')
     $scope.answers = answers;
 
     $scope.findAnswer = function (blockId) {
-      var find = _.find(answers, function (answer) {
+      return _.find(answers, function (answer) {
         return angular.equals(answer.block, blockId);
       });
-      console.log(find);
-      return  find;
     };
 
     function getPageById(pageId) {

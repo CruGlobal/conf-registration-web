@@ -9,6 +9,7 @@ angular.module('confRegistrationWebApp')
         $scope.updateAnswer = function (answer) {
           console.log('block ' + $scope.block.id + ' answer changed to ' + answer);
         };
+        $scope.answer = {};
       }
     };
   });

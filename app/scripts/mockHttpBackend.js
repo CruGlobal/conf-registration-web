@@ -6,6 +6,114 @@ angular.module('confRegistrationWebApp')
   .run(function ($httpBackend) {
     $httpBackend.whenGET(/views\/.*/).passThrough();
 
+    var registrations = {
+      '012': [
+        {
+          'user': 'user-1',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Ron'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'No'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Waffles'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Burger'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Steak'
+            }
+          ]
+        },
+        {
+          'user': 'user-2',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Jerry'
+            },
+            {
+              'block': 'block-3',
+              'value': 'Perdue'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Pancakes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Sandwich'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Shrimp'
+            }
+          ]
+        },
+        {
+          'user': 'user-3',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Tom'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'No'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Omelettes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Soup'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Lobster'
+            }
+          ]
+        }
+      ]
+    };
+
     var conferences = [
       {
         'id': '012',
@@ -192,15 +300,7 @@ angular.module('confRegistrationWebApp')
         console.log('GET /conferences/' + conference.id + '/registrations');
 
         var headers = {};
-        var registration = {
-          'answers': [
-            {
-              'block': 'block-2',
-              'value': 'Robby'
-            }
-          ]
-        };
-        return [200, registration, headers];
+        return [200, registrations[conference.id], headers];
       });
 
     });
