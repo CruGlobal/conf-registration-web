@@ -7,7 +7,15 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       scope: {
         'block': '=',
-        'answer': '='
+        'prefillAnswer': '=answer'
+      },
+      controller: function ($scope) {
+        $scope.answer = angular.copy($scope.prefillAnswer) || {};
+
+        $scope.updateAnswer = function () {
+//          $scope.answer.$save();
+          console.log('update answer in ' + $scope.block.id + ' to ' + angular.toJson($scope.answer));
+        };
       }
     };
   });

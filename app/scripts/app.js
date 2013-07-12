@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             return defer.promise;
           }],
           answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getForConference($route.current.params.conferenceId).then(function (registration) {
+            return Registrations.getCurrentForConference($route.current.params.conferenceId).then(function (registration) {
               return registration.answers;
             });
           }]
@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         controller: 'AdminDataCtrl',
         resolve: {
           registrations: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getForConference($route.current.params.conferenceId);
+            return Registrations.getAllForConference($route.current.params.conferenceId);
           }],
           conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
             var defer = $q.defer();

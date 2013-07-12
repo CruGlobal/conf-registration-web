@@ -303,5 +303,16 @@ angular.module('confRegistrationWebApp')
         return [200, registrations[conference.id], headers];
       });
 
+      $httpBackend.whenGET('conferences/' + conference.id + '/registrations/current').respond(function () {
+        console.log('GET /conferences/' + conference.id + '/registrations/current');
+
+        var headers = {};
+        var regForConf = registrations[conference.id];
+        var theReg = _.find(regForConf, function (registration) {
+          return angular.equals(registration.user, 'user-1');
+        });
+        console.log(theReg);
+        return [200, theReg, headers];
+      });
     });
   });
