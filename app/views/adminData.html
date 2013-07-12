@@ -3,11 +3,11 @@
 <table class="table-bordered table-striped table-hover table-condensed">
   <thead>
   <tr>
-    <th data-ng-repeat="block in blocks">{{block.title}}</th>
+    <th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id);">{{block.title}}</a></th>
   </tr>
   </thead>
   <tbody>
-  <tr data-ng-repeat="registration in registrations | filter:searchFilter">
+  <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
     <td data-ng-repeat="block in blocks">{{findAnswer(registration, block.id).value}}</td>
   </tr>
   </tbody>
