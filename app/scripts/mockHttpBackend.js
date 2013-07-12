@@ -283,7 +283,7 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(function () {
+    $httpBackend.whenGET('conferences/').respond(function () {
       console.log('GET /conferences');
       var headers = {};
       return [200, conferences, headers];
