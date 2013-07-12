@@ -15,7 +15,7 @@ angular.module('confRegistrationWebApp')
         $scope.updateAnswer = function () {
 //          $scope.answer.$save();
           console.log('update answer in ' + $scope.block.id + ' to ' + angular.toJson($scope.answer));
-        }
+        };
       }
     };
   });
