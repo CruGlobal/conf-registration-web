@@ -23,7 +23,7 @@ angular.module('confRegistrationWebApp')
     this.query = function (id) {
       checkCache(path(id), function (conferences, path) {
         $rootScope.$broadcast(path, conferences);
-      })
+      });
     };
 
     this.get = function (id) {
@@ -32,5 +32,5 @@ angular.module('confRegistrationWebApp')
         defer.resolve(conferences);
       });
       return defer.promise;
-    }
+    };
   });
