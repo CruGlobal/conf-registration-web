@@ -303,6 +303,21 @@ angular.module('confRegistrationWebApp')
         return [200, registrations[conference.id], headers];
       });
 
+      $httpBackend.whenPOST('conferences/' + conference.id + '/registrations').respond(function () {
+        console.log('POST /conferences/' + conference.id + '/registrations');
+
+        var registration = {
+          id: '752bab92-e8bf-11e2-91e2-0800200c9a66',
+          user: 'c8cfaf61-e8a8-11e2-91e2-0800200c9a66',
+          answers: []
+        };
+
+        var headers = {
+          location: 'registrations/' + registration.id
+        };
+        return [201, registrations[conference.id], headers];
+      });
+
       $httpBackend.whenGET('conferences/' + conference.id + '/registrations/current').respond(function () {
         console.log('GET /conferences/' + conference.id + '/registrations/current');
 
