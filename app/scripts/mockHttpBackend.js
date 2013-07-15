@@ -290,7 +290,7 @@ angular.module('confRegistrationWebApp')
     });
     angular.forEach(conferences, function (conference) {
       $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
-        console.log('GET /conference/' + conference.id);
+        console.log('GET /conferences/' + conference.id);
 
         var headers = {};
         return [200, conference, headers];
@@ -303,5 +303,31 @@ angular.module('confRegistrationWebApp')
         return [200, registrations[conference.id], headers];
       });
 
+      $httpBackend.whenPOST('conferences/' + conference.id + '/registrations').respond(function () {
+        console.log('POST /conferences/' + conference.id + '/registrations');
+
+        var registration = {
+          id: '752bab92-e8bf-11e2-91e2-0800200c9a66',
+          user: 'c8cfaf61-e8a8-11e2-91e2-0800200c9a66',
+          answers: []
+        };
+
+        var headers = {
+          location: 'registrations/' + registration.id
+        };
+        return [201, registrations[conference.id], headers];
+      });
+
+      $httpBackend.whenGET('conferences/' + conference.id + '/registrations/current').respond(function () {
+        console.log('GET /conferences/' + conference.id + '/registrations/current');
+
+        var headers = {};
+        var regForConf = registrations[conference.id];
+        var theReg = _.find(regForConf, function (registration) {
+          return angular.equals(registration.user, 'user-1');
+        });
+        console.log(theReg);
+        return [200, theReg, headers];
+      });
     });
   });
