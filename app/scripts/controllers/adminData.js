@@ -36,7 +36,7 @@ angular.module('confRegistrationWebApp')
           $scope.reversesort=false;
         }
         $scope.order = order;
-    };
+      };
 
     $scope.registrations = registrations;
   });
