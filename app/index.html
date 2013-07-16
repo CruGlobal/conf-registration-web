@@ -14,6 +14,13 @@
         <!-- build:css({.tmp,app}) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
         <!-- endbuild -->
+
+    <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic);</style>
+    <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic);</style>
+    <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);</style>
+    <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
+    <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
+
 </head>
   <body ng-app="confRegistrationWebApp">
     <!--[if lt IE 7]>
@@ -26,7 +33,34 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+
+    <div class="container">
+      <div class="crs-head">
+        <div class="crs-logo"><a href="#" alt="Formvent"><img src="images/logo-formvent.png" width="94" height="15"></a></div>
+        <span>Super easy fun forms for events.</span>
+        <!-- The sign up / sign in thing goes here. I'll come back to this. -->
+      </div>
+    </div>
+
+      <div class="crs-sub-head">
+        <div class="container">
+          <div class="crs-icon-head span12">
+            icon goes here
+          </div>
+          <h1>Forms for events. Easy peasy.</h1>
+        </div>
+      </div>
+    <div class="container debug">
+      <div ng-view="">
+      </div>
+    </div>
+
+
+
+
+
+
+
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -45,23 +79,11 @@
     <!-- endbuild -->
 
         <!-- build:js scripts/plugins.js -->
-        <script src="bower_components/jquery/jquery.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tooltip.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-modal.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-transition.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-button.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-popover.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-typeahead.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-carousel.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-scrollspy.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-collapse.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script>
-        <!-- endbuild -->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- endbuild -->
 
-        <!-- build:js scripts/modules.js -->
+    <!-- build:js scripts/modules.js -->
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-mocks/angular-mocks.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>

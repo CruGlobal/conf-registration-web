@@ -1,25 +1,79 @@
 @import "bootstrap-sass/lib/bootstrap";
 @import "bootstrap-sass/lib/responsive";
 
+html {
+  background: $crs-grayLightest;
+}
+
 body {
-    background: #fafafa;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #333;
+  font-family: $sansFontFamily;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+.crs-head {
+  height: 50px;
+  width: 100%;
+  .crs-logo {
+    display: block;
+    float: left;
+    margin: 13px 10px 0 20px;
+    .crs-logo a {
+
+    }
+  }
+  .crs-logo+span {
+    color: $crs-green;
+    float: left;
+    font-size: 70%;
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 17px;
+  }
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+.crs-sub-head {
+  background: #e74d3c;
+  background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, #e74d3c), color-stop(100%, #e67e22));
+  background: -webkit-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
+  background: -o-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
+  background: -ms-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
+  background: linear-gradient(to right, #e74d3c 0%, #e67e22 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e74d3c', endColorstr='#e67e22', GradientType=1 );
+  display: block;
+  height: 100px;
+  width: 100%;
+  .crs-icon-head {
+    background-color: $crs-grayLightest;
+    border-radius: 25px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
+    height: 50px;
+    float: left;
+    margin: 25px 40px 0 40px;
+    width: 50px;
+  }
+  h1 {
+    color: $crs-grayLightest;
+    float: left;
+    font-size: 112.5%;
+    font-style: italic;
+    font-weight: 300;
+    margin-top: 30px;
+  }
+}
+
+.debug {
+  border: 1px solid darkslateblue;
+}
+.crs-card-stack {
+
+  .crs-event-card {
+    display: block;
+    height: 325px;
+    list-style-type: none;
+    width: 250px;
+  }
+}
+.crs-new-event-card {
+
 }
