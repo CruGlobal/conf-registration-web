@@ -1,12 +1,16 @@
-<div class="row">
-  <div class="span12">
+<div class="row-fluid">
+
     <ul class="crs-card-stack">
-      <li class="crs-event-card" ng-repeat="conference in conferences" ng-show="conference.pages[0].id">
+      <li class="crs-event-card span3" ng-repeat="conference in conferences" ng-show="conference.pages[0].id">
         <a href="#/info/{{conference.id}}">{{conference.name}}</a>
       </li>
-      <li class="crs-new-event-card">
+      <li class="crs-event-card span3"><a href="">The Best Pickle Conference</a> </li>
+      <li class="crs-event-card span3"><a href="">The Stuffed Sandwich Conference</a> </li>
+      <li class="crs-event-card span3"><a href="">The Fall Retreatment of Curtans</a> </li>
+      <li class="crs-event-card span3"><a href="">The Best of The Best of The Best</a> </li>
+      <li class="crs-new-event-card span3">
         <a href=""></a>
       </li>
     </ul>
-  </div>
+
 </div>
