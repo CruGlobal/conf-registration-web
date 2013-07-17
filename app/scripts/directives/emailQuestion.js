@@ -8,9 +8,6 @@ angular.module('confRegistrationWebApp')
       link: function (scope, elements) {
         elements.find('input').bind('blur', function () {
           scope.updateAnswer();
-          var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-          //if (filter.test(scope.answer.value)) alert('YES! Correct email address');
-          //else alert('NO! Incorrect email address');
         });
       }
     };
