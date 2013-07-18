@@ -1,3 +1,27 @@
+// CRS custom variables.
+//---------------------------------------------------
+
+// Flat UI Colors for CRS
+// --------------------------------------------------
+$crs-grayDarker:     #2c3e50;
+$crs-grayDark:       #34495e;
+$crs-gray:           #7f8c8d;
+$crs-grayLight:      #95a5a6;
+$crs-grayLighter:    #bdc3c7;
+$crs-grayLightest:   #ecf0f1;
+
+$crs-red:            #e74c3c;
+$crs-redDarker:      #c0392b;
+$crs-yellow:         #f1c40f;
+$crs-orange:         #f39c12;
+$crs-orangeDarker:   #e67e22;
+$crs-green:          #1abc9c;
+$crs-greenDarker:    #16a085;
+$crs-blue:           #2980b9;
+
+//---------------------------------------------------
+
+
 @import "bootstrap-sass/lib/bootstrap";
 @import "bootstrap-sass/lib/responsive";
 
@@ -72,17 +96,17 @@ body {
   overflow: hidden;
   .crs-event-card {
     background: url(/images/bg-crs-card.png) repeat top left;
-    border-radius:         3px;
-    -moz-border-radius:    3px;
-    -webkit-border-radius: 3px;
+    border-radius:         5px;
+    -moz-border-radius:    5px;
+    -webkit-border-radius: 5px;
     box-shadow:         0px 3px 0px #d9dfe1;
     -moz-box-shadow:    0px 3px 0px #d9dfe1;
     -webkit-box-shadow: 0px 3px 0px #d9dfe1;
     margin: 0 25px 28px 0;  /*28 instead of 25 to compensate for border bottom of 3px*/
-    //float: left;
     min-width: 200px;
     text-align: center;
-    a {
+    .crs-card-body {
+      border: 1px solid darkgreen;
       color: $crs-green;
       font-size: 2em;
       font-weight: 300;
@@ -91,25 +115,60 @@ body {
       line-height: 36px;
       padding: 0 10px;
       text-align: center;
-      //width: 200px;
-      //width: 100%;
       vertical-align: middle;
+    }
+    .crs-card-count {
+      background: url("/images/icon-sprite-cards.png") no-repeat left top;
+      background-position: 0px 0px;
+      display: block;
+      float: left;
+      height: 31px;
+      margin: -50px 0 25px 20px;
+      overflow: hidden;
+      padding: 0;
+      width: auto;
+      span {
+        color: $crs-grayLightest;
+        font-size: 2em;
+        font-weight: 300;
+        //left: -20px;
+        padding-left: 36px;
+        position: relative;
+        text-align: left;
+        top: 5px;
+      }
+    }
+    .crs-card-count:hover {
+      border-bottom: none;
+      text-decoration: none;
+    }
+    .crs-card-sprocket {
+      background: url("/images/icon-sprite-cards.png") no-repeat left top;
+      background-position: 0px -31px;
+      display: block;
+      float: right;
+      height: 31px;
+      overflow: hidden;
+      margin: -50px 20px 25px 0px;
+      width: 31px;
     }
   }
   .crs-new-event-card {
     border: 1px solid $crs-grayLight;
-    border-radius:         3px;
-    -moz-border-radius:    3px;
-    -webkit-border-radius: 3px;
+    border-radius:         5px;
+    -moz-border-radius:    5px;
+    -webkit-border-radius: 5px;
     box-shadow:         0px 3px 0px #d9dfe1;
     -moz-box-shadow:    0px 3px 0px #d9dfe1;
     -webkit-box-shadow: 0px 3px 0px #d9dfe1;
+    height: 275px;
     margin: 0;
     min-width: 200px;
     text-align: center;
+
     a {
+      border: 1px solid darkgreen;
       color: $crs-green;
-      //float: left;
       font-size: 2em;
       font-weight: 300;
       display: table-cell;
@@ -117,10 +176,22 @@ body {
       line-height: 36px;
       padding: 0 10px;
       text-align: center;
-      //width: 200px;
-      //width: 100%;
       vertical-align: middle;
+      .crs-plus-icon {
+        margin: 0 auto;
+        border: 1px solid #f1c40f;
+        display: block;
+        height: 74px;
+        width: 74px;
+      }
+      span {
+        font-size: .6em;
+        border: 1px solid crimson;
+        text-align: center;
+        width: auto;
+      }
     }
+
   }
 }
 
