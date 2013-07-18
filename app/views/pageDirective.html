@@ -4,7 +4,7 @@
   </div>
 </div>
 <form data-ng-submit="validateAndGoToNext()" name="pageForm">
-  <block ng-repeat="block in page.blocks"></block>
+  <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
   <div class="row">
     <div class="span3 pull-right">
       <button class="btn btn-block btn-success btn-large"

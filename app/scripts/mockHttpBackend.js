@@ -6,6 +6,114 @@ angular.module('confRegistrationWebApp')
   .run(function ($httpBackend) {
     $httpBackend.whenGET(/views\/.*/).passThrough();
 
+    var registrations = {
+      '012': [
+        {
+          'user': 'user-1',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Ron'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'No'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Waffles'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Burger'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Steak'
+            }
+          ]
+        },
+        {
+          'user': 'user-2',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Jerry'
+            },
+            {
+              'block': 'block-3',
+              'value': 'Perdue'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Pancakes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Sandwich'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Shrimp'
+            }
+          ]
+        },
+        {
+          'user': 'user-3',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Tom'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'No'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Omelettes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Soup'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Lobster'
+            }
+          ]
+        }
+      ]
+    };
+
     var conferences = [
       {
         'id': '012',
@@ -175,8 +283,51 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(conferences);
+    $httpBackend.whenGET('conferences').respond(function () {
+      console.log('GET /conferences');
+      var headers = {};
+      return [200, conferences, headers];
+    });
     angular.forEach(conferences, function (conference) {
-      $httpBackend.whenGET('conferences/' + conference.id).respond(conference);
+      $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
+        console.log('GET /conferences/' + conference.id);
+
+        var headers = {};
+        return [200, conference, headers];
+      });
+
+      $httpBackend.whenGET('conferences/' + conference.id + '/registrations').respond(function () {
+        console.log('GET /conferences/' + conference.id + '/registrations');
+
+        var headers = {};
+        return [200, registrations[conference.id], headers];
+      });
+
+      $httpBackend.whenPOST('conferences/' + conference.id + '/registrations').respond(function () {
+        console.log('POST /conferences/' + conference.id + '/registrations');
+
+        var registration = {
+          id: '752bab92-e8bf-11e2-91e2-0800200c9a66',
+          user: 'c8cfaf61-e8a8-11e2-91e2-0800200c9a66',
+          answers: []
+        };
+
+        var headers = {
+          location: 'registrations/' + registration.id
+        };
+        return [201, registrations[conference.id], headers];
+      });
+
+      $httpBackend.whenGET('conferences/' + conference.id + '/registrations/current').respond(function () {
+        console.log('GET /conferences/' + conference.id + '/registrations/current');
+
+        var headers = {};
+        var regForConf = registrations[conference.id];
+        var theReg = _.find(regForConf, function (registration) {
+          return angular.equals(registration.user, 'user-1');
+        });
+        console.log(theReg);
+        return [200, theReg, headers];
+      });
     });
   });

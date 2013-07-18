@@ -33,6 +33,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
+    <div class="container" ng-view=""></div>
 
     <div class="container">
       <div class="crs-head">
@@ -84,11 +85,12 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbuild -->
 
-    <!-- build:js scripts/modules.js -->
+        <!-- build:js scripts/modules.js -->
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-mocks/angular-mocks.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/lodash/lodash.js"></script>
         <script src="scripts/services/Conferences.js"></script>
         <script src="scripts/controllers/registration.js"></script>
         <script src="scripts/directives/textQuestion.js"></script>
@@ -97,6 +99,8 @@
         <script src="scripts/directives/block.js"></script>
         <script src="scripts/controllers/info.js"></script>
         <script src="scripts/directives/crsSigninBox.js"></script>
+        <script src="scripts/services/Registrations.js"></script>
+        <script src="scripts/controllers/adminData.js"></script>
         <!-- endbuild -->
 </body>
 </html>

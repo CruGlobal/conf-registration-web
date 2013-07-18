@@ -19,6 +19,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             });
 
             return defer.promise;
+          }],
+          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
+            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
+              return registration.answers;
+            });
           }]
         }
       })
@@ -26,6 +31,24 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/info.html',
         controller: 'InfoCtrl',
         resolve: {
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
+          }]
+        }
+      })
+      .when('/adminData/:conferenceId', {
+        templateUrl: 'views/adminData.html',
+        controller: 'AdminDataCtrl',
+        resolve: {
+          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations) {
+            return Registrations.getAllForConference($route.current.params.conferenceId);
+          }],
           conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
             var defer = $q.defer();
 
