@@ -23,20 +23,20 @@ angular.module('confRegistrationWebApp')
 
     $scope.answerSort = function(registration) {
         if(angular.isDefined($scope.order)){
-            if(angular.isDefined($scope.findAnswer(registration, $scope.order))){ return $scope.findAnswer(registration, $scope.order).value };
+          if(angular.isDefined($scope.findAnswer(registration, $scope.order))){ return $scope.findAnswer(registration, $scope.order).value; }
         }else{
-            return 0;
+          return 0;
         }
-    };
+      };
 
     $scope.setOrder = function(order) {
-        if(order==$scope.order){
-            $scope.reversesort=!$scope.reversesort;
+        if(order===$scope.order){
+          $scope.reversesort=!$scope.reversesort;
         }else{
-            $scope.reversesort=false;
+          $scope.reversesort=false;
         }
         $scope.order = order;
-    };
+      };
 
     $scope.registrations = registrations;
   });
