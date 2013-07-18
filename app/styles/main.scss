@@ -64,6 +64,11 @@ body {
   font-size:12px;
   color:#fff;
   padding-left:10px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #crs-signin-box p{
   margin:16px;
