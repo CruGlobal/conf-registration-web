@@ -2,7 +2,15 @@
 
 angular.module('confRegistrationWebApp')
   .factory('Registrations', function ($resource, $http, $q) {
-    var Registrations = $resource('registrations/:id');
+    var paramDefaults = {};
+    var actions = {
+      getAllForConference: {
+        method: 'GET',
+        url: 'conferences/:conferenceId/registrations',
+        isArray: true
+      }
+    };
+    var Registrations = $resource('registrations/:id', paramDefaults, actions);
 
     Registrations.getCurrentOrCreate = function (conferenceId) {
       var defer = $q.defer();
@@ -17,12 +25,6 @@ angular.module('confRegistrationWebApp')
         });
 
       return defer.promise;
-    };
-
-    Registrations.getAllForConference = function (conferenceId) {
-      return $http.get('conferences/' + conferenceId + '/registrations').then(function (response) {
-        return response.data;
-      });
     };
 
     Registrations.create = function (conferenceId) {
