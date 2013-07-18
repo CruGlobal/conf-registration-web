@@ -4,6 +4,13 @@ console.log('**********************USING MOCK BACKEND**********************');
 
 angular.module('confRegistrationWebApp')
   .run(function ($httpBackend) {
+    var uuid = function () {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+        return v.toString(16);
+      });
+    };
+
     $httpBackend.whenGET(/views\/.*/).passThrough();
 
     var registrations = {
@@ -291,6 +298,42 @@ angular.module('confRegistrationWebApp')
       var headers = {};
       return [200, conferences, headers];
     });
+    $httpBackend.whenPOST('conferences').respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conference = angular.extend(angular.fromJson(data), { id: uuid() });
+
+      var headers = {
+        'Location': '/conferences/' + conference.id
+      };
+      return [201, conference, headers];
+    });
+    $httpBackend.whenGET(/conferences\/\w+\/?/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+
+      return [200, conference, {}];
+    });
+    $httpBackend.whenPUT(/conferences\/\w+\/?/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+
+      angular.extend(conference, angular.fromJson(data));
+
+      return [200, conference, {}];
+    });
+
+    /*
     angular.forEach(conferences, function (conference) {
       $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
         console.log(arguments);
@@ -333,4 +376,5 @@ angular.module('confRegistrationWebApp')
         return [200, theReg, headers];
       });
     });
+    */
   });
