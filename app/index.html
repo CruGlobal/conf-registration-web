@@ -20,7 +20,25 @@
     <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);</style>
     <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
     <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
+      <script>
+          function crsAllowDrop(ev) {
+              ev.preventDefault();
+          }
 
+          function crsDrag(ev) {
+              ev.dataTransfer.setData("Text", ev.target.id);
+          }
+
+          function crsDrop(ev) {
+              ev.preventDefault();
+              var data=ev.dataTransfer.getData("Text");
+              //ev.target.appendChild(document.getElementById(data));
+              var li = document.createElement("li");
+              li.innerHTML = data;
+              document.getElementById('crs-formElements').appendChild(li);
+
+          }
+      </script>
 </head>
   <body ng-app="confRegistrationWebApp">
     <!--[if lt IE 7]>

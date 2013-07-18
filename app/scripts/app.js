@@ -7,6 +7,10 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/admin-dashboard.html',
         controller: 'MainCtrl'
       })
+      .when('/wizard/', {
+        templateUrl: 'views/admin-wizard.html',
+        controller: 'MainCtrl'
+      })
       .when('/register/:conferenceId/page/:pageId', {
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
