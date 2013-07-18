@@ -45,17 +45,14 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.deleteBlock = function (blockId, confirmation) {
-      if (confirmation) {
+    $scope.deleteBlock = function (blockId, growl) {
+      if (growl) {
         var t = makePositionArray();
         var blockTitle = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block].title;
-        GrowlService.growl('conferences/' + $scope.conference.id,
-          $scope.conference, '"' + blockTitle + '" has been deleted.');
-        $scope.deleteBlockFromPage(blockId);
-      } else {
-        $scope.deleteBlockFromPage(blockId);
+        var message = '"' + blockTitle + '" has been deleted.';
+        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference, message);
       }
-
+      $scope.deleteBlockFromPage(blockId);
     };
 
     $scope.deleteBlockFromPage = function (blockId) {
