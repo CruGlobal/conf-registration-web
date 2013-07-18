@@ -13,7 +13,10 @@ angular.module('confRegistrationWebApp')
           'answers': [
             {
               'block': 'block-2',
-              'value': 'Ron'
+              'value': {
+                firstName: 'Ron',
+                lastName: 'Steve'
+              }
             },
             {
               'block': 'block-4',
