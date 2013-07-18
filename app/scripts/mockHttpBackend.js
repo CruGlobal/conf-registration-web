@@ -13,7 +13,10 @@ angular.module('confRegistrationWebApp')
           'answers': [
             {
               'block': 'block-2',
-              'value': 'Ron'
+              'value': {
+                firstName: 'Ron',
+                lastName: 'Steve'
+              }
             },
             {
               'block': 'block-4',
@@ -173,7 +176,7 @@ angular.module('confRegistrationWebApp')
                 'id': 'block-2',
                 'title': 'What\'s your name?',
                 'required': true,
-                'type': 'textQuestion'
+                'type': 'nameQuestion'
               },
               {
                 'id': 'block-3',
