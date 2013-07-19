@@ -20,8 +20,9 @@ angular.module('confRegistrationWebApp')
         .error(function (data, status) {
           if (status === 404) {
             Registrations.create(conferenceId).then(defer.resolve);
+          } else {
+            defer.reject(data);
           }
-          defer.reject(data);
         });
 
       return defer.promise;

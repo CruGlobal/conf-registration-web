@@ -78,4 +78,23 @@ describe('Service: Registrations', function () {
 
     expect(Registrations.create).toHaveBeenCalled();
   });
+
+  it('should not reject promise returned by getCurrentOrCreate', function () {
+    $httpBackend.expectGET('conferences/conference-1/registrations/current').respond(404);
+    $httpBackend.expectPOST('conferences/conference-1/registrations').respond(201, {
+      id: '1234abcd',
+      user: 'user-1',
+      answers: []
+    });
+    var rejected;
+
+    Registrations.getCurrentOrCreate('conference-1').then(null, function () {
+      rejected = true;
+    });
+
+    $httpBackend.flush();
+    $rootScope.$digest();
+
+    expect(rejected).toBeFalsy();
+  });
 });
