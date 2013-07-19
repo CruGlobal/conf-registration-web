@@ -396,11 +396,11 @@ angular.module('confRegistrationWebApp')
         answer.id = uuid();
       }
 
-      var registration = sessionStorage.getItem('/registrations/' + data.registration);
+      var registration = sessionStorage.getItem('/registrations/' + answer.registration);
       if(registration) {
         var answers = registration.answers;
         var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
-        if(existingAnswerIndex != -1) {
+        if(existingAnswerIndex !== -1) {
           answers.splice(existingAnswerIndex, 1);
         }
         answers.push(answer);
