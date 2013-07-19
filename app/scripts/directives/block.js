@@ -9,13 +9,21 @@ angular.module('confRegistrationWebApp')
         'block': '=',
         'prefillAnswer': '=answer'
       },
-      controller: function ($scope) {
-        $scope.answer = angular.copy($scope.prefillAnswer) || {};
-
-        $scope.updateAnswer = function () {
-//          $scope.answer.$save();
-          console.log('update answer in ' + $scope.block.id + ' to ' + angular.toJson($scope.answer));
+      controller: function ($scope, answers, uuid) {
+        $scope.answer = {
+          id: uuid(),
+          value: {}
         };
+
+        angular.extend($scope.answer, $scope.prefillAnswer);
+
+        angular.extend($scope.answer, answers);
+
+        $scope.$watch('answer.value', function (newValue, oldValue) {
+          if(!angular.equals(newValue, oldValue)) {
+            $scope.answer.update($scope.answer);
+          }
+        }, angular.equals);
       }
     };
   });
