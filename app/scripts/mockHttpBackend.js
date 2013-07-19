@@ -363,6 +363,12 @@ angular.module('confRegistrationWebApp')
       return [404];
     });
 
+    $httpBackend.whenPUT(/^answers\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      return [200, data];
+    });
+
     /*
     angular.forEach(conferences, function (conference) {
       $httpBackend.whenGET('conferences/' + conference.id).respond(function () {
