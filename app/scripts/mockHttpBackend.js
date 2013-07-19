@@ -348,25 +348,65 @@ angular.module('confRegistrationWebApp')
       var headers = {
         'Location': '/registrations/' + registration.id
       };
+
+      var registrationJson = angular.toJson(registration);
+      sessionStorage.setItem(headers.Location, registrationJson);
+      sessionStorage.setItem('/conferences/' + conferenceId + '/registrations/current', registration.id);
+
       return [201, registration, headers];
     });
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function () {
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function (verb, url) {
       console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var registrationId = sessionStorage.getItem('/conferences/' + conferenceId + '/registrations/current');
+      if(registrationId) {
+        return [200, sessionStorage.getItem('/registrations/' + registrationId)];
+      }
 
       return [404];
     });
-    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function () {
+    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url) {
       console.log(arguments);
 
-      console.log('Not Implemented');
+      var registrationId = url.split('/')[1];
+      var registration = sessionStorage.getItem('/registrations/' + registrationId);
+      if(registration) {
+        return [200, registration];
+      }
 
       return [404];
     });
 
     $httpBackend.whenPUT(/^answers\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
+      var answer = angular.fromJson(data);
 
-      return [200, data];
+      if(!answer.registration) {
+        return [400, { message: 'registration must be present' }];
+      }
+      if(!answer.block) {
+        return [400, { message: 'block must be present' }];
+      }
+      if(!answer.value) {
+        return [400, { message: 'value must be present' }];
+      }
+      if(!answer.id) {
+        answer.id = uuid();
+      }
+
+      var registration = sessionStorage.getItem('/registrations/' + data.registration);
+      if(registration) {
+        var answers = registration.answers;
+        var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
+        if(existingAnswerIndex != -1) {
+          answers.splice(existingAnswerIndex, 1);
+        }
+        answers.push(answer);
+      }
+
+      return [200, answer];
     });
 
     /*
