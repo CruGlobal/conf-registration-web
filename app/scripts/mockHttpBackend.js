@@ -308,7 +308,7 @@ angular.module('confRegistrationWebApp')
       };
       return [201, conference, headers];
     });
-    $httpBackend.whenGET(/conferences\/\w+\/?/).respond(function (verb, url) {
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url) {
       console.log(arguments);
 
       var conferenceId = url.split('/')[1];
@@ -319,7 +319,7 @@ angular.module('confRegistrationWebApp')
 
       return [200, conference, {}];
     });
-    $httpBackend.whenPUT(/conferences\/\w+\/?/).respond(function (verb, url, data) {
+    $httpBackend.whenPUT(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
 
       var conferenceId = url.split('/')[1];
@@ -331,6 +331,27 @@ angular.module('confRegistrationWebApp')
       angular.extend(conference, angular.fromJson(data));
 
       return [200, conference, {}];
+    });
+
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      return [200, registrations[conferenceId], {}];
+    });
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      return [404];
+    });
+    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var registrationId = url.split('/')[1];
+      console.log('Not Implemented');
+
+      return [404];
     });
 
     /*
