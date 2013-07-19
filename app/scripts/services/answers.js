@@ -3,7 +3,6 @@
 angular.module('confRegistrationWebApp')
   .factory('answers', function($resource) {
     var paramDefaults = {
-//      'answerId': '@id'
     };
     var actions = {
       update: {
