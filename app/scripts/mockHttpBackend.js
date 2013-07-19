@@ -340,6 +340,21 @@ angular.module('confRegistrationWebApp')
 
       return [200, registrations[conferenceId], {}];
     });
+    $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var registration = {
+        id: uuid(),
+        conference: conferenceId
+      };
+
+      var headers = {
+        'Location': '/registrations/' + registration.id
+      };
+      return [201, registration, headers];
+    });
     $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
 
