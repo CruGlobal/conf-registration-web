@@ -3,13 +3,7 @@
 console.log('**********************USING MOCK BACKEND**********************');
 
 angular.module('confRegistrationWebApp')
-  .run(function ($httpBackend) {
-    var uuid = function () {
-      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-        return v.toString(16);
-      });
-    };
+  .run(function ($httpBackend, uuid) {
 
     $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -333,14 +327,14 @@ angular.module('confRegistrationWebApp')
       return [200, conference, {}];
     });
 
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url, data) {
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
 
       var conferenceId = url.split('/')[1];
 
       return [200, registrations[conferenceId], {}];
     });
-    $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url, data) {
+    $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
 
       var conferenceId = url.split('/')[1];
@@ -355,15 +349,14 @@ angular.module('confRegistrationWebApp')
       };
       return [201, registration, headers];
     });
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function (verb, url, data) {
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function () {
       console.log(arguments);
 
       return [404];
     });
-    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
+    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function () {
       console.log(arguments);
 
-      var registrationId = url.split('/')[1];
       console.log('Not Implemented');
 
       return [404];
