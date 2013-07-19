@@ -341,7 +341,8 @@ angular.module('confRegistrationWebApp')
 
       var registration = {
         id: uuid(),
-        conference: conferenceId
+        conference: conferenceId,
+        answers: []
       };
 
       var headers = {
