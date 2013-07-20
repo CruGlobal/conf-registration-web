@@ -235,7 +235,7 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-7',
                 'title': 'What do you want to eat for breakfast?',
-                'type': 'radioQuestion',
+                'type': 'checkboxQuestion',
                 'required': true,
                 'choices': [
                   'Pancakes',
