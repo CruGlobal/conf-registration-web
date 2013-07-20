@@ -32,10 +32,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
-          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
-            var defer = $q.defer();
-            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
-            return defer.promise;
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);

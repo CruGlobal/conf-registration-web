@@ -47,4 +47,17 @@ angular.module('confRegistrationWebApp')
 
       return defer.promise;
     };
+
+    this.getAllForConference = function (conferenceId) {
+      var defer = $q.defer();
+
+      checkCache('conferences/' + conferenceId + '/registrations', function (registrations) {
+        angular.forEach(registrations, function (registration) {
+          update(path(registration.id), registration);
+        });
+        defer.resolve(registrations);
+      });
+
+      return defer.promise;
+    }
   });
