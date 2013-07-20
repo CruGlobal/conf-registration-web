@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             return defer.promise;
           }],
           answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
+            return Registrations.resolveCurrent($route.current.params.conferenceId).then(function (registration) {
               return registration.answers;
             });
           }]
