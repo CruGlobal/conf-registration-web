@@ -15,7 +15,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             return ConfCache.get($route.current.params.conferenceId);
           }],
           answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getForConference($route.current.params.conferenceId).then(function (registration) {
+            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
               return registration.answers;
             });
           }]
@@ -34,8 +34,10 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
-          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getForConference($route.current.params.conferenceId);
+          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
+            var defer = $q.defer();
+            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
+            return defer.promise;
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
