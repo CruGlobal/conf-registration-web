@@ -12,5 +12,5 @@ angular.module('confRegistrationWebApp')
         }
         return $q.reject(rejection);
       }
-    }
+    };
   });
