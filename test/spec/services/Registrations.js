@@ -60,22 +60,37 @@ describe('Service: Registrations', function () {
       user: 'user-1',
       answers: []
     });
-    spyOn(Registrations, 'create').andCallThrough();
 
     var reg;
     Registrations.getCurrentOrCreate('conference-1').then(function (data) {
-      angular.forEach(data, function (value, key) {
-        console.log(key);
-      });
       reg = data;
     });
 
     $httpBackend.flush();
-    $rootScope.$apply();
+    $rootScope.$digest();
 
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
 
-    expect(Registrations.create).toHaveBeenCalled();
+    expect(reg).toBeDefined();
+  });
+
+  it('should not reject promise returned by getCurrentOrCreate', function () {
+    $httpBackend.expectGET('conferences/conference-1/registrations/current').respond(404);
+    $httpBackend.expectPOST('conferences/conference-1/registrations').respond(201, {
+      id: '1234abcd',
+      user: 'user-1',
+      answers: []
+    });
+    var rejected;
+
+    Registrations.getCurrentOrCreate('conference-1').then(null, function () {
+      rejected = true;
+    });
+
+    $httpBackend.flush();
+    $rootScope.$digest();
+
+    expect(rejected).toBeFalsy();
   });
 });
