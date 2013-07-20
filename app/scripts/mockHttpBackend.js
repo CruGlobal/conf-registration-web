@@ -287,7 +287,7 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(function () {
+    $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
       console.log(arguments);
       var headers = {};
       return [200, conferences, headers];
@@ -336,13 +336,33 @@ angular.module('confRegistrationWebApp')
     });
     $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
+      var registrationId = uuid();
 
       var conferenceId = url.split('/')[1];
 
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+      var blocks = [];
+      angular.forEach(conference.pages, function (page) {
+        angular.forEach(page.blocks, function (block) {
+          blocks.push(block);
+        });
+      });
+      var answers = [];
+      angular.forEach(blocks, function (block) {
+        answers.push({
+          id: uuid(),
+          block: block.id,
+          registration: registrationId,
+          value: {}
+        })
+      });
+
       var registration = {
-        id: uuid(),
+        id: registrationId,
         conference: conferenceId,
-        answers: []
+        answers: answers
       };
 
       var headers = {
@@ -396,7 +416,8 @@ angular.module('confRegistrationWebApp')
         answer.id = uuid();
       }
 
-      var registration = sessionStorage.getItem('/registrations/' + answer.registration);
+      var key = '/registrations/' + answer.registration;
+      var registration = angular.fromJson(sessionStorage.getItem(key));
       if(registration) {
         var answers = registration.answers;
         var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
@@ -404,6 +425,7 @@ angular.module('confRegistrationWebApp')
           answers.splice(existingAnswerIndex, 1);
         }
         answers.push(answer);
+        sessionStorage.setItem(key, angular.toJson(registration));
       }
 
       return [200, answer];
