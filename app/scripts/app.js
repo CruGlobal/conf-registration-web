@@ -14,10 +14,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
-          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
-              return registration.answers;
-            });
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId);
           }]
         }
       })
