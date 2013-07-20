@@ -22,7 +22,7 @@ angular.module('confRegistrationWebApp')
       var pages = conference.pages;
 
       for (var i = 0; i < pages.length; i++) {
-        if(angular.equals(pageId, pages[i].id)) {
+        if (angular.equals(pageId, pages[i].id)) {
           return pages[i];
         }
       }
@@ -36,8 +36,8 @@ angular.module('confRegistrationWebApp')
       var pages = conference.pages;
 
       for (var i = 0; i < pages.length; i++) {
-        if(angular.equals(pageId, pages[i].id)) {
-          return pages[i+1];
+        if (angular.equals(pageId, pages[i].id)) {
+          return pages[i + 1];
         }
       }
     }
