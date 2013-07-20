@@ -65,4 +65,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('currentRegistrationInterceptor');
   });
