@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('AnswerCache', function AnswerCache($cacheFactory, $rootScope, $http, $q, $timeout) {
+  .service('AnswerCache', function AnswerCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('answers');
     var blockIndex = $cacheFactory('blockIndex');
 
@@ -50,12 +50,6 @@ angular.module('confRegistrationWebApp')
       update(path(answer.id), answer);
     };
 
-    var getByBlockId = function (blockId) {
-      var defer = $q.defer();
-      defer.resolve(blockIndex.get(blockId));
-      return defer.promise;
-    };
-
     this.syncByBlockId = function (scope, name, blockId) {
       scope[name] = blockIndex.get(blockId);
       scope.$watch(name, function (answer) {
@@ -63,5 +57,5 @@ angular.module('confRegistrationWebApp')
           update(path(answer.id), answer);
         }
       }, angular.equals);
-    }
+    };
   });

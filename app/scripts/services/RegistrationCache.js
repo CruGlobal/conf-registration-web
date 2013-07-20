@@ -46,5 +46,5 @@ angular.module('confRegistrationWebApp')
       });
 
       return defer.promise;
-    }
+    };
   });

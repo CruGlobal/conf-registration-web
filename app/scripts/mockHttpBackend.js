@@ -356,7 +356,7 @@ angular.module('confRegistrationWebApp')
           block: block.id,
           registration: registrationId,
           value: {}
-        })
+        });
       });
 
       var registration = {
