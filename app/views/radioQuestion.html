@@ -3,7 +3,7 @@
     <input name="{{block.id}}"
            type="radio"
            ng-required="block.required"
-           ng-model="answer.value"
+           ng-model="answer.value.choice"
            ng-value="choice"
            ng-change="updateAnswer(choice)"> {{choice}}
   </li>
