@@ -151,7 +151,7 @@ body {
   padding: 0;
   overflow: hidden;
   .crs-event-card {
-    background: url(images/bg-crs-card.png) repeat top left;
+    background: url("images/bg-crs-card.png") repeat top left;
     border-radius:         5px;
     -moz-border-radius:    5px;
     -webkit-border-radius: 5px;
@@ -203,7 +203,7 @@ body {
       text-decoration: none;
     }
     .crs-card-sprocket {
-      background: url("/images/icon-sprite-cards.png") no-repeat left top;
+      background: url("images/icon-sprite-cards.png") no-repeat left top;
       background-position: 0px -31px;
       display: block;
       float: right;
