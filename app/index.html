@@ -25,74 +25,6 @@
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script>
-
-    //var image = document.createElement('img');
-    //image.src = 'images/fieldTypes/crs-paragraphText.png';
-
-    var crsPositionAdd = 0;
-    var crsBlockType='';
-
-    function crsAllowDrop(ev) {
-      ev.preventDefault();
-      if (isNear($(ev.target).closest('.crsQuestion'), event) == 'bottom') {
-        $('#crsDropZone').insertAfter($(ev.target).closest('.crsQuestion'));
-        crsPositionAdd = 1;
-      } else {
-
-        $('#crsDropZone').insertBefore($(ev.target).closest('.crsQuestion'));
-        crsPositionAdd = 0;
-      }
-      $('#crsDropZone').css('height', '120px');
-    }
-
-    function crsDrag(ev) {
-      ev.dataTransfer.setData("Text", ev.target.id);
-      crsBlockType="new";
-
-      //event.dataTransfer.effectAllowed = 'move';
-      //event.dataTransfer.setDragImage(image, -10, -10);
-    }
-
-    function crsDragMoveBlock(ev) {
-      ev.dataTransfer.setData("Text", ev.target.id);
-      crsBlockType="move";
-    }
-
-    function crsDrop(ev) {
-      ev.preventDefault();
-      if (crsBlockType == 'new') {
-        var data = ev.dataTransfer.getData("Text");
-        var li = document.createElement("div");
-        li.innerHTML = '<label>' + data + '</label>';
-        $('#crsDropZone').before(li);
-
-        console.log(ev.dataTransfer.getData("Text"), $(ev.target).closest('.crs-formElements').attr('data-page-id'), $(ev.target).closest('block').prevAll().length + crsPositionAdd);
-        insertBlock(ev.dataTransfer.getData("Text"), $(ev.target).closest('.crs-formElements').attr('data-page-id'), $(ev.target).closest('block').prevAll().length + crsPositionAdd);
-      } else if (crsBlockType == 'move') {
-        $('#' + ev.dataTransfer.getData("Text")).insertBefore($('#crsDropZone'));
-        console.log(ev.dataTransfer.getData("Text"), $(ev.target).closest('.crs-formElements').attr('data-page-id'), $(ev.target).closest('block').prevAll().length + crsPositionAdd);
-        moveBlock(ev.dataTransfer.getData("Text"), $(ev.target).closest('.crs-formElements').attr('data-page-id'), $(ev.target).closest('block').prevAll().length + crsPositionAdd);
-      }
-    }
-
-    function crsDragEnd(ev) {
-      $('#crsDropZone').css('height', '0px');
-    }
-
-    function isNear(element, event) {
-      if ($(element).length == 0) {
-        return;
-      }
-      var Y = event.pageY - $(element).offset().top;
-      if (Y >= (element.height() / 2)) {
-        return 'bottom';
-      } else {
-        return 'top';
-      }
-    }
-    ;
-  </script>
 
 </head>
 <body ng-app="confRegistrationWebApp">
@@ -176,7 +108,7 @@
 <script src="scripts/controllers/adminData.js"></script>
 <script src="scripts/directives/formElements.js"></script>
 <script src="scripts/directives/accordionSub.js"></script>
-<script src="scripts/directives/ConnectedSortable.js"></script>
+<script src="scripts/directives/formDropArea.js"></script>
 <script src="scripts/controllers/adminWizard.js"></script>
 <!-- endbuild -->
 </body>

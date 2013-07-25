@@ -82,7 +82,7 @@
         <div class="span3" id="crs-formOptionsMenu">
             <ul class="crs-accordion">
                 <li><a href="#">Simple Form Elements</a>
-                    <ul class="crs-accordionSub">
+                    <ul class="crs-accordionSub" accordion-sub>
                       <!--
                        <li id="crs-singleText"><a href="#">Single Line Text</a></li>
                        <li id="crs-paragraphText"><a href="#">Paragraph Text</a></li>
@@ -93,21 +93,21 @@
                        <li id="crs-sectionBreak"><a href="#">Section Break</a></li>
                        <li id="crs-pageBreak"><a href="#">Page Break</a></li>
                          -->
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-singleText">Single Line Text</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-paragraphText">Paragraph Text</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-number">Number</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-multipleChoice">Multiple Choice</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-checkbox">Checkbox</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-dropdown">Dropdown</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-sectionBreak">Section Break</a></li>
-                       <li><a href="#" draggable="true" ondragstart="crsDrag(event)" ondragend="crsDragEnd(event)" id="crs-pageBreak">Page Break</a></li>
+                       <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
+                       <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
+                       <li><a href="#" draggable="true" id="crs-number">Number</a></li>
+                       <li><a href="#" draggable="true" id="crs-multipleChoice">Multiple Choice</a></li>
+                       <li><a href="#" draggable="true" id="crs-checkbox">Checkbox</a></li>
+                       <li><a href="#" draggable="true" id="crs-dropdown">Dropdown</a></li>
+                       <li><a href="#" draggable="true" id="crs-sectionBreak">Section Break</a></li>
+                       <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
                     </ul>
                 </li>
                 <li><a href="#">Complex Form Elements</a></li>
                 <li><a href="#">Super Form Elements</a></li>
             </ul>
         </div>
-        <div class="span9" id="crs-formEdit" ondrop="crsDrop(event)" ondragover="crsAllowDrop(event)">
+        <div form-drop-area class="span9" id="crs-formEdit">
           <!-- <div class="span9" id="crs-formEdit">  -->
               <p>This form is empty (but your heart isn’t)!<br>
           Drag form elements from the left to this box. <br>
