@@ -2,11 +2,12 @@
   <ul class="unstyled">
     <li data-ng-repeat="choice in block.choices">
       <input name="{{block.id}}"
+             id="{{block.id}}{{choice}}"
              type="radio"
              ng-required="block.required"
              ng-model="answer.value"
              ng-value="choice"
-             ng-change="updateAnswer(choice)"> {{choice}}
+             ng-change="updateAnswer(choice)"> <label for="{{block.id}}{{choice}}"><span></span>{{choice}}</label>
     </li>
   </ul>
 </div>

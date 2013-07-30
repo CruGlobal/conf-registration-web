@@ -9,6 +9,12 @@ angular.module('confRegistrationWebApp')
         $scope.$watch('pageForm.$valid', function (valid) {
           $scope.$emit('pageValid', valid);
         });
+      },link: function postLink(scope, element) {
+        var options = {
+          inputs: {
+
+          }
+        };
       }
     };
   });
