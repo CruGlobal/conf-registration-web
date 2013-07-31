@@ -61,8 +61,10 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
-          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getAllForConference($route.current.params.conferenceId);
+          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
+            var defer = $q.defer();
+            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
+            return defer.promise;
           }],
           conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
             var defer = $q.defer();
@@ -78,4 +80,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('currentRegistrationInterceptor');
   });
