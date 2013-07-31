@@ -23,7 +23,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.answerSort = function(registration) {
         if(angular.isDefined($scope.order)){
-          if(angular.isDefined($scope.findAnswer(registration, $scope.order))){ return $scope.findAnswer(registration, $scope.order).value; }
+          if(angular.isDefined($scope.findAnswer(registration, $scope.order))){
+            return $scope.findAnswer(registration, $scope.order).value;
+          }
         }else{
           return 0;
         }
