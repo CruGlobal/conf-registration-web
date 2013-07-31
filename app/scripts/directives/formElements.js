@@ -6,14 +6,14 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: function ($rootScope, $scope) {
         $scope.sendDragEvent = function (blockType) {
-          $rootScope.$broadcast('dragVars',{blockId: blockType, moveType: 'move'});
-        }
+          $rootScope.$broadcast('dragVars', {blockId: blockType, moveType: 'move'});
+        };
       },
-      link: function postLink(scope, element, attrs) {
+      link: function postLink(scope, element) {
         element.bind('dragstart', function (ev) {
           scope.sendDragEvent(ev.target.id);
         });
-        element.bind('dragend', function (ev) {
+        element.bind('dragend', function () {
           $('#crsDropZone').css('height', '0px');
         });
 

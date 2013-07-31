@@ -9,7 +9,7 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
       })
       .when('/wizard/:conferenceId', {
         templateUrl: 'views/admin-wizard.html',
-        controller: 'AdminWizardCtrl' ,
+        controller: 'AdminWizardCtrl',
         resolve: {
           conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
             var defer = $q.defer();

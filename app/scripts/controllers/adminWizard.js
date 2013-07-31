@@ -2,5 +2,5 @@
 
 angular.module('confRegistrationWebApp')
   .controller('AdminWizardCtrl', function ($scope, conference) {
-          $scope.conference=conference;
+    $scope.conference = conference;
   });

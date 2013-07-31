@@ -258,3 +258,119 @@ body {
   }
 }
 
+///////Admin Wizard//////
+.row-fluid {
+  padding-top: 50px;
+}
+
+#crs-formEdit {
+  padding: 26px;
+  background-color: white;
+  min-height: 500px;
+  font-size: 24px;
+  font-family: 'Open Sans';
+  color: #1abc9c;
+  line-height: 28px;
+}
+
+#crs-formEdit li {
+  list-style: none;
+}
+
+.crs-accordion,
+.crs-accordion ul,
+.crs-accordion li,
+.crs-accordion a,
+.crs-accordion span {
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.crs-accordion {
+  width: 200px;
+
+}
+
+.crs-accordion li {
+  list-style: none;
+  background: white;
+  margin: 12px;
+}
+
+.crs-accordion li > a {
+  display: block;
+  position: relative;
+  min-width: 110px;
+  padding: 4px 10px 4px 10px;
+  color: #fdfdfd;
+  font: 14px Arial, sans-serif;
+  text-decoration: none;
+  background: #2dc1a4;
+}
+
+.crs-accordionSub li a {
+  color: #797979;
+  background: #ecf0f1;
+  -webkit-user-drag: element;
+  -webkit-user-select: none;
+}
+
+.crs-accordionSub {
+  border-bottom: 3px solid red;
+}
+
+#crsDropZone {
+  height: 0px;
+  background: lightgrey;
+  transition: height .5s;
+  margin-bottom: 15px;
+
+}
+
+#DragIcon {
+  position: absolute;
+  left: -9px;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"] + label span {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  background: url(../images/forms/check_radio_sheet.png) left top no-repeat;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label span {
+  background: url(../images/forms/check_radio_sheet.png) -19px top no-repeat;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"] + label span {
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  background: url(../images/forms/check_radio_sheet.png) -38px top no-repeat;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked + label span {
+  background: url(../images/forms/check_radio_sheet.png) -57px top no-repeat;
+}
