@@ -7,8 +7,9 @@
   <div class="span12">
     <ul class="breadcrumb">
       <li data-ng-repeat="page in conference.pages">
-        <a href="#/register/{{conference.id}}/page/{{page.id}}">{{page.title}}</a>
-        <span class="divider" data-ng-hide="$last">/</span>
+        <a href="#/register/{{conference.id}}/page/{{page.id}}" ng-show="validPages[page.id] && page.id != activePageId">{{page.title}}</a>
+        <span ng-hide="validPages[page.id] && page.id != activePageId">{{page.title}}</span>
+        <span class="divider" data-ng-hide="$last">--&gt;</span>
       </li>
     </ul>
   </div>

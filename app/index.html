@@ -1,78 +1,117 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+
+  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic);</style>
+  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic);</style>
+  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);</style>
+  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
+  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
-  <body ng-app="confRegistrationWebApp">
-    <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-    <![endif]-->
+<body ng-app="confRegistrationWebApp">
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
+  today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
+  experience this site.</p>
+<![endif]-->
 
-    <!--[if lt IE 9]>
-      <script src="bower_components/es5-shim/es5-shim.js"></script>
-      <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.min.js"></script>
+<![endif]-->
 
-    <!-- Add your site or application content here -->
-    <div class="container" ng-view=""></div>
+<!-- Add your site or application content here -->
+<div class="container">
+  <div class="crs-head">
+    <div class="crs-logo"><a href="#" alt="Formvent"><img src="images/logo-formvent.png" width="94" height="15"></a>
+    </div>
+    <span>Super easy fun forms for events.</span>
+    <!-- The sign up / sign in thing goes here. I'll come back to this. -->
+    <crs-signin-box></crs-signin-box>
+  </div>
+</div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src='//www.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script>
+<div class="crs-sub-head">
+  <div class="container">
+    <div class="crs-icon-head span12">
+      icon goes here
+    </div>
+    <h1>Forms for events. Easy peasy.</h1>
+  </div>
+</div>
+<div class="container">
+  <div ng-view="">
+  </div>
+</div>
 
-    <script src="bower_components/angular/angular.js"></script>
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/mockHttpBackend.js"></script>
-    <script src="scripts/controllers/main.js"></script>
-    <!-- endbuild -->
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+  var _gaq = [
+    ['_setAccount', 'UA-XXXXX-X'],
+    ['_trackPageview']
+  ];
+  (function (d, t) {
+    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+    g.src = '//www.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s)
+  }(document, 'script'));
+</script>
 
-        <!-- build:js scripts/plugins.js -->
-        <script src="bower_components/jquery/jquery.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tooltip.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-modal.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-transition.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-button.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-popover.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-typeahead.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-carousel.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-scrollspy.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-collapse.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script>
-        <!-- endbuild -->
+<script src="bower_components/angular-all-unstable/angular.js"></script>
 
-        <!-- build:js scripts/modules.js -->
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="scripts/services/Conferences.js"></script>
-        <script src="scripts/controllers/registration.js"></script>
-        <script src="scripts/directives/textQuestion.js"></script>
-        <script src="scripts/directives/radioQuestion.js"></script>
-        <script src="scripts/directives/page.js"></script>
-        <script src="scripts/directives/block.js"></script>
-        <script src="scripts/controllers/info.js"></script>
-        <!-- endbuild -->
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/mockHttpBackend.js"></script>
+<script src="scripts/controllers/main.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/plugins.js -->
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<!-- endbuild -->
+
+<!-- build:js scripts/modules.js -->
+<script src="bower_components/angular-all-unstable/angular-resource.js"></script>
+<script src="bower_components/angular-all-unstable/angular-mocks.js"></script>
+<script src="bower_components/angular-all-unstable/angular-cookies.js"></script>
+<script src="bower_components/angular-all-unstable/angular-sanitize.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="scripts/services/Conferences.js"></script>
+<script src="scripts/services/currentRegistrationInterceptor.js"></script>
+<script src="scripts/services/uuid.js"></script>
+<script src="scripts/controllers/registration.js"></script>
+<script src="scripts/directives/textQuestion.js"></script>
+<script src="scripts/directives/radioQuestion.js"></script>
+<script src="scripts/directives/page.js"></script>
+<script src="scripts/directives/block.js"></script>
+<script src="scripts/controllers/info.js"></script>
+<script src="scripts/directives/crsSigninBox.js"></script>
+<script src="scripts/services/Registrations.js"></script>
+<script src="scripts/controllers/adminData.js"></script>
+<script src="scripts/directives/formElements.js"></script>
+<script src="scripts/directives/accordionSub.js"></script>
+<script src="scripts/directives/formDropArea.js"></script>
+<script src="scripts/controllers/adminWizard.js"></script>
+<!-- endbuild -->
 </body>
 </html>

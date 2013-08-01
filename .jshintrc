@@ -18,7 +18,12 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "maxcomplexity": 10,
+  "maxlen": 120,
+  "white": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "_": false,
+    "$": false
   }
 }

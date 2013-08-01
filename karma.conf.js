@@ -7,8 +7,10 @@ basePath = '';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'app/bower_components/angular/angular.js',
-  'app/bower_components/angular-mocks/angular-mocks.js',
+  'app/bower_components/lodash/lodash.js',
+  'app/bower_components/angular-all-unstable/angular.js',
+  'app/bower_components/angular-all-unstable/angular-resource.js',
+  'app/bower_components/angular-all-unstable/angular-mocks.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',

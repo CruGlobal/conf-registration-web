@@ -3,15 +3,127 @@
 console.log('**********************USING MOCK BACKEND**********************');
 
 angular.module('confRegistrationWebApp')
-  .run(function ($httpBackend) {
+  .run(function ($httpBackend, uuid) {
+
     $httpBackend.whenGET(/views\/.*/).passThrough();
+
+    var registrations = {
+      '012': [
+        {
+          'user': 'user-1',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': {
+                firstName: 'Ron',
+                lastName: 'Steve'
+              }
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'No'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Waffles'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Burger'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Steak'
+            }
+          ]
+        },
+        {
+          'user': 'user-2',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Jerry'
+            },
+            {
+              'block': 'block-3',
+              'value': 'Perdue'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Pancakes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Sandwich'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Shrimp'
+            }
+          ]
+        },
+        {
+          'user': 'user-3',
+          'answers': [
+            {
+              'block': 'block-2',
+              'value': 'Tom'
+            },
+            {
+              'block': 'block-4',
+              'value': 'Man'
+            },
+            {
+              'block': 'block-5',
+              'value': 'No'
+            },
+            {
+              'block': 'block-6',
+              'value': 'Yes'
+            },
+            {
+              'block': 'block-7',
+              'value': 'Omelettes'
+            },
+            {
+              'block': 'block-8',
+              'value': 'Soup'
+            },
+            {
+              'block': 'block-9',
+              'value': 'Lobster'
+            }
+          ]
+        }
+      ]
+    };
 
     var conferences = [
       {
         'id': '012',
         'name': 'A Sweet Fall Retreat',
         'landingPage': {
-          'blocks':[
+          'blocks': [
             {
               'id': 'landingpage-1',
               'title': 'Location',
@@ -65,7 +177,7 @@ angular.module('confRegistrationWebApp')
                 'id': 'block-2',
                 'title': 'What\'s your name?',
                 'required': true,
-                'type': 'textQuestion'
+                'type': 'nameQuestion'
               },
               {
                 'id': 'block-3',
@@ -123,7 +235,7 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-7',
                 'title': 'What do you want to eat for breakfast?',
-                'type': 'radioQuestion',
+                'type': 'checkboxQuestion',
                 'required': true,
                 'choices': [
                   'Pancakes',
@@ -175,8 +287,125 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(conferences);
-    angular.forEach(conferences, function (conference) {
-      $httpBackend.whenGET('conferences/' + conference.id).respond(conference);
+    $httpBackend.whenGET('conferences').respond(function () {
+      console.log(arguments);
+      var headers = {};
+      return [200, conferences, headers];
+    });
+    $httpBackend.whenPOST('conferences').respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conference = angular.extend(angular.fromJson(data), { id: uuid() });
+
+      var headers = {
+        'Location': '/conferences/' + conference.id
+      };
+      return [201, conference, headers];
+    });
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+
+      return [200, conference, {}];
+    });
+    $httpBackend.whenPUT(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+
+      angular.extend(conference, angular.fromJson(data));
+
+      return [200, conference, {}];
+    });
+
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      return [200, registrations[conferenceId], {}];
+    });
+    $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var registration = {
+        id: uuid(),
+        conference: conferenceId,
+        answers: []
+      };
+
+      var headers = {
+        'Location': '/registrations/' + registration.id
+      };
+
+      var registrationJson = angular.toJson(registration);
+      sessionStorage.setItem(headers.Location, registrationJson);
+      sessionStorage.setItem('/conferences/' + conferenceId + '/registrations/current', registration.id);
+
+      return [201, registration, headers];
+    });
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var conferenceId = url.split('/')[1];
+
+      var registrationId = sessionStorage.getItem('/conferences/' + conferenceId + '/registrations/current');
+      if (registrationId) {
+        return [200, sessionStorage.getItem('/registrations/' + registrationId)];
+      }
+
+      return [404];
+    });
+    $httpBackend.whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url) {
+      console.log(arguments);
+
+      var registrationId = url.split('/')[1];
+      var registration = sessionStorage.getItem('/registrations/' + registrationId);
+      if (registration) {
+        return [200, registration];
+      }
+
+      return [404];
+    });
+
+    $httpBackend.whenPUT(/^answers\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
+      console.log(arguments);
+      var answer = angular.fromJson(data);
+
+      if (!answer.registration) {
+        return [400, { message: 'registration must be present' }];
+      }
+      if (!answer.block) {
+        return [400, { message: 'block must be present' }];
+      }
+      if (!answer.value) {
+        return [400, { message: 'value must be present' }];
+      }
+      if (!answer.id) {
+        answer.id = uuid();
+      }
+
+      var registration = sessionStorage.getItem('/registrations/' + answer.registration);
+      if (registration) {
+        var answers = registration.answers;
+        var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
+        if (existingAnswerIndex !== -1) {
+          answers.splice(existingAnswerIndex, 1);
+        }
+        answers.push(answer);
+      }
+
+      return [200, answer];
     });
   });

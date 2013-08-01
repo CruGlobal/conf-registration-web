@@ -4,8 +4,23 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'views/admin-dashboard.html',
         controller: 'MainCtrl'
+      })
+      .when('/wizard/:conferenceId', {
+        templateUrl: 'views/admin-wizard.html',
+        controller: 'AdminWizardCtrl',
+        resolve: {
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
+          }]
+        }
       })
       .when('/register/:conferenceId/page/:pageId', {
         templateUrl: 'views/registration.html',
@@ -19,6 +34,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
             });
 
             return defer.promise;
+          }],
+          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
+            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
+              return registration.answers;
+            });
           }]
         }
       })
@@ -37,7 +57,30 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           }]
         }
       })
+      .when('/adminData/:conferenceId', {
+        templateUrl: 'views/adminData.html',
+        controller: 'AdminDataCtrl',
+        resolve: {
+          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
+            var defer = $q.defer();
+            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
+            return defer.promise;
+          }],
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('currentRegistrationInterceptor');
   });

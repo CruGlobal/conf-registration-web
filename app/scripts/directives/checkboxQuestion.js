@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('radioQuestion', function () {
+  .directive('checkboxQuestion', function () {
     return {
-      templateUrl: 'views/radioQuestion.html',
+      templateUrl: 'views/checkboxQuestion.html',
       restrict: 'E'
     };
   });
