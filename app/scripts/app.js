@@ -53,6 +53,26 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
           }]
         }
       })
+      .when('/reviewRegistration/:conferenceId', {
+        templateUrl: 'views/reviewRegistration.html',
+        controller: 'ReviewRegistrationCtrl',
+        resolve: {
+          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
+            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
+              return registration.answers;
+            });
+          }],
+          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
+            var defer = $q.defer();
+
+            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
+              defer.resolve(data);
+            });
+
+            return defer.promise;
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
