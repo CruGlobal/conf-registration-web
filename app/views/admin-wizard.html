@@ -1,93 +1,72 @@
-<style>
-    .row-fluid {
-        padding-top: 50px;
+<script>
+  var el = $('#crs-formOptionsMenu');
+  var elpos = el.offset().top;
+  $(window).scroll(function () {
+
+    var y = $(this).scrollTop();
+    console.log(y);
+    if (y < elpos) {
+      el.stop().animate({'margin-top': 0}, 500);
     }
-
-    #crs-formEdit {
-        padding: 26px;
-        background-color: white;
-        min-height: 500px;
-        font-size: 24px;
+    else {
+      el.stop().animate({'margin-top': y - elpos}, 500);
     }
-
-    .crs-accordion,
-    .crs-accordion ul,
-    .crs-accordion li,
-    .crs-accordion a,
-    .crs-accordion span {
-        margin: 0;
-        padding: 0;
-        border: none;
-        outline: none;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -moz-user-select: moz-none;
-        -ms-user-select: none;
-        user-select: none;
-    }
-
-    .crs-accordion {
-        width: 200px;
-    }
-
-    .crs-accordion li {
-        list-style: none;
-        background: white;
-        margin:12px;
-    }
-
-    .crs-accordion li > a {
-        display: block;
-        position: relative;
-        min-width: 110px;
-        padding: 4px 10px 4px 10px;
-        color: #fdfdfd;
-        font: 14px Arial, sans-serif;
-        text-decoration: none;
-        background: #2dc1a4;
-    }
-
-    .crs-accordionSub li a {
-        color: #797979;
-        background: #ecf0f1;
-    }
-
-    .crs-accordionSub {
-        border-bottom: 3px solid red;
-    }
-
-
-</style>
-
+  });
+</script>
 <div class="container-fluid">
-    <div class="row-fluid">
+  <div class="row-fluid">
 
-        <div class="span3" id="crs-formOptionsMenu">
-            <ul class="crs-accordion">
-                <li><a href="#">Simple Form Elements</a>
-                    <ul class="crs-accordionSub">
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-singleText">Single Line Text</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-paragraphText">Paragraph Text</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-number">Number</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-multipleChoice">Multiple Choice</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-checkbox">Checkbox</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-dropdown">Dropdown</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-sectionBreak">Section Break</a></li>
-                        <li><a href="#" draggable="true" ondragstart="crsDrag(event)" id="crs-pageBreak">Page Break</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Complex Form Elements</a></li>
-                <li><a href="#">Super Form Elements</a></li>
-            </ul>
-        </div>
-        <div class="span9" id="crs-formEdit" ondrop="crsDrop(event)" ondragover="crsAllowDrop(event)"><p>This form is empty (but your heart isn’t)!<br>
-            Drag form elements from the left to this box. <br>
-            Once its here, you can customize each element.</p>
-
-            <p>Don’t want to start from scratch? <br>
-                Start with the Fall Retreat Template.</p>
-            <ul id="crs-formElements"></ul>
-        </div>
-
+    <div class="span3" id="crs-formOptionsMenu">
+      <ul class="crs-accordion">
+        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
+          <ul class="crs-accordionSub" accordion-sub>
+            <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
+            <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
+            <li><a href="#" draggable="true" id="crs-number">Number</a></li>
+            <li><a href="#" draggable="true" id="crs-multipleChoice">Multiple Choice</a></li>
+            <li><a href="#" draggable="true" id="crs-checkbox">Checkbox</a></li>
+            <li><a href="#" draggable="true" id="crs-dropdown">Dropdown</a></li>
+            <li><a href="#" draggable="true" id="crs-sectionBreak">Section Break</a></li>
+            <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
+          </ul>
+        </li>
+        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Complex Form Elements</a>
+          <ul class="crs-accordionSub" accordion-sub style="display:none;">
+            <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
+            <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
+            <li><a href="#" draggable="true" id="crs-number">Number</a></li>
+            <li><a href="#" draggable="true" id="crs-multipleChoice">Multiple Choice</a></li>
+            <li><a href="#" draggable="true" id="crs-checkbox">Checkbox</a></li>
+            <li><a href="#" draggable="true" id="crs-dropdown">Dropdown</a></li>
+            <li><a href="#" draggable="true" id="crs-sectionBreak">Section Break</a></li>
+            <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
+          </ul></li>
+        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Super Form Elements</a>
+          <ul class="crs-accordionSub" accordion-sub style="display:none;">
+            <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
+            <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
+            <li><a href="#" draggable="true" id="crs-number">Number</a></li>
+            <li><a href="#" draggable="true" id="crs-multipleChoice">Multiple Choice</a></li>
+            <li><a href="#" draggable="true" id="crs-checkbox">Checkbox</a></li>
+            <li><a href="#" draggable="true" id="crs-dropdown">Dropdown</a></li>
+            <li><a href="#" draggable="true" id="crs-sectionBreak">Section Break</a></li>
+            <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
+          </ul></li>
+      </ul>
     </div>
+    <div form-drop-area class="span9" id="crs-formEdit">
+      <!-- <div class="span9" id="crs-formEdit">  -->
+      <p>This form is empty (but your heart isn’t)!<br>
+        Drag form elements from the left to this box. <br>
+        Once its here, you can customize each element.</p>
+
+      <p>Don’t want to start from scratch? <br>
+        Start with the Fall Retreat Template.</p>
+      <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
+      <div class="row" id="crsDropZone"></div>
+      <div class="crs-formElements" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}">
+        <page></page>
+      </div>
+    </div>
+  </div>
 </div>
