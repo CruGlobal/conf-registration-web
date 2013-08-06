@@ -11,14 +11,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/admin-wizard.html',
         controller: 'AdminWizardCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })
@@ -43,6 +37,17 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/register/:conferenceId', {
+        resolve: {
+          redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
+            var conferenceId = $route.current.params.conferenceId;
+            ConfCache.get(conferenceId).then(function (conference) {
+              var firstPageId = conference.pages && conference.pages[0] && conference.pages[0].id;
+              $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
+            });
           }]
         }
       })
