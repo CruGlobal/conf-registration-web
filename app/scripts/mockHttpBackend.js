@@ -136,12 +136,14 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-2',
                 'title': 'Name Question',
-                'type': 'nameQuestion'
+                'type': 'nameQuestion',
+                'required': true
               },
               {
                 'id': 'block-3',
                 'title': 'Text Question',
-                'type': 'textQuestion'
+                'type': 'textQuestion',
+                'required': true
               },
               {
                 'id': 'block-4',
@@ -151,7 +153,8 @@ angular.module('confRegistrationWebApp')
                   'Choice 1',
                   'Choice 2',
                   'Choice 3'
-                ]
+                ],
+                'required': true
               },
               {
                 'id': 'block-4',
@@ -161,12 +164,14 @@ angular.module('confRegistrationWebApp')
                   'Choice 1',
                   'Choice 2',
                   'Choice 3'
-                ]
+                ],
+                'required': true
               },
               {
                 'id': 'block-5',
                 'title': 'Email Question',
-                'type': 'emailQuestion'
+                'type': 'emailQuestion',
+                'required': true
               }
             ]
           }
