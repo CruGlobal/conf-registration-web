@@ -497,9 +497,6 @@ angular.module('confRegistrationWebApp')
       var key = '/registrations/' + answer.registration;
       var registration = angular.fromJson(sessionStorage.getItem(key));
       if (registration) {
-      var key = '/registrations/' + answer.registration;
-      var registration = angular.fromJson(sessionStorage.getItem(key));
-      if(registration) {
         var answers = registration.answers;
         var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
         if (existingAnswerIndex !== -1) {
