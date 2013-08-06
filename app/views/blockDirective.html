@@ -5,7 +5,9 @@
         <ng-switch on="block.type">
           <p ng-switch-when="paragraphContent">{{block.content}}</p>
           <text-question block="block" ng-switch-when="textQuestion"></text-question>
+          <text-question block="block" ng-switch-when="textQuestion"></text-question>
           <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+          <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
         </ng-switch>
         <span ng-show="block.required">(required)</span>
       </div>
