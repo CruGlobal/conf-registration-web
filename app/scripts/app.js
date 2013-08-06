@@ -34,15 +34,6 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           }]
         }
       })
-      .when('/info/:conferenceId', {
-        templateUrl: 'views/info.html',
-        controller: 'InfoCtrl',
-        resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }]
-        }
-      })
       .when('/adminData/:conferenceId', {
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
