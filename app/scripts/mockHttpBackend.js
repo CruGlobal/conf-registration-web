@@ -345,12 +345,12 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(function () {
+    $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
       console.log(arguments);
       var headers = {};
       return [200, conferences, headers];
     });
-    $httpBackend.whenPOST('conferences').respond(function (verb, url, data) {
+    $httpBackend.whenPOST(/^conferences\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
 
       var conference = angular.extend(angular.fromJson(data), { id: uuid() });
