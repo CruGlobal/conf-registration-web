@@ -26,19 +26,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }],
-          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
-              return registration.answers;
-            });
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId);
           }]
         }
       })
@@ -46,14 +38,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/info.html',
         controller: 'InfoCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })
@@ -61,19 +47,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
-          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
-            var defer = $q.defer();
-            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
-            return defer.promise;
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })

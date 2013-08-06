@@ -1,6 +1,9 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('MainCtrl', function ($scope, Conferences) {
-    $scope.conferences = Conferences.query();
+  .controller('MainCtrl', function ($scope, ConfCache) {
+    $scope.$on('conferences/', function (event, conferences) {
+      $scope.conferences = conferences;
+    });
+    ConfCache.query();
   });
