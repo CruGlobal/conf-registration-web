@@ -120,6 +120,59 @@ angular.module('confRegistrationWebApp')
 
     var conferences = [
       {
+        'id': '012aoeu',
+        'name': 'A Test Page Conf',
+        'pages': [
+          {
+            'id': '1',
+            'title': 'About You',
+            'blocks': [
+              {
+                'id': 'block-1',
+                'title': 'Important Information',
+                'type': 'paragraphContent',
+                'content': 'This is a paragraph of text.'
+              },
+              {
+                'id': 'block-2',
+                'title': 'Name Question',
+                'type': 'nameQuestion'
+              },
+              {
+                'id': 'block-3',
+                'title': 'Text Question',
+                'type': 'textQuestion'
+              },
+              {
+                'id': 'block-4',
+                'title': 'Radio Question',
+                'type': 'radioQuestion',
+                'choices': [
+                  'Choice 1',
+                  'Choice 2',
+                  'Choice 3'
+                ]
+              },
+              {
+                'id': 'block-4',
+                'title': 'Checkbox Question',
+                'type': 'checkboxQuestion',
+                'choices': [
+                  'Choice 1',
+                  'Choice 2',
+                  'Choice 3'
+                ]
+              },
+              {
+                'id': 'block-5',
+                'title': 'Email Question',
+                'type': 'emailQuestion'
+              }
+            ]
+          }
+        ]
+      },
+      {
         'id': '012',
         'name': 'A Sweet Fall Retreat',
         'landingPage': {
