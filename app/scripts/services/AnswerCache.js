@@ -53,7 +53,7 @@ angular.module('confRegistrationWebApp')
     this.syncByBlockId = function (scope, name, blockId) {
       scope[name] = blockIndex.get(blockId);
       scope.$watch(name, function (answer) {
-        if(angular.isDefined(answer)) {
+        if (angular.isDefined(answer)) {
           update(path(answer.id), answer);
         }
       }, angular.equals);

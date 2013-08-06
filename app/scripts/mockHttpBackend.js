@@ -395,7 +395,6 @@ angular.module('confRegistrationWebApp')
     $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
       var registrationId = uuid();
-      var registrationId = uuid();
 
       var conferenceId = url.split('/')[1];
 
@@ -411,26 +410,7 @@ angular.module('confRegistrationWebApp')
       var answers = [];
       angular.forEach(blocks, function (block) {
         answers.push({
-          id: uuid(),
-          block: block.id,
-          registration: registrationId,
-          value: {}
-        });
-      });
-
-      var conference = _.find(conferences, function (conference) {
-        return angular.equals(conference.id, conferenceId);
-      });
-      var blocks = [];
-      angular.forEach(conference.pages, function (page) {
-        angular.forEach(page.blocks, function (block) {
-          blocks.push(block);
-        });
-      });
-      var answers = [];
-      angular.forEach(blocks, function (block) {
-        answers.push({
-        id: registrationId,
+          id: registrationId,
           block: block.id,
           registration: registrationId,
           value: {}
@@ -503,7 +483,6 @@ angular.module('confRegistrationWebApp')
           answers.splice(existingAnswerIndex, 1);
         }
         answers.push(answer);
-        sessionStorage.setItem(key, angular.toJson(registration));
         sessionStorage.setItem(key, angular.toJson(registration));
       }
 
