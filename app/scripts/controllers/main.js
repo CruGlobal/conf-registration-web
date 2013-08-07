@@ -14,5 +14,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.createConference = function () {
       $dialog.dialog(createConferenceDialogOptions).open();
-    }
+    };
   });
