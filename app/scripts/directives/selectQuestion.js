@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('radioQuestion', function () {
+  .directive('selectQuestion', function () {
     return {
-      templateUrl: 'views/radioQuestion.html',
+      templateUrl: 'views/selectQuestion.html',
       restrict: 'E',
       link: function (scope, elements) {
         elements.find('input').bind('blur', function () {

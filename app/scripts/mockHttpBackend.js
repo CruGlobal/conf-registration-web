@@ -168,6 +168,17 @@ angular.module('confRegistrationWebApp')
                 'required': true
               },
               {
+                'id': 'block-4',
+                'title': 'Select Question',
+                'type': 'selectQuestion',
+                'choices': [
+                  'Choice 1',
+                  'Choice 2',
+                  'Choice 3'
+                ],
+                'required': true
+              },
+              {
                 'id': 'block-5',
                 'title': 'Email Question',
                 'type': 'emailQuestion',
@@ -240,12 +251,13 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-3',
                 'title': 'What school do you currently attend?',
-                'type': 'textQuestion'
+                'type': 'textQuestion',
+                'required': true
               },
               {
                 'id': 'block-4',
                 'title': 'Man or Lady?',
-                'type': 'radioQuestion',
+                'type': 'selectQuestion',
                 'required': true,
                 'choices': [
                   'Man',
