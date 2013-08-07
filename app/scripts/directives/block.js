@@ -5,17 +5,8 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/blockDirective.html',
       restrict: 'E',
-      scope: {
-        'block': '=',
-        'prefillAnswer': '=answer'
-      },
-      controller: function ($scope) {
-        $scope.answer = angular.copy($scope.prefillAnswer) || { value: {} };
-
-        $scope.updateAnswer = function () {
-//          $scope.answer.$save();
-          console.log('update answer in ' + $scope.block.id + ' to ' + angular.toJson($scope.answer));
-        };
+      controller: function ($scope, AnswerCache) {
+        AnswerCache.syncByBlockId($scope, 'answer', $scope.block.id);
       }
     };
   });
