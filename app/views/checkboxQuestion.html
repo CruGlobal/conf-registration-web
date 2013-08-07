@@ -1,6 +1,6 @@
 <div ng-form="blockForm">
   <ul class="unstyled">
-    <li data-ng-repeat="choice in block.choices">
+    <li data-ng-repeat="choice in block.content.choices">
       <input name="{{block.id}}-{{choice}}"
              id="{{block.id}}-{{choice}}"
              type="checkbox"
