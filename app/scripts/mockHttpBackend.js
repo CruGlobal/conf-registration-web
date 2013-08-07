@@ -188,7 +188,7 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-4',
                 'title': 'Man or Lady?',
-                'type': 'selectQuestion',
+                'type': 'checkboxQuestion',
                 'required': true,
                 'choices': [
                   'Man',
