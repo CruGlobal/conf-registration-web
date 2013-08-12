@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
+angular.module('confRegistrationWebApp', ['ngResource'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -57,4 +57,5 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
+    $httpProvider.interceptors.push('httpUrlInterceptor');
   });
