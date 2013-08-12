@@ -159,7 +159,7 @@ angular.module('confRegistrationWebApp')
                 'required': true
               },
               {
-                'id': 'block-4',
+                'id': 'block-4a',
                 'title': 'Checkbox Question',
                 'type': 'checkboxQuestion',
                 'content': {
@@ -172,7 +172,7 @@ angular.module('confRegistrationWebApp')
                 'required': true
               },
               {
-                'id': 'block-4',
+                'id': 'block-4b',
                 'title': 'Select Question',
                 'type': 'selectQuestion',
                 'choices': [
