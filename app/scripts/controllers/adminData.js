@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
-        return angular.equals(answer.block, blockId);
+        return angular.equals(answer.blockId, blockId);
       });
     };
 
