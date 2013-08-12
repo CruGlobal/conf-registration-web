@@ -11,3 +11,4 @@ http://cruglobal.github.io/conf-registration-web/
 3. Run `npm install` to install the command line tools.
 3. Run `bower install` to install the web app dependencies.
 4. Run `grunt server`. That command should open a browser and now you can code!
+
