@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -11,14 +11,8 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/admin-wizard.html',
         controller: 'AdminWizardCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })
@@ -26,34 +20,11 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
         resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }],
-          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
-              return registration.answers;
-            });
-          }]
-        }
-      })
-      .when('/info/:conferenceId', {
-        templateUrl: 'views/info.html',
-        controller: 'InfoCtrl',
-        resolve: {
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId);
           }]
         }
       })
@@ -61,19 +32,24 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
-          registrations: ['$route', 'Registrations', '$q', function ($route, Registrations, $q) {
-            var defer = $q.defer();
-            Registrations.getAllForConference({ conferenceId: $route.current.params.conferenceId }, defer.resolve);
-            return defer.promise;
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/register/:conferenceId', {
+        resolve: {
+          redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
+            var conferenceId = $route.current.params.conferenceId;
+            ConfCache.get(conferenceId).then(function (conference) {
+              var firstPageId = conference.registrationPages &&
+                conference.registrationPages[0] &&
+                conference.registrationPages[0].id;
+              $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
             });
-
-            return defer.promise;
           }]
         }
       })
@@ -83,4 +59,5 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
+    $httpProvider.interceptors.push('httpUrlInterceptor');
   });

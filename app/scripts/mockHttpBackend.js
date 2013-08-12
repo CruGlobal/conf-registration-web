@@ -13,34 +13,34 @@ angular.module('confRegistrationWebApp')
           'user': 'user-1',
           'answers': [
             {
-              'block': 'block-2',
+              'blockId': 'block-2',
               'value': {
                 firstName: 'Ron',
                 lastName: 'Steve'
               }
             },
             {
-              'block': 'block-4',
+              'blockId': 'block-4',
               'value': 'Man'
             },
             {
-              'block': 'block-5',
+              'blockId': 'block-5',
               'value': 'Yes'
             },
             {
-              'block': 'block-6',
+              'blockId': 'block-6',
               'value': 'No'
             },
             {
-              'block': 'block-7',
+              'blockId': 'block-7',
               'value': 'Waffles'
             },
             {
-              'block': 'block-8',
+              'blockId': 'block-8',
               'value': 'Burger'
             },
             {
-              'block': 'block-9',
+              'blockId': 'block-9',
               'value': 'Steak'
             }
           ]
@@ -49,35 +49,35 @@ angular.module('confRegistrationWebApp')
           'user': 'user-2',
           'answers': [
             {
-              'block': 'block-2',
+              'blockId': 'block-2',
               'value': 'Jerry'
             },
             {
-              'block': 'block-3',
+              'blockId': 'block-3',
               'value': 'Perdue'
             },
             {
-              'block': 'block-4',
+              'blockId': 'block-4',
               'value': 'Man'
             },
             {
-              'block': 'block-5',
+              'blockId': 'block-5',
               'value': 'Yes'
             },
             {
-              'block': 'block-6',
+              'blockId': 'block-6',
               'value': 'Yes'
             },
             {
-              'block': 'block-7',
+              'blockId': 'block-7',
               'value': 'Pancakes'
             },
             {
-              'block': 'block-8',
+              'blockId': 'block-8',
               'value': 'Sandwich'
             },
             {
-              'block': 'block-9',
+              'blockId': 'block-9',
               'value': 'Shrimp'
             }
           ]
@@ -86,31 +86,31 @@ angular.module('confRegistrationWebApp')
           'user': 'user-3',
           'answers': [
             {
-              'block': 'block-2',
+              'blockId': 'block-2',
               'value': 'Tom'
             },
             {
-              'block': 'block-4',
+              'blockId': 'block-4',
               'value': 'Man'
             },
             {
-              'block': 'block-5',
+              'blockId': 'block-5',
               'value': 'No'
             },
             {
-              'block': 'block-6',
+              'blockId': 'block-6',
               'value': 'Yes'
             },
             {
-              'block': 'block-7',
+              'blockId': 'block-7',
               'value': 'Omelettes'
             },
             {
-              'block': 'block-8',
+              'blockId': 'block-8',
               'value': 'Soup'
             },
             {
-              'block': 'block-9',
+              'blockId': 'block-9',
               'value': 'Lobster'
             }
           ]
@@ -119,6 +119,79 @@ angular.module('confRegistrationWebApp')
     };
 
     var conferences = [
+      {
+        'id': '012aoeu',
+        'name': 'A Test Page Conf',
+        'registrationPages': [
+          {
+            'id': '1',
+            'title': 'About You',
+            'blocks': [
+              {
+                'id': 'block-1',
+                'title': 'Important Information',
+                'type': 'paragraphContent',
+                'content': 'This is a paragraph of text.'
+              },
+              {
+                'id': 'block-2',
+                'title': 'Name Question',
+                'type': 'nameQuestion',
+                'required': true
+              },
+              {
+                'id': 'block-3',
+                'title': 'Text Question',
+                'type': 'textQuestion',
+                'required': true
+              },
+              {
+                'id': 'block-4',
+                'title': 'Radio Question',
+                'type': 'radioQuestion',
+                'content': {
+                  'choices': [
+                    'Choice 1',
+                    'Choice 2',
+                    'Choice 3'
+                  ]
+                },
+                'required': true
+              },
+              {
+                'id': 'block-4a',
+                'title': 'Checkbox Question',
+                'type': 'checkboxQuestion',
+                'content': {
+                  'choices': [
+                    'Choice 1',
+                    'Choice 2',
+                    'Choice 3'
+                  ]
+                },
+                'required': true
+              },
+              {
+                'id': 'block-4b',
+                'title': 'Select Question',
+                'type': 'selectQuestion',
+                'choices': [
+                  'Choice 1',
+                  'Choice 2',
+                  'Choice 3'
+                ],
+                'required': true
+              },
+              {
+                'id': 'block-5',
+                'title': 'Email Question',
+                'type': 'emailQuestion',
+                'required': true
+              }
+            ]
+          }
+        ]
+      },
       {
         'id': '012',
         'name': 'A Sweet Fall Retreat',
@@ -162,7 +235,7 @@ angular.module('confRegistrationWebApp')
             }
           ]
         },
-        'pages': [
+        'registrationPages': [
           {
             'id': '1',
             'title': 'About You',
@@ -182,17 +255,20 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-3',
                 'title': 'What school do you currently attend?',
-                'type': 'textQuestion'
+                'type': 'textQuestion',
+                'required': true
               },
               {
                 'id': 'block-4',
                 'title': 'Man or Lady?',
-                'type': 'radioQuestion',
+                'type': 'selectQuestion',
                 'required': true,
-                'choices': [
-                  'Man',
-                  'Lady'
-                ]
+                'content': {
+                  'choices': [
+                    'Man',
+                    'Lady'
+                  ]
+                }
               }
             ]
           },
@@ -211,20 +287,24 @@ angular.module('confRegistrationWebApp')
                 'title': 'Do you have a car?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Yes',
-                  'No'
-                ]
+                'content': {
+                  'choices': [
+                    'Yes',
+                    'No'
+                  ]
+                }
               },
               {
                 'id': 'block-6',
                 'title': 'Do you need a ride?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Yes',
-                  'No'
-                ]
+                'content': {
+                  'choices': [
+                    'Yes',
+                    'No'
+                  ]
+                }
               }
             ]
           },
@@ -237,33 +317,39 @@ angular.module('confRegistrationWebApp')
                 'title': 'What do you want to eat for breakfast?',
                 'type': 'checkboxQuestion',
                 'required': true,
-                'choices': [
-                  'Pancakes',
-                  'Waffles',
-                  'Omelettes'
-                ]
+                'content': {
+                  'choices': [
+                    'Pancakes',
+                    'Waffles',
+                    'Omelettes'
+                  ]
+                }
               },
               {
                 'id': 'block-8',
                 'title': 'What do you want to eat for lunch?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Sandwich',
-                  'Soup',
-                  'Burger'
-                ]
+                'content': {
+                  'choices': [
+                    'Sandwich',
+                    'Soup',
+                    'Burger'
+                  ]
+                }
               },
               {
                 'id': 'block-9',
                 'title': 'What do you want to eat for dinner?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Steak',
-                  'Shrimp',
-                  'Lobster'
-                ]
+                'content': {
+                  'choices': [
+                    'Steak',
+                    'Shrimp',
+                    'Lobster'
+                  ]
+                }
               }
             ]
           }
@@ -287,12 +373,12 @@ angular.module('confRegistrationWebApp')
       }
     ];
 
-    $httpBackend.whenGET('conferences').respond(function () {
+    $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
       console.log(arguments);
       var headers = {};
       return [200, conferences, headers];
     });
-    $httpBackend.whenPOST('conferences').respond(function (verb, url, data) {
+    $httpBackend.whenPOST(/^conferences\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
 
       var conference = angular.extend(angular.fromJson(data), { id: uuid() });
@@ -336,13 +422,33 @@ angular.module('confRegistrationWebApp')
     });
     $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
+      var registrationId = uuid();
 
       var conferenceId = url.split('/')[1];
 
+      var conference = _.find(conferences, function (conference) {
+        return angular.equals(conference.id, conferenceId);
+      });
+      var blocks = [];
+      angular.forEach(conference.pages, function (page) {
+        angular.forEach(page.blocks, function (block) {
+          blocks.push(block);
+        });
+      });
+      var answers = [];
+      angular.forEach(blocks, function (block) {
+        answers.push({
+          id: registrationId,
+          block: block.id,
+          registration: registrationId,
+          value: {}
+        });
+      });
+
       var registration = {
-        id: uuid(),
+        id: registrationId,
         conference: conferenceId,
-        answers: []
+        answers: answers
       };
 
       var headers = {
@@ -396,7 +502,8 @@ angular.module('confRegistrationWebApp')
         answer.id = uuid();
       }
 
-      var registration = sessionStorage.getItem('/registrations/' + answer.registration);
+      var key = '/registrations/' + answer.registration;
+      var registration = angular.fromJson(sessionStorage.getItem(key));
       if (registration) {
         var answers = registration.answers;
         var existingAnswerIndex = _.findIndex(answers, { block: answer.block });
@@ -404,6 +511,7 @@ angular.module('confRegistrationWebApp')
           answers.splice(existingAnswerIndex, 1);
         }
         answers.push(answer);
+        sessionStorage.setItem(key, angular.toJson(registration));
       }
 
       return [200, answer];

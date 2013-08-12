@@ -1,12 +1,13 @@
 <div ng-form="blockForm">
   <ul class="unstyled">
-    <li data-ng-repeat="choice in block.choices">
+    <li data-ng-repeat="choice in block.content.choices">
       <input name="{{block.id}}-{{choice}}"
+             id="{{block.id}}-{{choice}}"
              type="checkbox"
              ng-required="block.required"
              ng-model="answer.value[choice]"
              ng-value="true"
-             ng-change="updateAnswer(choice)"> {{choice}}
+             ng-change="updateAnswer(choice)"> <label for="{{block.id}}-{{choice}}"><span></span>{{choice}}</label>
     </li>
   </ul>
 </div>

@@ -1,5 +1,8 @@
 // CRS custom variables.
 //---------------------------------------------------
+$check-radio-sheet: url("../images/forms/check_radio_sheet.png");
+$icon-sprite-cards: url("../images/icon-sprite-cards.png");
+$bg-crs-card: url("../images/bg-crs-card.png");
 
 // Flat UI Colors for CRS
 // --------------------------------------------------
@@ -151,7 +154,7 @@ body {
   padding: 0;
   overflow: hidden;
   .crs-event-card {
-    background: url(/images/bg-crs-card.png) repeat top left;
+    background: $bg-crs-card repeat top left;
     border-radius:         5px;
     -moz-border-radius:    5px;
     -webkit-border-radius: 5px;
@@ -174,7 +177,7 @@ body {
       vertical-align: middle;
     }
     .crs-card-count {
-      background: url("/images/icon-sprite-cards.png") no-repeat left top;
+      background: $icon-sprite-cards no-repeat left top;
       background-position: 0px 0px;
       display: block;
       float: left;
@@ -203,7 +206,7 @@ body {
       text-decoration: none;
     }
     .crs-card-sprocket {
-      background: url("/images/icon-sprite-cards.png") no-repeat left top;
+      background: $icon-sprite-cards no-repeat left top;
       background-position: 0px -31px;
       display: block;
       float: right;
@@ -231,7 +234,7 @@ body {
     clear: all;
     text-align: center;
 
-    a {
+    div {
       color: $crs-green;
       font-size: 2em;
       font-weight: 300;
@@ -400,12 +403,12 @@ input[type="checkbox"] + label span {
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: url(../images/forms/check_radio_sheet.png) left top no-repeat;
+  background: $check-radio-sheet left top no-repeat;
   cursor: pointer;
 }
 
 input[type="checkbox"]:checked + label span {
-  background: url(../images/forms/check_radio_sheet.png) -19px top no-repeat;
+  background: $check-radio-sheet -19px top no-repeat;
 }
 
 input[type="radio"] {
@@ -418,10 +421,10 @@ input[type="radio"] + label span {
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: url(../images/forms/check_radio_sheet.png) -38px top no-repeat;
+  background: $check-radio-sheet -38px top no-repeat;
   cursor: pointer;
 }
 
 input[type="radio"]:checked + label span {
-  background: url(../images/forms/check_radio_sheet.png) -57px top no-repeat;
+  background: $check-radio-sheet -57px top no-repeat;
 }

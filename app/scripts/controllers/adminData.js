@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.reversesort = false;
 
-    angular.forEach(conference.pages, function (page) {
+    angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {
           $scope.blocks.push(block);
@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
-        return angular.equals(answer.block, blockId);
+        return angular.equals(answer.blockId, blockId);
       });
     };
 

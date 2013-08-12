@@ -42,7 +42,7 @@
 <!-- Add your site or application content here -->
 <div class="container">
   <div class="crs-head">
-    <div class="crs-logo"><a href="#" alt="Formvent"><img src="images/logo-formvent.png" width="94" height="15"></a>
+    <div class="crs-logo"><a href="#"><img src="images/logo-formvent.png" width="94" height="15" alt="Formvent"></a>
     </div>
     <span>Super easy fun forms for events.</span>
     <!-- The sign up / sign in thing goes here. I'll come back to this. -->
@@ -81,7 +81,6 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/mockHttpBackend.js"></script>
 <script src="scripts/controllers/main.js"></script>
 <!-- endbuild -->
 
@@ -96,22 +95,31 @@
 <script src="bower_components/angular-all-unstable/angular-cookies.js"></script>
 <script src="bower_components/angular-all-unstable/angular-sanitize.js"></script>
 <script src="bower_components/lodash/lodash.js"></script>
-<script src="scripts/services/Conferences.js"></script>
 <script src="scripts/services/currentRegistrationInterceptor.js"></script>
 <script src="scripts/services/uuid.js"></script>
+<script src="scripts/services/httpUrlInterceptor.js"></script>
 <script src="scripts/controllers/registration.js"></script>
 <script src="scripts/directives/textQuestion.js"></script>
 <script src="scripts/directives/radioQuestion.js"></script>
+<script src="scripts/directives/nameQuestion.js"></script>
+<script src="scripts/directives/emailQuestion.js"></script>
+<script src="scripts/directives/checkboxQuestion.js"></script>
 <script src="scripts/directives/page.js"></script>
 <script src="scripts/directives/block.js"></script>
-<script src="scripts/controllers/info.js"></script>
 <script src="scripts/directives/crsSigninBox.js"></script>
-<script src="scripts/services/Registrations.js"></script>
 <script src="scripts/controllers/adminData.js"></script>
 <script src="scripts/directives/formElements.js"></script>
 <script src="scripts/directives/accordionSub.js"></script>
 <script src="scripts/directives/formDropArea.js"></script>
 <script src="scripts/controllers/adminWizard.js"></script>
+<script src="scripts/directives/phoneQuestion.js"></script>
+<script src="scripts/services/AnswerCache.js"></script>
+<script src="scripts/services/RegistrationCache.js"></script>
+<script src="scripts/services/ConfCache.js"></script>
+<script src="scripts/directives/selectQuestion.js"></script>
+<script src="scripts/directives/phoneQuestion.js"></script>
+<script src="scripts/directives/selectQuestion.js"></script>
+<script src="scripts/controllers/createConferenceDialog.js"></script>
 <!-- endbuild -->
 </body>
 </html>

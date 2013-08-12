@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location, answers) {
+  .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location) {
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -10,16 +10,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = conference;
 
-    $scope.answers = answers;
-
-    $scope.findAnswer = function (blockId) {
-      return _.find(answers, function (answer) {
-        return angular.equals(answer.block, blockId);
-      });
-    };
-
     function getPageById(pageId) {
-      var pages = conference.pages;
+      var pages = conference.registrationPages;
 
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {
@@ -33,7 +25,7 @@ angular.module('confRegistrationWebApp')
     $scope.page = getPageById(pageId);
 
     function getPageAfterById(pageId) {
-      var pages = conference.pages;
+      var pages = conference.registrationPages;
 
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {

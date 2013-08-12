@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/conf-registration-web.iml" filepath="$PROJECT_DIR$/.idea/conf-registration-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/conf-registration-web.iml" filepath="$PROJECT_DIR$/conf-registration-web.iml" />
     </modules>
   </component>
 </project>
