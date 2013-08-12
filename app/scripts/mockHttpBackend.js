@@ -149,17 +149,32 @@ angular.module('confRegistrationWebApp')
                 'id': 'block-4',
                 'title': 'Radio Question',
                 'type': 'radioQuestion',
-                'choices': [
-                  'Choice 1',
-                  'Choice 2',
-                  'Choice 3'
-                ],
+                'content': {
+                  'choices': [
+                    'Choice 1',
+                    'Choice 2',
+                    'Choice 3'
+                  ]
+                },
                 'required': true
               },
               {
                 'id': 'block-4',
                 'title': 'Checkbox Question',
                 'type': 'checkboxQuestion',
+                'content': {
+                  'choices': [
+                    'Choice 1',
+                    'Choice 2',
+                    'Choice 3'
+                  ]
+                },
+                'required': true
+              },
+              {
+                'id': 'block-4',
+                'title': 'Select Question',
+                'type': 'selectQuestion',
                 'choices': [
                   'Choice 1',
                   'Choice 2',
@@ -240,17 +255,20 @@ angular.module('confRegistrationWebApp')
               {
                 'id': 'block-3',
                 'title': 'What school do you currently attend?',
-                'type': 'textQuestion'
+                'type': 'textQuestion',
+                'required': true
               },
               {
                 'id': 'block-4',
                 'title': 'Man or Lady?',
-                'type': 'radioQuestion',
+                'type': 'selectQuestion',
                 'required': true,
-                'choices': [
-                  'Man',
-                  'Lady'
-                ]
+                'content': {
+                  'choices': [
+                    'Man',
+                    'Lady'
+                  ]
+                }
               }
             ]
           },
@@ -269,20 +287,24 @@ angular.module('confRegistrationWebApp')
                 'title': 'Do you have a car?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Yes',
-                  'No'
-                ]
+                'content': {
+                  'choices': [
+                    'Yes',
+                    'No'
+                  ]
+                }
               },
               {
                 'id': 'block-6',
                 'title': 'Do you need a ride?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Yes',
-                  'No'
-                ]
+                'content': {
+                  'choices': [
+                    'Yes',
+                    'No'
+                  ]
+                }
               }
             ]
           },
@@ -295,33 +317,39 @@ angular.module('confRegistrationWebApp')
                 'title': 'What do you want to eat for breakfast?',
                 'type': 'checkboxQuestion',
                 'required': true,
-                'choices': [
-                  'Pancakes',
-                  'Waffles',
-                  'Omelettes'
-                ]
+                'content': {
+                  'choices': [
+                    'Pancakes',
+                    'Waffles',
+                    'Omelettes'
+                  ]
+                }
               },
               {
                 'id': 'block-8',
                 'title': 'What do you want to eat for lunch?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Sandwich',
-                  'Soup',
-                  'Burger'
-                ]
+                'content': {
+                  'choices': [
+                    'Sandwich',
+                    'Soup',
+                    'Burger'
+                  ]
+                }
               },
               {
                 'id': 'block-9',
                 'title': 'What do you want to eat for dinner?',
                 'type': 'radioQuestion',
                 'required': true,
-                'choices': [
-                  'Steak',
-                  'Shrimp',
-                  'Lobster'
-                ]
+                'content': {
+                  'choices': [
+                    'Steak',
+                    'Shrimp',
+                    'Lobster'
+                  ]
+                }
               }
             ]
           }

@@ -1,0 +1,5 @@
+<div ng-form="blockForm">
+  <select ng-required="block.required" data-ng-model="answer.value" ng-change="updateAnswer(choice)">
+    <option value="{{choice}}" data-ng-repeat="choice in block.choices">{{choice}}</option>
+  </select>
+</div>
