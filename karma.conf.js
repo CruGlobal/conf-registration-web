@@ -11,6 +11,7 @@ files = [
   'app/bower_components/angular-all-unstable/angular.js',
   'app/bower_components/angular-all-unstable/angular-resource.js',
   'app/bower_components/angular-all-unstable/angular-mocks.js',
+  'app/bower_components/angular-bootstrap/ui-bootstrap.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
   'test/mock/**/*.js',
