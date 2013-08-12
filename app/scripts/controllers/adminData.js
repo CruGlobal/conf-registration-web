@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.reversesort = false;
 
-    angular.forEach(conference.pages, function (page) {
+    angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {
           $scope.blocks.push(block);

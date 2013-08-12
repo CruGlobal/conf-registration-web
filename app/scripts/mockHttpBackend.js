@@ -122,7 +122,7 @@ angular.module('confRegistrationWebApp')
       {
         'id': '012aoeu',
         'name': 'A Test Page Conf',
-        'pages': [
+        'registrationPages': [
           {
             'id': '1',
             'title': 'About You',
@@ -235,7 +235,7 @@ angular.module('confRegistrationWebApp')
             }
           ]
         },
-        'pages': [
+        'registrationPages': [
           {
             'id': '1',
             'title': 'About You',
