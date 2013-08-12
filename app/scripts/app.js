@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
+angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
