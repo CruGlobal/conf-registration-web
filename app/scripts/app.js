@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngResource'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
