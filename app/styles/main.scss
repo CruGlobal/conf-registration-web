@@ -284,10 +284,6 @@ body {
   color: $crs-grayDark;
 }
 
-.crs-block-title:after {
-
-}
-
 #crs-formEdit li {
   list-style: none;
 }
@@ -295,11 +291,11 @@ body {
 .crs-required {
   color:$crs-grayLighter;
   font-size: 14px;
-  font-weight: normal;
+  font-weight: 100;
   line-height: 20px;
   font-style: italic;
-  float: left;
-  overflow: hidden;
+  margin-left: 10px;
+  letter-spacing: 1px;
 }
 
 .crs-question-default {

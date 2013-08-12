@@ -2,8 +2,8 @@
 
       <div class="span12">
         <div class="crs-question-default">
-          <h4 class="crs-block-title">{{block.title}}</h4>
-          <span class="crs-required" ng-show="block.required">(required)</span>
+          <h4 class="crs-block-title">{{block.title}}<span class="crs-required" ng-show="block.required">(required)</span></h4>
+
           <ng-switch on="block.type">
             <p class="crs-text" ng-switch-when="paragraphContent">{{block.content}}</p>
             <text-question block="block" ng-switch-when="textQuestion"></text-question>
