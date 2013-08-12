@@ -58,7 +58,7 @@ describe('Service: currentRegistrationInterceptor', function () {
         url: 'conferences/1/registrations/current'
       }
     };
-    $httpBackend.expectPOST('conferences/1/registrations').respond(201, {
+    $httpBackend.expectPOST(/conferences\/1\/registrations$/).respond(201, {
       id: '1234abcd',
       user: 'user-1',
       conference: '1',
@@ -88,7 +88,7 @@ describe('Service: currentRegistrationInterceptor', function () {
         url: 'conferences/1/registrations/current/'
       }
     };
-    $httpBackend.expectPOST('conferences/1/registrations').respond(201, {
+    $httpBackend.expectPOST(/conferences\/1\/registrations$/).respond(201, {
       id: '1234abcd',
       user: 'user-1',
       conference: '1',
