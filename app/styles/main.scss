@@ -57,7 +57,7 @@ body {
 #crs-signin{
   position:absolute;
   cursor: pointer;
-  background:#1abc9c;
+  background:$crs-green;
   width:145px;
   height:20px;
   right:130px;
@@ -80,14 +80,14 @@ body {
   diaplsy:none;
   transition: opacity 1s;
   background:#fff;
-  border-top:5px solid #1abc9c;
+  border-top:5px solid $crs-green;
   border-bottom:3px solid #dae2e4;
   width:270px;
   height:300px;
   right:100px;
   top:43px;
   font-size:16px;
-  color:#1abc9c;
+  color:$crs-green;
   padding-top:20px;
   text-align: center;
   position:absolute;
@@ -108,10 +108,10 @@ body {
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 8px solid #1abc9c;
+  border-bottom: 8px solid $crs-green;
 }
 .crs-sub-head {
-  background: #e74d3c;
+  background: $crs-red;
   background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, #e74d3c), color-stop(100%, #e67e22));
   background: -webkit-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
@@ -268,14 +268,58 @@ body {
   background-color: white;
   min-height: 500px;
   font-size: 24px;
-  font-family: 'Open Sans';
-  color: #1abc9c;
+  color: $crs-green;
   line-height: 28px;
+}
+
+.crs-anchor{
+  color: $crs-red;
+}
+
+.crs-page-title {   //h2
+  border-bottom: 1px solid $crs-green;
+}
+
+.crs-block-title {  //h3
+  color: $crs-grayDark;
+}
+
+.crs-block-title:after {
+
 }
 
 #crs-formEdit li {
   list-style: none;
 }
+
+.crs-required {
+  color:$crs-grayLighter;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+  font-style: italic;
+  float: left;
+  overflow: hidden;
+}
+
+.crs-question-default {
+  border-bottom: 1px solid $crs-grayLighter;
+  padding: 25px;
+}
+
+//  Form Elements START //
+
+.crs-radio-label {
+  color: $crs-grayDark;
+}
+.crs-text {
+  color: $crs-grayDark;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+//  Form Elements END //
+
 
 .crs-accordion,
 .crs-accordion ul,
@@ -295,12 +339,16 @@ body {
 
 .crs-accordion {
   width: 200px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
+.crs-parent-li {
+  background: #fff;
 }
 
 .crs-accordion li {
   list-style: none;
-  background: white;
   margin: 12px;
 }
 
@@ -310,7 +358,7 @@ body {
   min-width: 110px;
   padding: 4px 10px 4px 10px;
   color: #fdfdfd;
-  font: 14px Arial, sans-serif;
+  font-size: 14px;
   text-decoration: none;
   background: #2dc1a4;
 }
@@ -320,6 +368,12 @@ body {
   background: #ecf0f1;
   -webkit-user-drag: element;
   -webkit-user-select: none;
+
+}
+
+.crs-accordionSub li:last-child {
+  margin-bottom: 6px;
+  border-bottom: 12px solid #ffffff;
 }
 
 .crs-accordionSub {
@@ -328,9 +382,10 @@ body {
 
 #crsDropZone {
   height: 0px;
-  background: lightgrey;
+  border: 1px dashed $crs-grayLighter;
   transition: height .5s;
-  margin-bottom: 15px;
+  margin: 0;
+  padding: 0;
 
 }
 

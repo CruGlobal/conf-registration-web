@@ -1,16 +1,16 @@
-<div class="row">
+
   <div class="span12">
-    <h2>{{page.title}}</h2>
+    <h3 class="crs-page-title">{{page.title}}</h3>
   </div>
-</div>
-<form data-ng-submit="validateAndGoToNext()" name="pageForm">
+
+<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
   <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
-  <div class="row">
+
     <div class="span3 pull-right">
       <button class="btn btn-block btn-success btn-large"
               type="submit"
               data-ng-disabled="!pageForm.$valid"
               ng-show="nextPage">Next Page</button>
     </div>
-  </div>
+
 </form>

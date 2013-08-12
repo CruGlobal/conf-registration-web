@@ -18,7 +18,7 @@
 
     <div class="span3" id="crs-formOptionsMenu">
       <ul class="crs-accordion">
-        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
+        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
           <ul class="crs-accordionSub" accordion-sub>
             <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
             <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
@@ -30,7 +30,7 @@
             <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
           </ul>
         </li>
-        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Complex Form Elements</a>
+        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Complex Form Elements</a>
           <ul class="crs-accordionSub" accordion-sub style="display:none;">
             <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
             <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
@@ -41,7 +41,7 @@
             <li><a href="#" draggable="true" id="crs-sectionBreak">Section Break</a></li>
             <li><a href="#" draggable="true" id="crs-pageBreak">Page Break</a></li>
           </ul></li>
-        <li><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Super Form Elements</a>
+        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Super Form Elements</a>
           <ul class="crs-accordionSub" accordion-sub style="display:none;">
             <li><a href="#" draggable="true" id="crs-singleText">Single Line Text</a></li>
             <li><a href="#" draggable="true" id="crs-paragraphText">Paragraph Text</a></li>
@@ -56,12 +56,11 @@
     </div>
     <div form-drop-area class="span9" id="crs-formEdit">
       <!-- <div class="span9" id="crs-formEdit">  -->
-      <p>This form is empty (but your heart isn’t)!<br>
-        Drag form elements from the left to this box. <br>
-        Once its here, you can customize each element.</p>
-
-      <p>Don’t want to start from scratch? <br>
-        Start with the Fall Retreat Template.</p>
+      <div class="alert alert-block">
+        <button type="button" class="close">&times;</button>
+        <p class="lead">This form is empty (but your heart isn’t)! Drag form elements from the left to the area below. Once its here, you can customize each element.</p>
+        <p class="lead">Don’t want to start from scratch? Start with the <a class="crs-anchor" href="#">Retreat Template</a>.</p>
+      </div>
       <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
       <div class="row" id="crsDropZone"></div>
       <div class="crs-formElements" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}">
