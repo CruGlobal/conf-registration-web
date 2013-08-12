@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
 
     function getPageById(pageId) {
-      var pages = conference.pages;
+      var pages = conference.registrationPages;
 
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {
@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
     $scope.page = getPageById(pageId);
 
     function getPageAfterById(pageId) {
-      var pages = conference.pages;
+      var pages = conference.registrationPages;
 
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {

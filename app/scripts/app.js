@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -45,7 +45,9 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
           redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
             var conferenceId = $route.current.params.conferenceId;
             ConfCache.get(conferenceId).then(function (conference) {
-              var firstPageId = conference.pages && conference.pages[0] && conference.pages[0].id;
+              var firstPageId = conference.registrationPages &&
+                conference.registrationPages[0] &&
+                conference.registrationPages[0].id;
               $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
             });
           }]
@@ -57,4 +59,5 @@ angular.module('confRegistrationWebApp', ['ngMockE2E', 'ngResource'])
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
+    $httpProvider.interceptors.push('httpUrlInterceptor');
   });
