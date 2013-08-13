@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
           currentRegistration.answers.push($scope.answer);
         }
 
-        AnswerCache.syncByBlockId($scope, 'answer');
+        AnswerCache.syncBlock($scope, 'answer');
       }
     };
   });
