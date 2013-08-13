@@ -53,6 +53,15 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/auth/:token', {
+        resolve: {
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', function($location, $cookies, $route) {
+            $cookies.intendedRoute = "/conferences"; /*later pretend we didn't just put this here...*/
+            $cookies.crsToken = $route.current.params.token;
+            $location.replace().path($cookies.intendedRoute);
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
