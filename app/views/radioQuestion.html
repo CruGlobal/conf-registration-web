@@ -7,7 +7,19 @@
              ng-required="block.required"
              ng-model="answer.value"
              ng-value="choice"
-             ng-change="updateAnswer(choice)"> <label class="crs-radio-label" for="{{block.id}}{{choice}}"><span></span>{{choice}}</label>
+             ng-change="updateAnswer(choice)">
+      <label class="crs-radio-label" for="{{block.id}}{{choice}}">
+        <span></span>
+        <tag ng-show="!editMode">{{choice}}</tag>
+        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="">Delete</a></tag>
+      </label>
+    </li>
+    <li ng-show="editMode">
+      <input id="{{block.id}}-new" type="radio" name="{{block.id}}">
+      <label for="{{block.id}}-new"><span></span>
+        <input type="text" placeholder="Add Option">
+        <button>Add</button>
+      </label>
     </li>
   </ul>
 </div>

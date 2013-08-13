@@ -1,11 +1,24 @@
   <div class="crsQuestion" id="{{block.id}}" draggable="true" form-elements>
-
       <div class="span12">
         <div class="crs-question-default">
-          <h4 class="crs-block-title">{{block.title}}<span class="crs-required" ng-show="block.required">(required)</span></h4>
+          <div ng-show="!editMode">
+            <div style="float:right;"><a href="" data-ng-click="editMode = wizard && !!!editMode">Edit</a></div>
+            <h4 class="crs-block-title">
+            {{block.title}} <span class="crs-required" ng-show="block.required">(required)</span>
+          </h4>
+          </div>
+          <div ng-show="editMode">
+            <div style="float:right;"><a href="" data-ng-click="editMode = wizard && !!!editMode">Save</a></div>
+            <h4 class="crs-block-title">
+              <input type="text" data-ng-model="block.title" ng-required="true"> <span class="crs-required" ng-show="block.required">(required)</span>
+            </h4>
+          </div>
 
           <ng-switch on="block.type">
-            <p ng-switch-when="paragraphContent">{{block.content}}</p>
+            <p ng-switch-when="paragraphContent">
+              <tag ng-show="!editMode">{{block.content}}</tag>
+              <tag ng-show="editMode"><textarea data-ng-model="block.content"></textarea></tag>
+            </p>
             <text-question block="block" ng-switch-when="textQuestion"></text-question>
             <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
             <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
@@ -15,6 +28,9 @@
             <name-question block="block" ng-switch-when="nameQuestion"></name-question>
           </ng-switch>
 
+          <div data-ng-show="editMode">
+            <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required">Required: <span></span></label>
+          </div>
         </div>
       </div>
     </div>

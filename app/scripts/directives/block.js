@@ -5,8 +5,11 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/blockDirective.html',
       restrict: 'E',
-      controller: function ($scope, AnswerCache) {
+      scope: true,
+      controller: function ($scope, AnswerCache, $location) {
         AnswerCache.syncByBlockId($scope, 'answer', $scope.block.id);
+
+        $scope.wizard = $location.path().indexOf('wizard') !== -1;
       }
     };
   });

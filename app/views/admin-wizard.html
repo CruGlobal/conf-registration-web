@@ -4,7 +4,6 @@
   $(window).scroll(function () {
 
     var y = $(this).scrollTop();
-    console.log(y);
     if (y < elpos) {
       el.stop().animate({'margin-top': 0}, 500);
     }
@@ -15,7 +14,6 @@
 </script>
 <div class="container-fluid">
   <div class="row-fluid">
-
     <div class="span3" id="crs-formOptionsMenu">
       <ul class="crs-accordion">
         <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
@@ -63,7 +61,7 @@
       </div>
       <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
       <div class="row" id="crsDropZone"></div>
-      <div class="crs-formElements" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}">
+      <div class="crs-formElements" data-ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
         <page></page>
       </div>
     </div>
