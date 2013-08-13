@@ -16,7 +16,7 @@ angular.module('confRegistrationWebApp')
         }
         if (!angular.isDefined($scope.answer)) {
           $scope.answer = {
-            id : uuid.call(),
+            id : uuid(),
             registrationId : currentRegistration.id,
             blockId : $scope.block.id,
             value : {}
