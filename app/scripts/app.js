@@ -57,19 +57,14 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
         templateUrl: 'views/reviewRegistration.html',
         controller: 'ReviewRegistrationCtrl',
         resolve: {
-          answers: ['$route', 'Registrations', '$q', function ($route, Registrations) {
-            return Registrations.getCurrentOrCreate($route.current.params.conferenceId).then(function (registration) {
-              return registration.answers;
-            });
+          answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function (currentRegistration) {
+                return currentRegistration.answers;
+              });
           }],
-          conference: ['$route', 'Conferences', '$q', function ($route, Conferences, $q) {
-            var defer = $q.defer();
-
-            Conferences.get({id: $route.current.params.conferenceId}, function (data) {
-              defer.resolve(data);
-            });
-
-            return defer.promise;
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })
