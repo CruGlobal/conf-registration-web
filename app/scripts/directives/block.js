@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blockDirective.html',
       restrict: 'E',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
-        RegistrationCache.getCurrent($scope.conference.id).then(function(currentRegistration){
+        RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
           var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
           if (answerForThisBlock.length > 0) {
             $scope.answer = answerForThisBlock[0];
