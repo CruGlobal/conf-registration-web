@@ -7,12 +7,9 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
         var currentRegistration = RegistrationCache.getCurrentRightNow($scope.conference.id);
-        for (var i = 0;i < currentRegistration.answers.length; i++) {
-          if (angular.isDefined(currentRegistration.answers[i]) &&
-              currentRegistration.answers[i].blockId === $scope.block.id) {
-            $scope.answer = currentRegistration.answers[i];
-            break;
-          }
+        var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+        if (answerForThisBlock.length > 0) {
+          $scope.answer = answerForThisBlock[0];
         }
         if (!angular.isDefined($scope.answer)) {
           $scope.answer = {
