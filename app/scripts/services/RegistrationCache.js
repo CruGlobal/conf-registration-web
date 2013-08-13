@@ -48,6 +48,16 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
+    this.getCurrentRightNow = function (conferenceId) {
+      var currentRegistration;
+
+      checkCache('conferences/' + conferenceId + '/registrations/current', function (registration) {
+        currentRegistration = registration;
+      });
+
+      return currentRegistration;
+    };
+
     this.getAllForConference = function (conferenceId) {
       var defer = $q.defer();
 
