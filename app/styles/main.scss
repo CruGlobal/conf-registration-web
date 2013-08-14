@@ -40,13 +40,11 @@ body {
 .crs-head {
   height: 50px;
   width: 100%;
+  position: relative;
   .crs-logo {
     display: block;
     float: left;
     margin: 13px 10px 0 20px;
-    .crs-logo a {
-
-    }
   }
   .crs-logo+span {
     color: $crs-green;
@@ -57,64 +55,73 @@ body {
     margin-top: 17px;
   }
 }
+
 #crs-signin{
-  position:absolute;
-  cursor: pointer;
-  background:#1abc9c;
-  width:145px;
-  height:20px;
-  right:130px;
-  top:12px;
-  font-size:12px;
+  background:$crs-green;
   color:#fff;
+  cursor: pointer;
+  font-size:12px;
+  float: right;
+  height:20px;
+  position:relative;
+  margin-right: 30px;
   padding-left:10px;
+  top:12px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: moz-none;
   -ms-user-select: none;
   user-select: none;
-}
-#crs-signin-box p{
-  margin:16px;
+  width:145px;
+  span {
+    position: relative;
+  }
+  .crs-arrow-down {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #fff;
+    float:right;
+    height: 0;
+    margin:6px 6px 0 0;
+    position: relative;
+    width: 0;
+  }
 }
 
 #crs-signin-box{
-  opacity:1;
-  diaplsy:none;
-  transition: opacity 1s;
   background:#fff;
-  border-top:5px solid #1abc9c;
+  border-top:5px solid $crs-green;
   border-bottom:3px solid #dae2e4;
-  width:270px;
-  height:300px;
-  right:100px;
-  top:43px;
+  color:$crs-green;
+  diaplsy:none;
   font-size:16px;
-  color:#1abc9c;
+  height:280px;
+  opacity:1;
+  right:0px;
   padding-top:20px;
-  text-align: center;
   position:absolute;
+  text-align: center;
+  top:46px;
+  transition: opacity 1s;
+  width:270px;
+  p {
+    margin: 20px;
+  }
+  .crs-arrow-up {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid $crs-green;
+    float:right;
+    height: 0;
+    margin:-33px 36px 0 0;
+    width: 0;
+  }
 }
-.crs-arrow-down {
-  float:right;
-  margin:6px 6px 0 0;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid #fff;
-}
-.crs-arrow-up {
-  float:right;
-  margin:-33px 36px 0 0;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid #1abc9c;
-}
+
+
+
 .crs-sub-head {
-  background: #e74d3c;
+  background: $crs-red;
   background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
   background: -webkit-gradient(left top, right top, color-stop(0%, #e74d3c), color-stop(100%, #e67e22));
   background: -webkit-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
@@ -128,8 +135,8 @@ body {
   .crs-icon-head {
     background-color: $crs-grayLightest;
     border-radius: 25px;
-      -webkit-border-radius: 25px;
-      -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
     height: 50px;
     float: left;
     margin: 25px 40px 0 40px;
@@ -228,6 +235,7 @@ body {
     box-shadow:         0px 3px 0px #d9dfe1;
     -moz-box-shadow:    0px 3px 0px #d9dfe1;
     -webkit-box-shadow: 0px 3px 0px #d9dfe1;
+    cursor: pointer !important;
     height: auto;
     margin: 0;
     min-width: 200px;
@@ -271,14 +279,56 @@ body {
   background-color: white;
   min-height: 500px;
   font-size: 24px;
-  font-family: 'Open Sans';
-  color: #1abc9c;
+  color: $crs-green;
   line-height: 28px;
 }
 
-#crs-formEdit li {
-  list-style: none;
+.crs-anchor{
+  color: $crs-red;
 }
+
+.crs-page-title {   //h2
+  border-bottom: 1px solid $crs-green;
+}
+
+.crs-block-title {  //h3
+  color: $crs-grayDark;
+}
+
+#crs-formEdit {
+  li {
+    list-style: none;
+  }
+}
+
+.crs-required {
+  color:$crs-grayLighter;
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 20px;
+  font-style: italic;
+  margin-left: 10px;
+  letter-spacing: 1px;
+}
+
+.crs-question-default {
+  border-bottom: 1px dotted $crs-grayLighter;
+  padding: 25px;
+}
+
+//  Form Elements START //
+
+.crs-radio-label {
+  color: $crs-grayDark;
+}
+.crs-text {
+  color: $crs-grayDark;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 20px;
+}
+//  Form Elements END //
+
 
 .crs-accordion,
 .crs-accordion ul,
@@ -298,12 +348,16 @@ body {
 
 .crs-accordion {
   width: 200px;
+  padding: 0 !important;
+  margin: 0 !important;
+}
 
+.crs-parent-li {
+  background: #fff;
 }
 
 .crs-accordion li {
   list-style: none;
-  background: white;
   margin: 12px;
 }
 
@@ -313,7 +367,7 @@ body {
   min-width: 110px;
   padding: 4px 10px 4px 10px;
   color: #fdfdfd;
-  font: 14px Arial, sans-serif;
+  font-size: 14px;
   text-decoration: none;
   background: #2dc1a4;
 }
@@ -323,6 +377,12 @@ body {
   background: #ecf0f1;
   -webkit-user-drag: element;
   -webkit-user-select: none;
+
+}
+
+.crs-accordionSub li:last-child {
+  margin-bottom: 6px;
+  border-bottom: 12px solid #ffffff;
 }
 
 .crs-accordionSub {
@@ -331,9 +391,10 @@ body {
 
 #crsDropZone {
   height: 0px;
-  background: lightgrey;
+  border: 1px dashed $crs-grayLighter;
   transition: height .5s;
-  margin-bottom: 15px;
+  margin: 0;
+  padding: 0;
 
 }
 
@@ -377,3 +438,21 @@ input[type="radio"] + label span {
 input[type="radio"]:checked + label span {
   background: $check-radio-sheet -57px top no-repeat;
 }
+
+// Media Queries - This will override the default queries so tread very lightly. //
+
+@media (min-width: 1200px) {
+
+}    // END - (min-width: 1200px)
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+}    // END - (min-width: 768px) and (max-width: 979px)
+
+@media (max-width: 767px) {
+  .crs-logo+span {
+    display: none;
+  }
+}    // END - (max-width: 767px)
+
+
