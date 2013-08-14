@@ -1,0 +1,15 @@
+<div align="center"><input type="button" onClick="window.print();" value="Print this page"></div>
+<h2>{{conference.name}}</h2>
+<p>Thank you for registering, please keep the info below for your records.</p>
+<style>
+  ul label{
+    float:left;
+    width:350px;
+  }
+  li{
+    clear:both;
+  }
+</style>
+<ul class="unstyled">
+  <li data-ng-repeat="block in blocks"><label>{{block.title}}</label>{{findAnswer(block.id).value}}</li>
+</ul>
