@@ -1,7 +1,13 @@
-<div class="row">
-  <div class="span12">
-    <h3>What is the name of your new conference?</h3>
-    <input type="text" data-ng-model="name"/>
-    <button class="btn btn-primary" data-ng-click="submit()">Create</button>
+<div class="modal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>First things, first.</h3>
+  </div>
+  <div class="modal-body">
+    <h4>Let's give this conference a name</h4>
+    <input type="text" class="input-block-level" placeholder="Example: Fall Retreat 2017" data-ng-model="name"/>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn btn-primary">Name it & Claim it</a>
   </div>
 </div>

@@ -40,13 +40,11 @@ body {
 .crs-head {
   height: 50px;
   width: 100%;
+  position: relative;
   .crs-logo {
     display: block;
     float: left;
     margin: 13px 10px 0 20px;
-    .crs-logo a {
-
-    }
   }
   .crs-logo+span {
     color: $crs-green;
@@ -57,62 +55,71 @@ body {
     margin-top: 17px;
   }
 }
+
 #crs-signin{
-  position:absolute;
-  cursor: pointer;
   background:$crs-green;
-  width:145px;
-  height:20px;
-  right:130px;
-  top:12px;
-  font-size:12px;
   color:#fff;
+  cursor: pointer;
+  font-size:12px;
+  float: right;
+  height:20px;
+  position:relative;
+  margin-right: 30px;
   padding-left:10px;
+  top:12px;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: moz-none;
-  -ms-user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: moz-none;
+        -ms-user-select: none;
   user-select: none;
-}
-#crs-signin-box p{
-  margin:16px;
+  width:145px;
+  span {
+    position: relative;
+  }
+  .crs-arrow-down {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #fff;
+    float:right;
+    height: 0;
+    margin:6px 6px 0 0;
+    position: relative;
+    width: 0;
+  }
 }
 
 #crs-signin-box{
-  opacity:1;
-  diaplsy:none;
-  transition: opacity 1s;
   background:#fff;
   border-top:5px solid $crs-green;
   border-bottom:3px solid #dae2e4;
-  width:270px;
-  height:300px;
-  right:100px;
-  top:43px;
-  font-size:16px;
   color:$crs-green;
+  diaplsy:none;
+  font-size:16px;
+  height:280px;
+  opacity:1;
+  right:0px;
   padding-top:20px;
-  text-align: center;
   position:absolute;
+  text-align: center;
+  top:46px;
+  transition: opacity 1s;
+  width:270px;
+  p {
+    margin: 20px;
+  }
+  .crs-arrow-up {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid $crs-green;
+    float:right;
+    height: 0;
+    margin:-33px 36px 0 0;
+    width: 0;
+  }
 }
-.crs-arrow-down {
-  float:right;
-  margin:6px 6px 0 0;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 8px solid #fff;
-}
-.crs-arrow-up {
-  float:right;
-  margin:-33px 36px 0 0;
-  width: 0;
-  height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 8px solid $crs-green;
-}
+
+
+
 .crs-sub-head {
   background: $crs-red;
   background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
@@ -228,6 +235,7 @@ body {
     box-shadow:         0px 3px 0px #d9dfe1;
     -moz-box-shadow:    0px 3px 0px #d9dfe1;
     -webkit-box-shadow: 0px 3px 0px #d9dfe1;
+    cursor: pointer !important;
     height: auto;
     margin: 0;
     min-width: 200px;
@@ -287,8 +295,10 @@ body {
   color: $crs-grayDark;
 }
 
-#crs-formEdit li {
-  list-style: none;
+#crs-formEdit {
+  li {
+    list-style: none;
+  }
 }
 
 .crs-required {
@@ -428,3 +438,22 @@ input[type="radio"] + label span {
 input[type="radio"]:checked + label span {
   background: $check-radio-sheet -57px top no-repeat;
 }
+
+// Media Queries - This will override the default queries so tread very lightly. //
+
+@media (min-width: 1200px) {
+
+}    // END - (min-width: 1200px)
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+}    // END - (min-width: 768px) and (max-width: 979px)
+
+@media (max-width: 767px) {
+    .crs-logo+span {
+      display: none;
+    }
+}    // END - (max-width: 767px)
+
+
+
