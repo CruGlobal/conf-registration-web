@@ -21,6 +21,17 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    $scope.getSelectedCheckboxes = function(choices){
+      var selectedKeys = [];
+      for (var key in choices) {
+        if(choices[key]){
+          selectedKeys.push(key);
+        }
+      }
+
+      return selectedKeys;
+    };
+
     $scope.answerSort = function (registration) {
       if (angular.isDefined($scope.order)) {
         if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
