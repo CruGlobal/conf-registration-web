@@ -15,6 +15,7 @@ angular.module('confRegistrationWebApp')
         });
         element.bind('dragend', function () {
           $('#crsDropZone').css('height', '0px');
+          $('#crsDropZone').delay(480).hide(0);
         });
 
       }
