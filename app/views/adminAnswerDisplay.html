@@ -1,0 +1,8 @@
+<ng-switch on="block.type">
+  <span ng-switch-when="nameQuestion"> {{findAnswer(registration, block.id).value.firstName}} {{findAnswer(registration, block.id).value.lastName}}</span>
+  <span ng-switch-when="emailQuestion">{{findAnswer(registration, block.id).value}}</span>
+  <span ng-switch-when="textQuestion">{{findAnswer(registration, block.id).value.text}}</span>
+  <span ng-switch-when="checkboxQuestion">{{getSelectedCheckboxes(findAnswer(registration, block.id).value).toString()}}</span>
+  <span ng-switch-when="phoneQuestion">{{findAnswer(registration, block.id).value}}</span>
+  <span ng-switch-when="radioQuestion">{{findAnswer(registration, block.id).value}}</span>
+</ng-switch>
