@@ -5,7 +5,10 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $routeProvider
       .when('/', {
         templateUrl: 'views/admin-dashboard.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth'
+        }
       })
       .when('/wizard/:conferenceId', {
         templateUrl: 'views/admin-wizard.html',
