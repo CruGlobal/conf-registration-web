@@ -22,14 +22,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.getSelectedCheckboxes = function (choices) {
-      var selectedKeys = [];
-      for (var key in choices) {
-        if (choices[key]) {
-          selectedKeys.push(key);
-        }
-      }
-
-      return selectedKeys;
+      return _.keys(_.pick(choices, function (val) {
+        return val === true;
+      }));
     };
 
     $scope.answerSort = function (registration) {
