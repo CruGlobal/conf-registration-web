@@ -21,10 +21,10 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.getSelectedCheckboxes = function(choices){
+    $scope.getSelectedCheckboxes = function (choices) {
       var selectedKeys = [];
       for (var key in choices) {
-        if(choices[key]){
+        if (choices[key]) {
           selectedKeys.push(key);
         }
       }
