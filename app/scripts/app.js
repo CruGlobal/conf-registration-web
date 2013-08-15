@@ -73,7 +73,6 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
             $cookies.crsToken = $route.current.params.token;
             $location.replace().path($cookies.intendedRoute);
-            $cookies.intendedRoute = null;
           }]
         }
       })
