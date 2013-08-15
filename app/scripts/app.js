@@ -80,6 +80,11 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         redirectTo: '/'
       });
   })
+  .run(function($rootScope, $cookies, $location) {
+    $rootScope.$on('$locationChangeStart', function() {
+      $cookies.intendedRoute = $location.url();
+    })
+  })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
