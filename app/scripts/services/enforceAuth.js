@@ -8,6 +8,11 @@ angular.module('confRegistrationWebApp')
       defer.resolve('Authorization present.');
     } else {
       console.log('show login dialog');
+      var loginDialogOptions = {
+        templateUrl: 'views/loginDialog.html',
+        controller: 'LoginDialogCtrl'
+      };
+      $dialog.dialog(loginDialogOptions).open();
     }
 
     return defer.promise;
