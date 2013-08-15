@@ -8,8 +8,7 @@
   <div class="span12">
 <form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
   <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
-
-    <div class="span3 pull-right">
+    <div class="span3 pull-right" ng-hide="wizard">
       <button class="btn btn-block btn-success btn-large"
               type="submit"
               data-ng-disabled="!pageForm.$valid"
