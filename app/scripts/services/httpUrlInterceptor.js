@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       request: function (config) {
 
-        if (!/views\/.*/.test(config.url) && !/http:\/\/.*/.test(config.url)) {
+        if (!/views\/.*/.test(config.url) && !/https?:\/\/.*/.test(config.url)) {
           config.url = 'http://localhost:8080/crs-http-json-api/rest/' + config.url;
         }
 
