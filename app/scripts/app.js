@@ -60,4 +60,13 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
+  })
+  .run(function ($rootScope, $location) {
+    $rootScope.location = $location;
+    $rootScope.$watch('location.url()', function (newVal, oldVal) {
+      $rootScope.adminDashboard = angular.equals(newVal, '/');
+      $rootScope.subHeadStyle = {
+        height: $rootScope.adminDashboard ? '100px' : '5px'
+      }
+    });
   });

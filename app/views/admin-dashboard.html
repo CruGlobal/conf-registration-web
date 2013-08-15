@@ -1,14 +1,12 @@
-<div class="container">
-
-    <ul class="crs-card-stack">
-      <li class="crs-event-card span3" ng-repeat="conference in conferences">
-        <a class="crs-card-body" href="#/register/{{conference.id}}">{{conference.name}}</a>
-        <a class="crs-card-count" href="#"><span>22</span></a>
-        <a class="crs-card-sprocket" href="#/adminData/{{conference.id}}"></a>
-      </li>
-      <li class="crs-new-event-card span3">
-        <div data-ng-click="createConference()"><img class="crs-plus-icon" src="images/icon-add.png"><span>Make a new one!</span></div>
-      </li>
-    </ul>
-
-</div>
+ <div class="row-fluid" style="margin-top: -50px;">
+      <ul class="crs-card-stack">
+        <li class="crs-event-card span3" ng-repeat="conference in conferences">
+          <a class="crs-card-body" href="#/register/{{conference.id}}">{{conference.name}}</a>
+          <a class="crs-card-count" href="#"><span>22</span></a>
+          <a class="crs-card-sprocket" href="#/adminData/{{conference.id}}"></a>
+        </li>
+        <li class="crs-new-event-card span3">
+          <div data-ng-click="createConference()"><img class="crs-plus-icon" src="images/icon-add.png"><span>Make a new one!</span></div>
+        </li>
+      </ul>
+    </div>
