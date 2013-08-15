@@ -6,6 +6,7 @@ angular.module('confRegistrationWebApp')
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
       $scope.validPages[event.targetScope.page.id] = validity;
+      $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
     $scope.conference = conference;
@@ -38,5 +39,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.validateAndGoToNext = function () {
       $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
+    };
+
+    $scope.goToReview = function () {
+      $location.path('/reviewRegistration/' + conference.id);
     };
   });

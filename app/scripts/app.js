@@ -53,6 +53,21 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
           }]
         }
       })
+      .when('/reviewRegistration/:conferenceId', {
+        templateUrl: 'views/reviewRegistration.html',
+        controller: 'ReviewRegistrationCtrl',
+        resolve: {
+          answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function (currentRegistration) {
+                return currentRegistration.answers;
+              });
+          }],
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });

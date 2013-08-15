@@ -11,6 +11,10 @@
               type="submit"
               data-ng-disabled="!pageForm.$valid"
               ng-show="nextPage">Next Page</button>
+      <button class="btn btn-block btn-success btn-large"
+              data-ng-click="goToReview()"
+              data-ng-disabled="!registrationComplete"
+              ng-hide="nextPage">Continue</button>
     </div>
 
 </form>

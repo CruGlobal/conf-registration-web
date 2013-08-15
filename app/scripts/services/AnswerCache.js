@@ -50,8 +50,7 @@ angular.module('confRegistrationWebApp')
       update(path(answer.id), answer);
     };
 
-    this.syncByBlockId = function (scope, name, blockId) {
-      scope[name] = blockIndex.get(blockId);
+    this.syncBlock = function (scope, name) {
       scope.$watch(name, function (answer) {
         if (angular.isDefined(answer)) {
           update(path(answer.id), answer);
