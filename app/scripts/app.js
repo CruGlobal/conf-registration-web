@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -71,6 +71,11 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function($rootScope, $cookies, $location) {
+    $rootScope.$on('$locationChangeStart', function() {
+      $cookies.intendedRoute = $location.url();
+    })
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
