@@ -1,9 +1,12 @@
 
-  <div class="span10 offset1">
+  <div class="row">
+    <div class="span12">
     <h3 class="crs-page-title">{{page.title}}</h3>
+    </div>
   </div>
-
-<form class="crs-form span10" data-ng-submit="validateAndGoToNext()" name="pageForm">
+<div class="row">
+  <div class="span12">
+<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
   <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
 
     <div class="span3 pull-right">
@@ -14,3 +17,5 @@
     </div>
 
 </form>
+  </div>
+  </div>
