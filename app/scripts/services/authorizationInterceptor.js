@@ -8,5 +8,5 @@ angular.module('confRegistrationWebApp')
         config.withCredentials = true;
         return config;
       }
-    }
+    };
   });

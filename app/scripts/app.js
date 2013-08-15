@@ -70,7 +70,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
       })
       .when('/auth/:token', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$route', function($location, $cookies, $route) {
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
             $cookies.crsToken = $route.current.params.token;
             $location.replace().path($cookies.intendedRoute);
             $cookies.intendedRoute = null;
