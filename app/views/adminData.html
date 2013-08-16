@@ -9,7 +9,9 @@ Filter: <input type="text" ng-model="searchFilter">
   </thead>
   <tbody>
   <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
-    <td data-ng-repeat="block in blocks">{{findAnswer(registration, block.id).value}}</td>
+    <td data-ng-repeat="block in blocks">
+      <ng-include src="'views/adminAnswerDisplay.html'"></ng-include>
+    </td>
   </tr>
   </tbody>
 </table>
