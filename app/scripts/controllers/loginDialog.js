@@ -5,4 +5,7 @@ angular.module('confRegistrationWebApp')
     $scope.submit = function () {
         dialog.close();
     };
+    $scope.closeDialog = function () {
+      dialog.close();
+    };
   });
