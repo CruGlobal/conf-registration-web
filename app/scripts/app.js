@@ -84,4 +84,13 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
     $httpProvider.interceptors.push('authorizationInterceptor');
+  })
+  .run(function ($rootScope, $location) {
+    $rootScope.location = $location;
+    $rootScope.$watch('location.url()', function (newVal) {
+      $rootScope.adminDashboard = angular.equals(newVal, '/');
+      $rootScope.subHeadStyle = {
+        height: $rootScope.adminDashboard ? '100px' : '5px'
+      };
+    });
   });

@@ -1,12 +1,14 @@
+
+  <div class="row">
+    <div class="span12">
+    <h3 class="crs-page-title">{{page.title}}</h3>
+    </div>
+  </div>
 <div class="row">
   <div class="span12">
-    <h2>{{page.title}}</h2>
-  </div>
-</div>
-<form data-ng-submit="validateAndGoToNext()" name="pageForm">
+<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
   <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
-  <div class="row">
-    <div class="span3 pull-right">
+    <div class="span3 pull-right" ng-hide="wizard">
       <button class="btn btn-block btn-success btn-large"
               type="submit"
               data-ng-disabled="!pageForm.$valid"
@@ -16,5 +18,7 @@
               data-ng-disabled="!registrationComplete"
               ng-hide="nextPage">Continue</button>
     </div>
-  </div>
+
 </form>
+  </div>
+  </div>
