@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -68,6 +68,14 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
           }]
         }
       })
+      .when('/auth/:token', {
+        resolve: {
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
+            $cookies.crsToken = $route.current.params.token;
+            $location.replace().path($cookies.intendedRoute);
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -75,4 +83,5 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
+    $httpProvider.interceptors.push('authorizationInterceptor');
   });
