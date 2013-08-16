@@ -28,6 +28,27 @@ angular.module('confRegistrationWebApp')
           }
         });
 
+        scope.moveBlock = function(blockId, newPage, newPosition) {
+          var tempPositionArray=new Array();
+          scope.conference.registrationPages.forEach(function(page, pageIndex){
+            if(newPage==page.id){
+              newPage=pageIndex;
+            }
+            page.blocks.forEach(function(block, blockIndex){
+              tempPositionArray[block.id]=new Object({page:pageIndex,block:blockIndex});
+            });
+          });
+
+          var origBlock=scope.conference.registrationPages[tempPositionArray[blockId].page].blocks[tempPositionArray[blockId].block];
+          //scope.conference.registrationPages[tempPositionArray[blockId].page].blocks[tempPositionArray[blockId].block]=scope.conference.registrationPages[newPage].blocks[newPosition];
+          scope.conference.registrationPages[newPage].blocks[newPosition]=origBlock;
+
+
+          ///////use .sort
+
+          console.log(scope.conference.registrationPages);
+        };
+
         element.bind('dragover', function (ev) {
           ev.preventDefault();
           function isNear(element) {
