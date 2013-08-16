@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstrap'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -83,6 +83,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ui.bootstrap'])
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
+    $httpProvider.interceptors.push('authorizationInterceptor');
   })
   .run(function ($rootScope, $location) {
     $rootScope.location = $location;
