@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
             url.pop();
           }
           url.pop();
-          return $injector.get('$http').post(url.join('/'));
+          return $injector.get('$http').post(url.join('/'), {});
         }
         return $q.reject(rejection);
       }

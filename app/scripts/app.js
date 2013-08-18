@@ -5,7 +5,10 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $routeProvider
       .when('/', {
         templateUrl: 'views/admin-dashboard.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth'
+        }
       })
       .when('/wizard/:conferenceId', {
         templateUrl: 'views/admin-wizard.html',
@@ -68,6 +71,14 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/auth/:token', {
+        resolve: {
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
+            $cookies.crsToken = $route.current.params.token;
+            $location.replace().path($cookies.intendedRoute);
+          }]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -81,4 +92,5 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
+    $httpProvider.interceptors.push('authorizationInterceptor');
   });
