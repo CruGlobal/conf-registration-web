@@ -7,7 +7,6 @@ angular.module('confRegistrationWebApp')
     if (angular.isDefined($cookies.crsToken)) {
       defer.resolve('Authorization present.');
     } else {
-      console.log('show login dialog');
       var loginDialogOptions = {
         templateUrl: 'views/loginDialog.html',
         controller: 'LoginDialogCtrl'
