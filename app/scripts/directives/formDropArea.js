@@ -21,15 +21,12 @@ angular.module('confRegistrationWebApp')
               tempPositionArray[block.id]=new Object({page:pageIndex,block:blockIndex});
             });
           });
-          console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
+          //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
 
           var origBlock=$scope.conference.registrationPages[tempPositionArray[blockId].page].blocks[tempPositionArray[blockId].block];
-
           $scope.deleteBlock(blockId);
           origBlock.pageId=newPage;  //Update page id
           $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition,0,origBlock);
-
-          console.log($scope.conference.registrationPages);
         };
 
         $scope.insertBlock = function(blockType, newPage, newPosition) {
@@ -43,7 +40,7 @@ angular.module('confRegistrationWebApp')
               tempPositionArray[block.id]=new Object({page:pageIndex,block:blockIndex});
             });
           });
-          console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
+          //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
 
           var newBlock=new Object({
             id: uuid(),
