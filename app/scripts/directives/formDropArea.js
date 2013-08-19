@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
             content: "",
             pageId: newPage,
             required: false,
-            title: "",
+            title: "New Question",
             type: blockType
           });
           $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition,0,newBlock);
