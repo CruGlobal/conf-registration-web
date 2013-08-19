@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
               tempPositionArray[block.id]=new Object({page:pageIndex,block:blockIndex});
             });
           });
-          //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
+          console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
 
           var newBlock=new Object({
             id: uuid(),
@@ -50,7 +50,11 @@ angular.module('confRegistrationWebApp')
             title: "New Question",
             type: blockType
           });
-          $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition,0,newBlock);
+
+          $scope.$apply(function (scope) {
+            scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition,0,newBlock);
+          });
+
         };
 
         $scope.deleteBlock = function(blockId) {
@@ -70,9 +74,9 @@ angular.module('confRegistrationWebApp')
           var position = $(ev.target).closest('block').prevAll().length + scope.crsPositionAdd;
           if (scope.moveType === 'new') {
             var blockType = scope.blockId;
-            var li = document.createElement('div');
-            li.innerHTML = '<label>' + blockType + '</label>';
-            $('#crsDropZone').before(li);
+           // var li = document.createElement('div');
+            //li.innerHTML = '<label>' + blockType + '</label>';
+//            $('#crsDropZone').before(li);
             scope.insertBlock(blockType, pageId, position);
           } else if (scope.moveType === 'move') {
             $('#' + scope.blockId).insertBefore($('#crsDropZone'));
