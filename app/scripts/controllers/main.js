@@ -7,6 +7,7 @@ angular.module('confRegistrationWebApp')
     });
     ConfCache.query();
 
+
     var createConferenceDialogOptions = {
       templateUrl: 'views/createConference.html',
       controller: 'CreateConferenceDialogCtrl'

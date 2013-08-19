@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('httpUrlInterceptor', function () {
+  .factory('httpUrlInterceptor', function (apiUrl) {
     return {
       request: function (config) {
 
         if (!/views\/.*/.test(config.url) && !/https?:\/\/.*/.test(config.url)) {
-          config.url = 'http://54.235.46.34:8080/crs-http-json-api/rest/' + config.url;
+          config.url = apiUrl + config.url;
         }
 
         return config;
