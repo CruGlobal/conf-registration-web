@@ -78,10 +78,9 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
       })
       .when('/auth/:token', {
         resolve: {
-          enforceAuth: 'enforceAuth',
           redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
             $cookies.crsToken = $route.current.params.token;
-            $location.replace().path($cookies.intendedRoute);
+            $location.replace().path($cookies.intendedRoute || '/');
           }]
         }
       })
@@ -91,7 +90,9 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
   })
   .run(function ($rootScope, $cookies, $location) {
     $rootScope.$on('$locationChangeStart', function () {
-      $cookies.intendedRoute = $location.url();
+      if(!/^\/auth\/.*/.test($location.url())) {
+        $cookies.intendedRoute = $location.url();
+      }
     });
 
   })
