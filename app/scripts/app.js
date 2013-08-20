@@ -90,7 +90,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
   })
   .run(function ($rootScope, $cookies, $location) {
     $rootScope.$on('$locationChangeStart', function () {
-      if(!/^\/auth\/.*/.test($location.url())) {
+      if (!/^\/auth\/.*/.test($location.url())) {
         $cookies.intendedRoute = $location.url();
       }
     });
