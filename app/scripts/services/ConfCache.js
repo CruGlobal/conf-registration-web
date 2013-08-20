@@ -35,14 +35,12 @@ angular.module('confRegistrationWebApp')
     };
 
     this.create = function (name) {
-      var defer = $q.defer();
       var data = {
         name: name
       };
-      $http.post(path(), data).success(function (conference) {
+      return $http.post(path(), data).success(function (conference) {
         cache.put(path(conference.id), conference);
-        defer.resolve(conference);
+        return conference;
       });
-      return defer.promise;
     };
   });
