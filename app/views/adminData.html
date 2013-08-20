@@ -10,7 +10,7 @@ Filter: <input type="text" ng-model="searchFilter">
   <tbody>
   <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
     <td data-ng-repeat="block in blocks">
-      <ng-include src="'views/adminAnswerDisplay.html'"></ng-include>
+      <show-answer answers="registration.answers" block="block"></show-answer>
     </td>
   </tr>
   </tbody>
