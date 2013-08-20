@@ -38,7 +38,8 @@ angular.module('confRegistrationWebApp')
       var data = {
         name: name
       };
-      return $http.post(path(), data).success(function (conference) {
+      return $http.post(path(), data).then(function (response) {
+        var conference = response.data;
         cache.put(path(conference.id), conference);
         return conference;
       });
