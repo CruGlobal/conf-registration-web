@@ -4,24 +4,81 @@ angular.module('confRegistrationWebApp')
   .directive('formDropArea', function () {
     return {
       restrict: 'A',
-      controller: function ($rootScope, $scope) {
+      controller: function ($rootScope, $scope, uuid) {
         $scope.$on('dragVars', function (event, x) {
           $scope.blockId = x.blockId;
           $scope.moveType = x.moveType;
-          //console.log('Receive broadcast dragStart',{blockId: $scope.blockId, moveType: $scope.moveType});
         });
+
+        $scope.moveBlock = function (blockId, newPage, newPosition) {
+          var tempPositionArray = [];
+          var newPageIndex;
+          $scope.conference.registrationPages.forEach(function (page, pageIndex) {
+            if (newPage === page.id) {
+              newPageIndex = pageIndex;
+            }
+            page.blocks.forEach(function (block, blockIndex) {
+              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+            });
+          });
+          //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
+          var origPage = tempPositionArray[blockId].page;
+          var origBlock = $scope.conference.registrationPages[origPage].blocks[tempPositionArray[blockId].block];
+          $scope.deleteBlock(blockId);
+          origBlock.pageId = newPage;  //Update page id
+          $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
+        };
+
+        $scope.insertBlock = function (blockType, newPage, newPosition) {
+          var tempPositionArray = [];
+          var newPageIndex;
+          $scope.conference.registrationPages.forEach(function (page, pageIndex) {
+            if (newPage === page.id) {
+              newPageIndex = pageIndex;
+            }
+            page.blocks.forEach(function (block, blockIndex) {
+              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+            });
+          });
+          //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
+
+          var newBlock = new Object({
+            id: uuid(),
+            content: '',
+            pageId: newPage,
+            required: false,
+            title: 'New Question',
+            type: blockType
+          });
+
+          $scope.$apply(function (scope) {
+            scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
+          });
+
+        };
+
+        $scope.deleteBlock = function (blockId) {
+          var tempPositionArray = [];
+          $scope.conference.registrationPages.forEach(function (page, pageIndex) {
+            page.blocks.forEach(function (block, blockIndex) {
+              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+            });
+          });
+          $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
+            tempPositionArray[blockId].block,
+            1
+          );
+        };
       },
+
       link: function postLink(scope, element) {
         element.bind('drop', function (ev) {
           ev.preventDefault();
           var pageId = $(ev.target).closest('.crs-formElements').attr('data-page-id');
           var position = $(ev.target).closest('block').prevAll().length + scope.crsPositionAdd;
           if (scope.moveType === 'new') {
-            var data = scope.blockId;
-            var li = document.createElement('div');
-            li.innerHTML = '<label>' + data + '</label>';
-            $('#crsDropZone').before(li);
-            scope.insertBlock(scope.blockId, pageId, position);
+            var blockType = scope.blockId;
+            scope.insertBlock(blockType, pageId, position);
           } else if (scope.moveType === 'move') {
             $('#' + scope.blockId).insertBefore($('#crsDropZone'));
             scope.moveBlock(scope.blockId, pageId, position);
