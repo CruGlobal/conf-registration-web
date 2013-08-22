@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .directive('formDropArea', function () {
     return {
       restrict: 'A',
-      controller: 'formDropAreaCtrl',
+      controller: 'FormDropAreaCtrl',
       link: function postLink(scope, element) {
         element.bind('drop', function (ev) {
           ev.preventDefault();
