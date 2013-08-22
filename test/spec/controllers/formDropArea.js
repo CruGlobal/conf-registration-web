@@ -44,4 +44,10 @@ describe('Controller: FormDropAreaCtrl', function () {
     expect(scope.conference.registrationPages[1].blocks.length).toBe(2);
     expect(scope.conference.registrationPages[1].blocks[1].type).toBe('textQuestion');
   });
+
+  it('should have a function to delete a block', function () {
+    scope.deleteBlock('block2');
+
+    expect(scope.conference.registrationPages[1].blocks.length).toBe(0);
+  });
 });
