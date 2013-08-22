@@ -11,12 +11,29 @@ describe('Controller: FormDropAreaCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
+
+    scope.conference = {
+      registrationPages: [
+        {
+          id: 'page1',
+          blocks: [ { id: 'block1' } ]
+        },
+        {
+          id: 'page2',
+          blocks: [ { id: 'block2' } ]
+        }
+      ]
+    };
+
     FormDropAreaCtrl = $controller('FormDropAreaCtrl', {
       $scope: scope
     });
   }));
 
-//  it('should attach a list of awesomeThings to the scope', function () {
-//    expect(scope.awesomeThings.length).toBe(3);
-//  });
+  it('should have a function to move a block', function () {
+    scope.moveBlock('block2', 'page1', 0);
+
+    expect(scope.conference.registrationPages[0].blocks.length).toBe(2);
+    expect(scope.conference.registrationPages[0].blocks[0].id).toBe('block2');
+  });
 });
