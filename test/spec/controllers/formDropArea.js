@@ -1,3 +1,4 @@
+/* global describe: false, expect: false, it: false, inject: false, beforeEach: false */
 'use strict';
 
 describe('Controller: FormDropAreaCtrl', function () {
