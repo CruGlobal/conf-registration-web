@@ -5,12 +5,16 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $routeProvider
       .when('/', {
         templateUrl: 'views/admin-dashboard.html',
-        controller: 'MainCtrl'
+        controller: 'MainCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth'
+        }
       })
       .when('/wizard/:conferenceId', {
         templateUrl: 'views/admin-wizard.html',
         controller: 'AdminWizardCtrl',
         resolve: {
+          enforceAuth: 'enforceAuth',
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }]
@@ -20,6 +24,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
         resolve: {
+          enforceAuth: 'enforceAuth',
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -32,6 +37,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
         resolve: {
+          enforceAuth: 'enforceAuth',
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
@@ -42,6 +48,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
       })
       .when('/register/:conferenceId', {
         resolve: {
+          enforceAuth: 'enforceAuth',
           redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
             var conferenceId = $route.current.params.conferenceId;
             ConfCache.get(conferenceId).then(function (conference) {
@@ -57,6 +64,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         templateUrl: 'views/reviewRegistration.html',
         controller: 'ReviewRegistrationCtrl',
         resolve: {
+          enforceAuth: 'enforceAuth',
           answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
@@ -72,13 +80,21 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
             $cookies.crsToken = $route.current.params.token;
-            $location.replace().path($cookies.intendedRoute);
+            $location.replace().path($cookies.intendedRoute || '/');
           }]
         }
       })
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function ($rootScope, $cookies, $location) {
+    $rootScope.$on('$locationChangeStart', function () {
+      if (!/^\/auth\/.*/.test($location.url())) {
+        $cookies.intendedRoute = $location.url();
+      }
+    });
+
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
