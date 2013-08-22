@@ -36,4 +36,11 @@ describe('Controller: FormDropAreaCtrl', function () {
     expect(scope.conference.registrationPages[0].blocks.length).toBe(2);
     expect(scope.conference.registrationPages[0].blocks[0].id).toBe('block2');
   });
+
+  it('should have a function to insert a block', function () {
+    scope.insertBlock('textQuestion', 'page2', 1);
+
+    expect(scope.conference.registrationPages[1].blocks.length).toBe(2);
+    expect(scope.conference.registrationPages[1].blocks[1].type).toBe('textQuestion');
+  });
 });
