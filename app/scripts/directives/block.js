@@ -22,6 +22,17 @@ angular.module('confRegistrationWebApp')
           }
         });
         AnswerCache.syncBlock($scope, 'answer');
+
+        $scope.editBlockAddOption = function(){
+          $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
+          $scope.$$childTail.editBlockAddOptionValue='';
+          console.log($scope.this.block.content.choices);
+        }
+
+        $scope.editBlockDeleteOption = function(index){
+          $scope.this.block.content.choices.splice(index,1);
+          console.log($scope.this.block.content.choices);
+        }
       }
     };
   });
