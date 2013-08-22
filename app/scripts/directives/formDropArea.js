@@ -18,7 +18,7 @@ angular.module('confRegistrationWebApp')
               newPageIndex = pageIndex;
             }
             page.blocks.forEach(function (block, blockIndex) {
-              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+              tempPositionArray[block.id] = {page: pageIndex, block: blockIndex};
             });
           });
           //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
@@ -37,19 +37,19 @@ angular.module('confRegistrationWebApp')
               newPageIndex = pageIndex;
             }
             page.blocks.forEach(function (block, blockIndex) {
-              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+              tempPositionArray[block.id] = {page: pageIndex, block: blockIndex};
             });
           });
           //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
 
-          var newBlock = new Object({
+          var newBlock = {
             id: uuid(),
             content: '',
             pageId: newPage,
             required: false,
             title: 'New Question',
             type: blockType
-          });
+          };
 
           $scope.$apply(function (scope) {
             scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
@@ -61,7 +61,7 @@ angular.module('confRegistrationWebApp')
           var tempPositionArray = [];
           $scope.conference.registrationPages.forEach(function (page, pageIndex) {
             page.blocks.forEach(function (block, blockIndex) {
-              tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+              tempPositionArray[block.id] = {page: pageIndex, block: blockIndex};
             });
           });
           $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
