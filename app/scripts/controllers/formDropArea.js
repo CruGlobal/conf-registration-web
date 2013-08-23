@@ -7,18 +7,31 @@ angular.module('confRegistrationWebApp')
       $scope.moveType = x.moveType;
     });
 
-    $scope.moveBlock = function (blockId, newPage, newPosition) {
+    function makePositionArray(){
       var tempPositionArray = [];
-      var newPageIndex;
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
-        if (newPage === page.id) {
-          newPageIndex = pageIndex;
-        }
         page.blocks.forEach(function (block, blockIndex) {
           tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
         });
       });
-      //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
+      return tempPositionArray;
+    }
+
+    function getPageIndex(pageId){
+      var tempPageIndex;
+      $scope.conference.registrationPages.forEach(function (page, pageIndex) {
+        if (pageId === page.id) {
+          tempPageIndex = pageIndex;
+        }
+      });
+      return tempPageIndex;
+    }
+
+    $scope.moveBlock = function (blockId, newPage, newPosition) {
+      var tempPositionArray = makePositionArray();
+      var newPageIndex = getPageIndex(newPage);
+
+      console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
       var origPage = tempPositionArray[blockId].page;
       var origBlock = $scope.conference.registrationPages[origPage].blocks[tempPositionArray[blockId].block];
       $scope.deleteBlock(blockId);
@@ -27,17 +40,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
-      var tempPositionArray = [];
-      var newPageIndex;
-      $scope.conference.registrationPages.forEach(function (page, pageIndex) {
-        if (newPage === page.id) {
-          newPageIndex = pageIndex;
-        }
-        page.blocks.forEach(function (block, blockIndex) {
-          tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
-        });
-      });
-      //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
+      var tempPositionArray = makePositionArray();
+      var newPageIndex = getPageIndex(newPage);
+
+      console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
 
       var newBlock = new Object({
         id: uuid(),
@@ -47,20 +53,15 @@ angular.module('confRegistrationWebApp')
         title: 'New Question',
         type: blockType
       });
+      console.log($scope.conference);
 
       $scope.$apply(function (scope) {
         scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
       });
-
     };
 
     $scope.deleteBlock = function (blockId) {
-      var tempPositionArray = [];
-      $scope.conference.registrationPages.forEach(function (page, pageIndex) {
-        page.blocks.forEach(function (block, blockIndex) {
-          tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
-        });
-      });
+      var tempPositionArray = makePositionArray();
       $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
         tempPositionArray[blockId].block,
         1
