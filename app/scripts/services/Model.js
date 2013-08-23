@@ -24,10 +24,8 @@ angular.module('confRegistrationWebApp')
     };
 
     this.get = function (path) {
-      var cachedObject = angular.copy(cache.get(path));
-
-      if (cachedObject) {
-        return $q.when(cachedObject);
+      if (cache.get(path)) {
+        return $q.when(angular.copy(cache.get(path)));
       } else {
         return $http.get(path).then(function (response) {
           cache.put(path, response.data);
