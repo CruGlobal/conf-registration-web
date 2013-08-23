@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.get = function (path) {
-      var cachedObject = cache.get(path);
+      var cachedObject = angular.copy(cache.get(path));
 
       if (cachedObject) {
         return $q.when(cachedObject);
@@ -54,17 +54,19 @@ angular.module('confRegistrationWebApp')
     };
 
     this.subscribe = function (scope, name, path) {
-      scope.$watch(name, function (newObject) {
-        if(angular.isDefined(newObject)) {
-          Model.update(path, newObject);
+      scope.$watch(name, function (object) {
+        if(angular.isDefined(object)) {
+          Model.update(path, object);
         }
-      });
+      }, true);
 
       scope.$on(path, function (event, object) {
         scope[name] = object;
       });
 
-      return Model.get(path);
+      Model.get(path).then(function (object) {
+        scope[name] = object;
+      });
     };
 
     this.update = function (path, object) {
