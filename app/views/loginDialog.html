@@ -9,8 +9,14 @@
     <p><a href="{{apiUrl}}auth/relay/login"><img src="images/signin-relay.png"></a></p>
     <p>or<br><br>Sign up<br>
     <form name="emailForm" ng-submit="submit()">
-      <input class="span2" data-ng-model="email" placeholder="Enter your email" type="email" required>
-      <button class="btn" type="button" ng-disabled="!emailForm.$valid">Submit</button>
+      <input class="span2"
+             name="email"
+             data-ng-model="email"
+             placeholder="Enter your email"
+             type="email"
+             pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}"
+             required>
+      <button class="btn" type="submit" ng-disabled="!emailForm.email.$valid">Submit</button>
      </form>
   </div>
 </div>
