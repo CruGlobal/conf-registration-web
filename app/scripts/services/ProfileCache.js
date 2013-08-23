@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('ProfileCache', function ProfileCache ($cacheFactory, $rootScope, $http, $q) {
+  .service('ProfileCache', function ProfileCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('profile');
     var path = '/profile';
 
