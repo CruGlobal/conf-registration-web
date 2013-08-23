@@ -5,8 +5,12 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/crsSigninBox.html',
       restrict: 'E',
-      controller: function ($scope, $document) {
+      controller: function ($scope, $document, ProfileCache) {
         $scope.document = $document;
+        ProfileCache.get().then(function (profileData) {
+          $scope.profileData = profileData;
+          $scope.loggedIn = angular.isDefined(profileData);
+        });
       },
       link: function postLink(scope, element) {
         scope.openBox = function () {
