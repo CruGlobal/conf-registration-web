@@ -39,14 +39,14 @@ angular.module('confRegistrationWebApp')
         cache.remove(path);
         $rootScope.$broadcast(path);
 
-        var match = /\/?(.*)\/(.+)$/.exec(path);
-        var parentPath = match[0];
-        var removedObjectId = match[1];
+        var match = /\/?(.*\/)(.+)$/.exec(path);
+        var parentPath = match[1];
+        var removedObjectId = match[2];
 
         thisModel.get(parentPath).then(function (oldParentCollection) {
           var parentCollection = _.reject(oldParentCollection, { id: removedObjectId });
-          cache.put(path, parentCollection);
-          $rootScope.$broadcast(path, parentCollection);
+          cache.put(parentPath, parentCollection);
+          $rootScope.$broadcast(parentPath, parentCollection);
         });
       });
     };

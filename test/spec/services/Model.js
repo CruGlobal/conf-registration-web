@@ -48,4 +48,26 @@ describe('Service: Model', function () {
     expect(conferences.length).toBe(2);
   });
 
+  it('`delete` should update parent collection', function () {
+    $httpBackend.expectGET(/conferences\/$/).respond(201, [ { name: 'Tester', id: '456' } ]);
+    Model.get('conferences/');
+    $httpBackend.flush();
+
+    $httpBackend.expectDELETE(/conferences\/456$/).respond(204);
+    Model.delete('conferences/456');
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+
+    var conferences;
+    Model.get('conferences/').then(function (a) {
+      conferences = a;
+    });
+
+    $rootScope.$digest();
+
+    expect(conferences.length).toBe(0);
+  });
+
+
 });
