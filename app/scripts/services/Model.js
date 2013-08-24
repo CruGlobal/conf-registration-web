@@ -13,12 +13,13 @@ angular.module('confRegistrationWebApp')
 
         cache.put(createdObjectPath, createdObject);
 
-        //todo dont bother populating the cache if the collection isn't cached
-        thisModel.get(path).then(function (parentCollection) { 
-          parentCollection.push(createdObject);
-          cache.put(path, parentCollection);
-          $rootScope.$broadcast(path, parentCollection);
-        });
+        if (cache.get(path)) {
+          thisModel.get(path).then(function (parentCollection) {
+            parentCollection.push(createdObject);
+            cache.put(path, parentCollection);
+            $rootScope.$broadcast(path, parentCollection);
+          });
+        }
 
         return createdObject;
       });
@@ -44,12 +45,13 @@ angular.module('confRegistrationWebApp')
         var parentPath = match[1];
         var removedObjectId = match[2];
 
-        //todo dont bother populating the cache if the collection isn't cached
-        thisModel.get(parentPath).then(function (oldParentCollection) {
-          var parentCollection = _.reject(oldParentCollection, { id: removedObjectId });
-          cache.put(parentPath, parentCollection);
-          $rootScope.$broadcast(parentPath, parentCollection);
-        });
+        if (cache.get(parentPath)) {
+          thisModel.get(parentPath).then(function (oldParentCollection) {
+            var parentCollection = _.reject(oldParentCollection, { id: removedObjectId });
+            cache.put(parentPath, parentCollection);
+            $rootScope.$broadcast(parentPath, parentCollection);
+          });
+        }
       });
     };
 
