@@ -37,7 +37,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.delete = function (path) {
-      return $http.delete(path).then(function () {
+      $http.delete(path).then(function () {
         cache.remove(path);
         $rootScope.$broadcast(path);
 
