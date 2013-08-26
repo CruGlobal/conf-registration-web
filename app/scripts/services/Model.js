@@ -44,6 +44,7 @@ angular.module('confRegistrationWebApp')
         var parentPath = match[1];
         var removedObjectId = match[2];
 
+        //todo dont bother populating the cache if the collection isn't cached
         thisModel.get(parentPath).then(function (oldParentCollection) {
           var parentCollection = _.reject(oldParentCollection, { id: removedObjectId });
           cache.put(parentPath, parentCollection);
