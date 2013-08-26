@@ -13,7 +13,8 @@ angular.module('confRegistrationWebApp')
 
         cache.put(createdObjectPath, createdObject);
 
-        thisModel.get(path).then(function (parentCollection) {
+        //todo dont bother populating the cache if the collection isn't cached
+        thisModel.get(path).then(function (parentCollection) { 
           parentCollection.push(createdObject);
           cache.put(path, parentCollection);
           $rootScope.$broadcast(path, parentCollection);
