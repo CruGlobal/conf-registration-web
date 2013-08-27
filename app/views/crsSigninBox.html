@@ -1,7 +1,9 @@
-<div id="crs-signin" ng-click="openBox()" data-ng-hide="true">
+<div id="crs-signin" ng-click="openBox()" ng-hide="profileData">
   <span>Signup or Log in</span><div class="crs-arrow-down"></div>
 </div>
-
+<div id="crs-signin" data-ng-show="profileData">
+    <span>Hello, <a href="#">{{profileData.authProviderUsername}}</a></span>
+</div>
 <div id="crs-signin-box" ng-show="crsSigninBoxStatus"><div class="crs-arrow-up"></div>
     <p>Pick how you want to do it.<br>Sign up or Log in via</p>
     <a href="#"><img src="images/signin-facebook.png"></a>
