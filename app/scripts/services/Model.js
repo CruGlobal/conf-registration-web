@@ -31,7 +31,7 @@ angular.module('confRegistrationWebApp')
       } else {
         return $http.get(path).then(function (response) {
           cache.put(path, response.data);
-          return response.data;
+          return angular.copy(response.data);
         });
       }
     };
