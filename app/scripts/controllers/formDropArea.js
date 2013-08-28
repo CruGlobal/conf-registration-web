@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
       return tempPositionArray;
     }
 
-    function getPageIndex(pageId){
+    $scope.getPageIndex = function (pageId){
       var tempPageIndex;
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
         if (pageId === page.id) {
@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.moveBlock = function (blockId, newPage, newPosition) {
       var tempPositionArray = makePositionArray();
-      var newPageIndex = getPageIndex(newPage);
+      var newPageIndex = $scope.getPageIndex(newPage);
 
       console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
       var origPage = tempPositionArray[blockId].page;
@@ -41,7 +41,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
       var tempPositionArray = makePositionArray();
-      var newPageIndex = getPageIndex(newPage);
+      var newPageIndex = $scope.getPageIndex(newPage);
 
       console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
 
@@ -60,11 +60,31 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.deleteBlock = function (blockId) {
+    $scope.deleteBlock = function (blockId, confirmation) {
+      if (confirmation==true) {
+        var r = confirm("Are you sure you want to delete this question?");
+        if (r === false) {
+          return;
+        }
+      }
+
       var tempPositionArray = makePositionArray();
       $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
         tempPositionArray[blockId].block,
         1
       );
+    };
+
+    $scope.addNewPage = function () {
+      var pageTitle=prompt("Please enter a page title:","");
+      if (pageTitle!=null && pageTitle!="")      {
+        $scope.conference.registrationPages.push({
+          id: uuid(),
+          conferenceId: $scope.conference.id,
+          position: 0,
+          title: pageTitle,
+          blocks: []
+        });
+      }
     };
   });
