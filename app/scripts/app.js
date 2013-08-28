@@ -100,6 +100,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
     $httpProvider.interceptors.push('httpUrlInterceptor');
     $httpProvider.interceptors.push('authorizationInterceptor');
+    $httpProvider.interceptors.push('unauthorizedInterceptor');
   })
   .run(function ($rootScope, $location) {
     $rootScope.location = $location;

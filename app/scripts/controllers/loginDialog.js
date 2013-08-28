@@ -1,11 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('LoginDialogCtrl', function ($scope, ConfCache, dialog, apiUrl) {
+  .controller('LoginDialogCtrl', function ($scope, $window, dialog, apiUrl) {
     $scope.apiUrl = apiUrl;
     $scope.submit = function () {
-      dialog.close();
-      // take the user somewhere, this will be for @hlbraddock
+      $window.location.href = apiUrl + 'auth/none/login?email=' + $scope.email;
     };
     $scope.closeDialog = function () {
       dialog.close();
