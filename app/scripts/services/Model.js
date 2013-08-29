@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
           });
         }
 
-        return createdObject;
+        return angular.copy(createdObject);
       });
     };
 
@@ -63,11 +63,11 @@ angular.module('confRegistrationWebApp')
       }, true);
 
       scope.$on(path, function (event, object) {
-        scope[name] = object;
+        scope[name] = angular.copy(object);
       });
 
       thisModel.get(path).then(function (object) {
-        scope[name] = object;
+        scope[name] = angular.copy(object);
       });
     };
 
