@@ -33,15 +33,15 @@ html {
 }
 
 body {
-  font-family: $sansFontFamily;
+  font-family: 'Open Sans', sans-serif;
   background-color:transparent;
   color: $crs-grayDark;
 }
 
 .container-fluid {
- // max-width: 1201px;
- // margin-left: auto;
- // margin-right: auto;
+  max-width: 1201px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .crs-head {
@@ -71,6 +71,12 @@ body {
 .crs-question-default {
   border-bottom: 1px dotted $crs-grayLighter;
   padding: 25px;
+  padding-left: 100px;
+}
+
+.row-fluid .crs-question-default {
+  padding-left: 10.638297872340425%;
+  *padding-left: 10.53191489361702%;
 }
 
 .crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete {
@@ -79,12 +85,12 @@ body {
 }
 .crs-icon-edit {
   position: absolute;
-  left: -70px;
+  left: -10.638297872340425%;
   top: 10px;
 }
 .crs-icon-delete {
   position: absolute;
-  left: -70px;
+  left: -10.638297872340425%;
   top: 50px;
 }
 
@@ -92,9 +98,17 @@ body {
   display: none;
 }
 .crs-question-default:hover .crs-btn-wiz-edit, .crs-question-default:hover .crs-btn-wiz-delete {
+  background: $crs-red !important;
   color: $crs-grayDark !important;
   display: block !important;
-  background: $crs-red !important;
+}
+
+.crs-edit-mode {
+ position: relative;
+}
+.crs-edit-btn-group {
+  position: absolute;
+  left: -10.638297872340425%;
 }
 
 #crs-signin{
@@ -129,6 +143,32 @@ body {
   }
 }
 
+#crs-signin-in{
+  background:$crs-green;
+  color:#fff;
+  cursor: pointer;
+  font-size:12px;
+  float: right;
+  height:20px;
+  position:relative;
+  margin-right: 30px;
+  padding-left:10px;
+  top:12px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  width:auto;
+  span {
+    position: relative;
+  }
+  a {
+    color: #ffffff;
+    padding-left: 5px;
+    padding-right: 10px;
+  }
+}
 #crs-signin-box{
   background:#fff;
   border-top:5px solid $crs-green;
@@ -324,12 +364,12 @@ body {
 }
 
 #crs-formEdit {
-  padding: 26px;
   background-color: white;
-  min-height: 500px;
-  font-size: 24px;
   color: $crs-green;
+  font-size: 24px;
+  padding: 26px;
   line-height: 28px;
+  min-height: 500px;
 }
 
 .crs-anchor{
@@ -380,14 +420,14 @@ body {
 .crs-accordion li,
 .crs-accordion a,
 .crs-accordion span {
-  margin: 0;
-  padding: 0;
   border: none;
+  margin: 0;
   outline: none;
+  padding: 0;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: moz-none;
-  -ms-user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: moz-none;
+        -ms-user-select: none;
   user-select: none;
 }
 
@@ -410,19 +450,19 @@ body {
 }
 
 .crs-accordion li > a {
-  display: block;
-  position: relative;
-  min-width: 110px;
-  padding: 4px 10px 4px 10px;
-  color: #fdfdfd;
-  font-size: 14px;
-  text-decoration: none;
   background: #2dc1a4;
+  color: #fdfdfd;
+  display: block;
+  font-size: 14px;
+  min-width: 110px;
+  position: relative;
+  padding: 4px 10px 4px 10px;
+  text-decoration: none;
 }
 
 .crs-accordionSub li a {
-  color: #797979;
   background: #ecf0f1;
+  color: #797979;
   -webkit-user-drag: element;
   -webkit-user-select: none;
 
@@ -435,17 +475,16 @@ body {
 
 
 #crsDropZone {
-  height: 0px;
   border: 1px dashed $crs-grayLighter;
-  transition: height .5s;
+  height: 0px;
   margin: 10px 0 10px 0;
   padding: 0;
-
+  transition: height .5s;
 }
 
 #DragIcon {
-  position: absolute;
   left: -9px;
+  position: absolute;
 }
 
 input[type="checkbox"] {
@@ -453,13 +492,13 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] + label span {
+  background: $check-radio-sheet left top no-repeat;
+  cursor: pointer;
   display: inline-block;
-  width: 19px;
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: $check-radio-sheet left top no-repeat;
-  cursor: pointer;
+  width: 19px;
 }
 
 input[type="checkbox"]:checked + label span {
@@ -471,13 +510,13 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label span {
+  background: $check-radio-sheet -38px top no-repeat;
+  cursor: pointer;
   display: inline-block;
-  width: 19px;
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: $check-radio-sheet -38px top no-repeat;
-  cursor: pointer;
+  width: 19px;
 }
 
 input[type="radio"]:checked + label span {
