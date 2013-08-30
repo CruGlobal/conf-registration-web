@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
         AnswerCache.syncBlock($scope, 'answer');
 
         $scope.editBlockAddOption = function () {
-          if (typeof $scope.this.block.content.choices === 'undefined') {
+          if (angular.isUndefined($scope.this.block.content.choices)) {
             $scope.this.block.content = {'choices': [] };
           }
           if ($.inArray($scope.$$childTail.editBlockAddOptionValue, $scope.this.block.content.choices) >= 0) {

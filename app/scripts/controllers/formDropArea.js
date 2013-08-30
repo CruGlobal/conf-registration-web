@@ -21,18 +21,16 @@ angular.module('confRegistrationWebApp')
       var tempPositionArray = makePositionArray();
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
 
-      //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
-      var origPage = tempPositionArray[blockId].page;
-      var origBlock = $scope.conference.registrationPages[origPage].blocks[tempPositionArray[blockId].block];
-      $scope.deleteBlock(blockId);
-      origBlock.pageId = newPage;  //Update page id
+      var origPageIndex = tempPositionArray[blockId].page;
+      var origBlock = $scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block];
+      $scope.deleteBlock(blockId, false);
+      origBlock.pageId = newPage;
       $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
     };
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
 
-      //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
       var newBlock = {
         id: uuid(),
         content: '',
@@ -41,17 +39,14 @@ angular.module('confRegistrationWebApp')
         title: 'New Question',
         type: blockType
       };
-      console.log($scope.conference);
 
-      $scope.$apply(function (scope) {
-        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
-      });
+      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
     };
 
     $scope.deleteBlock = function (blockId, confirmation) {
-      if (confirmation === true) {
+      if (confirmation) {
         var r = confirm('Are you sure you want to delete this question?');
-        if (r === false) {
+        if (!r) {
           return;
         }
       }
