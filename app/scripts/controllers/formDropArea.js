@@ -17,19 +17,9 @@ angular.module('confRegistrationWebApp')
       return tempPositionArray;
     }
 
-    $scope.getPageIndex = function (pageId) {
-      var tempPageIndex;
-      $scope.conference.registrationPages.forEach(function (page, pageIndex) {
-        if (pageId === page.id) {
-          tempPageIndex = pageIndex;
-        }
-      });
-      return tempPageIndex;
-    };
-
     $scope.moveBlock = function (blockId, newPage, newPosition) {
       var tempPositionArray = makePositionArray();
-      var newPageIndex = $scope.getPageIndex(newPage);
+      var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
 
       //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
       var origPage = tempPositionArray[blockId].page;
@@ -40,7 +30,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
-      var newPageIndex = $scope.getPageIndex(newPage);
+      var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
 
       //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
       var newBlock = {

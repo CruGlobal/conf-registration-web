@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     $scope.deletePage = function (pageId, confirmation) {
-      var delPageIndex = $scope.getPageIndex(pageId);
+      var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
       if (confirmation === true) {
         var r = confirm('Are you sure you want to delete this page?  All questions it contains will also be deleted?');
         if (r === false) {
