@@ -6,8 +6,7 @@
     var y = $(this).scrollTop();
     if (y < elpos) {
       el.stop().animate({'margin-top': 0}, 500);
-    }
-    else {
+    } else {
       el.stop().animate({'margin-top': y - elpos}, 500);
     }
   });

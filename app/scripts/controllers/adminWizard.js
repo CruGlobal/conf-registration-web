@@ -6,8 +6,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.deletePage = function (pageId, confirmation) {
       var delPageIndex = $scope.getPageIndex(pageId);
-      if (confirmation==true) {
-        var r = confirm("Are you sure you want to delete this page?  All questions it contains will also be deleted?");
+      if (confirmation === true) {
+        var r = confirm('Are you sure you want to delete this page?  All questions it contains will also be deleted?');
         if (r === false) {
           return;
         }

@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
       $scope.moveType = x.moveType;
     });
 
-    function makePositionArray(){
+    function makePositionArray() {
       var tempPositionArray = [];
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
         page.blocks.forEach(function (block, blockIndex) {
@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
       return tempPositionArray;
     }
 
-    $scope.getPageIndex = function (pageId){
+    $scope.getPageIndex = function (pageId) {
       var tempPageIndex;
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
         if (pageId === page.id) {
@@ -25,13 +25,13 @@ angular.module('confRegistrationWebApp')
         }
       });
       return tempPageIndex;
-    }
+    };
 
     $scope.moveBlock = function (blockId, newPage, newPosition) {
       var tempPositionArray = makePositionArray();
       var newPageIndex = $scope.getPageIndex(newPage);
 
-      console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
+      //console.log('=======MOVE BLOCK==========',blockId, newPageIndex, newPosition);
       var origPage = tempPositionArray[blockId].page;
       var origBlock = $scope.conference.registrationPages[origPage].blocks[tempPositionArray[blockId].block];
       $scope.deleteBlock(blockId);
@@ -40,11 +40,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
-      var tempPositionArray = makePositionArray();
       var newPageIndex = $scope.getPageIndex(newPage);
 
-      console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
-
+      //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
       var newBlock = new Object({
         id: uuid(),
         content: '',
@@ -61,13 +59,12 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deleteBlock = function (blockId, confirmation) {
-      if (confirmation==true) {
-        var r = confirm("Are you sure you want to delete this question?");
+      if (confirmation === true) {
+        var r = confirm('Are you sure you want to delete this question?');
         if (r === false) {
           return;
         }
       }
-
       var tempPositionArray = makePositionArray();
       $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
         tempPositionArray[blockId].block,
@@ -76,8 +73,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.addNewPage = function () {
-      var pageTitle=prompt("Please enter a page title:","");
-      if (pageTitle!=null && pageTitle!="")      {
+      var pageTitle = prompt('Please enter a page title:', '');
+      if (pageTitle !== null && pageTitle !== '') {
         $scope.conference.registrationPages.push({
           id: uuid(),
           conferenceId: $scope.conference.id,
