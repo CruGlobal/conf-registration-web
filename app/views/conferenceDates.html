@@ -1,0 +1,8 @@
+<div ng-form="blockForm" ng-show="!editMode">
+  <label for="">Conference Begins:</label><span> {{conference.eventStartTime | date:'EEEE, MMMM d, yyyy @ h:mm a'}}</span>
+  <label for="">Conference Ends:</label><span> {{conference.eventEndTime | date:'EEEE, MMMM d, yyyy @ h:mm a'}}</span>
+</div>
+<div ng-form="blockForm" ng-show="editMode">
+  <label for="{{block.id}}-start">Conference Begins:</label> <input id="{{block.id}}-start" type="text" ng-model="conference.eventStartTime" />
+  <label for="{{block.id}}-end">Conference Ends:</label> <input id="{{block.id}}-end" type="text" ng-model="conference.eventEndTime" />
+</div>
