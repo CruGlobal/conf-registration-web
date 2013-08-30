@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('debouncePutsInterceptor', function ($timeout, $q) {
+  .factory('debouncePutsInterceptor', function ($timeout) {
     var waitingRequests = {
       // url :       // URL of the request
       //   {
@@ -26,7 +26,8 @@ angular.module('confRegistrationWebApp')
         waitingRequests[config.url].holdRequests = false;
         return config;
       };
-      return waitingRequests[config.url].timer = $timeout(fn, 200);
+      waitingRequests[config.url].timer = $timeout(fn, 200);
+      return waitingRequests[config.url].timer;
     };
 
     return {
