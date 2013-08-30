@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       var tempPositionArray = [];
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
         page.blocks.forEach(function (block, blockIndex) {
-          tempPositionArray[block.id] = new Object({page: pageIndex, block: blockIndex});
+          tempPositionArray[block.id] = {page: pageIndex, block: blockIndex};
         });
       });
       return tempPositionArray;
@@ -43,14 +43,14 @@ angular.module('confRegistrationWebApp')
       var newPageIndex = $scope.getPageIndex(newPage);
 
       //console.log('=======NEW BLOCK==========',blockType, newPageIndex, newPosition);
-      var newBlock = new Object({
+      var newBlock = {
         id: uuid(),
         content: '',
         pageId: newPage,
         required: false,
         title: 'New Question',
         type: blockType
-      });
+      };
       console.log($scope.conference);
 
       $scope.$apply(function (scope) {
