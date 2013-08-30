@@ -6,6 +6,8 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: 'FormDropAreaCtrl',
       link: function postLink(scope, element) {
+        scope.crsPositionAdd = 0;
+
         element.bind('drop', function (ev) {
           ev.preventDefault();
           var pageId = $(ev.target).closest('.crs-formElements').attr('data-page-id');

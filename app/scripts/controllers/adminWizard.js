@@ -2,8 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .controller('AdminWizardCtrl', function ($scope, conference, Model) {
-    $scope.conference = conference;
-    Model.subscribe($scope, 'conference', 'conferences/'+conference.id);
+    Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     $scope.deletePage = function (pageId, confirmation) {
       var delPageIndex = $scope.getPageIndex(pageId);

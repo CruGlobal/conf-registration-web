@@ -24,9 +24,17 @@ angular.module('confRegistrationWebApp')
         AnswerCache.syncBlock($scope, 'answer');
 
         $scope.editBlockAddOption = function(){
-          $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
-          $scope.$$childTail.editBlockAddOptionValue='';
-          console.log($scope.this.block.content.choices);
+          if(typeof $scope.this.block.content.choices === 'undefined'){
+            $scope.this.block.content = {"choices": [] }
+          }
+          if($.inArray($scope.$$childTail.editBlockAddOptionValue, $scope.this.block.content.choices)>=0){
+            alert('Option already exists.');
+          }else{
+            $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
+            $scope.$$childTail.editBlockAddOptionValue='';
+            console.log($scope.this.block.content.choices);
+          }
+
         }
 
         $scope.editBlockDeleteOption = function(index){
