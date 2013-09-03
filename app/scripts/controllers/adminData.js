@@ -9,7 +9,7 @@ angular.module('confRegistrationWebApp')
 
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
-        if (block.type.indexOf('Content') === -1) {
+        if (block.type.indexOf('Content') === -1 && block.type.indexOf('Date') === -1) {
           $scope.blocks.push(block);
         }
       });
