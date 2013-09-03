@@ -33,8 +33,15 @@ html {
 }
 
 body {
-  font-family: $sansFontFamily;
+  font-family: 'Open Sans', sans-serif;
   background-color:transparent;
+  color: $crs-grayDark;
+}
+
+.container-fluid {
+  max-width: 1201px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .crs-head {
@@ -53,7 +60,74 @@ body {
     font-style: italic;
     font-weight: 400;
     margin-top: 17px;
+    display: none;
   }
+}
+.crs-icon-container {
+  position: relative;
+}
+.crs-icon {
+  font-size: 18px;
+}
+
+.crs-question-default {
+  border-bottom: 1px dotted $crs-grayLighter;
+  padding: 25px;
+  padding-left: 100px;
+}
+
+.row-fluid .crs-question-default {
+  padding-left: 10.638297872340425%;
+  *padding-left: 10.53191489361702%;
+}
+
+.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete, .crs-icon-cross {
+  color: $crs-grayLighter;
+  position: relative;
+}
+.crs-icon-edit {
+  position: absolute;
+  left: -10.638297872340425%;
+  color: $crs-grayLighter;
+  top: 10px;
+}
+.crs-icon-delete {
+  position: absolute;
+  left: -10.638297872340425%;
+  color: $crs-grayLighter;
+  top: 50px;
+}
+
+.crs-icon-edit:hover, .crs-icon-delete:hover {
+  color: $crs-grayDark;
+}
+
+.crs-icon-cross {
+  position: absolute;
+  top: -5px;
+  color: $crs-red;
+  left: 2px;
+  cursor: pointer;
+}
+.crs-icon-cross:hover {
+  color: $crs-redDarker;
+}
+
+.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete {
+  display: none;
+}
+.crs-question-default:hover .crs-btn-wiz-edit, .crs-question-default:hover .crs-btn-wiz-delete {
+  background: $crs-red !important;
+  color: $crs-grayDark !important;
+  display: block !important;
+}
+
+.crs-edit-mode {
+ position: relative;
+}
+.crs-edit-btn-group {
+  position: absolute;
+  left: -10.638297872340425%;
 }
 
 #crs-signin{
@@ -68,9 +142,9 @@ body {
   padding-left:10px;
   top:12px;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: moz-none;
-  -ms-user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: moz-none;
+        -ms-user-select: none;
   user-select: none;
   width:145px;
   span {
@@ -88,6 +162,32 @@ body {
   }
 }
 
+#crs-signin-in{
+  background:$crs-green;
+  color:#fff;
+  cursor: pointer;
+  font-size:12px;
+  float: right;
+  height:20px;
+  position:relative;
+  margin-right: 30px;
+  padding-left:10px;
+  top:12px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  width:auto;
+  span {
+    position: relative;
+  }
+  a {
+    color: #ffffff;
+    padding-left: 5px;
+    padding-right: 10px;
+  }
+}
 #crs-signin-box{
   background:#fff;
   border-top:5px solid $crs-green;
@@ -118,7 +218,9 @@ body {
   }
 }
 
-
+.crs-no-padding-top {
+  padding-top: 0px !important;
+}
 
 .crs-sub-head {
   background: $crs-red;
@@ -136,8 +238,8 @@ body {
   .crs-icon-head {
     background-color: $crs-grayLightest;
     border-radius: 25px;
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
+      -webkit-border-radius: 25px;
+      -moz-border-radius: 25px;
     height: 50px;
     float: left;
     margin: 25px 40px 0 40px;
@@ -169,7 +271,7 @@ body {
     box-shadow:         0px 3px 0px #d9dfe1;
     -moz-box-shadow:    0px 3px 0px #d9dfe1;
     -webkit-box-shadow: 0px 3px 0px #d9dfe1;
-    margin: 0 25px 28px 0;  /*28 instead of 25 to compensate for border bottom of 3px*/
+    margin-bottom: 28px;  /*28 instead of 25 to compensate for border bottom of 3px*/
     min-width: 200px;
     text-align: center;
     .crs-card-body {
@@ -269,19 +371,36 @@ body {
 
   }
 }
-
+.crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
+  margin-left: 0;
+}
+.crs-event-card:nth-last-child(2) {
+  margin-right: 27px;
+}
 ///////Admin Wizard//////
 .row-fluid {
   padding-top: 50px;
 }
 
 #crs-formEdit {
-  padding: 26px;
   background-color: white;
-  min-height: 500px;
-  font-size: 24px;
   color: $crs-green;
+  font-size: 24px;
+  padding: 26px;
   line-height: 28px;
+  min-height: 500px;
+}
+
+#crs-formEdit .alert p {
+  font-size: 18px;
+  line-height: 20px;
+  color: #c09853;
+}
+
+#crs-formEdit p {
+  font-size: 14px;
+  line-height: 20px;
+  color: $crs-grayDark;
 }
 
 .crs-anchor{
@@ -312,14 +431,9 @@ body {
   letter-spacing: 1px;
 }
 
-.crs-question-default {
-  border-bottom: 1px dotted $crs-grayLighter;
-  padding: 25px;
-}
-
 //  Form Elements START //
 
-.crs-radio-label {
+.crs-radio-label, .crs-checkbox-label {
   color: $crs-grayDark;
 }
 .crs-text {
@@ -328,29 +442,30 @@ body {
   font-weight: normal;
   line-height: 20px;
 }
-//  Form Elements END //
+// END Form Elements //
 
+//  Accoridion  //
 
 .crs-accordion,
 .crs-accordion ul,
 .crs-accordion li,
 .crs-accordion a,
 .crs-accordion span {
-  margin: 0;
-  padding: 0;
   border: none;
+  margin: 0;
   outline: none;
+  padding: 0;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: moz-none;
-  -ms-user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: moz-none;
+        -ms-user-select: none;
   user-select: none;
 }
 
 .crs-accordion {
-  width: 200px;
-  padding: 0 !important;
-  margin: 0 !important;
+  //width: 200px;
+  //padding: 0 !important;
+  //margin: 0 !important;
 }
 
 .crs-parent-li {
@@ -361,21 +476,24 @@ body {
   list-style: none;
   margin: 12px;
 }
+.crs-parent-li:first-child {
+  margin-top: 0px;
+}
 
 .crs-accordion li > a {
-  display: block;
-  position: relative;
-  min-width: 110px;
-  padding: 4px 10px 4px 10px;
-  color: #fdfdfd;
-  font-size: 14px;
-  text-decoration: none;
   background: #2dc1a4;
+  color: #fdfdfd;
+  display: block;
+  font-size: 14px;
+  min-width: 110px;
+  position: relative;
+  padding: 4px 10px 4px 10px;
+  text-decoration: none;
 }
 
 .crs-accordionSub li a {
-  color: #797979;
   background: #ecf0f1;
+  color: #797979;
   -webkit-user-drag: element;
   -webkit-user-select: none;
 
@@ -386,22 +504,18 @@ body {
   border-bottom: 12px solid #ffffff;
 }
 
-.crs-accordionSub {
-  border-bottom: 3px solid red;
-}
 
 #crsDropZone {
-  height: 0px;
   border: 1px dashed $crs-grayLighter;
-  transition: height .5s;
-  margin: 0;
+  height: 0px;
+  margin: 10px 0 10px 0;
   padding: 0;
-
+  transition: height .5s;
 }
 
 #DragIcon {
-  position: absolute;
   left: -9px;
+  position: absolute;
 }
 
 input[type="checkbox"] {
@@ -409,13 +523,13 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"] + label span {
+  background: $check-radio-sheet left top no-repeat;
+  cursor: pointer;
   display: inline-block;
-  width: 19px;
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: $check-radio-sheet left top no-repeat;
-  cursor: pointer;
+  width: 19px;
 }
 
 input[type="checkbox"]:checked + label span {
@@ -427,13 +541,13 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label span {
+  background: $check-radio-sheet -38px top no-repeat;
+  cursor: pointer;
   display: inline-block;
-  width: 19px;
   height: 19px;
   margin: -1px 4px 0 0;
   vertical-align: middle;
-  background: $check-radio-sheet -38px top no-repeat;
-  cursor: pointer;
+  width: 19px;
 }
 
 input[type="radio"]:checked + label span {
@@ -443,17 +557,29 @@ input[type="radio"]:checked + label span {
 // Media Queries - This will override the default queries so tread very lightly. //
 
 @media (min-width: 1200px) {
-
 }    // END - (min-width: 1200px)
 
 @media (min-width: 768px) and (max-width: 979px) {
-
+  .crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
+   // margin-left: 2.76243%;
+  }
+  .crs-event-card:nth-child(5){
+  //.crs-event-card:nth-child(4), .crs-event-card:nth-child(7), .crs-event-card:nth-child(10)  {
+    margin-left: 0;
+  }
+  .crs-event-card:nth-last-child(2) {
+   // margin-right: 2.76243%;
+  }
 }    // END - (min-width: 768px) and (max-width: 979px)
 
 @media (max-width: 767px) {
-  .crs-logo+span {
-    display: none;
+    .crs-logo+span {
+      display: none;
+    }
+  .crs-event-card:nth-child(5) {
+   // margin-left: 2.76243%;
   }
 }    // END - (max-width: 767px)
+
 
 
