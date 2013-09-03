@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('FormDropAreaCtrl', function ($rootScope, $scope, uuid) {
+  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $dialog, uuid) {
     $scope.$on('dragVars', function (event, x) {
       $scope.blockId = x.blockId;
       $scope.moveType = x.moveType;
@@ -45,11 +45,21 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, confirmation) {
       if (confirmation) {
-        var r = confirm('Are you sure you want to delete this question?');
-        if (!r) {
-          return;
-        }
+        $dialog.dialog({
+          templateUrl: 'views/confirmDeleteBlock.html',
+          controller: 'confirmCtrl'
+        }).open().then(function (result) {
+            if (result) {
+              $scope.deleteBlockFromPage(blockId);
+            }
+          });
+      } else {
+        $scope.deleteBlockFromPage(blockId);
       }
+
+    };
+
+    $scope.deleteBlockFromPage = function (blockId) {
       var tempPositionArray = makePositionArray();
       $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
         tempPositionArray[blockId].block,
@@ -58,15 +68,20 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.addNewPage = function () {
-      var pageTitle = prompt('Please enter a page title:', '');
-      if (pageTitle !== null && pageTitle !== '') {
-        $scope.conference.registrationPages.push({
-          id: uuid(),
-          conferenceId: $scope.conference.id,
-          position: 0,
-          title: pageTitle,
-          blocks: []
+      $dialog.dialog({
+        templateUrl: 'views/promptNewPage.html',
+        controller: 'confirmPromptCtrl'
+      }).open().then(function (pageTitle) {
+          if (pageTitle !== null && pageTitle !== '' && !angular.isUndefined(pageTitle)) {
+            $scope.conference.registrationPages.push({
+              id: uuid(),
+              conferenceId: $scope.conference.id,
+              position: 0,
+              title: pageTitle,
+              blocks: []
+            });
+          }
         });
-      }
+
     };
   });

@@ -1,17 +1,26 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminWizardCtrl', function ($scope, conference, Model) {
+  .controller('AdminWizardCtrl', function ($scope, $dialog, conference, Model) {
     Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     $scope.deletePage = function (pageId, confirmation) {
-      var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-      if (confirmation === true) {
-        var r = confirm('Are you sure you want to delete this page?  All questions it contains will also be deleted?');
-        if (r === false) {
-          return;
-        }
+      if (confirmation) {
+        $dialog.dialog({
+          templateUrl: 'views/confirmDeletePage.html',
+          controller: 'confirmCtrl'
+        }).open().then(function (result) {
+            if (result) {
+              $scope.deletePageFromConf(pageId);
+            }
+          });
+      } else {
+        $scope.deletePageFromConf(pageId);
       }
+    };
+
+    $scope.deletePageFromConf = function (pageId) {
+      var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
       $scope.conference.registrationPages.splice(
         delPageIndex,
         1
