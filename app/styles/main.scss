@@ -63,7 +63,9 @@ body {
     display: none;
   }
 }
-
+.crs-icon-container {
+  position: relative;
+}
 .crs-icon {
   font-size: 18px;
 }
@@ -79,19 +81,36 @@ body {
   *padding-left: 10.53191489361702%;
 }
 
-.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete {
+.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete, .crs-icon-cross {
   color: $crs-grayLighter;
   position: relative;
 }
 .crs-icon-edit {
   position: absolute;
   left: -10.638297872340425%;
+  color: $crs-grayLighter;
   top: 10px;
 }
 .crs-icon-delete {
   position: absolute;
   left: -10.638297872340425%;
+  color: $crs-grayLighter;
   top: 50px;
+}
+
+.crs-icon-edit:hover, .crs-icon-delete:hover {
+  color: $crs-grayDark;
+}
+
+.crs-icon-cross {
+  position: absolute;
+  top: -5px;
+  color: $crs-red;
+  left: 2px;
+  cursor: pointer;
+}
+.crs-icon-cross:hover {
+  color: $crs-redDarker;
 }
 
 .crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete {
@@ -372,6 +391,18 @@ body {
   min-height: 500px;
 }
 
+#crs-formEdit .alert p {
+  font-size: 18px;
+  line-height: 20px;
+  color: #c09853;
+}
+
+#crs-formEdit p {
+  font-size: 14px;
+  line-height: 20px;
+  color: $crs-grayDark;
+}
+
 .crs-anchor{
   color: $crs-red;
 }
@@ -402,7 +433,7 @@ body {
 
 //  Form Elements START //
 
-.crs-radio-label {
+.crs-radio-label, .crs-checkbox-label {
   color: $crs-grayDark;
 }
 .crs-text {

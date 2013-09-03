@@ -14,10 +14,7 @@
         </h4>
     </div>
     <div class="crs-edit-mode" ng-show="editMode">
-      <div class="btn-group btn-group-vertical crs-edit-btn-group">
-        <a class="btn btn-mini btn-primary crs-btn-wiz-save" href="" data-ng-click="editMode = wizard && !!!editMode">Save</a>
-        <a class="btn btn-mini crs-btn-wiz-cancel" href="" >Cancel</a>
-      </div>
+      <a class="btn btn-mini crs-edit-btn-group" href="" data-ng-click="editMode = wizard && !!!editMode">Close</a>
       <h4 class="crs-block-title">
         <input type="text" data-ng-model="block.title" ng-required="true"> <span class="crs-required" ng-show="block.required">(required)</span>
       </h4>
