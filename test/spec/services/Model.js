@@ -1,4 +1,5 @@
 'use strict';
+/* jshint undef: false, camelcase: false */
 
 describe('Service: Model', function () {
 
