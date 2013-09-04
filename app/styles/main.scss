@@ -262,7 +262,7 @@ body {
 }
 .crs-card-stack {
   list-style-type: none;
-  margin: 50px 0 0 0;
+  margin: 0;
   padding: 0;
   overflow: hidden;
   .crs-event-card {
@@ -381,7 +381,7 @@ body {
 }
 ///////Admin Wizard//////
 .row-fluid {
-  padding-top: 50px;
+  //padding-top: 50px;
 }
 
 #crs-formEdit {
