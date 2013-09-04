@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row-fluid">
   <div class="span12">
     <div ng-show="!editPageMode">
       <div ng-show="wizard" style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !editPageMode">Edit</a>
@@ -12,8 +12,8 @@
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="span12">
+<div class="row-fluid">
+  <div class="span4 offset4">
 <form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
   <div ng-if="$index == 0" class="span10" id="crsDropZone" style="min-height:0;display:none;"></div>
   <div class="crsQuestion" ng-if="page.blocks.length == 0">

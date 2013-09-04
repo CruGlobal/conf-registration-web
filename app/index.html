@@ -18,6 +18,7 @@
   <!-- build:css({.tmp,app}) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
+  <link rel="stylesheet" href="styles/webfont.css">
 
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic);</style>
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic);</style>
@@ -25,10 +26,7 @@
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
   <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="http://www.bugsense.com/static/js/global/bugsense.js" type='text/javascript'></script>
-  <script type="text/javascript">
-    var bugsense = new Bugsense( { apiKey: '8e70b821' } );
-  </script>
+  <link rel="stylesheet" href="bower_components/animate.css/animate.css"/>
 
 </head>
 <body ng-app="confRegistrationWebApp">
@@ -44,7 +42,7 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="container">
+<div class="container-fluid">
   <div class="crs-head">
     <div class="crs-logo"><a href="#"><img src="images/logo-formvent.png" width="94" height="15" alt="Formvent"></a>
     </div>
@@ -55,14 +53,14 @@
 </div>
 
 <div class="crs-sub-head" ng-style="subHeadStyle">
-  <div class="container" data-ng-show="adminDashboard">
+  <div class="container-fluid" data-ng-show="adminDashboard">
     <div class="crs-icon-head span12" >
 
     </div>
     <h1>Forms for events. Easy peasy.</h1>
   </div>
 </div>
-<div class="container">
+<div class="container-fluid">
   <div ng-view="">
   </div>
 </div>
@@ -81,6 +79,10 @@
   }(document, 'script'));
 </script>
 
+  <script src="//www.bugsense.com/static/js/global/bugsense.js" type='text/javascript'></script>
+  <script type="text/javascript">
+    var bugsense = new Bugsense( { apiKey: '8e70b821' } );
+  </script>
 <script src="bower_components/angular-all-unstable/angular.js"></script>
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -102,6 +104,7 @@
 <script src="scripts/services/currentRegistrationInterceptor.js"></script>
 <script src="scripts/services/authorizationInterceptor.js"></script>
 <script src="scripts/services/unauthorizedInterceptor.js"></script>
+<script src="scripts/services/debouncePutsInterceptor.js"></script>
 <script src="scripts/services/uuid.js"></script>
 <script src="scripts/services/apiUrl.js"></script>
 <script src="scripts/services/httpUrlInterceptor.js"></script>

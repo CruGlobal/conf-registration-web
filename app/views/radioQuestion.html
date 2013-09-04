@@ -11,14 +11,16 @@
       <label class="crs-radio-label" for="{{block.id}}{{choice}}">
         <span></span>
         <tag ng-show="!editMode">{{choice}}</tag>
-        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a></tag>
+        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a class="crs-icon-container" href=""><div data-icon="&#xe025;" class="icon crs-icon crs-icon-cross"></div></a></tag>
       </label>
     </li>
     <li ng-show="editMode">
       <input id="{{block.id}}-new" type="radio" name="{{block.id}}">
       <label for="{{block.id}}-new"><span></span>
-        <input type="text" placeholder="Add Option" data-ng-model="editBlockAddOptionValue">
-        <button data-ng-click="editBlockAddOption();" type="button">Add</button>
+        <div class="input-append">
+          <input id="appendedInputButton" type="text" placeholder="Add Option">
+          <button class="btn">Add</button>
+        </div>
       </label>
     </li>
   </ul>

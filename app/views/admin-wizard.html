@@ -11,8 +11,9 @@
     }
   });
 </script>
-<div class="container-fluid">
-  <div class="row-fluid">
+
+<div class="row-fluid">
+
     <div class="span3" id="crs-formOptionsMenu">
       <ul class="crs-accordion">
         <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
@@ -34,7 +35,8 @@
           <ul class="crs-accordionSub" accordion-sub style="display:none;">
           </ul></li>
       </ul>
-    </div>
+    </div><!--end span3-->
+
     <div form-drop-area class="span9" id="crs-formEdit">
       <!-- <div class="span9" id="crs-formEdit">  -->
       <div class="alert alert-block" data-ng-show="conference.registrationPages.length == 0">
@@ -49,5 +51,4 @@
         <page></page>
       </div>
     </div>
-  </div>
 </div>
