@@ -1,5 +1,21 @@
 <div ng-form="blockForm">
-  <select ng-required="block.required" data-ng-model="answer.value" ng-change="updateAnswer(choice)">
-    <option value="{{choice}}" data-ng-repeat="choice in block.choices">{{choice}}</option>
-  </select>
+  <div ng-show="!editMode">
+    <select ng-required="block.required" data-ng-model="answer.value" ng-change="updateAnswer(choice)">
+      <option value="{{choice}}" data-ng-repeat="choice in block.content.choices">{{choice}}</option>
+    </select>
+  </div>
+
+  <div ng-show="editMode">
+    <ul class="unstyled">
+      <li data-ng-repeat="choice in block.content.choices">
+         <input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a>
+        </label>
+      </li>
+      <li>
+          <input type="text" placeholder="Add Option" data-ng-model="editBlockAddOptionValue">
+          <button data-ng-click="editBlockAddOption();" type="button">Add</button>
+        </label>
+      </li>
+    </ul>
+  </div>
 </div>

@@ -20,25 +20,24 @@
       </h4>
     </div>
 
-    <ng-switch on="block.type">
-      <div ng-switch-when="paragraphContent">
-        <p>
-          <tag ng-show="!editMode">{{block.content}}</tag>
-          <tag ng-show="editMode"><textarea data-ng-model="block.content"></textarea></tag>
-        </p>
-      </div>
-      <text-question block="block" ng-switch-when="textQuestion"></text-question>
-      <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-      <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
-      <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
-      <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-      <select-question block="block" ng-switch-when="selectQuestion"></select-question>
-      <name-question block="block" ng-switch-when="nameQuestion"></name-question>
-    </ng-switch>
+          <ng-switch on="block.type">
+            <p ng-switch-when="paragraphContent">
+              <tag ng-show="!editMode">{{block.content}}</tag>
+              <tag ng-show="editMode"><textarea data-ng-model="block.content"></textarea></tag>
+            </p>
+            <text-question block="block" ng-switch-when="textQuestion"></text-question>
+            <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+            <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+            <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+            <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+            <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+            <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+          </ng-switch>
 
-    <div data-ng-show="editMode">
-      <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
+          <div data-ng-show="editMode">
+            <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required">Required: <span></span></label>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-

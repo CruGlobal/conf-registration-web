@@ -1,17 +1,26 @@
 <div class="row-fluid">
   <div class="span12">
-    <h3 class="crs-page-title">{{page.title}}</h3>
-  </div>
-</div>
-
-<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
-  <div class="row-fluid crs-no-padding-top">
-    <div class="span12">
-      <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
+    <div ng-show="!editPageMode">
+      <div ng-show="wizard" style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !editPageMode">Edit</a>
+        <a href="" data-ng-click="deletePage(page.id, true)">Delete</a>
+      </div>
+      <h3 class="crs-page-title">{{page.title}}</h3>
+    </div>
+    <div ng-show="editPageMode">
+      <div style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !editPageMode">Save</a></div>
+      <h3 class="crs-page-title"><input type="text" data-ng-model="page.title" ng-required="true"></h3>
     </div>
   </div>
-  <div class="row-fluid" ng-hide="wizard">
-    <div class="span4 offset4">
+</div>
+<div class="row-fluid">
+  <div class="span4 offset4">
+<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
+  <div ng-if="$index == 0" class="span10" id="crsDropZone" style="min-height:0;display:none;"></div>
+  <div class="crsQuestion" ng-if="page.blocks.length == 0">
+      <div class="crs-question-default" style="padding:20px;border-bottom:none;">      </div>
+  </div>
+  <block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
+    <div class="span3 pull-right" ng-hide="wizard">
       <button class="btn btn-block btn-success btn-large"
               type="submit"
               data-ng-disabled="!pageForm.$valid"
@@ -21,5 +30,7 @@
               data-ng-disabled="!registrationComplete"
               ng-hide="nextPage">Continue</button>
     </div>
-  </div>
+
 </form>
+  </div>
+  </div>
