@@ -1,13 +1,13 @@
 <div class="row">
   <div class="span12">
     <div ng-show="!editPageMode">
-      <div ng-show="wizard" style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !!!editPageMode">Edit</a>
-        <a href="" data-ng-click="deletePage(page.id, true);">Delete</a>
+      <div ng-show="wizard" style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !editPageMode">Edit</a>
+        <a href="" data-ng-click="deletePage(page.id, true)">Delete</a>
       </div>
       <h3 class="crs-page-title">{{page.title}}</h3>
     </div>
     <div ng-show="editPageMode">
-      <div style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !!!editPageMode">Save</a></div>
+      <div style="float:right;"><a href="" data-ng-click="editPageMode = wizard && !editPageMode">Save</a></div>
       <h3 class="crs-page-title"><input type="text" data-ng-model="page.title" ng-required="true"></h3>
     </div>
   </div>

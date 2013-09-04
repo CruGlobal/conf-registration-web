@@ -2,8 +2,8 @@
       <div class="span10">
         <div class="crs-question-default">
           <div ng-show="!editMode">
-            <div style="float:right;" ng-show="wizard"><a href="" data-ng-click="editMode = wizard && !!!editMode">Edit</a>
-              <br><a href="" data-ng-click="deleteBlock(block.id, true);">Delete</a>
+            <div style="float:right;" ng-show="wizard"><a href="" data-ng-click="editMode = wizard && !editMode">Edit</a>
+              <br><a href="" data-ng-click="deleteBlock(block.id, true)">Delete</a>
             </div>
             <h4 class="crs-block-title">
             {{block.title}} <span class="crs-required" ng-show="block.required">(required)</span>

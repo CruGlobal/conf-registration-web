@@ -28,7 +28,7 @@ angular.module('confRegistrationWebApp')
             $scope.this.block.content = {'choices': [] };
           }
           if ($.inArray($scope.$$childTail.editBlockAddOptionValue, $scope.this.block.content.choices) >= 0) {
-            alert('Option already exists.');
+            //alert('Option already exists.');
           } else {
             $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
             $scope.$$childTail.editBlockAddOptionValue = '';

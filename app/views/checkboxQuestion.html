@@ -10,7 +10,7 @@
              ng-change="updateAnswer(choice)">
       <label for="{{block.id}}-{{choice}}"><span></span>
         <tag ng-show="!editMode">{{choice}}</tag>
-        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a></tag>
+        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index)">Delete</a></tag>
       </label>
     </li>
     <li ng-show="editMode">
