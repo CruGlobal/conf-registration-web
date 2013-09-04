@@ -4,24 +4,17 @@ angular.module('confRegistrationWebApp')
   .directive('formDropArea', function () {
     return {
       restrict: 'A',
-      controller: function ($rootScope, $scope) {
-        $scope.$on('dragVars', function (event, x) {
-          $scope.blockId = x.blockId;
-          $scope.moveType = x.moveType;
-          //console.log('Receive broadcast dragStart',{blockId: $scope.blockId, moveType: $scope.moveType});
-        });
-      },
+      controller: 'FormDropAreaCtrl',
       link: function postLink(scope, element) {
+        scope.crsPositionAdd = 0;
+
         element.bind('drop', function (ev) {
           ev.preventDefault();
           var pageId = $(ev.target).closest('.crs-formElements').attr('data-page-id');
           var position = $(ev.target).closest('block').prevAll().length + scope.crsPositionAdd;
           if (scope.moveType === 'new') {
-            var data = scope.blockId;
-            var li = document.createElement('div');
-            li.innerHTML = '<label>' + data + '</label>';
-            $('#crsDropZone').before(li);
-            scope.insertBlock(scope.blockId, pageId, position);
+            var blockType = scope.blockId;
+            scope.insertBlock(blockType, pageId, position);
           } else if (scope.moveType === 'move') {
             $('#' + scope.blockId).insertBefore($('#crsDropZone'));
             scope.moveBlock(scope.blockId, pageId, position);
