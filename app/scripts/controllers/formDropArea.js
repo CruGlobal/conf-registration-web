@@ -40,7 +40,9 @@ angular.module('confRegistrationWebApp')
         type: blockType
       };
 
-      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
+      $scope.$apply(function (scope) {
+        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
+      });
     };
 
     $scope.deleteBlock = function (blockId, confirmation) {
