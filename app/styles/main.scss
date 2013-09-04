@@ -433,6 +433,20 @@ body {
   letter-spacing: 1px;
 }
 
+.crs-review {
+
+}
+.crs-review label {
+  float: left;
+  width: 50%;
+}
+.crs-review li {
+  clear: both;
+}
+.crs-review li:nth-child(2n) {
+  background-color: $crs-grayLightest;
+}
+
 //  Form Elements START //
 
 .crs-radio-label, .crs-checkbox-label {
