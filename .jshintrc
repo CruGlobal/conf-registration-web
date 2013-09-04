@@ -23,6 +23,7 @@
   "white": true,
   "globals": {
     "angular": false,
+    "bugsense": false,
     "_": false,
     "$": false
   }

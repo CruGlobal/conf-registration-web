@@ -101,6 +101,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $httpProvider.interceptors.push('httpUrlInterceptor');
     $httpProvider.interceptors.push('authorizationInterceptor');
     $httpProvider.interceptors.push('unauthorizedInterceptor');
+    $httpProvider.interceptors.push('debouncePutsInterceptor');
   })
   .run(function ($rootScope, $location) {
     $rootScope.location = $location;
@@ -110,4 +111,12 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         height: $rootScope.adminDashboard ? '100px' : '5px'
       };
     });
+  })
+  .config(function ($provide) {
+    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
+      return function (exception, cause) {
+        $delegate(exception, cause);
+        bugsense.notify(exception, cause);
+      };
+    }]);
   });

@@ -1,3 +1,5 @@
+/* jshint camelcase: false */
+/* global describe: false, expect: false, it: false, inject: false, beforeEach: false */
 'use strict';
 
 describe('Service: currentRegistrationInterceptor', function () {
