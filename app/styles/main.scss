@@ -28,6 +28,8 @@ $crs-blue:           #2980b9;
 @import "bootstrap-sass/lib/bootstrap";
 @import "bootstrap-sass/lib/responsive";
 
+@import "variables";
+
 html {
   background: $crs-grayLightest;
 }
@@ -552,6 +554,66 @@ input[type="radio"] + label span {
 
 input[type="radio"]:checked + label span {
   background: $check-radio-sheet -57px top no-repeat;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	 .js-flip .flipper {
+		-webkit-transform: rotateY(180deg);
+			 -moz-transform: rotateY(180deg);
+						transform: rotateY(180deg);
+		
+	}
+
+.flip-container, .front, .back {
+	width: 320px;
+	height: 480px;
+}
+
+/* flip speed goes here */
+.flipper {
+	position: relative;
+	
+	
+	-webkit-transition: 0.6s;
+		 -moz-transition: 0.6s;
+					transition: 0.6s;
+					
+	-webkit-transform-style: preserve-3d;
+		 -moz-transform-style: preserve-3d;
+					transform-style: preserve-3d;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	position: absolute;
+	top: 0;
+	left: 0;
+	
+	text-align: center;
+	line-height: 320px;
+	
+	-webkit-backface-visibility: hidden;
+		 -moz-backface-visibility: hidden;
+					backface-visibility: hidden;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	//background-color: yellow	;
+}
+
+/* back, initially hidden pane */
+.back {
+	//background-color: blue;
+	
+	-webkit-transform: rotateY(180deg);
+					transform: rotateY(180deg);
+	
 }
 
 // Media Queries - This will override the default queries so tread very lightly. //
