@@ -8,7 +8,7 @@
              ng-model="answer.value[choice]"
              ng-value="true"
              ng-change="updateAnswer(choice)">
-      <label for="{{block.id}}-{{choice}}"><span></span>
+      <label class="crs-checkbox-label" for="{{block.id}}-{{choice}}"><span></span>
         <tag ng-show="!editMode">{{choice}}</tag>
         <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="">Delete</a></tag>
       </label>
