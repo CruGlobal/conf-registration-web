@@ -589,10 +589,7 @@ input[type="radio"]:checked + label span {
 
 /* hide back of pane during swap */
 .front, .back {
-	position: absolute;
-	top: 0;
-	left: 0;
-	
+
 	text-align: center;
 	line-height: 320px;
 	
