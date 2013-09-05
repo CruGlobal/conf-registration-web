@@ -1,0 +1,27 @@
+// Media Queries - This will override the default queries so tread very lightly. //
+
+@media (min-width: 1200px) {
+}    // END - (min-width: 1200px)
+
+@media (min-width: 768px) and (max-width: 979px) {
+  .crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
+   // margin-left: 2.76243%;
+  }
+  .crs-event-card:nth-child(5){
+  //.crs-event-card:nth-child(4), .crs-event-card:nth-child(7), .crs-event-card:nth-child(10)  {
+    margin-left: 0;
+  }
+  .crs-event-card:nth-last-child(2) {
+   // margin-right: 2.76243%;
+  }
+}    // END - (min-width: 768px) and (max-width: 979px)
+
+@media (max-width: 767px) {
+    .crs-logo+span {
+      display: none;
+    }
+  .crs-event-card:nth-child(5) {
+   // margin-left: 2.76243%;
+  }
+}    // END - (max-width: 767px)
+
