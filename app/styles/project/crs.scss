@@ -251,17 +251,16 @@
 
 	.crs--card-holder{
 		margin-bottom: 28px;  /*28 instead of 25 to compensate for border bottom of 3px*/
+		
 	}
+	
 	.crs--event-card {
 		//background: $bg-crs-card repeat top left;
-		border-radius:         5px;
-		-moz-border-radius:    5px;
-		-webkit-border-radius: 5px;
-		box-shadow:         0px 3px 0px #d9dfe1;
-		-moz-box-shadow:    0px 3px 0px #d9dfe1;
-		-webkit-box-shadow: 0px 3px 0px #d9dfe1;
 		min-width: 200px;
 		text-align: center;
+		
+		@include vendor(border-radius, 5px);
+		@include vendor(box-shadow, 0px 3px 0px #d9dfe1);
 	}
 	
 	.flipper{

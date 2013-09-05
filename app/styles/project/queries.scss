@@ -4,17 +4,30 @@
 }    // END - (min-width: 1200px)
 
 @media (min-width: 768px) and (max-width: 979px) {
-  .crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
-   // margin-left: 2.76243%;
-  }
-  .crs-event-card:nth-child(5){
-  //.crs-event-card:nth-child(4), .crs-event-card:nth-child(7), .crs-event-card:nth-child(10)  {
-    margin-left: 0;
-  }
-  .crs-event-card:nth-last-child(2) {
-   // margin-right: 2.76243%;
-  }
-}    // END - (min-width: 768px) and (max-width: 979px)
+
+	.row-fluid  .crs--card-holder.span3 {
+		width: 31.49171%;
+	}
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(3n+1){
+		margin-left: 0;
+	}
+}   
+
+@media (min-width: 500px) and (max-width: 767px) {
+
+	.row-fluid  .crs--card-holder {
+		float: left;
+		width: 48.61878%;
+		margin-left: 2.76243%;
+	}
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(2n+1), .crs--card-holder:first-child {
+		margin-left: 0;
+	}
+}
 
 @media (max-width: 767px) {
     .crs-logo+span {
@@ -24,4 +37,13 @@
    // margin-left: 2.76243%;
   }
 }    // END - (max-width: 767px)
+
+
+@media (min-width: 979px) {
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(4n+1){
+		margin-left: 0;
+	}
+}
 
