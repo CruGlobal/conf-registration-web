@@ -1,0 +1,69 @@
+/*------------------------------------*\
+    $HELPERS
+\*------------------------------------*/
+
+/**
+ * Add/remove floats
+ */
+.float--right   { float:right!important; }
+.float--left    { float:left !important; }
+.float--none    { float:none !important; }
+
+
+
+/**
+ * Text alignment
+ */
+.text--left     { text-align:left  !important; }
+.text--center   { text-align:center!important; }
+.text--right    { text-align:right !important; }
+
+
+
+/**
+ * Font weights
+ */
+.weight--light      { font-weight:300!important; }
+.weight--normal     { font-weight:400!important; }
+.weight--semibold   { font-weight:600!important; }
+
+
+
+/**
+ * Apply capital case to an element (usually a `strong`).
+ */
+.caps{
+    text-transform:uppercase!important;
+}
+
+
+
+/**
+ * Remove Margins
+ */
+.flush          { margin:       0!important; }
+.flush--top     { margin-top:   0!important; }
+.flush--right   { margin-right: 0!important; }
+.flush--bottom  { margin-bottom:0!important; }
+.flush--left    { margin-left:  0!important; }
+.flush--ends    { margin-top:   0!important; margin-bottom:0!important; }
+.flush--sides   { margin-right: 0!important; margin-left:  0!important; }
+
+
+
+.bg--white{ background-color: #ffffff; }
+
+.circle{
+	-webkit-border-radius: 50%;
+	   -moz-border-radius: 50%;
+		  	border-radius: 50%;	
+}
+
+
+.center-vertical{
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+.inline-block { display: inline-block; }

@@ -1,0 +1,16 @@
+/*------------------------------------*\
+    $SCAFFOLDING
+\*------------------------------------*/
+
+body {
+  font-family: $base-font;
+  background: $crs-grayLightest;
+  color: $crs-grayDark;
+}
+
+
+.container-fluid {
+	max-width: 1201px;
+	margin-left: auto;
+	margin-right: auto;
+}
