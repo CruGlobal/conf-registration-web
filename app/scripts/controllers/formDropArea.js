@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $dialog, uuid) {
+  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $dialog, uuid, GrowlService) {
     $scope.$on('dragVars', function (event, x) {
       $scope.blockId = x.blockId;
       $scope.moveType = x.moveType;
@@ -47,14 +47,16 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, confirmation) {
       if (confirmation) {
-        $dialog.dialog({
-          templateUrl: 'views/confirmDeleteBlock.html',
-          controller: 'confirmCtrl'
-        }).open().then(function (result) {
-            if (result) {
-              $scope.deleteBlockFromPage(blockId);
-            }
-          });
+        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'Question has been deleted.');
+        $scope.deleteBlockFromPage(blockId);
+       // $dialog.dialog({
+        //  templateUrl: 'views/confirmDeleteBlock.html',
+        //  controller: 'confirmCtrl'
+        //}).open().then(function (result) {
+        //    if (result) {
+
+        //    }
+        //  });
       } else {
         $scope.deleteBlockFromPage(blockId);
       }
@@ -84,6 +86,5 @@ angular.module('confRegistrationWebApp')
             });
           }
         });
-
     };
   });

@@ -42,6 +42,12 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
+<div class="alert" data-ng-show="growlMessage" ng-controller="GrowlAlertCtrl">
+  <button type="button" class="close" data-ng-click="growlMessage=''">&times;</button>
+  <strong>Warning!</strong> <span>{{growlMessage}}</span>
+  <button class="btn" data-ng-click="undo()">Undo</button>
+</div>
+
 <div class="container-fluid">
   <div class="crs-head">
     <div class="crs-logo"><a href="#"><img src="images/logo-formvent.png" width="94" height="15" alt="Formvent"></a>
@@ -107,6 +113,7 @@
 <script src="scripts/services/debouncePutsInterceptor.js"></script>
 <script src="scripts/services/uuid.js"></script>
 <script src="scripts/services/apiUrl.js"></script>
+<script src="scripts/services/growlService.js"></script>
 <script src="scripts/services/httpUrlInterceptor.js"></script>
 <script src="scripts/controllers/registration.js"></script>
 <script src="scripts/directives/textQuestion.js"></script>
@@ -139,6 +146,7 @@
 <script src="scripts/directives/showAnswer.js"></script>
 <script src="scripts/filters/joiner.js"></script>
 <script src="scripts/services/Model.js"></script>
+<script src="scripts/controllers/growlAlert.js"></script>
 <!-- endbuild -->
 </body>
 </html>

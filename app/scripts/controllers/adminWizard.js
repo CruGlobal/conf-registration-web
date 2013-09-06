@@ -1,19 +1,22 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminWizardCtrl', function ($scope, $dialog, conference, Model) {
+  .controller('AdminWizardCtrl', function ($scope, $dialog, conference, Model, GrowlService) {
     Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     $scope.deletePage = function (pageId, confirmation) {
       if (confirmation) {
-        $dialog.dialog({
+        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'Page has been deleted.');
+        $scope.deletePageFromConf(pageId);
+
+        /*$dialog.dialog({
           templateUrl: 'views/confirmDeletePage.html',
           controller: 'confirmCtrl'
         }).open().then(function (result) {
             if (result) {
-              $scope.deletePageFromConf(pageId);
+
             }
-          });
+          });*/
       } else {
         $scope.deletePageFromConf(pageId);
       }
