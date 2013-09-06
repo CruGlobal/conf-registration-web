@@ -2,7 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .service('GrowlService', function GrowlService($rootScope, Model, $timeout) {
-    var growlPath, growlObject, growlTimeout, growlOn;
+    var growlPath, growlObject, growlTimeout, growlOn, ignoreNext;
 
     //check if growl is currently active, cancel it if it is.
     this.growl = function (path, object, message){
@@ -15,9 +15,14 @@ angular.module('confRegistrationWebApp')
         $rootScope.growlMessage='';
       }, 5000);
 
-      growlOn = $rootScope.$on(path, function (){
-        //$rootScope.growlMessage='';
-        growlOn();
+      ignoreNext = true;
+      growlOn = $rootScope.$on(path, function (event, object){
+        if(!ignoreNext){
+          $rootScope.growlMessage='';
+          growlOn();
+        }else{
+          ignoreNext = false;
+        }
       });
     }
 
