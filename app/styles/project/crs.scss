@@ -1,6 +1,5 @@
 .crs--site-brand {
   height: 50px;
-  //width: 100%;
   position: relative;
 }
 
@@ -208,7 +207,7 @@
   border-top:5px solid $crs-green;
   border-bottom:3px solid #dae2e4;
   color:$crs-green;
-  diaplsy:none;
+  display:none;
   font-size:16px;
   height:280px;
   opacity:1;
@@ -248,42 +247,96 @@
 	padding: 0;
 	overflow: hidden;
 }
+
+	.crs--card-holder{
+		margin-bottom: 28px;  /*28 instead of 25 to compensate for border bottom of 3px*/	
+	}
+	
 	.crs--event-card {
 		//background: $bg-crs-card repeat top left;
-		border-radius:         5px;
-		-moz-border-radius:    5px;
-		-webkit-border-radius: 5px;
-		box-shadow:         0px 3px 0px #d9dfe1;
-		-moz-box-shadow:    0px 3px 0px #d9dfe1;
-		-webkit-box-shadow: 0px 3px 0px #d9dfe1;
-		margin-bottom: 28px;  /*28 instead of 25 to compensate for border bottom of 3px*/
 		min-width: 200px;
 		text-align: center;
+		
+		@include vendor(border-radius, 5px);
+		@include vendor(box-shadow, 0px 3px 0px #d9dfe1);
 	}
 	
 	.flipper{
 		
 	}
 	
-	.crs--card-face{
-		@extend .cf;
+	.crs--actions-list{
+		
+		& > li{
+			margin-top: 10px;
+			margin-bottom: 10px;
+			
+			&:first-child{
+				margin-top: 0;
+			}
+			
+			&:last-child{
+				margin-bottom: 0;
+			}
+			
+			& > a{
+				display: block;
+				
+				padding-top: 18px;
+				padding-bottom: 18px;
+				
+				font-size: 2em;				
+			}
+		}
+	
 	}
 	
-	.crs--card-content{
+	.crs--actions-list a{
 		
+		@extend .link-color-delay;
+	
+		&:hover{
+			@extend .no-underline;
+		}
+	}
+	
+	.crs--event-link{
+		display: block;
+		width: 90%;
+		//height: 80%;
+			
+		&:hover{
+			@extend .no-underline;
+			
+			.crs--event-title{
+				color: darken($crs-greenDarker, 10%);
+				
+			}
+			
+		}
 	}
 	
 	.crs--event-title{
 		color: $crs-green;
 		font-size: 2em;
 		font-weight: 300;
-		display: inline-block;
+		//display: inline-block;
 		//height: 225px;
 		//line-height: 36px;
 		//padding-top: 40%;
-		width: 90%;
-		text-align: center;
-		vertical-align: middle;
+		
+		@extend .link-color-delay;
+	
+		&:hover{
+			//color: darken($crs-greenDarker, 10%);
+			
+		}
+	}
+	
+	.crs--card-meta {
+		position: relative;
+		height: 10%;
+		@extend .cf;
 	}
 
 
@@ -300,11 +353,11 @@
 		height: 31px;
 		left: 15px;
 		//margin: -50px 0 25px 20px;
-		margin-top: -31px;
+		//margin-top: -31px;
 		overflow: hidden;
 		padding: 0;
-		position: relative;
-		top: -15px;
+		//position: relative;
+		//top: -15px;
 		width: auto;
 		
 		span {
@@ -317,12 +370,14 @@
 			text-align: left;
 			top: 5px;
 		}
+		
+		&:hover {
+	      border-bottom: none;
+	      text-decoration: none;
+	    }
+	
 	}
 
-    .crs--card-count:hover {
-      border-bottom: none;
-      text-decoration: none;
-    }
     .crs--card-sprocket {
       background: $icon-sprite-cards no-repeat left top;
       background-position: 0px -31px;
@@ -332,9 +387,9 @@
       right: 15px;
       overflow: hidden;
       //margin: -50px 20px 25px 0px;
-      margin-top: -31px;
-      position: relative;
-      top: -15px;
+      //margin-top: -31px;
+      //position: relative;
+      //top: -15px;
       width: 31px;
     }
   
@@ -593,17 +648,26 @@ input[type="radio"]:checked + label span {
 	-webkit-transform-style: preserve-3d;
 		 -moz-transform-style: preserve-3d;
 					transform-style: preserve-3d;
+					
+	@extend .cf;
 }
 
 /* hide back of pane during swap */
-.front, .back {
-	background: $bg-crs-card repeat top left;
+.flipper .front, .flipper .back {
+	//background: $bg-crs-card repeat top left;
 	text-align: center;
-	height: 300px;
+	height: 400px;
+	width: 100%;
+	position: absolute;
 
 	-webkit-backface-visibility: hidden;
 		 -moz-backface-visibility: hidden;
 					backface-visibility: hidden;
+}
+
+.front, .back{
+	background: $bg-crs-card repeat top left;
+	
 }
 
 /* front pane, placed above back */
