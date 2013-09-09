@@ -32,9 +32,7 @@
 /**
  * Apply capital case to an element (usually a `strong`).
  */
-.caps{
-    text-transform:uppercase!important;
-}
+.caps{ text-transform:uppercase!important; }
 
 
 
@@ -67,3 +65,28 @@
 }
 
 .inline-block { display: inline-block; }
+
+.full-height{ height: 100%; }
+
+.block-center{ margin: 0 auto; }
+
+.absolute{ position: absolute  !important; }
+
+.no-numbers, .no-num{
+	list-style-type: none !important;
+	margin-left: 0;
+}
+
+.mtb1{
+	margin-top: 6px !important;
+	margin-bottom: 6px !important;
+}
+
+.no-underline{
+	text-decoration: none;
+	border-bottom: none;
+}
+
+.link-color-delay, .color-delay{
+	@include vendor(transition, color 0.3s linear) ;	
+}
