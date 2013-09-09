@@ -47,9 +47,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, confirmation) {
       if (confirmation) {
-        var tempPositionArray = makePositionArray();
-        var blockTitle = $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks[tempPositionArray[blockId].block].title;
-        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'"' + blockTitle + '" has been deleted.');
+        var t = makePositionArray();
+        var blockTitle = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block].title;
+        GrowlService.growl('conferences/' + $scope.conference.id,
+          $scope.conference, '"' + blockTitle + '" has been deleted.');
         $scope.deleteBlockFromPage(blockId);
       } else {
         $scope.deleteBlockFromPage(blockId);

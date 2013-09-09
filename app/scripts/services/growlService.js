@@ -22,11 +22,11 @@ angular.module('confRegistrationWebApp')
           ignoreNext = false;
         }
       });
-    }
+    };
 
     this.undo = function () {
       Model.update(growlPath, growlObject);
       $rootScope.growlMessage = '';
       $timeout.cancel(growlTimeout);
-    }
+    };
   });

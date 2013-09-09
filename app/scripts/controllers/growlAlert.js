@@ -2,7 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .controller('GrowlAlertCtrl', function ($scope, GrowlService) {
-    $scope.undo = function (){
+    $scope.undo = function () {
       GrowlService.undo();
-    }
+    };
   });
