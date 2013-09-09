@@ -6,17 +6,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.deletePage = function (pageId, confirmation) {
       if (confirmation) {
-        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'Page has been deleted.');
+        var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
+        var pageTitle = $scope.conference.registrationPages[delPageIndex].title;
+        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'Page "' + pageTitle + '" has been deleted.');
         $scope.deletePageFromConf(pageId);
-
-        /*$dialog.dialog({
-          templateUrl: 'views/confirmDeletePage.html',
-          controller: 'confirmCtrl'
-        }).open().then(function (result) {
-            if (result) {
-
-            }
-          });*/
       } else {
         $scope.deletePageFromConf(pageId);
       }

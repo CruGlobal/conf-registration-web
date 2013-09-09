@@ -47,16 +47,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, confirmation) {
       if (confirmation) {
-        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'Question has been deleted.');
+        var tempPositionArray = makePositionArray();
+        var blockTitle = $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks[tempPositionArray[blockId].block].title;
+        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference,'"' + blockTitle + '" has been deleted.');
         $scope.deleteBlockFromPage(blockId);
-       // $dialog.dialog({
-        //  templateUrl: 'views/confirmDeleteBlock.html',
-        //  controller: 'confirmCtrl'
-        //}).open().then(function (result) {
-        //    if (result) {
-
-        //    }
-        //  });
       } else {
         $scope.deleteBlockFromPage(blockId);
       }

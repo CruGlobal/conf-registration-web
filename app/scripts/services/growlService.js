@@ -3,32 +3,30 @@
 angular.module('confRegistrationWebApp')
   .service('GrowlService', function GrowlService($rootScope, Model, $timeout) {
     var growlPath, growlObject, growlTimeout, growlOn, ignoreNext;
-
-    //check if growl is currently active, cancel it if it is.
-    this.growl = function (path, object, message){
-      growlPath=path;
-      growlObject=angular.copy(object);
+    this.growl = function (path, object, message) {
+      growlPath = path;
+      growlObject = angular.copy(object);
       $rootScope.growlMessage = message;
 
       $timeout.cancel(growlTimeout);
-      growlTimeout = $timeout(function() {
-        $rootScope.growlMessage='';
+      growlTimeout = $timeout(function () {
+        $rootScope.growlMessage = '';
       }, 5000);
 
       ignoreNext = true;
-      growlOn = $rootScope.$on(path, function (event, object){
-        if(!ignoreNext){
-          $rootScope.growlMessage='';
+      growlOn = $rootScope.$on(path, function (event, object) {
+        if (!ignoreNext) {
+          $rootScope.growlMessage = '';
           growlOn();
-        }else{
+        } else {
           ignoreNext = false;
         }
       });
     }
 
-    this.undo = function (){
+    this.undo = function () {
       Model.update(growlPath, growlObject);
-      $rootScope.growlMessage='';
+      $rootScope.growlMessage = '';
       $timeout.cancel(growlTimeout);
     }
   });
