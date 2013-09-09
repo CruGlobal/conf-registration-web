@@ -509,6 +509,13 @@
   border-bottom: 12px solid #ffffff;
 }
 
+.crs--review label {
+  float: left;
+  width: 40%;
+}
+.crs--review li {
+  clear: both;
+}
 
 #crsDropZone {
   border: 1px dashed $crs-grayLighter;
