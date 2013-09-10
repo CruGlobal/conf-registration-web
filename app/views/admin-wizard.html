@@ -1,19 +1,5 @@
-<script>
-  var el = $('#crs-formOptionsMenu');
-  var elpos = el.offset().top;
-  $(window).scroll(function () {
-
-    var y = $(this).scrollTop();
-    if (y < elpos) {
-      el.stop().animate({'margin-top': 0}, 500);
-    } else {
-      el.stop().animate({'margin-top': y - elpos}, 500);
-    }
-  });
-</script>
-
 <div class="row-fluid">
-  <div class="span3" id="crs-formOptionsMenu">
+  <div class="span3" id="crs-formOptionsMenu" ng-style="scrollStyle()" scroll-position="scroll">
     <accordion close-others="true" class="crs-accordion">
       <accordion-group heading="Simple Form Elements" class="crs-parent-li" is-open="true">
         <ul class="crs-accordionSub">

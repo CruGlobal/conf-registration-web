@@ -18,4 +18,22 @@ angular.module('confRegistrationWebApp')
         });
       }
     };
+  }).directive('scrollPosition', function($window) {
+    return function(scope, element, attrs) {
+      var windowEl = angular.element($window);
+      windowEl.on('scroll', function() {
+        scope.$apply(function() {
+          if (windowEl.scrollTop()>130) {
+            returnTop = (windowEl.scrollTop()-120);
+          } else {
+            var returnTop = 0;
+          }
+          scope.scrollStyle = function() {
+            return {
+              marginTop: returnTop+"px"
+            };
+          };
+        });
+      });
+    };
   });
