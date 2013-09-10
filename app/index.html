@@ -44,27 +44,36 @@
   <button class="btn" data-ng-click="growlUndo()">Undo</button>
 </div>
 
-<div class="container-fluid">
-  <div class="crs-head">
-    <div class="crs-logo"><a href="#"><img src="images/logo-formvent.png" width="94" height="15" alt="Formvent"></a>
-    </div>
-    <span>Super easy fun forms for events.</span>
-    <!-- The sign up / sign in thing goes here. I'll come back to this. -->
-    <crs-signin-box></crs-signin-box>
-  </div>
-</div>
+<header class="crs--site-head" role="banner">
+	<div class="crs--site-brand">
+		<div class="container-fluid">
+			<div class="crs--logo">
+				<a href="#">
+					<img src="images/logo-formvent.png" width="94" height="15" alt="Formvent">
+				</a>
+				<span>Super easy fun forms for events.</span>
 
-<div class="crs-sub-head" ng-style="subHeadStyle">
-  <div class="container-fluid" data-ng-show="adminDashboard">
-    <div class="crs-icon-head span12" >
-
-    </div>
-    <h1>Forms for events. Easy peasy.</h1>
-  </div>
-</div>
-<div class="container-fluid">
-  <div ng-view="">
-  </div>
+		    </div>
+		    <!-- The sign up / sign in thing goes here. I'll come back to this. -->
+		    <crs-signin-box></crs-signin-box>
+		</div>
+	</div>
+		<div class="crs--headband" ng-style="subHeadStyle">
+			<div class="container-fluid" data-ng-show="adminDashboard">
+			  <div class="crs--tagline-wrapper" >
+			  	<div class="crs--tagline-logo  circle  bg--white  inline-block  center-vertical">
+			  		<i class="icon icon-heart  center-vertical"></i>
+			  	</div>
+				<h1 class="crs--tagline-text  inline-block">Forms for events. Easy peasy.</h1>
+			  </div> 
+			</div>
+		</div>
+</header>
+<div class="content" role="main">
+	<div class="container-fluid">
+		<div ng-view="">
+		</div>
+	</div>
 </div>
 <footer>
   <a href="http://localhost:9000/#/auth/{{crsToken}}">Dev Site</a>
