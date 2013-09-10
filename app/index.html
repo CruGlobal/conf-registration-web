@@ -45,7 +45,7 @@
 <div class="alert" data-ng-show="growlMessage" ng-controller="GrowlAlertCtrl">
   <button type="button" class="close" data-ng-click="growlMessage=''">&times;</button>
   <strong>Warning!</strong> <span>{{growlMessage}}</span>
-  <button class="btn" data-ng-click="undo()">Undo</button>
+  <button class="btn" data-ng-click="growlUndo()">Undo</button>
 </div>
 
 <div class="container-fluid">
@@ -146,7 +146,6 @@
 <script src="scripts/directives/showAnswer.js"></script>
 <script src="scripts/filters/joiner.js"></script>
 <script src="scripts/services/Model.js"></script>
-<script src="scripts/controllers/growlAlert.js"></script>
 <!-- endbuild -->
 </body>
 </html>

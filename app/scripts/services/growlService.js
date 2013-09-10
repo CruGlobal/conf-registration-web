@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    this.undo = function () {
+    $rootScope.growlUndo = function () {
       Model.update(growlPath, growlObject);
       $rootScope.growlMessage = '';
       $timeout.cancel(growlTimeout);
