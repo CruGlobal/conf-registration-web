@@ -18,19 +18,20 @@ angular.module('confRegistrationWebApp')
         });
       }
     };
-  }).directive('scrollPosition', function($window) {
-    return function(scope, element, attrs) {
+  }).directive('scrollPosition', function ($window) {
+    return function (scope) {
       var windowEl = angular.element($window);
-      windowEl.on('scroll', function() {
-        scope.$apply(function() {
-          if (windowEl.scrollTop()>130) {
-            returnTop = (windowEl.scrollTop()-120);
+      windowEl.on('scroll', function () {
+        scope.$apply(function () {
+          var returnTop;
+          if (windowEl.scrollTop() > 130) {
+            returnTop = (windowEl.scrollTop() - 120);
           } else {
-            var returnTop = 0;
+            returnTop = 0;
           }
-          scope.scrollStyle = function() {
+          scope.scrollStyle = function () {
             return {
-              marginTop: returnTop+"px"
+              marginTop: returnTop + 'px'
             };
           };
         });
