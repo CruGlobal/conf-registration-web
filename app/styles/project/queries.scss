@@ -1,0 +1,59 @@
+// Media Queries - This will override the default queries so tread very lightly. //
+
+@media (min-width: 1200px) {
+}    // END - (min-width: 1200px)
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+	.row-fluid  .crs--card-holder.span3 {
+		width: 31.49171%;
+	}
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(3n+1){
+		margin-left: 0;
+	}
+}   
+
+@media (min-width: 500px) and (max-width: 767px) {
+
+	.row-fluid  .crs--card-holder {
+		float: left;
+		width: 48.61878%;
+		margin-left: 2.76243%;
+	}
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(2n+1), .crs--card-holder:first-child {
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	body{
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.container-fluid{
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	
+    .crs-logo+span {
+      display: none;
+    }
+  .crs-event-card:nth-child(5) {
+   // margin-left: 2.76243%;
+  }
+}    // END - (max-width: 767px)
+
+
+@media (min-width: 979px) {
+	
+	// Every fourth child, starting at the first child
+	.crs--card-holder:nth-child(4n+1){
+		margin-left: 0;
+	}
+}
+

@@ -1,585 +1,84 @@
-// CRS custom variables.
-//---------------------------------------------------
-$check-radio-sheet: url("../images/forms/check_radio_sheet.png");
-$icon-sprite-cards: url("../images/icon-sprite-cards.png");
-$bg-crs-card: url("../images/bg-crs-card.png");
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * CONTENTS.......................It's what you are reading!
+ * IMPORTS........................Begin importing the sections found below
+ *
+ * BOOTSTRAP BASE.................The Bootstrap Framework
+ * BOOTSTRAP RESPONSIVE...........The responsive additions to Bootstrap
+ *
+ * MIXINS.........................Super-simle(yet awesome) Sass stuff
+ * VARIABLES......................Project level variables
+ * CLEARFIX.......................
+ * 
+ * SCAFFOLDING....................High level elements like 'html', 'body', etc. 
+ * TYPOGRAPHY.....................Project type settings(different from Bootstap)
+ * HEADINGS.......................Double-stranded headings
+ * PARAGRAPHS.....................
+ * LISTS..........................
+ * FORMS..........................
+ * TABLES.........................
+ * 
+ * HELPERS........................Project spefic helper classes
+ * CRS............................CRS specific styles that dont fit anywhere else
+ * QUERIES........................Media queries that will override Bootstrap responsive
+ * SMAME..........................Quick hacks for deployment sake/Stylings that make you sad
+ *
+ */
 
-// Flat UI Colors for CRS
-// --------------------------------------------------
-$crs-grayDarker:     #2c3e50;
-$crs-grayDark:       #34495e;
-$crs-gray:           #7f8c8d;
-$crs-grayLight:      #95a5a6;
-$crs-grayLighter:    #bdc3c7;
-$crs-grayLightest:   #ecf0f1;
 
-$crs-red:            #e74c3c;
-$crs-redDarker:      #c0392b;
-$crs-yellow:         #f1c40f;
-$crs-orange:         #f39c12;
-$crs-orangeDarker:   #e67e22;
-$crs-green:          #1abc9c;
-$crs-greenDarker:    #16a085;
-$crs-blue:           #2980b9;
 
-//---------------------------------------------------
 
+
+/*------------------------------------*\
+    $IMPORTS
+\*------------------------------------*/
+/**
+ * Bootstrap Libraries
+ */
 
 @import "bootstrap-sass/lib/bootstrap";
 @import "bootstrap-sass/lib/responsive";
 
-html {
-  background: $crs-grayLightest;
-}
-
-body {
-  font-family: 'Open Sans', sans-serif;
-  background-color:transparent;
-  color: $crs-grayDark;
-}
-
-.container-fluid {
-  max-width: 1201px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.crs-head {
-  height: 50px;
-  width: 100%;
-  position: relative;
-  .crs-logo {
-    display: block;
-    float: left;
-    margin: 13px 10px 0 20px;
-  }
-  .crs-logo+span {
-    color: $crs-green;
-    float: left;
-    font-size: 70%;
-    font-style: italic;
-    font-weight: 400;
-    margin-top: 17px;
-    display: none;
-  }
-}
-.crs-icon-container {
-  position: relative;
-}
-.crs-icon {
-  font-size: 18px;
-}
-
-.crs-question-default {
-  border-bottom: 1px dotted $crs-grayLighter;
-  padding: 25px;
-  padding-left: 100px;
-}
-
-.row-fluid .crs-question-default {
-  padding-left: 10.638297872340425%;
-  *padding-left: 10.53191489361702%;
-}
-
-.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete, .crs-icon-cross {
-  color: $crs-grayLighter;
-  position: relative;
-}
-.crs-icon-edit {
-  position: absolute;
-  left: -10.638297872340425%;
-  color: $crs-grayLighter;
-  top: 10px;
-}
-.crs-icon-delete {
-  position: absolute;
-  left: -10.638297872340425%;
-  color: $crs-grayLighter;
-  top: 50px;
-}
-
-.crs-icon-edit:hover, .crs-icon-delete:hover {
-  color: $crs-grayDark;
-}
-
-.crs-icon-cross {
-  position: absolute;
-  top: -5px;
-  color: $crs-red;
-  left: 2px;
-  cursor: pointer;
-}
-.crs-icon-cross:hover {
-  color: $crs-redDarker;
-}
-
-.crs-question-default .crs-btn-wiz-edit, .crs-question-default  .crs-btn-wiz-delete {
-  display: none;
-}
-.crs-question-default:hover .crs-btn-wiz-edit, .crs-question-default:hover .crs-btn-wiz-delete {
-  background: $crs-red !important;
-  color: $crs-grayDark !important;
-  display: block !important;
-}
-
-.crs-edit-mode {
- position: relative;
-}
-.crs-edit-btn-group {
-  position: absolute;
-  left: -10.638297872340425%;
-}
-
-#crs-signin{
-  background:$crs-green;
-  color:#fff;
-  cursor: pointer;
-  font-size:12px;
-  float: right;
-  height:20px;
-  position:relative;
-  margin-right: 30px;
-  padding-left:10px;
-  top:12px;
-  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-       -moz-user-select: moz-none;
-        -ms-user-select: none;
-  user-select: none;
-  width:145px;
-  span {
-    position: relative;
-  }
-  .crs-arrow-down {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-top: 8px solid #fff;
-    float:right;
-    height: 0;
-    margin:6px 6px 0 0;
-    position: relative;
-    width: 0;
-  }
-}
-
-#crs-signin-in{
-  background:$crs-green;
-  color:#fff;
-  cursor: pointer;
-  font-size:12px;
-  float: right;
-  height:20px;
-  position:relative;
-  margin-right: 30px;
-  padding-left:10px;
-  top:12px;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: moz-none;
-  -ms-user-select: none;
-  user-select: none;
-  width:auto;
-  span {
-    position: relative;
-  }
-  a {
-    color: #ffffff;
-    padding-left: 5px;
-    padding-right: 10px;
-  }
-}
-#crs-signin-box{
-  background:#fff;
-  border-top:5px solid $crs-green;
-  border-bottom:3px solid #dae2e4;
-  color:$crs-green;
-  diaplsy:none;
-  font-size:16px;
-  height:280px;
-  opacity:1;
-  right:0px;
-  padding-top:20px;
-  position:absolute;
-  text-align: center;
-  top:46px;
-  transition: opacity 1s;
-  width:270px;
-  p {
-    margin: 20px;
-  }
-  .crs-arrow-up {
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 8px solid $crs-green;
-    float:right;
-    height: 0;
-    margin:-33px 36px 0 0;
-    width: 0;
-  }
-}
-
-.crs-no-padding-top {
-  padding-top: 0px !important;
-}
-
-.crs-sub-head {
-  background: $crs-red;
-  background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
-  background: -webkit-gradient(left top, right top, color-stop(0%, #e74d3c), color-stop(100%, #e67e22));
-  background: -webkit-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
-  background: -o-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
-  background: -ms-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
-  background: linear-gradient(to right, #e74d3c 0%, #e67e22 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e74d3c', endColorstr='#e67e22', GradientType=1 );
-  display: block;
-  height: 100px;
-  margin-bottom: 25px;
-  width: 100%;
-  .crs-icon-head {
-    background-color: $crs-grayLightest;
-    border-radius: 25px;
-      -webkit-border-radius: 25px;
-      -moz-border-radius: 25px;
-    height: 50px;
-    float: left;
-    margin: 25px 40px 0 40px;
-    width: 50px;
-  }
-  h1 {
-    color: $crs-grayLightest;
-    float: left;
-    font-size: 112.5%;
-    font-style: italic;
-    font-weight: 300;
-    margin-top: 30px;
-  }
-}
-
-.debug {
-  border: 1px solid darkslateblue;
-}
-.crs-card-stack {
-  list-style-type: none;
-  margin: 50px 0 0 0;
-  padding: 0;
-  overflow: hidden;
-  .crs-event-card {
-    background: $bg-crs-card repeat top left;
-    border-radius:         5px;
-    -moz-border-radius:    5px;
-    -webkit-border-radius: 5px;
-    box-shadow:         0px 3px 0px #d9dfe1;
-    -moz-box-shadow:    0px 3px 0px #d9dfe1;
-    -webkit-box-shadow: 0px 3px 0px #d9dfe1;
-    margin-bottom: 28px;  /*28 instead of 25 to compensate for border bottom of 3px*/
-    min-width: 200px;
-    text-align: center;
-    .crs-card-body {
-      color: $crs-green;
-      font-size: 2em;
-      font-weight: 300;
-      display: inline-block;
-      height: 225px;
-      line-height: 36px;
-      padding-top: 40%;
-      width: 90%;
-      text-align: center;
-      vertical-align: middle;
-    }
-    .crs-card-count {
-      background: $icon-sprite-cards no-repeat left top;
-      background-position: 0px 0px;
-      display: block;
-      float: left;
-      height: 31px;
-      left: 15px;
-      //margin: -50px 0 25px 20px;
-      margin-top: -31px;
-      overflow: hidden;
-      padding: 0;
-      position: relative;
-      top: -15px;
-      width: auto;
-      span {
-        color: $crs-grayLightest;
-        font-size: 2em;
-        font-weight: 300;
-        //left: -20px;
-        padding-left: 36px;
-        position: relative;
-        text-align: left;
-        top: 5px;
-      }
-    }
-    .crs-card-count:hover {
-      border-bottom: none;
-      text-decoration: none;
-    }
-    .crs-card-sprocket {
-      background: $icon-sprite-cards no-repeat left top;
-      background-position: 0px -31px;
-      display: block;
-      float: right;
-      height: 31px;
-      right: 15px;
-      overflow: hidden;
-      //margin: -50px 20px 25px 0px;
-      margin-top: -31px;
-      position: relative;
-      top: -15px;
-      width: 31px;
-    }
-  }
-  .crs-new-event-card {
-    border: 1px solid $crs-grayLight;
-    border-radius:         5px;
-    -moz-border-radius:    5px;
-    -webkit-border-radius: 5px;
-    box-shadow:         0px 3px 0px #d9dfe1;
-    -moz-box-shadow:    0px 3px 0px #d9dfe1;
-    -webkit-box-shadow: 0px 3px 0px #d9dfe1;
-    cursor: pointer !important;
-    height: auto;
-    margin: 0;
-    min-width: 200px;
-    clear: all;
-    text-align: center;
-
-    div {
-      color: $crs-green;
-      font-size: 2em;
-      font-weight: 300;
-      display: inline-block;
-      height: 225px;
-      line-height: 36px;
-      padding-top: 40%;
-      text-align: center;
-      vertical-align: middle;
-      width: 90%;
-      .crs-plus-icon {
-        margin: 0 auto 20px auto;
-        display: block;
-        height: 74px;
-        width: 74px;
-      }
-      span {
-        font-size: .6em;
-        text-align: center;
-        width: auto;
-      }
-    }
-
-  }
-}
-.crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
-  margin-left: 0;
-}
-.crs-event-card:nth-last-child(2) {
-  margin-right: 27px;
-}
-///////Admin Wizard//////
-.row-fluid {
-  padding-top: 50px;
-}
-
-#crs-formEdit {
-  background-color: white;
-  color: $crs-green;
-  font-size: 24px;
-  padding: 26px;
-  line-height: 28px;
-  min-height: 500px;
-}
-
-#crs-formEdit .alert p {
-  font-size: 18px;
-  line-height: 20px;
-  color: #c09853;
-}
-
-#crs-formEdit p {
-  font-size: 14px;
-  line-height: 20px;
-  color: $crs-grayDark;
-}
-
-.crs-anchor{
-  color: $crs-red;
-}
-
-.crs-page-title {   //h2
-  border-bottom: 1px solid $crs-green;
-}
-
-.crs-block-title {  //h3
-  color: $crs-grayDark;
-}
-
-#crs-formEdit {
-  li {
-    list-style: none;
-  }
-}
-
-.crs-required {
-  color:$crs-grayLighter;
-  font-size: 14px;
-  font-weight: 100;
-  line-height: 20px;
-  font-style: italic;
-  margin-left: 10px;
-  letter-spacing: 1px;
-}
-
-//  Form Elements START //
-
-.crs-radio-label, .crs-checkbox-label {
-  color: $crs-grayDark;
-}
-.crs-text {
-  color: $crs-grayDark;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 20px;
-}
-// END Form Elements //
-
-//  Accoridion  //
-
-.crs-accordion,
-.crs-accordion ul,
-.crs-accordion li,
-.crs-accordion a,
-.crs-accordion span {
-  border: none;
-  margin: 0;
-  outline: none;
-  padding: 0;
-  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-       -moz-user-select: moz-none;
-        -ms-user-select: none;
-  user-select: none;
-}
-
-.crs-accordion {
-  //width: 200px;
-  //padding: 0 !important;
-  //margin: 0 !important;
-}
-
-.crs-parent-li {
-  background: #fff;
-}
-
-.crs-accordion li {
-  list-style: none;
-  margin: 12px;
-}
-.crs-parent-li:first-child {
-  margin-top: 0px;
-}
-
-.crs-accordion li > a {
-  background: #2dc1a4;
-  color: #fdfdfd;
-  display: block;
-  font-size: 14px;
-  min-width: 110px;
-  position: relative;
-  padding: 4px 10px 4px 10px;
-  text-decoration: none;
-}
-
-.crs-accordionSub li a {
-  background: #ecf0f1;
-  color: #797979;
-  -webkit-user-drag: element;
-  -webkit-user-select: none;
-
-}
-
-.crs-accordionSub li:last-child {
-  margin-bottom: 6px;
-  border-bottom: 12px solid #ffffff;
-}
 
 
-#crsDropZone {
-  border: 1px dashed $crs-grayLighter;
-  height: 0px;
-  margin: 10px 0 10px 0;
-  padding: 0;
-  transition: height .5s;
-}
 
-#DragIcon {
-  left: -9px;
-  position: absolute;
-}
 
-input[type="checkbox"] {
-  display: none;
-}
+/**
+ * Simple Utilities etc.
+ */
 
-input[type="checkbox"] + label span {
-  background: $check-radio-sheet left top no-repeat;
-  cursor: pointer;
-  display: inline-block;
-  height: 19px;
-  margin: -1px 4px 0 0;
-  vertical-align: middle;
-  width: 19px;
-}
+@import "generic/mixins";
+@import "project/variables";
+@import "generic/clearfix";
 
-input[type="checkbox"]:checked + label span {
-  background: $check-radio-sheet -19px top no-repeat;
-}
 
-input[type="radio"] {
-  display: none;
-}
 
-input[type="radio"] + label span {
-  background: $check-radio-sheet -38px top no-repeat;
-  cursor: pointer;
-  display: inline-block;
-  height: 19px;
-  margin: -1px 4px 0 0;
-  vertical-align: middle;
-  width: 19px;
-}
 
-input[type="radio"]:checked + label span {
-  background: $check-radio-sheet -57px top no-repeat;
-}
 
-// Media Queries - This will override the default queries so tread very lightly. //
 
-@media (min-width: 1200px) {
-}    // END - (min-width: 1200px)
+/**
+ * Base level files
+ */
+@import "base/scaffolding";
+@import "base/typography";
+@import "base/headings";
+@import "base/paragraphs";
+@import "base/lists";
+@import "base/forms";
+@import "base/tables";
 
-@media (min-width: 768px) and (max-width: 979px) {
-  .crs-event-card:nth-child(5), .crs-event-card:nth-child(9), .crs-event-card:nth-child(13) {
-   // margin-left: 2.76243%;
-  }
-  .crs-event-card:nth-child(5){
-  //.crs-event-card:nth-child(4), .crs-event-card:nth-child(7), .crs-event-card:nth-child(10)  {
-    margin-left: 0;
-  }
-  .crs-event-card:nth-last-child(2) {
-   // margin-right: 2.76243%;
-  }
-}    // END - (min-width: 768px) and (max-width: 979px)
 
-@media (max-width: 767px) {
-    .crs-logo+span {
-      display: none;
-    }
-  .crs-event-card:nth-child(5) {
-   // margin-left: 2.76243%;
-  }
-}    // END - (max-width: 767px)
 
+
+
+/**
+ * Project specific stylings
+ */
+@import "project/helpers";
+@import "project/crs";
+@import "project/queries";
+@import "project/shame";
 
 
