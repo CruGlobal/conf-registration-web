@@ -42,7 +42,7 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
-<div class="alert" data-ng-show="growlMessage" ng-controller="GrowlAlertCtrl">
+<div class="alert" data-ng-show="growlMessage">
   <button type="button" class="close" data-ng-click="growlMessage=''">&times;</button>
   <strong>Warning!</strong> <span>{{growlMessage}}</span>
   <button class="btn" data-ng-click="growlUndo()">Undo</button>
@@ -97,6 +97,7 @@
 <!-- endbuild -->
 
 <!-- build:js scripts/plugins.js -->
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 <!-- endbuild -->
 
@@ -112,7 +113,6 @@
 <script src="scripts/services/debouncePutsInterceptor.js"></script>
 <script src="scripts/services/uuid.js"></script>
 <script src="scripts/services/apiUrl.js"></script>
-<script src="scripts/services/growlService.js"></script>
 <script src="scripts/services/httpUrlInterceptor.js"></script>
 <script src="scripts/controllers/registration.js"></script>
 <script src="scripts/directives/textQuestion.js"></script>
