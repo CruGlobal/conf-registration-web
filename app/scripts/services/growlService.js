@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
       }, 5000);
 
       ignoreNext = true;
-      growlOn = $rootScope.$on(path, function (event, object) {
+      growlOn = $rootScope.$on(path, function () {
         if (!ignoreNext) {
           $rootScope.growlMessage = '';
           growlOn();
