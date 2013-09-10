@@ -13,29 +13,27 @@
 </script>
 
 <div class="row-fluid">
-
-    <div class="span3" id="crs-formOptionsMenu">
-      <ul class="crs-accordion">
-        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Simple Form Elements</a>
-          <ul class="crs-accordionSub" accordion-sub>
-            <li><a href="#" draggable="true" id="paragraphContent">Info</a></li>
-            <li><a href="#" draggable="true" id="textQuestion">Single Line Text</a></li>
-            <li><a href="#" draggable="true" id="radioQuestion">Multiple Choice</a></li>
-            <li><a href="#" draggable="true" id="checkboxQuestion">Checkbox</a></li>
-            <li><a href="#" draggable="true" id="selectQuestion">Dropdown</a></li>
-          </ul>
-        </li>
-        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Complex Form Elements</a>
-          <ul class="crs-accordionSub" accordion-sub style="display:none;">
-            <li><a href="#" draggable="true" id="emailQuestion">Email</a></li>
-            <li><a href="#" draggable="true" id="nameQuestion">Name</a></li>
-            <li><a href="#" draggable="true" id="phoneQuestion">Phone</a></li>
-          </ul></li>
-        <li class="crs-parent-li"><a href="javascript:;" onclick="$('.crs-accordionSub').slideUp(); $(this).parent().find('ul').slideDown();">Other Form Elements</a>
-          <ul class="crs-accordionSub" accordion-sub style="display:none;">
-          </ul></li>
-      </ul>
-    </div><!--end span3-->
+  <div class="span3" id="crs-formOptionsMenu">
+    <accordion close-others="true" class="crs-accordion">
+      <accordion-group heading="Simple Form Elements" class="crs-parent-li" is-open="true">
+        <ul class="crs-accordionSub">
+          <li><a href="#" draggable="true" id="paragraphContent">Info</a></li>
+          <li><a href="#" draggable="true" id="textQuestion">Single Line Text</a></li>
+          <li><a href="#" draggable="true" id="radioQuestion">Multiple Choice</a></li>
+          <li><a href="#" draggable="true" id="checkboxQuestion">Checkbox</a></li>
+          <li><a href="#" draggable="true" id="selectQuestion">Dropdown</a></li>
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Complex Form Elements" class="crs-parent-li">
+        <ul class="crs-accordionSub">
+          <li><a href="#" draggable="true" id="emailQuestion">Email</a></li>
+          <li><a href="#" draggable="true" id="nameQuestion">Name</a></li>
+          <li><a href="#" draggable="true" id="phoneQuestion">Phone</a></li>
+        </ul>
+      </accordion-group>
+    </accordion>
+  </div>
+  <!--end span3-->
 
     <div form-drop-area class="span9" id="crs-formEdit">
       <!-- <div class="span9" id="crs-formEdit">  -->
