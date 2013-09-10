@@ -2,7 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .service('GrowlService', function GrowlService($rootScope, Model, $timeout) {
-    var growlPath, growlObject, growlTimeout, growlOn, ignoreNext;
+    var growlPath, growlObject, growlTimeout, cancelEventListener, ignoreNext;
     this.growl = function (path, object, message) {
       growlPath = path;
       growlObject = angular.copy(object);
@@ -14,10 +14,10 @@ angular.module('confRegistrationWebApp')
       }, 5000);
 
       ignoreNext = true;
-      growlOn = $rootScope.$on(path, function () {
+      cancelEventListener = $rootScope.$on(path, function () {
         if (!ignoreNext) {
           $rootScope.growlMessage = '';
-          growlOn();
+          cancelEventListener();
         } else {
           ignoreNext = false;
         }
