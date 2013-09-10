@@ -4,8 +4,17 @@ angular.module('confRegistrationWebApp')
   .factory('httpUrlInterceptor', function (apiUrl) {
     return {
       request: function (config) {
+        var passthroughRegexs = [
+          /https?:\/\/.*/,
+          /views\/.*/,
+          /template\/.*/
+        ];
 
-        if (!/views\/.*/.test(config.url) && !/https?:\/\/.*/.test(config.url)) {
+        var match = function (regexp) {
+          return regexp.test(config.url);
+        };
+
+        if (!_.any(passthroughRegexs, match)) {
           config.url = apiUrl + config.url;
         }
 
