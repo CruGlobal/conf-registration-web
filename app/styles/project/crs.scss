@@ -23,7 +23,6 @@
 	content: '';
 	display: block;
 	height: 5px;
-	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -376,6 +375,7 @@
 	
 	
 }
+
 .crs--headband {
 	background: $crs-red;
 	background: -moz-linear-gradient(left, #e74d3c 0%, #e67e22 100%);
@@ -617,6 +617,16 @@
 		@include vendor(box-shadow, 0px 3px 0px #d9dfe1);
 	}
 	
+	.crs--event-card__new{
+	}
+	
+	
+	.crs--plus-icon{
+		display: block;
+		margin: 0 auto;
+		
+	}
+	
 	.flipper{
 		
 	}
@@ -648,7 +658,6 @@
 	}
 	
 	.crs--actions-list a{
-		
 		@extend .link-color-delay;
 	
 		&:hover{
@@ -657,29 +666,26 @@
 	}
 	
 	.crs--event-link{
-		display: block;
+		display: table;
 		width: 90%;
-		//height: 80%;
+		margin: 0 auto;
 			
 		&:hover{
 			@extend .no-underline;
 			
 			.crs--event-title{
-				color: darken($crs-greenDarker, 10%);
+				color: darken($crs-greenDarker, 5%);
 				
 			}
 			
 		}
+
 	}
 	
 	.crs--event-title{
 		color: $crs-green;
 		font-size: 2em;
 		font-weight: 300;
-		//display: inline-block;
-		//height: 225px;
-		//line-height: 36px;
-		//padding-top: 40%;
 		
 		@extend .link-color-delay;
 	
@@ -697,8 +703,7 @@
 
 
 	.crs--flip-container, .front, .back {
-		//width: 320px;
-		height: 400px;
+		height: 335px;
 	}
 	
 	.crs--card-count {
@@ -1012,8 +1017,8 @@ input[type="radio"]:checked + label span {
 .flipper .front, .flipper .back {
 	//background: $bg-crs-card repeat top left;
 	text-align: center;
-	height: 400px;
-	width: 100%;
+	//height: 400px;
+	//width: 100%;
 	position: absolute;
 
 	-webkit-backface-visibility: hidden;
@@ -1023,7 +1028,12 @@ input[type="radio"]:checked + label span {
 
 .front, .back{
 	background: $bg-crs-card repeat top left;
-	
+	text-align: center;
+	margin: 0 auto;
+	height: 335px;
+	width: 100%;
+	min-width: 200px;
+	//max-width: 280px;
 }
 
 /* front pane, placed above back */

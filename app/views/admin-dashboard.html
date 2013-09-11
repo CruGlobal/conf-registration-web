@@ -1,3 +1,5 @@
+<ng-include="'partials/headbandStandard.html'"></ng-include>
+
 <div class="row-fluid">
   <ul class="crs--card-stack">
 	
@@ -5,14 +7,16 @@
     <li class="crs--card-holder  span3  crs--flip-container" ng-repeat="conference in conferences" ng-class="flip">
 		<div class="flipper">
 			<div class="front  crs--event-card">
-				<div class="crs--card-content  full-height">
-					<a class="crs--event-link  block-center  full-height" href="#/register/{{conference.id}}">
+				<div class="crs--card-content">
+					<a class="crs--event-link  block-center" href="#/register/{{conference.id}}">
 						<h2 class="crs--event-title  center-vertical">{{conference.name}}</h2>
 					</a>
 				</div>
 				<div class="crs--card-meta">
-					<a class="crs--card-count  absolute" href="#"><span>22</span></a>
-			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = 'js-flip'"></button>	
+					<a class="crs--card-count  absolute" href="#"  -webkit-user-select: none;
+					-webkit-user-drag: none;><span>22</span></a>
+			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = 'js-flip'"  -webkit-user-select: none;
+					-webkit-user-drag: none; ></button>	
 			      	<!--<a class="crs-card-sprocket" href="#/adminData/{{conference.id}}" ng-click="flip = 'js-flip'"></a>-->		
 					<!--<button class="btn" ng-click="flip = 'js-flip'">Flip it!</button>-->
 				</div>
@@ -26,7 +30,7 @@
 							<a href="#">Clone</a>
 						</li>
 						<li>
-							<a href="#">Manage</a>
+							<a href="#/adminData/{{conference.id}}">Manage</a>
 						</li>
 						<li>
 							<a href="#">Edit</a>
@@ -37,8 +41,10 @@
 					</ol>
 				</div>
 				<div class="crs--card-meta">
-					<a class="crs--card-count  absolute" href="#"><span>22</span></a>
-			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = ''"></button>	
+					<a class="crs--card-count  absolute" href="#"  -webkit-user-select: none;
+					-webkit-user-drag: none;><span>22</span></a>
+			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = ''"  -webkit-user-select: none;
+					-webkit-user-drag: none;></button>	
 				</div>
 			</div>
 		
@@ -48,7 +54,15 @@
 	<!-- Creates a new event -->
     <li class="crs--card-holder span3">
 		<div class="crs--event-card  crs--event-card__new  front">
-			<div data-ng-click="createConference()"><img class="crs--plus-icon" src="images/icon-add.png"><span>Make a new one!</span></div>
+			<div class="crs--card-content">
+				<a class="crs--event-link"  data-ng-click="createConference()">
+					<div class="center-vertical">
+											<img class="crs--plus-icon" src="images/icon-add.png"  width="74px"  height="74px" /><span>Make a new one!</span>
+						
+					</div>
+
+				</a>
+			</div>
 		</div>
     </li>
 
