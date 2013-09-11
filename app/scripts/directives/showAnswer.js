@@ -10,10 +10,10 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
-        $scope.$watch('answers', function() {
-          if($scope.answers) {
+        $scope.$watch('answers', function () {
+          if ($scope.answers) {
             var answerObject = _.find($scope.answers, { blockId: $scope.block.id });
-            if(answerObject) {
+            if (answerObject) {
               $scope.value = answerObject.value;
             }
           }
