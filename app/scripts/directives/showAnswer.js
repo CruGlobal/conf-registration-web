@@ -10,7 +10,14 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
-        $scope.value = _.find($scope.answers, { blockId: $scope.block.id }).value;
+        $scope.$watch('answers', function() {
+          if($scope.answers) {
+            var answerObject = _.find($scope.answers, { blockId: $scope.block.id });
+            if(answerObject) {
+              $scope.value = answerObject.value;
+            }
+          }
+        });
 
         $scope.getSelectedCheckboxes = function (choices) {
           return _.keys(_.pick(choices, function (val) {
