@@ -34,10 +34,10 @@ angular.module('confRegistrationWebApp')
               return 'top';
             }
           }
-          if (isNear($(ev.target).closest('.crs-question-default')) === 'bottom') {
+          if (isNear($(ev.target).closest('.crs--question-default')) === 'bottom') {
             $('#crsDropZone').insertAfter($(ev.target).closest('.crsQuestion'));
             scope.crsPositionAdd = 1;
-          } else if (isNear($(ev.target).closest('.crs-question-default')) === 'top') {
+          } else if (isNear($(ev.target).closest('.crs--question-default')) === 'top') {
             $('#crsDropZone').insertBefore($(ev.target).closest('.crsQuestion'));
             scope.crsPositionAdd = 0;
           }
