@@ -1,0 +1,19 @@
+.btn{
+	background-image: none;
+}
+
+.btn-primary{
+	color: #ededed;
+	background-color: #5a5a5a;
+	
+	border-color: transparent;
+	@extend .color-delay;
+	
+	
+	-webkit-box-shadow: none;
+		    box-shadow: none;
+		
+		&:hover{
+			background-color: $crs-greenDarker;
+		}
+}

@@ -1,3 +1,26 @@
 /*------------------------------------*\
     $FORMS
 \*------------------------------------*/
+
+input[type="text"]{
+	border-width: 2px;
+	border-color: #c8c8c8;
+	
+	&:focus{
+		border-color: $crs-green !important;
+		-webkit-outline: none;
+		-webkit-box-shadow: none;
+			    box-shadow: none;
+		
+		
+	}
+	
+}
+
+.modal-body{
+	&:hover{
+		input[type="text"]{
+			border-color: #737373;
+		}
+	}
+}
