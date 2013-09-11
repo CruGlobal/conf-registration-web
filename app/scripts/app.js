@@ -78,10 +78,13 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
       })
       .when('/auth/:token', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
-            $cookies.crsToken = $route.current.params.token;
-            $location.replace().path($cookies.intendedRoute || '/');
-          }]
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope',
+            function ($location, $cookies, $route, $rootScope) {
+              $cookies.crsToken = $route.current.params.token;
+              $rootScope.crsToken = $cookies.crsToken;
+              $location.replace().path($cookies.intendedRoute || '/');
+            }
+          ]
         }
       })
       .otherwise({

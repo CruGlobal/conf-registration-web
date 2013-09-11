@@ -87,5 +87,5 @@
 }
 
 .link-color-delay, .color-delay{
-	@include vendor(transition, color 0.3s linear) ;	
+	@include vendor(transition, color 0.3s linear) ;
 }

@@ -425,7 +425,7 @@
 		}
 
 	.crs--icon-head {
-		@extend .cf;
+		@extend %cf;
 	}
 	
 	.icon-main{
@@ -698,7 +698,7 @@
 	.crs--card-meta {
 		position: relative;
 		height: 10%;
-		@extend .cf;
+		@extend %cf;
 	}
 
 
@@ -1010,7 +1010,7 @@ input[type="radio"]:checked + label span {
 		 -moz-transform-style: preserve-3d;
 					transform-style: preserve-3d;
 					
-	@extend .cf;
+	@extend %cf;
 }
 
 /* hide back of pane during swap */
@@ -1062,7 +1062,7 @@ input[type="radio"]:checked + label span {
 
 .card-sub-content{
 	width: auto;
-	@extend .cf;
+	@extend %cf;
 }
 
 .crs--card-sprocket{
