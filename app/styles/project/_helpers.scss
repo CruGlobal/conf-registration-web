@@ -88,9 +88,5 @@
 }
 
 .link-color-delay, .color-delay{
-  -webkit-transition:color 0.3s linear;
-     -moz-transition:color 0.3s linear;
-      -ms-transition:color 0.3s linear;
-       -o-transition:color 0.3s linear;
-          transition:color 0.3s linear;
+	@include vendor(transition, color 0.3s linear) ;
 }
