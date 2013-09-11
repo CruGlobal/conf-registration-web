@@ -1,0 +1,11 @@
+sass_dir = "app/styles"
+css_dir = ".tmp/styles"
+additional_import_paths = ["app/bower_components"]
+images_dir = "app/images"
+generated_images_dir = ".tmp/images/generated"
+javascripts_dir = "app/scripts"
+fonts_dir = "app/styles/fonts"
+http_images_path = "/images"
+http_fonts_path = "/styles/fonts"
+http_generated_images_path = "/images/generated"
+relative_assets = false
