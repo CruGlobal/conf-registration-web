@@ -8,12 +8,14 @@
   <div ng-show="editMode">
     <ul class="unstyled">
       <li data-ng-repeat="choice in block.content.choices">
-         <input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a>
+        <input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a>
         </label>
       </li>
       <li>
-          <input type="text" placeholder="Add Option" data-ng-model="editBlockAddOptionValue">
-          <button data-ng-click="editBlockAddOption();" type="button">Add</button>
+        <div class="input-append">
+          <input data-ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option">
+          <button class="btn" data-ng-click="editBlockAddOption();">Add</button>
+        </div>
         </label>
       </li>
     </ul>
