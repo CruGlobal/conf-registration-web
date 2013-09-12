@@ -10,12 +10,15 @@
              ng-change="updateAnswer(choice)">
       <label class="crs-checkbox-label" for="{{block.id}}-{{choice}}"><span></span>
         <tag ng-show="!editMode">{{choice}}</tag>
-        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index)">Delete</a></tag>
+        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href=""
+                                                                              data-ng-click="editBlockDeleteOption($index)">Delete</a>
+        </tag>
       </label>
     </li>
     <li ng-show="editMode">
       <input id="{{block.id}}-new" type="checkbox">
       <label for="{{block.id}}-new"><span></span>
+
         <div class="input-append">
           <input data-ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option">
           <button class="btn" data-ng-click="editBlockAddOption();">Add</button>
