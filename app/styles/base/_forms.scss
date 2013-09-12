@@ -17,7 +17,10 @@ input[type="text"]{
 	
 }
 
-.modal-body{
+.modal-body, .crs--question-block{
+	/*
+	* When the user hovers over the modal body the input border darkens
+	*/
 	&:hover{
 		input[type="text"]{
 			border-color: #737373;

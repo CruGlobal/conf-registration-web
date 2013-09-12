@@ -441,20 +441,29 @@
 	}
 	
 .crs--question-default {
+	padding-top: 25px;
+	padding-bottom: 25px;
+	padding-right: 25px;
   border-bottom: 1px dotted $crs-grayLighter;
-  padding: 25px;
-  padding-left: 100px;
+  //padding: 25px;
+  //padding-left: 100px;
 }
 
+
+
 .row-fluid .crs--question-default {
-  padding-left: 10.638297872340425%;
-  *padding-left: 10.53191489361702%;
+  //padding-left: 10.638297872340425%;
+  //*padding-left: 10.53191489361702%;
 }
 
 .crs--question-default .crs--btn-wiz-edit, .crs--question-default  .crs--btn-wiz-delete, .crs--icon-cross {
   color: $crs-grayLighter;
   position: relative;
 }
+
+.crs--question-block{
+}
+
 .crs--icon-edit {
   position: absolute;
   left: -10.638297872340425%;
