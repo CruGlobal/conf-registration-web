@@ -1,17 +1,22 @@
 <h2>{{conference.name}}</h2>
 <p><a href="#/wizard/{{conference.id}}">Edit Form</a></p>
 Filter: <input type="text" ng-model="searchFilter">
-<table class="table-bordered table-striped table-hover table-condensed">
-  <thead>
-  <tr>
-    <th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
-    <td data-ng-repeat="block in blocks">
-      <show-answer answers="registration.answers" block="block"></show-answer>
-    </td>
-  </tr>
-  </tbody>
-</table>
+
+<table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
+	<thead>
+		<tr>
+			<th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+		</tr>
+	</thead>
+
+	
+	  <tbody>
+		
+	  <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
+	    <td data-ng-repeat="block in blocks">
+	      <show-answer answers="registration.answers" block="block"></show-answer>
+	    </td>
+	  </tr>
+	  </tbody>
+	</table>
+</div>

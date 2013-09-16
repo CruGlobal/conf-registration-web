@@ -101,5 +101,12 @@
 }
 
 .link-color-delay, .color-delay{
-	@include vendor(transition, color 0.3s linear) ;
+	@include vendor(transition, all 0.25s cubic-bezier(.7, 0, .175, 1) 0s !important) ;
+}
+
+.block{display: block;}
+
+.center-block{margin: 0 auto;}
+.page-narrow{
+	width: 80%;
 }
