@@ -17,14 +17,10 @@
 
   <!-- build:css({.tmp,app}) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
-  <!-- endbuild -->
   <link rel="stylesheet" href="styles/webfont.css">
+  <!-- endbuild -->
 
-  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic);</style>
-  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic);</style>
-  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:300);</style>
-  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:400);</style>
-  <style>@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);</style>
+  <style>@import url(//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400,600);</style>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
   <link rel="stylesheet" href="bower_components/animate.css/animate.css"/>
 
@@ -42,6 +38,12 @@
 <![endif]-->
 
 <!-- Add your site or application content here -->
+<div class="alert" data-ng-show="growlMessage">
+  <button type="button" class="close" data-ng-click="growlMessage=''">&times;</button>
+  <strong>Warning!</strong> <span>{{growlMessage}}</span>
+  <button class="btn" data-ng-click="growlUndo()">Undo</button>
+</div>
+
 <header class="crs--site-head" role="banner">
 	<div class="crs--site-brand">
 		<div class="container-fluid">
@@ -73,7 +75,9 @@
 		</div>
 	</div>
 </div>
-
+<footer>
+  <a href="http://localhost:9000/#/auth/{{crsToken}}">Dev Site</a>
+</footer>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
 <script>
@@ -88,6 +92,10 @@
   }(document, 'script'));
 </script>
 
+  <script src="//www.bugsense.com/static/js/global/bugsense.js" type='text/javascript'></script>
+  <script type="text/javascript">
+    var bugsense = new Bugsense( { apiKey: '8e70b821' } );
+  </script>
 <script src="bower_components/angular-all-unstable/angular.js"></script>
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -109,9 +117,11 @@
 <script src="scripts/services/currentRegistrationInterceptor.js"></script>
 <script src="scripts/services/authorizationInterceptor.js"></script>
 <script src="scripts/services/unauthorizedInterceptor.js"></script>
+<script src="scripts/services/debouncePutsInterceptor.js"></script>
 <script src="scripts/services/uuid.js"></script>
 <script src="scripts/services/apiUrl.js"></script>
 <script src="scripts/services/httpUrlInterceptor.js"></script>
+<script src="scripts/services/growlService.js"></script>
 <script src="scripts/controllers/registration.js"></script>
 <script src="scripts/directives/textQuestion.js"></script>
 <script src="scripts/directives/radioQuestion.js"></script>
@@ -136,6 +146,8 @@
 <script src="scripts/directives/phoneQuestion.js"></script>
 <script src="scripts/directives/selectQuestion.js"></script>
 <script src="scripts/controllers/createConferenceDialog.js"></script>
+<script src="scripts/controllers/confirmModal.js"></script>
+<script src="scripts/controllers/formDropArea.js"></script>
 <script src="scripts/services/enforceAuth.js"></script>
 <script src="scripts/controllers/loginDialog.js"></script>
 <script src="scripts/directives/showAnswer.js"></script>

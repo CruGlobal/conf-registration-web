@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('ConfCache', function ConfCache($cacheFactory, $rootScope, $http, $q) {
+  .service('ConfCache', function ConfCache($cacheFactory, $rootScope, $http, $q, uuid) {
     var cache = $cacheFactory('conf');
 
     var path = function (id) {
@@ -40,6 +40,15 @@ angular.module('confRegistrationWebApp')
       };
       return $http.post(path(), data).then(function (response) {
         var conference = response.data;
+
+        conference.registrationPages[0] = {
+          id: uuid(),
+          conferenceId: conference.id,
+          position: 0,
+          title: 'First Page',
+          blocks: []
+        };
+
         cache.put(path(conference.id), conference);
         return conference;
       });

@@ -26,10 +26,10 @@
 							<a href="#">Clone</a>
 						</li>
 						<li>
-							<a href="#">Manage</a>
+							<a href="#/adminData/{{conference.id}}">Manage</a>
 						</li>
 						<li>
-							<a href="#">Edit</a>
+							<a href="#/wizard/{{conference.id}}">Edit</a>
 						</li>
 						<li>
 							<a href="#">Delete</a>
@@ -47,8 +47,8 @@
 
 	<!-- Creates a new event -->
     <li class="crs--card-holder span3">
-		<div class="crs--event-card  crs--event-card__new  front">
-			<div data-ng-click="createConference()"><img class="crs--plus-icon" src="images/icon-add.png"><span>Make a new one!</span></div>
+		<div class="crs--event-card  crs--event-card__new  align-vertical  front">
+			<div data-ng-click="createConference()"><img class="crs--plus-icon" src="images/icon-add.png" height="74px"  width="74px"><span>Make a new one!</span></div>
 		</div>
     </li>
 

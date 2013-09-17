@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
           });
         }
 
-        return createdObject;
+        return angular.copy(createdObject);
       });
     };
 
@@ -58,27 +58,34 @@ angular.module('confRegistrationWebApp')
     this.subscribe = function (scope, name, path) {
       scope.$watch(name, function (object) {
         if (angular.isDefined(object)) {
-          thisModel.update(path, object);
+          var cb = function () {
+            cache.put(path, angular.copy(object));
+            $rootScope.$broadcast(path, object, scope.$id);
+          };
+          thisModel.update(path, object, cb);
         }
       }, true);
 
-      scope.$on(path, function (event, object) {
-        scope[name] = object;
+      scope.$on(path, function (event, object, originScopeId) {
+        if (scope.$id !== originScopeId) {
+          scope[name] = angular.copy(object);
+        }
       });
 
       thisModel.get(path).then(function (object) {
-        scope[name] = object;
+        scope[name] = angular.copy(object);
       });
     };
 
-    this.update = function (path, object) {
+    this.update = function (path, object, cb) {
+      var callback = cb || function () {
+        cache.put(path, angular.copy(object));
+        $rootScope.$broadcast(path, object);
+      };
       if (angular.equals(object, cache.get(path))) {
         // do nothing
       } else {
-        $http.put(path, object).then(function () {
-          cache.put(path, object);
-          $rootScope.$broadcast(path, object);
-        });
+        $http.put(path, object).then(callback);
       }
     };
   });

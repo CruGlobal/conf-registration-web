@@ -78,10 +78,13 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
       })
       .when('/auth/:token', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$route', function ($location, $cookies, $route) {
-            $cookies.crsToken = $route.current.params.token;
-            $location.replace().path($cookies.intendedRoute || '/');
-          }]
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope',
+            function ($location, $cookies, $route, $rootScope) {
+              $cookies.crsToken = $route.current.params.token;
+              $rootScope.crsToken = $cookies.crsToken;
+              $location.replace().path($cookies.intendedRoute || '/');
+            }
+          ]
         }
       })
       .otherwise({
@@ -101,6 +104,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
     $httpProvider.interceptors.push('httpUrlInterceptor');
     $httpProvider.interceptors.push('authorizationInterceptor');
     $httpProvider.interceptors.push('unauthorizedInterceptor');
+    $httpProvider.interceptors.push('debouncePutsInterceptor');
   })
   .run(function ($rootScope, $location) {
     $rootScope.location = $location;
@@ -110,4 +114,12 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         height: $rootScope.adminDashboard ? '100px' : '5px'
       };
     });
+  })
+  .config(function ($provide) {
+    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
+      return function (exception, cause) {
+        $delegate(exception, cause);
+        bugsense.notify(exception, cause);
+      };
+    }]);
   });

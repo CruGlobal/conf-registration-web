@@ -1,4 +1,6 @@
 'use strict';
+/* jshint camelcase: false */
+/* global describe: false, expect: false, it: false, inject: false, beforeEach: false */
 
 describe('Service: Model', function () {
 
