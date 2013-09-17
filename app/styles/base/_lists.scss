@@ -37,6 +37,52 @@
 	padding-right: 15px;
 }
 
+.icon-numbered{
+	height: 30px;
+	width: 34px;
+	line-height: 30px;
+	vertical-align: middle;
+	font-size: 30px;
+}
+
+.breadcrumb li:nth-child(1) .icon-numbered:before{
+	  content: "a";
+}
+
+.breadcrumb li:nth-child(2) .icon-numbered:before{
+	  content: "b";
+}
+
+.breadcrumb li:nth-child(3) .icon-numbered:before{
+	  content: "c";
+}
+
+.breadcrumb li:nth-child(4) .icon-numbered:before{
+	  content: "d";
+}
+
+.breadcrumb li:nth-child(5) .icon-numbered:before{
+	  content: "e";
+}
+
+.breadcrumb li:nth-child(6) .icon-numbered:before{
+	  content: "f";
+}
+
+.breadcrumb li:nth-child(7) .icon-numbered:before{
+	content: "g";	
+}
+
+.breadcrumb li:nth-child(8) .icon-numbered:before{
+	  content: "h";
+}
+
+.breadcrumb li:nth-child(9) .icon-numbered:before{
+	  content: "i";
+}
+
+
+
 
 
 

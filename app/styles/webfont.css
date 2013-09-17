@@ -424,3 +424,143 @@
   content: "\e094";
 }
 
+
+@charset "UTF-8";
+
+@font-face {
+  font-family: "CRS-fonticons";
+  src:url("fonts/crs-fonticons/fonts/CRS-fonticons.eot");
+  src:url("fonts/crs-fonticons/fonts/CRS-fonticons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/crs-fonticons/fonts/CRS-fonticons.ttf") format("truetype"),
+    url("fonts/crs-fonticons/fonts/CRS-fonticons.svg#CRS-fonticons") format("svg"),
+    url("fonts/crs-fonticons/fonts/CRS-fonticons.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "CRS-fonticons";
+  content: attr(data-icon);
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none !important;
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  width: 1em;
+  line-height: 1em;
+  -webkit-font-smoothing: antialiased;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "CRS-fonticons";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none !important;
+  speak: none;
+  display: inline-block;
+  text-decoration: none;
+  width: 1em;
+  line-height: 1em;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+.icon-cru-1-one:before {
+  content: "a";
+}
+
+.icon-cru-2-two:before {
+  content: "b";
+}
+
+.icon-cru-3-three:before {
+  content: "c";
+}
+
+.icon-cru-4-four:before {
+  content: "d";
+}
+
+.icon-cru-5-five:before {
+  content: "e";
+}
+
+.icon-cru-6-six:before {
+  content: "f";
+}
+
+.icon-cru-7-seven:before {
+  content: "g";
+}
+
+.icon-cru-8-eight:before {
+  content: "h";
+}
+
+.icon-cru-9-nine:before {
+  content: "i";
+}
+
+.icon-cru-check:before {
+  content: "j";
+}
+
+.icon-cru-x:before {
+  content: "k";
+}
+
+.icon-fontawesome-webfont:before {
+  content: "l";
+}
+
+.icon-fontawesome-webfont-2:before {
+  content: "n";
+}
+
+.icon-fontawesome-webfont-3:before {
+  content: "o";
+}
+
+.icon-fontawesome-webfont-1:before {
+  content: "m";
+}
+
+.icon-fontawesome-webfont-4:before {
+  content: "q";
+}
+
+.icon-fontawesome-webfont-6:before {
+  content: "s";
+}
+
+.icon-fontawesome-webfont-7:before {
+  content: "t";
+}
+
+.icon-pin:before {
+  content: "r";
+}
+
+.icon-undo:before {
+  content: "u";
+}
+
+.icon-plus-alt:before {
+  content: "p";
+}
+
+.icon-erase:before {
+  content: "v";
+}
+
+.icon-users:before {
+  content: "w";
+}
+
+
+
