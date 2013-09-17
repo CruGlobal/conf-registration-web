@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
 			$scope.flip = '';
 		}
 	});
-	
 
 	$scope.flipCard = function () {
 		$rootScope.$broadcast('flipevent', $scope.$id);
