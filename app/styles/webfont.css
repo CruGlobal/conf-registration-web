@@ -429,11 +429,11 @@
 
 @font-face {
   font-family: "CRS-fonticons";
-  src:url("fonts/crs-fonticons/fonts/CRS-fonticons.eot");
-  src:url("fonts/crs-fonticons/fonts/CRS-fonticons.eot?#iefix") format("embedded-opentype"),
-    url("fonts/crs-fonticons/fonts/CRS-fonticons.ttf") format("truetype"),
-    url("fonts/crs-fonticons/fonts/CRS-fonticons.svg#CRS-fonticons") format("svg"),
-    url("fonts/crs-fonticons/fonts/CRS-fonticons.woff") format("woff");
+  src:url("fonts/CRS-fonticons.eot");
+  src:url("fonts/CRS-fonticons.eot?#iefix") format("embedded-opentype"),
+    url("fonts/CRS-fonticons.ttf") format("truetype"),
+    url("fonts/CRS-fonticons.svg#CRS-fonticons") format("svg"),
+    url("fonts/CRS-fonticons.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 
