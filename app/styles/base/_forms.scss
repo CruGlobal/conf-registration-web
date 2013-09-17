@@ -34,32 +34,23 @@ input[type="text"]{
 	
 }
 
-.modal{
-	
+.modal{	
 	@include vendor(box-shadow, 0);	
 	@include vendor(border-radius, 6px);
-	
-	
 }
-
-	.modal-header {
-	}
-	
-	.modal-body{
-		
-		input{
-			margin-bottom: 19px;
-		}
-	}
 
 	.modal-footer{
 		background-color: $crs-green;
 	}
+	
+	.modal-body input{
+		
+			margin-bottom: 19px;
+	}
 
-
-.modal-message{
-	line-height: 25px;
-	margin-bottom: 0px;
-	padding-top: 14px;
-	padding-bottom: 34px;
-}
+	.modal-message{
+		line-height: 25px;
+		margin-bottom: 0px;
+		padding-top: 14px;
+		padding-bottom: 34px;
+	}

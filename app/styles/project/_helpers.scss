@@ -106,7 +106,51 @@
 
 .block{display: block;}
 
-.center-block{margin: 0 auto;}
-.page-narrow{
-	width: 80%;
+.center-block{ margin: 0 auto !important; }
+.page-narrow{ width: 80% !important; }
+
+.link--disabled{
+	pointer-events: none !important;
+    cursor: default !important;
+	color: #c8c8c8 !important;
+}
+
+.icon.icon-numbered:nth-child(0){
+	
+}
+
+.icon.icon-numbered:nth-child(1){
+	
+}
+
+.icon.icon-numbered:nth-child(2){
+	
+}
+
+.icon.icon-numbered:nth-child(3){
+	
+}
+
+.icon.icon-numbered:nth-child(4){
+	
+}
+
+.icon.icon-numbered:nth-child(5){
+	
+}
+
+.icon.icon-numbered:nth-child(6){
+	
+}
+
+.icon.icon-numbered:nth-child(7){
+	
+}
+
+.icon.icon-numbered:nth-child(8){
+	
+}
+
+.icon.icon-numbered:nth-child(9){
+	
 }

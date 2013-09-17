@@ -5,9 +5,10 @@
 <div class="row-fluid">
     <ul class="breadcrumb">
       <li data-ng-repeat="page in conference.registrationPages">
-        <a href="#/register/{{conference.id}}/page/{{page.id}}" ng-show="validPages[page.id] && page.id != activePageId">{{page.title}}</a>
-        <span ng-hide="validPages[page.id] && page.id != activePageId">{{page.title}}</span>
-        <span class="divider" data-ng-hide="$last"><div class="icon icon-chevron-right"></div></span>
+        <a href="#/register/{{conference.id}}/page/{{page.id}}" class="link--disabled"
+			<i class="icon icon-numbered"></i>
+        	<span>{{page.title}}</span>
+		</a>
       </li>
     </ul>
 </div>
