@@ -2,7 +2,7 @@
   <ul class="crs--card-stack">
 	
 	<!-- Existing Events -->
-    <li class="crs--card-holder  span3  crs--flip-container" ng-repeat="conference in conferences" ng-class="flip">
+    <li class="crs--card-holder  span3  crs--flip-container" ng-repeat="conference in conferences" ng-class="flip" ng-controller="ConferenceCardCtrl">
 		<div class="flipper">
 			<div class="front  crs--event-card">
 				<div class="crs--card-content  full-height">
@@ -12,7 +12,7 @@
 				</div>
 				<div class="crs--card-meta">
 					<a class="crs--card-count  absolute" href="#"><span>22</span></a>
-			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = 'js-flip'"></button>	
+			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
 			      	<!--<a class="crs-card-sprocket" href="#/adminData/{{conference.id}}" ng-click="flip = 'js-flip'"></a>-->		
 					<!--<button class="btn" ng-click="flip = 'js-flip'">Flip it!</button>-->
 				</div>
@@ -38,7 +38,7 @@
 				</div>
 				<div class="crs--card-meta">
 					<a class="crs--card-count  absolute" href="#"><span>22</span></a>
-			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flip = ''"></button>	
+			      	<button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
 				</div>
 			</div>
 		
