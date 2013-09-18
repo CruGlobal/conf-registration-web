@@ -14,8 +14,8 @@ angular.module('confRegistrationWebApp')
           scope.sendDragEvent(ev.target.id);
         });
         element.bind('dragend', function () {
-          $('#crsDropZone').css('height', '0px');
-          $('#crsDropZone').delay(480).hide(0);
+          //$('#crsDropZone').css('height', '0px');
+          $('#crsDropZone').css('display', 'none');
         });
 
       }

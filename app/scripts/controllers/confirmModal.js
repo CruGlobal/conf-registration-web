@@ -1,22 +1,22 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-.controller('confirmCtrl', function ($scope, ConfCache, dialog) {
+.controller('confirmCtrl', function ($scope, ConfCache, $modalInstance) {
   $scope.close = function () {
-    dialog.close(false);
+    $modalInstance.close(false);
   };
   $scope.submit = function () {
-    dialog.close(true);
+    $modalInstance.close(true);
   };
 });
 
 angular.module('confRegistrationWebApp')
-.controller('confirmPromptCtrl', function ($scope, ConfCache, dialog) {
+.controller('confirmPromptCtrl', function ($scope, $modalInstance) {
   $scope.close = function () {
-    dialog.close('');
+    $modalInstance.close('');
   };
-  $scope.submit = function () {
-    dialog.close($scope.name);
+  $scope.submit = function (newPageName) {
+    $modalInstance.close(newPageName);
   };
 });
 
