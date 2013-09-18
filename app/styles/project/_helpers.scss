@@ -57,7 +57,6 @@
 		  	border-radius: 50%;	
 }
 
-
 .center-vertical{
 	display: table-cell;
 	vertical-align: middle;
@@ -82,11 +81,37 @@
 	margin-bottom: 6px !important;
 }
 
+.mb4{
+	margin-bottom: 24px !important;
+}
+
+.mt6{
+	margin-top: 36px !important;	
+}
+
+.mtb6{
+	margin-top: 36px !important;
+	margin-bottom: 36px !important;
+	
+}
+
 .no-underline{
 	text-decoration: none;
 	border-bottom: none;
 }
 
 .link-color-delay, .color-delay{
-	@include vendor(transition, color 0.3s linear) ;
+	@include vendor(transition, all 0.25s cubic-bezier(.7, 0, .175, 1) 0s !important) ;
 }
+
+.block{display: block;}
+
+.center-block{ margin: 0 auto !important; }
+.page-narrow{ width: 80% !important; }
+
+.link--disabled{
+	pointer-events: none !important;
+    cursor: default !important;
+	color: #c8c8c8 !important;
+}
+
