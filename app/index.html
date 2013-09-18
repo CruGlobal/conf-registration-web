@@ -49,7 +49,7 @@
 		<div class="container-fluid">
 			<div class="crs--logo">
 				<a href="#">
-					<img src="images/logo-formvent.png" width="94" height="15" alt="Formvent">
+					<img src="images/logo-formvent.png" width="94" height="15" alt="Formvent: Super easy fun forms for events">
 				</a>
 				<span>Super easy fun forms for events.</span>
 
@@ -58,7 +58,8 @@
 		    <crs-signin-box></crs-signin-box>
 		</div>
 	</div>
-		<div class="crs--headband" ng-style="subHeadStyle">
+</header>
+<!--		<div class="crs--headband" ng-style="subHeadStyle">
 			<div class="container-fluid" data-ng-show="adminDashboard">
 			  <div class="crs--tagline-wrapper" >
 			  	<div class="crs--tagline-logo  circle  bg--white  inline-block  center-vertical">
@@ -67,16 +68,16 @@
 				<h1 class="crs--tagline-text  inline-block">Forms for events. Easy peasy.</h1>
 			  </div> 
 			</div>
-		</div>
-</header>
-<div class="content" role="main">
-	<div class="container-fluid">
-		<div ng-view="">
-		</div>
+		</div>-->
+<div class="content  mb4" role="main">
+	<div ng-view="">
 	</div>
 </div>
-<footer>
-  <a href="http://localhost:9000/#/auth/{{crsToken}}">Dev Site</a>
+<footer role="contentinfo" class="crs--site-foot">
+	<div class="container-fluid">
+		<a class="btn btn-light" href="http://localhost:9000/#/auth/{{crsToken}}">To the Dev Site, Batman! </a>
+	  
+	</div>
 </footer>
 
 <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -154,6 +155,8 @@
 <script src="scripts/directives/showAnswer.js"></script>
 <script src="scripts/filters/joiner.js"></script>
 <script src="scripts/services/Model.js"></script>
+<script src="scripts/controllers/conferenceCard.js"></script>
+<script src="scripts/directives/body.js"></script>
 <!-- endbuild -->
 </body>
 </html>

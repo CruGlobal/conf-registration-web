@@ -1,3 +1,63 @@
 /*------------------------------------*\
-    $LISTS
+    $TABLES
 \*------------------------------------*/
+
+table{
+	width: 100%;
+	border-collapse: collapse;
+	position: relative;
+}
+
+	td, th{
+		text-align: left;
+		padding: 6px;
+	}
+
+.table-wrapper{
+	position: relative;	
+}
+
+th{
+	display: table-cell;
+}
+
+.pinned{
+	& table{
+		
+	}
+}
+
+@media (max-width: 767px){
+	.table, thead, tbody, th, td, tr{
+		display: block;
+	}
+	
+	thead{
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: #fff;
+		width: 50%;
+		//overflow: hidden;
+		//overflow-x: scroll;
+	//	border-right: 1px solid #ccc;
+	//	border-left: 1px solid #ccc;
+	}
+	
+	tbody{
+		position: relative;
+		padding-left: 50%;
+	}
+	
+	td{
+		border: none;
+		border-bottom: 1px solid #eee;
+		min-height: 22px;
+	}
+	
+	.pinned table {
+		border-right: none;
+		border-left: none;
+		width: 100%;
+	}
+}
