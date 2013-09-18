@@ -16,7 +16,6 @@ angular.module('confRegistrationWebApp')
             var blockType = scope.blockId;
             scope.insertBlock(blockType, pageId, position);
           } else if (scope.moveType === 'move') {
-            //$('#' + scope.blockId).insertBefore($('#crsDropZone'));
             scope.moveBlock(scope.blockId, pageId, position);
           }
         });

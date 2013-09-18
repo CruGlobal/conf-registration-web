@@ -66,8 +66,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.addNewPage = function () {
-
-      var modalInstance = $modal.open({
+      $modal.open({
         templateUrl: 'views/promptNewPage.html',
         controller: 'confirmPromptCtrl'
       }).result.then(function (pageTitle) {
