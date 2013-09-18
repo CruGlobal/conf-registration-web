@@ -9,8 +9,8 @@
   <h2>Conference Dates</h2>
   <div><label>Conference Begins:</label>
     <div class="form-horizontal">
-      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.eventStartTime" show-weeks="showWeeks" is-open="opened" min="minDate" datepicker-options="dateOptions" ng-required="true" />
-      <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.eventStartTime" show-weeks="showWeeks" is-open="openedA" min="minDate" datepicker-options="dateOptions" ng-required="true" />
+      <button class="btn" ng-click="openA()"><i class="icon-calendar"></i></button>
 
       <div ng-model="conference.eventStartTime" style="display:inline-block;">
         <timepicker show-meridian="true"></timepicker>
@@ -19,8 +19,8 @@
   </div>
   <div><label>Conference Ends:</label>
     <div class="form-horizontal">
-      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.eventEndTime" show-weeks="showWeeks" is-open="opened" min="conference.eventStartTime" datepicker-options="dateOptions" ng-required="true" />
-      <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.eventEndTime" show-weeks="showWeeks" is-open="openedB" min="conference.eventStartTime" datepicker-options="dateOptions" ng-required="true" />
+      <button class="btn" ng-click="openB()"><i class="icon-calendar"></i></button>
 
       <div ng-model="conference.eventEndTime" style="display:inline-block;">
         <timepicker show-meridian="true"></timepicker>
@@ -93,25 +93,25 @@
 
 <div>
   <h2>Payment Options</h2>
-  <div><label>Cost:</label> $<input type="text" data-ng-model="conference.1986"></div>
+  <div><label>Cost:</label> $<input type="text" data-ng-model="conference.conferenceCost"></div>
   <div>
-    <input type="checkbox" ng-model="conference.paymentCreditCards" id="paymentCreditCards" ng-value="true">
-    <label class="crs-checkbox-label" for="paymentCreditCards">Accept Credit Cards: <span></span></label>
+    <input type="checkbox" ng-model="conference.acceptCreditCards" id="acceptCreditCards" ng-value="true">
+    <label class="crs-checkbox-label" for="acceptCreditCards">Accept Credit Cards: <span></span></label>
   </div>
-  <div ng-show="conference.paymentCreditCards"><label>Auth.NET ID:</label> <input type="text" data-ng-model="a1"></div>
-  <div ng-show="conference.paymentCreditCards"><label>Auth.NET Transaction Key:</label> <input type="text" data-ng-model="conference.name"></div>
+  <div ng-show="conference.acceptCreditCards"><label>Auth.NET ID:</label> <input type="text" data-ng-model="conference.authnetId"></div>
+  <div ng-show="conference.acceptCreditCards"><label>Auth.NET Transaction Key:</label> <input type="text" data-ng-model="conference.authnetToken"></div>
 
   <div>
-    <input type="checkbox" ng-model="conference.paymentEarlyReg" id="paymentEarlyReg" ng-value="true">
-    <label class="crs-checkbox-label" for="paymentEarlyReg">Early Registration Discount: <span></span></label>
+    <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" id="earlyRegistrationDiscount" ng-value="true">
+    <label class="crs-checkbox-label" for="earlyRegistrationDiscount">Early Registration Discount: <span></span></label>
   </div>
 
-  <div class="form-horizontal" ng-show="conference.paymentEarlyReg">
+  <div class="form-horizontal" ng-show="conference.earlyRegistrationDiscount">
     <label>If registered by:</label>
-    <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.453275" show-weeks="showWeeks" is-open="opened" datepicker-options="dateOptions" />
-    <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+    <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.earlyRegistrationCutoff" show-weeks="showWeeks" is-open="openedE" datepicker-options="dateOptions" />
+    <button class="btn" ng-click="openE()"><i class="icon-calendar"></i></button>
   </div>
-  <div ng-show="conference.paymentEarlyReg"><label>Subtract:</label> $<input type="text" data-ng-model="a1"></div>
+  <div ng-show="conference.earlyRegistrationDiscount"><label>Subtract:</label> $<input type="text" data-ng-model="conference.earlyRegistrationAmount"></div>
 </div>
 
 
@@ -120,8 +120,8 @@
   <h2>Registration Window</h2>
   <div><label>Registration Begins:</label>
     <div class="form-horizontal">
-      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.registrationStartTime" show-weeks="showWeeks" is-open="opened" min="minDate" datepicker-options="dateOptions" ng-required="true" />
-      <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.registrationStartTime" show-weeks="showWeeks" is-open="openedC" min="minDate" datepicker-options="dateOptions" ng-required="true" />
+      <button class="btn" ng-click="openC()"><i class="icon-calendar"></i></button>
 
       <div ng-model="conference.registrationStartTime" style="display:inline-block;">
         <timepicker show-meridian="true"></timepicker>
@@ -130,8 +130,8 @@
   </div>
   <div><label>Registration Ends:</label>
     <div class="form-horizontal">
-      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.registrationEndTime" show-weeks="showWeeks" is-open="opened" min="conference.registrationStartTime" datepicker-options="dateOptions" ng-required="true" />
-      <button class="btn" ng-click="open()"><i class="icon-calendar"></i></button>
+      <input type="text" datepicker-popup="MM/dd/yyyy" ng-model="conference.registrationEndTime" show-weeks="showWeeks" is-open="openedD" min="conference.registrationStartTime" datepicker-options="dateOptions" ng-required="true" />
+      <button class="btn" ng-click="openD()"><i class="icon-calendar"></i></button>
 
       <div ng-model="conference.registrationEndTime" style="display:inline-block;">
         <timepicker show-meridian="true"></timepicker>

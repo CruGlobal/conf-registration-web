@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDetailsCtrl', function ($scope, $timeout, registrations, conference) {
+  .controller('AdminDetailsCtrl', function ($scope, $timeout, Model, registrations, conference) {
+    Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
     $scope.conference = conference;
-
 
     $scope.showWeeks = false;
     $scope.toggleWeeks = function () {
@@ -12,9 +12,29 @@ angular.module('confRegistrationWebApp')
     $scope.minDate = ( $scope.minDate ) ? null : new Date();
 
 
-    $scope.open = function() {
+    $scope.openA = function() {
       $timeout(function() {
-        $scope.opened = true;
+        $scope.openedA = true;
+      });
+    };
+    $scope.openB = function() {
+      $timeout(function() {
+        $scope.openedB = true;
+      });
+    };
+    $scope.openC = function() {
+      $timeout(function() {
+        $scope.openedC = true;
+      });
+    };
+    $scope.openD = function() {
+      $timeout(function() {
+        $scope.openedD = true;
+      });
+    };
+    $scope.openE = function() {
+      $timeout(function() {
+        $scope.openedE = true;
       });
     };
 
