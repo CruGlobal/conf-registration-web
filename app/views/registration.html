@@ -1,17 +1,19 @@
-<div class="row-fluid crs--no-padding-top">
-  <div class="span12">
-    <h1>{{conference.name}}</h1>
-  </div>
+<div class="container-fluid register">
+	<div class="crs--register  page-narrow  center-block">
+	<div class="row-fluid crs--no-padding-top">
+	    <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
+	</div>
+	<div class="row-fluid">
+	    <ul class="breadcrumb">
+	      <li data-ng-repeat="page in conference.registrationPages">
+	        <a href="#/register/{{conference.id}}/page/{{page.id}}" class="link--disabled  ">
+				<i class="icon  icon-numbered"></i>
+	        	<span>{{page.title}}</span>
+			</a>
+	      </li>
+	    </ul>
+	</div>
+	<page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId" >
+	</page>
+	</div>	
 </div>
-<div class="row-fluid">
-  <div class="span12">
-    <ul class="breadcrumb">
-      <li data-ng-repeat="page in conference.registrationPages">
-        <a href="#/register/{{conference.id}}/page/{{page.id}}" ng-show="validPages[page.id] && page.id != activePageId">{{page.title}}</a>
-        <span ng-hide="validPages[page.id] && page.id != activePageId">{{page.title}}</span>
-        <span class="divider" data-ng-hide="$last"><div class="icon icon-chevron-right"></div></span>
-      </li>
-    </ul>
-  </div>
-</div>
-<page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>

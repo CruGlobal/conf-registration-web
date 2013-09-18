@@ -22,6 +22,7 @@
  * 
  * HELPERS........................Project spefic helper classes
  * CRS............................CRS specific styles that dont fit anywhere else
+ * BUTTONS........................Overrides the Bootstrap buttons 
  * QUERIES........................Media queries that will override Bootstrap responsive
  * SMAME..........................Quick hacks for deployment sake/Stylings that make you sad
  *
@@ -78,6 +79,7 @@
  */
 @import "project/helpers";
 @import "project/crs";
+@import "project/buttons";
 @import "project/queries";
 @import "project/shame";
 
