@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminWizardCtrl', function ($scope, $dialog, conference, Model, GrowlService) {
+  .controller('AdminWizardCtrl', function ($scope, $modal, conference, Model, GrowlService) {
     Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     $scope.deletePage = function (pageId, growl) {
