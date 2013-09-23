@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/datepicker.html',
       restrict: 'E',
       scope: {
-        'localModel':'=model'
+        'localModel': '=model'
       },
       controller: function ($timeout, $scope) {
         $scope.showWeeks = false;
