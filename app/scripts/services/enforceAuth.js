@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('enforceAuth', function ($route, $dialog, $cookies, $q) {
+  .factory('enforceAuth', function ($route, $modal, $cookies, $q) {
     var defer = $q.defer();
 
     if (angular.isDefined($cookies.crsToken)) {
@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
         backdropClick: false,
         keyboard: false
       };
-      $dialog.dialog(loginDialogOptions).open();
+      $modal.open(loginDialogOptions);
     }
 
     return defer.promise;
