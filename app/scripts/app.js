@@ -68,7 +68,7 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
               var firstPageId = conference.registrationPages &&
                 conference.registrationPages[0] &&
                 conference.registrationPages[0].id;
-              $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
+              $location.replace().path('/register/' + conferenceId + '/page/');
             });
           }]
         }
