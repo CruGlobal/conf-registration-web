@@ -1,15 +1,12 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('CreateConferenceDialogCtrl', function ($scope, ConfCache, dialog, $location) {
+  .controller('CreateConferenceDialogCtrl', function ($scope, ConfCache, $modalInstance, $location) {
     $scope.close = function () {
-      dialog.close();
+      $modalInstance.close('');
     };
 
-    $scope.submit = function () {
-      ConfCache.create($scope.name).then(function (conference) {
-        dialog.close();
-        $location.path('/wizard/' + conference.id);
-      });
+    $scope.submit = function (newConfName) {
+        $modalInstance.close(newConfName);
     };
   });

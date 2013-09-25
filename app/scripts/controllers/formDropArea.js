@@ -38,7 +38,7 @@ angular.module('confRegistrationWebApp')
         content: '',
         pageId: newPage,
         required: false,
-        title: 'New Question',
+        title: 'New Block',
         type: blockType
       };
 

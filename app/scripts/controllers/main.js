@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('MainCtrl', function ($scope, ConfCache, $modal) {
+  .controller('MainCtrl', function ($scope, ConfCache, $modal, $location) {
     $scope.$on('conferences/', function (event, conferences) {
       $scope.conferences = conferences;
     });
@@ -13,6 +13,12 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.createConference = function () {
-      $modal.open(createConferenceDialogOptions);
+      $modal.open(createConferenceDialogOptions).result.then(function (conferenceName) {
+        if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
+          ConfCache.create(conferenceName).then(function (conference) {
+            $location.path('/wizard/' + conference.id);
+          });
+        }
+      });;
     };
   });
