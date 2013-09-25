@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function () {
+  .directive('showAnswer', function (AnswerCache) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
@@ -10,11 +10,20 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
+        $scope.editMode = false;
+
+        $scope.setEditMode = function (newValue) {
+          if (newValue === true) {
+            AnswerCache.syncBlock($scope, 'answer');
+          }
+          $scope.editMode = newValue;
+        };
+
         $scope.$watch('answers', function () {
           if ($scope.answers) {
             var answerObject = _.find($scope.answers, { blockId: $scope.block.id });
             if (answerObject) {
-              $scope.value = answerObject.value;
+              $scope.answer = answerObject;
             }
           }
         });
@@ -24,6 +33,7 @@ angular.module('confRegistrationWebApp')
             return val === true;
           }));
         };
+
       }
     };
   });
