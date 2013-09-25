@@ -3,11 +3,7 @@
 angular.module('confRegistrationWebApp')
   .directive('accordionSub', function () {
     return {
-      restrict: 'A',
-      controller: function ($rootScope, $scope) {
-      },
-      link: function postLink(scope, element) {
-      }
+      restrict: 'A'
     };
   }).directive('scrollPosition', function ($window) {
     return function (scope) {

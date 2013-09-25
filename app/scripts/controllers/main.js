@@ -19,6 +19,6 @@ angular.module('confRegistrationWebApp')
             $location.path('/wizard/' + conference.id);
           });
         }
-      });;
+      });
     };
   });
