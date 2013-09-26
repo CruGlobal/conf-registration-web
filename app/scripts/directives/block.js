@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('block', function () {
+  .directive('crsBlock', function () {
     return {
       templateUrl: 'views/blockDirective.html',
-      restrict: 'E',
+      restrict: 'A',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
         if (!$scope.wizard) {
           RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {

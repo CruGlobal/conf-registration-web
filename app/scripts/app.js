@@ -64,11 +64,8 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           enforceAuth: 'enforceAuth',
           redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
             var conferenceId = $route.current.params.conferenceId;
-            ConfCache.get(conferenceId).then(function (conference) {
-              var firstPageId = conference.registrationPages &&
-                conference.registrationPages[0] &&
-                conference.registrationPages[0].id;
-              $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
+            ConfCache.get(conferenceId).then(function () {
+              $location.replace().path('/register/' + conferenceId + '/page/');
             });
           }]
         }
