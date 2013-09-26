@@ -1,0 +1,19 @@
+<div class="modal">
+  <div class="modal-header">
+    <button type="button" class="close" data-ng-click="close()">&times;</button>
+  </div>
+  <div class="modal-body">
+    <label class=" h4 modal-message">
+      Let's change that answer for:<br />
+      {{block.title}}
+    </label>
+    <ng-switch on="block.type">
+        <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+        <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+        <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+    </ng-switch>
+  </div>
+  <div class="modal-footer">
+    <button data-ng-click="submit(name)" class="btn btn-light">Save</button>
+  </div>
+</div>
