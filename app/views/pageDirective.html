@@ -14,12 +14,10 @@
     </div>
 	<div class="row-fluid">
 		<form class="crs-form" data-ng-submit="validateAndGoToNext()" name="pageForm">
-			
-			<div ng-if="$index == 0" class="span10" id="crsDropZone" style="min-height:0;width:100%;display:none;"></div>
-			<div class="crsQuestion" ng-if="page.blocks.length == 0">
-			<div class="crs--question-default" style="padding:20px;border-bottom:none;">      </div>
-			</div>
-			<block ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)"></block>
+
+      <ul class="connectedSortable" id="{{page.id}}">
+			  <li ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></li>
+      </ul>
 				<div class="page-narrow  center-block">
 				
 			<div class="span4" ng-hide="wizard">

@@ -3,24 +3,42 @@
     <accordion close-others="true" class="crs-accordion" accordion-sub>
       <accordion-group heading="Simple Form Elements" class="crs-parent-li" is-open="true">
         <ul class="crs-accordionSub">
-          <li><a href="" draggable="true" id="paragraphContent">Info</a></li>
-          <li><a href="" draggable="true" id="textQuestion">Single Line Text</a></li>
-          <li><a href="" draggable="true" id="radioQuestion">Multiple Choice</a></li>
-          <li><a href="" draggable="true" id="checkboxQuestion">Checkbox</a></li>
-          <li><a href="" draggable="true" id="selectQuestion">Dropdown</a></li>
+          <li id="paragraphContent">Info</li>
+          <li id="textQuestion">Single Line Text</li>
+          <li id="radioQuestion">Multiple Choice</li>
+          <li id="checkboxQuestion">Checkbox</li>
+          <li id="selectQuestion">Dropdown</li>
         </ul>
       </accordion-group>
       <accordion-group heading="Complex Form Elements" class="crs-parent-li">
         <ul class="crs-accordionSub">
-          <li><a href="" draggable="true" id="emailQuestion">Email</a></li>
-          <li><a href="" draggable="true" id="nameQuestion">Name</a></li>
-          <li><a href="" draggable="true" id="phoneQuestion">Phone</a></li>
+          <li id="emailQuestion">Email</li>
+          <li id="nameQuestion">Name</li>
+          <li id="phoneQuestion">Phone</li>
         </ul>
       </accordion-group>
     </accordion>
   </div>
   <!--end span3-->
 
+  <style>
+    .connectedSortable{
+      min-height: 45px;
+      padding:0;
+      margin:0;
+    }
+    .ui-draggable-dragging{
+      background-color: rgba(255,255,255, .7);
+      width:100%;
+      font-size: 40px;
+      border: 1px dashed grey;
+      height: 100px !important;
+      display: block;
+      margin: 10px 0 10px 0;
+      line-height: 100px;
+      transition: height .5s;
+    }
+  </style>
     <div form-drop-area class="span9" id="crs-formEdit">
       <!-- <div class="span9" id="crs-formEdit">  -->
       <div class="alert alert-block" data-ng-show="conference.registrationPages.length == 0">
@@ -30,8 +48,8 @@
       </div>
       <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
 
-      <div><button data-ng-click="addNewPage();">Add New Page</button> </div>
-      <div class="crs-formElements" data-ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+      <div><button data-ng-click="addNewPage();">Add New Page</button></div>
+      <div class="crs-formElements" data-ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
         <page></page>
       </div>
     </div>
