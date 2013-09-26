@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
 
           if (newValue === true) {
             $timeout(function () {
-              var inputId = "edit-" + $scope.block.id;
+              var inputId = 'edit-' + $scope.block.id;
               var inputElem = document.getElementById(inputId);
               inputElem.focus();
             }, 20);
