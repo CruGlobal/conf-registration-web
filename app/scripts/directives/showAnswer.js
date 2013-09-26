@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function (AnswerCache) {
+  .directive('showAnswer', function (AnswerCache, $modal) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
@@ -17,6 +17,18 @@ angular.module('confRegistrationWebApp')
             AnswerCache.syncBlock($scope, 'answer');
           }
           $scope.editMode = newValue;
+        };
+
+        var editAnswerDialogOptions = {
+          templateUrl: 'views/editAnswer.html',
+          controller: 'EditAnswerDialogCtrl',
+          scope: $scope
+        };
+
+        $scope.createEditDialog = function () {
+          $modal.open(editAnswerDialogOptions).result.then(function(){
+            AnswerCache.syncBlock($scope, 'answer');
+          });
         };
 
         $scope.$watch('answers', function () {
