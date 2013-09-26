@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function (AnswerCache, $modal) {
+  .directive('showAnswer', function (AnswerCache, $modal, $timeout) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
@@ -13,10 +13,18 @@ angular.module('confRegistrationWebApp')
         $scope.editMode = false;
 
         $scope.setEditMode = function (newValue) {
+          $scope.editMode = newValue;
+
           if (newValue === true) {
+            $timeout(function () {
+              var inputId = "edit-" + $scope.block.id;
+              var inputElem = document.getElementById(inputId);
+              inputElem.focus();
+            }, 20);
+
             AnswerCache.syncBlock($scope, 'answer');
           }
-          $scope.editMode = newValue;
+
         };
 
         var editAnswerDialogOptions = {
