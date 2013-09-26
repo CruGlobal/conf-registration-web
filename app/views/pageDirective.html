@@ -19,18 +19,21 @@
 			  <li ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></li>
       </ul>
 				<div class="page-narrow  center-block">
-				
-			<div class="span4" ng-hide="wizard">
-			<button class="btn btn-block btn-success btn-large mtb6 "
-			type="submit"
-			data-ng-disabled="!pageForm.$valid"
-			ng-show="nextPage">Next Page</button>
-			<button class="btn btn-block btn-success btn-large"
-			data-ng-click="goToReview()"
-			data-ng-disabled="!registrationComplete"
-			ng-hide="nextPage">Continue</button>
-			</div>
-			</div>
+
+          <div class="span4" ng-hide="wizard">
+            <button class="btn btn-block btn-success btn-large mtb6 "
+                    type="submit"
+                    data-ng-disabled="!pageForm.$valid"
+                    ng-show="nextPage">Next Page
+            </button>
+
+            <button class="btn btn-block btn-success btn-large"
+                    data-ng-click="goToReviewOrPayment()"
+                    data-ng-disabled="!registrationComplete"
+                    ng-hide="nextPage">Continue
+            </button>
+          </div>
+        </div>
 		</form>
 	</div>
 

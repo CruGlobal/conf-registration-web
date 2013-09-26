@@ -41,7 +41,11 @@ angular.module('confRegistrationWebApp')
       $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
     };
 
-    $scope.goToReview = function () {
-      $location.path('/reviewRegistration/' + conference.id);
+    $scope.goToReviewOrPayment = function () {
+      if (conference.minimumDeposit > 0){
+        $location.path('/payment/' + conference.id);
+      }else{
+        $location.path('/reviewRegistration/' + conference.id);
+      }
     };
   });

@@ -86,6 +86,22 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/payment/:conferenceId', {
+        templateUrl: 'views/payment.html',
+        controller: 'paymentCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth',
+          answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function (currentRegistration) {
+                return currentRegistration.answers;
+              });
+          }],
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
       .when('/auth/:token', {
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope',
