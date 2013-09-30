@@ -46,16 +46,26 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/adminDetails/:conferenceId', {
+        templateUrl: 'views/adminDetails.html',
+        controller: 'AdminDetailsCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth',
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+          }],
+          conference: ['$route', 'ConfCache', function ($route, Model) {
+            return Model.get($route.current.params.conferenceId);
+          }]
+        }
+      })
       .when('/register/:conferenceId', {
         resolve: {
           enforceAuth: 'enforceAuth',
           redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
             var conferenceId = $route.current.params.conferenceId;
-            ConfCache.get(conferenceId).then(function (conference) {
-              var firstPageId = conference.registrationPages &&
-                conference.registrationPages[0] &&
-                conference.registrationPages[0].id;
-              $location.replace().path('/register/' + conferenceId + '/page/' + firstPageId);
+            ConfCache.get(conferenceId).then(function () {
+              $location.replace().path('/register/' + conferenceId + '/page/');
             });
           }]
         }

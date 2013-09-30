@@ -15,5 +15,19 @@
 	</div>
 	<page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId" >
 	</page>
+    <div ng-show="activePageId == ''">
+      <h1>Welcome</h1>
+      <h3>Conf Desc</h3>
+
+      <p>{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} - {{conference.eventEndTime | date:'EEEE, MMM d, y h:mm a'}}</p>
+
+      <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}}</p>
+
+      <p><strong>Contact:</strong><br>Bob Smith<br>(800) 784-5555<br>bsmith@questions.gov</p>
+
+      <div>
+        <a href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}"><button class="btn btn-block btn-success btn-large">Register</button></a>
+      </div>
+    </div>
 	</div>	
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $dialog, uuid, GrowlService) {
+  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $modal, uuid, GrowlService) {
     $scope.$on('dragVars', function (event, x) {
       $scope.blockId = x.blockId;
       $scope.moveType = x.moveType;
@@ -23,9 +23,11 @@ angular.module('confRegistrationWebApp')
 
       var origPageIndex = tempPositionArray[blockId].page;
       var origBlock = $scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block];
-      $scope.deleteBlock(blockId, false);
       origBlock.pageId = newPage;
-      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
+      $scope.$apply(function (scope) {
+        scope.deleteBlock(blockId, false);
+        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
+      });
     };
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
@@ -36,7 +38,7 @@ angular.module('confRegistrationWebApp')
         content: '',
         pageId: newPage,
         required: false,
-        title: 'New Question',
+        title: 'New Block',
         type: blockType
       };
 
@@ -64,19 +66,20 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.addNewPage = function () {
-      $dialog.dialog({
+      $modal.open({
         templateUrl: 'views/promptNewPage.html',
         controller: 'confirmPromptCtrl'
-      }).open().then(function (pageTitle) {
-          if (pageTitle !== null && pageTitle !== '' && !angular.isUndefined(pageTitle)) {
-            $scope.conference.registrationPages.push({
-              id: uuid(),
-              conferenceId: $scope.conference.id,
-              position: 0,
-              title: pageTitle,
-              blocks: []
-            });
-          }
-        });
+      }).result.then(function (pageTitle) {
+        if (pageTitle !== null && pageTitle !== '' && !angular.isUndefined(pageTitle)) {
+          $scope.conference.registrationPages.push({
+            id: uuid(),
+            conferenceId: $scope.conference.id,
+            position: 0,
+            title: pageTitle,
+            blocks: []
+          });
+        }
+      });
     };
+
   });

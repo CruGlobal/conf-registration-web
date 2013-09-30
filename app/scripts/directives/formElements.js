@@ -4,20 +4,33 @@ angular.module('confRegistrationWebApp')
   .directive('formElements', function () {
     return {
       restrict: 'A',
-      controller: function ($rootScope, $scope) {
-        $scope.sendDragEvent = function (blockType) {
-          $rootScope.$broadcast('dragVars', {blockId: blockType, moveType: 'move'});
-        };
-      },
-      link: function postLink(scope, element) {
-        element.bind('dragstart', function (ev) {
-          scope.sendDragEvent(ev.target.id);
-        });
-        element.bind('dragend', function () {
-          $('#crsDropZone').css('height', '0px');
-          $('#crsDropZone').delay(480).hide(0);
-        });
+      link: function postLink(scope) {
+        var newDragBlock = '';
+        $('.connectedSortable').sortable({
+          connectWith: '.connectedSortable',
+          stop: function (event, ui) {
+            if (newDragBlock !== '') {
+              scope.insertBlock(newDragBlock, ui.item.parent().attr('id'), ui.item.index());
+              ui.item.parent().find('li:last').remove();
+            } else {
+              scope.moveBlock(ui.item.find('.crsQuestion').attr('id'), ui.item.parent().attr('id'), ui.item.index());
+            }
+          }
+        }).disableSelection();
 
+        $('.crs-accordionSub li').draggable({
+          connectToSortable: '.connectedSortable',
+          helper: 'clone',
+          revert: 'invalid',
+          addClasses: false,
+          appendTo: 'body',
+          start: function () {
+            newDragBlock = $(event.target).attr('id');
+          },
+          stop: function () {
+            newDragBlock = '';
+          }
+        }).disableSelection();
       }
     };
   });
