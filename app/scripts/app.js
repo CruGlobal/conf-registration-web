@@ -91,10 +91,10 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         controller: 'paymentCtrl',
         resolve: {
           enforceAuth: 'enforceAuth',
-          answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
-                return currentRegistration.answers;
+                return currentRegistration;
               });
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {

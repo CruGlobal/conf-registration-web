@@ -1,1 +1,37 @@
-<p>This is the payment view.</p>
+<div class="container-fluid register">
+  <div class="crs--register  page-narrow  center-block">
+    <div class="row-fluid crs--no-padding-top">
+      <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
+    </div>
+    Payment Amount: <input type="text" data-ng-model="amount"/><br>
+    Name on Card: <input type="text" data-ng-model="cc_name_on_card"/><br>
+    Credit Card Number:
+    <input class="inputCard" type="text" maxlength="16" data-ng-model="cc_number"/>
+    <br/>
+    Card Expiry:
+    <select data-ng-model="cc_expiration_month">
+      <option value=''>Month</option>
+      <option value='01'>January</option>
+      <option value='02'>February</option>
+      <option value='03'>March</option>
+      <option value='04'>April</option>
+      <option value='05'>May</option>
+      <option value='06'>June</option>
+      <option value='07'>July</option>
+      <option value='08'>August</option>
+      <option value='09'>September</option>
+      <option value='10'>October</option>
+      <option value='11'>November</option>
+      <option value='12'>December</option>
+    </select>
+    <select data-ng-model="cc_expiration_year">
+      <option value=''>Year</option>
+      <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+    </select>
+
+    <button class="btn btn-block btn-success btn-large mtb6"
+            data-ng-click="createPayment()"
+            type="submit">Continue
+    </button>
+  </div>
+</div>
