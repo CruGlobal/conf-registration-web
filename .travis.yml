@@ -22,7 +22,7 @@ env:
         # travis encrypt GH_OAUTH_TOKEN=XXXXXXXXXXXXXXX
         #
         # User specific env variables
-        - secure: "BIWJtn4GiI9SJOspHV2rTvnh8zAuR9qVFohr+PMsbruieb80N5JAhT2ZWebeUMHU7ZJxO7aau3xVOTMn5h5k7LOoySu71eNqJAjphAjpH+OaZJNUDgp0kZvthLCSefnRjlKc93fgJSUNhbeMu7RNeWz59J7ww/SoAvpZiX0bJc4="
+        - secure: "YNKb9rT7OzWdq6/C2Z8Dm1IRAd5/93otRY4R9cIXwRx2gj88wWpBkF/twV25y0fyL9eQ4wMlqpV7iVblod1r08wvffnVsgaSFG51u+dzUnoNkdkB/ksGF/j1Y/CeGwnOS4CZA0nrEBJ3MC1hX9HNQ8ziDc3t0ttJwfEvuPT9HiA="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
@@ -46,8 +46,8 @@ after_success:
     - cp -R ../dist/* .
     - cp ../dist/.* .
     - git add -f .
-    - git config user.email "adam.meyer@cru.org"
-    - git config user.name "adammeyer"
+    - git config user.email "ryan.t.carlson@cru.org"
+    - git config user.name "ryancarlson"
     - git commit -am "adding the yeoman build files to gh-pages [ci skip]"
     # Any command that using GH_OAUTH_TOKEN must pipe the output to /dev/null to not expose your oauth token
     - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:gh-pages > /dev/null 2>&1
