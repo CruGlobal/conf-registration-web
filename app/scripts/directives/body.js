@@ -7,6 +7,7 @@ angular.module('confRegistrationWebApp')
     matchRouteToClass['/wizard/*.'] = 'page--wizard';
     matchRouteToClass['/adminData/*.'] = 'page--admin';
     matchRouteToClass['/register/*.*/page/*.*'] = 'page--register';
+    matchRouteToClass['/adminDetails/*.'] = 'page--admin-details';
     return {
       restrict: 'E',
       link: function postLink(scope, element) {
