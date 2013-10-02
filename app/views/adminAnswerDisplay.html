@@ -1,26 +1,10 @@
 <ng-switch on="block.type">
-  <span ng-switch-when="nameQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true, block.id + '-first')"> {{answer.value.firstName}}</span>
-  <span ng-switch-when="nameQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true, block.id + '-last')"> {{answer.value.lastName}}</span>
-  <span ng-switch-when="nameQuestion" data-ng-show="editMode===true">
-    <input id="edit-{{block.id}}-first" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.firstName" />
-    <input id="edit-{{block.id}}-last" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.lastName" />
-  </span>
-
-  <span ng-switch-when="emailQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)">{{answer.value.text}}</span>
-  <span ng-switch-when="emailQuestion" data-ng-show="editMode===true"><input id="edit-{{block.id}}" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.text" /></span>
-
-  <span ng-switch-when="textQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)">{{answer.value.text}}</span>
-  <span ng-switch-when="textQuestion" data-ng-show="editMode===true"><input id="edit-{{block.id}}" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.text" /></span>
-
+  <span ng-switch-when="nameQuestion" data-ng-click="createEditDialog()"> {{answer.value.firstName}} {{answer.value.lastName}}</span>
+  <span ng-switch-when="emailQuestion" data-ng-click="createEditDialog()">{{answer.value.text}}</span>
+  <span ng-switch-when="textQuestion" data-ng-click="createEditDialog()">{{answer.value.text}}</span>
   <span ng-switch-when="checkboxQuestion" data-ng-click="createEditDialog()">{{getSelectedCheckboxes(answer.value) | joiner}}</span>
-
-  <span ng-switch-when="phoneQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)">{{answer.value}}</span>
-  <span ng-switch-when="phoneQuestion" data-ng-show="editMode===true"><input id="edit-{{block.id}}" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value" /></span>
-
+  <span ng-switch-when="phoneQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
   <span ng-switch-when="radioQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
-
   <span ng-switch-when="selectQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
-
-  <span ng-switch-when="numberQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)" >{{answer.value.text}}</span>
-  <span ng-switch-when="numberQuestion" data-ng-show="editMode===true"><input id="edit-{{block.id}}" type="number" cru-ng-blur="setEditMode(false)" ng-model="answer.value.text" /></span>
+  <span ng-switch-when="numberQuestion" data-ng-click="createEditDialog()" >{{answer.value.text}}</span>
 </ng-switch>
