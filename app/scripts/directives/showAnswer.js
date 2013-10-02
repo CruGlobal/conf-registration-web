@@ -12,12 +12,14 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope) {
         $scope.editMode = false;
 
-        $scope.setEditMode = function (newValue) {
+        $scope.setEditMode = function (newValue, blockId) {
           $scope.editMode = newValue;
-
+          if (!blockId){
+        	  blockId = $scope.block.id;
+          }
           if (newValue === true) {
             $timeout(function () {
-              var inputId = 'edit-' + $scope.block.id;
+              var inputId = 'edit-' + blockId;
               var inputElem = document.getElementById(inputId);
               inputElem.focus();
             }, 20);

@@ -1,8 +1,9 @@
 <ng-switch on="block.type">
-  <span ng-switch-when="nameQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)"> {{answer.value.firstName}} {{answer.value.lastName}}</span>
+  <span ng-switch-when="nameQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true, block.id + '-first')"> {{answer.value.firstName}}</span>
+  <span ng-switch-when="nameQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true, block.id + '-last')"> {{answer.value.lastName}}</span>
   <span ng-switch-when="nameQuestion" data-ng-show="editMode===true">
-    <input id="edit-{{block.id}}" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.firstName" />
-    <input type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.lastName" />
+    <input id="edit-{{block.id}}-first" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.firstName" />
+    <input id="edit-{{block.id}}-last" type="text" cru-ng-blur="setEditMode(false)" ng-model="answer.value.lastName" />
   </span>
 
   <span ng-switch-when="emailQuestion" data-ng-show="editMode===false" data-ng-click="setEditMode(true)">{{answer.value.text}}</span>
