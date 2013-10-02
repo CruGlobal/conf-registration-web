@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location) {
+  .controller('RegistrationCtrl', function ($scope, conference, currentRegistration, $routeParams, $location) {
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -9,6 +9,8 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
+    console.log(conference);
+    $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 
     function getPageById(pageId) {
