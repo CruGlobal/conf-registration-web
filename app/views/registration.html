@@ -7,7 +7,7 @@
     <div class="row-fluid" data-ng-show="currentRegistration.completed">
       <p>You have already successfully registered for {{conference.name}}!</p>
 
-      <p>If you have questions, please contact:<br>Bob Smith<br>(800) 784-5555<br>{{conference.contactPersonEmail}}</p>
+      <p><strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}<br>{{conference.contactPersonPhone}}<br><a href="{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
     </div>
 
     <div data-ng-show="currentRegistration.completed === false">
@@ -34,7 +34,7 @@
         <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
           {{conference.locationState}}</p>
 
-        <p><strong>Contact:</strong><br>Bob Smith<br>(800) 784-5555<br>{{conference.contactPersonEmail}}</p>
+        <p><strong>Contact:</strong><br>{{conference.contactPersonName}}<br>{{conference.contactPersonPhone}}<br><a href="{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
 
         <div>
           <a href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}">
