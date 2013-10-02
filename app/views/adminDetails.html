@@ -86,6 +86,7 @@
   </div>
   <div ng-show="conference.acceptCreditCards"><label>Auth.NET ID:</label> <input type="text" data-ng-model="conference.authnetId"></div>
   <div ng-show="conference.acceptCreditCards"><label>Auth.NET Transaction Key:</label> <input type="text" data-ng-model="conference.authnetToken"></div>
+  <div ng-show="conference.acceptCreditCards"><label>Minimum payment to register:</label> $<input type="text" data-ng-model="conference.minimumDeposit"></div>
 
   <div>
     <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" id="earlyRegistrationDiscount" ng-value="true">
@@ -116,7 +117,7 @@
 <div>
   <h2>Contact Info</h2>
 
-  <div><label>Name:</label> <input type="text" data-ng-model="conference.name"></div>
-  <div><label>Email:</label> <input type="text" data-ng-model="conference.locationAddress"></div>
-  <div><label>Phone:</label> <input type="text" data-ng-model="conference.locationCity"></div>
+  <div><label>Name:</label> <input type="text" data-ng-model="conference.contactPersonName"></div>
+  <div><label>Email:</label> <input type="text" data-ng-model="conference.contactPersonEmail"></div>
+  <div><label>Phone:</label> <input type="text" data-ng-model="conference.contactPersonPhone"></div>
 </div>
