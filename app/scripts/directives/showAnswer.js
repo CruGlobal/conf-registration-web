@@ -11,7 +11,6 @@ angular.module('confRegistrationWebApp')
       },
       controller: function ($scope) {
 
-
         var editAnswerDialogOptions = {
           templateUrl: 'views/editAnswer.html',
           controller: 'EditAnswerDialogCtrl',
