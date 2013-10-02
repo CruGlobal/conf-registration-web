@@ -1,17 +1,23 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentCtrl', function ($scope, registration, conference, $http) {
+  .controller('paymentCtrl', function ($scope, $location, registration, conference, $http) {
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
     $scope.payment = {};
     $scope.amount = conference.minimumDeposit;
 
+    console.log(registration);
     $scope.createPayment = function () {
-      if($scope.amount < conference.minimumDeposit || $scope.amount === undefined){
-        alert('Payment amount must be greater than $' + conference.minimumDeposit + '.');
-        return;
+      if(registration.completed === false){
+        if($scope.amount < conference.minimumDeposit || $scope.amount === undefined){
+          alert('Payment amount must be greater than $' + conference.minimumDeposit + '.');
+          return;
+        }
+      }else{
+
       }
+
       $http.post('registrations/' + registration.id + '/payment', {"registrationId": registration.id})
         .success(function (result) {
           console.log('payment created: ' + result.id);
@@ -26,7 +32,6 @@ angular.module('confRegistrationWebApp')
             "cc_expiration_year": $scope.cc_expiration_year,
             "cc_number": $scope.cc_number
           }).success(function (result) {
-              console.log(result);
               $scope.payment = result;
               if (registration.completed === false) {
                 $location.path('/reviewRegistration/' + conference.id);
