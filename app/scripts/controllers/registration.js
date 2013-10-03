@@ -12,7 +12,6 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 
-    console.log(conference);
     $scope.registrationOpen = true;
 
     function getPageById(pageId) {
@@ -28,6 +27,7 @@ angular.module('confRegistrationWebApp')
     var pageId = $routeParams.pageId;
     $scope.activePageId = pageId;
     $scope.page = getPageById(pageId);
+    $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
 
     function getPageAfterById(pageId) {
       var pages = conference.registrationPages;
