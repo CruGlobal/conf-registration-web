@@ -7,7 +7,6 @@ angular.module('confRegistrationWebApp')
     $scope.payment = {};
     $scope.amount = conference.minimumDeposit;
 
-    console.log(registration);
     $scope.createPayment = function () {
       if(registration.completed === false){
         if($scope.amount < conference.minimumDeposit || $scope.amount === undefined){

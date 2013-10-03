@@ -3,7 +3,18 @@
     <div class="row-fluid crs--no-padding-top">
       <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
     </div>
-    Payment Amount: <input type="text" data-ng-model="amount"/><br>
+    <strong>Payment Amount:</strong>
+    <div data-ng-show="conference.conferenceCost !== conference.minimumDeposit">
+      <input type="radio" ng-model="amount" value="{{conference.minimumDeposit}}" id="payment-min">
+        <label class="crs-radio-label" for="payment-min">
+        <span></span> ${{conference.minimumDeposit}} (minimum deposit)</label>
+    </div>
+
+    <input type="radio" ng-model="amount" value="{{conference.conferenceCost}}" id="payment-full">
+    <label class="crs-radio-label" for="payment-full">
+      <span></span> ${{conference.conferenceCost}}</label>
+
+    <br>
     Name on Card: <input type="text" data-ng-model="cc_name_on_card"/><br>
     Credit Card Number:
     <input class="inputCard" type="text" maxlength="16" data-ng-model="cc_number"/>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, registration, conference, Model) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $location, registration, conference, Model) {
 
     $scope.conference = conference;
     $scope.registration = registration;
@@ -23,5 +23,9 @@ angular.module('confRegistrationWebApp')
     $scope.confirmRegistration = function () {
       $scope.registration.completed = true;
       Model.update('/registrations/' + registration.id, $scope.registration);
+    };
+
+    $scope.editRegistration = function () {
+      $location.path('/register/' + conference.id + '/page/' + conference.registrationPages[0].id);
     };
   });

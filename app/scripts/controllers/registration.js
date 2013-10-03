@@ -9,9 +9,11 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
-    console.log(conference);
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
+
+    console.log(conference);
+    $scope.registrationOpen = true;
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
