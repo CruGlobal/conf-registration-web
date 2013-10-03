@@ -10,22 +10,6 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
-        $scope.editMode = false;
-
-        $scope.setEditMode = function (newValue) {
-          $scope.editMode = newValue;
-
-          if (newValue === true) {
-            $timeout(function () {
-              var inputId = 'edit-' + $scope.block.id;
-              var inputElem = document.getElementById(inputId);
-              inputElem.focus();
-            }, 20);
-
-            AnswerCache.syncBlock($scope, 'answer');
-          }
-
-        };
 
         var editAnswerDialogOptions = {
           templateUrl: 'views/editAnswer.html',
