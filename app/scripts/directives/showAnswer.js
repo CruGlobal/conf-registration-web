@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function (AnswerCache, $modal, $timeout) {
+  .directive('showAnswer', function (AnswerCache, $modal) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
