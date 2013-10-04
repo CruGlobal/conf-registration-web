@@ -8,19 +8,19 @@ angular.module('confRegistrationWebApp')
     $scope.amount = conference.minimumDeposit;
 
     $scope.createPayment = function () {
-      $http.post('registrations/' + registration.id + '/payment', {"registrationId": registration.id})
+      $http.post('registrations/' + registration.id + '/payment', {'registrationId': registration.id})
         .success(function (result) {
           console.log('payment created: ' + result.id);
           $scope.payment = result;
 
           $http.put('registrations/' + registration.id + '/payment/' + result.id, {
-            "id": result.id,
-            "amount": $scope.amount,
-            "registrationId": registration.id,
-            "creditCardNameOnCard": $scope.creditCardNameOnCard,
-            "creditCardExpirationMonth": $scope.creditCardExpirationMonth,
-            "creditCardExpirationYear": $scope.creditCardExpirationYear,
-            "creditCardNumber": $scope.creditCardNumber
+            'id': result.id,
+            'amount': $scope.amount,
+            'registrationId': registration.id,
+            'creditCardNameOnCard': $scope.creditCardNameOnCard,
+            'creditCardExpirationMonth': $scope.creditCardExpirationMonth,
+            'creditCardExpirationYear': $scope.creditCardExpirationYear,
+            'creditCardNumber': $scope.creditCardNumber
           }).success(function (result) {
               $scope.payment = result;
               if (registration.completed === false) {
@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
             console.log(result);
           });
         });
-    }
+    };
   });
 //
 //private UUID id;

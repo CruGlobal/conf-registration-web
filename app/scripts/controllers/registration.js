@@ -44,9 +44,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToReviewOrPayment = function () {
-      if (conference.acceptCreditCards){
+      if (conference.acceptCreditCards) {
         $location.path('/payment/' + conference.id);
-      }else{
+      } else {
         $location.path('/reviewRegistration/' + conference.id);
       }
     };
