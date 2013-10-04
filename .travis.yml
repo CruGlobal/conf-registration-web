@@ -22,7 +22,7 @@ env:
         # travis encrypt GH_OAUTH_TOKEN=XXXXXXXXXXXXXXX
         #
         # User specific env variables
-        - secure: "bAPSUpO1cFGqj/VRd7OAmbCOqwGpMd9xu3Iug8JrXXOBc7aN1yxH7gqvAROyLbJZ3tP+SD41lLpXdAw1RgNVd8WomulIm0IIH7ksRJUYJ1CPUo2EWNo1vqgs9x0F8Huj+LAsR52mxsqVbtHfGOkmlwl2+XhzywdVBTM0lWpGIk4="
+        - secure: "FwA4flx3SAV0men0Uz1Ae4bSpptx3gfekYzmdAgpta5F9vRHONbpjNWUWiLfuEe5b44pQ+fHjNNkdOhYd+aHkOEyquv9PSD47YdHxKQ+e9NIitVHUcdwYPSC7Tenh9Qso21ailCaDzgCZY4+2Hu/kTkP3sBapYG4Kdz/4gcxpV8="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
