@@ -54,8 +54,8 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
-          conference: ['$route', 'ConfCache', function ($route, Model) {
-            return Model.get($route.current.params.conferenceId);
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })

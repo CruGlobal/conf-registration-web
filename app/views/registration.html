@@ -4,10 +4,10 @@
       <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
     </div>
 
-    <div data-ng-show="!registrationOpen">
+    <div data-ng-show="!conference.registrationOpen">
       <p>Sorry, registration for this event is not open.</p>
     </div>
-    <div data-ng-show="registrationOpen">
+    <div data-ng-show="conference.registrationOpen">
       <div class="row-fluid" data-ng-show="currentRegistration.completed">
         <p>You have already successfully registered for {{conference.name}}!</p>
 

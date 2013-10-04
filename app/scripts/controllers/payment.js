@@ -8,15 +8,6 @@ angular.module('confRegistrationWebApp')
     $scope.amount = conference.minimumDeposit;
 
     $scope.createPayment = function () {
-      if(registration.completed === false){
-        if($scope.amount < conference.minimumDeposit || $scope.amount === undefined){
-          alert('Payment amount must be greater than $' + conference.minimumDeposit + '.');
-          return;
-        }
-      }else{
-
-      }
-
       $http.post('registrations/' + registration.id + '/payment', {"registrationId": registration.id})
         .success(function (result) {
           console.log('payment created: ' + result.id);
@@ -35,9 +26,12 @@ angular.module('confRegistrationWebApp')
               if (registration.completed === false) {
                 $location.path('/reviewRegistration/' + conference.id);
               } else {
-
               }
             });
+
+          $http.get('registrations/' + registration.id + '/payment/' + result.id).success(function (result) {
+            console.log(result);
+          });
         });
     }
   });

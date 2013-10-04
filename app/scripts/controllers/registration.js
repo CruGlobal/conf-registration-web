@@ -12,8 +12,6 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 
-    $scope.registrationOpen = true;
-
     function getPageById(pageId) {
       var pages = conference.registrationPages;
 
@@ -46,7 +44,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToReviewOrPayment = function () {
-      if (conference.minimumDeposit > 0){
+      if (conference.acceptCreditCards){
         $location.path('/payment/' + conference.id);
       }else{
         $location.path('/reviewRegistration/' + conference.id);
