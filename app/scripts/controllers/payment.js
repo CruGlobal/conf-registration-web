@@ -17,10 +17,10 @@ angular.module('confRegistrationWebApp')
             "id": result.id,
             "amount": $scope.amount,
             "registrationId": registration.id,
-            "cc_name_on_card": $scope.cc_name_on_card,
-            "cc_expiration_month": $scope.cc_expiration_month,
-            "cc_expiration_year": $scope.cc_expiration_year,
-            "cc_number": $scope.cc_number
+            "creditCardNameOnCard": $scope.creditCardNameOnCard,
+            "creditCardExpirationMonth": $scope.creditCardExpirationMonth,
+            "creditCardExpirationYear": $scope.creditCardExpirationYear,
+            "creditCardNumber": $scope.creditCardNumber
           }).success(function (result) {
               $scope.payment = result;
               if (registration.completed === false) {
@@ -35,3 +35,12 @@ angular.module('confRegistrationWebApp')
         });
     }
   });
+//
+//private UUID id;
+//private UUID registrationId;
+//private String creditCardNameOnCard;
+//private String creditCardExpirationMonth;
+//private String creditCardExpirationYear;
+//private String creditCardNumber;
+//private BigDecimal amount;
+//private DateTime transactionDatetime;

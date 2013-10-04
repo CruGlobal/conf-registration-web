@@ -15,12 +15,12 @@
       <span></span> ${{conference.conferenceCost}}</label>
 
     <br>
-    Name on Card: <input type="text" data-ng-model="cc_name_on_card"/><br>
+    Name on Card: <input type="text" data-ng-model="creditCardNameOnCard"/><br>
     Credit Card Number:
-    <input class="inputCard" type="text" maxlength="16" data-ng-model="cc_number"/>
+    <input class="inputCard" type="text" maxlength="16" data-ng-model="creditCardNumber"/>
     <br/>
     Card Expiry:
-    <select data-ng-model="cc_expiration_month">
+    <select data-ng-model="creditCardExpirationMonth">
       <option value=''>Month</option>
       <option value='01'>January</option>
       <option value='02'>February</option>
@@ -35,7 +35,7 @@
       <option value='11'>November</option>
       <option value='12'>December</option>
     </select>
-    <select data-ng-model="cc_expiration_year">
+    <select data-ng-model="creditCardExpirationYear">
       <option value=''>Year</option>
       <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
     </select>
