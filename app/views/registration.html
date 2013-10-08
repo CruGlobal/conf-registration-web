@@ -11,6 +11,8 @@
       <div class="row-fluid" data-ng-show="currentRegistration.completed">
         <p>You have already successfully registered for {{conference.name}}!</p>
 
+        <p><a href="#/payment/{{conference.id}}">Make Payment</a></p>
+
         <p><strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}
           <br>{{conference.contactPersonPhone}}
           <br><a href="{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>

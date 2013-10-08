@@ -8,7 +8,20 @@ angular.module('confRegistrationWebApp')
     $scope.amount = conference.minimumDeposit;
 
     $scope.createPayment = function () {
-      $http.post('registrations/' + registration.id + '/payment', {'registrationId': registration.id})
+      if (!$scope.creditCardNameOnCard){
+        alert('Please enter the name on your card.');
+        return;
+      }
+      if (!$scope.creditCardNumber){
+        alert('Please enter your card number.');
+        return;
+      }
+      if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear){
+        alert('Please enter card expiration date.');
+        return;
+      }
+
+;      $http.post('registrations/' + registration.id + '/payment', {'registrationId': registration.id})
         .success(function (result) {
           console.log('payment created: ' + result.id);
           $scope.payment = result;
@@ -22,16 +35,15 @@ angular.module('confRegistrationWebApp')
             'creditCardExpirationYear': $scope.creditCardExpirationYear,
             'creditCardNumber': $scope.creditCardNumber
           }).success(function (result) {
-              $scope.payment = result;
               if (registration.completed === false) {
                 $location.path('/reviewRegistration/' + conference.id);
               } else {
               }
-            });
 
-          $http.get('registrations/' + registration.id + '/payment/' + result.id).success(function (result) {
-            console.log(result);
-          });
+              $http.get('registrations/' + registration.id + '/payment/' + $scope.payment.id).success(function (result) {
+                console.log(result);
+              });
+            });
         });
     };
   });

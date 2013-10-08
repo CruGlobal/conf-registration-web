@@ -7,6 +7,8 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.reversesort = false;
 
+    registrations = _.filter(registrations, function(item) { return item.completed !== false; });
+
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {

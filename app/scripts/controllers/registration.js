@@ -11,6 +11,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
+    console.log($scope.currentRegistration);
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
