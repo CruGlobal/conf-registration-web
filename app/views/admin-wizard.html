@@ -1,6 +1,6 @@
 <div admin-nav></div>
 <div class="row-fluid wizard">
-  <div class="span3" id="crs-formOptionsMenu" ng-style="scrollStyle()" scroll-position="scroll">
+  <div class="span3" id="crs-formOptionsMenu" ng-style="scrollStyle()" scroll-position="scroll" data-ng-show="conference.registrationPages.length > 0">
     <accordion close-others="true" class="crs-accordion" accordion-sub>
       <accordion-group heading="Simple Form Elements" class="crs-parent-li" is-open="true">
         <ul class="crs-accordionSub">
@@ -18,15 +18,23 @@
           <li id="phoneQuestion">Phone</li>
         </ul>
       </accordion-group>
-    </accordion>
+      </accordion>
   </div>
   <!--end span3-->
 
   <style>
     .connectedSortable{
-      min-height: 45px;
+      min-height: 100px;
       padding:0;
       margin:0;
+    }
+    .connectedSortable > li{
+      min-height: 100px;
+      padding:0;
+      margin:0;
+    }
+    .crs-dragBack{
+      background-color: #ecf0f1;
     }
     .ui-draggable-dragging{
       background-color: rgba(255,255,255, .7);
@@ -38,6 +46,14 @@
       margin: 10px 0 10px 0;
       line-height: 100px;
       transition: height .5s;
+    }
+    .crs-accordionSub{
+      list-style: none;
+      cursor: default;
+    }
+    .crs-accordionSub li{
+      font-size: 18px;
+      height:22px;
     }
   </style>
     <div form-drop-area class="span9" id="crs-formEdit">

@@ -1,19 +1,24 @@
 <div admin-nav></div>
 <h2>{{conference.name}}</h2>
-Filter: <input type="text" ng-model="searchFilter">
 
-<table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
-  <thead>
-  <tr>
-    <th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
-    <td data-ng-repeat="block in blocks">
-      <show-answer answers="registration.answers" block="block"></show-answer>
-    </td>
-  </tr>
-  </tbody>
-</table>
+<div data-ng-show="registrations.length > 0">
+  Filter: <input type="text" ng-model="searchFilter">
+  <table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
+    <thead>
+    <tr>
+      <th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
+      <td data-ng-repeat="block in blocks">
+        <show-answer answers="registration.answers" block="block"></show-answer>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <p>{{registrations.length}} total registration(s)</p>
+</div>
+<div data-ng-show="registrations.length == 0">
+  <p>No one has registered for this event yet.</p>
 </div>
