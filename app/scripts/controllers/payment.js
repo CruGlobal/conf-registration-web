@@ -8,20 +8,20 @@ angular.module('confRegistrationWebApp')
     $scope.amount = conference.minimumDeposit;
 
     $scope.createPayment = function () {
-      if (!$scope.creditCardNameOnCard){
+      if (!$scope.creditCardNameOnCard) {
         alert('Please enter the name on your card.');
         return;
       }
-      if (!$scope.creditCardNumber){
+      if (!$scope.creditCardNumber) {
         alert('Please enter your card number.');
         return;
       }
-      if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear){
+      if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
         alert('Please enter card expiration date.');
         return;
       }
 
-;      $http.post('registrations/' + registration.id + '/payment', {'registrationId': registration.id})
+      $http.post('registrations/' + registration.id + '/payment', {'registrationId': registration.id})
         .success(function (result) {
           console.log('payment created: ' + result.id);
           $scope.payment = result;
@@ -34,25 +34,17 @@ angular.module('confRegistrationWebApp')
             'creditCardExpirationMonth': $scope.creditCardExpirationMonth,
             'creditCardExpirationYear': $scope.creditCardExpirationYear,
             'creditCardNumber': $scope.creditCardNumber
-          }).success(function (result) {
+          }).success(function () {
               if (registration.completed === false) {
                 $location.path('/reviewRegistration/' + conference.id);
               } else {
               }
 
-              $http.get('registrations/' + registration.id + '/payment/' + $scope.payment.id).success(function (result) {
-                console.log(result);
-              });
+              $http.get('registrations/' + registration.id + '/payment/' + $scope.payment.id)
+                .success(function (result) {
+                  console.log(result);
+                });
             });
         });
     };
   });
-//
-//private UUID id;
-//private UUID registrationId;
-//private String creditCardNameOnCard;
-//private String creditCardExpirationMonth;
-//private String creditCardExpirationYear;
-//private String creditCardNumber;
-//private BigDecimal amount;
-//private DateTime transactionDatetime;

@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
         var newDragBlock = '';
         $('.connectedSortable').sortable({
           connectWith: '.connectedSortable',
-          placeholder: "crs-dragBack",
+          placeholder: 'crs-dragBack',
           stop: function (event, ui) {
             if (newDragBlock !== '') {
               scope.insertBlock(newDragBlock, ui.item.parent().attr('id'), ui.item.index());

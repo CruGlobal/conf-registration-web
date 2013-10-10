@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
 
     function getTotalRegistrations(confId, confIndex) {
       $http.get('conferences/' + confId + '/registrations').success(function (result) {
-        $scope.conferences[confIndex]['totalRegistrations'] = _.filter(result, function (item) {
+        $scope.conferences[confIndex].totalRegistrations = _.filter(result, function (item) {
           return item.completed === true;
         }).length;
       });

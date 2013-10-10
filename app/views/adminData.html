@@ -1,23 +1,51 @@
+<style>
+  .crs-editAnswer{
+    float:right;
+    cursor: pointer;
+    visibility:hidden;
+  }
+  td{
+    cursor: pointer;
+  }
+  td:hover .crs-editAnswer{
+    visibility:visible;
+  }
+  .crs-columnCheck{
+    background-image: url('http://getbootstrap.com/2.3.2/assets/img/glyphicons-halflings.png'); background-position: -144px -72px; width: 14px; height:14px;  display:inline-block;
+  }
+</style>
+
 <div admin-nav></div>
 <h2>{{conference.name}}</h2>
 
 <div data-ng-show="registrations.length > 0">
   Filter: <input type="text" ng-model="searchFilter">
+
+  <div class="btn-group">
+    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+      Columns
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li data-ng-repeat="block in blocks"><a href="" ng-click="toggleColumn($index)"><i class="crs-columnCheck" data-ng-show="block.visible"></i> {{block.title}}</a></li>
+    </ul>
+  </div>
+
   <table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
     <thead>
     <tr>
-      <th data-ng-repeat="block in blocks"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat="registration in registrations | filter:searchFilter | orderBy:answerSort:reversesort">
-      <td data-ng-repeat="block in blocks">
+    <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter)) | orderBy:answerSort:reversesort">
+      <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
     </tr>
     </tbody>
   </table>
-  <p>{{registrations.length}} total registration(s)</p>
+  <p>Showing {{regFilter.length}} of {{registrations.length}} registration(s)</p>
 </div>
 <div data-ng-show="registrations.length == 0">
   <p>No one has registered for this event yet.</p>

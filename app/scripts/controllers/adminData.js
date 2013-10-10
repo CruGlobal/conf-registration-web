@@ -7,15 +7,20 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.reversesort = false;
 
-    registrations = _.filter(registrations, function(item) { return item.completed !== false; });
+    registrations = _.filter(registrations, function (item) { return item.completed !== false; });
 
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {
+          block.visible = true;
           $scope.blocks.push(block);
         }
       });
     });
+
+    $scope.toggleColumn = function (block) {
+      $scope.blocks[block].visible = !$scope.blocks[block].visible;
+    };
 
     $scope.findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
