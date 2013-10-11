@@ -1,7 +1,14 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentCtrl', function ($scope, $location, registration, conference, $http) {
+  .controller('errorModal', function ($scope, $modalInstance, message) {
+    $scope.message = message;
+    $scope.close = function () {
+      $modalInstance.close('');
+    }
+  });
+angular.module('confRegistrationWebApp')
+  .controller('paymentCtrl', function ($scope, $location, registration, conference, $http, $modal) {
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
     $scope.payment = {};
@@ -9,15 +16,42 @@ angular.module('confRegistrationWebApp')
 
     $scope.createPayment = function () {
       if (!$scope.creditCardNameOnCard) {
-        alert('Please enter the name on your card.');
+        var errorModalOptions = {
+          templateUrl: 'views/errorModal.html',
+          controller: 'errorModal',
+          resolve: {
+            message: function () {
+              return 'Please enter the name on your card.';
+            }
+          }
+        };
+        $modal.open(errorModalOptions);
         return;
       }
       if (!$scope.creditCardNumber) {
-        alert('Please enter your card number.');
+        var errorModalOptions = {
+          templateUrl: 'views/errorModal.html',
+          controller: 'errorModal',
+          resolve: {
+            message: function () {
+              return 'Please enter your card number.';
+            }
+          }
+        };
+        $modal.open(errorModalOptions);
         return;
       }
       if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
-        alert('Please enter card expiration date.');
+        var errorModalOptions = {
+          templateUrl: 'views/errorModal.html',
+          controller: 'errorModal',
+          resolve: {
+            message: function () {
+              return 'Please enter card expiration date.';
+            }
+          }
+        };
+        $modal.open(errorModalOptions);
         return;
       }
 
