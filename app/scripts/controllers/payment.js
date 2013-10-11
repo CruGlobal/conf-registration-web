@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     $scope.message = message;
     $scope.close = function () {
       $modalInstance.close('');
-    }
+    };
   });
 angular.module('confRegistrationWebApp')
   .controller('paymentCtrl', function ($scope, $location, registration, conference, $http, $modal) {
@@ -15,8 +15,9 @@ angular.module('confRegistrationWebApp')
     $scope.amount = conference.minimumDeposit;
 
     $scope.createPayment = function () {
+      var errorModalOptions = {};
       if (!$scope.creditCardNameOnCard) {
-        var errorModalOptions = {
+        errorModalOptions = {
           templateUrl: 'views/errorModal.html',
           controller: 'errorModal',
           resolve: {
@@ -29,7 +30,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
       if (!$scope.creditCardNumber) {
-        var errorModalOptions = {
+        errorModalOptions = {
           templateUrl: 'views/errorModal.html',
           controller: 'errorModal',
           resolve: {
@@ -42,7 +43,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
       if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
-        var errorModalOptions = {
+        errorModalOptions = {
           templateUrl: 'views/errorModal.html',
           controller: 'errorModal',
           resolve: {
