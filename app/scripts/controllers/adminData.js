@@ -39,7 +39,8 @@ angular.module('confRegistrationWebApp')
         if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
           if ($scope.findAnswer(registration, $scope.order).value.text) { //text field
             return $scope.findAnswer(registration, $scope.order).value.text;
-          } else if ($scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).length > 0) { //mc
+          } else if ($scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).length > 0) {
+            //mc
             return $scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).join(' ');
           } else if (typeof $scope.findAnswer(registration, $scope.order).value === 'object') { //name
             return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
