@@ -37,7 +37,15 @@ angular.module('confRegistrationWebApp')
     $scope.answerSort = function (registration) {
       if (angular.isDefined($scope.order)) {
         if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
-          return $scope.findAnswer(registration, $scope.order).value;
+          if ($scope.findAnswer(registration, $scope.order).value.text) { //text field
+            return $scope.findAnswer(registration, $scope.order).value.text;
+          } else if ($scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).length > 0) { //mc
+            return $scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).join(' ');
+          } else if (typeof $scope.findAnswer(registration, $scope.order).value === 'object') { //name
+            return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
+          } else { //radio
+            return $scope.findAnswer(registration, $scope.order).value;
+          }
         }
       } else {
         return 0;
