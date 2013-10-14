@@ -54,8 +54,8 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
-          conference: ['$route', 'ConfCache', function ($route, Model) {
-            return Model.get($route.current.params.conferenceId);
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
           }]
         }
       })
@@ -75,10 +75,26 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
         controller: 'ReviewRegistrationCtrl',
         resolve: {
           enforceAuth: 'enforceAuth',
-          answers: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
-                return currentRegistration.answers;
+                return currentRegistration;
+              });
+          }],
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/payment/:conferenceId', {
+        templateUrl: 'views/payment.html',
+        controller: 'paymentCtrl',
+        resolve: {
+          enforceAuth: 'enforceAuth',
+          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function (currentRegistration) {
+                return currentRegistration;
               });
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {

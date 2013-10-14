@@ -1,10 +1,13 @@
-<ng-switch on="block.type">
-  <span ng-switch-when="nameQuestion" data-ng-click="createEditDialog()"> {{answer.value.firstName}} {{answer.value.lastName}}</span>
-  <span ng-switch-when="emailQuestion" data-ng-click="createEditDialog()">{{answer.value.text}}</span>
-  <span ng-switch-when="textQuestion" data-ng-click="createEditDialog()">{{answer.value.text}}</span>
-  <span ng-switch-when="checkboxQuestion" data-ng-click="createEditDialog()">{{getSelectedCheckboxes(answer.value) | joiner}}</span>
-  <span ng-switch-when="phoneQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
-  <span ng-switch-when="radioQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
-  <span ng-switch-when="selectQuestion" data-ng-click="createEditDialog()">{{answer.value}}</span>
-  <span ng-switch-when="numberQuestion" data-ng-click="createEditDialog()" >{{answer.value.text}}</span>
-</ng-switch>
+<div data-ng-click="createEditDialog()">
+  <ng-switch on="block.type">
+    <span ng-switch-when="nameQuestion"> {{answer.value.firstName}} {{answer.value.lastName}}</span>
+    <span ng-switch-when="emailQuestion">{{answer.value.text}}</span>
+    <span ng-switch-when="textQuestion">{{answer.value.text}}</span>
+    <span ng-switch-when="checkboxQuestion">{{getSelectedCheckboxes(answer.value) | joiner}}</span>
+    <span ng-switch-when="phoneQuestion">{{answer.value.text}}</span>
+    <span ng-switch-when="radioQuestion">{{answer.value}}</span>
+    <span ng-switch-when="selectQuestion">{{answer.value}}</span>
+    <span ng-switch-when="numberQuestion">{{answer.value.text}}</span>
+  </ng-switch>
+  <span class="crs-editAnswer" data-ng-show="{{answerEditable}}"><img src="images/pencil.png"/></span>
+</div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, conference, $routeParams, $location) {
+  .controller('RegistrationCtrl', function ($scope, conference, currentRegistration, $routeParams, $location) {
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -9,7 +9,11 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
+    $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
+
+   //currentRegistration.completed = false;
+    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
@@ -24,6 +28,7 @@ angular.module('confRegistrationWebApp')
     var pageId = $routeParams.pageId;
     $scope.activePageId = pageId;
     $scope.page = getPageById(pageId);
+    $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
 
     function getPageAfterById(pageId) {
       var pages = conference.registrationPages;
@@ -41,7 +46,11 @@ angular.module('confRegistrationWebApp')
       $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
     };
 
-    $scope.goToReview = function () {
-      $location.path('/reviewRegistration/' + conference.id);
+    $scope.goToReviewOrPayment = function () {
+      if (conference.acceptCreditCards && currentRegistration.currentPayment.amount === 0) {
+        $location.path('/payment/' + conference.id);
+      } else {
+        $location.path('/reviewRegistration/' + conference.id);
+      }
     };
   });

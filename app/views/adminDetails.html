@@ -1,8 +1,9 @@
+<div admin-nav></div>
 <div>
   <h2>Conference Details</h2>
 
   <div><label>Title:</label> <input type="text" data-ng-model="conference.name"></div>
-  <div><label>Description:</label> <input type="text" data-ng-model="conference.name"></div>
+  <div><label>Description:</label> <textarea data-ng-model="conference.description"></textarea> </div>
 </div>
 
 <div>
@@ -99,7 +100,6 @@
   </div>
   <div ng-show="conference.earlyRegistrationDiscount"><label>Subtract:</label> $<input type="text" data-ng-model="conference.earlyRegistrationAmount"></div>
 </div>
-
 
 
 <div>
