@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function (AnswerCache, $modal) {
+  .directive('showAnswer', function (AnswerCache, $modal, $location) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
@@ -10,6 +10,9 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
+        if($location.$$path.indexOf("adminData/") != -1) {
+          $scope.answerEditable = true;
+        }
 
         var editAnswerDialogOptions = {
           templateUrl: 'views/editAnswer.html',
@@ -18,9 +21,11 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.createEditDialog = function () {
-          $modal.open(editAnswerDialogOptions).result.then(function () {
-            AnswerCache.syncBlock($scope, 'answer');
-          });
+          if ($scope.answerEditable) {
+            $modal.open(editAnswerDialogOptions).result.then(function () {
+              AnswerCache.syncBlock($scope, 'answer');
+            });
+          }
         };
 
         $scope.$watch('answers', function () {

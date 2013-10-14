@@ -15,8 +15,11 @@
       <span></span> ${{conference.conferenceCost}}</label>
     <br>
     Name on Card: <input type="text" data-ng-model="creditCardNameOnCard"/><br>
-    Credit Card Number:
+    Card Number:
     <input class="inputCard" type="text" maxlength="16" data-ng-model="creditCardNumber"/>
+
+    Card CVV:
+    <input class="inputCard" type="text" maxlength="4" data-ng-model="creditCardCVVNumber"/>
     <br/>
     Card Expiry:
     <select data-ng-model="creditCardExpirationMonth">

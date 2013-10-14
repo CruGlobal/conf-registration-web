@@ -9,5 +9,5 @@
     <span ng-switch-when="selectQuestion">{{answer.value}}</span>
     <span ng-switch-when="numberQuestion">{{answer.value.text}}</span>
   </ng-switch>
-  <span class="crs-editAnswer"><img src="images/pencil.png"/></span>
+  <span class="crs-editAnswer" data-ng-show="{{answerEditable}}"><img src="images/pencil.png"/></span>
 </div>
