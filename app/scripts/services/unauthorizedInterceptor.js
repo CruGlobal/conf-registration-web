@@ -8,7 +8,6 @@ angular.module('confRegistrationWebApp')
           delete $cookies.crsToken;
           location.reload();
         }
-
         return $q.reject(rejection);
       }
     };

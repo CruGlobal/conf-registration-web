@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
         block: '='
       },
       controller: function ($scope) {
-        if($location.$$path.indexOf("adminData/") != -1) {
+        if ($location.$$path.indexOf('adminData/') !== -1) {
           $scope.answerEditable = true;
         }
 

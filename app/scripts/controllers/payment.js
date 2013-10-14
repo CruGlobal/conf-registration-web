@@ -9,10 +9,18 @@ angular.module('confRegistrationWebApp')
   });
 angular.module('confRegistrationWebApp')
   .controller('paymentCtrl', function ($scope, $location, registration, conference, $http, $modal, Model) {
-    $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
-    $scope.payment = {};
-    $scope.amount = conference.minimumDeposit;
+
+    if (registration.completed) {
+      //$scope.amount = 50;
+    } else {
+      if (conference.earlyRegistrationOpen) {
+        conference.conferenceCost = (conference.conferenceCost - conference.earlyRegistrationAmount);
+      }
+      $scope.amount = conference.minimumDeposit;
+    }
+
+    $scope.conference = conference;
 
     $scope.createPayment = function () {
       var errorModalOptions = {};
@@ -66,13 +74,13 @@ angular.module('confRegistrationWebApp')
 
       console.log(registration);
 
-      if(registration.completed){
+      if (registration.completed) {
         registration.currentPayment.readyToProcess = true;
-        Model.update('/registrations/' + registration.id, registration, function(result){
+        Model.update('/registrations/' + registration.id, registration, function (result) {
           console.log(result.status);
         });
       } else {
-        Model.update('/registrations/' + registration.id, registration, function(){
+        Model.update('/registrations/' + registration.id, registration, function () {
           $location.path('/reviewRegistration/' + conference.id);
         });
       }
