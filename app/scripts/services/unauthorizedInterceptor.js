@@ -4,10 +4,10 @@ angular.module('confRegistrationWebApp')
   .factory('unauthorizedInterceptor', function ($q, $cookies) {
     return {
       responseError: function (rejection) {
-        if (rejection.status === 401 && $cookies.crsToken) {
+        if (_.contains([401, 0], rejection.status) && typeof $cookies.crsToken !== 'undefined') {
           delete $cookies.crsToken;
+          location.reload();
         }
-
         return $q.reject(rejection);
       }
     };

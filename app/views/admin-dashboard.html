@@ -13,13 +13,13 @@
           <div class="front  crs--event-card">
 
             <div class="crs--card-content  full-height">
-              <a class="crs--event-link  block-center  full-height" href="#/register/{{conference.id}}">
+              <a class="crs--event-link  block-center  full-height" href="#/adminData/{{conference.id}}">
                 <h2 class="crs--event-title  center-vertical">{{conference.name}}</h2>
               </a>
             </div>
 
             <div class="crs--card-meta">
-              <a class="crs--card-count  absolute" href="#"><span>22</span></a>
+              <a class="crs--card-count  absolute" href="#"><span>{{conference.totalRegistrations}}</span></a>
               <button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
             </div>
 
@@ -34,7 +34,7 @@
                   <a href="#">Clone</a>
                 </li>
                 <li>
-                  <a href="#/adminData/{{conference.id}}">Manage</a>
+                  <a href="#/register/{{conference.id}}">Register</a>
                 </li>
                 <li>
                   <a href="#/wizard/{{conference.id}}">Edit</a>
@@ -46,7 +46,7 @@
             </div>
 
             <div class="crs--card-meta">
-              <a class="crs--card-count  absolute" href="#"><span>22</span></a>
+              <a class="crs--card-count  absolute" href="#"><span>{{conference.totalRegistrations}}</span></a>
               <button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
             </div>
           </div>

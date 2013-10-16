@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
       var loginDialogOptions = {
         templateUrl: 'views/loginDialog.html',
         controller: 'LoginDialogCtrl',
-        backdropClick: false,
+        backdrop: 'static',
         keyboard: false
       };
       $modal.open(loginDialogOptions);

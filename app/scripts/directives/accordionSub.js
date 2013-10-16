@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
         scope.$apply(function () {
           var returnTop;
           if (windowEl.scrollTop() > 130) {
-            returnTop = (windowEl.scrollTop() - 120);
+            returnTop = (windowEl.scrollTop() - 90);
           } else {
             returnTop = 0;
           }
