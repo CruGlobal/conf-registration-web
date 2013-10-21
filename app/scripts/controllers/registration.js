@@ -11,9 +11,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
+    console.log(currentRegistration);
 
    //currentRegistration.completed = false;
-    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
+   //Model.update('/registrationvns/' + currentRegistration.id, currentRegistration);
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
