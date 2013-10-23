@@ -21,7 +21,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-      setRegistrationAsCompleted();
+      if(!conference.acceptCreditCards){
+        setRegistrationAsCompleted();
+        return;
+      }
+
       registration.currentPayment.readyToProcess = true;
       Model.update('/registrations/' + registration.id, registration, function (result) {
 

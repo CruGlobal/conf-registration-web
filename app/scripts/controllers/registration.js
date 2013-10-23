@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
 
    //currentRegistration.completed = false;
-   //Model.update('/registrationvns/' + currentRegistration.id, currentRegistration);
+   //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
