@@ -11,7 +11,6 @@ angular.module('confRegistrationWebApp')
 
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
-    console.log(currentRegistration);
 
    //currentRegistration.completed = false;
    //Model.update('/registrationvns/' + currentRegistration.id, currentRegistration);
@@ -48,7 +47,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToReviewOrPayment = function () {
-      if (conference.acceptCreditCards && currentRegistration.currentPayment.amount === 0) {
+      if (conference.acceptCreditCards && typeof currentRegistration.currentPayment !== 'undefined') {
         $location.path('/payment/' + conference.id);
       } else {
         $location.path('/reviewRegistration/' + conference.id);

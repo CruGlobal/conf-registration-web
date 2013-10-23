@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-
+      setRegistrationAsCompleted();
       registration.currentPayment.readyToProcess = true;
       Model.update('/registrations/' + registration.id, registration, function (result) {
 
