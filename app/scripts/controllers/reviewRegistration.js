@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-      if(!conference.acceptCreditCards){
+      if (!conference.acceptCreditCards) {
         setRegistrationAsCompleted();
         return;
       }
