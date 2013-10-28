@@ -35,32 +35,32 @@ angular.module('confRegistrationWebApp')
 
       var blockTypeFriendly = '';
       switch (blockType) {
-        case 'paragraphContent':
-          blockTypeFriendly = 'Information';
-          break;
-        case 'textQuestion':
-          blockTypeFriendly = 'Text Field';
-          break;
-        case 'radioQuestion':
-          blockTypeFriendly = 'Multiple choice block';
-          break;
-        case 'checkboxQuestion':
-          blockTypeFriendly = 'Checkbox block';
-          break;
-        case 'selectQuestion':
-          blockTypeFriendly = 'Dropdown select block';
-          break;
-        case 'emailQuestion':
-          blockTypeFriendly = 'Email';
-          break;
-        case 'nameQuestion':
-          blockTypeFriendly = 'Name';
-          break;
-        case 'phoneQuestion':
-          blockTypeFriendly = 'Phone';
-          break;
-        default:
-          blockTypeFriendly = 'New ' + blockType + ' Block';
+      case 'paragraphContent':
+        blockTypeFriendly = 'Information';
+        break;
+      case 'textQuestion':
+        blockTypeFriendly = 'Text Field';
+        break;
+      case 'radioQuestion':
+        blockTypeFriendly = 'Multiple choice block';
+        break;
+      case 'checkboxQuestion':
+        blockTypeFriendly = 'Checkbox block';
+        break;
+      case 'selectQuestion':
+        blockTypeFriendly = 'Dropdown select block';
+        break;
+      case 'emailQuestion':
+        blockTypeFriendly = 'Email';
+        break;
+      case 'nameQuestion':
+        blockTypeFriendly = 'Name';
+        break;
+      case 'phoneQuestion':
+        blockTypeFriendly = 'Phone';
+        break;
+      default:
+        blockTypeFriendly = 'New ' + blockType + ' Block';
       }
 
       var newBlock = {
