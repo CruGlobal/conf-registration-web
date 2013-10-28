@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http) {
+  .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http, Model) {
     $scope.$on('conferences/', function (event, conferences) {
       $scope.conferences = conferences;
       for (var i = 0; i < $scope.conferences.length; i++) {
@@ -18,16 +18,48 @@ angular.module('confRegistrationWebApp')
     }
     ConfCache.query();
 
-    var createConferenceDialogOptions = {
-      templateUrl: 'views/createConference.html',
-      controller: 'CreateConferenceDialogCtrl'
-    };
 
     $scope.createConference = function () {
-      $modal.open(createConferenceDialogOptions).result.then(function (conferenceName) {
+      $modal.open({
+        templateUrl: 'views/createConference.html',
+        controller: 'CreateConferenceDialogCtrl',
+        resolve: {
+          defaultValue: function () {
+            return '';
+          }
+        }
+      }).result.then(function (conferenceName) {
         if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
           ConfCache.create(conferenceName).then(function (conference) {
             $location.path('/wizard/' + conference.id);
+          });
+        }
+      });
+    };
+
+
+    $scope.cloneConference = function (conferenceToCloneId) {
+      var conferenceToClone = _.find($scope.conferences, {id: conferenceToCloneId});
+
+      $modal.open({
+        templateUrl: 'views/cloneConference.html',
+        controller: 'CreateConferenceDialogCtrl',
+        resolve: {
+          defaultValue: function () {
+            return conferenceToClone.name + ' (clone)';
+          }
+        }
+      }).result.then(function (conferenceName) {
+        if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
+          ConfCache.create(conferenceName).then(function (conference) {
+            $http.get('conferences/' + conferenceToClone.id).success(function (result) {
+              conference.registrationPages = result.registrationPages;
+
+              Model.update('conferences/' + conference.id, conference, function () {
+                console.log('Updated: ' + conference);
+              });
+            });
+            //$location.path('/');
           });
         }
       });
