@@ -33,12 +33,42 @@ angular.module('confRegistrationWebApp')
     $scope.insertBlock = function (blockType, newPage, newPosition) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
 
+      var blockTypeFriendly = '';
+      switch (blockType) {
+        case 'paragraphContent':
+          blockTypeFriendly = 'Information';
+          break;
+        case 'textQuestion':
+          blockTypeFriendly = 'Text Field';
+          break;
+        case 'radioQuestion':
+          blockTypeFriendly = 'Multiple choice block';
+          break;
+        case 'checkboxQuestion':
+          blockTypeFriendly = 'Checkbox block';
+          break;
+        case 'selectQuestion':
+          blockTypeFriendly = 'Dropdown select block';
+          break;
+        case 'emailQuestion':
+          blockTypeFriendly = 'Email';
+          break;
+        case 'nameQuestion':
+          blockTypeFriendly = 'Name';
+          break;
+        case 'phoneQuestion':
+          blockTypeFriendly = 'Phone';
+          break;
+        default:
+          blockTypeFriendly = 'New ' + blockType + ' Block';
+      }
+
       var newBlock = {
         id: uuid(),
         content: '',
         pageId: newPage,
         required: false,
-        title: 'New Block',
+        title: blockTypeFriendly,
         type: blockType
       };
 

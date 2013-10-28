@@ -81,6 +81,7 @@ angular.module('confRegistrationWebApp')
           console.log(result.status);
         });
       } else {
+        registration.currentPayment.readyToProcess = false;
         Model.update('/registrations/' + registration.id, registration, function () {
           $location.path('/reviewRegistration/' + conference.id);
         });
