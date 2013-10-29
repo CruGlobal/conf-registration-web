@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http, Model) {
+  .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http, Model, uuid) {
     $scope.$on('conferences/', function (event, conferences) {
       $scope.conferences = conferences;
       for (var i = 0; i < $scope.conferences.length; i++) {
@@ -40,6 +40,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.cloneConference = function (conferenceToCloneId) {
       var conferenceToClone = _.find($scope.conferences, {id: conferenceToCloneId});
+      console.log(conferenceToClone);
 
       $modal.open({
         templateUrl: 'views/cloneConference.html',
@@ -53,13 +54,46 @@ angular.module('confRegistrationWebApp')
         if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
           ConfCache.create(conferenceName).then(function (conference) {
             $http.get('conferences/' + conferenceToClone.id).success(function (result) {
-              conference.registrationPages = result.registrationPages;
 
+              //clone conference details
+              conference.acceptCreditCards = result.acceptCreditCards;
+              conference.authnetId = result.authnetId;
+              //conference.authnetToken = result.authnetToken;
+              conference.conferenceCost = result.conferenceCost;
+              conference.contactPersonEmail = result.contactPersonEmail;
+              conference.contactPersonName = result.contactPersonName;
+              conference.contactPersonPhone = result.contactPersonPhone;
+              conference.description = result.description;
+              conference.earlyRegistrationAmount = result.earlyRegistrationAmount;
+              conference.earlyRegistrationDiscount = result.earlyRegistrationDiscount;
+              conference.earlyRegistrationCutoff = result.earlyRegistrationCutoff;
+              conference.eventEndTime = result.eventEndTime;
+              conference.eventStartTime = result.eventStartTime;
+              conference.locationAddress = result.locationAddress;
+              conference.locationCity = result.locationCity;
+              conference.locationName = result.locationName;
+              conference.locationState = result.locationState;
+              conference.locationZipCode = result.locationZipCode;
+              conference.minimumDeposit = result.minimumDeposit;
+              conference.registrationEndTime = result.registrationEndTime;
+              conference.registrationStartTime = result.registrationStartTime;
+              conference.totalSlots = result.totalSlots;
+
+              //clone conference pages
+              conference.registrationPages = result.registrationPages;
+              for (var i = 0; i < conference.registrationPages.length; i++) {
+                var pageUuid = uuid();
+                conference.registrationPages[i].id = pageUuid;
+                conference.registrationPages[i].conferenceId = conference.id;
+                for (var j = 0; j < conference.registrationPages[i].blocks.length; j++) {
+                  conference.registrationPages[i].blocks[j].id = uuid();
+                  conference.registrationPages[i].blocks[j].pageId = pageUuid;
+                }
+              }
               Model.update('conferences/' + conference.id, conference, function () {
-                console.log('Updated: ' + conference);
+                $location.path('/adminData/' + conference.id);
               });
             });
-            //$location.path('/');
           });
         }
       });
