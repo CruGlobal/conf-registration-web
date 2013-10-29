@@ -40,7 +40,6 @@ angular.module('confRegistrationWebApp')
 
     $scope.cloneConference = function (conferenceToCloneId) {
       var conferenceToClone = _.find($scope.conferences, {id: conferenceToCloneId});
-      console.log(conferenceToClone);
 
       $modal.open({
         templateUrl: 'views/cloneConference.html',
@@ -58,7 +57,6 @@ angular.module('confRegistrationWebApp')
               //clone conference details
               conference.acceptCreditCards = result.acceptCreditCards;
               conference.authnetId = result.authnetId;
-              //conference.authnetToken = result.authnetToken;
               conference.conferenceCost = result.conferenceCost;
               conference.contactPersonEmail = result.contactPersonEmail;
               conference.contactPersonName = result.contactPersonName;
