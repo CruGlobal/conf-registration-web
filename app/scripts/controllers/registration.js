@@ -13,7 +13,8 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
 
    //currentRegistration.completed = false;
-    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
+   //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
+    console.log(currentRegistration);
 
     function getPageById(pageId) {
       var pages = conference.registrationPages;
@@ -47,7 +48,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToReviewOrPayment = function () {
-      if (conference.acceptCreditCards && currentRegistration.currentPayment.amount === 0) {
+      if (conference.acceptCreditCards && currentRegistration.currentPayment === null) {
         $location.path('/payment/' + conference.id);
       } else {
         $location.path('/reviewRegistration/' + conference.id);

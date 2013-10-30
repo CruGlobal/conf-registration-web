@@ -64,6 +64,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      registration.currentPayment = {};
       registration.currentPayment.amount = $scope.amount;
       registration.currentPayment.registrationId = registration.id;
       registration.currentPayment.creditCardNameOnCard = $scope.creditCardNameOnCard;
@@ -72,7 +73,7 @@ angular.module('confRegistrationWebApp')
       registration.currentPayment.creditCardNumber = $scope.creditCardNumber;
       registration.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
 
-      console.log(registration);
+      //console.log(registration);
 
       if (registration.completed) {
         registration.currentPayment.readyToProcess = true;
@@ -80,6 +81,7 @@ angular.module('confRegistrationWebApp')
           console.log(result.status);
         });
       } else {
+        registration.currentPayment.readyToProcess = false;
         Model.update('/registrations/' + registration.id, registration, function () {
           $location.path('/reviewRegistration/' + conference.id);
         });
