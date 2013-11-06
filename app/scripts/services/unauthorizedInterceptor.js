@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       responseError: function (rejection) {
         if (_.contains([401, 0], rejection.status) && typeof $cookies.crsToken !== 'undefined') {
           delete $cookies.crsToken;
-          location.reload();
+          //location.reload();
         }
         return $q.reject(rejection);
       }

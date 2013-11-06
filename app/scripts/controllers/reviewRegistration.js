@@ -1,12 +1,14 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $location, registration, conference, $modal, Model) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, Model) {
 
     $scope.conference = conference;
     $scope.registration = registration;
     $scope.answers = registration.answers;
     $scope.blocks = [];
+
+    console.log($rootScope);
 
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
@@ -26,7 +28,16 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      registration.currentPayment = {};
+      registration.currentPayment.registrationId = registration.id;
+      registration.currentPayment.amount = $rootScope.currentPayment.amount;
+      registration.currentPayment.creditCardNameOnCard = $rootScope.currentPayment.creditCardNameOnCard;
+      registration.currentPayment.creditCardExpirationMonth = $rootScope.currentPayment.creditCardExpirationMonth;
+      registration.currentPayment.creditCardExpirationYear = $rootScope.currentPayment.creditCardExpirationYear;
+      registration.currentPayment.creditCardNumber = $rootScope.currentPayment.creditCardNumber;
+      registration.currentPayment.creditCardCVVNumber = $rootScope.currentPayment.creditCardCVVNumber;
       registration.currentPayment.readyToProcess = true;
+
       Model.update('/registrations/' + registration.id, registration, function (result) {
 
         console.log(result.status);

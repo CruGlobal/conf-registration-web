@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, conference, currentRegistration, $routeParams, $location) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, conference, currentRegistration, $routeParams, $location) {
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -48,7 +48,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToReviewOrPayment = function () {
-      if (conference.acceptCreditCards && currentRegistration.currentPayment === null) {
+      if (conference.acceptCreditCards && _.isUndefined($rootScope.currentPayment)) {
         $location.path('/payment/' + conference.id);
       } else {
         $location.path('/reviewRegistration/' + conference.id);

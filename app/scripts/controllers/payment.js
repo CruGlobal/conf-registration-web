@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
     };
   });
 angular.module('confRegistrationWebApp')
-  .controller('paymentCtrl', function ($scope, $location, registration, conference, $http, $modal, Model) {
+  .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal, Model) {
     $scope.currentYear = new Date().getFullYear();
 
     if (registration.completed) {
@@ -64,14 +64,14 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      registration.currentPayment = {};
-      registration.currentPayment.amount = $scope.amount;
-      registration.currentPayment.registrationId = registration.id;
-      registration.currentPayment.creditCardNameOnCard = $scope.creditCardNameOnCard;
-      registration.currentPayment.creditCardExpirationMonth = $scope.creditCardExpirationMonth;
-      registration.currentPayment.creditCardExpirationYear = $scope.creditCardExpirationYear;
-      registration.currentPayment.creditCardNumber = $scope.creditCardNumber;
-      registration.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
+      $rootScope.currentPayment = {};
+      $rootScope.currentPayment.amount = $scope.amount;
+      $rootScope.currentPayment.registrationId = registration.id;
+      $rootScope.currentPayment.creditCardNameOnCard = $scope.creditCardNameOnCard;
+      $rootScope.currentPayment.creditCardExpirationMonth = $scope.creditCardExpirationMonth;
+      $rootScope.currentPayment.creditCardExpirationYear = $scope.creditCardExpirationYear;
+      $rootScope.currentPayment.creditCardNumber = $scope.creditCardNumber;
+      $rootScope.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
 
       //console.log(registration);
 
@@ -81,10 +81,10 @@ angular.module('confRegistrationWebApp')
           console.log(result.status);
         });
       } else {
-        registration.currentPayment.readyToProcess = false;
-        Model.update('/registrations/' + registration.id, registration, function () {
+        //registration.currentPayment.readyToProcess = false;
+        //Model.update('/registrations/' + registration.id, registration, function () {
           $location.path('/reviewRegistration/' + conference.id);
-        });
+        //});
       }
     };
   });
