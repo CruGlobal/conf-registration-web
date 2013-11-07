@@ -8,8 +8,6 @@ angular.module('confRegistrationWebApp')
     $scope.answers = registration.answers;
     $scope.blocks = [];
 
-    console.log($rootScope);
-
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {
@@ -23,6 +21,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
+      $('.btn-success').attr('value','Loading...');
       if (!conference.acceptCreditCards) {
         setRegistrationAsCompleted();
         return;
@@ -38,11 +37,14 @@ angular.module('confRegistrationWebApp')
       registration.currentPayment.creditCardCVVNumber = $rootScope.currentPayment.creditCardCVVNumber;
       registration.currentPayment.readyToProcess = true;
 
-      Model.update('/registrations/' + registration.id, registration, function (result) {
-
+      Model.update('registrations/' + registration.id, registration, function (result) {
         console.log(result.status);
 
-        if (result.status === 501) {
+        if (result.status === 204) {
+          setRegistrationAsCompleted();
+          delete $rootScope.currentPayment;
+        } else {
+          console.log(result);
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
             controller: 'errorModal',
@@ -58,15 +60,14 @@ angular.module('confRegistrationWebApp')
             $location.path('/payment/' + conference.id);
           });
           return;
-        } else {
-          setRegistrationAsCompleted();
         }
       });
     };
 
     function setRegistrationAsCompleted() {
+      registration.currentPayment = {};
       registration.completed = true;
-      Model.update('/registrations/' + registration.id, registration, function () {
+      Model.update('registrations/' + registration.id, registration, function () {
         $scope.registration.completed = true;
       });
     }
