@@ -27,14 +27,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      registration.currentPayment = {};
-      registration.currentPayment.registrationId = registration.id;
-      registration.currentPayment.amount = $rootScope.currentPayment.amount;
-      registration.currentPayment.creditCardNameOnCard = $rootScope.currentPayment.creditCardNameOnCard;
-      registration.currentPayment.creditCardExpirationMonth = $rootScope.currentPayment.creditCardExpirationMonth;
-      registration.currentPayment.creditCardExpirationYear = $rootScope.currentPayment.creditCardExpirationYear;
-      registration.currentPayment.creditCardNumber = $rootScope.currentPayment.creditCardNumber;
-      registration.currentPayment.creditCardCVVNumber = $rootScope.currentPayment.creditCardCVVNumber;
+      registration.currentPayment = $rootScope.currentPayment;
       registration.currentPayment.readyToProcess = true;
 
       Model.update('registrations/' + registration.id, registration, function (result) {
@@ -66,9 +59,15 @@ angular.module('confRegistrationWebApp')
 
     function setRegistrationAsCompleted() {
       registration.currentPayment = {};
+      delete registration.currentPayment;
       registration.completed = true;
-      Model.update('registrations/' + registration.id, registration, function () {
-        $scope.registration.completed = true;
+
+      Model.update('registrations/' + registration.id, registration, function (result) {
+        if (result.status == 204) {
+          $scope.registration.completed = true;
+        } else {
+          alert('Error: ' + result.data.errorMessage);
+        }
       });
     }
 

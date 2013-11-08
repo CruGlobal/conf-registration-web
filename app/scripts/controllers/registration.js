@@ -16,6 +16,14 @@ angular.module('confRegistrationWebApp')
    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
     console.log(currentRegistration);
 
+    if (currentRegistration.completed) {
+      $scope.currentRegistration.remainingBalance = 0;
+      currentRegistration.pastPayments.forEach(function(payment) {
+        $scope.currentRegistration.remainingBalance += payment.amount;
+        console.log($scope.currentRegistration.remainingBalance);
+      });
+    }
+
     function getPageById(pageId) {
       var pages = conference.registrationPages;
 
