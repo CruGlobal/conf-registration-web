@@ -8,11 +8,17 @@ angular.module('confRegistrationWebApp')
     };
   });
 angular.module('confRegistrationWebApp')
-  .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal, Model) {
+  .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal) {
     $scope.currentYear = new Date().getFullYear();
+    registration.totalDue = 100;
 
     if (registration.completed) {
-      //$scope.amount = 50;
+      registration.remainingBalance = registration.totalDue;
+      registration.pastPayments.forEach(function(payment) {
+        registration.remainingBalance -= payment.amount;
+      });
+      $scope.amount = registration.remainingBalance;
+      conference.conferenceCost = $scope.amount;
     } else {
       if (conference.earlyRegistrationOpen) {
         conference.conferenceCost = (conference.conferenceCost - conference.earlyRegistrationAmount);
@@ -20,6 +26,7 @@ angular.module('confRegistrationWebApp')
       $scope.amount = conference.minimumDeposit;
     }
 
+    $scope.currentRegistration = registration;
     $scope.conference = conference;
 
     $scope.createPayment = function () {
@@ -74,10 +81,28 @@ angular.module('confRegistrationWebApp')
       $rootScope.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
 
       if (registration.completed) {
-        registration.currentPayment = $rootScope.currentPayment;
-        registration.currentPayment.readyToProcess = true;
-        Model.update('registrations/' + registration.id, registration, function (result) {
-          console.log(result.status);
+        var currentPayment = $rootScope.currentPayment;
+        currentPayment.readyToProcess = true;
+        $http.post('payments/', currentPayment).success(function (result, status) {
+          console.log(result);
+          console.log(status);
+          if (status === 201) {
+            $location.path('/register/' + conference.id);
+          } else {
+            var errorModalOptions = {
+              templateUrl: 'views/errorModal.html',
+              controller: 'errorModal',
+              backdrop: 'static',
+              keyboard: false,
+              resolve: {
+                message: function () {
+                  return 'Your card was declined, please verify and re-enter your details or use a different card.';
+                }
+              }
+            };
+            $modal.open(errorModalOptions).result.then(function () {
+            });
+          }
         });
       } else {
         $location.path('/reviewRegistration/' + conference.id);

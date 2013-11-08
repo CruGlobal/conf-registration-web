@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
 
     var checkCache = function (path, callback) {
       var cachedConferences = cache.get(path);
-      if (angular.isDefined(cachedConferences) && 7 === 8) {
+      if (angular.isDefined(cachedConferences)) {
         callback(cachedConferences, path);
       } else {
         $http.get(path).success(function (conferences) {

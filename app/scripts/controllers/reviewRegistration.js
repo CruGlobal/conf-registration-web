@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, Model) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, $http) {
 
     $scope.conference = conference;
     $scope.registration = registration;
@@ -27,17 +27,15 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      registration.currentPayment = $rootScope.currentPayment;
-      registration.currentPayment.readyToProcess = true;
+      var currentPayment = $rootScope.currentPayment;
+      currentPayment.readyToProcess = true;
 
-      Model.update('registrations/' + registration.id, registration, function (result) {
-        console.log(result.status);
-
-        if (result.status === 204) {
+      $http.post('payments/', currentPayment).success(function (result, status) {
+        console.log(result);
+        if (status === 201) {
           setRegistrationAsCompleted();
           delete $rootScope.currentPayment;
         } else {
-          console.log(result);
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
             controller: 'errorModal',
@@ -58,12 +56,9 @@ angular.module('confRegistrationWebApp')
     };
 
     function setRegistrationAsCompleted() {
-      registration.currentPayment = {};
-      delete registration.currentPayment;
       registration.completed = true;
-
-      Model.update('registrations/' + registration.id, registration, function (result) {
-        if (result.status == 204) {
+      $http.put('registrations/' + registration.id, registration).success(function (result, status) {
+        if (status == 204) {
           $scope.registration.completed = true;
         } else {
           alert('Error: ' + result.data.errorMessage);

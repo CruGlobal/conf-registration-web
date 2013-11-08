@@ -4,7 +4,7 @@
       <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
     </div>
     <strong>Payment Amount:</strong>
-    <div data-ng-show="conference.conferenceCost !== conference.minimumDeposit">
+    <div data-ng-show="conference.conferenceCost !== conference.minimumDeposit && !currentRegistration.completed">
       <input type="radio" ng-model="amount" value="{{conference.minimumDeposit}}" id="payment-min">
         <label class="crs-radio-label" for="payment-min">
         <span></span> ${{conference.minimumDeposit}} (minimum deposit)</label>

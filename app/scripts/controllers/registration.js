@@ -9,6 +9,7 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
+    currentRegistration.totalDue = 100;
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 
@@ -17,10 +18,9 @@ angular.module('confRegistrationWebApp')
     console.log(currentRegistration);
 
     if (currentRegistration.completed) {
-      $scope.currentRegistration.remainingBalance = 0;
+      $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;
       currentRegistration.pastPayments.forEach(function(payment) {
-        $scope.currentRegistration.remainingBalance += payment.amount;
-        console.log($scope.currentRegistration.remainingBalance);
+        $scope.currentRegistration.remainingBalance -= payment.amount;
       });
     }
 
