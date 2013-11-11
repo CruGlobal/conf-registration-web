@@ -9,7 +9,7 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
-    currentRegistration.totalDue = 100;
+    //currentRegistration.totalDue = 100;
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 

@@ -38,19 +38,23 @@ angular.module('confRegistrationWebApp')
       var data = {
         name: name
       };
-      return $http.post(path(), data).then(function (response) {
-        var conference = response.data;
+      return $http.post(path(), data).then(function (response, status) {
+        if (response.status == 201) {
+          var conference = response.data;
 
-        conference.registrationPages[0] = {
-          id: uuid(),
-          conferenceId: conference.id,
-          position: 0,
-          title: 'First Page',
-          blocks: []
-        };
+          conference.registrationPages[0] = {
+            id: uuid(),
+            conferenceId: conference.id,
+            position: 0,
+            title: 'First Page',
+            blocks: []
+          };
 
-        cache.put(path(conference.id), conference);
-        return conference;
+          cache.put(path(conference.id), conference);
+          return conference;
+        }else{
+          alert('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
+        }
       });
     };
   });

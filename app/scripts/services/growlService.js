@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
         $rootScope.growlMessage = '';
       }, 5000);
 
-      ignoreNext = true;
+/*      ignoreNext = true;
       cancelEventListener = $rootScope.$on(path, function () {
         if (!ignoreNext) {
           $rootScope.growlMessage = '';
@@ -22,6 +22,7 @@ angular.module('confRegistrationWebApp')
           ignoreNext = false;
         }
       });
+ */
     };
 
     $rootScope.growlUndo = function () {
