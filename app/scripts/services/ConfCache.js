@@ -38,8 +38,8 @@ angular.module('confRegistrationWebApp')
       var data = {
         name: name
       };
-      return $http.post(path(), data).then(function (response, status) {
-        if (response.status == 201) {
+      return $http.post(path(), data).then(function (response) {
+        if (response.status === 201) {
           var conference = response.data;
 
           conference.registrationPages[0] = {
@@ -52,7 +52,7 @@ angular.module('confRegistrationWebApp')
 
           cache.put(path(conference.id), conference);
           return conference;
-        }else{
+        } else {
           alert('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
         }
       });

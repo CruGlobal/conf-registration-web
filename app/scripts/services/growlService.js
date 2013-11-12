@@ -2,7 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .service('GrowlService', function GrowlService($rootScope, Model, $timeout) {
-    var growlPath, growlObject, growlTimeout, cancelEventListener, ignoreNext;
+    var growlPath, growlObject, growlTimeout;
     this.growl = function (path, object, message) {
       growlPath = path;
       growlObject = angular.copy(object);

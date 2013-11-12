@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
 
     if (registration.completed) {
       registration.remainingBalance = registration.totalDue;
-      registration.pastPayments.forEach(function(payment) {
+      registration.pastPayments.forEach(function (payment) {
         registration.remainingBalance -= payment.amount;
       });
       $scope.amount = registration.remainingBalance;

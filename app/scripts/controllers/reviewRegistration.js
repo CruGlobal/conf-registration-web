@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-      $('.btn-success').attr('value','Loading...');
+      $('.btn-success').attr('value', 'Loading...');
       if (!conference.acceptCreditCards) {
         setRegistrationAsCompleted();
         return;
@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
     function setRegistrationAsCompleted() {
       registration.completed = true;
       $http.put('registrations/' + registration.id, registration).success(function (result, status) {
-        if (status == 204) {
+        if (status === 204) {
           $scope.registration.completed = true;
         } else {
           alert('Error: ' + result.data.errorMessage);

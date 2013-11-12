@@ -13,13 +13,13 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
 
-   //currentRegistration.completed = false;
-   //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
+    //currentRegistration.completed = false;
+    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
     console.log(currentRegistration);
 
     if (currentRegistration.completed) {
       $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;
-      currentRegistration.pastPayments.forEach(function(payment) {
+      currentRegistration.pastPayments.forEach(function (payment) {
         $scope.currentRegistration.remainingBalance -= payment.amount;
       });
     }
