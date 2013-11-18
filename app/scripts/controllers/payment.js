@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal) {
     $scope.currentYear = new Date().getFullYear();
-    registration.totalDue = 100;
 
     if (registration.completed) {
       registration.remainingBalance = registration.totalDue;
@@ -22,7 +21,10 @@ angular.module('confRegistrationWebApp')
     } else {
       if (conference.earlyRegistrationOpen) {
         conference.conferenceCost = (conference.conferenceCost - conference.earlyRegistrationAmount);
+      }else{
+        conference.conferenceCost = conference.conferenceCost;
       }
+      $rootScope.totalDue = conference.conferenceCost;
       $scope.amount = conference.minimumDeposit;
     }
 

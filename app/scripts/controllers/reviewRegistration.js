@@ -57,6 +57,9 @@ angular.module('confRegistrationWebApp')
 
     function setRegistrationAsCompleted() {
       registration.completed = true;
+      if(_.isNull(registration.totalDue)) {
+        registration.totalDue = $rootScope.totalDue;
+      }
       $http.put('registrations/' + registration.id, registration).success(function (result, status) {
         if (status === 204) {
           $scope.registration.completed = true;
