@@ -73,8 +73,6 @@ angular.module('confRegistrationWebApp')
       registration.currentPayment.creditCardNumber = $scope.creditCardNumber;
       registration.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
 
-      //console.log(registration);
-
       if (registration.completed) {
         registration.currentPayment.readyToProcess = true;
         Model.update('/registrations/' + registration.id, registration, function (result) {

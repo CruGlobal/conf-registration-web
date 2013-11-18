@@ -52,30 +52,12 @@ angular.module('confRegistrationWebApp')
       }).result.then(function (conferenceName) {
         if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
           ConfCache.create(conferenceName).then(function (conference) {
+            var conferenceOrig = conference;
             $http.get('conferences/' + conferenceToClone.id).success(function (result) {
-
               //clone conference details
-              conference.acceptCreditCards = result.acceptCreditCards;
-              conference.authnetId = result.authnetId;
-              conference.conferenceCost = result.conferenceCost;
-              conference.contactPersonEmail = result.contactPersonEmail;
-              conference.contactPersonName = result.contactPersonName;
-              conference.contactPersonPhone = result.contactPersonPhone;
-              conference.description = result.description;
-              conference.earlyRegistrationAmount = result.earlyRegistrationAmount;
-              conference.earlyRegistrationDiscount = result.earlyRegistrationDiscount;
-              conference.earlyRegistrationCutoff = result.earlyRegistrationCutoff;
-              conference.eventEndTime = result.eventEndTime;
-              conference.eventStartTime = result.eventStartTime;
-              conference.locationAddress = result.locationAddress;
-              conference.locationCity = result.locationCity;
-              conference.locationName = result.locationName;
-              conference.locationState = result.locationState;
-              conference.locationZipCode = result.locationZipCode;
-              conference.minimumDeposit = result.minimumDeposit;
-              conference.registrationEndTime = result.registrationEndTime;
-              conference.registrationStartTime = result.registrationStartTime;
-              conference.totalSlots = result.totalSlots;
+              conference = angular.copy(result);
+              conference.contactUser = conferenceOrig.contactUser;
+              conference.id = conferenceOrig.id;
 
               //clone conference pages
               conference.registrationPages = result.registrationPages;
