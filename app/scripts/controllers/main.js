@@ -71,7 +71,7 @@ angular.module('confRegistrationWebApp')
                 }
               }
               Model.update('conferences/' + conference.id, conference, function () {
-                $location.path('/adminData/' + conference.id);
+                $location.path('/wizard/' + conference.id);
               });
             });
           });
