@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
               scope.moveBlock(ui.item.find('.crsQuestion').attr('id'), ui.item.parent().attr('id'), ui.item.index());
             }
           }
-        });
+        }).disableSelection();
 
         $('.crs-accordionSub li').draggable({
           connectToSortable: '.connectedSortable',

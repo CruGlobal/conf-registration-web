@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
 
     var checkCache = function (path, callback) {
       var cachedObject = cache.get(path);
-      if (angular.isDefined(cachedObject) && 7 === 8) {
+      if (angular.isDefined(cachedObject)) {
         callback(cachedObject, path);
       } else {
         $http.get(path).success(function (data) {
