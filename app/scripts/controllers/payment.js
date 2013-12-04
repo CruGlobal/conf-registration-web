@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
     } else {
       if (conference.earlyRegistrationOpen) {
         conference.conferenceCost = (conference.conferenceCost - conference.earlyRegistrationAmount);
-      }else{
+      } else {
         conference.conferenceCost = conference.conferenceCost;
       }
       $rootScope.totalDue = conference.conferenceCost;
@@ -85,9 +85,9 @@ angular.module('confRegistrationWebApp')
       if (registration.completed) {
         var currentPayment = $rootScope.currentPayment;
         currentPayment.readyToProcess = true;
-        $http.post('payments/', currentPayment).success(function (result, status) {
+        $http.post('payments/', currentPayment).success(function () {
           $location.path('/register/' + conference.id);
-        }).error(function (result, status) {
+        }).error(function () {
             var errorModalOptions = {
               templateUrl: 'views/errorModal.html',
               controller: 'errorModal',

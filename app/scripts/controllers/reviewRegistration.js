@@ -30,10 +30,10 @@ angular.module('confRegistrationWebApp')
       var currentPayment = $rootScope.currentPayment;
       currentPayment.readyToProcess = true;
 
-      $http.post('payments/', currentPayment).success(function (result, status) {
+      $http.post('payments/', currentPayment).success(function () {
         setRegistrationAsCompleted();
         delete $rootScope.currentPayment;
-      }).error(function (result, status) {
+      }).error(function () {
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
             controller: 'errorModal',
@@ -57,9 +57,9 @@ angular.module('confRegistrationWebApp')
       if (_.isNull(registration.totalDue)) {
         registration.totalDue = $rootScope.totalDue;
       }
-      $http.put('registrations/' + registration.id, registration).success(function (result, status) {
+      $http.put('registrations/' + registration.id, registration).success(function () {
         $scope.registration.completed = true;
-      }).error(function (result, status) {
+      }).error(function () {
           alert('Error: ' + result.data.errorMessage);
         });
     }
