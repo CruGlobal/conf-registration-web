@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('CreateConferenceDialogCtrl', function ($scope, ConfCache, $modalInstance) {
+  .controller('CreateConferenceDialogCtrl', function ($scope, ConfCache, $modalInstance, defaultValue) {
+    $scope.name = defaultValue;
     $scope.close = function () {
       $modalInstance.close('');
     };
