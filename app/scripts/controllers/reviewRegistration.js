@@ -31,11 +31,9 @@ angular.module('confRegistrationWebApp')
       currentPayment.readyToProcess = true;
 
       $http.post('payments/', currentPayment).success(function (result, status) {
-        console.log(result);
-        if (status === 201) {
-          setRegistrationAsCompleted();
-          delete $rootScope.currentPayment;
-        } else {
+        setRegistrationAsCompleted();
+        delete $rootScope.currentPayment;
+      }).error(function (result, status) {
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
             controller: 'errorModal',
@@ -51,22 +49,19 @@ angular.module('confRegistrationWebApp')
             $location.path('/payment/' + conference.id);
           });
           return;
-        }
-      });
+        });
     };
 
     function setRegistrationAsCompleted() {
       registration.completed = true;
-      if(_.isNull(registration.totalDue)) {
+      if (_.isNull(registration.totalDue)) {
         registration.totalDue = $rootScope.totalDue;
       }
       $http.put('registrations/' + registration.id, registration).success(function (result, status) {
-        if (status === 204) {
-          $scope.registration.completed = true;
-        } else {
+        $scope.registration.completed = true;
+      }).error(function (result, status) {
           alert('Error: ' + result.data.errorMessage);
-        }
-      });
+        });
     }
 
     $scope.editRegistration = function () {

@@ -86,11 +86,8 @@ angular.module('confRegistrationWebApp')
         var currentPayment = $rootScope.currentPayment;
         currentPayment.readyToProcess = true;
         $http.post('payments/', currentPayment).success(function (result, status) {
-          console.log(result);
-          console.log(status);
-          if (status === 201) {
-            $location.path('/register/' + conference.id);
-          } else {
+          $location.path('/register/' + conference.id);
+        }).error(function (result, status) {
             var errorModalOptions = {
               templateUrl: 'views/errorModal.html',
               controller: 'errorModal',
@@ -104,8 +101,7 @@ angular.module('confRegistrationWebApp')
             };
             $modal.open(errorModalOptions).result.then(function () {
             });
-          }
-        });
+          });
       } else {
         $location.path('/reviewRegistration/' + conference.id);
       }
