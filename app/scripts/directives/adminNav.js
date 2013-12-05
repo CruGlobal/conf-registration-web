@@ -7,19 +7,13 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: function ($scope, $modal) {
         $scope.deleteConference = function (conferenceToDelete) {
-        console.log(conferenceToDelete);
 
         $modal.open({
           templateUrl: 'views/confirmDeleteConf.html',
-          controller: 'confirmCtrl',
-          resolve: {
-            defaultValue: function () {
-              return ' (clone)';
-            }
-          }
+          controller: 'confirmCtrl'
         }).result.then(function (result) {
           if(result){
-            alert('delete');
+            alert('delete ' + conferenceToDelete);
           }
         });
       };
