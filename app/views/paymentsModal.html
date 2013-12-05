@@ -1,0 +1,25 @@
+<div class="modal" id="fooModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-ng-click="close()" aria-hidden="true">&times;</button>
+    <h4>Payments</h4>
+  </div>
+    <div class="modal-body">
+      <table>
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Transaction</th>
+        </tr>
+        </thead>
+        <tr data-ng-repeat="payment in message">
+          <td>{{payment.transactionDatetime | date:'EEEE, MMM d, y h:mm a'}}</td>
+          <td>${{payment.amount}}</td>
+          <td>{{payment.authnetTransactionId}}</td>
+        </tr>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Ok" />
+    </div>
+</div>
