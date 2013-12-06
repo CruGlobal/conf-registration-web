@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
     };
   });
 angular.module('confRegistrationWebApp')
-  .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal) {
+  .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal, RegistrationCache) {
     $scope.currentYear = new Date().getFullYear();
 
     if (registration.completed) {
@@ -86,6 +86,7 @@ angular.module('confRegistrationWebApp')
         var currentPayment = $rootScope.currentPayment;
         currentPayment.readyToProcess = true;
         $http.post('payments/', currentPayment).success(function () {
+          RegistrationCache.emptyCache();
           $location.path('/register/' + conference.id);
         }).error(function () {
             var errorModalOptions = {

@@ -30,6 +30,10 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    this.emptyCache = function () {
+      cache.removeAll();
+    }
+
     this.get = function (id) {
       var defer = $q.defer();
       checkCache(path(id), defer.resolve);

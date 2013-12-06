@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, $http) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, $http, RegistrationCache) {
 
     $scope.conference = conference;
     $scope.registration = registration;
@@ -33,6 +33,7 @@ angular.module('confRegistrationWebApp')
       $http.post('payments/', currentPayment).success(function () {
         setRegistrationAsCompleted();
         delete $rootScope.currentPayment;
+        RegistrationCache.emptyCache();
       }).error(function () {
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
