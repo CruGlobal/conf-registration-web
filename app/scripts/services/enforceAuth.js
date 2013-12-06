@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .factory('enforceAuth', function ($route, $modal, $cookies, $q) {
     var defer = $q.defer();
 
-    if (angular.isDefined($cookies.crsToken)) {
+    if (angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '') {
       defer.resolve('Authorization present.');
     } else {
       var loginDialogOptions = {
