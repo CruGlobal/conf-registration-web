@@ -2,6 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http, Model, uuid) {
+    ConfCache.query();
     $scope.$on('conferences/', function (event, conferences) {
       $scope.conferences = conferences;
       for (var i = 0; i < $scope.conferences.length; i++) {
@@ -16,7 +17,6 @@ angular.module('confRegistrationWebApp')
         }).length;
       });
     }
-    ConfCache.query();
 
 
     $scope.createConference = function () {
