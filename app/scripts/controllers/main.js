@@ -58,6 +58,7 @@ angular.module('confRegistrationWebApp')
               conference = angular.copy(result);
               conference.contactUser = conferenceOrig.contactUser;
               conference.id = conferenceOrig.id;
+              conference.name = conferenceName;
 
               //clone conference pages
               conference.registrationPages = result.registrationPages;
