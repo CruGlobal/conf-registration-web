@@ -9,13 +9,8 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
-    //currentRegistration.totalDue = 100;
     $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
-
-    //currentRegistration.completed = false;
-    //Model.update('/registrations/' + currentRegistration.id, currentRegistration);
-    console.log(currentRegistration);
 
     if (currentRegistration.completed) {
       $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;

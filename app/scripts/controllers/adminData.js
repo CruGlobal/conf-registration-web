@@ -65,7 +65,7 @@ angular.module('confRegistrationWebApp')
     $scope.registrations = registrations;
 
     $scope.viewPayments = function (registrationId) {
-      var registrationPayments = _.filter(registrations, function (item) { return item.id == registrationId; });
+      var registrationPayments = _.filter(registrations, function (item) { return item.id === registrationId; });
       registrationPayments = registrationPayments[0].pastPayments;
       console.log(registrationPayments);
 
@@ -82,5 +82,5 @@ angular.module('confRegistrationWebApp')
       };
       $modal.open(paymentModalOptions).result.then(function () {
       });
-    }
+    };
   });

@@ -60,8 +60,8 @@ angular.module('confRegistrationWebApp')
       }
       $http.put('registrations/' + registration.id, registration).success(function () {
         $scope.registration.completed = true;
-      }).error(function () {
-          alert('Error: ' + result.data.errorMessage);
+      }).error(function (data) {
+          alert('Error: ' + data);
         });
     }
 
