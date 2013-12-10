@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('enforceAuth', function ($route, $modal, $cookies, $q) {
+  .factory('enforceAuth', function ($route, $modal, $cookies, $q, $window, apiUrl) {
     var defer = $q.defer();
 
     if (angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '') {
@@ -13,7 +13,12 @@ angular.module('confRegistrationWebApp')
         backdrop: 'static',
         keyboard: false
       };
-      $modal.open(loginDialogOptions);
+
+      if($route.current.$$route.controller === 'RegistrationCtrl'){
+        $window.location.href = apiUrl + 'auth/none/login';
+      }else{
+        $modal.open(loginDialogOptions);
+      }
     }
 
     return defer.promise;
