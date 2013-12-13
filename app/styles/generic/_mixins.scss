@@ -19,3 +19,29 @@
          -o-#{$property}:$value;
             #{$property}:$value;
 }
+
+
+@mixin font-size($font-size, $line-height:true){
+    font-size: strip-unit($font-size) * 1px;
+    font-size: strip-unit($font-size / $base-font-size) * 1rem;
+	
+    @if $line-height == true{
+        line-height: ceil($font-size / $base-line-height) * ($base-line-height / $font-size);
+    }
+}
+
+@mixin rem($property, $size-value){
+	#{$property}: strip-unit($size-value) * 1px;
+	#{$property}: strip-unit($size-value / $base-font-size) * 1rem;
+}
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+}

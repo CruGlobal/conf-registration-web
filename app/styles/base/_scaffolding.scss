@@ -1,6 +1,17 @@
 /*------------------------------------*\
     $SCAFFOLDING
 \*------------------------------------*/
+/**
+ * Let’s make the box model all nice, shall we...?
+ */
+*{
+    &,
+    &:before,
+    &:after{
+        @include vendor(box-sizing, border-box);
+    }
+}
+
 
 body {
   font-family: $base-font-family;

@@ -115,3 +115,19 @@
 	color: #c8c8c8 !important;
 }
 
+
+.block--narrow{
+	@extend .block;
+	@extend .center-block;
+	
+	max-width: 760px;
+}
+
+
+.hr{
+	clear: both;
+	display: block;
+	height: 0;
+	border-top: 1px solid rgba(6,8,8,0.12);
+	border-bottom: 1px solid rgba(255,255,255,0.15);
+}
