@@ -1,22 +1,21 @@
 <div admin-nav></div>
-<div>
-  <h2>Conference Details</h2>
+<div class="container-fluid">
+	<div class="row-fluid">
+	    <h2>Conference Details</h2>
 
-  <div><label>Title:</label> <input type="text" data-ng-model="conference.name"></div>
-  <div><label>Description:</label> <textarea data-ng-model="conference.description"></textarea> </div>
-</div>
+	    <div><label>Title:</label> <input type="text" data-ng-model="conference.name"></div>
+	    <div><label>Description:</label> <textarea data-ng-model="conference.description"></textarea> </div>
+	</div>
+	<div class="row-fluid">
+	    <h2>Conference Dates</h2>
+	    <div><label>Conference Begins:</label>
+	      <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
+	    </div>
+	    <div><label>Conference Ends:</label>
+	      <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
+	    </div>
+	</div>
 
-<div>
-  <h2>Conference Dates</h2>
-  <div><label>Conference Begins:</label>
-    <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
-  </div>
-  <div><label>Conference Ends:</label>
-    <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
-  </div>
-</div>
-
-<div>
   <h2>Location</h2>
 
   <div><label>Name:</label> <input type="text" data-ng-model="conference.locationName"></div>
@@ -76,9 +75,7 @@
     <option value="WY">Wyoming</option>
   </select></div>
   <div><label>Zip:</label> <input type="text" data-ng-model="conference.locationZipCode"></div>
-</div>
 
-<div>
   <h2>Payment Options</h2>
   <div><label>Cost:</label> $<input type="text" data-ng-model="conference.conferenceCost"></div>
   <div>
@@ -99,10 +96,7 @@
     <crs-datetimepicker model="conference.earlyRegistrationCutoff"></crs-datetimepicker>
   </div>
   <div ng-show="conference.earlyRegistrationDiscount"><label>Subtract:</label> $<input type="text" data-ng-model="conference.earlyRegistrationAmount"></div>
-</div>
 
-
-<div>
   <h2>Registration Window</h2>
   <div><label>Registration Begins:</label>
     <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
@@ -110,11 +104,8 @@
   <div><label>Registration Ends:</label>
     <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
   </div>
-</div>
 
 
-
-<div>
   <h2>Contact Info</h2>
 
   <div><label>Name:</label> <input type="text" data-ng-model="conference.contactPersonName"></div>
