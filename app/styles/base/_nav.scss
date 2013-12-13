@@ -1101,8 +1101,18 @@ input[type="radio"]:checked + label span {
 		border-left: 1px solid #444444;
 		
 	}
-}
+}.nav{
+    list-style:none;
+    margin-left:0;
+    @extend .cf !optional;
 
-.details__block--narrow{
-	@extend .block--narrow;
+    > li{
+
+        &,
+        > a{
+            display:inline-block;
+           *display:inline;
+            zoom:1;
+        }
+    }
 }
