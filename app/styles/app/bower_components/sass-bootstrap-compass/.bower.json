@@ -1,0 +1,26 @@
+{
+  "name": "sass-bootstrap-compass",
+  "version": "3.0.21",
+  "main": [
+    "./dist/js/sass-bootstrap.js",
+    "./dist/css/sass-bootstrap.css",
+    "./dist/fonts/*"
+  ],
+  "ignore": [
+    "**/.*"
+  ],
+  "dependencies": {
+    "jquery": ">= 1.9.0"
+  },
+  "homepage": "https://github.com/alademann/sass-bootstrap",
+  "_release": "3.0.21",
+  "_resolution": {
+    "type": "version",
+    "tag": "3.0.21",
+    "commit": "7d728e0fb8f68e671844810931ed533eb1cd8743"
+  },
+  "_source": "git://github.com/alademann/sass-bootstrap.git",
+  "_target": "~3.0.21",
+  "_originalSource": "sass-bootstrap-compass",
+  "_direct": true
+}

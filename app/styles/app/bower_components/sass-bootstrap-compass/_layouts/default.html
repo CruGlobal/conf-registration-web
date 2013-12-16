@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    {% include header.html %}
+  </head>
+  <body>
+    <a class="sr-only" href="#content">Skip navigation</a>
+
+    <!-- Docs master nav -->
+    {% include nav-main.html %}
+
+    <!-- Docs page layout -->
+    <div class="bs-header" id="content">
+      <div class="container">
+        <h1>{{ page.title }}</h1>
+        <p>{{ page.lead }}</p>
+      </div>
+    </div>
+
+    <div class="container bs-docs-container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="bs-sidebar hidden-print" role="complementary">
+            <ul class="nav bs-sidenav">
+              {% if page.url == "/getting-started/" %}
+                {% include nav-getting-started.html %}
+              {% endif %}
+              {% if page.url == "/css/" %}
+                {% include nav-css.html %}
+              {% endif %}
+              {% if page.url == "/components/" %}
+                {% include nav-components.html %}
+              {% endif %}
+              {% if page.url == "/javascript/" %}
+                {% include nav-javascript.html %}
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-9" role="main">
+          {{ content }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Main docs footer (social buttons, copyright, etc). -->
+    {% include colophon.html %}
+
+    <!-- JS and analytics only. -->
+    {% include footer.html %}
+
+  </body>
+</html>
