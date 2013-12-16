@@ -651,32 +651,18 @@
 			margin-top: 10px;
 			margin-bottom: 10px;
 			
-			&:first-child{
-				margin-top: 0;
-			}
-			
-			&:last-child{
-				margin-bottom: 0;
-			}
-			
 			& > a{
-				display: block;
+				font-size: 2em;	
+				@extend .link-color-delay;
 				
-				padding-top: 18px;
-				padding-bottom: 18px;
-				
-				font-size: 2em;				
+				&:hover, &:focus{
+					@extend .no-underline;
+				    background-color: transparent;
+					
+				}			
 			}
 		}
 	
-	}
-	
-	.crs--actions-list a{
-		@extend .link-color-delay;
-	
-		&:hover{
-			@extend .no-underline;
-		}
 	}
 	
 	.crs--event-link{
@@ -743,7 +729,7 @@
 			padding-left: 36px;
 			position: relative;
 			text-align: left;
-			top: 5px;
+			top: 0px;
 		}
 		
 		&:hover {

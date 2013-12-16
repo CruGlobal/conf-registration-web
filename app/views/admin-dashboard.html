@@ -1,7 +1,6 @@
 
 <div class="container">
-  <div class="row">
-    <ul class="crs--card-stack">
+    <ul class="crs--card-stack  row">
 
       <!-- Existing Events -->
       <li class="crs--card-holder col-xs-2  col-sm-3  col-md-3   crs--flip-container" ng-repeat="conference in conferences" ng-class="flip" ng-controller="ConferenceCardCtrl">
@@ -29,7 +28,7 @@
           <div class="back  crs--event-card">
 
             <div class="crs--card-content  crs--card-actions">
-              <ol class="crs--actions-list  no-numbers  flush--ends">
+              <ul class="crs--actions-list  nav  nav--stacked">
                 <li>
                   <a href="" data-ng-click="cloneConference('{{conference.id}}');">Clone</a>
                 </li>
@@ -42,7 +41,7 @@
                 <li>
                   <a href="#">Delete</a>
                 </li>
-              </ol>
+              </ul>
             </div>
 
             <div class="crs--card-meta">
@@ -56,7 +55,7 @@
       </li><!-- End Existing Event Cards -->
 
       <!-- Card to create a new event -->
-      <li class="crs--card-holder span3">
+      <li class="crs--card-holder col-xs-2  col-sm-3  col-md-3">
         <div class="crs--event-card  crs--event-card__new  front">
           <div class="crs--card-content">
             <a class="crs--event-link" href=""  data-ng-click="createConference()">
@@ -69,5 +68,4 @@
       </li>
 
     </ul><!-- END CRS--CARD-STACK -->
-  </div><!-- END ROW-FLUID -->
 </div><!-- END CONTAINER-FLUID -->

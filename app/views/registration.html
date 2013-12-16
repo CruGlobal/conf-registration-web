@@ -1,6 +1,6 @@
-<div class="container-fluid register">
+<div class="container register">
   <div class="crs--register  page-narrow  center-block">
-    <div class="row-fluid crs--no-padding-top">
+    <div class="row crs--no-padding-top">
       <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
     </div>
 
@@ -8,7 +8,7 @@
       <p>Sorry, registration for this event is not open.</p>
     </div>
     <div data-ng-show="conference.registrationOpen">
-      <div class="row-fluid" data-ng-show="currentRegistration.completed">
+      <div class="row" data-ng-show="currentRegistration.completed">
         <p>You have already successfully registered for {{conference.name}}!</p>
 
         <p><a href="#/payment/{{conference.id}}">Make Payment</a></p>
@@ -19,7 +19,7 @@
       </div>
 
       <div data-ng-show="currentRegistration.completed === false">
-        <div class="row-fluid">
+        <div class="row">
           <ul class="breadcrumb">
             <li data-ng-repeat="page in conference.registrationPages">
               <a href="#/register/{{conference.id}}/page/{{page.id}}"

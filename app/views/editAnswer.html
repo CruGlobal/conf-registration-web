@@ -1,24 +1,30 @@
 <div class="modal">
-  <div class="modal-header">
-    <button type="button" class="close" data-ng-click="close()">&times;</button>
-  </div>
-  <div class="modal-body">
-    <label class=" h4 modal-message">
-      Let's change that answer for:<br />
-      {{block.title}}
-    </label>
-    <ng-switch on="block.type">
-      <text-question block="block" ng-switch-when="textQuestion"></text-question>
-      <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-      <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
-      <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
-      <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-      <select-question block="block" ng-switch-when="selectQuestion"></select-question>
-      <name-question block="block" ng-switch-when="nameQuestion"></name-question>
-      <number-question block="block" ng-switch-when="numberQuestion"></number-question>
-    </ng-switch>
-  </div>
-  <div class="modal-footer">
-    <button data-ng-click="submit(name)" class="btn btn-light">Save</button>
-  </div>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			
+		    <div class="modal-header">
+		      <button type="button" class="close" data-ng-click="close()">&times;</button>
+		    </div>
+		    <div class="modal-body">
+		      <label class=" h4 modal-message">
+		        Let's change that answer for:<br />
+		        {{block.title}}
+		      </label>
+		      <ng-switch on="block.type">
+		        <text-question block="block" ng-switch-when="textQuestion"></text-question>
+		        <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+		        <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+		        <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+		        <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+		        <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+		        <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+		        <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+		      </ng-switch>
+		    </div>
+		    <div class="modal-footer">
+		      <button data-ng-click="submit(name)" class="btn btn-light">Save</button>
+		    </div>
+			
+		</div>
+	</div>
 </div>
