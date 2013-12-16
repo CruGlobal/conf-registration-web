@@ -67,6 +67,10 @@
 	            <input id ="conf-locationAddress" class="form-control" type="text" data-ng-model="conference.locationAddress">
 			</li>
 			<li>
+	            <label for="conf-locationAddress2">Address 2</label>
+	            <input id ="conf-locationAddress2" class="form-control" type="text" data-ng-model="conference.locationAddress2">
+			</li>
+			<li>
 	            <label for="conf-locationCity">City</label>
 	            <input id ="conf-locationCity" class="form-control" type="text" data-ng-model="conference.locationCity">
 			</li>            
@@ -147,36 +151,63 @@
         </legend>
         <ul class="form-fields">
 	        <li>
-	            <label for="conf-conferenceCost">Cost</label>
-				<span class="input-group-addon">$</span>
-	            <input id ="conf-conferenceCost" class="text-input" type="text" data-ng-model="conference.conferenceCost">
+	            <label for="conf-conferenceCost" for="conf-conferenceCost">Cost</label>
+				<div class="input-group">
+					<span class="input-group-addon">$</span>
+		            <input id ="conf-conferenceCost" class="form-control" type="text" data-ng-model="conference.conferenceCost">
+				</div>
 			</li>
 			
-            <input type="checkbox" ng-model="conference.acceptCreditCards" id="conf-acceptCreditCards" ng-value="true">
-            <label class="crs-checkbox-label" for="conf-acceptCreditCards">Accept Credit Cards: <span></span></label>
+			<div class="well">
+				<li class="checkbox">
+		            <label class="crs-checkbox-label" for="conf-acceptCreditCards">
+						<input type="checkbox" ng-model="conference.acceptCreditCards" id="conf-acceptCreditCards" ng-value="true">
+						Accept Credit Cards
+					</label>				
+				</li>
+		            <div ng-show="conference.acceptCreditCards"  class="well">
+						<li>
+		  	              <label for="conf-authnetId">Auth.NET ID</label>
+		  	              <input id ="conf-authnetId" class="text-input" type="text" data-ng-model="conference.authnetId">
+						</li>	
+						<li>
+		  	              <label for="conf-authnetToken">Auth.NET Transaction Key</label>
+		  	              <input id ="conf-authnetToken" class="text-input" type="text" data-ng-model="conference.authnetToken">
+						</li>    
+						<li>
+		  	              <label for="conf-minimumDeposit">Minimum payment to register</label>			  
+		  				  <div class="input-group">
+							  <span class="input-group-addon">$</span>
+		  		              <input id ="conf-minimumDeposit" class="form-control" type="text" data-ng-model="conference.minimumDeposit">			  	
+		  				  </div>
+						</li>       
+			  
+		            </div>
+			</div>
+			<div class="well">
+				<li class="checkbox">
+					 <label class="crs-checkbox-label" for="conf-earlyRegistrationDiscount">
+						 <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" id="conf-earlyRegistrationDiscount" ng-value="true">
+						 Early Registration Discount
+					 </label>
+				</li>
 
-            <div ng-show="conference.acceptCreditCards">
-              <label for="conf-authnetId">Auth.NET ID</label>
-              <input id ="conf-authnetId" class="text-input" type="text" data-ng-model="conference.authnetId">
-
-              <label for="conf-authnetToken">Auth.NET Transaction Key</label>
-              <input id ="conf-authnetToken" class="text-input" type="text" data-ng-model="conference.authnetToken">
-
-              <label for="conf-minimumDeposit">Minimum payment to register</label>
-              $<input id ="conf-minimumDeposit" class="text-input" type="text" data-ng-model="conference.minimumDeposit">
-            </div>
-
-            <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" id="conf-earlyRegistrationDiscount" ng-value="true">
-            <label class="crs-checkbox-label" for="conf-earlyRegistrationDiscount">Early Registration Discount: <span></span></label>
-
-            <div class="form-horizontal" ng-show="conference.earlyRegistrationDiscount">
-              <label>If registered by:</label>
-              <crs-datetimepicker model="conference.earlyRegistrationCutoff"></crs-datetimepicker>
-
-              <label for="conf-earlyRegistrationAmount">Subtract</label>
-              $<input id ="conf-earlyRegistrationAmount" class="text-input" type="text" data-ng-model="conference.earlyRegistrationAmount">
-            </div>
-          </li>
+		            <div class="form-horizontal  well" ng-show="conference.earlyRegistrationDiscount">
+						<li>
+							<label>If registered by</label>
+							<crs-datetimepicker model="conference.earlyRegistrationCutoff"></crs-datetimepicker>
+						</li>
+						<li>
+	   		             	 <label for="conf-earlyRegistrationAmount">Subtract</label>
+							 <div class="input-group">
+								 <span class="input-group-addon">$</span>
+								 <input id ="conf-earlyRegistrationAmount" class="text-input" type="text" data-ng-model="conference.earlyRegistrationAmount">
+							 </div>
+						</li>
+		            </div>
+			</div>
+			
+			
         </ul>
       </fieldset>
     </form>
@@ -192,14 +223,15 @@
         <legend>
           Registration Window
         </legend>
-        <ul class="form-fields">
-          <li>
-            <label>Registration Begins</label>
-            <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
-
-            <label>Registration Ends</label>
-            <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
-          </li>
+        <ul class="form-fields  form-inline">
+          	<li>
+            	<label>Registration Begins</label>
+            	<crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
+			</li>
+			<li class="form-inline">
+            	<label>Registration Ends</label>
+            	<crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
+          	</li>
         </ul>
       </fieldset>
     </form>
@@ -216,16 +248,18 @@
           Contact Info
         </legend>
         <ul class="form-fields">
-          <li>
-            <label for="conf-contactPersonName">Name</label>
-            <input id ="conf-contactPersonName" class="text-input" type="text" data-ng-model="conference.contactPersonName">
-
-            <label for="conf-contactPersonEmail">Email</label>
-            <input id ="conf-contactPersonEmail" class="text-input" type="text" data-ng-model="conference.contactPersonEmail">
-
-            <label for="conf-contactPersonPhone">Phone</label>
-            <input id ="conf-contactPersonPhone" class="text-input" type="text" data-ng-model="conference.contactPersonPhone">
-          </li>
+          	<li>
+           	 	<label for="conf-contactPersonName">Name</label>
+          	  	<input id ="conf-contactPersonName" class="text-input" type="text" data-ng-model="conference.contactPersonName">
+			</li>
+			<li>
+	            <label for="conf-contactPersonEmail">Email</label>
+	            <input id ="conf-contactPersonEmail" class="text-input" type="text" data-ng-model="conference.contactPersonEmail">
+			</li>
+       	 	<li>
+	            <label for="conf-contactPersonPhone">Phone</label>
+	            <input id ="conf-contactPersonPhone" class="text-input" type="text" data-ng-model="conference.contactPersonPhone">
+       	 	</li>
         </ul>
       </fieldset>
     </form>

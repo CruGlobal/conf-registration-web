@@ -946,10 +946,6 @@
   position: absolute;
 }
 
-input[type="checkbox"] {
-  display: none;
-}
-
 input[type="checkbox"] + label span {
   background: $check-radio-sheet left top no-repeat;
   cursor: pointer;
@@ -980,6 +976,20 @@ input[type="radio"] + label span {
 
 input[type="radio"]:checked + label span {
   background: $check-radio-sheet -57px top no-repeat;
+}
+
+.input-group-addon + .form-control{
+	border-left-width: 0;
+}
+
+.control-group input{
+	max-width: 60px;
+}
+
+.form-inline > li{
+	@media screen and (min-width: 700px){
+		display: inline-block;
+	}
 }
 
 /* entire container, keeps perspective */
