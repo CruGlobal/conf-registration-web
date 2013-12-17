@@ -2,10 +2,9 @@
 
 angular.module('confRegistrationWebApp')
   .constant('enforceAuth', function ($route, $modal, $cookies, $q, $window, apiUrl, $http) {
-    console.log($cookies.crsAuthProviderType);
     var defer = $q.defer();
 
-    var noAuthControllers = ['RegistrationCtrl'];
+    var noAuthControllers = ['RegistrationCtrl','paymentCtrl','ReviewRegistrationCtrl'];
 
     var loginDialogOptions = {
       templateUrl: 'views/loginDialog.html',
