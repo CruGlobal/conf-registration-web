@@ -3,6 +3,7 @@
 angular.module('confRegistrationWebApp')
   .controller('MainCtrl', function ($scope, ConfCache, $modal, $location, $http, Model, uuid) {
     $scope.$on('conferences/', function (event, conferences) {
+      conferences = _.sortBy(conferences, function (conf) { return conf.name; });
       $scope.conferences = conferences;
       for (var i = 0; i < $scope.conferences.length; i++) {
         getTotalRegistrations(conferences[i].id, i);

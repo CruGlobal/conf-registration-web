@@ -22,12 +22,12 @@
       </ul>
     </div>
 
-    <div class="span11 well">
+    <div class="span11 well" data-ng-show="currentPayment.amount > 0">
       <div align="right"><input type="button" class="btn btn-small" data-ng-click="editPayment()" value="Edit my payment" data-ng-show="!registration.completed"></div>
       <ul class="unstyled crs--review">
-        <li><label>Payment amount:</label>${{registration.currentPayment.amount}}</li>
-          <li><label>Card:</label>****-****-****-{{registration.currentPayment.creditCardNumber.slice(-4)}}</li>
-        <li><label>Expiration Date:</label>{{registration.currentPayment.creditCardExpirationMonth}}/{{registration.currentPayment.creditCardExpirationYear}}</li>
+        <li><label>Payment amount:</label>${{currentPayment.amount}}</li>
+          <li><label>Card:</label>****-****-****-{{currentPayment.creditCardNumber.slice(-4)}}</li>
+        <li><label>Expiration Date:</label>{{currentPayment.creditCardExpirationMonth}}/{{currentPayment.creditCardExpirationYear}}</li>
       </ul>
     </div>
   </div>

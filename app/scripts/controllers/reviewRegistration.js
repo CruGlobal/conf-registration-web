@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $location, registration, conference, $modal, Model) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, $http, RegistrationCache) {
 
     $scope.conference = conference;
     $scope.registration = registration;
@@ -21,13 +21,20 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
+      $('.btn-success').attr('value', 'Loading...');
+      if (!conference.acceptCreditCards) {
+        setRegistrationAsCompleted();
+        return;
+      }
 
-      registration.currentPayment.readyToProcess = true;
-      Model.update('/registrations/' + registration.id, registration, function (result) {
+      var currentPayment = $rootScope.currentPayment;
+      currentPayment.readyToProcess = true;
 
-        console.log(result.status);
-
-        if (result.status === 501) {
+      $http.post('payments/', currentPayment).success(function () {
+        setRegistrationAsCompleted();
+        delete $rootScope.currentPayment;
+        RegistrationCache.emptyCache();
+      }).error(function () {
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
             controller: 'errorModal',
@@ -43,17 +50,19 @@ angular.module('confRegistrationWebApp')
             $location.path('/payment/' + conference.id);
           });
           return;
-        } else {
-          setRegistrationAsCompleted();
-        }
-      });
+        });
     };
 
     function setRegistrationAsCompleted() {
       registration.completed = true;
-      Model.update('/registrations/' + registration.id, registration, function () {
+      if (_.isNull(registration.totalDue)) {
+        registration.totalDue = $rootScope.totalDue;
+      }
+      $http.put('registrations/' + registration.id, registration).success(function () {
         $scope.registration.completed = true;
-      });
+      }).error(function (data) {
+          alert('Error: ' + data);
+        });
     }
 
     $scope.editRegistration = function () {
