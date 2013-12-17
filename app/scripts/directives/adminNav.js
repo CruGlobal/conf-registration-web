@@ -8,15 +8,15 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal) {
         $scope.deleteConference = function (conferenceToDelete) {
 
-        $modal.open({
-          templateUrl: 'views/confirmDeleteConf.html',
-          controller: 'confirmCtrl'
-        }).result.then(function (result) {
-          if(result){
-            alert('delete ' + conferenceToDelete);
-          }
-        });
-      };
+          $modal.open({
+            templateUrl: 'views/confirmDeleteConf.html',
+            controller: 'confirmCtrl'
+          }).result.then(function (result) {
+              if (result) {
+                alert('delete ' + conferenceToDelete);
+              }
+            });
+        };
       }
     };
   });

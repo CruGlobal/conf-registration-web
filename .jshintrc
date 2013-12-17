@@ -19,12 +19,13 @@
   "trailing": true,
   "smarttabs": true,
   "maxcomplexity": 10,
-  "maxlen": 120,
+  "maxlen": 150,
   "white": true,
   "globals": {
     "angular": false,
     "bugsense": false,
     "_": false,
-    "$": false
+    "$": false,
+    "alert": false
   }
 }
