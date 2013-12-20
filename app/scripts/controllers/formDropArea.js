@@ -32,6 +32,14 @@ angular.module('confRegistrationWebApp')
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
+      var profileType = '';
+
+      if(blockType.indexOf("-profile") != -1){
+        blockType = blockType.split("-");
+        blockType = blockType[0];
+        profileType = blockType[2];
+        //alert(blockType);
+      }
 
       var newBlock = {
         id: uuid(),
@@ -39,7 +47,8 @@ angular.module('confRegistrationWebApp')
         pageId: newPage,
         required: false,
         title: 'New ' + blockType + ' Block',
-        type: blockType
+        type: blockType,
+        //profileType: profileType
       };
 
       $scope.$apply(function (scope) {
