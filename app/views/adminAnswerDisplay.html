@@ -8,6 +8,7 @@
     <span ng-switch-when="radioQuestion">{{answer.value}}</span>
     <span ng-switch-when="selectQuestion">{{answer.value}}</span>
     <span ng-switch-when="numberQuestion">{{answer.value.text}}</span>
+    <span ng-switch-when="addressQuestion">{{answer.value.address1}} {{answer.value.address2}}<br>{{answer.value.city}}, {{answer.value.state}} {{answer.value.zip}}</span>
   </ng-switch>
   <span class="crs-editAnswer" data-ng-show="{{answerEditable}}"><img src="images/pencil.png"/></span>
 </div>
