@@ -35,6 +35,7 @@
     <thead>
     <tr>
       <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th>Payments</th>
     </tr>
     </thead>
     <tbody>
@@ -42,6 +43,7 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
+      <td><a href="" data-ng-click="viewPayments('{{registration.id}}')">View</a></td>
     </tr>
     </tbody>
   </table>

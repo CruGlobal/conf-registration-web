@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
 
     var checkCache = function (path, callback) {
       var cachedConferences = cache.get(path);
-      if (angular.isDefined(cachedConferences) && 7 === 8) {
+      if (angular.isDefined(cachedConferences)) {
         callback(cachedConferences, path);
       } else {
         $http.get(path).success(function (conferences) {
@@ -39,18 +39,22 @@ angular.module('confRegistrationWebApp')
         name: name
       };
       return $http.post(path(), data).then(function (response) {
-        var conference = response.data;
+        if (response.status === 201) {
+          var conference = response.data;
 
-        conference.registrationPages[0] = {
-          id: uuid(),
-          conferenceId: conference.id,
-          position: 0,
-          title: 'First Page',
-          blocks: []
-        };
+          conference.registrationPages[0] = {
+            id: uuid(),
+            conferenceId: conference.id,
+            position: 0,
+            title: 'First Page',
+            blocks: []
+          };
 
-        cache.put(path(conference.id), conference);
-        return conference;
+          cache.put(path(conference.id), conference);
+          return conference;
+        } else {
+          alert('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
+        }
       });
     };
   });

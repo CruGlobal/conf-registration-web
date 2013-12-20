@@ -11,7 +11,17 @@
       <div class="row-fluid" data-ng-show="currentRegistration.completed">
         <p>You have already successfully registered for {{conference.name}}!</p>
 
-        <p><a href="#/payment/{{conference.id}}">Make Payment</a></p>
+        <div data-ng-show="currentRegistration.remainingBalance > 0">
+          <p><strong>Remaining Balance:</strong> ${{currentRegistration.remainingBalance}}<br>
+            <a href="#/payment/{{conference.id}}">Make Payment</a></p>
+        </div>
+
+        <div data-ng-show="currentRegistration.pastPayments.length > 0">
+          <p><strong>Payments</strong></p>
+          <ul>
+            <li data-ng-repeat="payments in currentRegistration.pastPayments">${{payments.amount}} on {{payments.transactionDatetime | date:'EEEE, MMM d, y'}}</li>
+          </ul>
+        </div>
 
         <p><strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}
           <br>{{conference.contactPersonPhone}}
