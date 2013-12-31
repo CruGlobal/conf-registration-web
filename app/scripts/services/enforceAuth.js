@@ -18,7 +18,6 @@ angular.module('confRegistrationWebApp')
         defer.resolve('Authorization present.');
       }else{
         $http.get('conferences/'+$route.current.params.conferenceId).success(function (conference) {
-          console.log(conference);
           if(conference.requireLogin){
             $modal.open(loginDialogOptions);
           }else{
