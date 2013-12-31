@@ -36,9 +36,8 @@ angular.module('confRegistrationWebApp')
 
       if(blockType.indexOf("-profile") != -1){
         blockType = blockType.split("-");
-        blockType = blockType[0];
         profileType = blockType[2];
-        //alert(blockType);
+        blockType = blockType[0];
       }
 
       var newBlock = {
