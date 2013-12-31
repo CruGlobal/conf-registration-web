@@ -13,17 +13,25 @@ angular.module('confRegistrationWebApp')
       keyboard: false
     };
 
-    if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && noAuthControllers.indexOf($route.current.$$route.controller) >= 0){
-      defer.resolve('Authorization present.');
-    }else if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && $cookies.crsAuthProviderType === 'RELAY'){
-      defer.resolve('Authorization present.');
-    }else if($route.current.$$route.controller === 'RegistrationCtrl'){
-      $http.get('conferences/'+$route.current.params.conferenceId).success(function (conference) {
-        console.log(conference);
-        $window.location.href = apiUrl + 'auth/none/login';
-      });
+    if(noAuthControllers.indexOf($route.current.$$route.controller) >= 0){
+      if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== ''){
+        defer.resolve('Authorization present.');
+      }else{
+        $http.get('conferences/'+$route.current.params.conferenceId).success(function (conference) {
+          console.log(conference);
+          if(conference.requireLogin){
+            $modal.open(loginDialogOptions);
+          }else{
+            $window.location.href = apiUrl + 'auth/none/login';
+          }
+        });
+      }
     }else{
-      $modal.open(loginDialogOptions);
+      if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && $cookies.crsAuthProviderType === 'RELAY'){
+        defer.resolve('Authorization present.');
+      }else{
+        $modal.open(loginDialogOptions);
+      }
     }
 
     return defer.promise;
