@@ -26,7 +26,7 @@ angular.module('confRegistrationWebApp')
         });
       }
     }else{
-      if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && $cookies.crsAuthProviderType === 'RELAY'){
+      if(angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && $cookies.crsAuthProviderType !== 'NONE'){
         defer.resolve('Authorization present.');
       }else{
         $modal.open(loginDialogOptions);
