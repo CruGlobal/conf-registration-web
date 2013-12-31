@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
         $scope.apiUrl = apiUrl;
         Model.subscribe($scope, 'profileData', 'profile');
       },
-      link: function postLink(scope, element, $modal) {
+      link: function postLink(scope, element) {
         scope.openBox = function () {
           scope.crsSigninBoxStatus = !scope.crsSigninBoxStatus;
         };

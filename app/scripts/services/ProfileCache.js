@@ -25,9 +25,9 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getCache = function(callback){
+    this.getCache = function (callback) {
       checkCache(path, function (profileData) {
         callback(profileData);
       });
-    }
+    };
   });
