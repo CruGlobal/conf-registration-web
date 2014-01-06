@@ -104,6 +104,10 @@
   <div><label>Registration Ends:</label>
     <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
   </div>
+  <div>
+    <input type="checkbox" ng-model="conference.requireLogin" id="requireLogin" ng-value="true">
+    <label class="crs-checkbox-label" for="requireLogin">Require Relay or Facebook login to register: <span></span></label>
+  </div>
 
 
   <h2>Contact Info</h2>
