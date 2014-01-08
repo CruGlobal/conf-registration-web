@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
         required: false,
         title: 'New ' + blockType + ' Block',
         type: blockType,
-        //profileType: profileType
+        profileType: profileType
       };
 
       $scope.$apply(function (scope) {
