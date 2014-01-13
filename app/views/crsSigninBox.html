@@ -2,11 +2,12 @@
   <span>Signup or Log in</span><div class="crs-arrow-down"></div>
 </div>
 <div id="crs-signin-in" data-ng-show="profileData">
-    <span>Hello, <a href="#">{{profileData.authProviderUsername}}</a></span>
+  <span data-ng-show="profileData.authProviderUsername">Hello, {{profileData.authProviderUsername}}</span>
+  <span data-ng-show="!profileData.authProviderUsername"><a href="" data-ng-click="openBox()">Login with Facebook or Relay</a></span>
 </div>
 <div id="crs-signin-box" ng-show="crsSigninBoxStatus"><div class="crs-arrow-up"></div>
     <p>Pick how you want to do it.<br>Sign up or Log in via</p>
-    <a href="#"><img src="images/signin-facebook.png"></a>
-    <p>or</p>
-    <a href="#"><img src="images/signin-relay.png"></a>
+  <p><a href="{{apiUrl}}auth/facebook/authorization"><img src="images/signin-facebook.png"></a></p>
+  <p>or</p>
+  <p><a href="{{apiUrl}}auth/relay/login"><img src="images/signin-relay.png"></a></p>
 </div>

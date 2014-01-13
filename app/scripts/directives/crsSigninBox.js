@@ -5,8 +5,9 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/crsSigninBox.html',
       restrict: 'E',
-      controller: function ($scope, $document, Model) {
+      controller: function ($scope, $document, Model, apiUrl) {
         $scope.document = $document;
+        $scope.apiUrl = apiUrl;
         Model.subscribe($scope, 'profileData', 'profile');
       },
       link: function postLink(scope, element) {
