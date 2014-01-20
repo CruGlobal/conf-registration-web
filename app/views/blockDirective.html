@@ -1,5 +1,5 @@
 <div class="crsQuestion" id="{{block.id}}">
-  <div class="crs--question-default  crs--question-block">
+  <div class="crs--question-default  crs--question-block" ng-class="{profileBlock: block.profileType!==null}">
 
     <div ng-show="!editMode">
       <div ng-show="wizard">
@@ -22,7 +22,6 @@
           <input type="text" data-ng-model="block.title" ng-required="true"> <span class="crs--required" ng-show="block.required">(required)</span>
         </h4>
       </div>
-
 
       <ng-switch on="block.type">
         <p ng-switch-when="paragraphContent">

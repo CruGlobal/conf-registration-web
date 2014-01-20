@@ -32,12 +32,25 @@ angular.module('confRegistrationWebApp')
 
     $scope.insertBlock = function (blockType, newPage, newPosition) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
-      var profileType = '';
+      var profileType = null;
 
       if(blockType.indexOf("-profile") != -1){
         blockType = blockType.split("-");
         profileType = blockType[2];
         blockType = blockType[0];
+      }
+
+      if (profileType !== '') {
+        var blockArray = new Array();
+        $scope.conference.registrationPages.forEach(function (page, pageIndex) {
+          page.blocks.forEach(function (block) {
+            blockArray.push(block.profileType);
+          });
+        });
+        if (blockArray.indexOf(profileType) != -1) {
+          alert('Only one ' + profileType.charAt(0).toUpperCase() + profileType.slice(1).toLowerCase() + ' profile block can be used per form.');
+          profileType = null;
+        }
       }
 
       var newBlock = {
