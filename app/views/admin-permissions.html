@@ -1,0 +1,31 @@
+<div admin-nav></div>
+<h2>Current Permissions</h2>
+    <table style="width:700px;">
+      <tr>
+        <td>Email</td>
+        <td>Level</td>
+        <td>Last Modification</td>
+        <td>Actions</td>
+      </tr>
+      <tr data-ng-repeat="permission in currentPermissions">
+        <td>{{permission.emailAddress}}</td>
+        <td><select data-ng-model="permission.permissionLevel" data-ng-show="permission.permissionLevel !== 'CREATOR'">
+          <option>FULL</option>
+          <option>UPDATE</option>
+          <option>VIEW</option>
+          </select>
+          <span data-ng-show="permission.permissionLevel == 'CREATOR'">CREATOR</span>
+        </td>
+        <td>{{permission.timestamp | date:'short'}}</td>
+        <td>Delete</td>
+      </tr>
+    </table>
+<h2>Add Permissions</h2>
+    User Email: <input type="text" placeholder="" data-ng-model="addPermissionsEmail"><br>
+    Permission Level: <select data-ng-model="addPermissionsLevel">
+      <option>FULL</option>
+      <option>UPDATE</option>
+      <option>VIEW</option>
+    </select>
+    <br>
+    <input type="submit" data-ng-click="addPermission()">
