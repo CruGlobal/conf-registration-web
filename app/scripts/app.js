@@ -111,6 +111,13 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/activatePermission/:permissionAuthCode', {
+        template: '{{message}}',
+        controller: 'ActiviatePermissionCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth')
+        }
+      })
       .when('/auth/:token', {
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',

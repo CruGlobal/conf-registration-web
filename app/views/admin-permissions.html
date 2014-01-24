@@ -9,7 +9,7 @@
       </tr>
       <tr data-ng-repeat="permission in currentPermissions">
         <td>{{permission.emailAddress}}</td>
-        <td><select data-ng-model="permission.permissionLevel" data-ng-show="permission.permissionLevel !== 'CREATOR'">
+        <td><select data-ng-model="permission.permissionLevel" data-ng-show="permission.permissionLevel !== 'CREATOR'" ng-change="updatePermission(permission.id);">
           <option>FULL</option>
           <option>UPDATE</option>
           <option>VIEW</option>
@@ -17,7 +17,7 @@
           <span data-ng-show="permission.permissionLevel == 'CREATOR'">CREATOR</span>
         </td>
         <td>{{permission.timestamp | date:'short'}}</td>
-        <td>Delete</td>
+        <td><a href="" data-ng-click="deletePermission(permission.id)" data-ng-show="permission.permissionLevel !== 'CREATOR'">Delete</a></td>
       </tr>
     </table>
 <h2>Add Permissions</h2>
