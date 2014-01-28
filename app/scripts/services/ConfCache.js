@@ -35,8 +35,13 @@ angular.module('confRegistrationWebApp')
     };
 
     this.create = function (name) {
+      var registrationEndTime = new Date();
+      registrationEndTime.setYear(registrationEndTime.getFullYear() + 1);
       var data = {
-        name: name
+        name: name,
+        registrationStartTime: new Date(),
+        registrationEndTime: registrationEndTime,
+        contactPersonName: ''
       };
       return $http.post(path(), data).then(function (response) {
         if (response.status === 201) {

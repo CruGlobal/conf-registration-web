@@ -1,5 +1,5 @@
 <div class="crsQuestion" id="{{block.id}}">
-  <div class="crs--question-default  crs--question-block">
+  <div class="crs--question-default  crs--question-block" ng-class="{profileBlock: block.profileType!==null}">
 
     <div ng-show="!editMode">
       <div ng-show="wizard">
@@ -23,7 +23,6 @@
         </h4>
       </div>
 
-
       <ng-switch on="block.type">
         <p ng-switch-when="paragraphContent">
           <tag ng-show="!editMode">{{block.content}}</tag>
@@ -36,6 +35,7 @@
         <email-question block="block" ng-switch-when="emailQuestion"></email-question>
         <select-question block="block" ng-switch-when="selectQuestion"></select-question>
         <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+        <address-question block="block" ng-switch-when="addressQuestion"></address-question>
         <number-question block="block" ng-switch-when="numberQuestion"></number-question>
       </ng-switch>
 

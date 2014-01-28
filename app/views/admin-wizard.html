@@ -16,6 +16,15 @@
           <li id="emailQuestion">Email</li>
           <li id="nameQuestion">Name</li>
           <li id="phoneQuestion">Phone</li>
+          <li id="addressQuestion">Address</li>
+        </ul>
+      </accordion-group>
+      <accordion-group heading="Profile Form Elements" class="crs-parent-li">
+        <ul class="crs-accordionSub">
+          <li id="emailQuestion-profile-EMAIL">Email</li>
+          <li id="nameQuestion-profile-NAME">Name</li>
+          <li id="phoneQuestion-profile-PHONE">Phone</li>
+          <li id="addressQuestion-profile-ADDRESS">Address</li>
         </ul>
       </accordion-group>
       </accordion>
@@ -54,6 +63,20 @@
     .crs-accordionSub li{
       font-size: 18px;
       height:22px;
+    }
+    .profileBlock {
+      background: lightyellow;
+      position: relative;
+    }
+    .profileBlock:after {
+      color: darkgrey;
+      content: "Profile";
+      display: block;
+      font-size: 40px;
+      line-height: 1;
+      position: absolute;
+      bottom: -5px;
+      right: 0px;
     }
   </style>
     <div form-drop-area class="span9" id="crs-formEdit">

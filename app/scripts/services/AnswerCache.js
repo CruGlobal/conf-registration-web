@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.put = function (answer) {
-      update(path(answer.id), answer);
+      cache.put(path(answer.id), answer);
     };
 
     this.syncBlock = function (scope, name) {
@@ -55,6 +55,6 @@ angular.module('confRegistrationWebApp')
         if (angular.isDefined(answer)) {
           update(path(answer.id), answer);
         }
-      }, angular.equals);
+      }, true);
     };
   });
