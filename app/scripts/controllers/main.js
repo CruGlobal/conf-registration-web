@@ -22,7 +22,7 @@ angular.module('confRegistrationWebApp')
     $scope.createConference = function () {
       $modal.open({
         templateUrl: 'views/createConference.html',
-        controller: 'CreateConferenceDialogCtrl',
+        controller: 'CreateDialogCtrl',
         resolve: {
           defaultValue: function () {
             return '';
@@ -43,7 +43,7 @@ angular.module('confRegistrationWebApp')
 
       $modal.open({
         templateUrl: 'views/cloneConference.html',
-        controller: 'CreateConferenceDialogCtrl',
+        controller: 'CreateDialogCtrl',
         resolve: {
           defaultValue: function () {
             return conferenceToClone.name + ' (clone)';
