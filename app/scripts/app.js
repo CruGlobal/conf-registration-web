@@ -101,6 +101,23 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           }]
         }
       })
+      .when('/permissions/:conferenceId', {
+        templateUrl: 'views/admin-permissions.html',
+        controller: 'AdminPermissionsCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/activatePermission/:permissionAuthCode', {
+        template: '{{message}}',
+        controller: 'ActiviatePermissionCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth')
+        }
+      })
       .when('/auth/:token', {
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
