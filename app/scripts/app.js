@@ -123,6 +123,9 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
             function ($location, $cookies, $route, $rootScope, ProfileCache) {
               $cookies.crsAuthProviderType = '';
+              if ($cookies.crsToken && ($cookies.crsToken !== $route.current.params.token)) {
+                $cookies.crsPreviousToken = $cookies.crsToken;
+              }
               $cookies.crsToken = $route.current.params.token;
               $rootScope.crsToken = $cookies.crsToken;
               ProfileCache.getCache(function (data) {
