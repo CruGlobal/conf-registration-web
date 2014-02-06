@@ -123,11 +123,12 @@ angular.module('confRegistrationWebApp', ['ngResource', 'ngCookies', 'ui.bootstr
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
             function ($location, $cookies, $route, $rootScope, ProfileCache) {
               $cookies.crsAuthProviderType = '';
+              $cookies.crsPreviousToken = $cookies.crsToken;
               $cookies.crsToken = $route.current.params.token;
               $rootScope.crsToken = $cookies.crsToken;
               ProfileCache.getCache(function (data) {
-                $cookies.crsAuthProviderType = data.authProviderType;
-                $location.replace().path($cookies.intendedRoute || '/');
+              $cookies.crsAuthProviderType = data.authProviderType;
+              $location.replace().path($cookies.intendedRoute || '/');
               });
             }
           ]
