@@ -32,6 +32,8 @@ before_script:
     # install dependencies
     - gem update --system
     - gem install compass
+    - gem uninstall sass
+    - gem install sass
     - npm install -g grunt-cli bower
 script:
     # We want to gate on passing tests and a successful build
