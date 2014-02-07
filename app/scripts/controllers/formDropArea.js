@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
         blockType = blockType[0];
       }
 
-      if (profileType !== '') {
+      if (!_.isNull(profileType)) {
         var blockArray = [];
         $scope.conference.registrationPages.forEach(function (page) {
           page.blocks.forEach(function (block) {
