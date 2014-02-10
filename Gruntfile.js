@@ -295,6 +295,18 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.dist %>/scripts'
         }]
       }
+    },
+    uglify: {
+      options: {
+        mangle: false
+      },
+      dist: {
+        files: {
+          '<%= yeoman.dist %>/scripts/scripts.js': [
+            '<%= yeoman.dist %>/scripts/scripts.js'
+          ]
+        }
+      }
     }
   });
 
