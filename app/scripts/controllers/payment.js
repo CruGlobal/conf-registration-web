@@ -81,6 +81,7 @@ angular.module('confRegistrationWebApp')
       $rootScope.currentPayment.creditCardExpirationYear = $scope.creditCardExpirationYear;
       $rootScope.currentPayment.creditCardNumber = $scope.creditCardNumber;
       $rootScope.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
+      $rootScope.currentPayment.paymentType = 'CREDIT_CARD';
 
       if (registration.completed) {
         var currentPayment = $rootScope.currentPayment;

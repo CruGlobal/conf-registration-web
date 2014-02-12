@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal) {
+  .controller('AdminDataCtrl', function ($scope, registrations, conference, $http, $modal) {
     $scope.conference = conference;
 
     $scope.blocks = [];
@@ -65,22 +65,23 @@ angular.module('confRegistrationWebApp')
     $scope.registrations = registrations;
 
     $scope.viewPayments = function (registrationId) {
-      var registrationPayments = _.filter(registrations, function (item) { return item.id === registrationId; });
-      registrationPayments = registrationPayments[0].pastPayments;
-      console.log(registrationPayments);
+      $http.get('registrations/' + registrationId + '/payments').success(function(data) {
+        console.log(data);
 
-      var paymentModalOptions = {
-        templateUrl: 'views/paymentsModal.html',
-        controller: 'errorModal',
-        backdrop: 'static',
-        keyboard: false,
-        resolve: {
-          message: function () {
-            return registrationPayments;
+        var paymentModalOptions = {
+          templateUrl: 'views/paymentsModal.html',
+          controller: 'errorModal',
+          backdrop: 'static',
+          keyboard: false,
+          resolve: {
+            message: function () {
+              return data;
+            }
           }
-        }
-      };
-      $modal.open(paymentModalOptions).result.then(function () {
+        };
+        $modal.open(paymentModalOptions).result.then(function () {
+        });
+
       });
     };
   });
