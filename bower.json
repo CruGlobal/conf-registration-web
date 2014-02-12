@@ -11,6 +11,7 @@
     "angular-route": "~v1.2.13",
     "angular-cookies": "~v1.2.13",
     "angular-sanitize": "~v1.2.13",
+    "angular-mocks": "~v1.2.13",
     "angular-bootstrap": "~0.6.0",
     "animate.css": "latest"
   },
