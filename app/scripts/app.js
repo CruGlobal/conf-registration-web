@@ -61,7 +61,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }],
           permissions: ['$route', 'PermissionCache', function($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
-          }]
+          l}]
         }
       })
       .when('/register/:conferenceId', {

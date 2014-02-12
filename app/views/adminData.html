@@ -44,12 +44,10 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
-<<<<<<< HEAD
-      <td><a href="" data-ng-click="viewPayments('{{registration.id}}')">View</a></td>
-=======
-      <td>${{registration.totalDue}}</td>
+      <td>
+        <total-due registration="registration" permissions="permissions"></total-due>
+      </td>
       <td><a href="" data-ng-click="viewPayments(registration.id)">View</a></td>
->>>>>>> f9cdad5... Display totalDue for each registration
     </tr>
     </tbody>
   </table>

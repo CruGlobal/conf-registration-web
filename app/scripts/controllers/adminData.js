@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal) {
+  .controller('AdminDataCtrl', function ($scope, registrations, conference, permissions, $modal) {
+
     $scope.conference = conference;
 
     $scope.blocks = [];
@@ -63,6 +64,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrations = registrations;
+    $scope.permissions = permissions;
 
     $scope.viewPayments = function (registrationId) {
       var registrationPayments = _.filter(registrations, function (item) { return item.id === registrationId; });
