@@ -2,7 +2,7 @@ conf-registration-web
 =====================
 [![Build Status](https://travis-ci.org/CruGlobal/conf-registration-web.png?branch=master)](https://travis-ci.org/CruGlobal/conf-registration-web)
 
-http://wmd-static-1218698041.us-east-1.elb.amazonaws.com/
+http://dev.formvent.org
 
 http://cruglobal.github.io/conf-registration-web/
 
