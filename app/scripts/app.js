@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/register/:conferenceId/page/:pageId', {
+      .when('/register/:conferenceId/page/:pageId?', {
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
         resolve: {

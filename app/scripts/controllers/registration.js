@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
     }
 
     var pageId = $routeParams.pageId;
-    $scope.activePageId = pageId;
+    $scope.activePageId = pageId || '';
     $scope.page = getPageById(pageId);
     $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
 
