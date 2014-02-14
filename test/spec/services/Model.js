@@ -9,10 +9,10 @@ describe('Service: Model', function () {
 
   // instantiate service
   var Model, $rootScope, $httpBackend;
-  beforeEach(inject(function (_Model_, _$rootScope_, _$httpBackend_) {
-    $rootScope = _$rootScope_;
-    $httpBackend = _$httpBackend_;
-    Model = _Model_;
+  beforeEach(inject(function (Model, $rootScope, $httpBackend) {
+    $rootScope = $rootScope;
+    $httpBackend = $httpBackend;
+    Model = Model;
   }));
 
   it('repeated calls to `get` should use cache', function () {
