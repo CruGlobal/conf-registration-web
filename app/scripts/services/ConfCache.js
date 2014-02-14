@@ -37,24 +37,43 @@ angular.module('confRegistrationWebApp')
     this.create = function (name) {
       var registrationEndTime = new Date();
       registrationEndTime.setYear(registrationEndTime.getFullYear() + 1);
+      var newConferenceId = uuid();
+      var newPageId = uuid();
+
       var data = {
+        id: newConferenceId,
         name: name,
         registrationStartTime: new Date(),
         registrationEndTime: registrationEndTime,
-        contactPersonName: ''
+        contactPersonName: '',
+        registrationPages: [{
+          id: newPageId,
+          conferenceId: newConferenceId,
+          title: 'Sign Up',
+          position: 0,
+          blocks: [{
+            id: uuid(),
+            pageId: newPageId,
+            type: 'nameQuestion',
+            profileType: 'NAME',
+            title: 'Name',
+            position: 0,
+            required: true
+          },{
+            id: uuid(),
+            pageId: newPageId,
+            type: 'emailQuestion',
+            title: 'Email Address',
+            profileType: 'EMAIL',
+            position: 1,
+            required: true
+          }
+          ]
+        }]
       };
       return $http.post(path(), data).then(function (response) {
         if (response.status === 201) {
           var conference = response.data;
-
-          conference.registrationPages[0] = {
-            id: uuid(),
-            conferenceId: conference.id,
-            position: 0,
-            title: 'First Page',
-            blocks: []
-          };
-
           cache.put(path(conference.id), conference);
           return conference;
         } else {
