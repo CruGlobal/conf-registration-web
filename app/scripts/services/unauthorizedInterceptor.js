@@ -6,6 +6,7 @@ angular.module('confRegistrationWebApp')
       responseError: function (rejection) {
         if (_.contains([401, 0], rejection.status) && angular.isDefined($cookies.crsToken)) {
           delete $cookies.crsToken;
+          delete $cookies.crsPreviousToken;
           location.reload();
         }
         return $q.reject(rejection);
