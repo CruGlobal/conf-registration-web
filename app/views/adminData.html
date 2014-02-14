@@ -43,7 +43,7 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
-      <td><a href="" data-ng-click="viewPayments('{{registration.id}}')">View</a></td>
+      <td><a href="" data-ng-click="viewPayments(registration.id)">View</a></td>
     </tr>
     </tbody>
   </table>

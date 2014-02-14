@@ -9,12 +9,14 @@
         <tr>
           <th>Date</th>
           <th>Amount</th>
-          <th>Transaction</th>
+          <th>Type</th>
+          <th>Reference #</th>
         </tr>
         </thead>
         <tr data-ng-repeat="payment in message">
           <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
           <td>${{payment.amount}}</td>
+          <td>{{payment.paymentType}}</td>
           <td>{{payment.authnetTransactionId}}</td>
         </tr>
       </table>
