@@ -46,30 +46,34 @@ angular.module('confRegistrationWebApp')
         registrationStartTime: new Date(),
         registrationEndTime: registrationEndTime,
         contactPersonName: '',
-        registrationPages: [{
-          id: newPageId,
-          conferenceId: newConferenceId,
-          title: 'Sign Up',
-          position: 0,
-          blocks: [{
-            id: uuid(),
-            pageId: newPageId,
-            type: 'nameQuestion',
-            profileType: 'NAME',
-            title: 'Name',
+        registrationPages: [
+          {
+            id: newPageId,
+            conferenceId: newConferenceId,
+            title: 'Sign Up',
             position: 0,
-            required: true
-          },{
-            id: uuid(),
-            pageId: newPageId,
-            type: 'emailQuestion',
-            title: 'Email Address',
-            profileType: 'EMAIL',
-            position: 1,
-            required: true
+            blocks: [
+              {
+                id: uuid(),
+                pageId: newPageId,
+                type: 'nameQuestion',
+                profileType: 'NAME',
+                title: 'Name',
+                position: 0,
+                required: true
+              },
+              {
+                id: uuid(),
+                pageId: newPageId,
+                type: 'emailQuestion',
+                title: 'Email Address',
+                profileType: 'EMAIL',
+                position: 1,
+                required: true
+              }
+            ]
           }
-          ]
-        }]
+        ]
       };
       return $http.post(path(), data).then(function (response) {
         if (response.status === 201) {
