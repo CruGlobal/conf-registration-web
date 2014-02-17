@@ -42,6 +42,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
@@ -55,6 +58,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
