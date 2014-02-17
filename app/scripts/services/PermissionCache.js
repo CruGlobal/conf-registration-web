@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('PermissionCache', function($cacheFactory, $rootScope, $http, $q) {
+  .service('PermissionCache', function ($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('permission');
 
-    var path = function(conferenceId) {
+    var path = function (conferenceId) {
       return 'conferences/' + conferenceId + '/permissions/current';
-    }
+    };
 
     var update = function (path, object) {
       cache.put(path, object);

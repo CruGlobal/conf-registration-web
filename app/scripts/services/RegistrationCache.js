@@ -24,17 +24,17 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    this.update = function(path, registration, cb) {
-      var callback = cb || function() {
+    this.update = function (path, registration, cb) {
+      var callback = cb || function () {
         cache.put(path, angular.copy(registration));
         $rootScope.broadcast(path, registration);
-      }
+      };
 
-        var cachedReg = cache.get(path)
-      if(angular.equals(registration, cachedReg)) {
+      var cachedReg = cache.get(path);
+      if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-          $http.put(path, registration).then(callback);
+        $http.put(path, registration).then(callback);
       }
     };
 

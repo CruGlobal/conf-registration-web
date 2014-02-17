@@ -9,7 +9,7 @@ angular.module('confRegistrationWebApp')
         registration: '=',
         permissions: '='
       },
-      controller: function ($scope, $route, $http) {
+      controller: function ($scope) {
         $scope.canEdit = $scope.permissions.permissionLevel === 'CREATOR' || $scope.permissions.permissionLevel === 'UPDATE';
 
 
@@ -17,15 +17,15 @@ angular.module('confRegistrationWebApp')
           templateUrl: 'views/editTotalDue.html',
           controller: 'EditTotalDueDialogCtrl',
           scope: $scope
-        }
+        };
 
-          $scope.createEditDialog = function () {
+        $scope.createEditDialog = function () {
           if ($scope.canEdit) {
             $modal.open(editTotalDueDialogOptions).result.then(function () {
 
             });
           }
-        };;
+        };
       }
     };
   });
