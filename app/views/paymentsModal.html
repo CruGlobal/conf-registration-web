@@ -23,14 +23,40 @@
           <th>Date</th>
           <th>Amount</th>
           <th>Transaction</th>
+          <th>Type</th>
         </tr>
         </thead>
         <tr data-ng-repeat="payment in data.pastPayments">
           <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
           <td>${{payment.amount}}</td>
           <td>{{payment.authnetTransactionId}}</td>
+          <td>{{payment.paymentType}}</td>
+        </tr>
+        <tr data-ng-show="data.totalDue - data.totalPaid !== 0 && data.add !== true">
+          <td colspan="3"><a href="#" data-ng-click="data.add = true">Add Payment</a></td>
         </tr>
       </table>
+      <hr data-ng-show="data.add===true"/>
+      <div data-ng-show="data.add===true">
+        Payment Type:
+        <select data-ng-model="data.newPayment.paymentType">
+          <option value="CREDIT_CARD">Credit Card</option>
+          <option value="TRANSFER">Scholarship</option>
+        </select>
+        <div data-ng-show="data.newPayment.paymentType === 'CREDIT_CARD'">
+          Amount: <input data-ng-model="data.newPayment.amount" type="text" /> <br />
+          Name on Card: <input data-ng-model="data.newPayment.creditCardNameOnCard" type="text" /> <br />
+          Credit Card Number: <input data-ng-model="data.newPayment.creditCardNumber" type="text" /> <br />
+          Credit Card CVV: <input data-ng-model="data.newPayment.creditCardCVVNumber" type="text" /> <br />
+          Expiry Month: <input data-ng-model="data.newPayment.creditCardExpirationMonth" type="text" /> <br />
+          Expiry Year: <input data-ng-model="data.newPayment.creditCardExpirationYear" type="text" /> <br />
+          <button type="button">Process Payment</button>
+        </div>
+        <div data-ng-show="data.newPayment.paymentType === 'TRANSFER'">
+          Scholarship Amount: <input type="text" /> <br />
+          Account Number: <input type="text" />  <br />
+        </div>
+      </div>
     </div>
     <div class="modal-footer">
       <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Close" />
