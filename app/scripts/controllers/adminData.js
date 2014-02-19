@@ -230,18 +230,15 @@ angular.module('confRegistrationWebApp')
     $scope.registrations = registrations;
     $scope.permissions = permissions;
 
-    $scope.viewPayments = function (registrationId) {
-      var registrationPayments = _.filter(registrations, function (item) { return item.id === registrationId; });
-      registrationPayments = registrationPayments[0].pastPayments;
-
+    $scope.viewPayments = function (registration) {
       var paymentModalOptions = {
         templateUrl: 'views/paymentsModal.html',
-        controller: 'errorModal',
+        controller: 'genericModal',
         backdrop: 'static',
         keyboard: false,
         resolve: {
-          message: function () {
-            return registrationPayments;
+          data: function () {
+            return registration;
           }
         }
       };
@@ -258,4 +255,7 @@ angular.module('confRegistrationWebApp')
       return conference.conferenceCost > 0;
     };
 
+    $scope.paidInFull = function (registration) {
+      return registration.totalPaid >= registration.totalDue;
+    }
   });

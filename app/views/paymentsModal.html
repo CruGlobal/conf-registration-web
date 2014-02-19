@@ -5,6 +5,19 @@
   </div>
     <div class="modal-body">
       <table>
+        <tr>
+          <th>Cost</th>
+          <th>Paid</th>
+          <th>Remaining Balance</th>
+        </tr>
+        <tr>
+          <td>${{data.totalDue}}</td>
+          <td>${{data.totalPaid}}</td>
+          <td>${{data.totalDue - data.totalPaid}}</td>
+        </tr>
+      </table>
+      <hr />
+      <table>
         <thead>
         <tr>
           <th>Date</th>
@@ -12,7 +25,7 @@
           <th>Transaction</th>
         </tr>
         </thead>
-        <tr data-ng-repeat="payment in message">
+        <tr data-ng-repeat="payment in data.pastPayments">
           <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
           <td>${{payment.amount}}</td>
           <td>{{payment.authnetTransactionId}}</td>
@@ -20,6 +33,6 @@
       </table>
     </div>
     <div class="modal-footer">
-      <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Ok" />
+      <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Close" />
     </div>
 </div>
