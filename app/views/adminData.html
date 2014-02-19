@@ -52,8 +52,7 @@
     <thead>
     <tr>
       <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th data-ng-show="isConferenceCost()" >Total Due</th>
-      <th data-ng-show="isConferenceCost()" >Payments</th>
+      <th data-ng-show="isConferenceCost()">Paid in Full?</th>
     </tr>
     </thead>
     <tbody>
@@ -61,10 +60,12 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
-      <td data-ng-show="isConferenceCost()">
-        <total-due registration="registration" permissions="permissions"></total-due>
+      <td>
+        <a href="" data-ng-click="viewPayments(registration)">
+          <span data-ng-show="paidInFull(registration)">Yes</span>
+          <span data-ng-hide="paidInFull(registration)">No</span>
+        </a>
       </td>
-      <td data-ng-show="isConferenceCost()" ><a href="" data-ng-click="viewPayments(registration.id)">View</a></td>
     </tr>
     </tbody>
   </table>
