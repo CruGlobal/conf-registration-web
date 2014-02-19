@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       request: function (config) {
         var passthroughRegexs = [
           /https?:\/\/.*/,
-          /views\/.*/,
+          /^views\/.*/,
           /template\/.*/
         ];
 

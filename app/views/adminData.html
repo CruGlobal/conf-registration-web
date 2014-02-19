@@ -21,6 +21,8 @@
 <div data-ng-show="registrations.length > 0">
   Filter: <input type="text" ng-model="searchFilter">
 
+  &nbsp;&nbsp;&nbsp;&nbsp;
+
   <div class="btn-group">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
       Columns
@@ -30,6 +32,16 @@
       <li data-ng-repeat="block in blocks"><a href="" ng-click="toggleColumn($index)"><i class="crs-columnCheck" data-ng-show="block.visible"></i> {{block.title}}</a></li>
     </ul>
   </div>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  Views:&nbsp;
+  <select data-ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId"></select>
+  &nbsp;&nbsp;
+  <a href="" data-ng-click="createRegView()">New</a>
+  <span data-ng-show="activeRegViewId !== '' && activeRegViewId !== showAllViewId">&#124;</span>
+  <a href="" data-ng-show="activeRegViewId !== '' && activeRegViewId !== showAllViewId" data-ng-click="delRegView()">Delete</a>
+  &nbsp;&nbsp;&nbsp;
+  <class data-ng-show="savedState !== ''" style="color:#888;">({{savedState}})</class>
 
   <table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
     <thead>
