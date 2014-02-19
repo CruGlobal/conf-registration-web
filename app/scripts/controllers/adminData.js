@@ -88,46 +88,44 @@ angular.module('confRegistrationWebApp')
           }
         }
       }).result.then(function (viewName) {
-          if (viewName !== '') {
+        if (viewName !== '') {
 
-            var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
-            if (regViewNames.indexOf(viewName) > -1)
-            {
-              var errorModalOptions = {
-                templateUrl: 'views/errorModal.html',
-                controller: 'errorModal',
-                resolve: {
-                  message: function () {
-                    return 'View name "' + viewName + '" already exists. Please provide a different view name.';
-                  }
+        var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
+          if (regViewNames.indexOf(viewName) > -1) {
+            var errorModalOptions = {
+              templateUrl: 'views/errorModal.html',
+              controller: 'genericModal',
+              resolve: {
+                message: function () {
+                  return 'View name "' + viewName + '" already exists. Please provide a different view name.';
                 }
-              };
-
-              $modal.open(errorModalOptions);
-
-              return;
-            }
-
-            var newView = {
-              id: uuid(),
-              conferenceId: conference.id,
-              name: viewName,
-              visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
-                return item.visible === true;
-              }), 'id')
+              }
             };
+            $modal.open(errorModalOptions);
 
-            $http({method: 'POST',
-              url: 'conferences/' + conference.id + '/registration-views',
-              data: newView
-            }).success(function () {
-              $scope.registrationViews = $scope.registrationViews.concat(newView);
-              $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(newView);
-              $scope.activeRegViewId = newView.id;
-            }).error(function () {
-            });
+            return;
           }
-        });
+
+          var newView = {
+            id: uuid(),
+            conferenceId: conference.id,
+            name: viewName,
+            visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
+              return item.visible === true;
+            }), 'id')
+          };
+
+          $http({method: 'POST',
+            url: 'conferences/' + conference.id + '/registration-views',
+            data: newView
+          }).success(function () {
+            $scope.registrationViews = $scope.registrationViews.concat(newView);
+            $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(newView);
+            $scope.activeRegViewId = newView.id;
+          }).error(function () {
+          });
+        }
+      });
     };
 
     // update a registration view
