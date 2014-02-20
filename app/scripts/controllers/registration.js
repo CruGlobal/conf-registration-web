@@ -57,4 +57,8 @@ angular.module('confRegistrationWebApp')
         $location.path('/reviewRegistration/' + conference.id);
       }
     };
+
+    $scope.isConferenceCost = function() {
+      return conference.conferenceCost > 0;
+    };
   });

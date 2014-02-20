@@ -53,7 +53,7 @@
           <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
             {{conference.locationState}}</p>
 
-          <p><strong>Cost:</strong> ${{conference.conferenceCost}}
+          <p data-ng-show="isConferenceCost()"><strong>Cost:</strong> ${{conference.conferenceCost}}
           </p>
 
           <p><strong>Contact:</strong><br>{{conference.contactPersonName}}
