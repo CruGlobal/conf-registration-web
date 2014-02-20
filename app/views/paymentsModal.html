@@ -22,15 +22,17 @@
         <tr>
           <th>Date</th>
           <th>Amount</th>
-          <th>Transaction</th>
+          <!--<th>Transaction</th>-->
           <th>Type</th>
+          <th>Refund</th>
         </tr>
         </thead>
         <tr data-ng-repeat="payment in registration.pastPayments">
           <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-          <td>${{payment.amount}}</td>
-          <td>{{payment.authnetTransactionId}}</td>
+          <td><span data-ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">-</span>${{payment.amount}}</td>
+          <!--<td>{{payment.authnetTransactionId}}</td>-->
           <td>{{payment.paymentType}}</td>
+          <td><span data-ng-show="canBeRefunded(payment)"><a href="" data-ng-click="refund(payment)">Refund</a></span></td>
         </tr>
         <tr data-ng-show="registration.totalDue - registration.totalPaid !== 0 && add !== true">
           <td colspan="3"><a href="" data-ng-click="addNewPayment = true">Add Payment</a></td>
