@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid) {
+  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid, RegistrationCache) {
 
     $scope.conference = conference;
     $scope.blocks = [];
@@ -242,7 +242,12 @@ angular.module('confRegistrationWebApp')
           }
         }
       };
-      $modal.open(paymentModalOptions).result.then(function () {
+
+      $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
+        var localUpdatedRegistration = _.find(registrations, function (reg){
+          return reg.id === updatedRegistration.id;
+        });
+        localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
       });
     };
 
