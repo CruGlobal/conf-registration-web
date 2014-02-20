@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
     $scope.defaultViewId = 'default';
     $scope.activeRegViewId = $scope.defaultViewId;
     $scope.savedState = '';
-    $scope.predefinedViews = [ $scope.defaultViewId, $scope.showAllViewId ];
 
     // collect completed registrations
     registrations = _.filter(registrations, function (item) { return item.completed !== false; });
@@ -29,30 +28,31 @@ angular.module('confRegistrationWebApp')
     $http({method: 'GET',
       url: 'conferences/' + conference.id + '/registration-views'
     }).success(function (data) {
-        $scope.registrationViews = _.sortBy(data, 'name');
+       $scope.registrationViews = _.sortBy(data, 'name');
 
-        var profileBlocks = function(blocks) {
-          return _.filter(blocks, function (item) {
-            return item.profileType === 'EMAIL' || item.profileType === 'NAME';
-          });
-        };
+       var profileBlocks = function(blocks) {
+        return _.filter(blocks, function (block) {
+          var profileTypes = [ 'EMAIL', 'NAME' ];
+          return profileTypes.indexOf(block.profileType) > -1;
+        });
+      };
 
-        $scope.registrationViewsDropdown = [
-          {
-            id: $scope.defaultViewId,
-            name: '-Default-',
-            visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
-          },
-          {
-            id: $scope.showAllViewId,
-            name: '-Show All-',
-            visibleBlockIds: _.pluck($scope.blocks, 'id')
-          }
-        ];
+      $scope.registrationViewsDropdown = [
+        {
+          id: $scope.defaultViewId,
+          name: '-Default-',
+          visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
+        },
+        {
+          id: $scope.showAllViewId,
+          name: '-Show All-',
+          visibleBlockIds: _.pluck($scope.blocks, 'id')
+        }
+      ];
 
-        $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat($scope.registrationViews);
-        $scope.setRegView();
-      });
+      $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat($scope.registrationViews);
+      $scope.setRegView();
+    });
 
     // toggle (show/hide) the column and auto save the registration view
     $scope.toggleColumn = function (block) {
@@ -93,19 +93,19 @@ angular.module('confRegistrationWebApp')
             var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
             if(regViewNames.indexOf(viewName) > -1)
             {
-                var errorModalOptions = {
-                    templateUrl: 'views/errorModal.html',
-                    controller: 'errorModal',
-                    resolve: {
-                        message: function () {
-                            return 'View name "' + viewName + '" already exists. Please provide a different view name.';
-                        }
-                    }
-                };
+              var errorModalOptions = {
+                templateUrl: 'views/errorModal.html',
+                controller: 'errorModal',
+                resolve: {
+                  message: function () {
+                    return 'View name "' + viewName + '" already exists. Please provide a different view name.';
+                  }
+                }
+              };
 
-                $modal.open(errorModalOptions);
+              $modal.open(errorModalOptions);
 
-                return;
+              return;
             }
 
             var newView = {
@@ -130,14 +130,17 @@ angular.module('confRegistrationWebApp')
         });
     };
 
+    $scope.isPredefinedView = function(regViewId) {
+      var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
+      return predefinedViews.indexOf(regViewId) > -1;
+    };
+
     // update a registration view
     $scope.updateRegView = function () {
 
-      // don't update predefined views
-      if($scope.predefinedViews.indexOf($scope.activeRegViewId) > -1)
-      {
+      // don't update predefined view
+      if($scope.isPredefinedView($scope.activeRegViewId))
         return;
-      }
 
       var thisView = {
         id: $scope.activeRegViewId,
@@ -153,40 +156,38 @@ angular.module('confRegistrationWebApp')
         url: 'registration-views/' + $scope.activeRegViewId,
         data: thisView
       }).success(function () {
-          $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
-          $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
-            return view.id !== $scope.activeRegViewId;
-          });
-          $scope.registrationViews = $scope.registrationViews.concat(thisView);
-          $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(thisView);
-          $scope.activeRegViewId = thisView.id;
-          $scope.savedState = 'Saved';
-        }).error(function () {
+        $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
+        $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
+          return view.id !== $scope.activeRegViewId;
         });
+        $scope.registrationViews = $scope.registrationViews.concat(thisView);
+        $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(thisView);
+        $scope.activeRegViewId = thisView.id;
+        $scope.savedState = 'Saved';
+      }).error(function () {
+      });
     };
 
     // delete a registration view
     $scope.delRegView = function () {
 
       // don't delete predefined views
-      if($scope.predefinedViews.indexOf($scope.activeRegViewId) > -1)
-      {
+      if($scope.isPredefinedView($scope.activeRegViewId))
         return;
-      }
 
       $http({method: 'DELETE',
         url: 'registration-views/' + $scope.activeRegViewId
       }).success(function () {
-          $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
-          $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
-            return view.id !== $scope.activeRegViewId;
-          });
-
-          $scope.activeRegViewId = $scope.defaultViewId;
-          $scope.setRegView();
-
-        }).error(function () {
+        $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
+        $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
+          return view.id !== $scope.activeRegViewId;
         });
+
+        $scope.activeRegViewId = $scope.defaultViewId;
+        $scope.setRegView();
+
+      }).error(function () {
+      });
     };
 
     $scope.findAnswer = function (registration, blockId) {
