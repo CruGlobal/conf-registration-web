@@ -28,9 +28,9 @@ angular.module('confRegistrationWebApp')
     $http({method: 'GET',
       url: 'conferences/' + conference.id + '/registration-views'
     }).success(function (data) {
-       $scope.registrationViews = _.sortBy(data, 'name');
+      $scope.registrationViews = _.sortBy(data, 'name');
 
-       var profileBlocks = function(blocks) {
+      var profileBlocks = function (blocks) {
         return _.filter(blocks, function (block) {
           var profileTypes = [ 'EMAIL', 'NAME' ];
           return profileTypes.indexOf(block.profileType) > -1;
@@ -91,7 +91,7 @@ angular.module('confRegistrationWebApp')
           if (viewName !== '') {
 
             var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
-            if(regViewNames.indexOf(viewName) > -1)
+            if (regViewNames.indexOf(viewName) > -1)
             {
               var errorModalOptions = {
                 templateUrl: 'views/errorModal.html',
@@ -134,8 +134,10 @@ angular.module('confRegistrationWebApp')
     $scope.updateRegView = function () {
 
       // don't update predefined view
-      if($scope.isPredefinedView($scope.activeRegViewId))
+      if ($scope.isPredefinedView($scope.activeRegViewId))
+      {
         return;
+      }
 
       var thisView = {
         id: $scope.activeRegViewId,
@@ -167,8 +169,10 @@ angular.module('confRegistrationWebApp')
     $scope.delRegView = function () {
 
       // don't delete predefined views
-      if($scope.isPredefinedView($scope.activeRegViewId))
+      if ($scope.isPredefinedView($scope.activeRegViewId))
+      {
         return;
+      }
 
       $http({method: 'DELETE',
         url: 'registration-views/' + $scope.activeRegViewId
@@ -247,12 +251,12 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.isPredefinedView = function(regViewId) {
+    $scope.isPredefinedView = function (regViewId) {
       var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
       return predefinedViews.indexOf(regViewId) > -1;
     };
 
-    $scope.isConferenceCost = function() {
+    $scope.isConferenceCost = function () {
       return conference.conferenceCost > 0;
     };
 

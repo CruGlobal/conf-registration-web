@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.isConferenceCost = function() {
+    $scope.isConferenceCost = function () {
       return conference.conferenceCost > 0;
     };
   });
