@@ -33,7 +33,7 @@
           <td>{{payment.paymentType}}</td>
         </tr>
         <tr data-ng-show="registration.totalDue - registration.totalPaid !== 0 && add !== true">
-          <td colspan="3"><a href="#" data-ng-click="addNewPayment = true">Add Payment</a></td>
+          <td colspan="3"><a href="" data-ng-click="addNewPayment = true">Add Payment</a></td>
         </tr>
       </table>
       <hr data-ng-show="addNewPayment===true"/>
@@ -50,12 +50,13 @@
           Credit Card CVV: <input data-ng-model="newPayment.creditCardCVVNumber" type="text" /> <br />
           Expiry Month: <input data-ng-model="newPayment.creditCardExpirationMonth" type="text" /> <br />
           Expiry Year: <input data-ng-model="newPayment.creditCardExpirationYear" type="text" /> <br />
+          <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
         </div>
         <div data-ng-show="newPayment.paymentType === 'TRANSFER'">
           Scholarship Amount: <input type="text" /> <br />
           Account Number: <input type="text" />  <br />
+          <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
         </div>
-        <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
       </div>
     </div>
     <div class="modal-footer">
