@@ -233,7 +233,7 @@ angular.module('confRegistrationWebApp')
     $scope.viewPayments = function (registration) {
       var paymentModalOptions = {
         templateUrl: 'views/paymentsModal.html',
-        controller: 'genericModal',
+        controller: 'paymentModal',
         backdrop: 'static',
         keyboard: false,
         resolve: {
