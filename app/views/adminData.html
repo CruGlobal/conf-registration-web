@@ -38,17 +38,17 @@
   <select data-ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId"></select>
   &nbsp;&nbsp;
   <a href="" data-ng-click="createRegView()">New</a>
-  <span data-ng-show="activeRegViewId !== '' && activeRegViewId !== showAllViewId">&#124;</span>
-  <a href="" data-ng-show="activeRegViewId !== '' && activeRegViewId !== showAllViewId" data-ng-click="delRegView()">Delete</a>
+  <span data-ng-show="!isPredefinedView(activeRegViewId)">&#124;</span>
+  <a href="" data-ng-show="!isPredefinedView(activeRegViewId)" data-ng-click="delRegView()">Delete</a>
   &nbsp;&nbsp;&nbsp;
   <class data-ng-show="savedState !== ''" style="color:#888;">({{savedState}})</class>
 
   <table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
     <thead>
     <tr>
-      <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th>Total Due</th>
-      <th>Payments</th>
+       <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th data-ng-show="isConferenceCost()" >Total Due</th>
+      <th data-ng-show="isConferenceCost()" >Payments</th>
     </tr>
     </thead>
     <tbody>
@@ -56,10 +56,10 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>
-      <td>
+      <td data-ng-show="isConferenceCost()">
         <total-due registration="registration" permissions="permissions"></total-due>
       </td>
-      <td><a href="" data-ng-click="viewPayments(registration.id)">View</a></td>
+      <td data-ng-show="isConferenceCost()" ><a href="" data-ng-click="viewPayments(registration.id)">View</a></td>
     </tr>
     </tbody>
   </table>
