@@ -130,11 +130,6 @@ angular.module('confRegistrationWebApp')
         });
     };
 
-    $scope.isPredefinedView = function(regViewId) {
-      var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
-      return predefinedViews.indexOf(regViewId) > -1;
-    };
-
     // update a registration view
     $scope.updateRegView = function () {
 
@@ -251,4 +246,14 @@ angular.module('confRegistrationWebApp')
       $modal.open(paymentModalOptions).result.then(function () {
       });
     };
+
+    $scope.isPredefinedView = function(regViewId) {
+      var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
+      return predefinedViews.indexOf(regViewId) > -1;
+    };
+
+    $scope.isConferenceCost = function() {
+      return conference.conferenceCost > 0;
+    };
+
   });
