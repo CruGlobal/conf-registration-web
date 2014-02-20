@@ -248,6 +248,9 @@ angular.module('confRegistrationWebApp')
           return reg.id === updatedRegistration.id;
         });
         localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
+        localUpdatedRegistration.totalDue = updatedRegistration.totalDue;
+        localUpdatedRegistration.totalPaid = updatedRegistration.totalPaid;
+        localUpdatedRegistration.remainingBalance = updatedRegistration.remainingBalance;
       });
     };
 
