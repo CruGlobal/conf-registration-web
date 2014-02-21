@@ -4,64 +4,74 @@
     <h4>Payments</h4>
   </div>
     <div class="modal-body">
-      <table>
-        <tr>
-          <th>Cost</th>
-          <th>Paid</th>
-          <th>Remaining Balance</th>
-        </tr>
-        <tr>
-          <td>${{registration.totalDue}}</td>
-          <td>${{registration.totalPaid}}</td>
-          <td>${{registration.totalDue - registration.totalPaid}}</td>
-        </tr>
-      </table>
-      <hr />
-      <table>
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-          <!--<th>Transaction</th>-->
-          <th>Type</th>
-          <th>Refund</th>
-        </tr>
-        </thead>
-        <tr data-ng-repeat="payment in registration.pastPayments">
-          <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-          <td><span data-ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">-</span>${{payment.amount}}</td>
-          <!--<td>{{payment.authnetTransactionId}}</td>-->
-          <td>{{payment.paymentType}}</td>
-          <td><span data-ng-show="canBeRefunded(payment)"><a href="" data-ng-click="refund(payment)">Refund</a></span></td>
-        </tr>
-        <tr data-ng-show="registration.totalDue - registration.totalPaid !== 0 && add !== true">
-          <td colspan="3"><a href="" data-ng-click="addNewPayment = true">Add Payment</a></td>
-        </tr>
-      </table>
-      <hr data-ng-show="addNewPayment===true"/>
-      <div data-ng-show="addNewPayment===true">
+      <tabset>
+        <tab heading="Summary">
+          <table>
+            <tr>
+              <th>Cost</th>
+              <th>Paid</th>
+              <th>Remaining Balance</th>
+            </tr>
+            <tr>
+              <td>${{registration.totalDue}}</td>
+              <td>${{registration.totalPaid}}</td>
+              <td>${{registration.totalDue - registration.totalPaid}}</td>
+            </tr>
+            <tr>
+              <td colspan="3"><button class="btn" data-ng-click="showAdjustCost = true" data-ng-hide="showAdjustCost===true">Adjust Cost</button></td>
+            </tr>
+          </table>
+          <div data-ng-show="showAdjustCost===true" >
+            <hr />
+            <input placeholder="Updated cost" type="text" data-ng-model="newTotalDue" /> <br />
+            <button class="btn btn-success" data-ng-click="updateCost()">Save</button> <a href="" data-ng-click="showAdjustCost=false">Cancel</a>
+          </div>
+        </tab>
+        <tab heading="History">
+          <table>
+            <thead>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <!--<th>Transaction</th>-->
+              <th>Type</th>
+              <th>Refund</th>
+            </tr>
+            </thead>
+            <tr data-ng-repeat="payment in registration.pastPayments">
+              <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+              <td><span data-ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">-</span>${{payment.amount}}</td>
+              <!--<td>{{payment.authnetTransactionId}}</td>-->
+              <td>{{payment.paymentType}}</td>
+              <td><span data-ng-show="canBeRefunded(payment)"><a href="" data-ng-click="refund(payment)">Refund</a></span></td>
+            </tr>
+          </table>
+        </tab>
+        <tab heading="Add" data-ng-show="registration.balanceRemaining !== 0">
         Payment Type:
         <select data-ng-model="newPayment.paymentType">
-          <option value="CREDIT_CARD">Credit Card</option>
-          <option value="TRANSFER">Scholarship</option>
+            <option value="CREDIT_CARD">Credit Card</option>
+            <option value="TRANSFER">Scholarship</option>
         </select>
         <div data-ng-show="newPayment.paymentType === 'CREDIT_CARD'">
-          Amount: <input data-ng-model="newPayment.amount" type="text" /> <br />
-          Name on Card: <input data-ng-model="newPayment.creditCardNameOnCard" type="text" /> <br />
-          Credit Card Number: <input data-ng-model="newPayment.creditCardNumber" type="text" /> <br />
-          Credit Card CVV: <input data-ng-model="newPayment.creditCardCVVNumber" type="text" /> <br />
-          Expiry Month: <input data-ng-model="newPayment.creditCardExpirationMonth" type="text" /> <br />
-          Expiry Year: <input data-ng-model="newPayment.creditCardExpirationYear" type="text" /> <br />
-          <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
+            Amount: <input data-ng-model="newPayment.amount" type="text" /> <br />
+            Name on Card: <input data-ng-model="newPayment.creditCardNameOnCard" type="text" /> <br />
+            Credit Card Number: <input data-ng-model="newPayment.creditCardNumber" type="text" /> <br />
+            Credit Card CVV: <input data-ng-model="newPayment.creditCardCVVNumber" type="text" /> <br />
+            Expiry Month: <input data-ng-model="newPayment.creditCardExpirationMonth" type="text" /> <br />
+            Expiry Year: <input data-ng-model="newPayment.creditCardExpirationYear" type="text" /> <br />
+            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
         </div>
         <div data-ng-show="newPayment.paymentType === 'TRANSFER'">
-          Scholarship Amount: <input type="text" /> <br />
-          Account Number: <input type="text" />  <br />
-          <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
+            Scholarship Amount: <input type="text" /> <br />
+            Account Number: <input type="text" />  <br />
+            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
         </div>
-      </div>
-    </div>
+        </tab>
+      </tabset>
+</div>
     <div class="modal-footer">
-      <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Close" />
+        <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Close" />
     </div>
+
 </div>

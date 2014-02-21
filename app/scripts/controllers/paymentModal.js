@@ -16,7 +16,6 @@ angular.module('confRegistrationWebApp')
           RegistrationCache.update('registrations/' + data.id, data, function (){});
           $scope.registration = data;
         });
-        $scope.addNewPayment = false;
         delete $scope.newPayment;
       }).error(function (reason){
         alert('payment failed...');
@@ -51,5 +50,13 @@ angular.module('confRegistrationWebApp')
       }).error(function (reason){
         alert('refund failed...');
       });
+    }
+
+    $scope.newTotalDue = 0;
+
+    $scope.updateCost = function () {
+      $scope.registration.totalDue = $scope.newTotalDue;
+      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function() {});
+      delete $scope.newTotalDue;
     }
   });
