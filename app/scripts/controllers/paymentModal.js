@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('confRegistrationWebApp')
   .controller('paymentModal', function ($scope, $modalInstance, $http, data, RegistrationCache) {
     $scope.registration = data;
@@ -12,28 +14,28 @@ angular.module('confRegistrationWebApp')
       registrationId: $scope.registration.id
     };
 
-    $scope.processPayment = function() {
+    $scope.processPayment = function () {
       $scope.newPayment.readyToProcess = true;
-      $http.post('payments/', $scope.newPayment).success(function (){
-        $http.get('registrations/' + $scope.registration.id).success(function (data){
-          RegistrationCache.update('registrations/' + data.id, data, function (){});
+      $http.post('payments/', $scope.newPayment).success(function () {
+        $http.get('registrations/' + $scope.registration.id).success(function (data) {
+          RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
         });
         delete $scope.newPayment;
-      }).error(function (reason){
+      }).error(function () {
         alert('payment failed...');
       });
-    }
+    };
 
-    $scope.canBeRefunded = function(payment) {
+    $scope.canBeRefunded = function (payment) {
       var sum = 0;
-      _.each($scope.registration.pastPayments, function (prevRefund){
-        if(prevRefund.paymentType === 'CREDIT_CARD_REFUND' && prevRefund.refundedPaymentId === payment.id) {
+      _.each($scope.registration.pastPayments, function (prevRefund) {
+        if (prevRefund.paymentType === 'CREDIT_CARD_REFUND' && prevRefund.refundedPaymentId === payment.id) {
           sum += prevRefund.amount;
         }
       });
       return payment.paymentType === 'CREDIT_CARD' && sum < payment.amount;
-    }
+    };
 
     $scope.refund = function (payment) {
       var refund = {
@@ -45,23 +47,22 @@ angular.module('confRegistrationWebApp')
         readyToProcess: true
       };
 
-      $http.post('payments/', refund).success(function (){
-        $http.get('registrations/' + $scope.registration.id).success(function (data){
-          RegistrationCache.update('registrations/' + data.id, data, function (){});
+      $http.post('payments/', refund).success(function () {
+        $http.get('registrations/' + $scope.registration.id).success(function (data) {
+          RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
         });
-      }).error(function (reason){
+      }).error(function () {
         alert('refund failed...');
       });
     };
 
     $scope.updateCost = function () {
       $scope.registration.totalDue = $scope.updateCost.newTotal;
-      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function() {
+      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function () {
         $scope.updateCost.show = false;
-      },function (){
-        alert("error updating total cost");
+      }, function () {
+        alert('error updating total cost');
       });
-
-    }
+    };
   });
