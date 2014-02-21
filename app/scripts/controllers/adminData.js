@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid, RegistrationCache) {
+  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid) {
 
     $scope.conference = conference;
     $scope.blocks = [];
@@ -90,7 +90,7 @@ angular.module('confRegistrationWebApp')
       }).result.then(function (viewName) {
         if (viewName !== '') {
 
-        var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
+          var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
           if (regViewNames.indexOf(viewName) > -1) {
             var errorModalOptions = {
               templateUrl: 'views/errorModal.html',
@@ -244,7 +244,7 @@ angular.module('confRegistrationWebApp')
       };
 
       $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
-        var localUpdatedRegistration = _.find(registrations, function (reg){
+        var localUpdatedRegistration = _.find(registrations, function (reg) {
           return reg.id === updatedRegistration.id;
         });
         localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
@@ -314,5 +314,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.paidInFull = function (registration) {
       return registration.totalPaid >= registration.totalDue;
-    }
+    };
   });
