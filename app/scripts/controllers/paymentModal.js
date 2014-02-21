@@ -50,13 +50,15 @@ angular.module('confRegistrationWebApp')
       }).error(function (reason){
         alert('refund failed...');
       });
-    }
-
-    $scope.newTotalDue = 0;
+    };
 
     $scope.updateCost = function () {
-      $scope.registration.totalDue = $scope.newTotalDue;
-      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function() {});
-      delete $scope.newTotalDue;
+      $scope.registration.totalDue = $scope.updateCost.newTotal;
+      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function() {
+        $scope.updateCost.show = false;
+      },function (){
+        alert("error updating total cost");
+      });
+
     }
   });

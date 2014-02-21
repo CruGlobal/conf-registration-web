@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    this.update = function (path, registration, cb) {
+    this.update = function (path, registration, cb, errorCallback) {
       var callback = cb || function () {
         cache.put(path, angular.copy(registration));
         $rootScope.broadcast(path, registration);
@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        $http.put(path, registration).then(callback);
+        $http.put(path, registration).then(callback, errorCallback);
       }
     };
 
