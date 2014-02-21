@@ -23,6 +23,11 @@
 
   &nbsp;&nbsp;&nbsp;&nbsp;
 
+  Payment Status:&nbsp;
+  <select ng-selected="currentPaymentCategory" data-ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories"></select>
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
   <div class="btn-group">
     <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
       Columns
@@ -46,13 +51,13 @@
   <table cellspacing="0" class="table-bordered  table-striped  table-hover  table-condensed">
     <thead>
     <tr>
-       <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th data-ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
       <th data-ng-show="isConferenceCost()" >Total Due</th>
       <th data-ng-show="isConferenceCost()" >Payments</th>
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter)) | orderBy:answerSort:reversesort">
+    <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus)) | orderBy:answerSort:reversesort">
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer answers="registration.answers" block="block"></show-answer>
       </td>

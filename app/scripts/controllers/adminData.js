@@ -260,4 +260,53 @@ angular.module('confRegistrationWebApp')
       return conference.conferenceCost > 0;
     };
 
+    // define payment categories
+    $scope.paymentCategories = [
+      {
+        name: 'Show All',
+        matches: function () {
+          return true;
+        }
+      },
+      {
+        name: 'Full',
+        matches: function (x, y) {
+          return x === y;
+        }
+      },
+      {
+        name: 'Partial',
+        matches: function (x, y) {
+          return x > 0 && x < y;
+        }
+      },
+      {
+        name: 'Full/Partial',
+        matches: function (x) {
+          return x > 0;
+        }
+      },
+      {
+        name: 'Not Paid',
+        matches: function (x) {
+          if (x === null) {
+            return true;
+          }
+
+          return x <= 0;
+        }
+      }
+    ];
+
+    // set current to first in array
+    $scope.currentPaymentCategory = _.first($scope.paymentCategories).name;
+
+    // determine if registration payment status matches current payment category
+    $scope.paymentStatus = function (registration) {
+
+      var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
+
+      return paymentCategory.matches(registration.totalPaid, registration.totalDue);
+    };
+
   });
