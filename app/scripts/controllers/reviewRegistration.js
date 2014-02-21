@@ -37,11 +37,11 @@ angular.module('confRegistrationWebApp')
       }).error(function () {
           var errorModalOptions = {
             templateUrl: 'views/errorModal.html',
-            controller: 'errorModal',
+            controller: 'genericModal',
             backdrop: 'static',
             keyboard: false,
             resolve: {
-              message: function () {
+              data: function () {
                 return 'Your card was declined, please verify and re-enter your details or use a different card.';
               }
             }
