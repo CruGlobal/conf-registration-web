@@ -14,8 +14,8 @@ files = [
   'app/bower_components/angular-cookies/angular-cookies.js',
   'app/bower_components/angular-bootstrap/ui-bootstrap.js',
   'app/scripts/*.js',
-  'app/scripts/**/*.js',
-  'test/mock/**/*.js',
+  'app/scripts/**/*.js'
+  // 'test/mock/**/*.js',
   //'test/spec/**/*.js'
 ];
 
