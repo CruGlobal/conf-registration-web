@@ -58,11 +58,11 @@
         </select>
         <div data-ng-show="newPayment.paymentType === 'CREDIT_CARD'">
             Amount: <input data-ng-model="newPayment.amount" type="text" /> <br />
-            Name on Card: <input data-ng-model="newPayment.creditCardNameOnCard" type="text" /> <br />
-            Credit Card Number: <input data-ng-model="newPayment.creditCardNumber" type="text" /> <br />
-            Credit Card CVV: <input data-ng-model="newPayment.creditCardCVVNumber" type="text" /> <br />
+            Name on Card: <input data-ng-model="newPayment.creditCard.nameOnCard" type="text" /> <br />
+            Credit Card Number: <input data-ng-model="newPayment.creditCard.number" type="text" /> <br />
+            Credit Card CVV: <input data-ng-model="newPayment.creditCard.cvvNumber" type="text" /> <br />
             Credit Card Expiration Month:
-                <select data-ng-model="newPayment.creditCardExpirationMonth">
+                <select data-ng-model="newPayment.creditCard.expirationMonth">
                 <option value=''>Month</option>
                 <option value='01'>01 - January</option>
                 <option value='02'>02 - February</option>
@@ -79,7 +79,7 @@
             </select>
             <br />
             Credit Card Expiration Year:
-            <select data-ng-model="newPayment.creditCardExpirationYear">
+            <select data-ng-model="newPayment.creditCard.expirationYear">
                 <option value=''>Year</option>
                 <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
             </select>

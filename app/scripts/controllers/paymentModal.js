@@ -43,7 +43,9 @@ angular.module('confRegistrationWebApp')
         refundedPaymentId: payment.id,
         registrationId: payment.registrationId,
         paymentType: 'CREDIT_CARD_REFUND',
-        creditCardLastFourDigits: payment.creditCardLastFourDigits,
+        creditCard: {
+          lastFourDigits: payment.creditCard.lastFourDigits
+        },
         readyToProcess: true
       };
 
