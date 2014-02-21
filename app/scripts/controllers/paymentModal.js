@@ -1,6 +1,9 @@
 angular.module('confRegistrationWebApp')
   .controller('paymentModal', function ($scope, $modalInstance, $http, data, RegistrationCache) {
     $scope.registration = data;
+
+    $scope.currentYear = new Date().getFullYear();
+
     $scope.close = function () {
       $modalInstance.close($scope.registration);
     };
