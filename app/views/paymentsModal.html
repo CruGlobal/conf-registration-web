@@ -18,13 +18,13 @@
               <td>${{registration.totalDue - registration.totalPaid}}</td>
             </tr>
             <tr>
-              <td colspan="3"><button class="btn" data-ng-click="showAdjustCost = true" data-ng-hide="showAdjustCost===true">Adjust Cost</button></td>
+              <td colspan="3"><button class="btn" data-ng-click="updateCost.show = true" data-ng-hide="updateCost.show===true">Adjust Cost</button></td>
             </tr>
           </table>
-          <div data-ng-show="showAdjustCost===true" >
+          <div data-ng-show="updateCost.show===true" >
             <hr />
-            <input placeholder="Updated cost" type="text" data-ng-model="newTotalDue" /> <br />
-            <button class="btn btn-success" data-ng-click="updateCost()">Save</button> <a href="" data-ng-click="showAdjustCost=false">Cancel</a>
+            <input placeholder="Updated cost" type="text" data-ng-model="updateCost.newTotal" /> <br />
+            <button class="btn btn-success" data-ng-click="updateCost()">Save</button> <a href="" data-ng-click="updateCost.show=false">Cancel</a>
           </div>
         </tab>
         <tab heading="History">
