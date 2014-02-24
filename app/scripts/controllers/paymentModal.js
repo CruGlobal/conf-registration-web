@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.newPayment = {
           registrationId: $scope.registration.id
-        }
+        };
 
       }).error(function () {
         alert('payment failed...');
@@ -35,8 +35,8 @@ angular.module('confRegistrationWebApp')
     $scope.canBeRefunded = function (payment) {
       var sum = 0;
       _.each($scope.registration.pastPayments, function (prevRefund) {
-        if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND')
-          && prevRefund.refundedPaymentId === payment.id) {
+        if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
+          prevRefund.refundedPaymentId === payment.id) {
           sum += prevRefund.amount;
         }
       });
@@ -46,8 +46,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.refund = function (payment) {
-      if(payment.paymentType === 'CREDIT_CARD') {
-        var refund = {
+      var refund;
+      if (payment.paymentType === 'CREDIT_CARD') {
+        refund = {
           amount: payment.amount,
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
@@ -58,7 +59,7 @@ angular.module('confRegistrationWebApp')
           readyToProcess: true
         };
       } else {
-        var refund = {
+        refund = {
           amount: payment.amount,
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
