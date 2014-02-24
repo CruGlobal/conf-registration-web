@@ -48,21 +48,22 @@
           </table>
         </tab>
         <tab heading="Add" data-ng-show="registration.balanceRemaining !== 0">
-        Payment Type:
-        <select data-ng-model="newPayment.paymentType">
-          <option value="CREDIT_CARD">Credit Card</option>
-          <option value="SCHOLARSHIP">Scholarship</option>
-          <option value="TRANSFER">Transfer</option>
-          <option value="CHECK">Check</option>
-          <option value="CASH">Cash</option>
-        </select>
-        <div data-ng-show="newPayment.paymentType === 'CREDIT_CARD'">
-            Amount: <input data-ng-model="newPayment.amount" type="text" /> <br />
+          Payment Type:
+          <select data-ng-model="newPayment.paymentType">
+            <option value="CREDIT_CARD">Credit Card</option>
+            <option value="SCHOLARSHIP">Scholarship</option>
+            <option value="TRANSFER">Transfer</option>
+            <option value="CHECK">Check</option>
+            <option value="CASH">Cash</option>
+          </select>
+          <br />
+          Amount: <input data-ng-model="newPayment.amount" type="text" /> <br />
+          <div data-ng-show="newPayment.paymentType === 'CREDIT_CARD'">
             Name on Card: <input data-ng-model="newPayment.creditCard.nameOnCard" type="text" /> <br />
-            Credit Card Number: <input data-ng-model="newPayment.creditCard.number" type="text" /> <br />
-            Credit Card CVV: <input data-ng-model="newPayment.creditCard.cvvNumber" type="text" /> <br />
+            Credit Card Number: <input data-ng-model="newPayment.creditCard.number" maxlength="16" type="text" /> <br />
+            Credit Card CVV: <input data-ng-model="newPayment.creditCard.cvvNumber" maxlength="4" type="text" /> <br />
             Credit Card Expiration Month:
-                <select data-ng-model="newPayment.creditCard.expirationMonth">
+              <select data-ng-model="newPayment.creditCard.expirationMonth">
                 <option value=''>Month</option>
                 <option value='01'>01 - January</option>
                 <option value='02'>02 - February</option>
@@ -76,21 +77,29 @@
                 <option value='10'>10 - October</option>
                 <option value='11'>11 - November</option>
                 <option value='12'>12 - December</option>
-            </select>
+              </select>
             <br />
             Credit Card Expiration Year:
-            <select data-ng-model="newPayment.creditCard.expirationYear">
+              <select data-ng-model="newPayment.creditCard.expirationYear">
                 <option value=''>Year</option>
                 <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
-            </select>
+              </select>
             <br />
-            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
-        </div>
-        <div data-ng-show="newPayment.paymentType === 'SCHOLARSHIP'">
-            Scholarship Amount: <input type="text" /> <br />
-            Account Number: <input type="text" />  <br />
-            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
-        </div>
+          </div>
+
+          <div data-ng-show="newPayment.paymentType === 'SCHOLARSHIP'">
+            Description: <input type="text" data-ng-model="newPayment.scholarship.description"/>  <br />
+          </div>
+          <div data-ng-show="newPayment.paymentType === 'TRANSFER'">
+            Source (account/chartfield): <input type="text" data-ng-model="newPayment.transfer.source" /> <br />
+            Description: <input type="text" data-ng-model="newPayment.scholarship.description"/>  <br />
+          </div>
+          <div data-ng-show="newPayment.paymentType === 'CASH'">
+          </div>
+          <div data-ng-show="newPayment.paymentType === 'CHECK'">
+            Check Number: <input type="text" data-ng-mode="newPayment.check.checkNumber" /> <br />
+          </div>
+          <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
         </tab>
       </tabset>
 </div>
