@@ -88,46 +88,44 @@ angular.module('confRegistrationWebApp')
           }
         }
       }).result.then(function (viewName) {
-          if (viewName !== '') {
+        if (viewName !== '') {
 
-            var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
-            if (regViewNames.indexOf(viewName) > -1)
-            {
-              var errorModalOptions = {
-                templateUrl: 'views/errorModal.html',
-                controller: 'errorModal',
-                resolve: {
-                  message: function () {
-                    return 'View name "' + viewName + '" already exists. Please provide a different view name.';
-                  }
+          var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
+          if (regViewNames.indexOf(viewName) > -1) {
+            var errorModalOptions = {
+              templateUrl: 'views/errorModal.html',
+              controller: 'genericModal',
+              resolve: {
+                message: function () {
+                  return 'View name "' + viewName + '" already exists. Please provide a different view name.';
                 }
-              };
-
-              $modal.open(errorModalOptions);
-
-              return;
-            }
-
-            var newView = {
-              id: uuid(),
-              conferenceId: conference.id,
-              name: viewName,
-              visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
-                return item.visible === true;
-              }), 'id')
+              }
             };
+            $modal.open(errorModalOptions);
 
-            $http({method: 'POST',
-              url: 'conferences/' + conference.id + '/registration-views',
-              data: newView
-            }).success(function () {
-              $scope.registrationViews = $scope.registrationViews.concat(newView);
-              $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(newView);
-              $scope.activeRegViewId = newView.id;
-            }).error(function () {
-            });
+            return;
           }
-        });
+
+          var newView = {
+            id: uuid(),
+            conferenceId: conference.id,
+            name: viewName,
+            visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
+              return item.visible === true;
+            }), 'id')
+          };
+
+          $http({method: 'POST',
+            url: 'conferences/' + conference.id + '/registration-views',
+            data: newView
+          }).success(function () {
+            $scope.registrationViews = $scope.registrationViews.concat(newView);
+            $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(newView);
+            $scope.activeRegViewId = newView.id;
+          }).error(function () {
+          });
+        }
+      });
     };
 
     // update a registration view
@@ -232,22 +230,27 @@ angular.module('confRegistrationWebApp')
     $scope.registrations = registrations;
     $scope.permissions = permissions;
 
-    $scope.viewPayments = function (registrationId) {
-      var registrationPayments = _.filter(registrations, function (item) { return item.id === registrationId; });
-      registrationPayments = registrationPayments[0].pastPayments;
-
+    $scope.viewPayments = function (registration) {
       var paymentModalOptions = {
         templateUrl: 'views/paymentsModal.html',
-        controller: 'errorModal',
+        controller: 'paymentModal',
         backdrop: 'static',
         keyboard: false,
         resolve: {
-          message: function () {
-            return registrationPayments;
+          data: function () {
+            return registration;
           }
         }
       };
-      $modal.open(paymentModalOptions).result.then(function () {
+
+      $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
+        var localUpdatedRegistration = _.find(registrations, function (reg) {
+          return reg.id === updatedRegistration.id;
+        });
+        localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
+        localUpdatedRegistration.totalDue = updatedRegistration.totalDue;
+        localUpdatedRegistration.totalPaid = updatedRegistration.totalPaid;
+        localUpdatedRegistration.remainingBalance = updatedRegistration.remainingBalance;
       });
     };
 
@@ -309,4 +312,7 @@ angular.module('confRegistrationWebApp')
       return paymentCategory.matches(registration.totalPaid, registration.totalDue);
     };
 
+    $scope.paidInFull = function (registration) {
+      return registration.totalPaid >= registration.totalDue;
+    };
   });

@@ -1,13 +1,6 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('errorModal', function ($scope, $modalInstance, message) {
-    $scope.message = message;
-    $scope.close = function () {
-      $modalInstance.close('');
-    };
-  });
-angular.module('confRegistrationWebApp')
   .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal, RegistrationCache) {
     $scope.currentYear = new Date().getFullYear();
 
@@ -36,9 +29,9 @@ angular.module('confRegistrationWebApp')
       if (!$scope.creditCardNameOnCard) {
         errorModalOptions = {
           templateUrl: 'views/errorModal.html',
-          controller: 'errorModal',
+          controller: 'genericModal',
           resolve: {
-            message: function () {
+            data: function () {
               return 'Please enter the name on your card.';
             }
           }
@@ -49,9 +42,9 @@ angular.module('confRegistrationWebApp')
       if (!$scope.creditCardNumber) {
         errorModalOptions = {
           templateUrl: 'views/errorModal.html',
-          controller: 'errorModal',
+          controller: 'genericModal',
           resolve: {
-            message: function () {
+            data: function () {
               return 'Please enter your card number.';
             }
           }
@@ -62,9 +55,9 @@ angular.module('confRegistrationWebApp')
       if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
         errorModalOptions = {
           templateUrl: 'views/errorModal.html',
-          controller: 'errorModal',
+          controller: 'genericModal',
           resolve: {
-            message: function () {
+            data: function () {
               return 'Please enter card expiration date.';
             }
           }
@@ -76,11 +69,13 @@ angular.module('confRegistrationWebApp')
       $rootScope.currentPayment = {};
       $rootScope.currentPayment.amount = $scope.amount;
       $rootScope.currentPayment.registrationId = registration.id;
-      $rootScope.currentPayment.creditCardNameOnCard = $scope.creditCardNameOnCard;
-      $rootScope.currentPayment.creditCardExpirationMonth = $scope.creditCardExpirationMonth;
-      $rootScope.currentPayment.creditCardExpirationYear = $scope.creditCardExpirationYear;
-      $rootScope.currentPayment.creditCardNumber = $scope.creditCardNumber;
-      $rootScope.currentPayment.creditCardCVVNumber = $scope.creditCardCVVNumber;
+      $rootScope.currentPayment.creditCard = {};
+      $rootScope.currentPayment.creditCard.nameOnCard = $scope.creditCardNameOnCard;
+      $rootScope.currentPayment.creditCard.expirationMonth = $scope.creditCardExpirationMonth;
+      $rootScope.currentPayment.creditCard.expirationYear = $scope.creditCardExpirationYear;
+      $rootScope.currentPayment.creditCard.number = $scope.creditCardNumber;
+      $rootScope.currentPayment.creditCard.cvvNumber = $scope.creditCardCVVNumber;
+      $rootScope.currentPayment.paymentType = 'CREDIT_CARD';
 
       if (registration.completed) {
         var currentPayment = $rootScope.currentPayment;
@@ -91,11 +86,11 @@ angular.module('confRegistrationWebApp')
         }).error(function () {
             var errorModalOptions = {
               templateUrl: 'views/errorModal.html',
-              controller: 'errorModal',
+              controller: 'genericModal',
               backdrop: 'static',
               keyboard: false,
               resolve: {
-                message: function () {
+                data: function () {
                   return 'Your card was declined, please verify and re-enter your details or use a different card.';
                 }
               }
