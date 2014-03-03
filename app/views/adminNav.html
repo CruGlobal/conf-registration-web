@@ -4,6 +4,8 @@
   <a href="#/adminDetails/{{conference.id}}">Edit Conference Details</a> |
   <a href="#/permissions/{{conference.id}}">Conference Permissions</a> |
   <a href="#/register/{{conference.id}}" target="_blank">Preview Registration Form</a> |
+  <a href="" data-ng-click="exportRegistrations(conference.id)">Export Registrations</a> |
+  <a href="" data-ng-show="hasCost(conference)" data-ng-click="exportPayments(conference.id)">Export Payments</a> |
   <a href="" data-ng-click="registerUser(conference.id)">Register Someone</a> |
   <a href="" data-ng-click="deleteConference(conference.id)">Delete Conference</a>
 </p>
