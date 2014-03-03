@@ -17,6 +17,23 @@ angular.module('confRegistrationWebApp')
               }
             });
         };
+
+        $scope.registerUser = function (conferenceId) {
+
+          var registrationModalOptions = {
+            templateUrl: 'views/registrationModal.html',
+            controller: 'registrationModal',
+            backdrop: 'static',
+            keyboard: false,
+            resolve: {
+              conference: ['ConfCache', function (ConfCache) {
+                return ConfCache.get(conferenceId);
+              }]
+            }
+          };
+
+          $modal.open(registrationModalOptions);
+        };
       }
     };
   });

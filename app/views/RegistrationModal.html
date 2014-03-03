@@ -1,0 +1,31 @@
+<div class="modal" id="fooModal">
+  <div class="modal-header">
+    <button type="button" class="close" data-ng-click="close()" aria-hidden="true">&times;</button>
+    <h4>Simple Registration Form</h4>
+  </div>
+  <form class="crs-form" name="simpleRegistrationForm">
+    <div class="modal-body">
+      <div>
+        <label>Email</label>
+        <input type="email" data-ng-model="form.email" class="form-control" ng-required="true">
+        <span class="crs--required">(required)</span>
+      </div>
+      <div>
+        <label>First</label>
+        <input type="text" data-ng-model="form.first" class="form-control" ng-required="true">
+        <span class="crs--required">(required)</span>
+      </div>
+      <div>
+        <label>Last</label>
+        <input type="text" data-ng-model="form.last" class="form-control" ng-required="true">
+        <span class="crs--required">(required)</span>
+      </div>
+    </div>
+  </form>
+  <div class="modal-footer">
+    <button data-ng-click="register()" class="btn btn-primary" data-ng-disabled="!simpleRegistrationForm.$valid">
+      Register
+    </button>
+    <button data-ng-click="close()" class="btn">Cancel</button>
+  </div>
+</div>
