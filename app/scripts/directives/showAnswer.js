@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('showAnswer', function (AnswerCache, $modal, $location) {
+  .directive('showAnswer', function (AnswerCache, $modal, $location, uuid) {
     return {
       templateUrl: 'views/adminAnswerDisplay.html',
       restrict: 'E',
       scope: {
-        answers: '=',
-        block: '='
+        block: '=',
+        registration: '='
       },
       controller: function ($scope) {
         if ($location.$$path.indexOf('adminData/') !== -1) {
@@ -22,6 +22,17 @@ angular.module('confRegistrationWebApp')
 
         $scope.createEditDialog = function () {
           if ($scope.answerEditable) {
+            if (angular.isUndefined($scope.answer)) {
+              $scope.answer = {
+                id: uuid(),
+                registrationId: $scope.registration.id,
+                blockId: $scope.block.id,
+                value: {}
+              }
+            }
+            if (angular.isUndefined($scope.answer.value) || $scope.answer.value === null) {
+              $scope.answer.value = {};
+            }
             $modal.open(editAnswerDialogOptions).result.then(function () {
               AnswerCache.syncBlock($scope, 'answer');
             });
@@ -29,8 +40,8 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.$watch('answers', function () {
-          if ($scope.answers) {
-            var answerObject = _.find($scope.answers, { blockId: $scope.block.id });
+          if ($scope.registration.answers) {
+            var answerObject = _.find($scope.registration.answers, { blockId: $scope.block.id });
             if (answerObject) {
               $scope.answer = answerObject;
             }
