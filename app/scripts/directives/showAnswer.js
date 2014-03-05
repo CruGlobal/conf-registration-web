@@ -28,7 +28,7 @@ angular.module('confRegistrationWebApp')
                 registrationId: $scope.registration.id,
                 blockId: $scope.block.id,
                 value: {}
-              }
+              };
             }
             if (angular.isUndefined($scope.answer.value) || $scope.answer.value === null) {
               $scope.answer.value = {};
