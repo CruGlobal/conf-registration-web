@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
     $scope.reversesort = false;
     $scope.showAllViewId = 'all';
     $scope.defaultViewId = 'default';
-    $scope.activeRegViewId = $scope.defaultViewId;
+    $scope.activeRegViewId = $scope.showAllViewId;
     $scope.savedState = '';
 
     // collect completed registrations

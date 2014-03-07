@@ -58,7 +58,7 @@
     <tbody>
     <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus)) | orderBy:answerSort:reversesort">
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
-        <show-answer answers="registration.answers" block="block"></show-answer>
+        <show-answer block="block" registration="registration"></show-answer>
       </td>
       <td>
         <a href="" data-ng-click="viewPayments(registration)">
