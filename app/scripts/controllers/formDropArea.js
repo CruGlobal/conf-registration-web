@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $modal, $timeout, uuid, GrowlService) {
+  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $modal, uuid, GrowlService) {
     $scope.$on('dragVars', function (event, x) {
       $scope.blockId = x.blockId;
       $scope.moveType = x.moveType;
