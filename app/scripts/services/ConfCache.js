@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.update = function (id, conference){
+    this.update = function (id, conference) {
       cache.put(path(id), conference);
     };
 

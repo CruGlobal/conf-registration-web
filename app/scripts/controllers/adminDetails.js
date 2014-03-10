@@ -5,8 +5,8 @@ angular.module('confRegistrationWebApp')
     Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
     //Update cache
-    $scope.$watch('conference', function(conf) {
-      if(angular.isDefined(conference)){
+    $scope.$watch('conference', function (conf) {
+      if (angular.isDefined(conference)) {
         ConfCache.update(conference.id, conf);
       }
     }, true);
