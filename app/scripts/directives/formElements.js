@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
           stop: function (event, ui) {
             if (newDragBlock !== '') {
               scope.insertBlock(newDragBlock, ui.item.parent().attr('id'), ui.item.index());
-              ui.item.parent().find('li:last').remove();
+              ui.item.remove();
             } else {
               scope.moveBlock(ui.item.find('.crsQuestion').attr('id'), ui.item.parent().attr('id'), ui.item.index());
             }

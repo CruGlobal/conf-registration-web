@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $modal, uuid, GrowlService) {
+  .controller('FormDropAreaCtrl', function ($rootScope, $scope, $modal, $timeout, uuid, GrowlService) {
     $scope.$on('dragVars', function (event, x) {
       $scope.blockId = x.blockId;
       $scope.moveType = x.moveType;
@@ -63,8 +63,8 @@ angular.module('confRegistrationWebApp')
         profileType: profileType
       };
 
-      $scope.$apply(function (scope) {
-        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
+      $scope.$apply(function () {
+         $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
       });
     };
 
