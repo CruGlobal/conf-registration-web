@@ -6,7 +6,6 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blockDirective.html',
       restrict: 'A',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
-        $scope.nullVar = null;
         if (!$scope.wizard) {
           RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
             var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
@@ -44,23 +43,26 @@ angular.module('confRegistrationWebApp')
           console.log($scope.this.block.content.choices);
         };
 
-        $scope.toggleProfileType = function (){
-          if(!$scope.this.block.profileType){
-            $scope.this.block.profileType=null;
+        $scope.toggleProfileType = function () {
+          if (!$scope.this.block.profileType) {
+            $scope.this.block.profileType = null;
           }
 
           if (!_.isNull($scope.this.block.profileType)) {
-            var profileCount=0;
+            var profileCount = 0;
             $scope.conference.registrationPages.forEach(function (page) {
               page.blocks.forEach(function (block) {
-                if($scope.this.block.profileType===block.profileType){
+                if ($scope.this.block.profileType === block.profileType) {
                   profileCount++;
                 }
               });
             });
-            if (profileCount>1) {
-              alert('Only one ' + $scope.this.block.profileType.charAt(0).toUpperCase() + $scope.this.block.profileType.slice(1).toLowerCase() + ' profile block can be used per form.');
-              $scope.this.block.profileType=null;
+            if (profileCount > 1) {
+              alert('Only one ' +
+                $scope.this.block.profileType.charAt(0).toUpperCase() +
+                $scope.this.block.profileType.slice(1).toLowerCase() +
+                ' profile block can be used per form.');
+              $scope.this.block.profileType = null;
             }
           }
         };
