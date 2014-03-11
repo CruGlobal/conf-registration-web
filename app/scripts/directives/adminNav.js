@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('adminNav', function () {
+  .directive('adminNav', function ($http, RegistrationCache, ConfCache, RegistrationsViewService, PaymentsViewService, ConferenceHelper, U, apiUrl) {
     return {
       templateUrl: 'views/adminNav.html',
       restrict: 'A',
@@ -33,6 +33,44 @@ angular.module('confRegistrationWebApp')
           };
 
           $modal.open(registrationModalOptions);
+        };
+
+        // Export conference registrations information to csv
+        $scope.exportRegistrations = function (conferenceId) {
+
+          ConfCache.get(conferenceId).then(function (conference) {
+            RegistrationCache.getAllForConference(conferenceId).then(function (registrations) {
+
+              var table = RegistrationsViewService.getTable(conference, registrations);
+
+              var csvContent = U.stringifyArray(table, ',');
+
+              var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+
+              U.submitForm(url, { name: csvContent });
+            });
+          });
+        };
+
+        // Export conference registration payments information to csv
+        $scope.exportPayments = function (conferenceId) {
+
+          ConfCache.get(conferenceId).then(function (conference) {
+            RegistrationCache.getAllForConference(conferenceId).then(function (registrations) {
+
+              var table = PaymentsViewService.getTable(conference, registrations);
+
+              var csvContent = U.stringifyArray(table, ',');
+
+              var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
+
+              U.submitForm(url, { name: csvContent });
+            });
+          });
+        };
+
+        $scope.hasCost = function (conference) {
+          return ConferenceHelper.hasCost(conference);
         };
       }
     };
