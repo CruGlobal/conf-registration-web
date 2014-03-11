@@ -30,37 +30,17 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.insertBlock = function (blockType, newPage, newPosition) {
+    $scope.insertBlock = function (blockType, newPage, newPosition, title) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
-      var profileType = null;
-
-      if (blockType.indexOf('-profile') !== -1) {
-        blockType = blockType.split('-');
-        profileType = blockType[2];
-        blockType = blockType[0];
-      }
-
-      if (!_.isNull(profileType)) {
-        var blockArray = [];
-        $scope.conference.registrationPages.forEach(function (page) {
-          page.blocks.forEach(function (block) {
-            blockArray.push(block.profileType);
-          });
-        });
-        if (blockArray.indexOf(profileType) !== -1) {
-          alert('Only one ' + profileType.charAt(0).toUpperCase() + profileType.slice(1).toLowerCase() + ' profile block can be used per form.');
-          profileType = null;
-        }
-      }
 
       var newBlock = {
         id: uuid(),
         content: '',
         pageId: newPage,
         required: false,
-        title: 'New ' + blockType + ' Block',
+        title: title,
         type: blockType,
-        profileType: profileType
+        profileType: null
       };
 
       $scope.$apply(function () {

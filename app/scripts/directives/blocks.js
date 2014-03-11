@@ -81,3 +81,11 @@ angular.module('confRegistrationWebApp')
       restrict: 'E'
     };
   });
+
+angular.module('confRegistrationWebApp')
+  .directive('genderQuestion', function () {
+    return {
+      templateUrl: 'views/genderQuestion.html',
+      restrict: 'E'
+    };
+  });
