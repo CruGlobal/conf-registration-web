@@ -1,12 +1,12 @@
 <div ng-form="blockForm">
   <ul class="unstyled">
-    <li data-ng-repeat="choice in ['Male','Female']">
+    <li ng-repeat="choice in ['Male','Female']">
       <input name="{{block.id}}"
              id="{{block.id}}{{choice}}"
              type="radio"
              ng-required="block.required"
              ng-model="answer.value"
-             ng-value="choice"
+             ng-value="choice.charAt(0)"
              ng-change="updateAnswer(choice)">
       <label class="crs-radio-label" for="{{block.id}}{{choice}}">
         <span></span>{{choice}}</label>

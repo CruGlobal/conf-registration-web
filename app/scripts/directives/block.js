@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blockDirective.html',
       restrict: 'A',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
+        //expose lodash library on scope
+        $scope._ = _;
+
         if (!$scope.wizard) {
           RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
             var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });

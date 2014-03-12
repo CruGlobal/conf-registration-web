@@ -7,7 +7,7 @@
           <div data-icon="&#xe036;" class="icon crs--icon crs--icon-edit"></div>
         </a>
         <a class="crs--btn-wiz-delete" href="" data-ng-click="deleteBlock(block.id, true)">
-          <div data-icon="&#xe083;" class="icon crs--icon crs--icon-delete"></div>
+          <div data-icon="&#xe083;" class="icon crs--icon crs--icon-delete" ng-hide="_.contains(['EMAIL','NAME'], block.profileType)"></div>
         </a>
       </div>
 
@@ -40,17 +40,9 @@
         <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
       </ng-switch>
 
-      <div class="well" data-ng-show="editMode">
+      <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
         <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
         <ng-switch on="block.type">
-          <div ng-switch-when="emailQuestion">
-            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="EMAIL" ng-false-value="" ng-change="toggleProfileType()">
-            <label for="{{block.id}}-profile"><span></span> Profile</label>
-          </div>
-          <div ng-switch-when="nameQuestion">
-            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="NAME" ng-false-value="" ng-change="toggleProfileType()">
-            <label for="{{block.id}}-profile"><span></span> Profile</label>
-          </div>
           <div ng-switch-when="addressQuestion">
             <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="ADDRESS" ng-false-value="" ng-change="toggleProfileType()">
             <label for="{{block.id}}-profile"><span></span> Profile</label>
