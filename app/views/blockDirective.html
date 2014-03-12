@@ -1,5 +1,5 @@
 <div class="crsQuestion" id="{{block.id}}">
-  <div class="crs--question-default  crs--question-block" ng-class="{profileBlock: block.profileType!==null}">
+  <div class="crs--question-default  crs--question-block" ng-class="{profileBlock: block.profileType}">
 
     <div ng-show="!editMode">
       <div ng-show="wizard">
@@ -7,7 +7,7 @@
           <div data-icon="&#xe036;" class="icon crs--icon crs--icon-edit"></div>
         </a>
         <a class="crs--btn-wiz-delete" href="" data-ng-click="deleteBlock(block.id, true)">
-          <div data-icon="&#xe083;" class="icon crs--icon crs--icon-delete"></div>
+          <div data-icon="&#xe083;" class="icon crs--icon crs--icon-delete" ng-hide="_.contains(['EMAIL','NAME'], block.profileType)"></div>
         </a>
       </div>
 
@@ -25,7 +25,7 @@
 
       <ng-switch on="block.type">
         <p ng-switch-when="paragraphContent">
-          <tag ng-show="!editMode">{{block.content}}</tag>
+          <tag ng-show="!editMode" style="white-space: pre;">{{block.content}}</tag>
           <tag ng-show="editMode"><textarea data-ng-model="block.content"></textarea></tag>
         </p>
         <text-question block="block" ng-switch-when="textQuestion"></text-question>
@@ -37,10 +37,25 @@
         <name-question block="block" ng-switch-when="nameQuestion"></name-question>
         <address-question block="block" ng-switch-when="addressQuestion"></address-question>
         <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+        <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
       </ng-switch>
 
-      <div class="well" data-ng-show="editMode">
+      <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
         <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
+        <ng-switch on="block.type">
+          <div ng-switch-when="addressQuestion">
+            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="ADDRESS" ng-false-value="" ng-change="toggleProfileType()">
+            <label for="{{block.id}}-profile"><span></span> Profile</label>
+          </div>
+          <div ng-switch-when="phoneQuestion">
+            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="PHONE" ng-false-value="" ng-change="toggleProfileType()">
+            <label for="{{block.id}}-profile"><span></span> Profile</label>
+          </div>
+          <div ng-switch-when="genderQuestion">
+            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="GENDER" ng-false-value="" ng-change="toggleProfileType()">
+            <label for="{{block.id}}-profile"><span></span> Profile</label>
+          </div>
+        </ng-switch>
       </div>
 
   </div>
