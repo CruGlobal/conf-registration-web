@@ -202,8 +202,8 @@ angular.module('confRegistrationWebApp')
     $scope.answerSort = function (registration) {
       if (angular.isDefined($scope.order)) {
         if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
-          if ($scope.findAnswer(registration, $scope.order).value.text) { //text field
-            return $scope.findAnswer(registration, $scope.order).value.text;
+          if ($scope.findAnswer(registration, $scope.order).value) { //text field
+            return $scope.findAnswer(registration, $scope.order).value;
           } else if ($scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).length > 0) {
             //mc
             return $scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).join(' ');
