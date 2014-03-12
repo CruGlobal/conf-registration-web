@@ -44,9 +44,7 @@ angular.module('confRegistrationWebApp')
   .directive('phoneQuestion', function () {
     return {
       templateUrl: 'views/blocks/phoneQuestion.html',
-      restrict: 'E',
-      link: function (scope, elements) {
-      }
+      restrict: 'E'
     };
   });
 
@@ -62,9 +60,7 @@ angular.module('confRegistrationWebApp')
   .directive('selectQuestion', function () {
     return {
       templateUrl: 'views/blocks/selectQuestion.html',
-      restrict: 'E',
-      link: function (scope, elements) {
-      }
+      restrict: 'E'
     };
   });
 
