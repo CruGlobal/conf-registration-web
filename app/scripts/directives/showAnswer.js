@@ -27,11 +27,8 @@ angular.module('confRegistrationWebApp')
                 id: uuid(),
                 registrationId: $scope.registration.id,
                 blockId: $scope.block.id,
-                value: {}
+                value: null
               };
-            }
-            if (angular.isUndefined($scope.answer.value) || $scope.answer.value === null) {
-              $scope.answer.value = {};
             }
             $modal.open(editAnswerDialogOptions).result.then(function () {
               AnswerCache.syncBlock($scope, 'answer');
