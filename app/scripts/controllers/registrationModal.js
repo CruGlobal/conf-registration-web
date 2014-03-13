@@ -26,7 +26,7 @@ angular.module('confRegistrationWebApp')
             };
 
             if (block.profileType === 'EMAIL') {
-              answer.value = { text: $scope.form.email };
+              answer.value = $scope.form.email;
             } else if (block.profileType === 'NAME') {
               answer.value = { firstName: $scope.form.first, lastName: $scope.form.last };
             }

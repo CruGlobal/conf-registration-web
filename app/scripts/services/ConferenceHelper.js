@@ -45,16 +45,16 @@ angular.module('confRegistrationWebApp')
         content.push(window.S(U.getValue(value.lastName)).capitalize());
       }
       else if (angular.equals(type, 'emailQuestion')) {
-        content.push(U.getValue(value.text));
+        content.push(U.getValue(value));
       }
       else if (angular.equals(type, 'textQuestion')) {
-        content.push(U.getValue(value.text));
+        content.push(U.getValue(value));
       }
       else if (angular.equals(type, 'checkboxQuestion')) {
         content.push(U.joiner(U.getValue(U.getKeysWhere(value, true)), ' '));
       }
       else if (angular.equals(type, 'phoneQuestion')) {
-        content.push(U.getValue(value.text));
+        content.push(U.getValue(value));
       }
       else if (angular.equals(type, 'radioQuestion')) {
         content.push(U.getValue(value));
@@ -63,7 +63,7 @@ angular.module('confRegistrationWebApp')
         content.push(U.getValue(value));
       }
       else if (angular.equals(type, 'numberQuestion')) {
-        content.push(U.getValue(value.text));
+        content.push(U.getValue(value));
       }
       else if (angular.equals(type, 'addressQuestion')) {
         content.push(U.getValue(value.address1));
