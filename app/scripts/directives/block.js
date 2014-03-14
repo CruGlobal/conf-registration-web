@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
                 id : uuid(),
                 registrationId : currentRegistration.id,
                 blockId : $scope.block.id,
-                value : null
+                value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
               };
               currentRegistration.answers.push($scope.answer);
             }

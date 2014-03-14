@@ -22,10 +22,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        if ($scope.wizard) { $scope.answer = {value: null}; }
-        if ($scope.answer.value === null) {
-          $scope.answer.value = {};
-        }
+        if ($scope.wizard) { $scope.answer = {value: {}}; }
       }
     };
   });
