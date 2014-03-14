@@ -34,6 +34,10 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
+    this.update = function (id, conference) {
+      cache.put(path(id), conference);
+    };
+
     this.create = function (name) {
       var registrationEndTime = new Date();
       registrationEndTime.setYear(registrationEndTime.getFullYear() + 1);
