@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
     };
 
     var updateServer = function (answer) {
-      if($rootScope.registerMode !== 'preview'){
+      if ($rootScope.registerMode !== 'preview') {
         $http.put(path(answer.id), answer);
       }
     };

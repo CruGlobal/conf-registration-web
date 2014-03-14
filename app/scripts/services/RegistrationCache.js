@@ -18,9 +18,9 @@ angular.module('confRegistrationWebApp')
         callback(cachedObject, path);
       } else {
         $http.get(path).success(function (data) {
-          if($rootScope.registerMode === 'preview'){
-            data.completed=false;
-            data.answers=[];
+          if ($rootScope.registerMode === 'preview') {
+            data.completed = false;
+            data.answers = [];
           }
           update(path, data);
           callback(data, path);
@@ -38,7 +38,7 @@ angular.module('confRegistrationWebApp')
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        if($rootScope.registerMode !== 'preview'){
+        if ($rootScope.registerMode !== 'preview') {
           $http.put(path, registration).then(callback, errorCallback);
         }
       }
@@ -63,10 +63,9 @@ angular.module('confRegistrationWebApp')
     this.getCurrent = function (conferenceId) {
       var defer = $q.defer();
 
-      if($rootScope.clearRegCache){
-        console.log('clear cache');
+      if ($rootScope.clearRegCache) {
         this.emptyCache();
-        $rootScope.clearRegCache=false;
+        $rootScope.clearRegCache = false;
       }
 
       checkCache('conferences/' + conferenceId + '/registrations/current', function (registration) {

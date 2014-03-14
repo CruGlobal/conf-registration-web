@@ -164,13 +164,15 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       if (!/^\/auth\/.*/.test($location.url())) {
         $cookies.intendedRoute = $location.url();
       }
-      if($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode!=='preview'){
-        $rootScope.clearRegCache=true;
-      }else if($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode!=='register'){
-        $rootScope.clearRegCache=true;
+
+      //registration mode
+      if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
+        $rootScope.clearRegCache = true;
+      } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
+        $rootScope.clearRegCache = true;
       }
-      if ($location.path().indexOf('/preview/') !== -1) $rootScope.registerMode = "preview";
-      if ($location.path().indexOf('/register/') !== -1) $rootScope.registerMode = "register";
+      if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
+      if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
   })
   .config(function ($httpProvider) {

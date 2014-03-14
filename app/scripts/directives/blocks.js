@@ -21,9 +21,9 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
-      controller: function($scope){
-        if($scope.wizard) $scope.answer={value: null};
-        if($scope.answer.value === null){
+      controller: function ($scope) {
+        if ($scope.wizard) { $scope.answer = {value: null}; }
+        if ($scope.answer.value === null) {
           $scope.answer.value = {};
         }
       }

@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
     $scope.nextPage = getPageAfterById(pageId);
 
     $scope.validateAndGoToNext = function () {
-      $location.path('/' + $rootScope.registerMode +'/' + conference.id + '/page/' + $scope.nextPage.id);
+      $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
     };
 
     $scope.goToReviewOrPayment = function () {
