@@ -13,7 +13,7 @@
     </div>
 
     <div class="span11 well">
-      <div align="right"><input type="button" class="btn btn-small" data-ng-click="editRegistration()" value="Edit my registration" data-ng-show="!registration.completed"></div>
+      <div align="right"><input type="button" class="btn btn-small" ng-click="editRegistration()" value="Edit my registration" ng-show="!registration.completed"></div>
       <ul class="unstyled crs--review">
         <li data-ng-repeat="block in blocks">
           <label>{{block.title}}</label>
@@ -34,7 +34,8 @@
 </div>
 <div class="row-fluid" data-ng-show="registration.completed === false">
   <div class="well">
-    <input type="button" class="btn btn-success" data-ng-click="confirmRegistration()" value="Confirm">
+    <input type="button" class="btn btn-success" data-ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview'">
+    <span ng-show="registerMode==='preview'">< Disabled in preview mode</span>
   </div>
 </div>
 <div class="row-fluid" data-ng-show="registration.completed">

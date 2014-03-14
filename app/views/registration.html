@@ -1,3 +1,4 @@
+<div style="text-align:center;font-size:24px;background-color:orange;padding:8px;" ng-show="registerMode==='preview'">Preview Mode</div>
 <div class="container-fluid register">
   <div class="crs--register  page-narrow  center-block">
     <div class="row-fluid crs--no-padding-top">
@@ -32,7 +33,7 @@
         <div class="row-fluid">
           <ul class="breadcrumb">
             <li data-ng-repeat="page in conference.registrationPages">
-              <a href="#/register/{{conference.id}}/page/{{page.id}}"
+              <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}"
                  ng-class="{'link--disabled': $index > activePageIndex, 'js-is-completed': $index <= activePageIndex}">
                 <i class="icon  icon-numbered"></i>
                 <span>{{page.title}}</span>
@@ -53,15 +54,15 @@
           <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
             {{conference.locationState}}</p>
 
-          <p data-ng-show="isConferenceCost()"><strong>Cost:</strong> ${{conference.conferenceCost}}
+          <p ng-show="isConferenceCost()"><strong>Cost:</strong> ${{conference.conferenceCost}}
           </p>
 
           <p><strong>Contact:</strong><br>{{conference.contactPersonName}}
             <br>{{conference.contactPersonPhone}}
-            <br><a href="{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
+            <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
 
           <div>
-            <a href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}">
+            <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}">
               <button class="btn btn-block btn-success btn-large">Register</button>
             </a>
           </div>

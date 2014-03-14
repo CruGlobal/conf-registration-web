@@ -17,7 +17,9 @@ angular.module('confRegistrationWebApp')
     };
 
     var updateServer = function (answer) {
-      $http.put(path(answer.id), answer);
+      if($rootScope.registerMode !== 'preview'){
+        $http.put(path(answer.id), answer);
+      }
     };
 
     var checkCache = function (path, callback) {

@@ -9,8 +9,8 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
     });
 
-    $scope.currentRegistration = currentRegistration;
     $scope.conference = conference;
+    $scope.currentRegistration = currentRegistration;
 
     if (currentRegistration.completed) {
       $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;
@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
     $scope.nextPage = getPageAfterById(pageId);
 
     $scope.validateAndGoToNext = function () {
-      $location.path('/register/' + conference.id + '/page/' + $scope.nextPage.id);
+      $location.path('/' + $rootScope.registerMode +'/' + conference.id + '/page/' + $scope.nextPage.id);
     };
 
     $scope.goToReviewOrPayment = function () {

@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
                 id : uuid(),
                 registrationId : currentRegistration.id,
                 blockId : $scope.block.id,
-                value : {}
+                value : null
               };
               currentRegistration.answers.push($scope.answer);
             }
