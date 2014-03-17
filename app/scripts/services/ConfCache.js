@@ -54,7 +54,7 @@ angular.module('confRegistrationWebApp')
           {
             id: newPageId,
             conferenceId: newConferenceId,
-            title: 'Sign Up',
+            title: 'Your Information',
             position: 0,
             blocks: [
               {
