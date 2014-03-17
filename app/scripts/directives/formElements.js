@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
           placeholder: 'crs-dragBack',
           stop: function (event, ui) {
             if (newDragBlock !== '') {
-              scope.insertBlock(newDragBlock, ui.item.parent().attr('id'), ui.item.index(), ui.item[0].innerText);
+              scope.insertBlock(newDragBlock, ui.item.parent().attr('id'), ui.item.index(), ui.item[0].innerText, ui.item.attr('default-profile'));
               ui.item.remove();
             } else {
               scope.moveBlock(ui.item.find('.crsQuestion').attr('id'), ui.item.parent().attr('id'), ui.item.index());
