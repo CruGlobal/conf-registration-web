@@ -16,6 +16,9 @@
 </style>
 
 <div admin-nav></div>
+<a href="" data-ng-click="exportRegistrations(conference.id)">Export Registrations</a> |
+<a href="" data-ng-show="hasCost(conference)" data-ng-click="exportPayments(conference.id)">Export Payments |</a>
+<a href="" data-ng-click="registerUser(conference.id)">Register Someone</a>
 <h2>{{conference.name}}</h2>
 
 <div data-ng-show="registrations.length > 0">
