@@ -19,6 +19,13 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
+      .when('/register/:conferenceId', {
+        resolve: {
+          redirectToIntendedRoute: ['$location', '$route', function ($location, $route) {
+            $location.replace().path('/register/' + $route.current.params.conferenceId + '/page/');
+          }]
+        }
+      })
       .when('/register/:conferenceId/page/:pageId?', {
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
@@ -61,17 +68,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
-          }]
-        }
-      })
-      .when('/register/:conferenceId', {
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
-            var conferenceId = $route.current.params.conferenceId;
-            ConfCache.get(conferenceId).then(function () {
-              $location.replace().path('/register/' + conferenceId + '/page/');
-            });
           }]
         }
       })
