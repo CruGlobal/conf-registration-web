@@ -21,12 +21,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/register/:conferenceId', {
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          redirectToRegistration: ['$route', 'ConfCache', '$location', function ($route, ConfCache, $location) {
-            var conferenceId = $route.current.params.conferenceId;
-            ConfCache.get(conferenceId).then(function () {
-              $location.replace().path('/register/' + conferenceId + '/page/');
-            });
+          redirectToIntendedRoute: ['$location', '$route', function ($location, $route) {
+            $location.replace().path('/register/' + $route.current.params.conferenceId + '/page/');
           }]
         }
       })
@@ -164,15 +160,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       if (!/^\/auth\/.*/.test($location.url())) {
         $cookies.intendedRoute = $location.url();
       }
-
-      //registration mode
-      if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
-        $rootScope.clearRegCache = true;
-      } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
-        $rootScope.clearRegCache = true;
-      }
-      if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
-      if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
   })
   .config(function ($httpProvider) {
