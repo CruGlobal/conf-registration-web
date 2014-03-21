@@ -20,7 +20,10 @@ angular.module('confRegistrationWebApp')
   .directive('checkboxQuestion', function () {
     return {
       templateUrl: 'views/blocks/checkboxQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      controller: function ($scope) {
+        if ($scope.wizard) { $scope.answer = {value: {}}; }
+      }
     };
   });
 

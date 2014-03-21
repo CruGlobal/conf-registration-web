@@ -39,6 +39,19 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
+      .when('/preview/:conferenceId/page/:pageId?', {
+        templateUrl: 'views/registration.html',
+        controller: 'RegistrationCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId);
+          }]
+        }
+      })
       .when('/adminData/:conferenceId', {
         templateUrl: 'views/adminData.html',
         controller: 'AdminDataCtrl',
@@ -147,6 +160,15 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       if (!/^\/auth\/.*/.test($location.url())) {
         $cookies.intendedRoute = $location.url();
       }
+
+      //registration mode
+      if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
+        $rootScope.clearRegCache = true;
+      } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
+        $rootScope.clearRegCache = true;
+      }
+      if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
+      if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
   })
   .config(function ($httpProvider) {

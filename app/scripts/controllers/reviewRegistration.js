@@ -66,7 +66,7 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.editRegistration = function () {
-      $location.path('/register/' + conference.id + '/page/' + conference.registrationPages[0].id);
+      $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + conference.registrationPages[0].id);
     };
     $scope.editPayment = function () {
       $location.path('/payment/' + conference.id);
