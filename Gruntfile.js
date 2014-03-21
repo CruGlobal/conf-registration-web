@@ -336,8 +336,8 @@ module.exports = function (grunt) {
   grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
-    'connect:test',
-    'karma'
+    'connect:test'
+    //'karma'
   ]);
 
   grunt.registerTask('build', [
