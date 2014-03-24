@@ -30,8 +30,24 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.insertBlock = function (blockType, newPage, newPosition, title) {
+
+    $scope.insertBlock = function (blockType, newPage, newPosition, title, defaultProfile) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
+
+      var profileType = null;
+      if (angular.isDefined(defaultProfile)) {
+        var profileCount = 0;
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            if (defaultProfile === block.profileType) {
+              profileCount++;
+            }
+          });
+        });
+        if (profileCount === 0) {
+          profileType = defaultProfile;
+        }
+      }
 
       var newBlock = {
         id: uuid(),
@@ -40,7 +56,7 @@ angular.module('confRegistrationWebApp')
         required: false,
         title: title,
         type: blockType,
-        profileType: null
+        profileType: profileType
       };
 
       $scope.$apply(function () {
