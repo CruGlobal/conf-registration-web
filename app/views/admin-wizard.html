@@ -2,22 +2,18 @@
 <div class="row-fluid wizard">
   <div class="span3" id="crs-formOptionsMenu" ng-style="scrollStyle()" scroll-position="scroll" data-ng-show="conference.registrationPages.length > 0">
     <accordion close-others="true" class="crs-accordion" accordion-sub>
-      <accordion-group heading="Simple Form Elements" class="crs-parent-li" is-open="true">
+      <accordion-group heading="Form Elements" class="crs-parent-li" is-open="true">
         <ul class="crs-accordionSub">
-          <li id="paragraphContent">Info</li>
-          <li id="textQuestion">Single Line Text</li>
+          <li id="paragraphContent">Information Box</li>
+          <li id="textQuestion">Single Line Text Question</li>
           <li id="radioQuestion">Multiple Choice</li>
           <li id="checkboxQuestion">Checkbox</li>
           <li id="selectQuestion">Dropdown</li>
-        </ul>
-      </accordion-group>
-      <accordion-group heading="Complex Form Elements" class="crs-parent-li">
-        <ul class="crs-accordionSub">
+          <li id="numberQuestion">Number</li>
           <li id="nameQuestion">Name</li>
           <li id="emailQuestion">Email</li>
           <li id="phoneQuestion" default-profile="PHONE">Phone</li>
           <li id="addressQuestion" default-profile="ADDRESS">Address</li>
-          <li id="numberQuestion">Number</li>
           <li id="genderQuestion" default-profile="GENDER">Gender</li>
         </ul>
       </accordion-group>
