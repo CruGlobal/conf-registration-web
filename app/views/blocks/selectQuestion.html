@@ -1,7 +1,8 @@
 <div ng-form="blockForm">
   <div ng-show="!editMode">
     <select ng-required="block.required" data-ng-model="answer.value">
-      <option value="{{choice}}" data-ng-repeat="choice in block.content.choices">{{choice}}</option>
+      <option value="">Choose one...</option>
+      <option ng-value="choice" ng-repeat="choice in block.content.choices">{{choice}}</option>
     </select>
   </div>
 
