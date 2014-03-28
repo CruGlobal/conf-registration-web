@@ -18,7 +18,12 @@ angular.module('confRegistrationWebApp')
         conference.conferenceCost = conference.conferenceCost;
       }
       $rootScope.totalDue = conference.conferenceCost;
-      $scope.amount = conference.minimumDeposit;
+      if (!_.isEmpty(conference.minimumDeposit) && !_.isNull(conference.minimumDeposit)) {
+        $scope.amount = conference.minimumDeposit;
+      } else {
+        conference.minimumDeposit = conference.conferenceCost;
+        $scope.amount = conference.conferenceCost;
+      }
     }
 
     $scope.currentRegistration = registration;
