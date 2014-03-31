@@ -26,10 +26,12 @@ angular.module('confRegistrationWebApp')
           $scope.answer = {value: {}};
         } else {
           $scope.$watch('answer.value', function () {
-            if (angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }))) {
-              $scope.atLeastOneChecked = true;
-            } else {
-              $scope.atLeastOneChecked = false;
+            if (angular.isDefined($scope.answer)) {
+              if (angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }))) {
+                $scope.atLeastOneChecked = true;
+              } else {
+                $scope.atLeastOneChecked = false;
+              }
             }
           }, true);
         }
