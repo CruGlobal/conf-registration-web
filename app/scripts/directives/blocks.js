@@ -22,7 +22,19 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        if ($scope.wizard) { $scope.answer = {value: {}}; }
+        if ($scope.wizard) {
+          $scope.answer = {value: {}};
+        } else {
+          $scope.$watch('answer.value', function () {
+            if (angular.isDefined($scope.answer)) {
+              if (angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }))) {
+                $scope.atLeastOneChecked = true;
+              } else {
+                $scope.atLeastOneChecked = false;
+              }
+            }
+          }, true);
+        }
       }
     };
   });
