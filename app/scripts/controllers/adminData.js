@@ -272,9 +272,9 @@ angular.module('confRegistrationWebApp')
         }
       },
       {
-        name: 'Full',
+        name: 'Full/Overpaid',
         matches: function (x, y) {
-          return x === y;
+          return x >= y;
         }
       },
       {
@@ -297,6 +297,12 @@ angular.module('confRegistrationWebApp')
           }
 
           return x <= 0;
+        }
+      },
+      {
+        name: 'Overpaid',
+        matches: function (x, y) {
+          return x > y;
         }
       }
     ];
