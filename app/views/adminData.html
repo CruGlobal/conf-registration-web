@@ -63,7 +63,7 @@
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer block="block" registration="registration"></show-answer>
       </td>
-      <td>
+      <td data-ng-show="isConferenceCost()">
         <a href="" data-ng-click="viewPayments(registration)">
           <span data-ng-show="paidInFull(registration)">Yes</span>
           <span data-ng-hide="paidInFull(registration)">No</span>
