@@ -66,7 +66,7 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getAllForConference = function (conferenceId) {
+    this.getAllForConference = function (conferenceId, callback) {
       var defer = $q.defer();
 
       checkCache('conferences/' + conferenceId + '/registrations', function (registrations) {
@@ -74,6 +74,9 @@ angular.module('confRegistrationWebApp')
           update(path(registration.id), registration);
         });
         defer.resolve(registrations);
+        if (angular.isDefined(callback)) {
+          callback(registrations);
+        }
       });
 
       return defer.promise;
