@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
     });
 
     function getTotalRegistrations(confId, confIndex) {
-      RegistrationCache.getAllForConference(confId, function(result){
+      RegistrationCache.getAllForConference(confId, function (result) {
         $scope.conferences[confIndex].totalRegistrations = _.filter(result, function (item) {
           return item.completed === true;
         }).length;
