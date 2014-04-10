@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('RegViewCache', function ConfCache($cacheFactory, $rootScope, $http, $q, uuid) {
+  .service('RegViewCache', function ConfCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('regViews');
 
     var path = function (id) {

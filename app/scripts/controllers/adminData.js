@@ -159,7 +159,7 @@ angular.module('confRegistrationWebApp')
     };
 
     // get all the registration views for this conference
-    RegViewCache.get(conference.id, function(data){
+    RegViewCache.get(conference.id, function (data) {
       $scope.registrationViews = _.sortBy(data, 'name');
 
       var profileBlocks = function (blocks) {
