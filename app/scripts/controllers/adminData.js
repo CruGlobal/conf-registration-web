@@ -10,9 +10,7 @@ angular.module('confRegistrationWebApp')
     $scope.defaultViewId = 'default';
     $scope.activeRegViewId = $scope.showAllViewId;
     $scope.savedState = '';
-
-    // collect completed registrations
-    //registrations = _.filter(registrations, function (item) { return item.completed !== false; });
+    $scope.showRegistrationsCompleted = true;
 
     // collect all 'Content' blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
@@ -316,6 +314,17 @@ angular.module('confRegistrationWebApp')
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
 
       return paymentCategory.matches(registration.totalPaid, registration.totalDue);
+    };
+
+    $scope.completeStatus = function(registration){
+      if ($scope.showRegistrationsCompleted) {
+        if (registration.completed) {
+          return true;
+        }
+      } else {
+        return true;
+      }
+
     };
 
     $scope.paidInFull = function (registration) {

@@ -59,7 +59,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus)) | orderBy:answerSort:reversesort">
+    <tr data-ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
       <td data-ng-repeat="block in blocks | filter:{ visible: true }">
         <show-answer block="block" registration="registration"></show-answer>
       </td>
@@ -72,7 +72,12 @@
     </tr>
     </tbody>
   </table>
-  <p>Showing {{regFilter.length}} of {{registrations.length}} registration(s)</p>
+  <p>Showing {{regFilter.length}} of {{registrations.length}} registration(s)
+    <input type="checkbox" id="showRegistrationsCompleted" ng-model="showRegistrationsCompleted">
+    <label class="crs-checkbox-label" for="showRegistrationsCompleted"><span></span>
+      Only show completed registrations
+    </label>
+  </p>
 </div>
 <div data-ng-show="registrations.length == 0">
   <p>No one has registered for this event yet.</p>
