@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     $scope.savedState = '';
 
     // collect completed registrations
-    registrations = _.filter(registrations, function (item) { return item.completed !== false; });
+    //registrations = _.filter(registrations, function (item) { return item.completed !== false; });
 
     // collect all 'Content' blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
