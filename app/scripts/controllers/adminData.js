@@ -316,7 +316,7 @@ angular.module('confRegistrationWebApp')
       return paymentCategory.matches(registration.totalPaid, registration.totalDue);
     };
 
-    $scope.completeStatus = function(registration){
+    $scope.completeStatus = function (registration) {
       if ($scope.showRegistrationsCompleted) {
         if (registration.completed) {
           return true;
