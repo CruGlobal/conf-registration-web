@@ -38,6 +38,7 @@
         <address-question block="block" ng-switch-when="addressQuestion"></address-question>
         <number-question block="block" ng-switch-when="numberQuestion"></number-question>
         <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+        <date-question block="block" ng-switch-when="dateQuestion"></date-question>
       </ng-switch>
 
       <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
