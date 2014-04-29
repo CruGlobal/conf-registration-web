@@ -94,3 +94,11 @@ angular.module('confRegistrationWebApp')
       restrict: 'E'
     };
   });
+
+angular.module('confRegistrationWebApp')
+  .directive('dateQuestion', function () {
+    return {
+      templateUrl: 'views/blocks/dateQuestion.html',
+      restrict: 'E'
+    };
+  });
