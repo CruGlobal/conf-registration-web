@@ -10,10 +10,9 @@
       <label class="crs-radio-label" for="{{block.id}}{{choice}}">
         <span></span>
         <tag ng-show="!editMode">{{choice}}</tag>
-        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a class="crs-icon-container" href=""
-                                                                              data-ng-click="editBlockDeleteOption($index)">
-          <div data-icon="&#xe025;" class="icon crs-icon crs-icon-cross"></div>
-        </a></tag>
+        <tag ng-show="editMode"><input type="text" data-ng-model="choice">
+          <a class="crs-icon-container" href="" ng-click="editBlockDeleteOption($index)">Delete</a>
+        </tag>
       </label>
     </li>
     <li ng-show="editMode">
