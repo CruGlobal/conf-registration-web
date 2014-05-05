@@ -2,6 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid) {
+    console.log(permissions);
 
     $scope.conference = conference;
     $scope.blocks = [];

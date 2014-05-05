@@ -11,8 +11,8 @@
           <li id="selectQuestion">Dropdown</li>
           <li id="numberQuestion">Number</li>
           <li id="dateQuestion">Date</li>
-          <li id="nameQuestion">Name</li>
-          <li id="emailQuestion">Email</li>
+          <li id="nameQuestion" default-profile="NAME">Name</li>
+          <li id="emailQuestion" default-profile="EMAIL">Email</li>
           <li id="phoneQuestion" default-profile="PHONE">Phone</li>
           <li id="addressQuestion" default-profile="ADDRESS">Address</li>
           <li id="genderQuestion" default-profile="GENDER">Gender</li>
@@ -77,10 +77,8 @@
         <p class="lead">This form is empty (but your heart isn’t)! Drag form elements from the left to the area below. Once its here, you can customize each element.</p>
         <p class="lead">Don’t want to start from scratch? Start with the <a class="crs-anchor" href="#">Retreat Template</a>.</p>
       </div>
-      <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
-
-      <div><button data-ng-click="addNewPage();">Add New Page</button></div>
-      <div class="crs-formElements" data-ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
+      <div><button ng-click="addNewPage();">Add New Page</button> <button ng-click="saveConf();" ng-show="saveAvailable">Save</button></div>
+      <div class="crs-formElements" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
         <page></page>
       </div>
     </div>

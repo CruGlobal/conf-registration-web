@@ -21,6 +21,10 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.createEditDialog = function () {
+          if ($scope.$parent.permissions.permissionLevelInt === 1) {
+            console.log('No permission to edit field.');
+            return;
+          }
           if ($scope.answerEditable) {
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
