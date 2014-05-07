@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminWizardCtrl', function ($scope, $modal, conference, Model, GrowlService, ConfCache, $http, $window) {
-    //Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
+  .controller('AdminWizardCtrl', function ($scope, $modal, conference, Model, GrowlService, ConfCache, $http) {
     $scope.saveAvailable = false;
 
     setTimeout(function () {
