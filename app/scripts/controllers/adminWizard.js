@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
       $scope.loadConferenceToScope();
     }, 400);
 
-    $scope.loadConferenceToScope = function(){
+    $scope.loadConferenceToScope = function () {
       $scope.$apply(function () {
         $scope.conference = angular.copy(conference);
       });
@@ -30,7 +30,6 @@ angular.module('confRegistrationWebApp')
       } else {
         $scope.saveAvailable = false;
       }
-      //console.log(conf);
     }, true);
 
     $scope.deletePage = function (pageId, growl) {
