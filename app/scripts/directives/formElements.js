@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       link: function postLink(scope) {
         var newDragBlock = '';
-        $('.connectedSortable').sortable({
+        jQuery('.connectedSortable').sortable({
           connectWith: '.connectedSortable',
           placeholder: 'crs-dragBack',
           stop: function (event, ui) {
@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
           }
         });
 
-        $('.crs-accordionSub li').draggable({
+        jQuery('.crs-accordionSub li').draggable({
           connectToSortable: '.connectedSortable',
           helper: 'clone',
           revert: 'invalid',

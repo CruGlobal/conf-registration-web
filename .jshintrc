@@ -26,6 +26,7 @@
     "bugsense": false,
     "_": false,
     "$": false,
-    "alert": false
+    "alert": false,
+    "jQuery": false
   }
 }

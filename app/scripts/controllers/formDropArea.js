@@ -24,9 +24,18 @@ angular.module('confRegistrationWebApp')
       var origPageIndex = tempPositionArray[blockId].page;
       var origBlock = $scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block];
       origBlock.pageId = newPage;
-      $scope.$apply(function (scope) {
-        scope.deleteBlock(blockId, false);
-        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
+
+      var pages;
+      $scope.$apply(function () {
+        $scope.deleteBlock(blockId, false);
+        $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
+
+        //empty & reload pages to refresh view
+        pages = $scope.conference.registrationPages;
+        $scope.conference.registrationPages = [];
+      });
+      $scope.$apply(function () {
+        $scope.conference.registrationPages = pages;
       });
     };
 

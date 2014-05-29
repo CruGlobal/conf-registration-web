@@ -19,6 +19,20 @@ angular.module('confRegistrationWebApp')
         callback(cachedObject, path);
       } else {
         $http.get(path).success(function (data) {
+          switch (data.permissionLevel) {
+          case 'CREATOR':
+            data.permissionLevelInt = 4;
+            break;
+          case 'FULL':
+            data.permissionLevelInt = 3;
+            break;
+          case 'UPDATE':
+            data.permissionLevelInt = 2;
+            break;
+          case 'VIEW':
+            data.permissionLevelInt = 1;
+            break;
+          }
           update(path, data);
           callback(data, path);
         });

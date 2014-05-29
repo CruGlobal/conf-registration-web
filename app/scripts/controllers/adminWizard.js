@@ -1,13 +1,34 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminWizardCtrl', function ($scope, $modal, conference, Model, GrowlService, ConfCache) {
-    Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
+  .controller('AdminWizardCtrl', function ($scope, $modal, conference, Model, GrowlService, ConfCache, $http) {
+    $scope.saveAvailable = false;
 
-    //Update cache
+    setTimeout(function () {
+      $scope.loadConferenceToScope();
+    }, 400);
+
+    $scope.loadConferenceToScope = function () {
+      $scope.$apply(function () {
+        $scope.conference = angular.copy(conference);
+      });
+    };
+
+    $scope.saveConf = function () {
+      $http.put('conferences/' + conference.id, $scope.conference).then(function () {
+        conference = angular.copy($scope.conference);
+        $scope.saveAvailable = false;
+
+        //update cache
+        ConfCache.update(conference.id, conference);
+      });
+    };
+
     $scope.$watch('conference', function (conf) {
-      if (angular.isDefined(conference)) {
-        ConfCache.update(conference.id, conf);
+      if (!angular.equals(conf, conference)) {
+        $scope.saveAvailable = true;
+      } else {
+        $scope.saveAvailable = false;
       }
     }, true);
 

@@ -2,7 +2,6 @@
 
 angular.module('confRegistrationWebApp')
   .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid) {
-
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.reversesort = false;
