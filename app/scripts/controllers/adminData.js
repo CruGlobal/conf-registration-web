@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AdminDataCtrl', function ($scope, registrations, conference, $modal, permissions, $http, uuid) {
+  .controller('AdminDataCtrl', function ($scope, registrations, conference, RegViewCache, $modal, permissions, $http, uuid) {
 
     $scope.conference = conference;
     $scope.blocks = [];
@@ -20,36 +20,6 @@ angular.module('confRegistrationWebApp')
           $scope.blocks.push(block);
         }
       });
-    });
-
-    // get all the registration views for this conference
-    $http({method: 'GET',
-      url: 'conferences/' + conference.id + '/registration-views'
-    }).success(function (data) {
-      $scope.registrationViews = _.sortBy(data, 'name');
-
-      var profileBlocks = function (blocks) {
-        return _.filter(blocks, function (block) {
-          var profileTypes = [ 'EMAIL', 'NAME' ];
-          return profileTypes.indexOf(block.profileType) > -1;
-        });
-      };
-
-      $scope.registrationViewsDropdown = [
-        {
-          id: $scope.defaultViewId,
-          name: '-Default-',
-          visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
-        },
-        {
-          id: $scope.showAllViewId,
-          name: '-Show All-',
-          visibleBlockIds: _.pluck($scope.blocks, 'id')
-        }
-      ];
-
-      $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat($scope.registrationViews);
-      $scope.setRegView();
     });
 
     // toggle (show/hide) the column and auto save the registration view
@@ -157,6 +127,7 @@ angular.module('confRegistrationWebApp')
         $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(thisView);
         $scope.activeRegViewId = thisView.id;
         $scope.savedState = 'Saved';
+        RegViewCache.update(conference.id, $scope.registrationViews);
       }).error(function () {
       });
     };
@@ -180,10 +151,38 @@ angular.module('confRegistrationWebApp')
 
         $scope.activeRegViewId = $scope.defaultViewId;
         $scope.setRegView();
-
+        RegViewCache.update(conference.id, $scope.registrationViews);
       }).error(function () {
       });
     };
+
+    // get all the registration views for this conference
+    RegViewCache.get(conference.id, function (data) {
+      $scope.registrationViews = _.sortBy(data, 'name');
+
+      var profileBlocks = function (blocks) {
+        return _.filter(blocks, function (block) {
+          var profileTypes = [ 'EMAIL', 'NAME' ];
+          return profileTypes.indexOf(block.profileType) > -1;
+        });
+      };
+
+      $scope.registrationViewsDropdown = [
+        {
+          id: $scope.defaultViewId,
+          name: '-Default-',
+          visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
+        },
+        {
+          id: $scope.showAllViewId,
+          name: '-Show All-',
+          visibleBlockIds: _.pluck($scope.blocks, 'id')
+        }
+      ];
+
+      $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat($scope.registrationViews);
+      $scope.setRegView();
+    });
 
     $scope.findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
