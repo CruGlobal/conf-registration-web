@@ -2,6 +2,14 @@
 
 angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, $rootScope, conference, currentRegistration, $routeParams, $location) {
+    $rootScope.globalPage = {
+      type: 'registrations',
+      class: '',
+      title: conference.name,
+      confId: conference.id,
+      footer: false
+    };
+
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();

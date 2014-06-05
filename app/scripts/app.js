@@ -3,15 +3,22 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {
-        templateUrl: 'views/admin-dashboard.html',
-        controller: 'MainCtrl',
+        templateUrl: 'views/landing.html',
+        controller: 'landingCtrl',
+        resolve: {
+          //enforceAuth: $injector.get('enforceAuth')
+        }
+      })
+      .when('/eventDashboard', {
+        templateUrl: 'views/eventDashboard.html',
+        controller: 'eventDashboardCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth')
         }
       })
-      .when('/wizard/:conferenceId', {
-        templateUrl: 'views/admin-wizard.html',
-        controller: 'AdminWizardCtrl',
+      .when('/eventForm/:conferenceId', {
+        templateUrl: 'views/eventForm.html',
+        controller: 'eventFormCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
@@ -52,9 +59,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/adminData/:conferenceId', {
-        templateUrl: 'views/adminData.html',
-        controller: 'AdminDataCtrl',
+      .when('/eventRegistrations/:conferenceId', {
+        templateUrl: 'views/eventRegistrations.html',
+        controller: 'eventRegistrationsCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
@@ -68,14 +75,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/adminDetails/:conferenceId', {
-        templateUrl: 'views/adminDetails.html',
-        controller: 'AdminDetailsCtrl',
+      .when('/eventDetails/:conferenceId', {
+        templateUrl: 'views/eventDetails.html',
+        controller: 'eventDetailsCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
-          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
-          }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -116,9 +120,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/permissions/:conferenceId', {
-        templateUrl: 'views/admin-permissions.html',
-        controller: 'AdminPermissionsCtrl',
+      .when('/eventPermissions/:conferenceId', {
+        templateUrl: 'views/eventPermissions.html',
+        controller: 'eventPermissionsCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
@@ -181,13 +185,13 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
   })
   .run(function ($rootScope, $location) {
     $rootScope.location = $location;
-    $rootScope.$watch('location.url()', function (newVal) {
+    /*$rootScope.$watch('location.url()', function (newVal) {
       $rootScope.adminDashboard = angular.equals(newVal, '/');
 
       $rootScope.subHeadStyle = {
         height: $rootScope.adminDashboard ? '100px' : '5px'
       };
-    });
+    });*/
   })
   .config(function ($provide) {
     $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {

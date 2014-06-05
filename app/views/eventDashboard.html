@@ -1,0 +1,137 @@
+<div class="row">
+  <div class="col-xs-8">
+    <div class="row">
+      <div class="col-xs-8">
+        <p>Showing <strong>{{filteredEvents.length}} of {{conferences.length}}</strong> events</p>
+      </div>
+      <div class="col-xs-4">
+        <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName">
+      </div>
+    </div>
+    <ul id="sortable">
+      <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName})">
+        <h2>{{event.name}}</h2>
+        <span>#{{event.id}}</span>
+        <p><i class="fa fa-users green"></i> <strong>{{event.registrationCount}}</strong> Registered</p>
+        <ul class="horizontal">
+          <li><a href="#/eventRegistrations/{{event.id}}">Registrations</a></li>
+          <li><a href="#/eventForm/{{event.id}}">Edit Form</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id)">Clone</a></li>
+        </ul>
+      </li>
+      <li class="form expired">
+        <h2>2012 Summer Retreat</h2>
+        <a class="hamburger-link handle">
+          <i class="fa fa-bars"></i>
+        </a>
+        <span>#33455</span>
+        <p><i class="fa fa-users green"></i> <strong>195</strong> Registered</p>
+        <ul class="horizontal">
+          <li><a href="#">Registrations</a></li>
+          <li><a href="#">Edit</a></li>
+          <li><a href="#">Clone</a></li>
+        </ul>
+      </li>
+    </ul>
+    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
+    <a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>
+  </div>
+  <div class="col-xs-1 line">
+  </div>
+  <aside class="col-xs-3">
+    <a href="#" class="btn btn-primary help-btn" role="button"><i class="fa fa-medkit"></i> I Need Help!</a>
+    <section>
+      <h3>Questions?</h3>
+      <p>
+        Not sure what to do?  Go to this handy guide to find everything you need to get started.
+      </p>
+      <a class="link" href="#">FAQ’S <i class="fa fa-chevron-right"></i></a>
+    </section>
+    <section>
+      <h3>Area Title</h3>
+      <p>
+        This is a text area where you can highlight a feature or page on the site.
+      </p>
+      <a class="link" href="#">Link Goes Here <i class="fa fa-chevron-right"></i></a>
+    </section>
+  </aside>
+</div>
+
+
+
+<!--
+
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <ul class="crs--card-stack">
+
+      &lt;!&ndash; Existing Events &ndash;&gt;
+      <li class="crs--card-holder  span3  crs--flip-container" ng-repeat="conference in conferences" ng-class="flip" ng-controller="ConferenceCardCtrl">
+
+        &lt;!&ndash; The flipper surrounds the entire card to allow for the pure CSS card flip effect&ndash;&gt;
+        <div class="flipper">
+
+          &lt;!&ndash; Begin Front Content&ndash;&gt;
+          <div class="front  crs--event-card">
+
+            <div class="crs--card-content  full-height">
+              <a class="crs--event-link  block-center  full-height" href="#/adminData/{{conference.id}}">
+                <h2 class="crs--event-title  center-vertical"></h2>
+              </a>
+            </div>
+
+            <div class="crs--card-meta">
+              <a class="crs--card-count  absolute" href="#"><span></span></a>
+              <button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
+            </div>
+
+          </div> &lt;!&ndash; End Front Content&ndash;&gt;
+ 
+          &lt;!&ndash; Begin Back Content&ndash;&gt;
+          <div class="back  crs--event-card">
+
+            <div class="crs--card-content  crs--card-actions">
+              <ol class="crs--actions-list  no-numbers  flush--ends">
+                <li>
+                  <a href="" data->Clone</a>
+                </li>
+                <li>
+                  <a href="">Register</a>
+                </li>
+                <li>
+                  <a href="">Edit</a>
+                </li>
+                <li>
+                  <a href="#">Delete</a>
+                </li>
+              </ol>
+            </div>
+
+            <div class="crs--card-meta">
+              <a class="crs--card-count  absolute" href="#"><span>{{conference.totalRegistrations}}</span></a>
+              <button class="crs--card-sprocket  pointer  absolute"  ng-click="flipCard()"></button>	
+            </div>
+          </div>
+
+        </div>  &lt;!&ndash; End Back Content&ndash;&gt;
+        
+      </li>&lt;!&ndash; End Existing Event Cards &ndash;&gt;
+
+      &lt;!&ndash; Card to create a new event &ndash;&gt;
+      <li class="crs--card-holder span3">
+        <div class="crs--event-card  crs--event-card__new  front">
+          <div class="crs--card-content">
+            <a class="crs--event-link" href=""  data-ng-click="createConference()">
+              <figure class="center-vertical">
+                <img class="crs--plus-icon" src="images/icon-add.png"  width="74px"  height="74px" /><span>Make a new one!</span>
+              </figure>
+            </a>
+          </div>
+        </div>
+      </li>
+
+    </ul>&lt;!&ndash; END CRS--CARD-STACK &ndash;&gt;
+  </div>&lt;!&ndash; END ROW-FLUID &ndash;&gt;
+</div>&lt;!&ndash; END CONTAINER-FLUID &ndash;&gt;
+-->

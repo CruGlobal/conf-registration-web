@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp')
   .service('ProfileCache', function ProfileCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('profile');
-    var path = '/profile';
+    var path = 'profile';
 
     var checkCache = function (path, callback) {
       var cachedObject = cache.get(path);

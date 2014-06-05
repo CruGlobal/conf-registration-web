@@ -1,0 +1,150 @@
+  <div class="modal-header">
+    <button type="button" class="close" data-ng-click="close()" aria-hidden="true">&times;</button>
+    <h4>Payments</h4>
+  </div>
+    <div class="modal-body">
+      <tabset>
+        <tab heading="Summary">
+          <table class="table table-striped">
+            <tr>
+              <th>Cost</th>
+              <th>Paid</th>
+              <th>Remaining Balance</th>
+            </tr>
+            <tr>
+              <td>${{registration.totalDue}}</td>
+              <td>${{registration.totalPaid}}</td>
+              <td>${{registration.totalDue - registration.totalPaid}}</td>
+            </tr>
+          </table>
+          <button class="btn" ng-click="updateCost.show = true" ng-hide="updateCost.show">Adjust Cost</button>
+          <div class="row" ng-show="updateCost.show">
+            <div class="col-xs-6">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                <input type="text" class="form-control marginless" placeholder="Updated cost" ng-model="updateCost.newTotal">
+              </div><br>
+              <button class="btn btn-success" ng-click="updateCost()">Save</button> <a href="" ng-click="updateCost.show=false">Cancel</a>
+            </div>
+          </div>
+        </tab>
+        <tab heading="History">
+          <table class="table table-striped">
+            <tbody>
+            <tr>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Refund</th>
+            </tr>
+            <tr ng-repeat="payment in registration.pastPayments">
+              <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+              <td><span data-ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">-</span>${{payment.amount}}</td>
+              <td>{{payment.paymentType}}</td>
+              <td><span ng-show="canBeRefunded(payment)"><a href="" ng-click="refund(payment)">Refund</a></span></td>
+            </tr>
+            </tbody>
+          </table>
+        </tab>
+        <tab heading="Add" ng-show="registration.balanceRemaining !== 0"><br>
+          <div class="row form-group">
+            <div class="col-sm-7">
+              <label>Payment Type</label>
+              <select ng-model="newPayment.paymentType" class="form-control">
+                <option value="CREDIT_CARD">Credit Card</option>
+                <option value="SCHOLARSHIP">Scholarship</option>
+                <option value="TRANSFER">Transfer</option>
+                <option value="CHECK">Check</option>
+                <option value="CASH">Cash</option>
+              </select>
+            </div>
+
+            <div class="col-sm-5">
+              <label>Amount</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                <input type="text" class="form-control marginless" placeholder="20.00" ng-model="newPayment.amount">
+              </div>
+            </div>
+          </div>
+          <div ng-show="newPayment.paymentType === 'CREDIT_CARD'">
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input ng-model="newPayment.creditCard.nameOnCard" type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>Credit Card Number</label>
+              <input ng-model="newPayment.creditCard.number" type="text" class="form-control" autocomplete="off" maxlength="16" />
+            </div>
+
+            <div class="form-group">
+              <label>Credit Card CVV</label>
+              <input ng-model="newPayment.creditCard.cvvNumber" type="text" class="form-control" autocomplete="off" maxlength="4" />
+            </div>
+
+            <div class="row form-group">
+              <div class="col-sm-7">
+                <label>Credit Card Expiration Month</label>
+                <select ng-model="newPayment.creditCard.expirationMonth" class="form-control">
+                  <option value=''>Month</option>
+                  <option value='01'>01 - January</option>
+                  <option value='02'>02 - February</option>
+                  <option value='03'>03 - March</option>
+                  <option value='04'>04 - April</option>
+                  <option value='05'>05 - May</option>
+                  <option value='06'>06 - June</option>
+                  <option value='07'>07 - July</option>
+                  <option value='08'>08 - August</option>
+                  <option value='09'>09 - September</option>
+                  <option value='10'>10 - October</option>
+                  <option value='11'>11 - November</option>
+                  <option value='12'>12 - December</option>
+                </select>
+              </div>
+
+              <div class="col-sm-5">
+                <label>Credit Card Expiration Year</label>
+                <select ng-model="newPayment.creditCard.expirationYear" class="form-control">
+                  <option value=''>Year</option>
+                  <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div ng-show="newPayment.paymentType === 'SCHOLARSHIP'">
+            <div class="form-group">
+              <label>Description</label>
+              <input ng-model="newPayment.scholarship.description" type="text" class="form-control" />
+            </div>
+          </div>
+
+          <div ng-show="newPayment.paymentType === 'TRANSFER'">
+            <div class="form-group">
+              <label>Source (account/chartfield)</label>
+              <input ng-model="newPayment.transfer.source" type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <input ng-model="newPayment.scholarship.description" type="text" class="form-control" />
+            </div>
+          </div>
+
+          <div data-ng-show="newPayment.paymentType === 'CHECK'">
+            <div class="form-group">
+              <label>Check Number</label>
+              <input ng-model="newPayment.check.checkNumber" type="text" class="form-control" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
+          </div>
+        </tab>
+      </tabset>
+</div>
+<!--<div class="modal-footer">
+    <input type="submit" id="submit" class="btn btn-primary" data-ng-click="close()" value="Close" />
+</div>-->

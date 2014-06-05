@@ -1,0 +1,15 @@
+<ul class="horizontal">
+  <li class="blue"><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+  <li class="blue"><a ng-href="#/eventForm/{{globalPage.confId}}">Edit Form</a></li>
+  <li class="blue"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+  <li class="dropdown">
+    <button class="dropdown-toggle" type="button" id="subnav-more" data-toggle="dropdown">
+      <i class="fa fa-plus-circle"></i> More
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a ng-href="#/eventPermissions/{{globalPage.confId}}">Event Permissions</a></li>
+      <li><a ng-href="#/preview/{{globalPage.confId}}/page/">Preview Registration Form</a></li>
+      <li><a href="" ng-click="deleteConference(globalPage.confId)">Delete Event</a></li>
+    </ul>
+  </li>
+</ul>
