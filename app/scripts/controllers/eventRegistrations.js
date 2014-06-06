@@ -4,7 +4,8 @@ angular.module('confRegistrationWebApp')
   .controller('eventRegistrationsCtrl', function ($rootScope, $scope, registrations, conference, RegViewCache, $modal, permissions, $http, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      class: 'registrations',
+      mainClass: 'registrations',
+      bodyClass: '',
       title: conference.name,
       confId: conference.id,
       footer: true
@@ -68,7 +69,7 @@ angular.module('confRegistrationWebApp')
           var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
           if (regViewNames.indexOf(viewName) > -1) {
             var errorModalOptions = {
-              templateUrl: 'views/errorModal.html',
+              templateUrl: 'views/modals/errorModal.html',
               controller: 'genericModal',
               resolve: {
                 message: function () {
@@ -334,5 +335,40 @@ angular.module('confRegistrationWebApp')
 
     $scope.paidInFull = function (registration) {
       return registration.totalPaid >= registration.totalDue;
+    };
+
+
+    var expandedRegistrations = [];
+    $scope.expandRegistration = function (r) {
+      if (_.contains(expandedRegistrations, r)) {
+        _.remove(expandedRegistrations, function (i) { return i === r; });
+      } else {
+        expandedRegistrations.push(r);
+      }
+    };
+    $scope.isExpanded = function (r) {
+      return _.contains(expandedRegistrations, r);
+    };
+
+    $scope.editRegistration = function (r) {
+      var editRegistrationDialogOptions = {
+        templateUrl: 'views/modals/editRegistration.html',
+        controller: 'editRegistrationModalCtrl',
+        resolve: {
+          registration: function () {
+            return r;
+          },
+          conference: function () {
+            return conference;
+          }
+        }
+      };
+
+      $modal.open(editRegistrationDialogOptions).result.then(function (result) {
+        if (angular.isDefined(result)) {
+          var index = _.findIndex(registrations, { 'id': result.id });
+          $scope.registrations[index] = result;
+        }
+      });
     };
   });

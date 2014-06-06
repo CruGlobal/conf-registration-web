@@ -1,44 +1,43 @@
-<div class="row-fluid">
-  <div class="span12">
-    <h2>{{conference.name}}</h2>
-  </div>
-  <div class="row-fluid">
-    <div class="span3" data-ng-show="registration.completed">
+<div class="row">
+  <div class="well">
+    <div ng-show="registration.completed">
       <h4>You are registered!</h4>
       <p>Keep this information for your records.</p>
     </div>
 
-    <div class="span3" data-ng-show="registration.completed === false">
-      <h4>Please review your registration.</h4>
-    </div>
+    <input type="button" class="btn btn-small pull-right" ng-click="editRegistration()" value="Edit my registration" ng-show="!registration.completed">
+    <p ng-show="!registration.completed">Please review your registration.</p>
 
-    <div class="span11 well">
-      <div align="right"><input type="button" class="btn btn-small" ng-click="editRegistration()" value="Edit my registration" ng-show="!registration.completed"></div>
-      <ul class="unstyled crs--review">
-        <li data-ng-repeat="block in blocks">
-          <label>{{block.title}}</label>
-          <show-answer block="block" registration="registration"></show-answer>
-        </li>
-      </ul>
-    </div>
-
-    <div class="span11 well" data-ng-show="currentPayment.amount > 0">
-      <div align="right"><input type="button" class="btn btn-small" data-ng-click="editPayment()" value="Edit my payment" data-ng-show="!registration.completed"></div>
-      <ul class="unstyled crs--review">
-        <li><label>Payment amount:</label>${{currentPayment.amount}}</li>
-          <li><label>Card:</label>****-****-****-{{currentPayment.creditCardNumber.slice(-4)}}</li>
-        <li><label>Expiration Date:</label>{{currentPayment.creditCardExpirationMonth}}/{{currentPayment.creditCardExpirationYear}}</li>
-      </ul>
-    </div>
+    <dl ng-repeat="block in blocks">
+      <dt>{{block.title}}</dt>
+      <dd><show-answer block="block" registration="registration"></show-answer></dd>
+    </dl>
   </div>
 </div>
-<div class="row-fluid" data-ng-show="registration.completed === false">
+
+<div class="row" ng-show="currentPayment.amount > 0">
   <div class="well">
-    <input type="button" class="btn btn-success" data-ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview'">
+    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit my payment" ng-show="!registration.completed">
+    <dl class="dl-horizontal">
+      <dt>Payment amount</dt>
+      <dd>${{currentPayment.amount}}</dd>
+
+      <dt>Card</dt>
+      <dd>****-****-****-{{currentPayment.creditCard.number.slice(-4)}}</dd>
+
+      <dt>Expiration Date</dt>
+      <dd>{{currentPayment.creditCard.expirationMonth}}/{{currentPayment.creditCard.expirationYear}}</dd>
+    </dl>
+  </div>
+</div>
+
+<div class="row" ng-show="!registration.completed">
+  <div class="well">
+    <input type="button" class="btn btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview'">
     <span ng-show="registerMode==='preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>
-<div class="row-fluid" data-ng-show="registration.completed">
+<div class="row" ng-show="registration.completed">
   <div class="well">
     <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
   </div>

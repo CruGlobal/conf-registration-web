@@ -4,7 +4,8 @@ angular.module('confRegistrationWebApp')
   .controller('eventPermissionsCtrl', function ($rootScope, $scope, conference, $http) {
     $rootScope.globalPage = {
       type: 'admin',
-      class: 'registrations',
+      mainClass: 'registrations',
+      bodyClass: '',
       title: conference.name,
       confId: conference.id,
       footer: true

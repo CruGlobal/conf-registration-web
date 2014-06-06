@@ -3,8 +3,9 @@
 angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, $rootScope, conference, currentRegistration, $routeParams, $location) {
     $rootScope.globalPage = {
-      type: 'registrations',
-      class: '',
+      type: 'registration',
+      mainClass: 'front-form',
+      bodyClass: 'frontend',
       title: conference.name,
       confId: conference.id,
       footer: false

@@ -10,22 +10,40 @@ angular.module('confRegistrationWebApp')
         $scope._ = _;
 
         if (!$scope.wizard) {
-          RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
-            var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+          if (angular.isDefined($scope.adminEditRegistration)) {
+            //registration object provided
+            var answerForThisBlock = _.where($scope.adminEditRegistration.answers, { 'blockId': $scope.block.id });
             if (answerForThisBlock.length > 0) {
               $scope.answer = answerForThisBlock[0];
             }
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
-                registrationId : currentRegistration.id,
+                registrationId : $scope.adminEditRegistration.id,
                 blockId : $scope.block.id,
                 value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
               };
-              currentRegistration.answers.push($scope.answer);
+              $scope.adminEditRegistration.answers.push($scope.answer);
             }
-          });
-          AnswerCache.syncBlock($scope, 'answer');
+          } else {
+            //registration not provided, use current users
+            RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
+              var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+              if (answerForThisBlock.length > 0) {
+                $scope.answer = answerForThisBlock[0];
+              }
+              if (angular.isUndefined($scope.answer)) {
+                $scope.answer = {
+                  id : uuid(),
+                  registrationId : currentRegistration.id,
+                  blockId : $scope.block.id,
+                  value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+                };
+                currentRegistration.answers.push($scope.answer);
+              }
+            });
+            AnswerCache.syncBlock($scope, 'answer');
+          }
         }
 
         $scope.editBlockAddOption = function () {

@@ -1,72 +1,80 @@
-<div style="text-align:center;font-size:24px;background-color:orange;padding:8px;" ng-show="registerMode==='preview'">Preview Mode</div>
-<div class="container-fluid register">
-  <div class="crs--register  page-narrow  center-block">
-    <div class="row-fluid crs--no-padding-top">
-      <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
-    </div>
-
-    <div data-ng-show="!conference.registrationOpen">
+<div class="row" ng-show="!conference.registrationOpen">
+  <div class="col-xs-12">
+    <article>
       <p>Sorry, registration for this event is not open.</p>
-    </div>
-    <div data-ng-show="conference.registrationOpen">
-      <div class="row-fluid" data-ng-show="currentRegistration.completed">
-        <p>You have already successfully registered for {{conference.name}}!</p>
+    </article>
+  </div>
+</div>
 
-        <div data-ng-show="currentRegistration.remainingBalance > 0">
+<div ng-show="conference.registrationOpen">
+  <div class="row" ng-show="currentRegistration.completed">
+    <div class="col-xs-12">
+      <article>
+        <p>You have already successfully registered for '{{conference.name}}'.</p>
+
+        <div ng-show="currentRegistration.remainingBalance > 0">
           <p><strong>Remaining Balance:</strong> ${{currentRegistration.remainingBalance}}<br>
             <a href="#/payment/{{conference.id}}">Make Payment</a></p>
         </div>
 
-        <div data-ng-show="currentRegistration.pastPayments.length > 0">
+        <div ng-show="currentRegistration.pastPayments.length > 0">
           <p><strong>Payments</strong></p>
           <ul>
-            <li data-ng-repeat="payments in currentRegistration.pastPayments">${{payments.amount}} on {{payments.transactionDatetime | date:'EEEE, MMM d, y'}}</li>
-          </ul>
-        </div>
-
-        <p><strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}
-          <br>{{conference.contactPersonPhone}}
-          <br><a href="{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
-      </div>
-
-      <div data-ng-show="currentRegistration.completed === false">
-        <div class="row-fluid">
-          <ul class="breadcrumb">
-            <li data-ng-repeat="page in conference.registrationPages">
-              <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}"
-                 ng-class="{'link--disabled': $index > activePageIndex, 'js-is-completed': $index <= activePageIndex}">
-                <i class="icon  icon-numbered"></i>
-                <span>{{page.title}}</span>
-              </a>
+            <li ng-repeat="payments in currentRegistration.pastPayments">
+              ${{payments.amount}} on {{payments.transactionDatetime | date:'EEEE, MMM d, y'}}
             </li>
           </ul>
         </div>
-        <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId">
-        </page>
-        <div ng-show="activePageId == ''">
-          <h1>Welcome</h1>
 
-          <h3>{{conference.description}}</h3>
+        <p>
+          <strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}
+          <br>{{conference.contactPersonPhone}}
+          <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a>
+        </p>
+      </article>
+    </div>
+  </div>
 
-          <p>{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} -
-            {{conference.eventEndTime | date:'EEEE, MMM d, y h:mm a'}}</p>
-
-          <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
-            {{conference.locationState}}</p>
-
-          <p ng-show="isConferenceCost()"><strong>Cost:</strong> ${{conference.conferenceCost}}
-          </p>
-
-          <p><strong>Contact:</strong><br>{{conference.contactPersonName}}
-            <br>{{conference.contactPersonPhone}}
-            <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></p>
-
-          <div>
-            <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}">
-              <button class="btn btn-block btn-success btn-large">Register</button>
+  <div ng-show="currentRegistration.completed === false">
+    <div class="row">
+      <div class="col-xs-12">
+        <ul class="nav nav-pills">
+          <li ng-repeat="page in conference.registrationPages" ng-class="{'active': $index === activePageIndex}">
+            <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}">
+              <span class="circle">{{$index+1}}</span>
+              <span ng-bind="page.title"></span>
             </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <article ng-show="activePageId == ''">
+          <h2>Welcome</h2>
+          <p ng-bind="conference.description"></p>
+          <div class="well creme2">
+            <p>{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} -
+              {{conference.eventEndTime | date:'EEEE, MMM d, y h:mm a'}}</p>
+
+            <label ng-show="isConferenceCost()">Cost:</label>
+            <p ng-show="isConferenceCost()">${{conference.conferenceCost}}</p>
+
+            <label>Location:</label>
+            <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
+              {{conference.locationState}}</p>
+
+            <label>Contact:</label>
+            <p>{{conference.contactPersonName}}
+              <br>{{conference.contactPersonPhone}}
+              <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a>
+            </p>
           </div>
-        </div>
+          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}" class="btn btn-success btn-lg full">
+            Register Now
+          </a>
+        </article>
+        <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>
       </div>
     </div>
   </div>

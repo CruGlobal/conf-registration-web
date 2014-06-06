@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined($cookies.crsToken) && $cookies.crsToken !== '' && $cookies.crsAuthProviderType !== 'NONE') {
         defer.resolve('Authorization present.');
 
-        if(angular.isUndefined($rootScope.globalUsername)){
+        if (angular.isUndefined($rootScope.globalUsername)) {
           ProfileCache.getCache(function (data) {
             $rootScope.globalUsername = data.authProviderUsername;
           });

@@ -1,0 +1,52 @@
+<!--<div class="row-fluid">
+  <div class="span12">
+    <div ng-show="!editPageMode">
+      <div ng-show="wizard" style="float:right;">
+        <a href="" ng-click="editPageMode = wizard && !editPageMode">Edit</a>
+        <a href="" ng-click="deletePage(page.id, true)">Delete</a>
+      </div>
+      <h3 class="crs--page-title">{{page.title}}</h3>
+    </div>
+  </div>
+</div>
+<div ng-show="editPageMode">
+  <div style="float:right;"><a href="" ng-click="editPageMode = wizard && !editPageMode">Save</a></div>
+  <h3 class="crs--page-title"><input type="text" ng-model="page.title" ng-required="true"
+                                     ng-enter="editPageMode = wizard && !editPageMode"></h3>
+</div>
+<div class="row-fluid">
+  <form class="crs-form" >
+
+    <ul class="connectedSortable" id="{{page.id}}">
+      <li ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></li>
+    </ul>
+    <div class="page-narrow  center-block">
+
+      <div class="span4" >
+
+      </div>
+    </div>
+  </form>
+</div>-->
+
+<article>
+  <h2 ng-bind="page.title">About You</h2>
+  <form name="pageForm">
+    <div ng-repeat="block in page.blocks" block="block" crs-block></div>
+    <br>
+    <button class="btn btn-success btn-lg eighty"
+            type="submit"
+            ng-disabled="!pageForm.$valid"
+            ng-click="validateAndGoToNext()"
+            ng-show="nextPage">Next Page
+    </button>
+
+    <button class="btn btn-success btn-lg eighty"
+            ng-click="goToReviewOrPayment()"
+            ng-disabled="!registrationComplete"
+            ng-show="!nextPage">Continue
+    </button>
+    <a href="" class="btn btn-default btn-lg twenty">Go Back</a>
+  </form>
+</article>
+

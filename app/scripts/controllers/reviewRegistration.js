@@ -2,6 +2,14 @@
 
 angular.module('confRegistrationWebApp')
   .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, registration, conference, $modal, $http, RegistrationCache) {
+    $rootScope.globalPage = {
+      type: 'registration',
+      mainClass: 'front-form',
+      bodyClass: 'frontend',
+      title: conference.name,
+      confId: conference.id,
+      footer: false
+    };
 
     $scope.conference = conference;
     $scope.registration = registration;
@@ -36,7 +44,7 @@ angular.module('confRegistrationWebApp')
         RegistrationCache.emptyCache();
       }).error(function () {
           var errorModalOptions = {
-            templateUrl: 'views/errorModal.html',
+            templateUrl: 'views/modals/errorModal.html',
             controller: 'genericModal',
             backdrop: 'static',
             keyboard: false,
@@ -66,7 +74,7 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.editRegistration = function () {
-      $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + conference.registrationPages[0].id);
+      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id);
     };
     $scope.editPayment = function () {
       $location.path('/payment/' + conference.id);

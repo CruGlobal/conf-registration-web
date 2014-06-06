@@ -4,9 +4,11 @@ angular.module('confRegistrationWebApp')
   .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      class: 'dashboard',
+      mainClass: 'dashboard',
+      bodyClass: '',
       title: 'Dashboard',
-      confId: 0
+      confId: 0,
+      footer: true
     };
 
     $scope.$on('conferences/', function (event, conferences) {

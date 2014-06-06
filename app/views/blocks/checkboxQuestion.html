@@ -1,18 +1,19 @@
 <div ng-form="blockForm">
+  <div ng-repeat="choice in block.content.choices" class="checkbox">
+    <input id="{{block.id}}-{{choice}}"
+           type="checkbox"
+           ng-required="block.required && !atLeastOneChecked"
+           ng-model="answer.value[choice]"
+           ng-value="true">
+    <label for="{{block.id}}-{{choice}}">
+      <tag ng-show="!editMode">{{choice}}</tag>
+      <tag ng-show="editMode"><input type="text" ng-model="choice">
+        <a href="" ng-click="editBlockDeleteOption($index)">Delete</a>
+      </tag>
+    </label>
+  </div>
+
   <ul class="unstyled">
-    <li data-ng-repeat="choice in block.content.choices">
-      <input id="{{block.id}}-{{choice}}"
-             type="checkbox"
-             ng-required="block.required && !atLeastOneChecked"
-             ng-model="answer.value[choice]"
-             ng-value="true">
-      <label class="crs-checkbox-label" for="{{block.id}}-{{choice}}"><span></span>
-        <tag ng-show="!editMode">{{choice}}</tag>
-        <tag ng-show="editMode"><input type="text" data-ng-model="choice"> <a href=""
-                                                                              data-ng-click="editBlockDeleteOption($index)">Delete</a>
-        </tag>
-      </label>
-    </li>
     <li ng-show="editMode">
       <input id="{{block.id}}-new" type="checkbox">
       <label for="{{block.id}}-new"><span></span>

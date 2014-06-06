@@ -18,7 +18,6 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
-  "maxcomplexity": 10,
   "maxlen": 150,
   "white": true,
   "globals": {
@@ -26,6 +25,8 @@
     "bugsense": false,
     "_": false,
     "$": false,
-    "alert": false
+    "alert": false,
+    "jQuery": false,
+    "moment": false
   }
 }
