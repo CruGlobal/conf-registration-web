@@ -1,30 +1,58 @@
-<div class="crsQuestion" id="{{block.id}}">
-  <div class="crs--question-default  crs--question-block" ng-class="{profileBlock: block.profileType}">
+<div ng-if="!wizard">
+  <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
 
-    <div ng-show="!editMode">
-      <div ng-show="wizard">
-        <a class="crs--btn-wiz-edit" href="" data-ng-click="editMode = wizard && !!!editMode">
-          <div data-icon="&#xe036;" class="icon crs--icon crs--icon-edit"></div>
-        </a>
-        <a class="crs--btn-wiz-delete" href="" data-ng-click="deleteBlock(block.id, true)">
-          <div data-icon="&#xe083;" class="icon crs--icon crs--icon-delete" ng-hide="_.contains(['EMAIL','NAME'], block.profileType)"></div>
-        </a>
+  <ng-switch on="block.type">
+    <p ng-switch-when="paragraphContent" ng-bind="block.content" style="white-space: pre;">
+    </p>
+    <text-question block="block" ng-switch-when="textQuestion"></text-question>
+    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+    <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+    <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+    <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+    <address-question block="block" ng-switch-when="addressQuestion"></address-question>
+    <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+    <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+    <date-question block="block" ng-switch-when="dateQuestion"></date-question>
+  </ng-switch>
+
+  <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
+    <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
+    <ng-switch on="block.type">
+      <div ng-switch-when="addressQuestion">
+        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="ADDRESS" ng-false-value="" ng-change="toggleProfileType()">
+        <label for="{{block.id}}-profile"><span></span> Profile</label>
       </div>
+      <div ng-switch-when="phoneQuestion">
+        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="PHONE" ng-false-value="" ng-change="toggleProfileType()">
+        <label for="{{block.id}}-profile"><span></span> Profile</label>
+      </div>
+      <div ng-switch-when="genderQuestion">
+        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="GENDER" ng-false-value="" ng-change="toggleProfileType()">
+        <label for="{{block.id}}-profile"><span></span> Profile</label>
+      </div>
+    </ng-switch>
+  </div>
+</div>
 
-      <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
+
+<div class="well well-sm edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
+  <div class="row">
+    <div class="col-xs-2" ng-click="editBlock = true" ng-show="!editBlock">
+      <i class="fa fa-pencil-square-o"></i>
+      <p class="editme">Edit</p>
     </div>
-
-      <div class="crs--edit-mode" ng-show="editMode">
-        <a class="btn btn-mini crs--edit-btn-group" href="" data-ng-click="editMode = wizard && !!!editMode">Close</a>
-        <h4 class="crs--block-title">
-          <input type="text" data-ng-model="block.title" ng-required="true"> <span class="crs--required" ng-show="block.required">(required)</span>
-        </h4>
-      </div>
-
+    <div class="col-xs-2" ng-click="editBlock = false" ng-show="editBlock">
+      <i class="fa fa-times-circle-o"></i>
+      <p class="editme">Close</p>
+    </div>
+    <div class="col-xs-10">
+      <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
       <ng-switch on="block.type">
         <p ng-switch-when="paragraphContent">
-          <tag ng-show="!editMode" style="white-space: pre;">{{block.content}}</tag>
-          <tag ng-show="editMode"><textarea data-ng-model="block.content"></textarea></tag>
+          <tag ng-show="!editBlock" style="white-space: pre;" ng-bind="block.content"></tag>
+          <tag ng-show="editBlock"><textarea ng-model="block.content" class="form-control"></textarea></tag>
         </p>
         <text-question block="block" ng-switch-when="textQuestion"></text-question>
         <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
@@ -39,24 +67,30 @@
         <date-question block="block" ng-switch-when="dateQuestion"></date-question>
       </ng-switch>
 
-      <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
-        <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
-        <ng-switch on="block.type">
-          <div ng-switch-when="addressQuestion">
-            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="ADDRESS" ng-false-value="" ng-change="toggleProfileType()">
-            <label for="{{block.id}}-profile"><span></span> Profile</label>
-          </div>
-          <div ng-switch-when="phoneQuestion">
-            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="PHONE" ng-false-value="" ng-change="toggleProfileType()">
-            <label for="{{block.id}}-profile"><span></span> Profile</label>
-          </div>
-          <div ng-switch-when="genderQuestion">
-            <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="GENDER" ng-false-value="" ng-change="toggleProfileType()">
-            <label for="{{block.id}}-profile"><span></span> Profile</label>
-          </div>
-        </ng-switch>
-      </div>
+      <div class="edit-options" ng-show="editBlock">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="" data-toggle="tab">Field Options</a></li>
+        </ul>
 
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="home">
+            <div class="form-group">
+              <label>Field Label</label>
+              <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
+            </div>
+
+            <div class="checkbox">
+              <label><input type="checkbox" ng-model="block.required"> Required</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox"> Profile</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
+      <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-hide="_.contains(['EMAIL','NAME'], block.profileType)"><i class="fa fa-trash-o"></i> Delete</button>
+    </div>
   </div>
 </div>
-

@@ -1,28 +1,28 @@
 <div ng-form="blockForm">
-  <div ng-repeat="choice in block.content.choices" class="checkbox">
-    <input id="{{block.id}}-{{choice}}"
-           type="checkbox"
-           ng-required="block.required && !atLeastOneChecked"
-           ng-model="answer.value[choice]"
-           ng-value="true">
-    <label for="{{block.id}}-{{choice}}">
-      <tag ng-show="!editMode">{{choice}}</tag>
-      <tag ng-show="editMode"><input type="text" ng-model="choice">
-        <a href="" ng-click="editBlockDeleteOption($index)">Delete</a>
-      </tag>
+  <div ng-repeat="choice in block.content.choices" class="checkbox" ng-show="!editBlock">
+    <label>
+      <input type="checkbox"
+       ng-required="block.required && !atLeastOneChecked"
+       ng-model="answer.value[choice]"
+       ng-value="true"> {{choice}}
     </label>
   </div>
 
-  <ul class="unstyled">
-    <li ng-show="editMode">
-      <input id="{{block.id}}-new" type="checkbox">
-      <label for="{{block.id}}-new"><span></span>
+  <div ng-show="editBlock">
+    <div ng-repeat="choice in block.content.choices" style="margin-bottom:6px;">
+      <div class="input-group col-xs-6">
+        <input ng-model="choice" type="text" class="form-control">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
+        </span>
+      </div>
+    </div>
 
-        <div class="input-append">
-          <input data-ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option">
-          <a class="btn" data-ng-click="editBlockAddOption();">Add</a>
-        </div>
-      </label>
-    </li>
-  </ul>
+    <div class="input-group col-xs-6">
+      <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option" class="form-control">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add</button>
+      </span>
+    </div>
+  </div>
 </div>

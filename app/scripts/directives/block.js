@@ -46,15 +46,15 @@ angular.module('confRegistrationWebApp')
           }
         }
 
-        $scope.editBlockAddOption = function () {
+        $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.this.block.content.choices)) {
             $scope.this.block.content = {'choices': [] };
           }
-          if ($.inArray($scope.$$childTail.editBlockAddOptionValue, $scope.this.block.content.choices) >= 0) {
+          if ($.inArray(newOption, $scope.this.block.content.choices) >= 0) {
             //alert('Option already exists.');
           } else {
-            $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
-            $scope.$$childTail.editBlockAddOptionValue = '';
+            $scope.this.block.content.choices.push(newOption);
+            //$scope.$$childTail.editBlockAddOptionValue = '';
             console.log($scope.this.block.content.choices);
           }
         };

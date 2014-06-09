@@ -1,0 +1,87 @@
+<div admin-nav></div>
+<div class="row-fluid wizard">
+  <div class="span3" id="crs-formOptionsMenu" ng-style="scrollStyle()" scroll-position="scroll" data-ng-show="conference.registrationPages.length > 0">
+    <accordion close-others="true" class="crs-accordion" accordion-sub>
+      <accordion-group heading="Form Elements" class="crs-parent-li" is-open="true">
+        <ul class="crs-accordionSub">
+          <li id="paragraphContent">Information Box</li>
+          <li id="textQuestion">Single Line Text Question</li>
+          <li id="radioQuestion">Multiple Choice</li>
+          <li id="checkboxQuestion">Checkbox</li>
+          <li id="selectQuestion">Dropdown</li>
+          <li id="numberQuestion">Number</li>
+          <li id="dateQuestion">Date</li>
+          <li id="nameQuestion">Name</li>
+          <li id="emailQuestion">Email</li>
+          <li id="phoneQuestion" default-profile="PHONE">Phone</li>
+          <li id="addressQuestion" default-profile="ADDRESS">Address</li>
+          <li id="genderQuestion" default-profile="GENDER">Gender</li>
+        </ul>
+      </accordion-group>
+      </accordion>
+  </div>
+  <!--end span3-->
+
+  <style>
+    .connectedSortable{
+      min-height: 100px;
+      padding:0;
+      margin:0;
+    }
+    .connectedSortable > li{
+      min-height: 100px;
+      padding:0;
+      margin:0;
+    }
+    .crs-dragBack{
+      background-color: #ecf0f1;
+    }
+    .ui-draggable-dragging{
+      background-color: rgba(255,255,255, .7);
+      width:100%;
+      font-size: 40px;
+      border: 1px dashed grey;
+      height: 100px !important;
+      display: block;
+      margin: 10px 0 10px 0;
+      line-height: 100px;
+      transition: height .5s;
+    }
+    .crs-accordionSub{
+      list-style: none;
+      cursor: default;
+    }
+    .crs-accordionSub li{
+      font-size: 18px;
+      height:22px;
+    }
+    .profileBlock {
+      background: lightyellow;
+      position: relative;
+    }
+    .profileBlock:after {
+      color: darkgrey;
+      content: "Profile";
+      display: block;
+      font-size: 40px;
+      line-height: 1;
+      position: absolute;
+      bottom: -5px;
+      right: 0px;
+    }
+  </style>
+    <div form-drop-area class="span9" id="crs-formEdit">
+      <!-- <div class="span9" id="crs-formEdit">  -->
+      <div class="alert alert-block" data-ng-show="conference.registrationPages.length == 0">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <p class="lead">This form is empty (but your heart isn’t)! Drag form elements from the left to the area below. Once its here, you can customize each element.</p>
+        <p class="lead">Don’t want to start from scratch? Start with the <a class="crs-anchor" href="#">Retreat Template</a>.</p>
+      </div>
+      <!-- <ul form-elements class="crsConnectedSortable" data-ng-repeat="page in conference.pages" data-page-id="{{page.id}}"><page></page></ul>-->
+
+      <div><button data-ng-click="addNewPage();">Add New Page</button></div>
+      <div class="crs-formElements" data-ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
+        <page></page>
+      </div>
+    </div>
+</div>

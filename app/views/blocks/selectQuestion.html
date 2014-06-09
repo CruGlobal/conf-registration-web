@@ -1,24 +1,26 @@
 <div ng-form="blockForm">
-  <div ng-show="!editMode">
+  <div ng-show="!editBlock">
     <select ng-required="block.required" ng-model="answer.value" class="form-control">
       <option value="">Choose one...</option>
       <option ng-value="choice" ng-repeat="choice in block.content.choices" ng-bind="choice"></option>
     </select>
   </div>
 
-  <div ng-show="editMode">
-    <ul class="unstyled">
-      <li data-ng-repeat="choice in block.content.choices">
-        <input type="text" data-ng-model="choice"> <a href="" data-ng-click="editBlockDeleteOption($index);">Delete</a>
-        </label>
-      </li>
-      <li>
-        <div class="input-append">
-          <input data-ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option">
-          <a class="btn" data-ng-click="editBlockAddOption();">Add</a>
-        </div>
-        </label>
-      </li>
-    </ul>
+  <div ng-show="editBlock">
+    <div ng-repeat="choice in block.content.choices" style="margin-bottom:6px;">
+      <div class="input-group col-xs-6">
+        <input ng-model="choice" type="text" class="form-control">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="input-group col-xs-6">
+      <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option" class="form-control">
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-primary" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add</button>
+      </span>
+    </div>
   </div>
 </div>
