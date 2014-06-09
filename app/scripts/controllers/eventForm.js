@@ -10,12 +10,9 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-
     $scope.conference = conference;
-    //Model.subscribe($scope, 'conference', 'conferences/' + conference.id);
 
-
-    $scope.saveForm = function(preview){
+    $scope.saveForm = function (preview) {
       $scope.notify = {
         class: 'alert-warning',
         message: $sce.trustAsHtml('Saving...')
@@ -36,7 +33,7 @@ angular.module('confRegistrationWebApp')
             ConfCache.update(conference.id, $scope.conference);
           }
 
-          if(preview){
+          if (preview) {
             $location.path('/preview/' + conference.id + '/page/');
           }
         }).error(function (data) {
@@ -51,7 +48,7 @@ angular.module('confRegistrationWebApp')
       if (growl) {
         var page = _.find($scope.conference.registrationPages, {id: pageId});
         var message = 'Page "' + page.title + '" has been deleted.';
-        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference, message);
+        GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
       $scope.deletePageFromConf(pageId);
     };
@@ -131,7 +128,7 @@ angular.module('confRegistrationWebApp')
         var t = makePositionArray();
         var block = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block];
         var message = '"' + block.title + '" has been deleted.';
-        GrowlService.growl('conferences/' + $scope.conference.id, $scope.conference, message);
+        GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
       $scope.deleteBlockFromPage(blockId);
     };

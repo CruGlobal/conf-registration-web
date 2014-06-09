@@ -12,7 +12,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.$on('conferences/', function (event, conferences) {
-      conferences = _.sortBy(conferences, function (conf) { return conf.name; });
       $scope.conferences = conferences;
     });
     ConfCache.query();

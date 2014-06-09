@@ -16,24 +16,6 @@
     <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
     <date-question block="block" ng-switch-when="dateQuestion"></date-question>
   </ng-switch>
-
-  <div class="well" ng-show="editMode && !_.contains(['EMAIL','NAME'], block.profileType)">
-    <input type="checkbox" id="{{block.id}}-required" ng-model="block.required"> <label for="{{block.id}}-required"><span></span> Required</label>
-    <ng-switch on="block.type">
-      <div ng-switch-when="addressQuestion">
-        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="ADDRESS" ng-false-value="" ng-change="toggleProfileType()">
-        <label for="{{block.id}}-profile"><span></span> Profile</label>
-      </div>
-      <div ng-switch-when="phoneQuestion">
-        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="PHONE" ng-false-value="" ng-change="toggleProfileType()">
-        <label for="{{block.id}}-profile"><span></span> Profile</label>
-      </div>
-      <div ng-switch-when="genderQuestion">
-        <input type="checkbox" id="{{block.id}}-profile" ng-model="block.profileType" ng-true-value="GENDER" ng-false-value="" ng-change="toggleProfileType()">
-        <label for="{{block.id}}-profile"><span></span> Profile</label>
-      </div>
-    </ng-switch>
-  </div>
 </div>
 
 
@@ -80,17 +62,17 @@
               <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
             </div>
 
-            <div class="checkbox">
+            <div class="checkbox" ng-show="requiredOption">
               <label><input type="checkbox" ng-model="block.required"> Required</label>
             </div>
-            <div class="checkbox">
-              <label><input type="checkbox"> Profile</label>
+            <div class="checkbox" ng-show="profileOption">
+              <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Profile</label>
             </div>
           </div>
         </div>
       </div>
       <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
-      <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-hide="_.contains(['EMAIL','NAME'], block.profileType)"><i class="fa fa-trash-o"></i> Delete</button>
+      <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-show="canDelete"><i class="fa fa-trash-o"></i> Delete</button>
     </div>
   </div>
 </div>

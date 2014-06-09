@@ -1,32 +1,22 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('GrowlService', function GrowlService($rootScope, Model, $timeout) {
-    var growlPath, growlObject, growlTimeout;
-    this.growl = function (path, object, message) {
-      growlPath = path;
+  .service('GrowlService', function GrowlService($rootScope, $timeout) {
+    var growlScope, growlObject, growlName, growlTimeout;
+    this.growl = function (scope, name, object, message) {
+      growlName = name;
+      growlScope = scope;
       growlObject = angular.copy(object);
       $rootScope.growlMessage = message;
 
       $timeout.cancel(growlTimeout);
       growlTimeout = $timeout(function () {
         $rootScope.growlMessage = '';
-      }, 5000);
-
-/*      ignoreNext = true;
-      cancelEventListener = $rootScope.$on(path, function () {
-        if (!ignoreNext) {
-          $rootScope.growlMessage = '';
-          cancelEventListener();
-        } else {
-          ignoreNext = false;
-        }
-      });
- */
+      }, 6000);
     };
 
     $rootScope.growlUndo = function () {
-      Model.update(growlPath, growlObject);
+      eval('growlScope.' + growlName + ' = growlObject;');
       $rootScope.growlMessage = '';
       $timeout.cancel(growlTimeout);
     };

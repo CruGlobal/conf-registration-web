@@ -191,7 +191,7 @@ main {
 }
 
 /***** PAGES *****/
-main.front-welcome {
+main.front-form {
   article {
     h2 {
       .darkerblue;
@@ -229,10 +229,7 @@ main.front-welcome {
         padding-top: 10px;
       }
     }
-  }
-}
-main.front-form {
-  article {
+
     h2 {
       margin: 0 0 15px;
       padding: 0 0 10px;
@@ -583,7 +580,6 @@ main.dashboard {
       background: @white;
       .gray;
       margin-top: -40px;
-      margin-right: 40px;
       font-size: 12px;
       border-radius: 3px;
     }
@@ -779,4 +775,14 @@ body {
     background-position: 14px 14px;
     background-repeat: no-repeat;
   }
+}
+
+
+/***** EventHub Specific *****/
+.eventhub-growl{
+  position: fixed;
+  margin: 0px;
+  z-index: 1031;
+  top: 20px;
+  right: 20px;
 }

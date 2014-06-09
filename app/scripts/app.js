@@ -155,6 +155,18 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           ]
         }
       })
+      .when('/logout/', {
+        resolve: {
+          redirectToIntendedRoute: ['$location', '$cookies',
+            function ($location, $cookies) {
+              delete $cookies.crsAuthProviderType;
+              delete $cookies.crsPreviousToken;
+              delete $cookies.crsToken;
+              $location.path('/');
+            }
+          ]
+        }
+      })
       .otherwise({
         redirectTo: '/'
       });

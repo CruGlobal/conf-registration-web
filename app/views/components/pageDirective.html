@@ -14,25 +14,26 @@
     </ul>
   </div>
 
-  <div ng-if="!wizard">
+  <div ng-show="!wizard">
     <h2 ng-bind="page.title"></h2>
 
     <form name="pageForm">
+      <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
       <br>
       <button class="btn btn-success btn-lg eighty"
               type="submit"
-              ng-disabled="!pageForm.$valid"
-              ng-click="validateAndGoToNext()"
+              ng-disabledd="!pageForm.$valid"
+              ng-click="validateAndGoToNext(pageForm.$valid)"
               ng-show="nextPage">Next Page
       </button>
 
       <button class="btn btn-success btn-lg eighty"
-              ng-click="goToReviewOrPayment()"
-              ng-disabled="!registrationComplete"
+              ng-click="validateAndGoToNext(pageForm.$valid)"
+              ng-disabledd="!registrationComplete"
               ng-show="!nextPage">Continue
       </button>
-      <a href="" class="btn btn-default btn-lg twenty">Go Back</a>
+      <a href="" ng-click="previousPage()" class="btn btn-default btn-lg twenty">Go Back</a>
     </form>
   </div>
 </article>

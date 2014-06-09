@@ -20,6 +20,7 @@
   "smarttabs": true,
   "maxlen": 150,
   "white": true,
+  "evil": true,
   "globals": {
     "angular": false,
     "bugsense": false,

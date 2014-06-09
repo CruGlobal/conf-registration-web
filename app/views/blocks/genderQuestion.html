@@ -1,10 +1,8 @@
-<div ng-form="blockForm">
-  <div ng-repeat="choice in ['Male','Female']" class="radio">
-    <input id="{{block.id}}{{choice.charAt(0)}}"
-           type="radio"
-           ng-required="block.required"
-           ng-model="answer.value"
-           ng-value="choice.charAt(0)">
-    <label for="{{block.id}}{{choice.charAt(0)}}">{{choice}}</label>
-  </div>
+<div ng-repeat="choice in ['Male','Female']" class="radio">
+  <input id="{{block.id}}{{choice.charAt(0)}}"
+         type="radio"
+         ng-required="block.required"
+         ng-model="answer.value"
+         ng-value="choice.charAt(0)">
+  <label for="{{block.id}}{{choice.charAt(0)}}">{{choice}}</label>
 </div>

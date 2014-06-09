@@ -3,12 +3,9 @@
 angular.module('confRegistrationWebApp')
   .directive('crsBlock', function () {
     return {
-      templateUrl: 'views/blockDirective.html',
+      templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
-        //expose lodash library on scope
-        $scope._ = _;
-
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistration)) {
             //registration object provided
@@ -54,22 +51,30 @@ angular.module('confRegistrationWebApp')
             //alert('Option already exists.');
           } else {
             $scope.this.block.content.choices.push(newOption);
-            //$scope.$$childTail.editBlockAddOptionValue = '';
-            console.log($scope.this.block.content.choices);
           }
         };
 
         $scope.editBlockDeleteOption = function (index) {
           $scope.this.block.content.choices.splice(index, 1);
-          console.log($scope.this.block.content.choices);
         };
 
-        $scope.toggleProfileType = function () {
-          if (!$scope.this.block.profileType) {
-            $scope.this.block.profileType = null;
-          }
+        var typeToProfile = [];
+        //typeToProfile['emailQuestion'] = 'EMAIL';
+        //typeToProfile['nameQuestion'] = 'NAME';
+        typeToProfile.phoneQuestion = 'PHONE';
+        typeToProfile.addressQuestion = 'ADDRESS';
+        typeToProfile.genderQuestion = 'GENDER';
 
-          if (!_.isNull($scope.this.block.profileType)) {
+        $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
+        $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);
+        $scope.this.requiredOption = !_.contains(['paragraphContent'], $scope.this.block.type);
+        $scope.this.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.this.block.profileType);
+
+        $scope.toggleProfileType = function (value) {
+          if (!value) {
+            $scope.this.block.profileType = null;
+          } else {
+            $scope.this.block.profileType = typeToProfile[$scope.this.block.type];
             var profileCount = 0;
             $scope.conference.registrationPages.forEach(function (page) {
               page.blocks.forEach(function (block) {
@@ -84,6 +89,7 @@ angular.module('confRegistrationWebApp')
                 $scope.this.block.profileType.slice(1).toLowerCase() +
                 ' profile block can be used per form.');
               $scope.this.block.profileType = null;
+              $scope.this.profileCheck = false;
             }
           }
         };
