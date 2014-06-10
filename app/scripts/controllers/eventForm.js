@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $sce, $http, conference, GrowlService, ConfCache, uuid) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $sce, $http, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'form-builder',
@@ -10,6 +10,11 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
+    if (permissions.permissionInt >= permissionConstants.UPDATE) {
+      $scope.templateUrl = 'views/eventForm.html';
+    } else {
+      $scope.templateUrl = 'views/permissionError.html';
+    }
     $scope.conference = conference;
 
     $scope.saveForm = function (preview) {

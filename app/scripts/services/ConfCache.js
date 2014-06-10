@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
         name: name,
         registrationStartTime: new Date(),
         registrationEndTime: registrationEndTime,
-        contactPersonName: '',
+        conferenceCost: 0,
         registrationPages: [
           {
             id: newPageId,
@@ -82,7 +82,7 @@ angular.module('confRegistrationWebApp')
       return $http.post(path(), data).then(function (response) {
         if (response.status === 201) {
           var conference = response.data;
-          cache.put(path(conference.id), conference);
+          cache.removeAll();
           return conference;
         } else {
           alert('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);

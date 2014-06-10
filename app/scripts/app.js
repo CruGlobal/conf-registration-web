@@ -4,27 +4,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
     $routeProvider
       .when('/', {
         templateUrl: 'views/landing.html',
-        controller: 'landingCtrl',
-        resolve: {
-          //enforceAuth: $injector.get('enforceAuth')
-        }
-      })
-      .when('/eventDashboard', {
-        templateUrl: 'views/eventDashboard.html',
-        controller: 'eventDashboardCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth')
-        }
-      })
-      .when('/eventForm/:conferenceId', {
-        templateUrl: 'views/eventForm.html',
-        controller: 'eventFormCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }]
-        }
+        controller: 'landingCtrl'
       })
       .when('/register/:conferenceId', {
         resolve: {
@@ -46,45 +26,19 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/preview/:conferenceId/page/:pageId?', {
-        templateUrl: 'views/registration.html',
-        controller: 'RegistrationCtrl',
+      .when('/payment/:conferenceId', {
+        templateUrl: 'views/payment.html',
+        controller: 'paymentCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }],
-          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId);
-          }]
-        }
-      })
-      .when('/eventRegistrations/:conferenceId', {
-        templateUrl: 'views/eventRegistrations.html',
-        controller: 'eventRegistrationsCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function (currentRegistration) {
+                return currentRegistration;
+              });
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
-          }]
-        }
-      })
-      .when('/eventDetails/:conferenceId', {
-        templateUrl: 'views/eventDetails.html',
-        controller: 'eventDetailsCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
@@ -104,29 +58,78 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           }]
         }
       })
-      .when('/payment/:conferenceId', {
-        templateUrl: 'views/payment.html',
-        controller: 'paymentCtrl',
+      .when('/preview/:conferenceId/page/:pageId?', {
+        templateUrl: 'views/registration.html',
+        controller: 'RegistrationCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
-          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function (currentRegistration) {
-                return currentRegistration;
-              });
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getCurrent($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/eventDashboard', {
+        templateUrl: 'views/eventDashboard.html',
+        controller: 'eventDashboardCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth')
+        }
+      })
+      .when('/eventRegistrations/:conferenceId', {
+        templateUrl: 'views/eventRegistrations.html',
+        controller: 'eventRegistrationsCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/eventForm/:conferenceId', {
+        template: '<ng-include src="templateUrl"></ng-include>',
+        controller: 'eventFormCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/eventDetails/:conferenceId', {
+        template: '<ng-include src="templateUrl"></ng-include>',
+        controller: 'eventDetailsCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
       .when('/eventPermissions/:conferenceId', {
-        templateUrl: 'views/eventPermissions.html',
+        template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventPermissionsCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })

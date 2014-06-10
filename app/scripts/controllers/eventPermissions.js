@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, conference, $http) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, conference, $http, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -10,7 +10,11 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-
+    if (permissions.permissionInt >= permissionConstants.FULL) {
+      $scope.templateUrl = 'views/eventPermissions.html';
+    } else {
+      $scope.templateUrl = 'views/permissionError.html';
+    }
     $scope.conference = conference;
 
     var getPermissions = function () {
@@ -49,8 +53,8 @@ angular.module('confRegistrationWebApp')
         getPermissions();
         $scope.addPermissionsEmail = '';
         $scope.addPermissionsLevel = '';
-      }).error(function () {
-
+      }).error(function (data) {
+        alert('Error: ' + data);
       });
     };
 
@@ -61,7 +65,6 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         getPermissions();
       }).error(function () {
-
       });
     };
   });

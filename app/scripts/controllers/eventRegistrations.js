@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, registrations, conference, RegViewCache, $modal, permissions, $http, uuid) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, uuid, registrations, conference, RegViewCache, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -233,7 +233,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrations = registrations;
-    $scope.permissions = permissions;
 
     $scope.viewPayments = function (registration) {
       var paymentModalOptions = {
