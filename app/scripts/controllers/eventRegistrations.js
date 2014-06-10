@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, uuid, registrations, conference, RegViewCache, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, uuid, registrations, conference, RegViewCache) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',

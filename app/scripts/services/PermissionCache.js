@@ -19,21 +19,21 @@ angular.module('confRegistrationWebApp')
         callback(cachedObject, path);
       } else {
         $http.get(path).success(function (data) {
-          switch(data.permissionLevel) {
-            case 'CREATOR':
-              data.permissionInt = 4;
-              break;
-            case 'FULL':
-              data.permissionInt = 3;
-              break;
-            case 'UPDATE':
-              data.permissionInt = 2;
-              break;
-            case 'View':
-              data.permissionInt = 1;
-              break;
-            default:
-              data.permissionInt = 0;
+          switch (data.permissionLevel) {
+          case 'CREATOR':
+            data.permissionInt = 4;
+            break;
+          case 'FULL':
+            data.permissionInt = 3;
+            break;
+          case 'UPDATE':
+            data.permissionInt = 2;
+            break;
+          case 'View':
+            data.permissionInt = 1;
+            break;
+          default:
+            data.permissionInt = 0;
           }
           update(path, data);
           callback(data, path);
@@ -54,7 +54,6 @@ angular.module('confRegistrationWebApp')
     'CREATOR': 4,
     'FULL': 3,
     'UPDATE': 2,
-    'VIEW': 1
+    'VIEW': 1,
+    'NONE': 0
   });
-
-
