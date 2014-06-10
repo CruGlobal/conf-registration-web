@@ -1,4 +1,4 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .constant('apiUrl', 'http://dev.api.formvent.org/eventhub-api/rest/');
+  .constant('apiUrl', 'https://api.eventhub.org/eventhub-api/rest/');
