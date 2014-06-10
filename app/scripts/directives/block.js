@@ -3,55 +3,78 @@
 angular.module('confRegistrationWebApp')
   .directive('crsBlock', function () {
     return {
-      templateUrl: 'views/blockDirective.html',
+      templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
       controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
-        //expose lodash library on scope
-        $scope._ = _;
-
         if (!$scope.wizard) {
-          RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
-            var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+          if (angular.isDefined($scope.adminEditRegistration)) {
+            //registration object provided
+            var answerForThisBlock = _.where($scope.adminEditRegistration.answers, { 'blockId': $scope.block.id });
             if (answerForThisBlock.length > 0) {
               $scope.answer = answerForThisBlock[0];
             }
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
-                registrationId : currentRegistration.id,
+                registrationId : $scope.adminEditRegistration.id,
                 blockId : $scope.block.id,
                 value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
               };
-              currentRegistration.answers.push($scope.answer);
+              $scope.adminEditRegistration.answers.push($scope.answer);
             }
-          });
-          AnswerCache.syncBlock($scope, 'answer');
+          } else {
+            //registration not provided, use current users
+            RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
+              var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+              if (answerForThisBlock.length > 0) {
+                $scope.answer = answerForThisBlock[0];
+              }
+              if (angular.isUndefined($scope.answer)) {
+                $scope.answer = {
+                  id : uuid(),
+                  registrationId : currentRegistration.id,
+                  blockId : $scope.block.id,
+                  value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+                };
+                currentRegistration.answers.push($scope.answer);
+              }
+            });
+            AnswerCache.syncBlock($scope, 'answer');
+          }
         }
 
-        $scope.editBlockAddOption = function () {
+        $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.this.block.content.choices)) {
             $scope.this.block.content = {'choices': [] };
           }
-          if ($.inArray($scope.$$childTail.editBlockAddOptionValue, $scope.this.block.content.choices) >= 0) {
+          if ($.inArray(newOption, $scope.this.block.content.choices) >= 0) {
             //alert('Option already exists.');
           } else {
-            $scope.this.block.content.choices.push($scope.$$childTail.editBlockAddOptionValue);
-            $scope.$$childTail.editBlockAddOptionValue = '';
-            console.log($scope.this.block.content.choices);
+            $scope.this.block.content.choices.push(newOption);
           }
         };
 
         $scope.editBlockDeleteOption = function (index) {
           $scope.this.block.content.choices.splice(index, 1);
-          console.log($scope.this.block.content.choices);
         };
 
-        $scope.toggleProfileType = function () {
-          if (!$scope.this.block.profileType) {
-            $scope.this.block.profileType = null;
-          }
+        var typeToProfile = [];
+        //typeToProfile['emailQuestion'] = 'EMAIL';
+        //typeToProfile['nameQuestion'] = 'NAME';
+        typeToProfile.phoneQuestion = 'PHONE';
+        typeToProfile.addressQuestion = 'ADDRESS';
+        typeToProfile.genderQuestion = 'GENDER';
 
-          if (!_.isNull($scope.this.block.profileType)) {
+        $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
+        $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);
+        $scope.this.requiredOption = !_.contains(['paragraphContent'], $scope.this.block.type);
+        $scope.this.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.this.block.profileType);
+
+        $scope.toggleProfileType = function (value) {
+          if (!value) {
+            $scope.this.block.profileType = null;
+          } else {
+            $scope.this.block.profileType = typeToProfile[$scope.this.block.type];
             var profileCount = 0;
             $scope.conference.registrationPages.forEach(function (page) {
               page.blocks.forEach(function (block) {
@@ -66,6 +89,7 @@ angular.module('confRegistrationWebApp')
                 $scope.this.block.profileType.slice(1).toLowerCase() +
                 ' profile block can be used per form.');
               $scope.this.block.profileType = null;
+              $scope.this.profileCheck = false;
             }
           }
         };

@@ -3,13 +3,13 @@
 angular.module('confRegistrationWebApp')
   .directive('adminNav', function ($http, RegistrationCache, ConfCache, RegistrationsViewService, PaymentsViewService, ConferenceHelper, U, apiUrl) {
     return {
-      templateUrl: 'views/adminNav.html',
+      templateUrl: 'views/components/adminNav.html',
       restrict: 'A',
       controller: function ($scope, $modal) {
         $scope.deleteConference = function (conferenceToDelete) {
 
           $modal.open({
-            templateUrl: 'views/confirmDeleteConf.html',
+            templateUrl: 'views/modals/confirmDeleteConf.html',
             controller: 'confirmCtrl'
           }).result.then(function (result) {
               if (result) {
@@ -21,10 +21,8 @@ angular.module('confRegistrationWebApp')
         $scope.registerUser = function (conferenceId) {
 
           var registrationModalOptions = {
-            templateUrl: 'views/registrationModal.html',
+            templateUrl: 'views/modals/manualRegistration.html',
             controller: 'registrationModal',
-            backdrop: 'static',
-            keyboard: false,
             resolve: {
               conference: ['ConfCache', function (ConfCache) {
                 return ConfCache.get(conferenceId);

@@ -2,19 +2,10 @@
   "name": "confRegistrationWeb",
   "version": "0.0.0",
   "dependencies": {
-    "json3": "~3.2.4",
     "bootstrap-sass": "~2.3.1",
-    "es5-shim": "~2.0.8",
     "lodash": "~2.4.1",
-    "string": "~1.8.0",
-    "angular": "~v1.2.13",
-    "angular-resource": "~v1.2.13",
-    "angular-route": "~v1.2.13",
-    "angular-cookies": "~v1.2.13",
-    "angular-sanitize": "~v1.2.13",
-    "angular-mocks": "~v1.2.13",
-    "angular-bootstrap": "~0.6.0",
-    "animate.css": "latest"
+    "momentjs": "~2.6.0",
+    "angular-bootstrap": "~0.11.0"
   },
   "devDependencies": {}
 }

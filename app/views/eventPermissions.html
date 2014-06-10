@@ -1,0 +1,55 @@
+<h2>Current Permissions</h2>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Email</th>
+        <th>Level</th>
+        <th>Last Modification</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr data-ng-repeat="permission in currentPermissions">
+        <td>{{permission.emailAddress}}</td>
+        <td>
+          <select ng-model="permission.permissionLevel" ng-show="permission.permissionLevel !== 'CREATOR'" ng-change="updatePermission(permission.id)" class="form-control">
+            <option>FULL</option>
+            <option>UPDATE</option>
+            <option>VIEW</option>
+          </select>
+          <span ng-show="permission.permissionLevel == 'CREATOR'">CREATOR</span>
+        </td>
+        <td>{{permission.timestamp | date:'short'}}</td>
+        <td><a href="" ng-click="deletePermission(permission.id)" ng-show="permission.permissionLevel !== 'CREATOR'">Delete</a></td>
+      </tr>
+      </tbody>
+    </table>
+<h2>Add User</h2>
+<div class="col-xs-6 well">
+  <div class="form-group">
+    <label>User Email</label>
+    <input type="text" class="form-control" placeholder="example@example.com" ng-model="addPermissionsEmail">
+    <br>
+    <label>Permission Level</label>
+    <select ng-model="addPermissionsLevel" class="form-control">
+      <option>FULL</option>
+      <option>UPDATE</option>
+      <option>VIEW</option>
+    </select>
+    <br>
+    <div class="">
+      <button type="submit" class="btn btn-success " ng-click="addPermission()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="col-xs-6">
+  <h3>Full</h3>
+  <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+
+    <h3>Update</h3>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+
+    <h3>View</h3>
+    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+</div>

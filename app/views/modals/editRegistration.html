@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <button type="button" class="close" data-ng-click="close()">&times;</button>
+  <h4>Edit Registration</h4>
+</div>
+<div class="modal-body">
+
+  <div ng-repeat="page in conference.registrationPages">
+    <div ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></div>
+  </div>
+</div>
+<div class="modal-footer">
+  <h4 ng-show="saving"><i class="fa fa-circle-o-notch fa-spin"></i> Saving...</h4>
+  <button ng-click="submit(name)" class="btn btn-light" ng-show="!saving">Save</button>
+</div>

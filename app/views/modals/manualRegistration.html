@@ -1,0 +1,18 @@
+<form class="crs-form" name="simpleRegistrationForm">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="close()">&times;</button>
+    <h4 class="modal-title">Add Registration</h4>
+  </div>
+  <div class="modal-body">
+    <label>First Name</label>
+    <input class="form-control" type="text" ng-required="true" ng-model="form.first">
+    <label>Last Name</label>
+    <input class="form-control" type="text" ng-required="true" ng-model="form.last">
+    <label>Email</label>
+    <input class="form-control" type="email" ng-required="true" ng-model="form.email">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="close()">Close</button>
+    <button type="button" class="btn btn-success" ng-disabled="!simpleRegistrationForm.$valid" ng-click="register()">Add Registration</button>
+  </div>
+</form>

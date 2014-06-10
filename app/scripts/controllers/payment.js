@@ -2,6 +2,15 @@
 
 angular.module('confRegistrationWebApp')
   .controller('paymentCtrl', function ($scope, $rootScope, $location, registration, conference, $http, $modal, RegistrationCache) {
+    $rootScope.globalPage = {
+      type: 'registration',
+      mainClass: 'front-form',
+      bodyClass: 'frontend',
+      title: conference.name,
+      confId: conference.id,
+      footer: false
+    };
+
     $scope.currentYear = new Date().getFullYear();
 
     if (registration.completed) {
@@ -33,7 +42,7 @@ angular.module('confRegistrationWebApp')
       var errorModalOptions = {};
       if (!$scope.creditCardNameOnCard) {
         errorModalOptions = {
-          templateUrl: 'views/errorModal.html',
+          templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {
@@ -46,7 +55,7 @@ angular.module('confRegistrationWebApp')
       }
       if (!$scope.creditCardNumber) {
         errorModalOptions = {
-          templateUrl: 'views/errorModal.html',
+          templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {
@@ -59,7 +68,7 @@ angular.module('confRegistrationWebApp')
       }
       if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
         errorModalOptions = {
-          templateUrl: 'views/errorModal.html',
+          templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {

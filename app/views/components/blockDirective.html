@@ -1,0 +1,78 @@
+<div ng-if="!wizard">
+  <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
+
+  <ng-switch on="block.type">
+    <p ng-switch-when="paragraphContent" ng-bind="block.content" style="white-space: pre;">
+    </p>
+    <text-question block="block" ng-switch-when="textQuestion"></text-question>
+    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+    <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+    <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+    <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+    <address-question block="block" ng-switch-when="addressQuestion"></address-question>
+    <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+    <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+    <date-question block="block" ng-switch-when="dateQuestion"></date-question>
+  </ng-switch>
+</div>
+
+
+<div class="well well-sm edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
+  <div class="row">
+    <div class="col-xs-2" ng-click="editBlock = true" ng-show="!editBlock">
+      <i class="fa fa-pencil-square-o"></i>
+      <p class="editme">Edit</p>
+    </div>
+    <div class="col-xs-2" ng-click="editBlock = false" ng-show="editBlock">
+      <i class="fa fa-times-circle-o"></i>
+      <p class="editme">Close</p>
+    </div>
+    <div class="col-xs-10">
+      <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
+      <ng-switch on="block.type">
+        <p ng-switch-when="paragraphContent">
+          <tag ng-show="!editBlock" style="white-space: pre;" ng-bind="block.content"></tag>
+          <tag ng-show="editBlock"><textarea ng-model="block.content" class="form-control"></textarea></tag>
+        </p>
+        <text-question block="block" ng-switch-when="textQuestion"></text-question>
+        <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+        <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+        <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+        <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+        <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+        <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+        <address-question block="block" ng-switch-when="addressQuestion"></address-question>
+        <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+        <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+        <date-question block="block" ng-switch-when="dateQuestion"></date-question>
+      </ng-switch>
+
+      <div class="edit-options" ng-show="editBlock">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="" data-toggle="tab">Field Options</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="home">
+            <div class="form-group">
+              <label>Field Label</label>
+              <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
+            </div>
+
+            <div class="checkbox" ng-show="requiredOption">
+              <label><input type="checkbox" ng-model="block.required"> Required</label>
+            </div>
+            <div class="checkbox" ng-show="profileOption">
+              <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Profile</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
+      <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-show="canDelete"><i class="fa fa-trash-o"></i> Delete</button>
+    </div>
+  </div>
+</div>

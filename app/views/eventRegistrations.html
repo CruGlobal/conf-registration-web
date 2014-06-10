@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-7">
+      <h2>Registrations</h2>
+    </div>
+    <div class="col-xs-5 colright">
+      <button class="btn btn-success btn-sm" type="button" ng-click="registerUser(conference.id)"><i class="fa fa-plus"></i> Add Registration</button>
+      <a class="btn btn-primary btn-sm" href="" ng-click="exportRegistrations(conference.id)"><i class="fa fa-cloud-download"></i> Export Registrations</a>
+      <a class="btn btn-primary btn-sm" href="" ng-show="hasCost(conference)" ng-click="exportPayments(conference.id)"><i class="fa fa-cloud-download"></i> Export Payments</a>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <tr class="active">
+      <td>
+        <div class="col-md-3">
+          <div class="input-group-md">
+            <input type="text" class="form-control" placeholder="Filter" ng-model="searchFilter">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <select ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
+        </div>
+        <div class="col-md-5">
+          <div class="input-group" ng-show="isPredefinedView(activeRegViewId)">
+            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save</button>
+              </span>
+          </div>
+
+          <div class="input-group" ng-show="!isPredefinedView(activeRegViewId)">
+            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save</button>
+                <button type="button" class="btn btn-danger" ng-click="delRegView()">Delete</button>
+              </span>
+          </div>
+          <class ng-show="savedState !== ''" style="color:#888;">({{savedState}})</class>
+        </div>
+        <div class="col-md-2 colright">
+          <p class="columns">Columns </p>
+          <div class="btn-group columns-btn">
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle opener" data-toggle="dropdown">
+              <i class="fa fa-bars"></i>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right stayopen" role="menu">
+              <li ng-repeat="block in blocks">
+                <a href="" ng-click="toggleColumn($index)">
+                  <i class="fa fa-check-square" ng-show="block.visible"></i>
+                  <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                  {{block.title}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="container" ng-show="registrations.length == 0">
+  <p>No one has registered for this event yet.</p>
+</div>
+
+<table class="table" ng-show="registrations.length > 0">
+  <thead>
+    <tr>
+      <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th ng-show="isConferenceCost()" class="tableright">Paid in Full?</th>
+      <th class="tableright">Edit</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
+    <tr>
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(registration.id)">
+        <show-answer block="block" registration="registration"></show-answer>
+      </td>
+      <td ng-show="isConferenceCost()" class="tableright">
+        <button class="nostyle" type="button" ng-click="viewPayments(registration)">
+          <i class="fa fa-check" ng-show="paidInFull(registration)"></i>
+          <i class="fa fa-times" ng-show="!paidInFull(registration)"></i>
+        </button>
+      </td>
+      <td class="tableright">
+        <button class="nostyle" type="button" ng-click="editRegistration(registration)"><i class="fa fa-edit"></i></button>
+      </td>
+      <td class="tablecenter" ng-click="expandRegistration(registration.id)">
+        <i class="fa" ng-class="{'fa-minus-square-o': registration.expand, 'fa-plus-square-o': !registration.expand}"></i>
+      </td>
+    </tr>
+    <tr class="rowdetails" ng-class="{'on': isExpanded(registration.id)}">
+      <td colspan="100%">
+        <div class="well">
+          <div class="row" ng-repeat="block in blocks">
+            <div class="leftside" ng-bind="block.title"></div>
+            <div class="rightside"><show-answer block="block" registration="registration"></show-answer></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Showing {{regFilter.length}} of {{registrations.length}} registration(s)<br>
+  <input type="checkbox" id="showRegistrationsCompleted" ng-model="showRegistrationsCompleted">
+  <label class="crs-checkbox-label" for="showRegistrationsCompleted"><span></span>
+    Only show completed registrations
+  </label>
+</p>

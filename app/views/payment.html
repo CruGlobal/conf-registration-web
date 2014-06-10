@@ -1,50 +1,72 @@
-<div class="container-fluid register">
-  <div class="crs--register  page-narrow  center-block">
-    <div class="row-fluid crs--no-padding-top">
-      <h1 class="h2  mt6  mb4">{{conference.name}}</h1>
-    </div>
-    <strong>Payment Amount:</strong>
-    <div data-ng-show="conference.conferenceCost !== conference.minimumDeposit && !currentRegistration.completed">
-      <input type="radio" ng-model="amount" value="{{conference.minimumDeposit}}" id="payment-min">
-        <label class="crs-radio-label" for="payment-min">
-        <span></span> ${{conference.minimumDeposit}} (minimum deposit)</label>
-    </div>
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="nav nav-pills">
+      <li class="active">
+        <a href=""><i class="fa fa-credit-card"></i>
+          <span>Payment</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <article>
+      <div class="row">
+        <div class="col-xs-12">
+          <strong>Payment Amount:</strong>
+          <div ng-show="conference.conferenceCost !== conference.minimumDeposit && !currentRegistration.completed">
+            <input type="radio" ng-model="amount" value="{{conference.minimumDeposit}}" id="payment-min">
+            <label for="payment-min">${{conference.minimumDeposit}} (minimum deposit)</label>
+          </div>
 
-    <input type="radio" ng-model="amount" value="{{conference.conferenceCost}}" id="payment-full">
-    <label class="crs-radio-label" for="payment-full">
-      <span></span> ${{conference.conferenceCost}}</label>
-    <br>
-    Name on Card: <input type="text" data-ng-model="creditCardNameOnCard"/><br>
-    Card Number:
-    <input class="inputCard" type="text" maxlength="16" data-ng-model="creditCardNumber"/>
+          <input type="radio" ng-model="amount" value="{{conference.conferenceCost}}" id="payment-full">
+          <label for="payment-full">${{conference.conferenceCost}}</label>
+        </div>
+      </div>
 
-    Card CVV:
-    <input class="inputCard" type="text" maxlength="4" data-ng-model="creditCardCVVNumber"/>
-    <br/>
-    Card Expiry:
-    <select data-ng-model="creditCardExpirationMonth">
-      <option value=''>Month</option>
-      <option value='01'>01 - January</option>
-      <option value='02'>02 - February</option>
-      <option value='03'>03 - March</option>
-      <option value='04'>04 - April</option>
-      <option value='05'>05 - May</option>
-      <option value='06'>06 - June</option>
-      <option value='07'>07 - July</option>
-      <option value='08'>08 - August</option>
-      <option value='09'>09 - September</option>
-      <option value='10'>10 - October</option>
-      <option value='11'>11 - November</option>
-      <option value='12'>12 - December</option>
-    </select>
-    <select data-ng-model="creditCardExpirationYear">
-      <option value=''>Year</option>
-      <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
-    </select>
+      <label>Name on Card</label>
+      <input type="text" ng-model="creditCardNameOnCard" class="form-control" ng-enter="createPayment()" />
 
-    <button class="btn btn-block btn-success btn-large mtb6"
-            data-ng-click="createPayment()"
-            type="submit">Continue
-    </button>
+      <label>Card Number</label>
+      <input type="text" maxlength="16" ng-model="creditCardNumber" autocomplete="off" class="form-control" ng-enter="createPayment()" />
+
+      <div class="row">
+        <div class="col-xs-4">
+          <label>Expiration Month</label>
+          <select ng-model="creditCardExpirationMonth" class="form-control">
+            <option value=''>Month</option>
+            <option value='01'>01 - January</option>
+            <option value='02'>02 - February</option>
+            <option value='03'>03 - March</option>
+            <option value='04'>04 - April</option>
+            <option value='05'>05 - May</option>
+            <option value='06'>06 - June</option>
+            <option value='07'>07 - July</option>
+            <option value='08'>08 - August</option>
+            <option value='09'>09 - September</option>
+            <option value='10'>10 - October</option>
+            <option value='11'>11 - November</option>
+            <option value='12'>12 - December</option>
+          </select>
+        </div>
+        <div class="col-xs-3">
+          <label>Expiration Year</label>
+          <select ng-model="creditCardExpirationYear" class="form-control">
+            <option value=''>Year</option>
+            <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+          </select>
+        </div>
+        <div class="col-xs-5">
+          <label>Card CVV</label>
+          <input class="form-control" type="text" maxlength="4" ng-model="creditCardCVVNumber" autocomplete="off" ng-enter="createPayment()" />
+        </div>
+      </div>
+
+      <button class="btn btn-success btn-lg full"
+              ng-click="createPayment()"
+              type="submit">Continue
+      </button>
+    </article>
   </div>
 </div>

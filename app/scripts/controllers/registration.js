@@ -1,7 +1,16 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, conference, currentRegistration, $routeParams, $location) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, conference, currentRegistration) {
+    $rootScope.globalPage = {
+      type: 'registration',
+      mainClass: 'front-form',
+      bodyClass: 'frontend',
+      title: conference.name,
+      confId: conference.id,
+      footer: false
+    };
+
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -36,7 +45,6 @@ angular.module('confRegistrationWebApp')
 
     function getPageAfterById(pageId) {
       var pages = conference.registrationPages;
-
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {
           return pages[i + 1];
@@ -46,15 +54,33 @@ angular.module('confRegistrationWebApp')
 
     $scope.nextPage = getPageAfterById(pageId);
 
-    $scope.validateAndGoToNext = function () {
-      $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
+    $scope.validateAndGoToNext = function (isValid) {
+      if (isValid) {
+        if (angular.isDefined($scope.nextPage)) {
+          $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
+        } else {
+          //go to payment
+          if (conference.acceptCreditCards && _.isUndefined($rootScope.currentPayment)) {
+            $location.path('/payment/' + conference.id);
+          } else {
+            $location.path('/reviewRegistration/' + conference.id);
+          }
+        }
+      } else {
+        $scope.notify = {
+          class: 'alert-danger',
+          message: $sce.trustAsHtml('Please fill in all required fields.')
+        };
+        window.scrollTo(0, 0);
+      }
     };
 
-    $scope.goToReviewOrPayment = function () {
-      if (conference.acceptCreditCards && _.isUndefined($rootScope.currentPayment)) {
-        $location.path('/payment/' + conference.id);
-      } else {
-        $location.path('/reviewRegistration/' + conference.id);
+    $scope.previousPage = function () {
+      var previousPage = conference.registrationPages[$scope.activePageIndex - 1];
+      if (angular.isDefined(previousPage)) {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + previousPage.id);
+      }  {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/');
       }
     };
 

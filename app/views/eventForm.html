@@ -1,0 +1,69 @@
+<div class="row waypoint1">
+  <!-- Elements -->
+  <div class="col-xs-3 elements-list" ng-show="conference.registrationPages.length > 0">
+    <h4>Form Elements</h4>
+    <ul id="sortable1" class="crsFormElements">
+      <li id="paragraphContent" default-title="Information" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Information Box </span>
+        <i class="fabtn fa fa-plus-circle"></i>
+      </li>
+      <li id="textQuestion" default-title="Question" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Single Line Text Question </span>
+        <i class="fabtn fa fa-pencil-square-o"></i>
+      </li>
+      <li id="radioQuestion" default-title="Multiple Choice" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Multiple Choice </span>
+        <i class="fabtn fa fa-list"></i>
+      </li>
+      <li id="checkboxQuestion" default-title="Checkbox" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Checkbox </span>
+        <i class="fabtn fa fa-check-square-o"></i>
+      </li>
+      <li id="selectQuestion" default-title="Dropdown" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Dropdown </span>
+        <i class="fabtn fa fa-chevron-down"></i>
+      </li>
+      <li id="numberQuestion" default-title="Number" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Number </span>
+        <i class="fabtn fa fa-superscript"></i>
+      </li>
+      <li id="dateQuestion" default-title="Date" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Date </span>
+        <i class="fabtn fa fa-calendar"></i>
+      </li>
+      <li id="nameQuestion" default-title="Name" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Name </span>
+        <i class="fabtn fa fa-user"></i>
+      </li>
+      <li id="emailQuestion" default-title="Email" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Email </span>
+        <i class="fabtn fa fa-envelope-o"></i>
+      </li>
+      <li id="phoneQuestion" default-title="Telephone" default-profile="PHONE" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Telephone </span>
+        <i class="fabtn fa fa-phone-square"></i>
+      </li>
+      <li id="addressQuestion" default-title="Address" default-profile="ADDRESS" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Address </span>
+        <i class="fabtn fa fa-home"></i>
+      </li>
+      <li id="genderQuestion" default-title="Gender" default-profile="GENDER" type="button" class="btn btn-default btn-sm btn-block text-left">
+        <span class="text">Gender </span>
+        <i class="fabtn fa fa-android"></i>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-xs-9 form-page">
+    <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
+
+    <a href="" ng-click="addNewPage()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Page</a>
+    <a href="" ng-click="saveForm(true)" class="btn btn-success save-btn btn-right">Save &amp; Preview</a>
+    <a href="" ng-click="saveForm(false)" class="btn btn-success save-btn btn-right">Save</a>
+    <form class="form" role="form">
+      <div id="droppable" class="well well-sm overflow" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
+        <page></page>
+      </div>
+    </form>
+  </div>
+</div>
