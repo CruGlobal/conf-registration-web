@@ -127,12 +127,16 @@
           <h1 ng-bind="globalPage.title"></h1>
         </div>
         <div ng-class="{'col-xs-6': globalPage.class === 'dashboard', 'col-xs-5': globalPage.class !== 'dashboard'}">
-          <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button" ng-show="globalPage.mainClass === 'dashboard'"><i class="fa fa-plus"></i> Create New Event</a>
           <nav id="subnav" ng-show="globalPage.mainClass !== 'dashboard'" admin-nav>
           </nav>
         </div>
         <div class="col-xs-3 right">
           <a href="#" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
+        </div>
+      </div>
+      <div class="row">
+        <div ng-class="{'col-xs-9': globalPage.class === 'dashboard', 'col-xs-9': globalPage.class !== 'dashboard'}">
+          <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button" ng-show="globalPage.mainClass === 'dashboard'"><i class="fa fa-plus"></i> Create New Event</a>
         </div>
       </div>
     </div>
