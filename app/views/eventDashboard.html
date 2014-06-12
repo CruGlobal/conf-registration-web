@@ -17,8 +17,6 @@
         <a href="#/eventForm/{{event.id}}"><h2>{{event.name}}</h2></a>
         <p><a href="#/eventRegistrations/{{event.id}}"><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</a></p>
         <ul class="horizontal">
-          <!--<li><a href="#/eventRegistrations/{{event.id}}">Registrations</a></li>-->
-          <!--<li><a href="#/eventForm/{{event.id}}">Edit Form</a></li>-->
           <li><a href="" ng-click="cloneEvent(event.id)">Clone</a></li>
         </ul>
       </li>
