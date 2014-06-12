@@ -137,6 +137,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           enforceAuth: $injector.get('enforceAuth')
         }
       })
+      .when('/privacyPolicy', {
+       templateUrl: 'views/privacyPolicy.html'
+      })
       .when('/auth/:token', {
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
