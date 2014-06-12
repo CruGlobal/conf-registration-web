@@ -138,7 +138,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
         }
       })
       .when('/privacyPolicy', {
-       templateUrl: 'views/privacyPolicy.html'
+        templateUrl: 'views/privacyPolicy.html'
       })
       .when('/auth/:token', {
         resolve: {
