@@ -23,7 +23,6 @@
   "evil": true,
   "globals": {
     "angular": false,
-    "bugsense": false,
     "_": false,
     "$": false,
     "alert": false,

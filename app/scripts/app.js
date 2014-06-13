@@ -204,12 +204,4 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
         height: $rootScope.adminDashboard ? '100px' : '5px'
       };
     });*/
-  })
-  .config(function ($provide) {
-    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
-      return function (exception, cause) {
-        $delegate(exception, cause);
-        bugsense.notify(exception, cause);
-      };
-    }]);
   });

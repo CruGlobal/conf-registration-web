@@ -24,8 +24,7 @@ angular.module('confRegistrationWebApp')
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
         if (block.type.indexOf('Content') === -1) {
-          block.visible = true;
-          $scope.blocks.push(block);
+          $scope.blocks.push(angular.copy(block));
         }
       });
     });
