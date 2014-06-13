@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, conference, ConfCache) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, conference, ConfCache, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'conference-details',
@@ -10,8 +10,13 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-    $scope.conference = conference;
+    if (permissions.permissionInt >= permissionConstants.UPDATE) {
+      $scope.templateUrl = 'views/eventDetails.html';
+    } else {
+      $scope.templateUrl = 'views/permissionError.html';
+    }
 
+    $scope.conference = conference;
 
     $scope.saveEvent = function () {
       //validation check
