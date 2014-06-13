@@ -6,14 +6,11 @@
   <h2>Event Information</h2>
 
   <div class="form-group">
-    <label>Event Name</label>
+    <label>Event Name <em class="required">*</em></label>
     <input type="text" class="form-control" placeholder="" ng-model="conference.name">
   </div>
   <label>Description</label>
   <textarea type="text" class="form-control" rows="3" placeholder="" ng-model="conference.description"></textarea>
-</section>
-<section>
-  <h2>Event Dates</h2>
 
   <div class="row">
     <div class="col-xs-6">
@@ -31,14 +28,12 @@
       </div>
     </div>
   </div>
-</section>
-<section>
-  <h2>Location</h2>
 
+  <br>
   <div class="form-group">
-    <label>Location Name</label>
+    <label>Event Location</label>
     <input type="text" class="form-control" placeholder="Name" ng-model="conference.locationName">
-    <label>Mailing Address</label>
+    <label>Event Location Address</label>
     <input type="text" class="form-control" placeholder="Address" ng-model="conference.locationAddress">
 
     <div class="row">
@@ -121,7 +116,7 @@
 
   <div class="row">
     <div class="col-xs-6">
-      <label>Cost</label><br>
+      <label>Cost <em class="required">*</em></label><br>
 
       <div class="input-group col-xs-6">
         <span class="input-group-addon"><i class="fa fa-usd"></i></span>
@@ -147,14 +142,14 @@
 
   <div class="row">
     <div class="col-sm-6">
-      <label>Registration Starts</label><br>
+      <label>Registration Starts <em class="required">*</em></label><br>
 
       <div class="row">
         <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
       </div>
     </div>
     <div class="col-xs-6">
-      <label>Registration Ends</label><br>
+      <label>Registration Ends <em class="required">*</em></label><br>
 
       <div class="row">
         <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>

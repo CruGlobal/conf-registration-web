@@ -463,6 +463,10 @@ main.form-builder {
   }
 }
 main.conference-details {
+  em.required{
+    font-style: normal;
+    color: #C00;
+  }
   .col-xs-9 {
     border-right: 2px solid #cccccc;
     h2 {
@@ -564,6 +568,7 @@ main.dashboard {
     border-radius: 4px;
     padding: 17px 17px 17px 22px;
     margin-bottom: 15px;
+    cursor: pointer;
     h2 {
       .green;
       display: block;
@@ -573,7 +578,7 @@ main.dashboard {
       text-transform: uppercase;
       margin: 5px 0 15px;
     }
-    span {
+    p.reg-count {
       float: right;
       display: inline-block;
       padding: 5px 8px;
@@ -582,6 +587,9 @@ main.dashboard {
       margin-top: -40px;
       font-size: 12px;
       border-radius: 3px;
+    }
+    ul.horizontal li:first-child {
+      padding-left: 0;
     }
     a.hamburger-link {
       float: right;

@@ -54,6 +54,7 @@
   <script src="scripts/controllers/eventRegistrations.js"></script>
   <script src="scripts/controllers/landing.js"></script>
   <script src="scripts/controllers/eventDetails.js"></script>
+  <script src="scripts/controllers/eventOverview.js"></script>
   <script src="scripts/controllers/reviewRegistration.js"></script>
   <script src="scripts/directives/formElements.js"></script>
   <script src="scripts/controllers/eventForm.js"></script>
@@ -86,11 +87,6 @@
   <script src="scripts/services/U.js"></script>
   <!-- endbuild -->
 
-  <!-- Typekit -->
-  <!--  <script type="text/javascript" src="//use.typekit.net/mgc7mdg.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>-->
-  <!-- End Typekit -->
-
   <script type="text/javascript" src="//airbrake.io/javascripts/notifier.js"></script>
   <script type="text/javascript">
     Hoptoad.setKey('e7a93aafa70a5d3929679c5ad95bf8c7');
@@ -119,7 +115,6 @@
                 <span class="sr-only"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li class="dropdown-header">User Options</li>
                 <li><a href="#/logout/">Logout</a></li>
               </ul>
           </div>
@@ -134,12 +129,11 @@
           <h1 ng-bind="globalPage.title"></h1>
         </div>
         <div ng-class="{'col-xs-6': globalPage.class === 'dashboard', 'col-xs-5': globalPage.class !== 'dashboard'}">
-          <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button" ng-show="globalPage.mainClass === 'dashboard'"><i class="fa fa-plus"></i> Create New Event</a>
           <nav id="subnav" ng-show="globalPage.mainClass !== 'dashboard'" admin-nav>
           </nav>
         </div>
         <div class="col-xs-3 right">
-          <a href="#" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
+          <a href="#/help/" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
         </div>
       </div>
     </div>
@@ -179,9 +173,10 @@
     </div>
     <div class="col-xs-12" style="font-size:12px;">
       <ul class="horizontal">
+        <li class=""><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
         <li class=""><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li class=""><a ng-href="#/eventForm/{{globalPage.confId}}">Edit Form</a></li>
         <li class=""><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+        <li class=""><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
       </ul>
     </div>
   </div>
@@ -194,10 +189,9 @@
     <div class="row">
       <div class="col-xs-8">
         <ul class="horizontal blue">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <li><a href="#/privacy/">Privacy Policy</a></li>
+          <li><a href="#/help/">Help</a></li>
+          <li ng-show="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
         </ul>
       </div>
       <div class="col-xs-4 right">

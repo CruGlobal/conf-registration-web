@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       type: 'admin',
       mainClass: 'dashboard',
       bodyClass: '',
-      title: 'Dashboard',
+      title: 'My Dashboard',
       confId: 0,
       footer: true
     };
@@ -16,7 +16,7 @@ angular.module('confRegistrationWebApp')
     });
     ConfCache.query();
 
-    $rootScope.createEvent = function () {
+    $scope.createEvent = function () {
       $modal.open({
         templateUrl: 'views/modals/createEvent.html',
         controller: 'createEventCtrl',
@@ -32,6 +32,10 @@ angular.module('confRegistrationWebApp')
             });
           }
         });
+    };
+
+    $scope.goToEventPage = function (page, eventId) {
+      $location.path('/' + page + '/' + eventId);
     };
 
     $scope.cloneEvent = function (conferenceToCloneId) {
