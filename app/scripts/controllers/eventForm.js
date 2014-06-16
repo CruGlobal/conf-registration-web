@@ -50,28 +50,28 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePage = function (pageId, growl) {
+      var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
+      if ($scope.conference.registrationPages[delPageIndex].blocks.length > 0) {
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'Please remove all questions from page before deleting.';
+            }
+          }
+        });
+        return;
+      }
       if (growl) {
         var page = _.find($scope.conference.registrationPages, {id: pageId});
         var message = 'Page "' + page.title + '" has been deleted.';
         GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
-      $scope.deletePageFromConf(pageId);
-    };
-
-    $scope.deletePageFromConf = function (pageId) {
-      var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
       $scope.conference.registrationPages.splice(delPageIndex, 1);
     };
 
-
-
-
-    $scope.$on('dragVars', function (event, x) {
-      $scope.blockId = x.blockId;
-      $scope.moveType = x.moveType;
-    });
-
-    function makePositionArray() {
+    var makePositionArray = function () {
       var tempPositionArray = [];
       $scope.conference.registrationPages.forEach(function (page, pageIndex) {
         page.blocks.forEach(function (block, blockIndex) {
@@ -79,7 +79,7 @@ angular.module('confRegistrationWebApp')
         });
       });
       return tempPositionArray;
-    }
+    };
 
     $scope.moveBlock = function (blockId, newPage, newPosition) {
       var tempPositionArray = makePositionArray();

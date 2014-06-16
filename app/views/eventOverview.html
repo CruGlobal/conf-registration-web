@@ -6,7 +6,7 @@
           <a href="#/eventDetails/{{conference.id}}" class="btn pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
           <h2>Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
-          <p ng-bind="conference.description" ng-show="conference.description"></p>
+          <p ng-bind="conference.description" ng-show="conference.description" class="eventhub-linebreak"></p>
           <p>{{conference.eventStartTime | date:'MMM d, y h:mm a'}} -
             {{conference.eventEndTime | date:'MMM d, y h:mm a'}}</p>
         </section>

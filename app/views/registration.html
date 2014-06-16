@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div ng-show="currentRegistration.completed === false">
+  <div ng-show="!currentRegistration.completed">
     <div class="row">
       <div class="col-xs-12">
         <ul class="nav nav-pills">
@@ -52,23 +52,25 @@
       <div class="col-xs-12">
         <article ng-show="activePageId == ''">
           <h2>Welcome</h2>
-          <p ng-bind="conference.description"></p>
+          <p ng-bind="conference.description" class="eventhub-linebreak"></p>
           <div class="well creme2">
-            <p>{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} -
+            <p ng-show="conference.eventStartTime">{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} -
               {{conference.eventEndTime | date:'EEEE, MMM d, y h:mm a'}}</p>
 
             <label ng-show="isConferenceCost()">Cost:</label>
             <p ng-show="isConferenceCost()">${{conference.conferenceCost}}</p>
 
-            <label>Location:</label>
-            <p>{{conference.locationName}}<br>{{conference.locationAddress}}<br>{{conference.locationCity}},
-              {{conference.locationState}}</p>
+            <label ng-show="conference.locationName">Location:</label>
+            <p ng-show="conference.locationName">{{conference.locationName}}
+              <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}}</span>
+            </p>
 
             <label>Contact:</label>
-            <p>{{conference.contactPersonName}}
-              <br>{{conference.contactPersonPhone}}
-              <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a>
-            </p>
+            <ul class="list-unstyled">
+              <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
+              <li ng-show="contactPersonPhone">{{conference.contactPersonPhone}}</li>
+              <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+            </ul>
           </div>
           <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}" class="btn btn-success btn-lg full">
             Register Now

@@ -18,7 +18,6 @@
         <h2>{{event.name}}</h2>
         <p class="reg-count" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();"><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</p>
         <ul class="horizontal">
-          <li><a href="" ng-click="goToEventPage('eventOverview', event.id); $event.stopPropagation();">Overview</a></li>
           <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
           <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
           <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, uuid, registrations, conference, RegViewCache) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, uuid, registrations, conference, RegViewCache, RegistrationsViewService, U, PaymentsViewService) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -16,9 +16,10 @@ angular.module('confRegistrationWebApp')
     $scope.reversesort = false;
     $scope.showAllViewId = 'all';
     $scope.defaultViewId = 'default';
-    $scope.activeRegViewId = $scope.showAllViewId;
+    $scope.activeRegViewId = $scope.defaultViewId;
     $scope.savedState = '';
     $scope.showRegistrationsCompleted = true;
+    $scope.columnsDropdownToggle = false;
 
     // collect all 'Content' blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
@@ -177,7 +178,7 @@ angular.module('confRegistrationWebApp')
       $scope.registrationViewsDropdown = [
         {
           id: $scope.defaultViewId,
-          name: '-Default-',
+          name: '-Name & Email-',
           visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
         },
         {
@@ -368,5 +369,38 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[index] = result;
         }
       });
+    };
+
+    // Export conference registrations information to csv
+    $scope.exportRegistrations = function () {
+      var table = RegistrationsViewService.getTable(conference, registrations);
+      var csvContent = U.stringifyArray(table, ',');
+      var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+      U.submitForm(url, { name: csvContent });
+    };
+
+    // Export conference registration payments information to csv
+    $scope.exportPayments = function () {
+      var table = PaymentsViewService.getTable(conference, registrations);
+      var csvContent = U.stringifyArray(table, ',');
+      var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
+      U.submitForm(url, { name: csvContent });
+    };
+
+    $scope.hasCost = function () {
+      return conference.conferenceCost && conference.conferenceCost > 0;
+    };
+
+    $scope.registerUser = function () {
+      var registrationModalOptions = {
+        templateUrl: 'views/modals/manualRegistration.html',
+        controller: 'registrationModal',
+        resolve: {
+          conference: function () {
+            return conference;
+          }
+        }
+      };
+      $modal.open(registrationModalOptions);
     };
   });

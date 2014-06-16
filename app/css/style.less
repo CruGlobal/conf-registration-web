@@ -216,7 +216,7 @@ main.front-form {
       border: 0;
     }
     .well {
-      p {
+      p, ul {
         .darkgray;
         font-size: 14px;
         .proximasemi;
@@ -292,13 +292,11 @@ main.registrations {
     margin-right: 5px;
     display: inline-block;
   }
-  .columns-btn {
-    button.btn {
-      .white;
-      font-size: 18px;
-      padding: 5px 8px;
-      line-height: 10px;
-    }
+  .columns-btn.col-dropdown {
+    .white;
+    font-size: 18px;
+    padding: 5px 8px;
+    line-height: 10px;
   }
   .rowdetails {
     .well {
@@ -323,6 +321,13 @@ main.registrations {
         font-size: 14px;
         .darkgray;
       }
+    }
+  }
+  .reg-views-dropdown {
+    display: block;
+    .listing {
+      width:450px;
+      padding: 6px;
     }
   }
 }
@@ -463,10 +468,6 @@ main.form-builder {
   }
 }
 main.conference-details {
-  em.required{
-    font-style: normal;
-    color: #C00;
-  }
   .col-xs-9 {
     border-right: 2px solid #cccccc;
     h2 {
@@ -742,8 +743,7 @@ body {
     float: right;
   }
   .full { width: 100%; display: block; }
-  .columns-btn.opened .dropdown-menu.stayopen { display: block; }
-  .columns-btn.open .dropdown-menu { display: none; }
+
   .timepicker, .datepicker {
     .add-on { cursor: pointer; }
   }
@@ -793,4 +793,13 @@ body {
   z-index: 1031;
   top: 20px;
   right: 20px;
+}
+
+em.required{
+  font-style: normal;
+  color: #C00;
+}
+
+.eventhub-linebreak{
+  white-space: pre;
 }

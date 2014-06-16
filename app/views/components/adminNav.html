@@ -4,13 +4,13 @@
   <li class="blue"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
   <li class="blue"><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
   <li class="dropdown">
-    <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+    <button class="dropdown-toggle" type="button">
       <i class="fa fa-plus-circle"></i> More
     </button>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu">
       <li><a ng-href="#/preview/{{globalPage.confId}}/page/">Preview Registration Form</a></li>
       <li><a ng-href="#/eventPermissions/{{globalPage.confId}}">Event Permissions</a></li>
-      <li class="list-group-item-danger"><a href="" ng-click="deleteConference(globalPage.confId)">Delete Event</a></li>
+      <li class="list-group-item-danger"><a href="" ng-click="deleteEvent(globalPage.confId)">Delete Event</a></li>
     </ul>
   </li>
 </ul>

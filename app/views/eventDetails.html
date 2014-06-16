@@ -112,6 +112,32 @@
   </div>
 </section>
 <section>
+    <h2>Registration Options</h2>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <label>Registration Starts <em class="required">*</em></label><br>
+
+            <div class="row">
+                <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <label>Registration Ends <em class="required">*</em></label><br>
+
+            <div class="row">
+                <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div class="full">
+        <input type="checkbox" id="requireLogin" ng-value="true" ng-model="conference.requireLogin">
+        <label for="requireLogin">Require Relay or Facebook login to register</label>
+    </div>
+</section>
+<section>
   <h2>Payment Options</h2>
 
   <div class="row">
@@ -125,48 +151,26 @@
     </div>
   </div>
   <br>
-  <input type="checkbox" ng-model="conference.acceptCreditCards" ng-value="true">
-  <button class="label label-success" type="button" data-toggle="modal" data-target="#creditcardModal"
+  <label class="space">
+    <input type="checkbox" ng-model="conference.acceptCreditCards" ng-value="true">
+    <button class="label label-success" type="button" data-toggle="modal" data-target="#creditcardModal"
           ng-show="conference.acceptCreditCards">Options
-  </button>
-  <label class="space">Accept Credit Cards</label><br>
+    </button>
+    Accept Credit Cards
+  </label><br>
 
-  <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" ng-value="true">
-  <button class="label label-success" type="button" data-toggle="modal" data-target="#registrationModal"
+  <label class="space">
+    <input type="checkbox" ng-model="conference.earlyRegistrationDiscount" ng-value="true">
+    <button class="label label-success" type="button" data-toggle="modal" data-target="#registrationModal"
           ng-show="conference.earlyRegistrationDiscount">Options
-  </button>
-  <label class="space">Early Bird Discount</label>
-</section>
-<section>
-  <h2>Registration Options</h2>
-
-  <div class="row">
-    <div class="col-sm-6">
-      <label>Registration Starts <em class="required">*</em></label><br>
-
-      <div class="row">
-        <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <label>Registration Ends <em class="required">*</em></label><br>
-
-      <div class="row">
-        <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
-      </div>
-    </div>
-  </div>
-  <br>
-
-  <div class="full">
-    <input type="checkbox" id="requireLogin" ng-value="true" ng-model="conference.requireLogin">
-    <label for="requireLogin">Require Relay or Facebook login to register</label>
-  </div>
+    </button>
+    Early Bird Discount
+  </label>
 </section>
 <section>
   <h2>Contact Information</h2>
 
-  <p>This information will be displayed publicly on the registration welcome page.</p>
+  <p><i class="fa fa-info-circle"></i> This information will be displayed publicly on the registration welcome page.</p>
 
   <div class="row">
     <div class="form-group col-xs-4">
@@ -190,28 +194,20 @@
 </div>
 <aside class="col-xs-3">
   <section>
-    <h3>Questions?</h3>
-
-    <p>
-      Not sure what to do? Go to this handy guide to find everything you need to get started.
-    </p>
-    <a class="link" href="#">FAQ’S <i class="fa fa-chevron-right"></i></a>
-  </section>
-  <section>
-    <h3>Area Title</h3>
-
-    <p>
-      This is a text area where you can highlight a feature or page on the site.
-    </p>
-    <a class="link" href="#">Link Goes Here <i class="fa fa-chevron-right"></i></a>
+    <h3>Event Stats</h3>
+    <div class="row" style="font-size: 48px; text-align: center;">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-4">
+        <i class="fa fa-users green"></i>
+      </div>
+      <div class="col-xs-4">
+        {{conference.completedRegistrationCount}}
+      </div>
+    </div>
+    <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
   </section>
 </aside>
 </div>
-
-
-
-
-
 
 <div id="creditcardModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -222,13 +218,17 @@
         <h4 class="modal-title">Credit Card Options</h4>
       </div>
       <div class="modal-body">
-        <label>Authorize.net API User ID:</label>
-        <input class="form-control" type="text" ng-model="conference.authnetId" autocomplete="off">
-        <label>Authorize.net API Transaction Key:</label>
-        <input class="form-control" type="text" ng-model="conference.authnetToken"
+        <p><i class="fa fa-info-circle"></i> If you will be accepting credit card payments for your event, you must have a merchant account with our credit card processing vendor, Authorize.net. For information on obtaining a merchant account, please contact <a href="mailto:financial.services@ccci.org">financial.services@ccci.org</a>.</p>
+        <div class="form-group">
+          <label>Authorize.net API User ID:</label>
+          <input class="form-control" type="text" ng-model="conference.authnetId" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Authorize.net API Transaction Key:</label>
+          <input class="form-control" type="text" ng-model="conference.authnetToken"
                placeholder="Leave blank to keep saved transaction key" autocomplete="off">
+        </div>
         <label>Minimum Payment to Register:</label>
-
         <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-usd"></i></span>
           <input type="text" class="form-control marginless" placeholder="20.00" ng-model="conference.minimumDeposit">
@@ -255,15 +255,14 @@
       <div class="modal-body">
         <div class="form-group container">
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-xs-7">
               <label>If registered by</label>
+              <div class="row">
+                <crs-datetimepicker model="conference.earlyRegistrationCutoff"></crs-datetimepicker>
+              </div>
             </div>
-            <crs-datetimepicker model="conference.earlyRegistrationCutoff"></crs-datetimepicker>
-            <div class="col-xs-12">
-              <br>
+            <div class="col-xs-5">
               <label>Discount</label>
-            </div>
-            <div class="col-xs-12">
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
                 <input type="text" class="form-control marginless" placeholder="20.00"

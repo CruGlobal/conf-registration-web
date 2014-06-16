@@ -9,10 +9,6 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    this.hasCost = function (conference) {
-      return conference.conferenceCost && conference.conferenceCost > 0;
-    };
-
     this.getContentByBlockType = function (value, type) {
 
       if (U.isEmpty(value)) {

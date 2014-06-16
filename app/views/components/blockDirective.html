@@ -1,9 +1,8 @@
 <div ng-if="!wizard">
-  <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
+  <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
 
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" style="white-space: pre;">
-    </p>
+    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="eventhub-linebreak"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
     <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
@@ -26,16 +25,13 @@
       <p class="editme">Edit</p>
     </div>
     <div class="col-xs-2" ng-click="editBlock = false" ng-show="editBlock">
-      <i class="fa fa-times-circle-o"></i>
-      <p class="editme">Close</p>
+      <i class="fa fa-floppy-o"></i>
+      <p class="editme">Save</p>
     </div>
     <div class="col-xs-10">
-      <label>{{block.title}}</label> <span ng-show="block.required">(required)</span>
+      <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
       <ng-switch on="block.type">
-        <p ng-switch-when="paragraphContent">
-          <tag ng-show="!editBlock" style="white-space: pre;" ng-bind="block.content"></tag>
-          <tag ng-show="editBlock"><textarea ng-model="block.content" class="form-control"></textarea></tag>
-        </p>
+        <p ng-switch-when="paragraphContent" ng-bind="block.content" class="eventhub-linebreak"></p>
         <text-question block="block" ng-switch-when="textQuestion"></text-question>
         <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
         <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
@@ -58,21 +54,46 @@
         <div class="tab-content">
           <div class="tab-pane fade in active" id="home">
             <div class="form-group">
-              <label>Field Label</label>
+              <label>Field Title</label>
               <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
             </div>
+
+            <div class="form-group" ng-show="block.type === 'paragraphContent'">
+              <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
+            </div>
+            <div class="form-group" ng-show="hasOptions">
+              <label>Question Options</label>
+              <div ng-repeat="choice in block.content.choices track by $index" style="margin-bottom:6px;">
+                  <div class="input-group col-xs-6">
+                      <input ng-model="block.content.choices[$index]" type="text" class="form-control">
+    <span class="input-group-btn">
+      <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
+    </span>
+                  </div>
+              </div>
+
+              <div class="input-group col-xs-6">
+                  <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-primary"
+            ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add
+    </button>
+  </span>
+              </div>
+          </div>
 
             <div class="checkbox" ng-show="requiredOption">
               <label><input type="checkbox" ng-model="block.required"> Required</label>
             </div>
             <div class="checkbox" ng-show="profileOption">
-              <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Profile</label>
+              <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Cru Profile</label>
             </div>
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
+      <span class="btn-sm green pull-right cru-profile" ng-show="block.profileType"><i class="fa fa-user"></i> Cru Profile</span>
       <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-show="canDelete"><i class="fa fa-trash-o"></i> Delete</button>
+      <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
     </div>
   </div>
 </div>
