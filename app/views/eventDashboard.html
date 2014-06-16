@@ -14,12 +14,9 @@
     </div>
     <ul id="sortable">
       <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName}) | orderBy: 'name'" ng-class="{'expired': archived}">
-        <h2>{{event.name}}</h2>
-        <span>#{{event.id}}</span>
-        <p><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</p>
+        <a href="#/eventForm/{{event.id}}"><h2>{{event.name}}</h2></a>
+        <p><a href="#/eventRegistrations/{{event.id}}"><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</a></p>
         <ul class="horizontal">
-          <li><a href="#/eventRegistrations/{{event.id}}">Registrations</a></li>
-          <li><a href="#/eventForm/{{event.id}}">Edit Form</a></li>
           <li><a href="" ng-click="cloneEvent(event.id)">Clone</a></li>
         </ul>
       </li>
@@ -30,20 +27,12 @@
   <div class="col-xs-1 line">
   </div>
   <aside class="col-xs-3">
-    <a href="#" class="btn btn-primary help-btn" role="button"><i class="fa fa-medkit"></i> I Need Help!</a>
     <section>
       <h3>Questions?</h3>
       <p>
         Not sure what to do?  Go to this handy guide to find everything you need to get started.
       </p>
       <a class="link" href="#">FAQ'S <i class="fa fa-chevron-right"></i></a>
-    </section>
-    <section>
-      <h3>Area Title</h3>
-      <p>
-        This is a text area where you can highlight a feature or page on the site.
-      </p>
-      <a class="link" href="#">Link Goes Here <i class="fa fa-chevron-right"></i></a>
     </section>
   </aside>
 </div>
