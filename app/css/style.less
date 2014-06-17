@@ -89,7 +89,7 @@ body.frontend {
   background: @blue;
   border-bottom: 7px solid @darkblue;
   padding-top: 26px;
-  .col-xs-8 {
+  .usr-greeting {
     text-align: right;
     .btn-group {
       text-align: left;
@@ -111,7 +111,11 @@ body.frontend {
     }
   }
 }
-a.logo { line-height: 0; }
+a.logo, a.logo:hover {
+  color: white;
+  font-size: 36px;
+  text-decoration: none;
+}
 #logo { width: 205px; height: auto; }
 section#frontpagetitle {
   background: @darkerblue;
