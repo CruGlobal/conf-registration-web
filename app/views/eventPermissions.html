@@ -1,3 +1,4 @@
+<div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
 <h2>Current Permissions</h2>
     <table class="table table-striped">
       <thead>
@@ -38,7 +39,7 @@
     </select>
     <br>
     <div class="">
-      <button type="submit" class="btn btn-success " ng-click="addPermission()">Save</button>
+      <button type="submit" class="btn btn-success " ng-click="addPermission(addPermissionsEmail, addPermissionsLevel)">Save</button>
     </div>
   </div>
 </div>
