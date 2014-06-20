@@ -2,9 +2,7 @@
 <html ng-app="confRegistrationWebApp">
 <head>
   <meta charset="UTF-8">
-  <title>Event Registration Tool | {{globalPage.title}}</title>
-  <!--<link rel="icon" type="image/png" href="/img/favicon.png" />-->
-
+  <title ng-bind="generateTitle(globalPage.title)"></title>
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
@@ -21,11 +19,6 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <!-- End Bootstrap -->
-
-  <!-- Typekit -->
-  <script type="text/javascript" src="//use.typekit.net/mgc7mdg.js"></script>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-  <!-- End Typekit -->
 
   <!-- CSS -->
   <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">

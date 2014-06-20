@@ -14,7 +14,7 @@
         <td>{{permission.emailAddress}}</td>
         <td>
           <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
-            <option ng-show="permission.permissionLevel == 'CREATOR'">CREATOR</option>
+            <option ng-if="permission.permissionLevel === 'CREATOR'">CREATOR</option>
             <option>FULL</option>
             <option>UPDATE</option>
             <option>VIEW</option>

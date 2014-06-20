@@ -213,6 +213,14 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
       if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
+
+    $rootScope.generateTitle = function(title){
+      if (title) {
+        return title + ' | Event Registration Tool';
+      } else {
+        return 'Event Registration Tool';
+      }
+    };
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
