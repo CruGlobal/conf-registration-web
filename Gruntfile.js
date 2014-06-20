@@ -41,7 +41,7 @@ module.exports = function (grunt) {
           livereload: LIVERELOAD_PORT
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
+          '<%= yeoman.app %>/**/*.html',
           '{.tmp,<%= yeoman.app %>}/css/{,*/}*.css',
           '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
@@ -128,39 +128,15 @@ module.exports = function (grunt) {
         }
       }
     },
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/css',
-        cssDir: '.tmp/css',
-        generatedImagesDir: '.tmp/img/generated',
-        imagesDir: '<%= yeoman.app %>/img',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
-        importPath: '<%= yeoman.app %>/bower_components',
-        httpImagesPath: '/img',
-        httpGeneratedImagesPath: '/img/generated',
-        httpFontsPath: '/styles/fonts',
-        relativeAssets: false
-      },
-      dist: {},
-      server: {
-        options: {
-          debugInfo: true
-        }
-      }
-    },
-    // not used since Uglify task does concat,
-    // but still available if needed
-    /*concat: {
-      dist: {}
-    },*/
     rev: {
       dist: {
         files: {
           src: [
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/components/**/*.css',
-            '<%= yeoman.dist %>/css/{,*/}*.css'
+            '<%= yeoman.dist %>/css/{,*/}*.css',
+            '<%= yeoman.dist %>/views/{,*/}*.html',
+            '<%= yeoman.dist %>/img/{,*/}*.png'
           ]
         }
       }
@@ -168,14 +144,21 @@ module.exports = function (grunt) {
     useminPrepare: {
       html: '<%= yeoman.app %>/index.html',
       options: {
-        dest: '<%= yeoman.dist %>'
+        dest: '<%= yeoman.dist %>',
+        flow: { steps: { 'js': ['concat'], 'css': ['concat']}, post: {}}
       }
     },
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      html: ['<%= yeoman.dist %>/index.html', '<%= yeoman.dist %>/views/**/*.html'],
+      js: ['<%= yeoman.dist %>/scripts/{,*/}*eventApp.js'],
       css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
       options: {
-        dirs: ['<%= yeoman.dist %>']
+        assetsDirs: ['<%= yeoman.dist %>'],
+        patterns: {
+          js: [
+            [/(views\/.*?\.(?:html))/gm, 'Update the JS to reference our revved images']
+          ]
+        }
       }
     },
     imagemin: {
@@ -221,7 +204,6 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             'bower_components/**/*',
-            'img/{,*/}*.{gif,webp,svg}',
             'components/**/*'
           ]
         }, {
@@ -258,26 +240,15 @@ module.exports = function (grunt) {
         html: ['<%= yeoman.dist %>/*.html']
       }
     },
-    ngmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= yeoman.dist %>/scripts',
-          src: '*.js',
-          dest: '<%= yeoman.dist %>/scripts'
-        }]
-      }
-    },
     uglify: {
       options: {
         mangle: false
       },
-      dist: {
-        files: {
-          '<%= yeoman.dist %>/scripts/scripts.js': [
-            '<%= yeoman.dist %>/scripts/scripts.js'
-          ]
-        }
+      files: {
+        expand: true,
+        cwd: '<%= yeoman.dist %>/scripts',
+        src: '*.js',
+        dest: '<%= yeoman.dist %>/scripts'
       }
     }
   });
@@ -319,10 +290,9 @@ module.exports = function (grunt) {
     'concat',
     'copy',
     'cdnify',
-    'ngmin',
-    'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'uglify'
   ]);
 
   grunt.registerTask('default', [
