@@ -38,6 +38,10 @@ angular.module('confRegistrationWebApp')
       cache.put(path(id), conference);
     };
 
+    this.empty = function () {
+      cache.removeAll();
+    };
+
     this.create = function (name) {
       var registrationEndTime = new Date();
       registrationEndTime.setYear(registrationEndTime.getFullYear() + 1);
@@ -49,7 +53,10 @@ angular.module('confRegistrationWebApp')
         name: name,
         registrationStartTime: new Date(),
         registrationEndTime: registrationEndTime,
+        eventStartTime: new Date(),
+        eventEndTime: registrationEndTime,
         conferenceCost: 0,
+        earlyRegistrationAmount: 0,
         registrationPages: [
           {
             id: newPageId,
@@ -70,7 +77,7 @@ angular.module('confRegistrationWebApp')
                 id: uuid(),
                 pageId: newPageId,
                 type: 'emailQuestion',
-                title: 'Email Address',
+                title: 'Email',
                 profileType: 'EMAIL',
                 position: 1,
                 required: true

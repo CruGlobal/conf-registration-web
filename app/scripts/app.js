@@ -78,6 +78,22 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           enforceAuth: $injector.get('enforceAuth')
         }
       })
+      .when('/eventOverview/:conferenceId', {
+        templateUrl: 'views/eventOverview.html',
+        controller: 'eventOverviewCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+          }],
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
+          }]
+        }
+      })
       .when('/eventRegistrations/:conferenceId', {
         templateUrl: 'views/eventRegistrations.html',
         controller: 'eventRegistrationsCtrl',
@@ -170,6 +186,14 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
           ]
         }
       })
+      .when('/help/', {
+        templateUrl: 'views/help.html',
+        controller: 'landingCtrl'
+      })
+      .when('/privacy/', {
+        templateUrl: 'views/privacy.html',
+        controller: 'landingCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -189,6 +213,14 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
       if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
+
+    $rootScope.generateTitle = function (title) {
+      if (title) {
+        return title + ' | Event Registration Tool';
+      } else {
+        return 'Event Registration Tool';
+      }
+    };
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
@@ -197,14 +229,4 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
-  })
-  .run(function ($rootScope, $location) {
-    $rootScope.location = $location;
-    /*$rootScope.$watch('location.url()', function (newVal) {
-      $rootScope.adminDashboard = angular.equals(newVal, '/');
-
-      $rootScope.subHeadStyle = {
-        height: $rootScope.adminDashboard ? '100px' : '5px'
-      };
-    });*/
   });

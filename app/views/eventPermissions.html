@@ -1,10 +1,11 @@
+<div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
 <h2>Current Permissions</h2>
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>Email</th>
+        <th class="col-xs-6">Email</th>
         <th>Level</th>
-        <th>Last Modification</th>
+        <th>Last Update</th>
         <th>Actions</th>
       </tr>
       </thead>
@@ -12,15 +13,15 @@
       <tr data-ng-repeat="permission in currentPermissions">
         <td>{{permission.emailAddress}}</td>
         <td>
-          <select ng-model="permission.permissionLevel" ng-show="permission.permissionLevel !== 'CREATOR'" ng-change="updatePermission(permission.id)" class="form-control">
+          <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+            <option ng-if="permission.permissionLevel === 'CREATOR'">CREATOR</option>
             <option>FULL</option>
             <option>UPDATE</option>
             <option>VIEW</option>
           </select>
-          <span ng-show="permission.permissionLevel == 'CREATOR'">CREATOR</span>
         </td>
         <td>{{permission.timestamp | date:'short'}}</td>
-        <td><a href="" ng-click="deletePermission(permission.id)" ng-show="permission.permissionLevel !== 'CREATOR'">Delete</a></td>
+        <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
       </tr>
       </tbody>
     </table>
@@ -38,16 +39,13 @@
     </select>
     <br>
     <div class="">
-      <button type="submit" class="btn btn-success " ng-click="addPermission()">Save</button>
+      <button type="submit" class="btn btn-success " ng-click="addPermission(addPermissionsEmail, addPermissionsLevel)">Save</button>
     </div>
   </div>
 </div>
 
 <div class="col-xs-6">
-  <h3>Creator</h3>
-  <p>All full permissions, and can never be removed as an admin for the event. Each event can only have one creator.</p>
-
-  <h3>Full</h3>
+  <h3>Full/Creator</h3>
   <p>All update permissions, plus:</p>
   <ul>
     <li>Clone event</li>

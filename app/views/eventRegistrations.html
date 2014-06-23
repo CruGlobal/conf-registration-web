@@ -4,67 +4,75 @@
       <h2>Registrations</h2>
     </div>
     <div class="col-xs-5 colright">
-      <button class="btn btn-success btn-sm" type="button" ng-click="registerUser(conference.id)"><i class="fa fa-plus"></i> Add Registration</button>
-      <a class="btn btn-primary btn-sm" href="" ng-click="exportRegistrations(conference.id)"><i class="fa fa-cloud-download"></i> Export Registrations</a>
-      <a class="btn btn-primary btn-sm" href="" ng-show="hasCost(conference)" ng-click="exportPayments(conference.id)"><i class="fa fa-cloud-download"></i> Export Payments</a>
+      <button class="btn btn-success btn-sm" type="button" ng-click="registerUser()"><i class="fa fa-plus"></i> Add Registration</button>
+      <a class="btn btn-primary btn-sm" href="" ng-click="exportRegistrations()"><i class="fa fa-cloud-download"></i> Export Registrations</a>
+      <a class="btn btn-primary btn-sm" href="" ng-show="hasCost(conference)" ng-click="exportPayments()"><i class="fa fa-cloud-download"></i> Export Payments</a>
     </div>
   </div>
   <table class="table table-striped">
-    <tr class="active">
+    <tr>
       <td>
-        <div class="col-md-3">
+        <div class="col-md-5">
           <div class="input-group-md">
-            <input type="text" class="form-control" placeholder="Filter" ng-model="searchFilter">
+            <input type="text" class="form-control" placeholder="Search" ng-model="searchFilter">
           </div>
         </div>
         <div class="col-md-2">
-          <select ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
+          <select ng-show="isConferenceCost()" ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
-        <div class="col-md-5">
-          <div class="input-group" ng-show="isPredefinedView(activeRegViewId)">
-            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save</button>
-              </span>
-          </div>
-
-          <div class="input-group" ng-show="!isPredefinedView(activeRegViewId)">
-            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
-              <span class="input-group-btn">
-                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save</button>
-                <button type="button" class="btn btn-danger" ng-click="delRegView()">Delete</button>
-              </span>
-          </div>
-          <class ng-show="savedState !== ''" style="color:#888;">({{savedState}})</class>
-        </div>
-        <div class="col-md-2 colright">
+        <div class="col-md-5 colright">
           <p class="columns">Columns </p>
           <div class="btn-group columns-btn">
-            <button type="button" class="btn btn-primary btn-md dropdown-toggle opener" data-toggle="dropdown">
-              <i class="fa fa-bars"></i>
-              <span class="sr-only">Toggle Dropdown</span>
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
+              <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
+              <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
             </button>
-            <ul class="dropdown-menu dropdown-menu-right stayopen" role="menu">
-              <li ng-repeat="block in blocks">
-                <a href="" ng-click="toggleColumn($index)">
-                  <i class="fa fa-check-square" ng-show="block.visible"></i>
-                  <i class="fa fa-square-o" ng-show="!block.visible"></i>
-                  {{block.title}}
-                </a>
-              </li>
-            </ul>
+                <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
+                    <div class="listing">
+                        <div class="input-group" ng-show="isPredefinedView(activeRegViewId)">
+                            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save As</button>
+              </span>
+                        </div>
+
+                        <div class="input-group" ng-show="!isPredefinedView(activeRegViewId)">
+                            <select ng-model="activeRegViewId" ng-options="view.id as view.name for view in registrationViewsDropdown" ng-change="setRegView()" ng-selected="activeRegViewId" class="form-control"></select>
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-primary" ng-click="createRegView()">Save As</button>
+                <button type="button" class="btn btn-danger" ng-click="delRegView()">Delete</button>
+              </span>
+                        </div>
+
+                    </div>
+                  <li ng-repeat="block in blocks">
+                    <a href="" ng-click="toggleColumn($index)">
+                      <i class="fa fa-check-square" ng-show="block.visible"></i>
+                      <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                      {{block.title}}
+                    </a>
+                  </li>
+                </ul>
+
           </div>
         </div>
       </td>
     </tr>
   </table>
 </div>
+<p class="pull-right">
+    <label>
+        <input type="checkbox" ng-model="showRegistrationsCompleted">
+        Only show completed registrations
+    </label>
+</p>
+<p>Showing {{regFilter.length}} registration(s)</p>
 
 <div class="container" ng-show="registrations.length == 0">
   <p>No one has registered for this event yet.</p>
 </div>
 
-<table class="table" ng-show="registrations.length > 0">
+<table class="table" ng-show="regFilter.length > 0">
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
@@ -74,7 +82,7 @@
     </tr>
   </thead>
   <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
-    <tr>
+    <tr ng-class="{'active': $even}">
       <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(registration.id)">
         <show-answer block="block" registration="registration"></show-answer>
       </td>
@@ -103,9 +111,4 @@
     </tr>
   </tbody>
 </table>
-<p>Showing {{regFilter.length}} of {{registrations.length}} registration(s)<br>
-  <input type="checkbox" id="showRegistrationsCompleted" ng-model="showRegistrationsCompleted">
-  <label class="crs-checkbox-label" for="showRegistrationsCompleted"><span></span>
-    Only show completed registrations
-  </label>
-</p>
+<p>Showing {{regFilter.length}} registration(s)</p>

@@ -2,19 +2,17 @@
 <html ng-app="confRegistrationWebApp">
 <head>
   <meta charset="UTF-8">
-  <title>EventHub | {{globalPage.title}}</title>
-  <!--<link rel="icon" type="image/png" href="/img/favicon.png" />-->
-
+  <title ng-bind="generateTitle(globalPage.title)"></title>
   <!-- jQuery -->
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
   <!-- End jQuery -->
 
   <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-resource.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-cookies.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.15/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-resource.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-route.min.js"></script>
   <!-- End AngularJS -->
 
   <!-- Bootstrap -->
@@ -35,7 +33,7 @@
   <script src="bower_components/lodash/dist/lodash.js"></script>
   <!-- endbuild -->
 
-  <!-- build:js scripts/eventHub.js -->
+  <!-- build:js scripts/eventApp.js -->
   <script src="scripts/app.js"></script>
   <script src="scripts/services/currentRegistrationInterceptor.js"></script>
   <script src="scripts/services/authorizationInterceptor.js"></script>
@@ -54,6 +52,7 @@
   <script src="scripts/controllers/eventRegistrations.js"></script>
   <script src="scripts/controllers/landing.js"></script>
   <script src="scripts/controllers/eventDetails.js"></script>
+  <script src="scripts/controllers/eventOverview.js"></script>
   <script src="scripts/controllers/reviewRegistration.js"></script>
   <script src="scripts/directives/formElements.js"></script>
   <script src="scripts/controllers/eventForm.js"></script>
@@ -103,10 +102,12 @@
   <header id="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-xs-4">
-          <a class="logo" href="#/eventDashboard"><img id="logo" src="/img/formvent-logo.svg"></a>
+        <div class="col-xs-6">
+          <a class="logo" href="#/eventDashboard">
+            <i class="fa fa-users"></i> Event Registration Tool
+          </a>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-6 usr-greeting">
           <div class="btn-group">
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalUsername"></strong></button>
               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -114,7 +115,6 @@
                 <span class="sr-only"></span>
               </button>
               <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li class="dropdown-header">User Options</li>
                 <li><a href="#/logout/">Logout</a></li>
               </ul>
           </div>
@@ -129,12 +129,11 @@
           <h1 ng-bind="globalPage.title"></h1>
         </div>
         <div ng-class="{'col-xs-6': globalPage.class === 'dashboard', 'col-xs-5': globalPage.class !== 'dashboard'}">
-          <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button" ng-show="globalPage.mainClass === 'dashboard'"><i class="fa fa-plus"></i> Create New Event</a>
           <nav id="subnav" ng-show="globalPage.mainClass !== 'dashboard'" admin-nav>
           </nav>
         </div>
         <div class="col-xs-3 right">
-          <a href="#" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
+          <a href="#/help/" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
         </div>
       </div>
     </div>
@@ -145,10 +144,12 @@
   <header id="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-xs-4">
-          <a class="logo" href="/"><img id="logo" src="/img/formvent-logo.svg"></a>
+        <div class="col-xs-6">
+          <a class="logo" href="/">
+              <i class="fa fa-users"></i> Event Registration Tool
+          </a>
         </div>
-        <div class="col-xs-8">
+        <div class="col-xs-6">
         </div>
       </div>
     </div>
@@ -174,9 +175,10 @@
     </div>
     <div class="col-xs-12" style="font-size:12px;">
       <ul class="horizontal">
+        <li class=""><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
         <li class=""><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li class=""><a ng-href="#/eventForm/{{globalPage.confId}}">Edit Form</a></li>
         <li class=""><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+        <li class=""><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
       </ul>
     </div>
   </div>
@@ -189,10 +191,9 @@
     <div class="row">
       <div class="col-xs-8">
         <ul class="horizontal blue">
-          <li><a href="#">Privacy Policy</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Contact Us</a></li>
-          <li><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <li><a href="#/privacy/">Privacy Policy</a></li>
+          <li><a href="#/help/">Help</a></li>
+          <li ng-show="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
         </ul>
       </div>
       <div class="col-xs-4 right">
@@ -204,7 +205,7 @@
 
 <footer id="frontfooter" ng-show="globalPage.type === 'registration'">
   <div class="container">
-    <span>&copy; 2014 | Created with EventHub, powered by <a href="http://www.cru.org" target="_blank">Cru</a></span>
+    <span>&copy; 2014 | Created with Event Registration Tool, powered by <a href="http://www.cru.org" target="_blank">Cru</a></span>
   </div>
 </footer>
 

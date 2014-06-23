@@ -2,9 +2,9 @@ conf-registration-web
 =====================
 [![Build Status](https://travis-ci.org/CruGlobal/conf-registration-web.png?branch=master)](https://travis-ci.org/CruGlobal/conf-registration-web)
 
-http://dev.formvent.org
+https://www.eventregistrationtool.com
 
-http://cruglobal.github.io/conf-registration-web/
+https://stage.eventregistrationtool.com
 
 ## Development Environment Setup
 1. Install Ruby and NodeJS. This will vary depending on your Operating System.

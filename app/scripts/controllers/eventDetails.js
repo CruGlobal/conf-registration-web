@@ -36,6 +36,8 @@ angular.module('confRegistrationWebApp')
       $scope.conference.conferenceCost = parseFloat($scope.conference.conferenceCost);
       if (isNaN($scope.conference.conferenceCost) || $scope.conference.conferenceCost < 0) {
         validationErrors.push('Event cost must be a positive number.');
+      } else {
+        $scope.conference.conferenceCost = parseFloat($scope.conference.conferenceCost).toFixed(2);
       }
 
       //Credit cards
@@ -46,7 +48,13 @@ angular.module('confRegistrationWebApp')
 
         //Minimum Deposit
         $scope.conference.minimumDeposit = parseFloat($scope.conference.minimumDeposit);
-        if (isNaN($scope.conference.minimumDeposit) || $scope.conference.minimumDeposit < 0) {
+        //if min deposit is empty, set equal to event cost
+        if (isNaN($scope.conference.minimumDeposit)) {
+          $scope.conference.minimumDeposit = $scope.conference.conferenceCost;
+        } else {
+          $scope.conference.minimumDeposit = parseFloat($scope.conference.minimumDeposit).toFixed(2);
+        }
+        if ($scope.conference.minimumDeposit < 0) {
           validationErrors.push('Credit card minimum payment must be a positive number.');
         }
 
@@ -64,6 +72,8 @@ angular.module('confRegistrationWebApp')
         $scope.conference.earlyRegistrationAmount = parseFloat($scope.conference.earlyRegistrationAmount);
         if (isNaN($scope.conference.earlyRegistrationAmount) || $scope.conference.earlyRegistrationAmount < 0) {
           validationErrors.push('Early bird discount must be a positive number.');
+        } else {
+          $scope.conference.earlyRegistrationAmount = parseFloat($scope.conference.earlyRegistrationAmount).toFixed(2);
         }
 
         if ($scope.conference.earlyRegistrationAmount > $scope.conference.conferenceCost) {
@@ -103,10 +113,8 @@ angular.module('confRegistrationWebApp')
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
-            //Update cache
-            if (angular.isDefined(conference)) {
-              ConfCache.update(conference.id, $scope.conference);
-            }
+            //Clear cache
+            ConfCache.empty();
           }).error(function (data) {
             window.scrollTo(0, 0);
             $scope.notify = {

@@ -4,22 +4,23 @@
       <div class="col-xs-8">
         <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length}} of {{conferences.length}}</strong> events</p>
         <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> Loading events...</p>
+        <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button"><i class="fa fa-plus"></i> Create New Event</a>
       </div>
       <div class="col-xs-4">
         <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName">
       </div>
     </div>
     <div ng-show="filteredEvents.length === 0" class="alert alert-info">
-      <p>No events found in your account. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> to get started!</p>
+      <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> to get started!</p>
     </div>
     <ul id="sortable">
-      <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName}) | orderBy: 'name'" ng-class="{'expired': archived}">
+      <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName}) | orderBy: 'name'" ng-class="{'expired': archived}"  ng-click="goToEventPage('eventOverview', event.id)">
         <h2>{{event.name}}</h2>
-        <span>#{{event.id}}</span>
-        <p><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</p>
+        <p class="reg-count" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();"><i class="fa fa-users green"></i> <strong>{{event.completedRegistrationCount}}</strong> Registered</p>
         <ul class="horizontal">
-          <li><a href="#/eventRegistrations/{{event.id}}">Registrations</a></li>
-          <li><a href="#/eventForm/{{event.id}}">Edit Form</a></li>
+          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
           <li><a href="" ng-click="cloneEvent(event.id)">Clone</a></li>
         </ul>
       </li>
@@ -30,20 +31,11 @@
   <div class="col-xs-1 line">
   </div>
   <aside class="col-xs-3">
-    <a href="#" class="btn btn-primary help-btn" role="button"><i class="fa fa-medkit"></i> I Need Help!</a>
     <section>
-      <h3>Questions?</h3>
+      <h3>Welcome</h3>
       <p>
-        Not sure what to do?  Go to this handy guide to find everything you need to get started.
+        Welcome to the Event Registration Tool (beta).  This tool will work best for an event or conference that requires one registration type.
       </p>
-      <a class="link" href="#">FAQ'S <i class="fa fa-chevron-right"></i></a>
-    </section>
-    <section>
-      <h3>Area Title</h3>
-      <p>
-        This is a text area where you can highlight a feature or page on the site.
-      </p>
-      <a class="link" href="#">Link Goes Here <i class="fa fa-chevron-right"></i></a>
     </section>
   </aside>
 </div>

@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('apiUrl', function apiUrl($location) {
+  .factory('apiUrl', function apiUrl($location, $rootScope) {
     var host = $location.$$host;
-    if (_.contains(['localhost', 'stage.eventhub.org'], host)) {
-      return 'https://api.stage.eventhub.org/eventhub-api/rest/';
+    if (_.contains(['localhost', 'stage.eventregistrationtool.com'], host)) {
+      $rootScope.environment = 'staging';
+      return 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/';
     } else {
-      return 'https://api.eventhub.org/eventhub-api/rest/';
+      $rootScope.environment = 'production';
+      return 'https://api.eventregistrationtool.com/eventhub-api/rest/';
     }
   });

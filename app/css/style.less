@@ -18,11 +18,11 @@
 @darkgreen: #009542; .darkgreen {color: @darkgreen;}
 
 /***** TYPOGRAPHY *****/
-.proxima {font-family:"proxima-nova", sans-serif;}
-.proximalight {font-family:"proxima-nova", sans-serif; font-weight:300;}
-.proximamedium {font-family:"proxima-nova", sans-serif; font-weight:400;}
-.proximasemi {font-family:"proxima-nova", sans-serif; font-weight:600;}
-.proximabold {font-family:"proxima-nova", sans-serif; font-weight:700;}
+.proxima {font-family: sans-serif;}
+.proximalight {font-family: sans-serif; font-weight:300;}
+.proximamedium {font-family: sans-serif; font-weight:400;}
+.proximasemi {font-family: sans-serif; font-weight:600;}
+.proximabold {font-family: sans-serif; font-weight:700;}
 
 /***** GLOBALS *****/
 * {.proxima;}
@@ -31,7 +31,7 @@ body {min-width: 1200px;}
 
 body.frontend {
   min-width: 320px;
-  background: url('../img/rough_diagonal.png') #e7e8e6;
+  background: url('/img/rough_diagonal.png') #e7e8e6;
   .container {
     max-width: 612px;
     width: auto !important;
@@ -89,7 +89,7 @@ body.frontend {
   background: @blue;
   border-bottom: 7px solid @darkblue;
   padding-top: 26px;
-  .col-xs-8 {
+  .usr-greeting {
     text-align: right;
     .btn-group {
       text-align: left;
@@ -111,7 +111,11 @@ body.frontend {
     }
   }
 }
-a.logo { line-height: 0; }
+a.logo, a.logo:hover {
+  color: white;
+  font-size: 36px;
+  text-decoration: none;
+}
 #logo { width: 205px; height: auto; }
 section#frontpagetitle {
   background: @darkerblue;
@@ -149,7 +153,7 @@ section#pagetitle {
     }
     li.blue {
       font-size: 16px;
-      .proximasemi;
+      .proxima;
       margin-left: 18px;
     }
     li.dropdown {
@@ -159,7 +163,7 @@ section#pagetitle {
         border: none;
         .gray;
         font-size: 14px;
-        .proximasemi;
+        .proxima;
         text-transform: uppercase;
       }
       .dropdown-menu {
@@ -216,7 +220,7 @@ main.front-form {
       border: 0;
     }
     .well {
-      p {
+      p, ul {
         .darkgray;
         font-size: 14px;
         .proximasemi;
@@ -292,13 +296,11 @@ main.registrations {
     margin-right: 5px;
     display: inline-block;
   }
-  .columns-btn {
-    button.btn {
-      .white;
-      font-size: 18px;
-      padding: 5px 8px;
-      line-height: 10px;
-    }
+  .columns-btn.col-dropdown {
+    .white;
+    font-size: 18px;
+    padding: 5px 8px;
+    line-height: 10px;
   }
   .rowdetails {
     .well {
@@ -323,6 +325,13 @@ main.registrations {
         font-size: 14px;
         .darkgray;
       }
+    }
+  }
+  .reg-views-dropdown {
+    display: block;
+    .listing {
+      width:450px;
+      padding: 6px;
     }
   }
 }
@@ -564,6 +573,7 @@ main.dashboard {
     border-radius: 4px;
     padding: 17px 17px 17px 22px;
     margin-bottom: 15px;
+    cursor: pointer;
     h2 {
       .green;
       display: block;
@@ -573,7 +583,7 @@ main.dashboard {
       text-transform: uppercase;
       margin: 5px 0 15px;
     }
-    span {
+    p.reg-count {
       float: right;
       display: inline-block;
       padding: 5px 8px;
@@ -582,6 +592,9 @@ main.dashboard {
       margin-top: -40px;
       font-size: 12px;
       border-radius: 3px;
+    }
+    ul.horizontal li:first-child {
+      padding-left: 0;
     }
     a.hamburger-link {
       float: right;
@@ -598,7 +611,7 @@ main.dashboard {
       padding-left: 18px;
       a {
         color: #cdcdcd;
-        .proximasemi;
+        .proxima;
         font-size: 14px;
       }
     }
@@ -734,8 +747,7 @@ body {
     float: right;
   }
   .full { width: 100%; display: block; }
-  .columns-btn.opened .dropdown-menu.stayopen { display: block; }
-  .columns-btn.open .dropdown-menu { display: none; }
+
   .timepicker, .datepicker {
     .add-on { cursor: pointer; }
   }
@@ -771,7 +783,7 @@ body {
     *margin-right: .3em;
     line-height: 14px;
     vertical-align: text-top;
-    background-image: url("../img/glyphicons-halflings.png");
+    background-image: url("/img/glyphicons-halflings.png");
     background-position: 14px 14px;
     background-repeat: no-repeat;
   }
@@ -785,4 +797,17 @@ body {
   z-index: 1031;
   top: 20px;
   right: 20px;
+}
+
+em.required{
+  font-style: normal;
+  color: #C00;
+}
+
+.eventhub-linebreak{
+  white-space: pre;
+}
+
+.nav-tabs>li>a{
+  cursor: pointer;
 }
