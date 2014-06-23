@@ -64,9 +64,14 @@
     <a href="" ng-click="addNewPage()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Page</a>
     <a href="" ng-click="saveForm(true)" class="btn btn-success save-btn btn-right">Save &amp; Preview</a>
     <a href="" ng-click="saveForm(false)" class="btn btn-success save-btn btn-right">Save</a>
+
     <form class="form" role="form">
       <div id="droppable" class="well well-sm overflow" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
         <page></page>
+        <div class="col-xs-12 dragnew" ng-show="page.blocks.length <= 2 && $first">
+          <i class="fa fa-plus-circle"></i>
+          <p>Drag new form elements here!</p>
+        </div>
       </div>
     </form>
   </div>
