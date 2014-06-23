@@ -102,3 +102,11 @@ angular.module('confRegistrationWebApp')
       restrict: 'E'
     };
   });
+
+angular.module('confRegistrationWebApp')
+  .directive('yearInSchoolQuestion', function () {
+    return {
+      templateUrl: 'views/blocks/yearInSchoolQuestion.html',
+      restrict: 'E'
+    };
+  });
