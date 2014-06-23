@@ -64,6 +64,7 @@ angular.module('confRegistrationWebApp')
         typeToProfile.phoneQuestion = 'PHONE';
         typeToProfile.addressQuestion = 'ADDRESS';
         typeToProfile.genderQuestion = 'GENDER';
+        typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
 
         $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
         $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);

@@ -1,8 +1,8 @@
-<div ng-repeat="choice in ['Male','Female']" class="radio">
+<div ng-repeat="choice in ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']" class="radio">
     <label>
         <input type="radio"
                ng-required="block.required"
                ng-model="answer.value"
-               ng-value="choice.charAt(0)">
+               ng-value="choice">
         {{choice}}</label>
 </div>
