@@ -120,4 +120,8 @@ angular.module('confRegistrationWebApp')
 
       return blocks;
     };
+
+    this.hasCost = function (conference) {
+      return conference.conferenceCost && conference.conferenceCost > 0;
+    };
   });

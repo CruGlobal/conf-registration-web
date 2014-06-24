@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
       var header = getBlockTitles(blocks);
 
       if (ConferenceHelper.hasCost(conference)) {
-        header.push('Conference Cost');
+        header.push('Event Cost');
       }
 
       return header;

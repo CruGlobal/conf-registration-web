@@ -27,7 +27,7 @@ angular.module('confRegistrationWebApp')
 
       header.push('First');
       header.push('Last');
-      header.push('Conference Cost');
+      header.push('Event Cost');
       header.push('Payment');
       header.push('Type');
       header.push('Date');
