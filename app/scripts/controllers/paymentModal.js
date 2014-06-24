@@ -15,6 +15,15 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.processPayment = function () {
+      if (_.isEmpty($scope.newPayment.paymentType)) {
+        alert('Please select a payment type.');
+        return;
+      }
+      if (Number($scope.newPayment.amount) <= 0 || _.isEmpty($scope.newPayment.amount)) {
+        alert('Payment amount must be a positive number.');
+        return;
+      }
+
       $scope.newPayment.readyToProcess = true;
       $http.post('payments/', $scope.newPayment).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
@@ -28,7 +37,7 @@ angular.module('confRegistrationWebApp')
         };
 
       }).error(function () {
-        alert('payment failed...');
+        alert('Payment failed...');
       });
     };
 
@@ -79,11 +88,14 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.updateCost = function () {
-      $scope.registration.totalDue = $scope.updateCost.newTotal;
-      RegistrationCache.update('registrations/' + $scope.registration.id, $scope.registration, function () {
+      var updatedRegistration = angular.copy($scope.registration);
+      updatedRegistration.totalDue = $scope.updateCost.newTotal;
+
+      RegistrationCache.update('registrations/' + updatedRegistration.id, updatedRegistration, function () {
         $scope.updateCost.show = false;
+        $scope.registration.totalDue = $scope.updateCost.newTotal;
       }, function () {
-        alert('error updating total cost');
+        alert('Error updating total cost');
       });
     };
   });

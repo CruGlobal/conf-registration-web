@@ -72,13 +72,13 @@
   <p>No one has registered for this event yet.</p>
 </div>
 
-<table class="table" ng-show="regFilter.length > 0">
+<table class="table noselect" ng-show="regFilter.length > 0">
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th ng-show="isConferenceCost()" class="tableright">Paid in Full?</th>
-      <th class="tableright">Edit</th>
-      <th></th>
+      <th ng-show="isConferenceCost()" class="tablecenter" style="width:60px;">Paid</th>
+      <th class="tablecenter" style="width:100px;">Edit</th>
+      <th style="width:40px;"></th>
     </tr>
   </thead>
   <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
@@ -86,17 +86,21 @@
       <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(registration.id)">
         <show-answer block="block" registration="registration"></show-answer>
       </td>
-      <td ng-show="isConferenceCost()" class="tableright">
-        <button class="nostyle" type="button" ng-click="viewPayments(registration)">
-          <i class="fa fa-check" ng-show="paidInFull(registration)"></i>
-          <i class="fa fa-times" ng-show="!paidInFull(registration)"></i>
-        </button>
+      <td ng-show="isConferenceCost()" class="tablecenter">
+        <i class="fa fa-check" ng-show="paidInFull(registration)"></i>
+        <i class="fa fa-times" ng-show="!paidInFull(registration)"></i>
       </td>
-      <td class="tableright">
-        <button class="nostyle" type="button" ng-click="editRegistration(registration)"><i class="fa fa-edit"></i></button>
+      <td class="tablecenter">
+        <button type="button" ng-click="editRegistration(registration)" title="Edit Registration" ng-show="registration.completed">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button type="button" ng-click="viewPayments(registration)" title="Edit Payments" ng-show="registration.completed">
+          <i class="fa fa-money"></i>
+        </button>
+        <span ng-show="!registration.completed">-</span>
       </td>
       <td class="tablecenter" ng-click="expandRegistration(registration.id)">
-        <i class="fa" ng-class="{'fa-minus-square-o': registration.expand, 'fa-plus-square-o': !registration.expand}"></i>
+        <i class="fa" ng-class="{'fa-minus-square-o': isExpanded(registration.id), 'fa-plus-square-o': !isExpanded(registration.id)}"></i>
       </td>
     </tr>
     <tr class="rowdetails" ng-class="{'on': isExpanded(registration.id)}">
