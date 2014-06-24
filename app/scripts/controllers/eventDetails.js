@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
       }
 
       //Event Cost
-      $scope.conference.conferenceCost = parseFloat($scope.conference.conferenceCost);
+      $scope.conference.conferenceCost = Number($scope.conference.conferenceCost);
       if (isNaN($scope.conference.conferenceCost) || $scope.conference.conferenceCost < 0) {
         validationErrors.push('Event cost must be a positive number.');
       } else {
@@ -42,23 +42,21 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if ($scope.conference.acceptCreditCards) {
-        if ($scope.conference.conferenceCost === 0) {
-          validationErrors.push('Event cost must be great than 0 to accept credit cards.');
+        if (_.isEmpty($scope.conference.authnetId)) {
+          validationErrors.push('Please enter an Authorize.net API User ID.');
+        }
+
+        if (Number($scope.conference.conferenceCost) <= 1) {
+          validationErrors.push('Event cost must be great than or equal to $1 to accept credit cards.');
         }
 
         //Minimum Deposit
-        $scope.conference.minimumDeposit = parseFloat($scope.conference.minimumDeposit);
-        //if min deposit is empty, set equal to event cost
-        if (isNaN($scope.conference.minimumDeposit)) {
-          $scope.conference.minimumDeposit = $scope.conference.conferenceCost;
-        } else {
-          $scope.conference.minimumDeposit = parseFloat($scope.conference.minimumDeposit).toFixed(2);
-        }
-        if ($scope.conference.minimumDeposit < 0) {
+        $scope.conference.minimumDeposit = Number($scope.conference.minimumDeposit);
+        if (Number($scope.conference.minimumDeposit) < 0) {
           validationErrors.push('Credit card minimum payment must be a positive number.');
         }
 
-        if ($scope.conference.minimumDeposit > $scope.conference.conferenceCost) {
+        if (Number($scope.conference.minimumDeposit) > Number($scope.conference.conferenceCost)) {
           validationErrors.push('Credit card minimum payment cannot be greater than the event cost.');
         }
 
@@ -69,7 +67,7 @@ angular.module('confRegistrationWebApp')
 
       //Early bird discount
       if ($scope.conference.earlyRegistrationDiscount) {
-        $scope.conference.earlyRegistrationAmount = parseFloat($scope.conference.earlyRegistrationAmount);
+        $scope.conference.earlyRegistrationAmount = Number($scope.conference.earlyRegistrationAmount);
         if (isNaN($scope.conference.earlyRegistrationAmount) || $scope.conference.earlyRegistrationAmount < 0) {
           validationErrors.push('Early bird discount must be a positive number.');
         } else {
