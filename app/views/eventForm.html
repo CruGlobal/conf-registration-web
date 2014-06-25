@@ -58,13 +58,14 @@
     </ul>
   </div>
 
-  <div class="col-xs-9 form-page">
+  <div class="functions-header well">
     <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
 
     <a href="" ng-click="addNewPage()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Page</a>
     <a href="" ng-click="saveForm(true)" class="btn btn-success save-btn btn-right">Save &amp; Preview</a>
     <a href="" ng-click="saveForm(false)" class="btn btn-success save-btn btn-right">Save</a>
-
+  </div>
+  <div class="col-xs-9 form-page"">
     <form class="form" role="form">
       <div id="droppable" class="well well-sm overflow" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
         <page></page>

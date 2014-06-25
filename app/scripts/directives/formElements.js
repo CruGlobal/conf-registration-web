@@ -45,15 +45,17 @@ angular.module('confRegistrationWebApp')
             var elementlist = jQuery('.waypoint1').offset().top;
 
             var windowHeight = jQuery(window).height();
-            var crsFormElementsHeight = jQuery('.crsFormElements').height() + 60;
+            var crsFormElementsHeight = jQuery('.elements-list').height() + 60;
 
             var footerHeight = jQuery('#pagefooter').height();
             var remainingDocToScroll = jQuery(document).height() - (yOffset + jQuery(window).height()) - footerHeight;
 
             if (yOffset - elementlist > 0 && windowHeight + remainingDocToScroll > crsFormElementsHeight && crsFormElementsHeight < windowHeight) {
-              jQuery('.elements-list').css('position', 'fixed');
+              jQuery('.elements-list, .functions-header').css('position', 'fixed');
+              jQuery('.form-page').css('margin-top', jQuery('.functions-header').css('height'));
             } else {
-              jQuery('.elements-list').css('position', 'relative');
+              jQuery('.elements-list, .functions-header').css('position', 'relative');
+              jQuery('.form-page').css('margin-top', '0');
             }
           };
 

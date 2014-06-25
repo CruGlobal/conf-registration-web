@@ -95,7 +95,7 @@
       </div>
       <span class="btn-sm green pull-right cru-profile" ng-show="block.profileType"><i class="fa fa-user"></i> Cru Profile</span>
       <button type="button" class="btn btn-link btn-sm gray delete-btn" ng-click="deleteBlock(block.id, true)" ng-show="canDelete"><i class="fa fa-trash-o"></i> Delete</button>
-      <button type="button" class="btn btn-link btn-sm green copy-btn"><i class="fa fa-clipboard"></i> Copy</button>
+      <button type="button" class="btn btn-link btn-sm green copy-btn" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
     </div>
   </div>
 </div>

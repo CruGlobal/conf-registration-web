@@ -94,6 +94,19 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    $scope.copyBlock = function (blockId) {
+      var tempPositionArray = makePositionArray();
+      var origPageIndex = tempPositionArray[blockId].page;
+      var newBlock = angular.copy($scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block]);
+      var newPosition = tempPositionArray[blockId].block + 1;
+      newBlock.id = uuid();
+      newBlock.profileType = null;
+      newBlock.position = newPosition;
+      newBlock.title = newBlock.title + ' (copy)';
+
+      $scope.conference.registrationPages[origPageIndex].blocks.splice(newPosition, 0, newBlock);
+    };
+
 
     $scope.insertBlock = function (blockType, newPage, newPosition, title, defaultProfile) {
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
