@@ -14,7 +14,7 @@
 
         <div ng-show="currentRegistration.remainingBalance > 0">
           <p><strong>Remaining Balance:</strong> ${{currentRegistration.remainingBalance}}<br>
-            <a href="#/payment/{{conference.id}}">Make Payment</a></p>
+            <a href="#/payment/{{conference.id}}" ng-show="conference.acceptCreditCards">Make Payment</a></p>
         </div>
 
         <div ng-show="currentRegistration.pastPayments.length > 0">
@@ -26,11 +26,12 @@
           </ul>
         </div>
 
-        <p>
-          <strong>If you have questions, contact:</strong><br>{{conference.contactPersonName}}
-          <br>{{conference.contactPersonPhone}}
-          <br><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a>
-        </p>
+        <span><strong>If you have questions, contact:</strong></span>
+        <ul class="list-unstyled">
+          <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
+          <li ng-show="contactPersonPhone">{{conference.contactPersonPhone}}</li>
+          <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+        </ul>
       </article>
     </div>
   </div>

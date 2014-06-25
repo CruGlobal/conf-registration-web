@@ -240,8 +240,11 @@ angular.module('confRegistrationWebApp')
         controller: 'paymentModal',
         backdrop: 'static',
         resolve: {
-          data: function () {
+          registration: function () {
             return registration;
+          },
+          conference: function () {
+            return conference;
           }
         }
       };

@@ -74,7 +74,7 @@ angular.module('confRegistrationWebApp')
           $scope.conference.earlyRegistrationAmount = parseFloat($scope.conference.earlyRegistrationAmount).toFixed(2);
         }
 
-        if ($scope.conference.earlyRegistrationAmount > $scope.conference.conferenceCost) {
+        if (Number($scope.conference.earlyRegistrationAmount) > Number($scope.conference.conferenceCost)) {
           validationErrors.push('Early bird discount cannot be greater than the event cost.');
         }
       }

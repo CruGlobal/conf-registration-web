@@ -1,17 +1,19 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, $http, data, RegistrationCache) {
-    $scope.registration = data;
-
+  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference, RegistrationCache) {
+    $scope.registration = registration;
+    $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
+    $scope.processing = false;
 
     $scope.close = function () {
       $modalInstance.close($scope.registration);
     };
 
     $scope.newPayment = {
-      registrationId: $scope.registration.id
+      registrationId: $scope.registration.id,
+      amount: (registration.totalDue - registration.totalPaid).toString()
     };
 
     $scope.processPayment = function () {
@@ -24,20 +26,23 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      $scope.processing = true;
       $scope.newPayment.readyToProcess = true;
       $http.post('payments/', $scope.newPayment).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
+          $scope.processing = false;
+          $scope.close();
         });
         delete $scope.newPayment;
 
         $scope.newPayment = {
           registrationId: $scope.registration.id
         };
-
       }).error(function () {
         alert('Payment failed...');
+        $scope.processing = false;
       });
     };
 
@@ -77,13 +82,16 @@ angular.module('confRegistrationWebApp')
         };
       }
 
+      $scope.processing = true;
       $http.post('payments/', refund).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
+          $scope.processing = false;
         });
       }).error(function () {
-        alert('refund failed...');
+        alert('Refund failed...');
+        $scope.processing = false;
       });
     };
 

@@ -88,14 +88,14 @@
       </td>
       <td ng-show="isConferenceCost()" class="tablecenter">
         <i class="fa fa-check" ng-show="paidInFull(registration)"></i>
-        <i class="fa fa-times" ng-show="!paidInFull(registration)"></i>
+        <i class="fa fa-minus" ng-show="!paidInFull(registration)"></i>
       </td>
-      <td class="tablecenter">
-        <button type="button" ng-click="editRegistration(registration)" title="Edit Registration" ng-show="registration.completed">
+      <td class="tablecenter registration_edit_buttons">
+        <button ng-click="editRegistration(registration)" title="Edit Registration" ng-show="registration.completed">
           <i class="fa fa-edit"></i>
         </button>
-        <button type="button" ng-click="viewPayments(registration)" title="Edit Payments" ng-show="registration.completed">
-          <i class="fa fa-money"></i>
+        <button ng-click="viewPayments(registration)" title="View/Edit Payments" ng-show="registration.completed && isConferenceCost()">
+          <i class="fa fa-usd"></i>
         </button>
         <span ng-show="!registration.completed">-</span>
       </td>

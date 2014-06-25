@@ -39,9 +39,14 @@
             </tr>
             <tr ng-repeat="payment in registration.pastPayments">
               <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-              <td><span data-ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">-</span>${{payment.amount}}</td>
+              <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>${{payment.amount}}</td>
               <td>{{payment.paymentType}}</td>
-              <td><span ng-show="canBeRefunded(payment)"><a href="" ng-click="refund(payment)">Refund</a></span></td>
+              <td>
+                <div ng-show="canBeRefunded(payment)">
+                  <a href="" ng-click="refund(payment)" ng-show="!processing">Refund</a>
+                  <span ng-show="processing">Processing...</span>
+                </div>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -51,7 +56,7 @@
             <div class="col-sm-7">
               <label>Payment Type</label>
               <select ng-model="newPayment.paymentType" class="form-control">
-                <option value="CREDIT_CARD">Credit Card</option>
+                <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
                 <option value="SCHOLARSHIP">Scholarship</option>
                 <option value="TRANSFER">Transfer</option>
                 <option value="CHECK">Check</option>
@@ -140,7 +145,8 @@
           </div>
 
           <div class="form-group">
-            <button type="button" class="btn btn-success" data-ng-click="processPayment()">Process Payment</button>
+            <button class="btn btn-success" ng-click="processPayment()" ng-show="!processing">Process Payment</button>
+            <span ng-show="processing">Processing...</span>
           </div>
         </tab>
       </tabset>
