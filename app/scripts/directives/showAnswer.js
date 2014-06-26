@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp')
   .directive('showAnswer', function () {
     return {
-      templateUrl: 'views/adminAnswerDisplay.html',
+      templateUrl: 'views/components/adminAnswerDisplay.html',
       restrict: 'E',
       scope: {
         block: '=',
