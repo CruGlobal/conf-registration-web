@@ -34,6 +34,12 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
+    this.getCallback = function (id, callback) {
+      checkCache(path(id), function (conferences) {
+        callback(conferences);
+      });
+    };
+
     this.update = function (id, conference) {
       cache.put(path(id), conference);
     };
