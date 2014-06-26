@@ -5,23 +5,30 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/adminNav.html',
       restrict: 'A',
-      controller: function ($scope, $modal) {
-        $scope.deleteEvent = function (conferenceId) {
+      controller: function ($scope, $modal, $location) {
+        $scope.archiveEvent = function (conferenceId) {
           $modal.open({
-            templateUrl: 'views/modals/confirmDeleteConf.html',
+            templateUrl: 'views/modals/archiveEvent.html',
             controller: 'confirmCtrl'
           }).result.then(function (result) {
               if (result) {
-                $http({
-                    method: 'DELETE',
-                    url: 'conferences/' + conferenceId
-                  }).success(function () {
+                ConfCache.getCallback(conferenceId, function(conference){
+                  conference.archived = true;
 
+                  $http({
+                    method: 'PUT',
+                    url: 'conferences/' + conferenceId,
+                    data: conference
+                  }).success(function () {
                     //Clear cache
                     ConfCache.empty();
+
+                    //redirect to dashboard
+                    $location.path('/eventDashboard');
                   }).error(function (data) {
                     alert('Error: ' + data);
                   });
+                });
               }
             });
         };

@@ -16,6 +16,14 @@ angular.module('confRegistrationWebApp')
     });
     ConfCache.query();
 
+    $scope.$watch('showArchivedEvents', function (v) {
+      if (v) {
+        $scope.showArchivedEventsFilter = '';
+      } else {
+        $scope.showArchivedEventsFilter = false;
+      }
+    });
+
     $scope.createEvent = function () {
       $modal.open({
         templateUrl: 'views/modals/createEvent.html',
@@ -35,7 +43,27 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.goToEventPage = function (page, eventId) {
-      $location.path('/' + page + '/' + eventId);
+      var eventData = _.find($scope.conferences, {id: eventId});
+      if (!eventData.archived) {
+        $location.path('/' + page + '/' + eventId);
+      }
+    };
+
+    $scope.restoreEvent = function (eventId) {
+      var eventData = _.find($scope.conferences, {id: eventId});
+      eventData.archived = false;
+
+      $http({
+        method: 'PUT',
+        url: 'conferences/' + eventId,
+        data: eventData
+      }).success(function () {
+        //Clear cache
+        ConfCache.empty();
+      }).error(function (data) {
+        alert('Error: ' + data);
+        eventData.archived = true;
+      });
     };
 
     $scope.cloneEvent = function (conferenceToCloneId) {
