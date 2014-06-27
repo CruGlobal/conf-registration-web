@@ -60,7 +60,7 @@ angular.module('confRegistrationWebApp')
           validationErrors.push('Credit card minimum payment cannot be greater than the event cost.');
         }
 
-        if ($scope.conference.minimumDeposit !== $scope.conference.conferenceCost && !$scope.conference.requireLogin) {
+        if (Number($scope.conference.minimumDeposit) !== Number($scope.conference.conferenceCost) && !$scope.conference.requireLogin) {
           validationErrors.push('Credit card minimum payment and event cost must be equal if Relay or Facebook login is not required.');
         }
       }
