@@ -17,10 +17,4 @@ angular.module('confRegistrationWebApp')
       port = ':' + $location.$$port;
     }
     $scope.registrationUrl = $location.$$protocol + '://' + $location.$$host + port + '/#/register/' + conference.id;
-
-    $scope.refreshEventData = function () {
-      $scope.conference.completedRegistrationCount = '-';
-      ConfCache.empty();
-      $route.reload();
-    };
   });
