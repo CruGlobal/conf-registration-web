@@ -16,6 +16,11 @@ angular.module('confRegistrationWebApp')
       $scope.templateUrl = 'views/permissionError.html';
     }
 
+    $scope.paymentGateways = [
+      {id: 'AUTHORIZE_NET', name: 'Authorize.Net'},
+      {id: 'TRUST_COMMERCE', name: 'TrustCommerce'}
+    ];
+
     $scope.conference = conference;
 
     $scope.saveEvent = function () {
@@ -42,8 +47,8 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if ($scope.conference.acceptCreditCards) {
-        if (_.isEmpty($scope.conference.authnetId)) {
-          validationErrors.push('Please enter an Authorize.net API User ID.');
+        if (_.isEmpty($scope.conference.paymentGatewayId)) {
+          validationErrors.push('Please enter a merchant account ID.');
         }
 
         if (Number($scope.conference.conferenceCost) <= 1) {
