@@ -176,4 +176,26 @@ angular.module('confRegistrationWebApp')
         });
     };
 
+    var hiddenPages = [];
+    $scope.togglePage = function(id) {
+      if(_.contains(hiddenPages, id)) {
+        _.remove(hiddenPages, function(p) { return p === id ; });
+      } else {
+        hiddenPages.push(id);
+      }
+    };
+
+    $scope.isPageHidden = function(id) {
+      return _.contains(hiddenPages, id);
+    };
+
+    $scope.movePage = function (pageId, newPosition) {
+      var origPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
+      var origPage = $scope.conference.registrationPages[origPageIndex];
+
+      $scope.$apply(function (scope) {
+        scope.conference.registrationPages.splice(origPageIndex, 1);
+        scope.conference.registrationPages.splice(newPosition, 0, origPage);
+      });
+    };
   });

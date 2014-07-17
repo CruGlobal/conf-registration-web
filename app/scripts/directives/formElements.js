@@ -25,6 +25,12 @@ angular.module('confRegistrationWebApp')
             }
           });
 
+          jQuery('.page-form').sortable({
+            stop: function (event, ui) {
+              scope.movePage(ui.item.attr('data-page-id'), ui.item.index());
+            }
+          });
+
           jQuery('.crsFormElements li').draggable({
             connectToSortable: '.connectedSortable',
             helper: 'clone',
