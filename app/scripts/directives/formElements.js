@@ -21,6 +21,8 @@ angular.module('confRegistrationWebApp')
                 ui.item.remove();
               } else {
                 scope.moveBlock(ui.item.find('.crsQuestion').attr('id'), ui.item.parent().attr('id'), ui.item.index());
+                ui.item.remove();
+                scope.$apply();
               }
             }
           });

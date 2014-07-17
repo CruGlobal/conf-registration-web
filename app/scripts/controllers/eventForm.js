@@ -84,14 +84,13 @@ angular.module('confRegistrationWebApp')
     $scope.moveBlock = function (blockId, newPage, newPosition) {
       var tempPositionArray = makePositionArray();
       var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
-
       var origPageIndex = tempPositionArray[blockId].page;
-      var origBlock = $scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block];
+
+      var origBlock = angular.copy($scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block]);
       origBlock.pageId = newPage;
-      $scope.$apply(function (scope) {
-        scope.deleteBlock(blockId, false);
-        scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
-      });
+
+      deleteBlockFromPage(blockId);
+      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
     };
 
     $scope.copyBlock = function (blockId) {
@@ -148,15 +147,12 @@ angular.module('confRegistrationWebApp')
         var message = '"' + block.title + '" has been deleted.';
         GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
-      $scope.deleteBlockFromPage(blockId);
+      deleteBlockFromPage(blockId);
     };
 
-    $scope.deleteBlockFromPage = function (blockId) {
+    var deleteBlockFromPage = function (blockId) {
       var tempPositionArray = makePositionArray();
-      $scope.conference.registrationPages[tempPositionArray[blockId].page].blocks.splice(
-        tempPositionArray[blockId].block,
-        1
-      );
+      _.remove($scope.conference.registrationPages[tempPositionArray[blockId].page].blocks, function(b) { return b.id === blockId; });
     };
 
     $scope.addNewPage = function () {
