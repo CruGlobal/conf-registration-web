@@ -4,12 +4,15 @@
       <div class="col-xs-2">
         <a href="" ng-click="deletePage(page.id, true)" class="btn btn-danger"><i class="fa fa-times"></i> Delete Page</a>
       </div>
-      <div class="col-xs-10">
+      <div class="col-xs-9">
         <h1><input placeholder="Page Title" type="text" ng-model="page.title"></h1>
+      </div>
+      <div class="col-xs-1">
+        <i class="fa" ng-class="{'fa-caret-square-o-up': !isPageHidden(page.id), 'fa-caret-square-o-down': isPageHidden(page.id)}" style="font-size: 30px;" ng-click="togglePage(page.id)"></i>
       </div>
     </div>
 
-    <ul class="connectedSortable list-unstyled sortable2" id="{{page.id}}">
+    <ul class="connectedSortable list-unstyled sortable2" id="{{page.id}}" ng-show="!isPageHidden(page.id)">
       <li ng-repeat="block in page.blocks" block="block" crs-block></li>
     </ul>
   </div>
