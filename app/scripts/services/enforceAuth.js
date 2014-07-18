@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .constant('enforceAuth', function ($rootScope, $route, $modal, $cookies, $q, $window, apiUrl, $http, ProfileCache) {
+  .constant('enforceAuth', function ($rootScope, $route, $modal, $cookies, $q, $window, apiUrl, $http, PersonCache) {
     var defer = $q.defer();
 
     var noAuthControllers = ['RegistrationCtrl', 'paymentCtrl', 'ReviewRegistrationCtrl'];
@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
         defer.resolve('Authorization present.');
 
         if (angular.isUndefined($rootScope.globalGreetingName)) {
-          ProfileCache.getCache(function (data) {
+          PersonCache.getCache(function (data) {
             $rootScope.globalGreetingName = data.firstName;
           });
         }
