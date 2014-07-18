@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $sce, $http, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'form-builder',
@@ -15,38 +15,65 @@ angular.module('confRegistrationWebApp')
     } else {
       $scope.templateUrl = 'views/permissionError.html';
     }
-    $scope.conference = conference;
 
-    $scope.saveForm = function (preview) {
-      $scope.notify = {
+    $scope.conference = conference;
+    $scope.$watch('conference', function (newObject, oldObject) {
+      if (angular.isDefined(newObject) && angular.isDefined(oldObject)) {
+        if(!_.isEqual(newObject, oldObject)){
+          saveForm();
+        }
+      }
+    }, true);
+
+    var formSaving = false;
+    var formSavingTimeout;
+    var formSavingNotifyTimeout;
+
+    var saveForm = function () {
+      if (formSaving) {
+        $timeout.cancel(formSavingTimeout);
+        formSavingTimeout = $timeout(function() { saveForm(); }, 600);
+        return;
+      }
+      $timeout.cancel(formSavingTimeout);
+
+      formSaving = true;
+      /*$scope.notify = {
         class: 'alert-warning',
         message: $sce.trustAsHtml('Saving...')
-      };
+      };*/
 
       $http({
-          method: 'PUT',
-          url: 'conferences/' + conference.id,
-          data: $scope.conference
-        }).success(function () {
-          $scope.notify = {
-            class: 'alert-success',
-            message: $sce.trustAsHtml('<strong>Saved!</strong> Your form has been saved.')
-          };
+        method: 'PUT',
+        url: 'conferences/' + conference.id,
+        data: $scope.conference
+      }).success(function () {
+        formSaving = false;
+        $scope.notify = {
+          class: 'alert-success',
+          message: $sce.trustAsHtml('<strong>Saved!</strong> Your form has been saved.')
+        };
 
-          //Update cache
-          if (angular.isDefined($scope.conference)) {
-            ConfCache.update(conference.id, $scope.conference);
-          }
+        //Update cache
+        if (angular.isDefined($scope.conference)) {
+          ConfCache.update(conference.id, $scope.conference);
+        }
 
-          if (preview) {
-            $location.path('/preview/' + conference.id + '/page/');
-          }
-        }).error(function (data) {
-          $scope.notify = {
-            class: 'alert-danger',
-            message: $sce.trustAsHtml('<strong>Error</strong> ' + data)
-          };
-        });
+        $timeout.cancel(formSavingNotifyTimeout);
+        formSavingNotifyTimeout = $timeout(function () {
+          $scope.notify = {};
+        }, 2000);
+      }).error(function (data) {
+        formSaving = false;
+        $scope.notify = {
+          class: 'alert-danger',
+          message: $sce.trustAsHtml('<strong>Error</strong> ' + data)
+        };
+      });
+    };
+
+    $scope.previewForm = function () {
+      $location.path('/preview/' + conference.id + '/page/');
     };
 
     $scope.deletePage = function (pageId, growl) {
