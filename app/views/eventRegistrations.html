@@ -78,7 +78,7 @@
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
       <th ng-show="isConferenceCost()" class="tablecenter" style="width:60px;">Paid</th>
       <th class="tablecenter" style="width:100px;">Edit</th>
-      <th style="width:25px;">Delete</th>
+      <th ng-show="allowDeleteRegistration()" style="width:25px;">Delete</th>
       <th style="width:30px;"></th>
     </tr>
   </thead>
@@ -101,7 +101,7 @@
         </button>
         <span ng-show="!registration.completed">-</span>
       </td>
-      <td class="tablecenter">
+      <td ng-show="allowDeleteRegistration()" class="tablecenter">
         <button ng-click="deleteRegistration(registration)" title="Delete Registration">
           <i class="fa fa-trash-o"></i>
         </button>
