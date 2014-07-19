@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp')
           case 'UPDATE':
             data.permissionInt = 2;
             break;
-          case 'View':
+          case 'VIEW':
             data.permissionInt = 1;
             break;
           default:
