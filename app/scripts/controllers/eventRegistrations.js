@@ -406,4 +406,26 @@ angular.module('confRegistrationWebApp')
       };
       $modal.open(registrationModalOptions);
     };
+
+    var deleteRegistration = function (registration) {
+
+    };
+
+    $scope.deleteRegistration = function (registration) {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modals/deleteRegistration.html',
+        controller: 'deleteRegistrationCtrl'
+      });
+      modalInstance.result.then(function (doDelete) {
+        if(doDelete === true) {
+            $http({method: 'DELETE',
+                url: 'registrations/' + registration.id
+            }).success(function () {
+                _.remove(registrations, function (reg) {
+                    return reg.id === registration.id;
+                });
+            });
+        }
+      })
+    };
   });

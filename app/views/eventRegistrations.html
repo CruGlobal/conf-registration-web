@@ -78,7 +78,8 @@
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
       <th ng-show="isConferenceCost()" class="tablecenter" style="width:60px;">Paid</th>
       <th class="tablecenter" style="width:100px;">Edit</th>
-      <th style="width:40px;"></th>
+      <th style="width:25px;">Delete</th>
+      <th style="width:30px;"></th>
     </tr>
   </thead>
   <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
@@ -99,6 +100,11 @@
           <i class="fa fa-usd"></i>
         </button>
         <span ng-show="!registration.completed">-</span>
+      </td>
+      <td class="tablecenter">
+        <button ng-click="deleteRegistration(registration)" title="Delete Registration">
+          <i class="fa fa-trash-o"></i>
+        </button>
       </td>
       <td class="tablecenter" ng-click="expandRegistration(registration.id)">
         <i class="fa" ng-class="{'fa-minus-square-o': isExpanded(registration.id), 'fa-plus-square-o': !isExpanded(registration.id)}"></i>
