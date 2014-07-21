@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, uuid, registrations, conference, RegViewCache, RegistrationsViewService, U, PaymentsViewService) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, uuid, registrations, conference, RegViewCache, RegistrationsViewService, U, PaymentsViewService, permissions) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -405,5 +405,28 @@ angular.module('confRegistrationWebApp')
         }
       };
       $modal.open(registrationModalOptions);
+    };
+
+    $scope.allowDeleteRegistration = function () {
+      return permissions.permissionInt > 1;
+    };
+
+    $scope.deleteRegistration = function (registration) {
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modals/deleteRegistration.html',
+        controller: 'deleteRegistrationCtrl'
+      });
+
+      modalInstance.result.then(function (doDelete) {
+        if (doDelete === true) {
+          $http({method: 'DELETE',
+            url: 'registrations/' + registration.id
+          }).success(function () {
+            _.remove(registrations, function (reg) {
+              return reg.id === registration.id;
+            });
+          });
+        }
+      });
     };
   });
