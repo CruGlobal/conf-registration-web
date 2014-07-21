@@ -1,4 +1,4 @@
-<div class="row" ng-show="!conference.registrationOpen">
+<div class="row" ng-show="!conference.registrationOpen && registerMode !== 'preview'">
   <div class="col-xs-12">
     <article>
       <p>Sorry, registration for this event is not open.</p>
@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<div ng-show="conference.registrationOpen">
+<div ng-show="conference.registrationOpen || registerMode === 'preview'">
   <div class="row" ng-show="currentRegistration.completed">
     <div class="col-xs-12">
       <article>
