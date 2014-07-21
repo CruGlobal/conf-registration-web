@@ -1,3 +1,4 @@
+<div class="alert eventhub-growl" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.message && !growlMessage"></div>
 <div class="row waypoint1">
   <!-- Elements -->
   <div class="col-xs-3 elements-list" ng-show="conference.registrationPages.length > 0">
@@ -59,11 +60,8 @@
   </div>
 
   <div class="functions-header well">
-    <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
-
     <a href="" ng-click="addNewPage()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Page</a>
-    <a href="" ng-click="saveForm(true)" class="btn btn-success save-btn btn-right">Save &amp; Preview</a>
-    <a href="" ng-click="saveForm(false)" class="btn btn-success save-btn btn-right">Save</a>
+    <a href="" ng-click="previewForm()" class="btn btn-success save-btn btn-right">Preview Form</a>
   </div>
   <div class="col-xs-9 form-page">
     <form class="form page-form" role="form">
