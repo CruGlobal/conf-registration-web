@@ -55,7 +55,7 @@ angular.module('confRegistrationWebApp')
             var windowHeight = jQuery(window).height();
             var crsFormElementsHeight = jQuery('.elements-list').height() + 60;
 
-            var footerHeight = jQuery('#pagefooter').height();
+            var footerHeight = 0;
             var remainingDocToScroll = jQuery(document).height() - (yOffset + jQuery(window).height()) - footerHeight;
 
             if (yOffset - elementlist > 0 && windowHeight + remainingDocToScroll > crsFormElementsHeight && crsFormElementsHeight < windowHeight) {
