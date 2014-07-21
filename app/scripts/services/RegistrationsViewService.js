@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp')
   .service('RegistrationsViewService', function RegistrationsViewService(ConferenceHelper, U) {
 
-    this.getTable = function (conference, registrations) {
+    this.getTable = function (conference, registrations, onlyCompleted) {
 
       var table = [];
 
@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
 
       table.push(header);
 
-      var rows = getRows(conference, registrations);
+      var rows = getRows(conference, registrations, onlyCompleted);
 
       // sort rows by last name
       U.sortArrayByIndex(rows, _.findIndex(header, function (string) {
@@ -36,13 +36,13 @@ angular.module('confRegistrationWebApp')
       return header;
     };
 
-    var getRows = function (conference, registrations) {
+    var getRows = function (conference, registrations, onlyCompleted) {
       var rows = [];
 
       var blocks = ConferenceHelper.getPageBlocks(conference.registrationPages);
 
       // rows of answers
-      ConferenceHelper.getCompletedRegistrations(registrations).forEach(function (registration) {
+      ConferenceHelper.getRegistrations(registrations, onlyCompleted).forEach(function (registration) {
         var row = [];
 
         angular.forEach(blocks, function (block) {
