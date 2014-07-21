@@ -76,9 +76,8 @@
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th ng-show="isConferenceCost()" class="tablecenter" style="width:60px;">Paid</th>
-      <th class="tablecenter" style="width:100px;">Edit</th>
-      <th ng-show="allowDeleteRegistration()" style="width:25px;">Delete</th>
+      <th ng-show="isConferenceCost()" class="tablecenter" style="width: 60px;">Paid</th>
+      <th class="tablecenter" style="width:100px;">Options</th>
       <th style="width:30px;"></th>
     </tr>
   </thead>
@@ -99,12 +98,10 @@
         <button ng-click="viewPayments(registration)" title="View/Edit Payments" ng-show="registration.completed && isConferenceCost()">
           <i class="fa fa-usd"></i>
         </button>
-        <span ng-show="!registration.completed">-</span>
-      </td>
-      <td ng-show="allowDeleteRegistration()" class="tablecenter">
-        <button ng-click="deleteRegistration(registration)" title="Delete Registration">
+        <button ng-click="deleteRegistration(registration)" ng-show="registration.completed && allowDeleteRegistration()" title="Delete Registration">
           <i class="fa fa-trash-o"></i>
         </button>
+        <span ng-show="!registration.completed">-</span>
       </td>
       <td class="tablecenter" ng-click="expandRegistration(registration.id)">
         <i class="fa" ng-class="{'fa-minus-square-o': isExpanded(registration.id), 'fa-plus-square-o': !isExpanded(registration.id)}"></i>
