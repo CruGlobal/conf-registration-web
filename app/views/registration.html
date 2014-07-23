@@ -29,7 +29,7 @@
         <span><strong>If you have questions, contact:</strong></span>
         <ul class="list-unstyled">
           <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
-          <li ng-show="contactPersonPhone">{{conference.contactPersonPhone}}</li>
+          <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
           <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
         </ul>
       </article>
@@ -54,22 +54,31 @@
         <article ng-show="activePageId == ''">
           <h2>Welcome</h2>
           <p ng-bind="conference.description" class="eventhub-linebreak"></p>
-          <div class="well creme2">
-            <p ng-show="conference.eventStartTime">{{conference.eventStartTime | date:'EEEE, MMM d, y h:mm a'}} -
-              {{conference.eventEndTime | date:'EEEE, MMM d, y h:mm a'}}</p>
-
-            <label ng-show="isConferenceCost()">Cost:</label>
-            <p ng-show="isConferenceCost()">${{conference.conferenceCost}}</p>
-
-            <label ng-show="conference.locationName">Location:</label>
-            <p ng-show="conference.locationName">{{conference.locationName}}
+          <div class="well creme2" ng-show="conference.eventStartTime">
+            <h2 class="details-heading">Event Dates</h2>
+            <p>{{conference.eventStartTime | date:'EEE, MMM d, y h:mm a'}} -
+            {{conference.eventEndTime | date:'EEE, MMM d, y h:mm a'}} </p>
+          </div>
+          <div class="well creme2" ng-show="isConferenceCost()">
+            <h2 class="details-heading">Event Cost</h2>
+            <p>${{conference.conferenceCost}}</p>
+          </div>
+          <div class="well creme2" ng-show="conference.locationName">
+            <h2 class="details-heading">Event Location</h2>
+            <p>{{conference.locationName}}
               <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}}</span>
             </p>
-
-            <label>Contact:</label>
+          </div>
+          <div class="well creme2" ng-show="conference.registrationStartTime">
+            <h2 class="details-heading">Registration Window</h2>
+            <p>{{conference.registrationStartTime | date:'EEE, MMM d, y h:mm a'}} -
+              {{conference.registrationEndTime | date:'EEE, MMM d, y h:mm a'}} </p>
+          </div>
+          <div class="well creme2" ng-show="conference.contactPersonName || conference.contactPersonPhone || conference.contactPersonEmail">
+            <h2 class="details-heading">Contact Info</h2>
             <ul class="list-unstyled">
               <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
-              <li ng-show="contactPersonPhone">{{conference.contactPersonPhone}}</li>
+              <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
               <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
             </ul>
           </div>
