@@ -63,6 +63,7 @@ angular.module('confRegistrationWebApp')
         eventEndTime: registrationEndTime,
         conferenceCost: 0,
         earlyRegistrationAmount: 0,
+        paymentGatewayType: 'TRUST_COMMERCE',
         registrationPages: [
           {
             id: newPageId,
