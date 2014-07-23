@@ -92,10 +92,10 @@
         <span ng-show="!registration.completed">-</span>
       </td>
       <td class="tablecenter registration_edit_buttons">
-        <button ng-click="editRegistration(registration)" title="Edit Registration" ng-show="true">
+        <button ng-click="editRegistration(registration)" title="Edit Registration">
           <i class="fa fa-edit"></i>
         </button>
-        <button ng-click="viewPayments(registration)" title="View/Edit Payments" ng-show="isConferenceCost()">
+        <button ng-click="viewPayments(registration)" title="View/Edit Payments" ng-show="registration.completed && isConferenceCost()">
           <i class="fa fa-usd"></i>
         </button>
         <button ng-click="deleteRegistration(registration)" ng-show="allowDeleteRegistration()" title="Delete Registration">
