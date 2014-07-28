@@ -72,7 +72,7 @@
   <p>No one has registered for this event yet.</p>
 </div>
 
-<table class="table noselect" ng-show="regFilter.length > 0">
+<table class="table" ng-show="regFilter.length > 0">
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
@@ -82,7 +82,7 @@
     </tr>
   </thead>
   <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
-    <tr ng-class="{'active': $even}">
+    <tr ng-class="{'active': $even}" class="noselect">
       <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(registration.id)">
         <show-answer block="block" registration="registration"></show-answer>
       </td>
