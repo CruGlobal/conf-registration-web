@@ -184,7 +184,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
               delete $cookies.crsToken;
 
               if (crsAuthProviderTypeBackup  === 'RELAY') {
-                $window.location.href = 'https://signin.cru.org/cas/logout?logoutCallbackUrl=https://stage.eventregistrationtool.com/';
+                $window.location.href = 'https://signin.cru.org/cas/logout';
               }
               $location.path('/');
             }
