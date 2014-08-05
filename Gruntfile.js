@@ -292,6 +292,9 @@ module.exports = function (grunt) {
     'cdnify',
     'rev',
     'usemin',
+    //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
+    'rev',
+    'usemin',
     'uglify'
   ]);
 
