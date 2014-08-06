@@ -5,8 +5,10 @@
     "bootstrap-sass": "~2.3.1",
     "lodash": "~2.4.1",
     "string": "~1.9.0",
-    "momentjs": "~2.6.0",
-    "angular-bootstrap": "~0.11.0"
+    "momentjs": "~2.8.1",
+    "moment-timezone": "~0.2.1",
+    "angular-bootstrap": "~0.11.0",
+    "eonasdan-bootstrap-datetimepicker": "3.0.2"
   },
   "devDependencies": {}
 }
