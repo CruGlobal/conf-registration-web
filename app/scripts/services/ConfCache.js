@@ -14,6 +14,13 @@ angular.module('confRegistrationWebApp')
         callback(cachedConferences, path);
       } else {
         $http.get(path).success(function (conferences) {
+          if(_.isPlainObject(conferences)) {
+            conferences.eventStartTime = new Date('2014-06-08 12:14:00');
+          } else {
+            angular.forEach(conferences, function(c){
+                console.log(c);
+            });
+          }
           cache.put(path, conferences);
           callback(conferences, path);
         });
