@@ -49,8 +49,6 @@ angular.module('confRegistrationWebApp')
     };
 
     this.create = function (name) {
-      var registrationEndTime = new Date();
-      registrationEndTime.setYear(registrationEndTime.getFullYear() + 1);
       var newConferenceId = uuid();
       var newPageId = uuid();
 
@@ -58,11 +56,12 @@ angular.module('confRegistrationWebApp')
         id: newConferenceId,
         name: name,
         registrationStartTime: new Date(),
-        registrationEndTime: registrationEndTime,
-        eventStartTime: new Date(),
-        eventEndTime: registrationEndTime,
+        registrationEndTime: moment().day(14),
+        eventStartTime: moment().day(14),
+        eventEndTime: moment().day(20),
         conferenceCost: 0,
         earlyRegistrationAmount: 0,
+        earlyRegistrationCutoff: moment().day(7),
         paymentGatewayType: 'TRUST_COMMERCE',
         registrationPages: [
           {
