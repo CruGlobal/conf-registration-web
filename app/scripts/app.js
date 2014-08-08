@@ -158,15 +158,15 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/auth/:token', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
-            function ($location, $cookies, $route, $rootScope, ProfileCache) {
+          redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'PersonCache',
+            function ($location, $cookies, $route, $rootScope, PersonCache) {
               $cookies.crsAuthProviderType = '';
               if ($cookies.crsToken && ($cookies.crsToken !== $route.current.params.token)) {
                 $cookies.crsPreviousToken = $cookies.crsToken;
               }
               $cookies.crsToken = $route.current.params.token;
               $rootScope.crsToken = $cookies.crsToken;
-              ProfileCache.getCache(function (data) {
+              PersonCache.getCache(function (data) {
                 $cookies.crsAuthProviderType = data.authProviderType;
                 $location.replace().path($cookies.intendedRoute || '/');
               });
