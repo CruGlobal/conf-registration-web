@@ -106,11 +106,10 @@ angular.module('confRegistrationWebApp')
           message: $sce.trustAsHtml('Saving...')
         };
 
-        var postData = angular.copy($scope.conference);
         $http(
           {method: 'PUT',
             url: 'conferences/' + conference.id,
-            data: postData
+            data: $scope.conference
         }).success(function () {
             $scope.notify = {
               class: 'alert-success',
