@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
           $scope.$apply(function () {
-            $scope.localModel = moment(timestamp).format('YYYY-MM-DD HH:mm');
+            $scope.localModel = moment(timestamp);
           });
         };
       },
