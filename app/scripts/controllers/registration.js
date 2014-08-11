@@ -19,6 +19,13 @@ angular.module('confRegistrationWebApp')
     });
 
     $scope.conference = conference;
+    $scope.conferenceTimes = {
+      eventStartTime : moment.parseZone($scope.conference.eventStartTime).format('dddd, MMM DD, YYYY hh:mm A'),
+      eventEndTime : moment.parseZone($scope.conference.eventEndTime).format('dddd, MMM DD, YYYY hh:mm A'),
+      registrationStartTime : moment.parseZone($scope.conference.registrationStartTime).format('dddd, MMM DD, YYYY hh:mm A'),
+      registrationEndTime : moment.parseZone($scope.conference.registrationEndTime).format('dddd, MMM DD, YYYY hh:mm A')
+    };
+
     $scope.currentRegistration = currentRegistration;
 
     if (currentRegistration.completed) {
