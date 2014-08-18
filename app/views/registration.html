@@ -56,8 +56,8 @@
           <p ng-bind="conference.description" class="eventhub-linebreak"></p>
           <div class="well creme2" ng-show="conference.eventStartTime">
             <h2 class="details-heading">Event Dates</h2>
-            <p>{{conference.eventStartTime | date:'EEE, MMM d, y h:mm a'}} -
-            {{conference.eventEndTime | date:'EEE, MMM d, y h:mm a'}} </p>
+            <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
+            {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}} </p>
           </div>
           <div class="well creme2" ng-show="isConferenceCost()">
             <h2 class="details-heading">Event Cost</h2>
@@ -71,8 +71,8 @@
           </div>
           <div class="well creme2" ng-show="conference.registrationStartTime">
             <h2 class="details-heading">Registration Window</h2>
-            <p>{{conference.registrationStartTime | date:'EEE, MMM d, y h:mm a'}} -
-              {{conference.registrationEndTime | date:'EEE, MMM d, y h:mm a'}} </p>
+            <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
+              {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}} </p>
           </div>
           <div class="well creme2" ng-show="conference.contactPersonName || conference.contactPersonPhone || conference.contactPersonEmail">
             <h2 class="details-heading">Contact Info</h2>

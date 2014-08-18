@@ -7,8 +7,8 @@
           <h2>Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
           <p ng-bind="conference.description" ng-show="conference.description" class="eventhub-linebreak"></p>
-          <p>{{conference.eventStartTime | date:'MMM d, y h:mm a'}} -
-            {{conference.eventEndTime | date:'MMM d, y h:mm a'}}</p>
+          <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone }} -
+            {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
           <p ng-show="conference.locationName">{{conference.locationName}}
             <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}}</span>
           </p>
@@ -17,8 +17,8 @@
       <div class="col-xs-6">
         <section>
           <h2>Registration Window</h2>
-          <p>{{conference.registrationStartTime | date:'MMM d, y h:mm a'}} -
-            {{conference.registrationEndTime | date:'MMM d, y h:mm a'}}</p>
+          <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
+            {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}}</p>
           <p class="bg-success" style="padding: 6px; font-weight: bold;" ng-show="conference.registrationOpen">Registration is currently open.</p>
           <p class="bg-danger" style="padding: 6px; font-weight: bold;"  ng-show="!conference.registrationOpen">Registration is currently closed.</p>
         </section>
