@@ -26,16 +26,17 @@
 
   <!-- CSS -->
   <link rel="stylesheet" href="/components/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/components/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+  <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <!-- End CSS -->
 
   <!-- build:js scripts/components.js -->
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/momentjs/moment.js"></script>
+  <script src="bower_components/moment-timezone/builds/moment-timezone-with-data-2010-2020.js"></script>
   <script src="bower_components/lodash/dist/lodash.js"></script>
   <script src="bower_components/string/lib/string.js"></script>
-  <script src="components/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/eventApp.js -->
@@ -49,6 +50,7 @@
   <script src="scripts/services/apiUrl.js"></script>
   <script src="scripts/services/httpUrlInterceptor.js"></script>
   <script src="scripts/services/growlService.js"></script>
+  <script src="scripts/services/TimestampUtil.js"></script>
   <script src="scripts/controllers/eventDashboard.js"></script>
   <script src="scripts/controllers/registration.js"></script>
   <script src="scripts/directives/page.js"></script>
