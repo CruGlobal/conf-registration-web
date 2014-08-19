@@ -10,16 +10,14 @@ angular.module('confRegistrationWebApp')
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
-          var saveDate = new Date(timestamp);
           $scope.$apply(function () {
-            $scope.localModel = saveDate;
+            $scope.localModel = moment(timestamp);
           });
         };
       },
       link: function (scope, element) {
-        var inputDate = new Date(scope.localModel);
         jQuery(element).find('.datepicker').datetimepicker({
-          defaultDate: moment(inputDate).format('MM/DD/YYYY hh:mm A')
+          defaultDate: moment.parseZone(scope.localModel).format('MM/DD/YYYY hh:mm A')
         }).on('dp.change', function (ev) {
           scope.updateTimeStamp(ev.date);
         });

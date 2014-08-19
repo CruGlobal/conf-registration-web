@@ -13,19 +13,31 @@
   <textarea type="text" class="form-control" rows="3" placeholder="" ng-model="conference.description"></textarea>
 
   <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-4">
       <label>Event Starts</label><br>
 
       <div class="row">
         <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
       </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-4">
       <label>Event Ends</label><br>
 
       <div class="row">
         <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
       </div>
+    </div>
+    <div class="col-xs-4">
+        <label>Event Timezone</label><br>
+        <select class="form-control" ng-model="conference.eventTimezone">
+          <option value="America/New_York">Eastern</option>
+          <option value="America/Chicago">Central</option>
+          <option value="America/Denver">Mountain</option>
+          <option value="America/Phoenix">Mountain Standard</option>
+          <option value="America/Los_Angeles">Pacific</option>
+          <option value="America/Anchorage">Alaska</option>
+          <option value="Pacific/Honolulu">Hawaii</option>
+        </select>
     </div>
   </div>
 
