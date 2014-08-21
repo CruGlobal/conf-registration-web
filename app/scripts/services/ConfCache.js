@@ -55,13 +55,14 @@ angular.module('confRegistrationWebApp')
       var data = {
         id: newConferenceId,
         name: name,
-        registrationStartTime: new Date(),
-        registrationEndTime: moment().day(14),
-        eventStartTime: moment().day(14),
-        eventEndTime: moment().day(20),
+        registrationStartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+        registrationEndTime: moment().day(14).format('YYYY-MM-DD HH:mm:ss'),
+        eventStartTime: moment().day(14).format('YYYY-MM-DD HH:mm:ss'),
+        eventEndTime: moment().day(20).format('YYYY-MM-DD HH:mm:ss'),
         conferenceCost: 0,
         earlyRegistrationAmount: 0,
-        earlyRegistrationCutoff: moment().day(7),
+        earlyRegistrationCutoff: moment().day(7).format('YYYY-MM-DD HH:mm:ss'),
+        eventTimezone: 'America/New_York',
         paymentGatewayType: 'TRUST_COMMERCE',
         registrationPages: [
           {

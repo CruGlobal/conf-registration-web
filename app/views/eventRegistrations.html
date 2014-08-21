@@ -115,8 +115,8 @@
             <div class="rightside"><show-answer block="block" registration="registration"></show-answer></div>
           </div>
           <div class="row" ng-show="registration.completed">
-              <div class="leftside">Completed at:</div>
-              <div class="rightside">{{registration.completedTimestamp | date:'medium'}}</div>
+              <div class="leftside">Completed at</div>
+              <div class="rightside">{{registration.completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
           </div>
         </div>
       </td>
