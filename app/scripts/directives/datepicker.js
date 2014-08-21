@@ -16,7 +16,7 @@ angular.module('confRegistrationWebApp')
         };
       },
       link: function (scope, element) {
-        var inputDate = new Date(scope.localModel);
+        var inputDate = moment(scope.localModel);
         jQuery(element).find('.datepicker').datetimepicker({
           defaultDate: moment(inputDate).format('MM/DD/YYYY hh:mm A')
         }).on('dp.change', function (ev) {
