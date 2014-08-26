@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, conference, currentRegistration) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, RegistrationCache, conference, currentRegistration, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'front-form',
@@ -86,5 +86,20 @@ angular.module('confRegistrationWebApp')
 
     $scope.isConferenceCost = function () {
       return conference.conferenceCost > 0;
+    };
+
+    $scope.newRegistrant = function(type){
+      var newId = uuid();
+      $scope.currentRegistration.registrants.push({
+        id: newId,
+        registrationId: $scope.currentRegistration.id,
+        registrantTypeId: type,
+        answers: {}
+      });
+      RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
+        $location.path($rootScope.registerMode + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', newId);
+      }, function (data) {
+        console.log(data);
+      });
     };
   });

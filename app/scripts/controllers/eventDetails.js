@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, conference, ConfCache, permissions, permissionConstants) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'conference-details',
@@ -16,12 +16,35 @@ angular.module('confRegistrationWebApp')
       $scope.templateUrl = 'views/permissionError.html';
     }
 
+    $scope.tabs = [
+      {id: 'eventInfo', name: 'Event Information', view: 'views/eventDetails/eventInformation.html'},
+      {id: 'regOptions', name: 'Registration Options', view: 'views/eventDetails/regOptions.html'},
+      {id: 'regTypes', name: 'Registration Types', view: 'views/eventDetails/regTypes.html'},
+      {id: 'paymentOptions', name: 'Payment Options', view: 'views/eventDetails/paymentOptions.html'},
+      {id: 'contactInfo', name: 'Contact Information', view: 'views/eventDetails/contactInfo.html'}
+    ];
+
+    $scope.changeTab = function(tab){
+      $scope.activeTab = tab;
+    };
+    $scope.changeTab($scope.tabs[0]);
+
     $scope.paymentGateways = [
       {id: 'AUTHORIZE_NET', name: 'Authorize.Net'},
       {id: 'TRUST_COMMERCE', name: 'TrustCommerce'}
     ];
 
     $scope.conference = conference;
+
+    $scope.addRegType = function(){
+      $scope.conference.registrantTypes.push({
+        id: uuid()
+      });
+    };
+
+    $scope.deleteRegType = function(id){
+      _.remove($scope.conference.registrantTypes, function(type) { return type.id === id; });
+    };
 
     $scope.saveEvent = function () {
       //validation check
@@ -38,12 +61,12 @@ angular.module('confRegistrationWebApp')
       }
 
       //Event Cost
-      $scope.conference.conferenceCost = Number($scope.conference.conferenceCost);
+/*      $scope.conference.conferenceCost = Number($scope.conference.conferenceCost);
       if (isNaN($scope.conference.conferenceCost) || $scope.conference.conferenceCost < 0) {
         validationErrors.push('Event cost must be a positive number.');
       } else {
         $scope.conference.conferenceCost = parseFloat($scope.conference.conferenceCost).toFixed(2);
-      }
+      }*/
 
       //Credit cards
       if ($scope.conference.acceptCreditCards) {

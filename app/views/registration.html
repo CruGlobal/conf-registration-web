@@ -49,9 +49,9 @@
         </ul>
       </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="activePageId == ''">
       <div class="col-xs-12">
-        <article ng-show="activePageId == ''">
+        <article>
           <h2>Welcome</h2>
           <p ng-bind="conference.description" class="eventhub-linebreak"></p>
           <div class="well creme2" ng-show="conference.eventStartTime">
@@ -82,10 +82,27 @@
               <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
             </ul>
           </div>
-          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}" class="btn btn-success btn-lg full">
-            Register Now
-          </a>
         </article>
+      </div>
+    </div>
+    <article ng-show="activePageId == ''" style="padding-top:0;">
+      <div class="row" ng-repeat="type in conference.registrantTypes">
+        <div class="col-xs-9">
+          <h4>{{type.name}}</h4>
+          <span>${{type.cost}}</span>
+        </div>
+        <div class="col-xs-3">
+          <br>
+          <a href="" ng-click="newRegistrant(type.id)" class="btn btn-success">
+          Register
+        </a>
+        </div>
+
+      </div>
+    </article>
+
+    <div class="row">
+      <div class="col-xs-12">
         <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>
       </div>
     </div>

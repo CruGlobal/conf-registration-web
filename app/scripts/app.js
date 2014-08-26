@@ -9,7 +9,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       .when('/register/:conferenceId', {
         resolve: {
           redirectToIntendedRoute: ['$location', '$route', function ($location, $route) {
-            $location.replace().path('/register/' + $route.current.params.conferenceId + '/page/');
+            $location.path('/register/' + $route.current.params.conferenceId + '/page/');
           }]
         }
       })

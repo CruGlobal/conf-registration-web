@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, AnswerCache, RegistrationCache, uuid) {
+      controller: function ($scope, $routeParams, AnswerCache, RegistrationCache, uuid) {
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistration)) {
             //registration object provided
@@ -23,20 +23,25 @@ angular.module('confRegistrationWebApp')
               $scope.adminEditRegistration.answers.push($scope.answer);
             }
           } else {
-            //registration not provided, use current users
             RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
-              var answerForThisBlock = _.where(currentRegistration.answers, { 'blockId': $scope.block.id });
+              var registrantId = $routeParams.reg;
+              if(angular.isUndefined(registrantId)){
+                return;
+              }
+              var registrantIndex = _.findIndex(currentRegistration.registrants, { 'id': registrantId });
+
+              var answerForThisBlock = _.where(currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
               if (answerForThisBlock.length > 0) {
                 $scope.answer = answerForThisBlock[0];
               }
               if (angular.isUndefined($scope.answer)) {
                 $scope.answer = {
                   id : uuid(),
-                  registrationId : currentRegistration.id,
+                  registrantId : registrantId,
                   blockId : $scope.block.id,
                   value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
                 };
-                currentRegistration.answers.push($scope.answer);
+                currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
               }
             });
             AnswerCache.syncBlock($scope, 'answer');
@@ -57,6 +62,24 @@ angular.module('confRegistrationWebApp')
         $scope.editBlockDeleteOption = function (index) {
           $scope.this.block.content.choices.splice(index, 1);
         };
+
+        if($scope.wizard){
+          $scope.activeTab = 'options';
+          $scope.visibleRegTypes = {};
+          angular.forEach($scope.conference.registrantTypes, function(type) {
+            $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
+          });
+          $scope.$watch('visibleRegTypes', function (object) {
+            if (angular.isDefined(object)) {
+              $scope.block.registrantTypes = [];
+              angular.forEach(object, function(v, k) {
+                if(!v){
+                  $scope.block.registrantTypes.push(k);
+                }
+              });
+            }
+          }, true);
+        }
 
         var typeToProfile = [];
         //typeToProfile['emailQuestion'] = 'EMAIL';
