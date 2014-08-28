@@ -1,6 +1,7 @@
 <div ng-repeat="choice in ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']" class="radio">
     <label>
         <input type="radio"
+               name="{{block.id}}"
                ng-required="block.required"
                ng-model="answer.value"
                ng-value="choice">
