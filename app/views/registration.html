@@ -86,19 +86,7 @@
       </div>
     </div>
     <article ng-show="activePageId == ''" style="padding-top:0;">
-      <div class="row" ng-repeat="type in conference.registrantTypes">
-        <div class="col-xs-9">
-          <h4>{{type.name}}</h4>
-          <span>${{type.cost}}</span>
-        </div>
-        <div class="col-xs-3">
-          <br>
-          <a href="" ng-click="newRegistrant(type.id)" class="btn btn-success">
-          Register
-        </a>
-        </div>
-
-      </div>
+      <registration-type-select></registration-type-select>
     </article>
 
     <div class="row">
@@ -106,5 +94,11 @@
         <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>
       </div>
     </div>
+  </div>
+  <div>
+    Active Registrations
+    <p ng-repeat="r in currentRegistration.registrants | orderBy: createdTimestamp">
+      <a ng-href="#/register/462aafd0-eeca-46c9-8839-0d556a06e22b/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">{{r.id}}</a>
+    </p>
   </div>
 </div>

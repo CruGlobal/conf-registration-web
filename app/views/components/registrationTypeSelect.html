@@ -1,0 +1,12 @@
+<div class="row" ng-repeat="type in conference.registrantTypes">
+  <div class="col-xs-9">
+    <h4>{{type.name}}</h4>
+    <span>${{type.cost}}</span>
+  </div>
+  <div class="col-xs-3" align="right">
+    <br>
+    <a href="" ng-click="newRegistrant(type.id)" class="btn btn-success">
+      Register
+    </a>
+  </div>
+</div>

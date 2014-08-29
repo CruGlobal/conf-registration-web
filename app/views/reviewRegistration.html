@@ -1,24 +1,46 @@
-<div class="row">
+<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: createdTimestamp">
   <div class="well">
-    <div ng-show="registration.completed">
+    <div ng-show="currentRegistration.completed">
       <a class="btn btn-default pull-right" href="#/logout">Logout</a>
       <h4>You are registered!</h4>
       <p>Keep this information for your records.</p>
     </div>
 
-    <input type="button" class="btn btn-small pull-right" ng-click="editRegistration()" value="Edit my registration" ng-show="!registration.completed">
-    <p ng-show="!registration.completed">Please review your registration.</p>
+    <div class="pull-right" align="right">
+      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit" ng-show="!currentRegistration.completed">
+      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" value="Remove" ng-show="!currentRegistration.completed">
+
+      <p style="text-align:center; padding-top:20px;">
+        <strong>{{getRegistrantType(r.registrantTypeId).name}}</strong>
+        <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
+        <span><br>$75</span>
+      </p>
+    </div>
 
     <dl ng-repeat="block in blocks">
       <dt>{{block.title}}</dt>
-      <dd><show-answer block="block" registration="registration"></show-answer></dd>
+      <dd><show-answer block="block" registration="r"></show-answer></dd>
     </dl>
+  </div>
+</div>
+
+<div class="row">
+  <div class="well">
+    <p>Register another participant</p>
+    <registration-type-select></registration-type-select>
+  </div>
+</div>
+
+<div class="row" ng-show="!currentPayment.amount">
+  <div class="well">
+    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Enter Payment Details" ng-show="!registration.completed">
+    <p>Payment details not found.</p>
   </div>
 </div>
 
 <div class="row" ng-show="currentPayment.amount > 0">
   <div class="well">
-    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit my payment" ng-show="!registration.completed">
+    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit payment details" ng-show="!registration.completed">
     <dl class="dl-horizontal">
       <dt>Payment amount</dt>
       <dd>${{currentPayment.amount}}</dd>
@@ -32,13 +54,13 @@
   </div>
 </div>
 
-<div class="row" ng-show="!registration.completed">
+<div class="row" ng-show="!currentRegistration.completed">
   <div class="well">
     <input type="button" class="btn btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview'">
     <span ng-show="registerMode==='preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>
-<div class="row" ng-show="registration.completed">
+<div class="row" ng-show="currentRegistration.completed">
   <div class="well">
     <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
   </div>

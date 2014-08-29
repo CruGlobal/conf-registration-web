@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.conference = conference;
-    $scope.registration = registration;
+    $scope.currentRegistration = registration;
     $scope.answers = registration.answers;
     $scope.blocks = [];
 
@@ -67,16 +67,28 @@ angular.module('confRegistrationWebApp')
         registration.totalDue = $rootScope.totalDue;
       }
       $http.put('registrations/' + registration.id, registration).success(function () {
-        $scope.registration.completed = true;
+        $scope.currentRegistration.completed = true;
       }).error(function (data) {
           alert('Error: ' + data);
         });
     }
 
-    $scope.editRegistration = function () {
-      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id);
+    $scope.editRegistrant = function (id) {
+      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
     };
+
+    $scope.removeRegistrant = function (id) {
+      _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
+
+      RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
+      });
+    };
+
     $scope.editPayment = function () {
       $location.path('/payment/' + conference.id);
+    };
+
+    $scope.getRegistrantType = function(id){
+      return _.find(conference.registrantTypes, { 'id': id });
     };
   });
