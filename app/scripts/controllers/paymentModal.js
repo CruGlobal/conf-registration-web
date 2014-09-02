@@ -11,10 +11,23 @@ angular.module('confRegistrationWebApp')
       $modalInstance.close($scope.registration);
     };
 
+    $scope.registrantName = function(registrantId) {
+      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
+      var registrant = _.find(registration.registrants, { 'id': registrantId });
+      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock }).value;
+
+      return nameBlock.firstName + ' ' + nameBlock.lastName;
+    };
+
     $scope.newPayment = {
       registrationId: $scope.registration.id,
       amount: (registration.totalDue - registration.totalPaid).toString()
     };
+
+    $scope.updateCostRegistration = [];
+    angular.forEach(registration.registrants, function (r) {
+      $scope.updateCostRegistration[r.id] = r.totalDue;
+    });
 
     $scope.processPayment = function () {
       if (_.isEmpty($scope.newPayment.paymentType)) {
@@ -95,15 +108,20 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.updateCost = function () {
-      var updatedRegistration = angular.copy($scope.registration);
-      updatedRegistration.totalDue = $scope.updateCost.newTotal;
+    $scope.saveCost = function () {
+      var updatedRegistration = angular.copy(registration);
+      angular.forEach(updatedRegistration.registrants, function(r) {
+        r.totalDue = Number($scope.updateCostRegistration[r.id]);
+      });
 
       RegistrationCache.update('registrations/' + updatedRegistration.id, updatedRegistration, function () {
-        $scope.updateCost.show = false;
-        $scope.registration.totalDue = $scope.updateCost.newTotal;
+        $scope.showUpdateCost = false;
       }, function () {
         alert('Error updating total cost');
       });
+    };
+
+    $scope.toggleCostUpdate = function(v) {
+      $scope.showUpdateCost = v;
     };
   });

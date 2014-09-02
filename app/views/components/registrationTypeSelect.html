@@ -1,7 +1,7 @@
-<div class="row" ng-repeat="type in conference.registrantTypes">
+<div class="row" ng-repeat="type in conference.registrantTypes | orderBy: ['cost','name']">
   <div class="col-xs-9">
     <h4>{{type.name}}</h4>
-    <span>${{type.cost}}</span>
+    <span ng-show="isConferenceCost()">${{type.cost}}</span>
   </div>
   <div class="col-xs-3" align="right">
     <br>

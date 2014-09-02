@@ -84,8 +84,4 @@ angular.module('confRegistrationWebApp')
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/');
       }
     };
-
-    $scope.isConferenceCost = function () {
-      return _.max(_.flatten(conference.registrantTypes, 'cost')) > 0;
-    };
   });

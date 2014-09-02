@@ -20,6 +20,10 @@ angular.module('confRegistrationWebApp')
             console.log(data);
           });
         };
+
+        $scope.isConferenceCost = function () {
+          return _.max(_.flatten($scope.conference.registrantTypes, 'cost')) > 0;
+        };
       }
     };
   });

@@ -5,53 +5,82 @@
     <div class="modal-body">
       <tabset>
         <tab heading="Summary">
-          <table class="table table-striped">
-            <tr>
-              <th>Cost</th>
-              <th>Paid</th>
-              <th>Remaining Balance</th>
-            </tr>
-            <tr>
-              <td>${{registration.totalDue}}</td>
-              <td>${{registration.totalPaid}}</td>
-              <td>${{registration.totalDue - registration.totalPaid}}</td>
-            </tr>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Registrant</th>
+                <th width="90">Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="r in registration.registrants">
+                <td>{{registrantName(r.id)}}</td>
+                <td ng-show="!showUpdateCost">${{r.totalDue}}</td>
+                <td ng-show="showUpdateCost" width="130">
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <input type="text" class="form-control marginless" ng-model="updateCostRegistration[r.id]">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
           </table>
-          <button class="btn" ng-click="updateCost.show = true" ng-hide="updateCost.show">Adjust Cost</button>
-          <div class="row" ng-show="updateCost.show">
-            <div class="col-xs-6">
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control marginless" placeholder="Updated cost" ng-model="updateCost.newTotal">
-              </div><br>
-              <button class="btn btn-success" ng-click="updateCost()">Save</button> <a href="" ng-click="updateCost.show=false">Cancel</a>
+
+          <div class="row" ng-show="!showUpdateCost">
+            <div class="col-lg-12">
+              <table class="table pull-right" style="width:200px;">
+                <tr>
+                  <th>Total Cost</th>
+                  <td width="90">${{registration.calculatedTotalDue}}</td>
+                </tr>
+                <tr>
+                  <th>Total Paid</th>
+                  <td>${{registration.totalPaid}}</td>
+                </tr>
+                <tr>
+                  <th>Total Due</th>
+                  <td>${{registration.calculatedTotalDue - registration.totalPaid}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="row" ng-show="!showUpdateCost">
+            <div class="col-xs-12 text-right">
+              <button class="btn" ng-click="toggleCostUpdate(true)" ng-hide="showUpdateCost">Adjust Cost</button>
+            </div>
+          </div>
+
+          <div class="row" ng-show="showUpdateCost">
+            <div class="col-xs-12 text-right">
+              <button class="btn btn-success" ng-click="saveCost()">Save</button> <a href ng-click="toggleCostUpdate(false)">Cancel</a>
             </div>
           </div>
         </tab>
-        <tab heading="History">
+        <tab heading="Payment History">
           <table class="table table-striped">
             <tbody>
-            <tr>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Refund</th>
-            </tr>
-            <tr ng-repeat="payment in registration.pastPayments">
-              <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-              <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>${{payment.amount}}</td>
-              <td>{{payment.paymentType}}</td>
-              <td>
-                <div ng-show="canBeRefunded(payment)">
-                  <a href="" ng-click="refund(payment)" ng-show="!processing">Refund</a>
-                  <span ng-show="processing">Processing...</span>
-                </div>
-              </td>
-            </tr>
+              <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Refund</th>
+              </tr>
+              <tr ng-repeat="payment in registration.pastPayments">
+                <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>${{payment.amount}}</td>
+                <td>{{payment.paymentType}}</td>
+                <td>
+                  <div ng-show="canBeRefunded(payment)">
+                    <a href="" ng-click="refund(payment)" ng-show="!processing">Refund</a>
+                    <span ng-show="processing">Processing...</span>
+                  </div>
+                </td>
+              </tr>
             </tbody>
           </table>
         </tab>
-        <tab heading="Add" ng-show="registration.balanceRemaining !== 0"><br>
+        <tab heading="Add New Payment"><br>
           <div class="row form-group">
             <div class="col-sm-7">
               <label>Payment Type</label>

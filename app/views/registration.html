@@ -59,10 +59,6 @@
             <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
             {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}} </p>
           </div>
-          <div class="well creme2" ng-show="isConferenceCost()">
-            <h2 class="details-heading">Event Cost</h2>
-            <p>${{conference.conferenceCost}}</p>
-          </div>
           <div class="well creme2" ng-show="conference.locationName">
             <h2 class="details-heading">Event Location</h2>
             <p>{{conference.locationName}}
