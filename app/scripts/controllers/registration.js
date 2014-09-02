@@ -86,6 +86,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.isConferenceCost = function () {
-      return conference.conferenceCost > 0;
+      return _.max(_.flatten(conference.registrantTypes, 'cost')) > 0;
     };
   });

@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: createdTimestamp">
+<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
   <div class="well">
     <div ng-show="currentRegistration.completed">
       <a class="btn btn-default pull-right" href="#/logout">Logout</a>
@@ -19,7 +19,7 @@
 
     <dl ng-repeat="block in blocks">
       <dt>{{block.title}}</dt>
-      <dd><show-answer block="block" registration="r"></show-answer></dd>
+      <dd><show-answer block="block" registrant="r"></show-answer></dd>
     </dl>
   </div>
 </div>

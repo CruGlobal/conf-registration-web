@@ -16,7 +16,7 @@ angular.module('confRegistrationWebApp')
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
-                registrationId : $scope.adminEditRegistration.id,
+                registrantId : $scope.adminEditRegistration.id,
                 blockId : $scope.block.id,
                 value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
               };

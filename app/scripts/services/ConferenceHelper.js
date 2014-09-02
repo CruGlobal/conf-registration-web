@@ -110,6 +110,6 @@ angular.module('confRegistrationWebApp')
     };
 
     this.hasCost = function (conference) {
-      return conference.conferenceCost && conference.conferenceCost > 0;
+      return _.max(_.flatten(conference.registrantTypes, 'cost')) > 0;
     };
   });

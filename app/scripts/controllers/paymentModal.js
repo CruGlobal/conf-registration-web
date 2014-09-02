@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
       $scope.newPayment.readyToProcess = true;
       $http.post('payments/', $scope.newPayment).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          RegistrationCache.update('registrations/' + data.id, data, function () {});
+          //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
           $scope.close();
@@ -85,7 +85,7 @@ angular.module('confRegistrationWebApp')
       $scope.processing = true;
       $http.post('payments/', refund).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          RegistrationCache.update('registrations/' + data.id, data, function () {});
+          //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
         });

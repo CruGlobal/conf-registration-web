@@ -216,8 +216,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
         $rootScope.clearRegCache = true;
       }
-      if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
-      if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
+      if (_.contains($location.path(), '/preview/')) {
+        $rootScope.registerMode = 'preview';
+      } else {
+        $rootScope.registerMode = 'register';
+      }
     });
 
     $rootScope.generateTitle = function (title) {
