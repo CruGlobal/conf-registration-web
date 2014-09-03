@@ -1,3 +1,16 @@
+<div class="registrantBox" ng-show="currentRegistration.registrants.length > 1">
+  <h4>Registrants</h4>
+  <ul class="nav nav-pills nav-stacked">
+    <li ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-class="{'active': currentRegistrant === r.id}">
+      <a ng-href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
+        {{registrantName(r)}}
+        <i class="fa fa-check pull-right" style="padding-top: 14px;" ng-show="registrantIsComplete(r.id)"></i>
+      </a>
+    </li>
+  </ul>
+  <a ng-href="#/reviewRegistration/{{conference.id}}">Review Registration</a>
+</div>
+
 <div class="row" ng-show="!conference.registrationOpen && registerMode !== 'preview'">
   <div class="col-xs-12">
     <article>
@@ -82,7 +95,15 @@
       </div>
     </div>
     <article ng-show="activePageId == ''" style="padding-top:0;">
-      <registration-type-select></registration-type-select>
+      <registration-type-select ng-if="currentRegistration.registrants.length === 0"></registration-type-select>
+
+      <div class="row" ng-if="currentRegistration.registrants.length">
+        <div class="col-xs-12 text-center">
+          <a ng-href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-success">
+            Continue Registration
+          </a>
+        </div>
+      </div>
     </article>
 
     <div class="row">
@@ -90,11 +111,5 @@
         <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>
       </div>
     </div>
-  </div>
-  <div>
-    Active Registrations
-    <p ng-repeat="r in currentRegistration.registrants | orderBy: createdTimestamp">
-      <a ng-href="#/register/462aafd0-eeca-46c9-8839-0d556a06e22b/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">{{r.id}}</a>
-    </p>
   </div>
 </div>

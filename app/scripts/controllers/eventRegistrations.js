@@ -319,16 +319,13 @@ angular.module('confRegistrationWebApp')
       return paymentCategory.matches(registration.totalPaid, registration.totalDue);
     };
 
-    $scope.completeStatus = function (registration) {
-      return true;
+    $scope.completeStatus = function (registrant) {
+      var registration = _.find(registrations, { 'id': registrant.registrationId });
       if ($scope.showRegistrationsCompleted) {
-        if (registration.completed) {
-          return true;
-        }
+          return registration.completed;
       } else {
         return true;
       }
-
     };
 
     $scope.paidInFull = function (registration) {
@@ -413,6 +410,10 @@ angular.module('confRegistrationWebApp')
       return _.find(registrations, { 'id': id });
     };
 
+    $scope.getRegistrantType = function(id){
+      return _.find(conference.registrantTypes, { 'id': id });
+    };
+
     $scope.deleteRegistrant = function (registrant) {
       var modalInstance = $modal.open({
         templateUrl: 'views/modals/deleteRegistration.html',
@@ -422,14 +423,11 @@ angular.module('confRegistrationWebApp')
       modalInstance.result.then(function (doDelete) {
         if (doDelete) {
           var registration = _.find(registrations, { 'id': registrant.registrationId });
-          console.log(registration);
+          var url = 'registrations/' + registration.id;
 
           if(registration.registrants.length > 1){
             //Delete Registrant
-            var url = 'registrant/' + registrant.id;
-          } else {
-            //Delete Registration
-            var url = 'registrations/' + registration.id;
+            url = 'registrant/' + registrant.id;
           }
 
           $http({

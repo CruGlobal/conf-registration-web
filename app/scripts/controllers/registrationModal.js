@@ -2,8 +2,10 @@
 
 angular.module('confRegistrationWebApp')
   .controller('registrationModal', function ($scope, $modalInstance, $http, $route, conference, uuid, RegistrationCache) {
-
-    $scope.form = {};
+    $scope.conference = conference;
+    $scope.form = {
+      type: _.first(conference.registrantTypes).id
+    };
 
     $scope.register = function () {
       // build registration
@@ -14,6 +16,7 @@ angular.module('confRegistrationWebApp')
         completed: true,
         registrants: [{
           id: uuid(),
+          registrantTypeId: $scope.form.type,
           registrationId: registrationId,
           answers: []
         }]

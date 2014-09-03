@@ -42,7 +42,6 @@ body.frontend {
       margin-bottom: 3px;
       a {
         border-radius: 0;
-        .proximasemi;
         font-size: 14px;
         .white;
         line-height: 45px;
@@ -271,6 +270,35 @@ main.front-form {
     }
     button.twenty, a.twenty {
       width: 20%;
+    }
+  }
+  .invalidBorder{
+    border-color: red;
+    border-width: 2px;
+    border-style: solid;
+  }
+  .invalidBlock{
+    dt{
+      color: red;
+    }
+  }
+  .registrantBox {
+    position: fixed;
+    background: white;
+    margin-left: 590px;
+    width: 220px;
+    padding: 10px;
+    li:not(.active){
+      a {
+        color: #112233;
+      }
+    }
+  }
+  @media (max-width: 1050px) {
+    .registrantBox {
+      position: relative;
+      width: 100%;
+      margin: 10px 0;
     }
   }
 }

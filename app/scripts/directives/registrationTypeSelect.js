@@ -5,7 +5,16 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/registrationTypeSelect.html',
       restrict: 'E',
-      controller: function ($scope, $rootScope, $location, RegistrationCache, uuid) {
+      controller: function ($scope, $rootScope, $location, $routeParams, RegistrationCache, uuid) {
+        $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
+
+        var visibleType = $routeParams.regType;
+        if(angular.isDefined(visibleType)){
+          _.remove($scope.visibleRegistrantTypes, function(t) { return t.id !== visibleType; });
+        } else {
+          _.remove($scope.visibleRegistrantTypes, function(t) { return t.hidden; });
+        }
+
         $scope.newRegistrant = function(type){
           var newId = uuid();
           $scope.currentRegistration.registrants.push({

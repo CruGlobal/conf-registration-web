@@ -76,9 +76,10 @@
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th ng-show="eventHasCost()" class="tablecenter" style="width: 60px;">Paid</th>
-      <th class="tablecenter" style="width:100px;">Options</th>
-      <th style="width:30px;"></th>
+      <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="100">Type</th>
+      <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
+      <th class="tablecenter" width="100">Options</th>
+      <th width="30"></th>
     </tr>
   </thead>
   <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
@@ -86,10 +87,10 @@
       <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)">
         <show-answer block="block" registrant="r"></show-answer>
       </td>
+      <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
       <td ng-show="eventHasCost()" class="tablecenter">
         <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
         <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
-        <span ng-show="!getRegistration(r.registrationId).completed">-</span>
       </td>
       <td class="tablecenter registration_edit_buttons">
         <button ng-click="editRegistrant(r)" title="Edit Registration">

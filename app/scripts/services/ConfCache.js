@@ -61,6 +61,13 @@ angular.module('confRegistrationWebApp')
         eventEndTime: moment().add(20, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventTimezone: 'America/New_York',
         paymentGatewayType: 'TRUST_COMMERCE',
+        registrantTypes: [{
+          id: uuid(),
+          name: 'Default',
+          conferenceId: newConferenceId,
+          cost: 0,
+          earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+        }],
         registrationPages: [
           {
             id: newPageId,

@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
           } else {
             RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
               var registrantId = $routeParams.reg;
-              if(angular.isUndefined(registrantId)){
+              if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
                 return;
               }
               var registrantIndex = _.findIndex(currentRegistration.registrants, { 'id': registrantId });
@@ -79,21 +79,21 @@ angular.module('confRegistrationWebApp')
               });
             }
           }, true);
+
+          var typeToProfile = [];
+          //typeToProfile['emailQuestion'] = 'EMAIL';
+          //typeToProfile['nameQuestion'] = 'NAME';
+          typeToProfile.phoneQuestion = 'PHONE';
+          typeToProfile.addressQuestion = 'ADDRESS';
+          typeToProfile.genderQuestion = 'GENDER';
+          typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
+
+          $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
+          $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);
+          $scope.this.requiredOption = !_.contains(['paragraphContent'], $scope.this.block.type);
+          $scope.this.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.this.block.profileType);
+          $scope.this.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.this.block.type);
         }
-
-        var typeToProfile = [];
-        //typeToProfile['emailQuestion'] = 'EMAIL';
-        //typeToProfile['nameQuestion'] = 'NAME';
-        typeToProfile.phoneQuestion = 'PHONE';
-        typeToProfile.addressQuestion = 'ADDRESS';
-        typeToProfile.genderQuestion = 'GENDER';
-        typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
-
-        $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
-        $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);
-        $scope.this.requiredOption = !_.contains(['paragraphContent'], $scope.this.block.type);
-        $scope.this.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.this.block.profileType);
-        $scope.this.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.this.block.type);
 
         $scope.toggleProfileType = function (value) {
           if (!value) {

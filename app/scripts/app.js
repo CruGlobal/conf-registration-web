@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/register/:conferenceId', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$route', function ($location, $route) {
+          redirect: ['$location', '$route', function ($location, $route) {
             $location.path('/register/' + $route.current.params.conferenceId + '/page/');
           }]
         }
@@ -168,7 +168,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
               $rootScope.crsToken = $cookies.crsToken;
               ProfileCache.getCache(function (data) {
                 $cookies.crsAuthProviderType = data.authProviderType;
-                $location.replace().path($cookies.intendedRoute || '/');
+                if(angular.isDefined($cookies.regType)) {
+                  $location.path($cookies.intendedRoute || '/').search('regType', $cookies.regType);
+                  delete $cookies.regType;
+                } else {
+                  $location.path($cookies.intendedRoute || '/');
+                }
               });
             }
           ]
@@ -176,7 +181,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/logout/', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$window',
+          redirect: ['$location', '$cookies', '$window',
             function ($location, $cookies, $window) {
               var crsAuthProviderTypeBackup = $cookies.crsAuthProviderType;
               delete $cookies.crsAuthProviderType;
@@ -206,10 +211,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
   })
   .run(function ($rootScope, $cookies, $location) {
     $rootScope.$on('$locationChangeStart', function () {
-      if (!/^\/auth\/.*/.test($location.url())) {
-        $cookies.intendedRoute = $location.url();
-      }
-
       //registration mode
       if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
         $rootScope.clearRegCache = true;

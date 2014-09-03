@@ -4,10 +4,15 @@
     <h4 class="modal-title">Add Registration</h4>
   </div>
   <div class="modal-body">
+    <label>Type</label>
+    <select class="form-control" ng-model="form.type" ng-options="t.id as t.name for t in conference.registrantTypes"></select>
+
     <label>First Name</label>
     <input class="form-control" type="text" ng-required="true" ng-model="form.first">
+
     <label>Last Name</label>
     <input class="form-control" type="text" ng-required="true" ng-model="form.last">
+
     <label>Email</label>
     <input class="form-control" type="email" ng-required="true" ng-model="form.email">
   </div>

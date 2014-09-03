@@ -1,14 +1,16 @@
-<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+<div class="row" ng-show="currentRegistration.completed">
   <div class="well">
-    <div ng-show="currentRegistration.completed">
-      <a class="btn btn-default pull-right" href="#/logout">Logout</a>
-      <h4>You are registered!</h4>
-      <p>Keep this information for your records.</p>
-    </div>
+    <a class="btn btn-default pull-right" href="#/logout">Logout</a>
+    <h4>You are registered!</h4>
+    <p>Keep this information for your records.</p>
+  </div>
+</div>
 
-    <div class="pull-right" align="right">
-      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit" ng-show="!currentRegistration.completed">
-      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" value="Remove" ng-show="!currentRegistration.completed">
+<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+  <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
+    <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
+      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" value="Remove">
 
       <p style="text-align:center; padding-top:20px;">
         <strong>{{getRegistrantType(r.registrantTypeId).name}}</strong>
@@ -17,46 +19,100 @@
       </p>
     </div>
 
-    <dl ng-repeat="block in blocks">
+    <dl ng-repeat="block in blocks" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-show="blockInRegType(block, r.registrantTypeId)">
       <dt>{{block.title}}</dt>
       <dd><show-answer block="block" registrant="r"></show-answer></dd>
     </dl>
   </div>
 </div>
 
-<div class="row">
+<div class="row" ng-show="!currentRegistration.completed && conference.allowGroupRegistrations">
   <div class="well">
     <p>Register another participant</p>
     <registration-type-select></registration-type-select>
   </div>
 </div>
 
-<div class="row" ng-show="!currentPayment.amount">
+<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards">
   <div class="well">
-    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Enter Payment Details" ng-show="!registration.completed">
+    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Enter Payment Details">
     <p>Payment details not found.</p>
   </div>
 </div>
 
-<div class="row" ng-show="currentPayment.amount > 0">
+<div class="row" ng-show="currentPayment.creditCard">
   <div class="well">
-    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit payment details" ng-show="!registration.completed">
-    <dl class="dl-horizontal">
-      <dt>Payment amount</dt>
-      <dd>${{currentPayment.amount}}</dd>
+    <div ng-show="!currentRegistration.completed">
+      <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit payment details">
+      <dl class="dl-horizontal">
+        <dt>Payment amount</dt>
+        <dd>
+          <label>
+          <input type="radio"
+                 ng-model="currentPayment.amount"
+                 ng-value="120">
+          $120.00
+          </label><br>
+          <label>
+            <input type="radio"
+                   ng-model="currentPayment.amount"
+                   ng-value="100">
+            $100.00
+          </label>
+        </dd>
 
-      <dt>Card</dt>
-      <dd>****-****-****-{{currentPayment.creditCard.number.slice(-4)}}</dd>
+        <dt>Card</dt>
+        <dd>****-****-****-{{currentPayment.creditCard.number.slice(-4)}}</dd>
 
-      <dt>Expiration Date</dt>
-      <dd>{{currentPayment.creditCard.expirationMonth}}/{{currentPayment.creditCard.expirationYear}}</dd>
-    </dl>
+        <dt>Expiration</dt>
+        <dd>{{currentPayment.creditCard.expirationMonth}}/{{currentPayment.creditCard.expirationYear}}</dd>
+      </dl>
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Registrant</th>
+        <th width="90">Cost</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="r in currentRegistration.registrants">
+        <td>{{registrantName(r)}}</td>
+        <td>${{r.totalDue}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table pull-right" style="width:300px;">
+          <tr>
+            <th>Total Cost</th>
+            <td width="90">${{registration.calculatedTotalDue}}</td>
+          </tr>
+          <tr>
+            <th>Discounts</th>
+            <td>${{registration.calculatedTotalDue}}</td>
+          </tr>
+          <tr>
+            <th>Payment</th>
+            <td>${{currentPayment.amount}}</td>
+          </tr>
+          <tr>
+            <th>Remaining Balance</th>
+            <td>${{registration.calculatedTotalDue - registration.totalPaid}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="row" ng-show="!currentRegistration.completed">
   <div class="well">
-    <input type="button" class="btn btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview'">
+    <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
+    <input type="button" class="btn-lg btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview' || !allRegistrantsValid()">
     <span ng-show="registerMode==='preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>
