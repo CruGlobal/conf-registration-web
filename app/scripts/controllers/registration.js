@@ -24,11 +24,15 @@ angular.module('confRegistrationWebApp')
 
     //remove blocks that are not part of registrant type
     if(angular.isDefined($routeParams.reg)){
-      var regType = _.find(currentRegistration.registrants, { 'id': $routeParams.reg}).registrantTypeId;
+      var reg = _.find(currentRegistration.registrants, { 'id': $routeParams.reg});
+      if(angular.isUndefined(reg)){
+        $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/').search('reg', null);
+        return;
+      }
       angular.forEach($scope.conference.registrationPages, function(page) {
         var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
         angular.forEach(page.blocks, function(block) {
-          if (_.contains(block.registrantTypes, regType)) {
+          if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
             _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
           }
         });

@@ -2,7 +2,7 @@
   <h4>Registrants</h4>
   <ul class="nav nav-pills nav-stacked">
     <li ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-class="{'active': currentRegistrant === r.id}">
-      <a ng-href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
+      <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
         {{registrantName(r)}}
         <i class="fa fa-check pull-right" style="padding-top: 14px;" ng-show="registrantIsComplete(r.id)"></i>
       </a>
@@ -99,7 +99,7 @@
 
       <div class="row" ng-if="currentRegistration.registrants.length">
         <div class="col-xs-12 text-center">
-          <a ng-href="#/register/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-success">
+          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-success">
             Continue Registration
           </a>
         </div>

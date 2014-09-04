@@ -92,12 +92,12 @@ angular.module('confRegistrationWebApp')
 
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if($scope.conference.requireLogin && $scope.conference.acceptCreditCards && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
+        if ($scope.conference.requireLogin && $scope.conference.acceptCreditCards && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
           t.minimumDeposit = Number(t.minimumDeposit);
-          if(t.minimumDeposit > t.cost) {
+          if (t.minimumDeposit > t.cost) {
             validationErrors.push('The minimum deposit for \'' + t.name + '\' must be less than the cost.');
           }
-        }else{
+        } else {
           t.minimumDeposit = null;
         }
 
@@ -105,9 +105,9 @@ angular.module('confRegistrationWebApp')
 
       //Early bird discount
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if(t.earlyRegistrationDiscount) {
+        if (t.earlyRegistrationDiscount) {
           t.earlyRegistrationAmount = Number(t.earlyRegistrationAmount);
-          if(t.earlyRegistrationAmount > t.cost) {
+          if (t.earlyRegistrationAmount > t.cost) {
             validationErrors.push('The early registration discount for \'' + t.name + '\' must be less than the cost.');
           }
           if (t.earlyRegistrationAmount < 0) {

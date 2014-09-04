@@ -40,7 +40,7 @@
   </div>
 </div>
 
-<div class="row" ng-show="currentPayment.creditCard">
+<div class="row" ng-show="currentPayment.creditCard && registerMode !== 'preview'">
   <div class="well">
     <div ng-show="!currentRegistration.completed">
       <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit payment details">
@@ -112,8 +112,8 @@
 <div class="row" ng-show="!currentRegistration.completed">
   <div class="well">
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class="btn-lg btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode==='preview' || !allRegistrantsValid()">
-    <span ng-show="registerMode==='preview'">&laquo; Disabled in preview mode</span>
+    <input type="button" class="btn-lg btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid()">
+    <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>
 <div class="row" ng-show="currentRegistration.completed">

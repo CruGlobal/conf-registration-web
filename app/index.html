@@ -178,16 +178,16 @@
     </div>
   </section>
 
-  <div class="row" ng-show="registerMode==='preview'" style="text-align:center; background:rgba(255, 165, 0, .5); padding:8px; margin:auto; ">
+  <div class="row previewRow" ng-show="registerMode === 'preview'">
     <div class="col-xs-12" style="font-size:24px;">
       Preview Mode
     </div>
-    <div class="col-xs-12" style="font-size:12px;">
+    <div class="col-xs-12">
       <ul class="horizontal">
-        <li class=""><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-        <li class=""><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li class=""><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-        <li class=""><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+        <li><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
+        <li> | <a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+        <li> | <a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+        <li> | <a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
       </ul>
     </div>
   </div>

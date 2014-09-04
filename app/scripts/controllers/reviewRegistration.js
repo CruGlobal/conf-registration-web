@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
 
     if(registration.registrants.length === 0) {
-      $location.url('/register/' + conference.id);
+      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
     $scope.conference = conference;

@@ -219,7 +219,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       }
       if (_.contains($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';
-      } else {
+      } else if(_.contains($location.path(), '/register/')) {
         $rootScope.registerMode = 'register';
       }
     });

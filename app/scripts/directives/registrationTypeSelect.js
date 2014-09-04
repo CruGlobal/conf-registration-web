@@ -20,7 +20,8 @@ angular.module('confRegistrationWebApp')
           $scope.currentRegistration.registrants.push({
             id: newId,
             registrationId: $scope.currentRegistration.id,
-            registrantTypeId: type
+            registrantTypeId: type,
+            answers: []
           });
           RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
             RegistrationCache.emptyCache();
