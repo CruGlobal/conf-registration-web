@@ -46,7 +46,6 @@ angular.module('confRegistrationWebApp')
         if(angular.isDefined(registration.registrants[0])) {
           name = ConferenceHelper.getRegistrantName(registration.registrants[0].answers, blocks);
         }
-        var totalDue = '$' + U.getValue(registration.totalDue, '0');
 
         if (registration.pastPayments.length > 0) {
           angular.forEach(registration.pastPayments, function (payment) {

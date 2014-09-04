@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('LoginDialogCtrl', function ($rootScope, $scope, $location, $cookies, $routeParams, apiUrl) {
+  .controller('LoginDialogCtrl', function ($rootScope, $scope, apiUrl) {
     $rootScope.globalPage = {
       type: '',
       class: '',
@@ -11,11 +11,4 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.apiUrl = apiUrl;
-
-    if (!/^\/auth\/.*/.test($location.url())) {
-      $cookies.intendedRoute = $location.path();
-      if(angular.isDefined($routeParams.regType)){
-        $cookies.regType = $routeParams.regType;
-      }
-    }
   });

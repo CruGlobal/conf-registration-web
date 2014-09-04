@@ -314,9 +314,8 @@ angular.module('confRegistrationWebApp')
 
     // determine if registration payment status matches current payment category
     $scope.paymentStatus = function (registration) {
-      return true;
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
-      return paymentCategory.matches(registration.totalPaid, registration.totalDue);
+      return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
 
     $scope.completeStatus = function (registrant) {

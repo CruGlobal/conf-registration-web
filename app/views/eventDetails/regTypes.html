@@ -1,5 +1,5 @@
 <h2>Registration Types</h2>
-<p><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration.</p>
+<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration.</p>
 
 <div class="row">
   <div class="form-group col-xs-7">
@@ -33,7 +33,7 @@
       <input type="checkbox" ng-model="type.hidden" ng-value="true">
       Hide from public registration form
     </label>
-    <p><i class="fa fa-info-circle"></i> Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the <a href="#/eventOverview/{{conference.id}}">Event Overview</a> page.</p>
+    <p class="text-muted"><i class="fa fa-info-circle"></i> Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the <a href="#/eventOverview/{{conference.id}}">Event Overview</a> page.</p>
 
     <label class="space">
       <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
@@ -60,13 +60,22 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-xs-6">
+    <div class="row" ng-show="conference.requireLogin && conference.acceptCreditCards">
+      <div class="col-xs-5">
         <label>Minimum Payment to Register:</label>
         <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-usd"></i></span>
           <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
         </div>
+        <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
+      </div>
+    </div>
+
+    <div class="row" ng-show="!conference.requireLogin || !conference.acceptCreditCards">
+      <div class="col-xs-12">
+        <label>Minimum Payment to Register:</label>
+        <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments.  Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
+        <p class="text-muted" ng-show="!conference.acceptCreditCards"><i class="fa fa-info-circle"></i> You must accept credit card payments in order to use this option.  Setup credit card payments under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
       </div>
     </div>
   </div>
