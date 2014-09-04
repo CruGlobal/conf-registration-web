@@ -27,7 +27,6 @@ angular.module('confRegistrationWebApp')
     this.update = function (path, registration, cb, errorCallback) {
       if ($rootScope.registerMode === 'preview') {
         $rootScope.previewRegCache = registration;
-        //$rootScope.broadcast(path, $rootScope.previewRegCache);
         cb();
         return;
       }
@@ -63,11 +62,6 @@ angular.module('confRegistrationWebApp')
 
     this.getCurrent = function (conferenceId) {
       var defer = $q.defer();
-
-/*      if ($rootScope.clearRegCache) {
-        this.emptyCache();
-        $rootScope.clearRegCache = false;
-      }*/
 
       checkCache('conferences/' + conferenceId + '/registrations/current', function (registration) {
         if ($rootScope.registerMode === 'preview') {

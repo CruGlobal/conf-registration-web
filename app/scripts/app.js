@@ -212,11 +212,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
   .run(function ($rootScope, $cookies, $location) {
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
-      if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
-        $rootScope.clearRegCache = true;
-      } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
-        $rootScope.clearRegCache = true;
-      }
       if (_.contains($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';
       } else if(_.contains($location.path(), '/register/')) {
