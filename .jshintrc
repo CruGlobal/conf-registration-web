@@ -27,6 +27,7 @@
     "$": false,
     "alert": false,
     "jQuery": false,
-    "moment": false
+    "moment": false,
+    "Hoptoad": false
   }
 }

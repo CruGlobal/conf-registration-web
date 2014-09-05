@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
         });
 
         scope.$on('$destroy', function () {
-          datePickerElement.data("DateTimePicker").destroy();
+          datePickerElement.data('DateTimePicker').destroy();
         });
       }
     };

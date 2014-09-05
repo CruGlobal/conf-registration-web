@@ -240,9 +240,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       return function (exception) {
         $delegate(exception);
         var error = {
-          type:     "Angular",
-          message:  exception.message,
-          params:   {
+          type: 'Angular',
+          message: exception.message,
+          params: {
             angularVersion: angular.version.full
           },
           component: exception.stack
