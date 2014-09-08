@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: false
     };
-    conference.acceptCreditCards = true;
 
     if(registration.registrants.length === 0) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
