@@ -12,7 +12,7 @@
       <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
       <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" value="Remove">
 
-      <p style="text-align:center; padding-top:20px;">
+      <p class="registrantPrice" ng-show="conference.registrantTypes.length > 1">
         <strong>{{getRegistrantType(r.registrantTypeId).name}}</strong>
         <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
       </p>
@@ -32,7 +32,7 @@
   </div>
 </div>
 
-<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards">
+<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards && currentRegistration.calculatedTotalDue > 0">
   <div class="well">
     <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Enter Payment Details">
     <p>Payment details not found.</p>
@@ -104,10 +104,10 @@
   </div>
 </div>
 
-<div class="row" ng-show="!currentRegistration.completed">
+<div class="row" ng-hide="currentRegistration.completed || (currentRegistration.calculatedTotalDue > 0 && currentPayment.amount === 0)">
   <div class="well">
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class="btn-lg btn-success" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid()">
+    <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid()">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>

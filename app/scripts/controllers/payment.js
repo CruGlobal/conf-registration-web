@@ -86,7 +86,6 @@ angular.module('confRegistrationWebApp')
 
       $rootScope.currentPayment = {
         amount: $scope.amount,
-        registrationId: registration.id,
         paymentType: 'CREDIT_CARD',
         creditCard: {
           nameOnCard: $scope.creditCardNameOnCard,

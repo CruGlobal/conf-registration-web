@@ -115,6 +115,10 @@ angular.module('confRegistrationWebApp')
       });
 
       RegistrationCache.update('registrations/' + updatedRegistration.id, updatedRegistration, function () {
+        RegistrationCache.emptyCache();
+        RegistrationCache.get(updatedRegistration.id).then(function(data){
+          $scope.registration = data;
+        });
         $scope.showUpdateCost = false;
       }, function () {
         alert('Error updating total cost');

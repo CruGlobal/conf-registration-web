@@ -10,6 +10,7 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: false
     };
+    conference.acceptCreditCards = true;
 
     if(registration.registrants.length === 0) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
@@ -20,8 +21,12 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
-    if(angular.isDefined($rootScope.currentPayment)){
+    if (angular.isDefined($rootScope.currentPayment)) {
       $rootScope.currentPayment.amount = registration.calculatedTotalDue;
+    } else {
+      $rootScope.currentPayment = {
+        amount: 0
+      };
     }
 
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
@@ -39,14 +44,15 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-      $('.btn-success').attr('value', 'Loading...');
-      if (!conference.acceptCreditCards) {
+      jQuery('.confirm-registration').attr('value', 'Loading...');
+      if ($rootScope.currentPayment.amount === 0 || 7 === 7) {
         setRegistrationAsCompleted();
         return;
       }
 
-      var currentPayment = $rootScope.currentPayment;
+      var currentPayment = angular.copy($rootScope.currentPayment);
       currentPayment.readyToProcess = true;
+      currentPayment.registrationId =  registration.id;
 
       $http.post('payments/', currentPayment).success(function () {
         setRegistrationAsCompleted();
@@ -69,11 +75,8 @@ angular.module('confRegistrationWebApp')
         });
     };
 
-    function setRegistrationAsCompleted() {
-      console.log(registration);
-      $scope.currentRegistration.completed = true;
+    var setRegistrationAsCompleted = function() {
       window.scrollTo(0, 0);
-      return;
       registration.completed = true;
 
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
@@ -82,7 +85,7 @@ angular.module('confRegistrationWebApp')
       }, function (data) {
         alert('Error: ' + data);
       });
-    }
+    };
 
     $scope.editRegistrant = function (id) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);

@@ -250,13 +250,8 @@ angular.module('confRegistrationWebApp')
       };
 
       $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
-        var localUpdatedRegistration = _.find(registrations, function (reg) {
-          return reg.id === updatedRegistration.id;
-        });
-        localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
-        localUpdatedRegistration.totalDue = updatedRegistration.totalDue;
-        localUpdatedRegistration.totalPaid = updatedRegistration.totalPaid;
-        localUpdatedRegistration.remainingBalance = updatedRegistration.remainingBalance;
+        var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
+        $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
       });
     };
 
@@ -313,7 +308,8 @@ angular.module('confRegistrationWebApp')
     $scope.currentPaymentCategory = _.first($scope.paymentCategories).name;
 
     // determine if registration payment status matches current payment category
-    $scope.paymentStatus = function (registration) {
+    $scope.paymentStatus = function (registrant) {
+      var registration = _.find(registrations, { 'id': registrant.registrationId });
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
       return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
@@ -327,10 +323,10 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.paidInFull = function (registration) {
-      return registration.totalPaid >= registration.totalDue;
+    $scope.paidInFull = function (registrantId) {
+      var registration = _.find(registrations, { 'id': registrantId });
+      return registration.totalPaid >= registration.calculatedTotalDue;
     };
-
 
     var expandedRegistrations = [];
     $scope.expandRegistration = function (r) {

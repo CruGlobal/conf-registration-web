@@ -25,9 +25,7 @@ angular.module('confRegistrationWebApp')
           });
           RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
             RegistrationCache.emptyCache();
-            $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/' + $scope.conference.registrationPages[0].id).search('reg', newId);
-          }, function (data) {
-            console.log(data);
+            $location.path(($rootScope.registerMode || 'register') + '/' + $scope.conference.id + '/page/' + $scope.conference.registrationPages[0].id).search('reg', newId);
           });
         };
 
