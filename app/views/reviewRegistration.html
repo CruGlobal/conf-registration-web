@@ -15,7 +15,6 @@
       <p style="text-align:center; padding-top:20px;">
         <strong>{{getRegistrantType(r.registrantTypeId).name}}</strong>
         <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
-        <span><br>$75</span>
       </p>
     </div>
 
@@ -50,14 +49,14 @@
           <label>
           <input type="radio"
                  ng-model="currentPayment.amount"
-                 ng-value="120">
-          $120.00
+                 ng-value="currentRegistration.calculatedMinimumDeposit">
+          ${{currentRegistration.calculatedMinimumDeposit}}
           </label><br>
-          <label>
+          <label ng-show="currentRegistration.calculatedTotalDue !== currentRegistration.calculatedMinimumDeposit">
             <input type="radio"
                    ng-model="currentPayment.amount"
-                   ng-value="100">
-            $100.00
+                   ng-value="currentRegistration.calculatedTotalDue">
+            ${{currentRegistration.calculatedTotalDue}}
           </label>
         </dd>
 
@@ -89,11 +88,7 @@
         <table class="table pull-right" style="width:300px;">
           <tr>
             <th>Total Cost</th>
-            <td width="90">${{registration.calculatedTotalDue}}</td>
-          </tr>
-          <tr>
-            <th>Discounts</th>
-            <td>${{registration.calculatedTotalDue}}</td>
+            <td width="90">${{currentRegistration.calculatedTotalDue}}</td>
           </tr>
           <tr>
             <th>Payment</th>
@@ -101,7 +96,7 @@
           </tr>
           <tr>
             <th>Remaining Balance</th>
-            <td>${{registration.calculatedTotalDue - registration.totalPaid}}</td>
+            <td>${{currentRegistration.calculatedTotalDue - currentPayment.amount}}</td>
           </tr>
         </table>
       </div>

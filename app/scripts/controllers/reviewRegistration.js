@@ -20,6 +20,10 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
+    if(angular.isDefined($rootScope.currentPayment)){
+      $rootScope.currentPayment.amount = registration.calculatedTotalDue;
+    }
+
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
         $scope.blocks.push(block);
