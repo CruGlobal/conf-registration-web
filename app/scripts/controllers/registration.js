@@ -43,13 +43,6 @@ angular.module('confRegistrationWebApp')
       });
     }
 
-    if (currentRegistration.completed) {
-      $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;
-      currentRegistration.pastPayments.forEach(function (payment) {
-        $scope.currentRegistration.remainingBalance -= payment.amount;
-      });
-    }
-
     function getPageById(pageId) {
       var pages = conference.registrationPages;
 

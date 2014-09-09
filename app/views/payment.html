@@ -2,6 +2,8 @@
   <div class="col-xs-12">
     <article>
       <h2>Payment</h2>
+      <p class="form-control-static" ng-show="currentRegistration.completed"><strong>Payment Amount:</strong> ${{amount}}</p>
+
       <label>Name on Card</label>
       <input type="text" ng-model="creditCardNameOnCard" class="form-control" ng-enter="createPayment()" />
 
@@ -42,9 +44,9 @@
 
       <button class="btn btn-success btn-lg eighty"
               ng-click="createPayment()"
-              type="submit">Continue
+              type="submit">{{paymentButtonValue}}
       </button>
-      <a href="" ng-click="cancel()" class="btn btn-default btn-lg twenty">Cancel</a>
+      <a href ng-click="cancel()" class="btn btn-default btn-lg twenty">Cancel</a>
     </article>
   </div>
 </div>
