@@ -142,5 +142,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.blockInRegType = function(block, regTypeId){
       return !_.contains(block.registrantTypes, regTypeId);
-    }
+    };
   });
