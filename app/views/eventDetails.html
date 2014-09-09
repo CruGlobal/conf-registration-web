@@ -8,12 +8,12 @@
       </ul>
     </section>
   </div>
-  <div class="col-xs-9" style="border-left: 2px solid #cccccc;">
+  <div class="col-xs-9 col-left-nav">
     <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
     <form>
       <section ng-include="activeTab.view"></section>
       <div class="well">
-        <button type="submit" class="btn btn-success btn-lg" ng-click="saveEvent();">Save</button>
+        <button type="submit" class="btn btn-success btn-lg" ng-click="saveEvent()">Save</button>
       </div>
     </form>
   </div>
