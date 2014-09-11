@@ -10,10 +10,10 @@
   <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
       <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
-      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" value="Remove">
+      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="conference.allowGroupRegistrations" value="Remove">
 
-      <p class="registrantPrice" ng-show="conference.registrantTypes.length > 1">
-        <strong>{{getRegistrantType(r.registrantTypeId).name}}</strong>
+      <p class="registrantPrice">
+        <strong ng-show="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</strong>
         <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
       </p>
     </div>
