@@ -422,7 +422,7 @@ angular.module('confRegistrationWebApp')
 
           if(registration.registrants.length > 1){
             //Delete Registrant
-            url = 'registrant/' + registrant.id;
+            url = 'registrants/' + registrant.id;
           }
 
           $http({
