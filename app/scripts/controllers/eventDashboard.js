@@ -102,7 +102,7 @@ angular.module('confRegistrationWebApp')
 
               //clone registrant types
               conference.registrantTypes = result.registrantTypes;
-              for (var i = 0; i < conference.registrantTypes.length; i++) {
+              for (i = 0; i < conference.registrantTypes.length; i++) {
                 conference.registrantTypes[i].id = uuid();
                 conference.registrantTypes[i].conferenceId = conference.id;
               }
