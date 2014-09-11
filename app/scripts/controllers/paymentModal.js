@@ -20,8 +20,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.newPayment = {
-      registrationId: $scope.registration.id,
-      amount: (registration.totalDue - registration.totalPaid).toString()
+      registrationId: registration.id,
+      amount: registration.calculatedTotalDue
     };
 
     $scope.updateCostRegistration = [];
@@ -43,16 +43,12 @@ angular.module('confRegistrationWebApp')
       $scope.newPayment.readyToProcess = true;
       $http.post('payments/', $scope.newPayment).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
           $scope.close();
         });
         delete $scope.newPayment;
 
-        $scope.newPayment = {
-          registrationId: $scope.registration.id
-        };
       }).error(function () {
         alert('Payment failed...');
         $scope.processing = false;
