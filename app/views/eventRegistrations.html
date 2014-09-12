@@ -6,7 +6,7 @@
     <div class="col-xs-5 colright">
       <button class="btn btn-success btn-sm" type="button" ng-click="registerUser()"><i class="fa fa-plus"></i> Add Registration</button>
       <a class="btn btn-primary btn-sm" href="" ng-click="exportRegistrations()"><i class="fa fa-cloud-download"></i> Export Registrations</a>
-      <a class="btn btn-primary btn-sm" href="" ng-show="hasCost(conference)" ng-click="exportPayments()"><i class="fa fa-cloud-download"></i> Export Payments</a>
+      <a class="btn btn-primary btn-sm" href="" ng-show="eventHasCost()" ng-click="exportPayments()"><i class="fa fa-cloud-download"></i> Export Payments</a>
     </div>
   </div>
   <table class="table table-striped">
@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="col-md-2">
-          <select ng-show="isConferenceCost()" ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
+          <select ng-show="eventHasCost()" ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
         <div class="col-md-5 colright">
           <p class="columns">Columns </p>
@@ -76,47 +76,47 @@
   <thead>
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
-      <th ng-show="isConferenceCost()" class="tablecenter" style="width: 60px;">Paid</th>
-      <th class="tablecenter" style="width:100px;">Options</th>
-      <th style="width:30px;"></th>
+      <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="100">Type</th>
+      <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
+      <th class="tablecenter" width="100">Options</th>
+      <th width="30"></th>
     </tr>
   </thead>
-  <tbody ng-repeat="registration in (regFilter = (registrations | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
+  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:completeStatus)) | orderBy:answerSort:reversesort">
     <tr ng-class="{'active': $even}" class="noselect">
-      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(registration.id)">
-        <show-answer block="block" registration="registration"></show-answer>
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)">
+        <show-answer block="block" registrant="r"></show-answer>
       </td>
-      <td ng-show="isConferenceCost()" class="tablecenter">
-        <i class="fa fa-check" ng-show="paidInFull(registration) && registration.completed"></i>
-        <i class="fa fa-minus" ng-show="!paidInFull(registration) && registration.completed"></i>
-        <span ng-show="!registration.completed">-</span>
+      <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
+      <td ng-show="eventHasCost()" class="tablecenter">
+        <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
+        <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
       </td>
       <td class="tablecenter registration_edit_buttons">
-        <button ng-click="editRegistration(registration)" title="Edit Registration">
+        <button ng-click="editRegistrant(r)" title="Edit Registration">
           <i class="fa fa-edit"></i>
         </button>
-        <button ng-click="viewPayments(registration)" title="View/Edit Payments" ng-show="registration.completed && isConferenceCost()">
+        <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments" ng-show="getRegistration(r.registrationId).completed && eventHasCost()">
           <i class="fa fa-usd"></i>
         </button>
-        <button ng-click="deleteRegistration(registration)" ng-show="allowDeleteRegistration()" title="Delete Registration">
+        <button ng-click="deleteRegistrant(r)" ng-show="allowDeleteRegistration()" title="Delete Registration">
           <i class="fa fa-trash-o"></i>
         </button>
-        <span ng-show="!registration.completed">-</span>
       </td>
-      <td class="tablecenter" ng-click="expandRegistration(registration.id)">
-        <i class="fa" ng-class="{'fa-minus-square-o': isExpanded(registration.id), 'fa-plus-square-o': !isExpanded(registration.id)}"></i>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)">
+        <i class="fa" ng-class="{'fa-minus-square-o': isExpanded(r.id), 'fa-plus-square-o': !isExpanded(r.id)}"></i>
       </td>
     </tr>
-    <tr class="rowdetails" ng-class="{'on': isExpanded(registration.id)}">
+    <tr class="rowdetails" ng-class="{'on': isExpanded(r.id)}">
       <td colspan="100%">
         <div class="well">
           <div class="row" ng-repeat="block in blocks">
             <div class="leftside" ng-bind="block.title"></div>
-            <div class="rightside"><show-answer block="block" registration="registration"></show-answer></div>
+            <div class="rightside"><show-answer block="block" registrant="r"></show-answer></div>
           </div>
-          <div class="row" ng-show="registration.completed">
+          <div class="row" ng-show="getRegistration(r.registrationId).completed">
               <div class="leftside">Completed at</div>
-              <div class="rightside">{{registration.completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+              <div class="rightside">{{getRegistration(r.registrationId).completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
           </div>
         </div>
       </td>

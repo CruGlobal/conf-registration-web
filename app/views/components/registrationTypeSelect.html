@@ -1,0 +1,19 @@
+<div class="row" ng-repeat="type in visibleRegistrantTypes | orderBy: ['cost','name']" ng-if="visibleRegistrantTypes.length > 1">
+  <div class="col-xs-9">
+    <h4>{{type.name}}</h4>
+    <span ng-show="isConferenceCost()">${{type.cost}}</span>
+  </div>
+  <div class="col-xs-3" align="right">
+    <br>
+    <a href ng-click="newRegistrant(type.id)" class="btn btn-success">
+      Register
+    </a>
+  </div>
+</div>
+<div class="row" ng-if="visibleRegistrantTypes.length === 1">
+  <div class="col-xs-12 text-center">
+    <a href ng-click="newRegistrant(visibleRegistrantTypes[0].id)" class="btn btn-success">
+      Register
+    </a>
+  </div>
+</div>

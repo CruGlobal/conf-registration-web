@@ -99,6 +99,14 @@ angular.module('confRegistrationWebApp')
                   conference.registrationPages[i].blocks[j].pageId = pageUuid;
                 }
               }
+
+              //clone registrant types
+              conference.registrantTypes = result.registrantTypes;
+              for (i = 0; i < conference.registrantTypes.length; i++) {
+                conference.registrantTypes[i].id = uuid();
+                conference.registrantTypes[i].conferenceId = conference.id;
+              }
+
               Model.update('conferences/' + conference.id, conference, function () {
                 $location.path('/eventDetails/' + conference.id);
               });

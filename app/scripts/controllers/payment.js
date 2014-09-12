@@ -14,29 +14,22 @@ angular.module('confRegistrationWebApp')
     $scope.currentYear = new Date().getFullYear();
 
     if (registration.completed) {
-      registration.remainingBalance = registration.totalDue;
-      registration.pastPayments.forEach(function (payment) {
-        registration.remainingBalance -= payment.amount;
-      });
+      $scope.paymentButtonValue = 'Process Payment';
       $scope.amount = registration.remainingBalance;
-      conference.conferenceCost = $scope.amount;
     } else {
-      if (conference.earlyRegistrationOpen) {
-        conference.conferenceCost = (conference.conferenceCost - conference.earlyRegistrationAmount);
-      } else {
-        conference.conferenceCost = conference.conferenceCost;
-      }
-      $rootScope.totalDue = conference.conferenceCost;
-      if (Number(conference.minimumDeposit) > 0) {
-        $scope.amount = conference.minimumDeposit;
-      } else {
-        conference.minimumDeposit = conference.conferenceCost;
-        $scope.amount = conference.conferenceCost;
-      }
+      $scope.paymentButtonValue = 'Continue';
     }
 
     $scope.currentRegistration = registration;
     $scope.conference = conference;
+
+    $scope.cancel = function(){
+      if (registration.completed) {
+        $location.path('/register/' + conference.id);
+      } else {
+        $location.path('/reviewRegistration/' + conference.id);
+      }
+    };
 
     $scope.createPayment = function () {
       var errorModalOptions = {};
@@ -80,26 +73,30 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $rootScope.currentPayment = {};
-      $rootScope.currentPayment.amount = $scope.amount;
-      $rootScope.currentPayment.registrationId = registration.id;
-      $rootScope.currentPayment.creditCard = {};
-      $rootScope.currentPayment.creditCard.nameOnCard = $scope.creditCardNameOnCard;
-      $rootScope.currentPayment.creditCard.expirationMonth = $scope.creditCardExpirationMonth;
-      $rootScope.currentPayment.creditCard.expirationYear = $scope.creditCardExpirationYear;
-      $rootScope.currentPayment.creditCard.number = $scope.creditCardNumber;
-      $rootScope.currentPayment.creditCard.cvvNumber = $scope.creditCardCVVNumber;
-      $rootScope.currentPayment.paymentType = 'CREDIT_CARD';
+      $rootScope.currentPayment = {
+        amount: $scope.amount,
+        paymentType: 'CREDIT_CARD',
+        creditCard: {
+          nameOnCard: $scope.creditCardNameOnCard,
+          expirationMonth: $scope.creditCardExpirationMonth,
+          expirationYear:  $scope.creditCardExpirationYear,
+          number: $scope.creditCardNumber,
+          cvvNumber: $scope.creditCardCVVNumber
+        }
+      };
 
       if (registration.completed) {
-        var currentPayment = $rootScope.currentPayment;
+        var currentPayment = angular.copy($rootScope.currentPayment);
         currentPayment.readyToProcess = true;
+        currentPayment.registrationId =  registration.id;
+
         $http.post('payments/', currentPayment).success(function () {
           RegistrationCache.emptyCache();
+          delete $rootScope.currentPayment;
           $location.path('/register/' + conference.id);
         }).error(function () {
             var errorModalOptions = {
-              templateUrl: 'views/errorModal.html',
+              templateUrl: 'views/modals/errorModal.html',
               controller: 'genericModal',
               backdrop: 'static',
               keyboard: false,
@@ -109,8 +106,7 @@ angular.module('confRegistrationWebApp')
                 }
               }
             };
-            $modal.open(errorModalOptions).result.then(function () {
-            });
+            $modal.open(errorModalOptions);
           });
       } else {
         $location.path('/reviewRegistration/' + conference.id);

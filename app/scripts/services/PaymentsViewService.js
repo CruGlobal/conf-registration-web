@@ -27,7 +27,6 @@ angular.module('confRegistrationWebApp')
 
       header.push('First');
       header.push('Last');
-      header.push('Event Cost');
       header.push('Payment');
       header.push('Type');
       header.push('Date');
@@ -37,23 +36,21 @@ angular.module('confRegistrationWebApp')
 
     var getRows = function (conference, registrations) {
       var rows = [];
-
       var blocks = ConferenceHelper.getPageBlocks(conference.registrationPages);
 
-      ConferenceHelper.getCompletedRegistrations(registrations).forEach(function (registration) {
-        var name = ConferenceHelper.getRegistrantName(registration.answers, blocks);
-        var totalDue = '$' + U.getValue(registration.totalDue, '0');
+      registrations.forEach(function (registration) {
+        if(!registration.completed) {
+          return;
+        }
+        var name;
+        if(angular.isDefined(registration.registrants[0])) {
+          name = ConferenceHelper.getRegistrantName(registration.registrants[0].answers, blocks);
+        }
 
-        if (registration.pastPayments.length <= 0) {
-          var row = [];
-          row.push.apply(row, name);
-          row.push(totalDue);
-          rows.push(row);
-        } else {
+        if (registration.pastPayments.length > 0) {
           angular.forEach(registration.pastPayments, function (payment) {
             var row = [];
             row.push.apply(row, name);
-            row.push(totalDue);
             row.push('$' + U.getValue(payment.amount, '0'));
             row.push(U.getValue(payment.paymentType));
             row.push(U.getDate(payment.transactionDatetime));

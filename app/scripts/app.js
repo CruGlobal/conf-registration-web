@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'])
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {
@@ -8,8 +8,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/register/:conferenceId', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$route', function ($location, $route) {
-            $location.replace().path('/register/' + $route.current.params.conferenceId + '/page/');
+          redirect: ['$location', '$route', function ($location, $route) {
+            $location.path('/register/' + $route.current.params.conferenceId + '/page/');
           }]
         }
       })
@@ -168,7 +168,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
               $rootScope.crsToken = $cookies.crsToken;
               ProfileCache.getCache(function (data) {
                 $cookies.crsAuthProviderType = data.authProviderType;
-                $location.replace().path($cookies.intendedRoute || '/');
+                if(angular.isDefined($cookies.regType)) {
+                  $location.path($cookies.intendedRoute || '/').search('regType', $cookies.regType);
+                  delete $cookies.regType;
+                } else {
+                  $location.path($cookies.intendedRoute || '/');
+                }
               });
             }
           ]
@@ -176,7 +181,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
       })
       .when('/logout/', {
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$window',
+          redirect: ['$location', '$cookies', '$window',
             function ($location, $cookies, $window) {
               var crsAuthProviderTypeBackup = $cookies.crsAuthProviderType;
               delete $cookies.crsAuthProviderType;
@@ -206,18 +211,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
   })
   .run(function ($rootScope, $cookies, $location) {
     $rootScope.$on('$locationChangeStart', function () {
-      if (!/^\/auth\/.*/.test($location.url())) {
-        $cookies.intendedRoute = $location.url();
-      }
-
       //registration mode
-      if ($location.path().indexOf('/preview/') !== -1 && $rootScope.registerMode !== 'preview') {
-        $rootScope.clearRegCache = true;
-      } else if ($location.path().indexOf('/register/') !== -1 && $rootScope.registerMode !== 'register') {
-        $rootScope.clearRegCache = true;
+      if (_.contains($location.path(), '/preview/')) {
+        $rootScope.registerMode = 'preview';
+      } else if(_.contains($location.path(), '/register/')) {
+        $rootScope.registerMode = 'register';
       }
-      if ($location.path().indexOf('/preview/') !== -1) { $rootScope.registerMode = 'preview'; }
-      if ($location.path().indexOf('/register/') !== -1) { $rootScope.registerMode = 'register'; }
     });
 
     $rootScope.generateTitle = function (title) {
@@ -235,4 +234,20 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngResource', 'ngCookies', 
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
+  })
+  .config(function ($provide) {
+    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
+      return function (exception) {
+        $delegate(exception);
+        var error = {
+          type: 'Angular',
+          message: exception.message,
+          params: {
+            angularVersion: angular.version.full
+          },
+          component: exception.stack
+        };
+        Hoptoad.notify(error);
+      };
+    }]);
   });

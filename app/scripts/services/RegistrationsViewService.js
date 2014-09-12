@@ -6,11 +6,8 @@ angular.module('confRegistrationWebApp')
     this.getTable = function (conference, registrations, onlyCompleted) {
 
       var table = [];
-
       var header = getHeader(conference);
-
       table.push(header);
-
       var rows = getRows(conference, registrations, onlyCompleted);
 
       // sort rows by last name
@@ -29,10 +26,6 @@ angular.module('confRegistrationWebApp')
       // header row of block titles
       var header = getBlockTitles(blocks);
 
-      if (ConferenceHelper.hasCost(conference)) {
-        header.push('Event Cost');
-      }
-
       return header;
     };
 
@@ -43,19 +36,17 @@ angular.module('confRegistrationWebApp')
 
       // rows of answers
       ConferenceHelper.getRegistrations(registrations, onlyCompleted).forEach(function (registration) {
-        var row = [];
+        angular.forEach(registration.registrants, function(r) {
+          var row = [];
 
-        angular.forEach(blocks, function (block) {
-          var answer = ConferenceHelper.findAnswerByBlockId(registration.answers, block.id);
-          var content = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
-          row.push.apply(row, content);
+          angular.forEach(blocks, function (block) {
+            var answer = ConferenceHelper.findAnswerByBlockId(r.answers, block.id);
+            var content = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
+            row.push.apply(row, content);
+          });
+
+          rows.push(row);
         });
-
-        if (ConferenceHelper.hasCost(conference)) {
-          row.push('$' + U.getValue(registration.totalDue, '0'));
-        }
-
-        rows.push(row);
       });
 
       return rows;

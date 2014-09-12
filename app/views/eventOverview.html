@@ -26,12 +26,24 @@
     </div>
     <section>
       <h2>Links</h2>
-      <label>Registration Link</label><br>
-      <div class="input-group">
-        <input type="text" id="registrationUrl" class="form-control marginless" ng-model="registrationUrl" select-on-click readonly>
-        <span class="input-group-btn">
-          <button type="button" class="btn btn-primary" select-on-click="registrationUrl">Select</button>
-        </span>
+      <div>
+        <label>Registration Link</label><br>
+        <div class="input-group">
+          <input type="text" id="registrationUrl" class="form-control marginless" ng-model="registrationUrl[0]" select-on-click readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" select-on-click="registrationUrl">Select</button>
+          </span>
+        </div>
+      </div>
+      <div ng-repeat="type in conference.registrantTypes">
+        <br>
+        <label>'{{type.name}}' Registration Link</label><br>
+        <div class="input-group">
+          <input type="text" id="registrationUrl-{{type.id}}" class="form-control marginless" ng-model="registrationUrl[type.id]" select-on-click readonly>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" select-on-click="registrationUrl-{{type.id}}">Select</button>
+          </span>
+        </div>
       </div>
     </section>
   </div>

@@ -12,9 +12,16 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.conference = conference;
+
     var port = '';
     if ($location.$$port !== 80 && $location.$$port !== 443) {
       port = ':' + $location.$$port;
     }
-    $scope.registrationUrl = $location.$$protocol + '://' + $location.$$host + port + '/#/register/' + conference.id;
+    var baseUrl = $location.$$protocol + '://' + $location.$$host + port + '/#/register/' + conference.id;
+    $scope.registrationUrl = {};
+    $scope.registrationUrl[0] = baseUrl;
+
+    angular.forEach(conference.registrantTypes, function(t) {
+      $scope.registrationUrl[t.id] = baseUrl + '?regType=' + t.id;
+    });
   });

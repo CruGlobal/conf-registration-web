@@ -42,7 +42,6 @@ body.frontend {
       margin-bottom: 3px;
       a {
         border-radius: 0;
-        .proximasemi;
         font-size: 14px;
         .white;
         line-height: 45px;
@@ -271,6 +270,39 @@ main.front-form {
     }
     button.twenty, a.twenty {
       width: 20%;
+    }
+  }
+  .invalidBorder{
+    border-color: red;
+    border-width: 2px;
+    border-style: solid;
+  }
+  .invalidBlock{
+    dt{
+      color: red;
+    }
+  }
+  .registrantPrice {
+    text-align:center;
+    padding-top:20px;
+  }
+  .registrantBox {
+    position: fixed;
+    background: white;
+    margin-left: 590px;
+    width: 220px;
+    padding: 10px;
+    li:not(.active){
+      a {
+        color: #112233;
+      }
+    }
+  }
+  @media (max-width: 1050px) {
+    .registrantBox {
+      position: relative;
+      width: 100%;
+      margin: 10px 0;
     }
   }
 }
@@ -527,6 +559,10 @@ main.conference-details {
     }
     button.label { margin-right: 5px; border: none; }
     label.space { margin-right: 20px; }
+  }
+  .col-left-nav{
+    border-right: none;
+    border-left: 2px solid #cccccc;
   }
   .col-xs-3 {
     h3 {
@@ -871,5 +907,18 @@ a.disabled {
 .small-footer{
   footer{
     height: 70px !important;
+  }
+}
+
+.previewRow {
+  text-align: center;
+  background: rgba(255, 165, 0, .5);
+  padding: 8px;
+  margin: auto;
+  .horizontal {
+    font-size: 14px;
+    a:link, a:visited {
+      color: #000;
+    }
   }
 }

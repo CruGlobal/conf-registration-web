@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, conference, currentRegistration) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, RegistrationCache, conference, currentRegistration, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'front-form',
@@ -15,16 +15,31 @@ angular.module('confRegistrationWebApp')
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
       $scope.validPages[event.targetScope.page.id] = validity;
-      $scope.registrationComplete = _.filter($scope.validPages).length === conference.registrationPages.length;
+      $scope.registrationComplete = _.filter($scope.validPages).length === $scope.conference.registrationPages.length;
     });
 
-    $scope.conference = conference;
+    $scope.conference = angular.copy(conference);
     $scope.currentRegistration = currentRegistration;
+    $scope.currentRegistrant = $routeParams.reg;
 
-    if (currentRegistration.completed) {
-      $scope.currentRegistration.remainingBalance = currentRegistration.totalDue;
-      currentRegistration.pastPayments.forEach(function (payment) {
-        $scope.currentRegistration.remainingBalance -= payment.amount;
+    //remove blocks that are not part of registrant type
+    if(angular.isDefined($routeParams.reg)){
+      var reg = _.find(currentRegistration.registrants, { 'id': $routeParams.reg});
+      if(angular.isUndefined(reg)){
+        $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/').search('reg', null);
+        return;
+      }
+      angular.forEach($scope.conference.registrationPages, function(page) {
+        var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
+        angular.forEach(page.blocks, function(block) {
+          if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
+            _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
+          }
+        });
+
+        if(page.blocks.length === 0) {
+          _.remove($scope.conference.registrationPages, function(p) { return p.id === page.id; });
+        }
       });
     }
 
@@ -44,7 +59,7 @@ angular.module('confRegistrationWebApp')
     $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
 
     function getPageAfterById(pageId) {
-      var pages = conference.registrationPages;
+      var pages = $scope.conference.registrationPages;
       for (var i = 0; i < pages.length; i++) {
         if (angular.equals(pageId, pages[i].id)) {
           return pages[i + 1];
@@ -59,12 +74,7 @@ angular.module('confRegistrationWebApp')
         if (angular.isDefined($scope.nextPage)) {
           $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
         } else {
-          //go to payment
-          if (conference.acceptCreditCards && _.isUndefined($rootScope.currentPayment)) {
-            $location.path('/payment/' + conference.id);
-          } else {
-            $location.path('/reviewRegistration/' + conference.id);
-          }
+          $location.path('/reviewRegistration/' + conference.id);
         }
       } else {
         $scope.notify = {
@@ -84,7 +94,24 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.isConferenceCost = function () {
-      return conference.conferenceCost > 0;
+    $scope.registrantName = function(r) {
+      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
+      var registrant = _.find(currentRegistration.registrants, { 'id': r.id });
+      var returnStr;
+      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
+
+      if(angular.isDefined((nameBlock))){
+        nameBlock = nameBlock.value;
+        if(angular.isDefined((nameBlock.firstName))){
+          returnStr = nameBlock.firstName + ' ' + (nameBlock.lastName || '');
+        }
+      }
+
+      return returnStr || _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name;
+    };
+
+    $scope.registrantIsComplete = function(registrantId) {
+      var invalidBlocks = validateRegistrant.validate(conference, _.find(currentRegistration.registrants, { 'id': registrantId }));
+      return (invalidBlocks.length === 0);
     };
   });

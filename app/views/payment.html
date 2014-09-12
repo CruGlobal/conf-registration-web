@@ -1,30 +1,9 @@
 <div class="row">
   <div class="col-xs-12">
-    <ul class="nav nav-pills">
-      <li class="active">
-        <a href=""><i class="fa fa-credit-card"></i>
-          <span>Payment</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
     <article>
-      <div class="row">
-        <div class="col-xs-12">
-          <strong>Payment Amount:</strong><br>
-          <div ng-show="conference.conferenceCost !== conference.minimumDeposit && !currentRegistration.completed">
-            <input type="radio" ng-model="amount" ng-value="{{conference.minimumDeposit}}" id="payment-min">
-            <label for="payment-min">${{conference.minimumDeposit}} (minimum deposit)</label>
-          </div>
+      <h2>Payment</h2>
+      <p class="form-control-static" ng-show="currentRegistration.completed"><strong>Payment Amount:</strong> ${{amount}}</p>
 
-          <input type="radio" ng-model="amount" ng-value="{{conference.conferenceCost}}" id="payment-full">
-          <label for="payment-full">${{conference.conferenceCost}}</label>
-        </div>
-      </div>
-      <hr>
       <label>Name on Card</label>
       <input type="text" ng-model="creditCardNameOnCard" class="form-control" ng-enter="createPayment()" />
 
@@ -63,10 +42,11 @@
         </div>
       </div>
 
-      <button class="btn btn-success btn-lg full"
+      <button class="btn btn-success btn-lg eighty"
               ng-click="createPayment()"
-              type="submit">Continue
+              type="submit">{{paymentButtonValue}}
       </button>
+      <a href ng-click="cancel()" class="btn btn-default btn-lg twenty">Cancel</a>
     </article>
   </div>
 </div>

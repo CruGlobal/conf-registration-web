@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('RegistrationCache', function RegistrationCache($cacheFactory, $rootScope, $http, $q, AnswerCache) {
+  .service('RegistrationCache', function RegistrationCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('registration');
     var path = function (id) {
       return 'registrations/' + (id || '');
@@ -18,10 +18,6 @@ angular.module('confRegistrationWebApp')
         callback(cachedObject, path);
       } else {
         $http.get(path).success(function (data) {
-          if ($rootScope.registerMode === 'preview') {
-            data.completed = false;
-            data.answers = [];
-          }
           update(path, data);
           callback(data, path);
         });
@@ -29,6 +25,12 @@ angular.module('confRegistrationWebApp')
     };
 
     this.update = function (path, registration, cb, errorCallback) {
+      if ($rootScope.registerMode === 'preview') {
+        $rootScope.previewRegCache = registration;
+        cb();
+        return;
+      }
+
       var callback = cb || function () {
         cache.put(path, angular.copy(registration));
         $rootScope.broadcast(path, registration);
@@ -38,9 +40,7 @@ angular.module('confRegistrationWebApp')
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        if ($rootScope.registerMode !== 'preview') {
-          $http.put(path, registration).then(callback, errorCallback);
-        }
+        $http.put(path, registration).then(callback, errorCallback);
       }
     };
 
@@ -63,14 +63,17 @@ angular.module('confRegistrationWebApp')
     this.getCurrent = function (conferenceId) {
       var defer = $q.defer();
 
-      if ($rootScope.clearRegCache) {
-        this.emptyCache();
-        $rootScope.clearRegCache = false;
-      }
-
       checkCache('conferences/' + conferenceId + '/registrations/current', function (registration) {
+        if ($rootScope.registerMode === 'preview') {
+          if(angular.isUndefined($rootScope.previewRegCache)){
+            registration.completed = false;
+            registration.registrants = [];
+            $rootScope.previewRegCache = registration;
+          } else {
+            registration = $rootScope.previewRegCache;
+          }
+        }
         update(path(registration.id), registration);
-        angular.forEach(registration.answers, AnswerCache.put);
         defer.resolve(registration);
       });
 

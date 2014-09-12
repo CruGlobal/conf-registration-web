@@ -1,0 +1,30 @@
+<h2>Registration Options</h2>
+<div class="row">
+  <div class="col-sm-6">
+    <label>Registration Starts <em class="required">*</em></label><br>
+
+    <div class="row">
+      <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
+    </div>
+  </div>
+  <div class="col-xs-6">
+    <label>Registration Ends <em class="required">*</em></label><br>
+
+    <div class="row">
+      <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
+    </div>
+  </div>
+</div>
+<br>
+
+<div class="full">
+  <input type="checkbox" id="requireLogin" ng-value="true" ng-model="conference.requireLogin">
+  <label for="requireLogin">Require Relay or Facebook login to register</label>
+  <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
+</div>
+
+<div class="full">
+  <input type="checkbox" id="allowGroupRegistrations" ng-value="true" ng-model="conference.allowGroupRegistrations">
+  <label for="allowGroupRegistrations">Allow group registrations</label>
+  <p class="text-muted"><i class="fa fa-info-circle"></i> Group Registrations allows a single user to register multiple participants and make one payment (if applicable).</p>
+</div>

@@ -20,6 +20,8 @@ angular.module('confRegistrationWebApp')
     $scope.savedState = '';
     $scope.showRegistrationsCompleted = true;
     $scope.columnsDropdownToggle = false;
+    $scope.registrations = registrations;
+    $scope.registrants = _.flatten(registrations, 'registrants');
 
     // collect all 'Content' blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
@@ -232,16 +234,14 @@ angular.module('confRegistrationWebApp')
       $scope.order = order;
     };
 
-    $scope.registrations = registrations;
-
-    $scope.viewPayments = function (registration) {
+    $scope.viewPayments = function (registrationId) {
       var paymentModalOptions = {
         templateUrl: 'views/modals/paymentsModal.html',
         controller: 'paymentModal',
         backdrop: 'static',
         resolve: {
           registration: function () {
-            return registration;
+            return _.find(registrations, { 'id': registrationId });
           },
           conference: function () {
             return conference;
@@ -250,23 +250,14 @@ angular.module('confRegistrationWebApp')
       };
 
       $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
-        var localUpdatedRegistration = _.find(registrations, function (reg) {
-          return reg.id === updatedRegistration.id;
-        });
-        localUpdatedRegistration.pastPayments = updatedRegistration.pastPayments;
-        localUpdatedRegistration.totalDue = updatedRegistration.totalDue;
-        localUpdatedRegistration.totalPaid = updatedRegistration.totalPaid;
-        localUpdatedRegistration.remainingBalance = updatedRegistration.remainingBalance;
+        var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
+        $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
       });
     };
 
     $scope.isPredefinedView = function (regViewId) {
       var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
       return predefinedViews.indexOf(regViewId) > -1;
-    };
-
-    $scope.isConferenceCost = function () {
-      return conference.conferenceCost > 0;
     };
 
     // define payment categories
@@ -317,28 +308,25 @@ angular.module('confRegistrationWebApp')
     $scope.currentPaymentCategory = _.first($scope.paymentCategories).name;
 
     // determine if registration payment status matches current payment category
-    $scope.paymentStatus = function (registration) {
-
+    $scope.paymentStatus = function (registrant) {
+      var registration = _.find(registrations, { 'id': registrant.registrationId });
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
-
-      return paymentCategory.matches(registration.totalPaid, registration.totalDue);
+      return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
 
-    $scope.completeStatus = function (registration) {
+    $scope.completeStatus = function (registrant) {
+      var registration = _.find(registrations, { 'id': registrant.registrationId });
       if ($scope.showRegistrationsCompleted) {
-        if (registration.completed) {
-          return true;
-        }
+          return registration.completed;
       } else {
         return true;
       }
-
     };
 
-    $scope.paidInFull = function (registration) {
-      return registration.totalPaid >= registration.totalDue;
+    $scope.paidInFull = function (registrantId) {
+      var registration = _.find(registrations, { 'id': registrantId });
+      return registration.totalPaid >= registration.calculatedTotalDue;
     };
-
 
     var expandedRegistrations = [];
     $scope.expandRegistration = function (r) {
@@ -352,12 +340,12 @@ angular.module('confRegistrationWebApp')
       return _.contains(expandedRegistrations, r);
     };
 
-    $scope.editRegistration = function (r) {
+    $scope.editRegistrant = function (r) {
       var editRegistrationDialogOptions = {
         templateUrl: 'views/modals/editRegistration.html',
         controller: 'editRegistrationModalCtrl',
         resolve: {
-          registration: function () {
+          registrant: function () {
             return r;
           },
           conference: function () {
@@ -368,8 +356,8 @@ angular.module('confRegistrationWebApp')
 
       $modal.open(editRegistrationDialogOptions).result.then(function (result) {
         if (angular.isDefined(result)) {
-          var index = _.findIndex(registrations, { 'id': result.id });
-          $scope.registrations[index] = result;
+          var index = _.findIndex($scope.registrants, { 'id': result.id });
+          $scope.registrants[index] = result;
         }
       });
     };
@@ -392,8 +380,8 @@ angular.module('confRegistrationWebApp')
       U.submitForm(url, { name: csvContent });
     };
 
-    $scope.hasCost = function () {
-      return conference.conferenceCost && conference.conferenceCost > 0;
+    $scope.eventHasCost = function () {
+      return _.max(_.flatten(conference.registrantTypes, 'cost')) > 0;
     };
 
     $scope.registerUser = function () {
@@ -413,19 +401,36 @@ angular.module('confRegistrationWebApp')
       return permissions.permissionInt > 1;
     };
 
-    $scope.deleteRegistration = function (registration) {
+    $scope.getRegistration = function(id){
+      return _.find(registrations, { 'id': id });
+    };
+
+    $scope.getRegistrantType = function(id){
+      return _.find(conference.registrantTypes, { 'id': id });
+    };
+
+    $scope.deleteRegistrant = function (registrant) {
       var modalInstance = $modal.open({
         templateUrl: 'views/modals/deleteRegistration.html',
         controller: 'deleteRegistrationCtrl'
       });
 
       modalInstance.result.then(function (doDelete) {
-        if (doDelete === true) {
-          $http({method: 'DELETE',
-            url: 'registrations/' + registration.id
+        if (doDelete) {
+          var registration = _.find(registrations, { 'id': registrant.registrationId });
+          var url = 'registrations/' + registration.id;
+
+          if(registration.registrants.length > 1){
+            //Delete Registrant
+            url = 'registrants/' + registrant.id;
+          }
+
+          $http({
+            method: 'DELETE',
+            url: url
           }).success(function () {
-            _.remove(registrations, function (reg) {
-              return reg.id === registration.id;
+            _.remove($scope.registrants, function (r) {
+              return r.id === registrant.id;
             });
           });
         }

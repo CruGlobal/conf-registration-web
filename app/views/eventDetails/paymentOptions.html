@@ -1,0 +1,34 @@
+<h2>Payment Options</h2>
+<p class="text-muted"><i class="fa fa-info-circle"></i> If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor. For information on obtaining a merchant account, please contact <a href="mailto:financial.services@ccci.org">financial.services@ccci.org</a>.</p>
+<label class="space">
+  <input type="checkbox" ng-model="conference.acceptCreditCards" ng-value="true">
+  Accept Credit Cards
+</label><br>
+
+<div class="modal-body" ng-show="conference.acceptCreditCards">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-6">
+        <label>Payment Gateway:</label>
+        <select class="form-control" ng-model="conference.paymentGatewayType" ng-options="gateway.id as gateway.name for gateway in paymentGateways"></select>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>Account ID:</label>
+        <input class="form-control" type="text" ng-model="conference.paymentGatewayId" autocomplete="off">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-xs-12">
+        <label>Key:</label>
+        <input class="form-control" type="text" ng-model="conference.paymentGatewayKey"
+               placeholder="Leave blank to keep saved transaction key" autocomplete="off">
+      </div>
+    </div>
+  </div>
+</div>

@@ -16,10 +16,17 @@ angular.module('confRegistrationWebApp')
         };
       },
       link: function (scope, element) {
-        jQuery(element).find('.datepicker').datetimepicker({
+        var datePickerElement = jQuery(element).find('.datepicker');
+        datePickerElement.datetimepicker({
           defaultDate: moment(scope.localModel).format('MM/DD/YYYY hh:mm A')
         }).on('dp.change', function (ev) {
           scope.updateTimeStamp(ev.date);
+        });
+
+        scope.$on('$destroy', function () {
+          if (angular.isDefined(datePickerElement.data('DateTimePicker'))) {
+            datePickerElement.data('DateTimePicker').destroy();
+          }
         });
       }
     };
