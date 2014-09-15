@@ -82,6 +82,13 @@ angular.module('confRegistrationWebApp')
         }
       }
 
+      //Registrant Name
+      angular.forEach($scope.conference.registrantTypes, function(t) {
+        if (_.isEmpty(t.name)) {
+          validationErrors.push('Please enter a name for all registration types.');
+        }
+      });
+
       //Event Cost
       angular.forEach($scope.conference.registrantTypes, function(t) {
         t.cost = Number(t.cost);
