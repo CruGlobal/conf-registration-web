@@ -82,7 +82,8 @@ angular.module('confRegistrationWebApp')
         $scope.currentRegistration.completed = true;
         RegistrationCache.emptyCache();
       }, function (data) {
-        alert('Error: ' + data);
+        $scope.currentRegistration.completed = false;
+        alert('An error occurred while submitting your registration.');
       });
     };
 
