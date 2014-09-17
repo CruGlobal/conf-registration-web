@@ -191,8 +191,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
               if (crsAuthProviderTypeBackup  === 'RELAY') {
                 $window.location.href = 'https://signin.cru.org/cas/logout?service=' + $location.absUrl();
               } else {
-                $window.location.href = apiUrl() + 'auth/facebook/logout'
-
+                $window.location.href = apiUrl() + 'auth/facebook/logout';
               }
             }
           ]
