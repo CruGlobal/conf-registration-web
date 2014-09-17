@@ -184,19 +184,24 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           redirect: ['$location', '$cookies', '$window', '$http',
             function ($location, $cookies, $window, $http) {
 
+              /* if RELAY log out, delete the cookies first and then redirect.  cookies must be deleted
+               * first b/c the browser is being redirected and will not come back here.  the auth token
+               * is not needed server side before logging out */
               if ($cookies.crsAuthProviderType  === 'RELAY') {
                 delete $cookies.crsAuthProviderType;
                 delete $cookies.crsPreviousToken;
                 delete $cookies.crsToken;
                 $window.location.href = 'https://signin.cru.org/cas/logout?service=' + $location.absUrl();
+                /* if FACEBOOK log out, issue an async GET to retrieve the log out URL from the API
+                 * the cookies cannot be deleted first b/c the auth token is needed to access the session & identity
+                 * server side so the users access_token can be fetched to build the log out URL.
+                 * after the GET, if successful, then delete the cookies. */
               } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
                 $http.get('/auth/facebook/logout').success(function (data, status, headers) {
                   delete $cookies.crsAuthProviderType;
                   delete $cookies.crsPreviousToken;
                   delete $cookies.crsToken;
-                  alert('Successful logout, redirecting to: ' + headers('fbLogoutUrl'));
-                  $window.location.href = headers('fbLogoutUrl');
-                  $location.path('/');
+                  $window.location.href = headers('X-Facebook-Logout-URL');
                 }).error(function (data, status) {
                   alert('Logout failed: ' + status);
                 });
