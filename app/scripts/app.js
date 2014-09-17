@@ -192,7 +192,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                 delete $cookies.crsPreviousToken;
                 delete $cookies.crsToken;
                 // make sure we come back to home page, not logout page
-                var serviceUrl = $location.absUrl().replace("logout","");
+                var serviceUrl = $location.absUrl().replace('logout','');
                 $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
                 /* if FACEBOOK log out, issue an async GET to retrieve the log out URL from the API
                  * the cookies cannot be deleted first b/c the auth token is needed to access the session & identity
