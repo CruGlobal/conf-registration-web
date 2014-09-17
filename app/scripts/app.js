@@ -190,13 +190,14 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                 delete $cookies.crsToken;
                 $window.location.href = 'https://signin.cru.org/cas/logout?service=' + $location.absUrl();
               } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
-                $http.get('/auth/facebook/logout').success(function () {
+                $http.get('/auth/facebook/logout').success(function (data, status, headers) {
                   delete $cookies.crsAuthProviderType;
                   delete $cookies.crsPreviousToken;
                   delete $cookies.crsToken;
+                  $window.location(headers('fbLogoutUrl'));
                   $location.path('/');
                 }).error(function (data, status) {
-                  alert('Logout failed' + status);
+                  alert('Logout failed: ' + status);
                 });
               }
             }
