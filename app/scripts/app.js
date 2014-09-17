@@ -194,7 +194,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                   delete $cookies.crsAuthProviderType;
                   delete $cookies.crsPreviousToken;
                   delete $cookies.crsToken;
-                  $window.location(headers('fbLogoutUrl'));
+                  $window.location.href = headers('fbLogoutUrl');
                   $location.path('/');
                 }).error(function (data, status) {
                   alert('Logout failed: ' + status);
