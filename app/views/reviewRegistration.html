@@ -34,8 +34,9 @@
 
 <div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards && currentRegistration.calculatedTotalDue > 0">
   <div class="well">
-    <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Enter Payment Details">
+    <input type="button" class="btn btn-small pull-right btn-primary" ng-click="editPayment()" value="Enter Payment Details">
     <p>Payment details not found.</p>
+    <p style="font-weight: bold;">Your registration is not complete until payment is made.</p>
   </div>
 </div>
 
