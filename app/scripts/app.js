@@ -181,17 +181,23 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/logout/', {
         resolve: {
-          redirect: ['$location', '$cookies', '$window','apiUrl',
-            function ($location, $cookies, $window, apiUrl) {
-              var crsAuthProviderTypeBackup = $cookies.crsAuthProviderType;
-              delete $cookies.crsAuthProviderType;
-              delete $cookies.crsPreviousToken;
-              delete $cookies.crsToken;
+          redirect: ['$location', '$cookies', '$window', '$http',
+            function ($location, $cookies, $window, $http) {
 
-              if (crsAuthProviderTypeBackup  === 'RELAY') {
+              if ($cookies.crsAuthProviderType  === 'RELAY') {
+                delete $cookies.crsAuthProviderType;
+                delete $cookies.crsPreviousToken;
+                delete $cookies.crsToken;
                 $window.location.href = 'https://signin.cru.org/cas/logout?service=' + $location.absUrl();
-              } else {
-                $window.location.href = apiUrl + 'auth/facebook/logout';
+              } else if (crsAuthProviderTypeBackup === 'FACEBOOK') {
+                $http.get('/auth/facebook/logout').success(function () {
+                  delete $cookies.crsAuthProviderType;
+                  delete $cookies.crsPreviousToken;
+                  delete $cookies.crsToken;
+                  $location.path('/');
+                }).error(function (data, status) {
+                  alert('Logout failed' + status);
+                });
               }
             }
           ]
