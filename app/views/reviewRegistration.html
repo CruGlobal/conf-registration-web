@@ -32,7 +32,7 @@
   </div>
 </div>
 
-<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards && currentRegistration.calculatedTotalDue > 0">
+<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards && currentRegistration.calculatedMinimumDeposit > 0">
   <div class="well">
     <input type="button" class="btn btn-small pull-right btn-primary" ng-click="editPayment()" value="Enter Payment Details">
     <p>Payment details not found.</p>
@@ -105,7 +105,7 @@
   </div>
 </div>
 
-<div class="row" ng-hide="currentRegistration.completed || (currentRegistration.calculatedTotalDue > 0 && !currentPayment.creditCard && conference.acceptCreditCards)">
+<div class="row" ng-hide="currentRegistration.completed || (currentRegistration.calculatedMinimumDeposit > 0 && !currentPayment.creditCard && conference.acceptCreditCards)">
   <div class="well">
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
     <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid()">
