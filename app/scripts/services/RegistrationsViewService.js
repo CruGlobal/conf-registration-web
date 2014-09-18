@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
           var row = [];
 
           angular.forEach(blocks, function (block) {
-            if (_.indexOf(visibleBlockIds, block.id) > -1) {
+            if (angular.isUndefined(visibleBlockIds)|| _.indexOf(visibleBlockIds, block.id) > -1) {
               var answer = ConferenceHelper.findAnswerByBlockId(r.answers, block.id);
               var answerContent = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
               row.push.apply(row, answerContent);
@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
       var titles = [];
 
       angular.forEach(blocks, function (block) {
-        if (_.indexOf(visibleBlockIds, block.id) > -1) {
+        if (angular.isUndefined(visibleBlockIds)|| _.indexOf(visibleBlockIds, block.id) > -1) {
           if (block.type === 'nameQuestion') {
             titles.push('First');
             titles.push('Last');
