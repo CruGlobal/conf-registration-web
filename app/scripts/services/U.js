@@ -23,11 +23,11 @@ angular.module('confRegistrationWebApp')
     this.getValue = function (string, value) {
       if (this.isEmpty(string)) {
         if (!this.isEmpty(value)) {
-          return value;
+          return value.replace(/,/g, '');
         }
         return '';
       }
-      return string;
+      return string.replace(/,/g, '');
     };
 
     this.stringifyArray = function (array, separator, string) {
