@@ -372,6 +372,9 @@ angular.module('confRegistrationWebApp')
         resolve: {
           conference: function data() {
             return $scope.conference;
+          },
+          hasCost: function data() {
+            return $scope.eventHasCost();
           }
         }
       }).result.then(function(action) {
