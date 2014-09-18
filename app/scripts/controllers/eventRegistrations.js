@@ -378,15 +378,18 @@ angular.module('confRegistrationWebApp')
           }
         }
       }).result.then(function(action) {
+       var table;
+       var csvContent;
+       var url;
        if(action === 'exportAllData') {
-         var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
-         var csvContent = U.stringifyArray(table, ',');
-         var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
+         csvContent = U.stringifyArray(table, ',');
+         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportVisibleData') {
-         var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
-         var csvContent = U.stringifyArray(table, ',');
-         var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
+         csvContent = U.stringifyArray(table, ',');
+         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportPaymentsOnly') {
          $scope.exportPayments();
