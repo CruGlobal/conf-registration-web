@@ -6,6 +6,13 @@
   </div>
 </div>
 
+<div class="row" ng-show="!currentRegistration.completed">
+  <div class="well">
+    <h4>Review Registration</h4>
+    <p>Almost done. Please review your registration details below.</p>
+  </div>
+</div>
+
 <div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
   <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
