@@ -3,12 +3,12 @@
 angular.module('confRegistrationWebApp')
   .service('RegistrationsViewService', function RegistrationsViewService(ConferenceHelper, U) {
 
-    this.getTable = function (conference, registrations, onlyCompleted) {
+    this.getTable = function (conference, registrations, onlyCompleted, visibleBlockIds) {
 
       var table = [];
-      var header = getHeader(conference);
+      var header = getHeader(conference, visibleBlockIds);
       table.push(header);
-      var rows = getRows(conference, registrations, onlyCompleted);
+      var rows = getRows(conference, registrations, onlyCompleted, visibleBlockIds);
 
       // sort rows by last name
       U.sortArrayByIndex(rows, _.findIndex(header, function (string) {
@@ -20,16 +20,16 @@ angular.module('confRegistrationWebApp')
       return table;
     };
 
-    var getHeader = function (conference) {
+    var getHeader = function (conference, visibleBlockIds) {
       var blocks = ConferenceHelper.getPageBlocks(conference.registrationPages);
 
       // header row of block titles
-      var header = getBlockTitles(blocks);
+      var header = getBlockTitles(blocks, visibleBlockIds);
 
       return header;
     };
 
-    var getRows = function (conference, registrations, onlyCompleted) {
+    var getRows = function (conference, registrations, onlyCompleted, visibleBlockIds) {
       var rows = [];
 
       var blocks = ConferenceHelper.getPageBlocks(conference.registrationPages);
@@ -40,9 +40,11 @@ angular.module('confRegistrationWebApp')
           var row = [];
 
           angular.forEach(blocks, function (block) {
-            var answer = ConferenceHelper.findAnswerByBlockId(r.answers, block.id);
-            var content = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
-            row.push.apply(row, content);
+            if (_.indexOf(visibleBlockIds, block.id) > -1) {
+              var answer = ConferenceHelper.findAnswerByBlockId(r.answers, block.id);
+              var answerContent = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
+              row.push.apply(row, answerContent);
+            }
           });
 
           rows.push(row);
@@ -52,26 +54,27 @@ angular.module('confRegistrationWebApp')
       return rows;
     };
 
-    var getBlockTitles = function (blocks) {
+    var getBlockTitles = function (blocks, visibleBlockIds) {
       var titles = [];
 
       angular.forEach(blocks, function (block) {
-        if (block.type === 'nameQuestion') {
-          titles.push('First');
-          titles.push('Last');
-        }
-        else if (block.type === 'addressQuestion') {
-          titles.push('Address1');
-          titles.push('Address2');
-          titles.push('City');
-          titles.push('State');
-          titles.push('Zip');
-        }
-        else {
-          titles.push(block.title);
+        if (_.indexOf(visibleBlockIds, block.id) > -1) {
+          if (block.type === 'nameQuestion') {
+            titles.push('First');
+            titles.push('Last');
+          }
+          else if (block.type === 'addressQuestion') {
+            titles.push('Address1');
+            titles.push('Address2');
+            titles.push('City');
+            titles.push('State');
+            titles.push('Zip');
+          }
+          else {
+            titles.push(block.title);
+          }
         }
       });
-
       return titles;
     };
   });

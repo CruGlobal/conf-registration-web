@@ -366,7 +366,7 @@ angular.module('confRegistrationWebApp')
     // showRegistrationsCompleted is now passed to this function. If checked only completed registrations will be exported.
     // If unchecked all registrations will be exported
     $scope.exportRegistrations = function () {
-      var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
+      var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, _.find($scope.registrationViewsDropdown, { 'id': $scope.activeRegViewId }).visibleBlockIds);
       var csvContent = U.stringifyArray(table, ',');
       var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
       U.submitForm(url, { name: csvContent });
