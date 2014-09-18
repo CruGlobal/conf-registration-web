@@ -36,11 +36,11 @@ angular.module('confRegistrationWebApp')
 
       // rows of answers
       ConferenceHelper.getRegistrations(registrations, onlyCompleted).forEach(function (registration) {
-        angular.forEach(registration.registrants, function(r) {
+        angular.forEach(registration.registrants, function (r) {
           var row = [];
 
           angular.forEach(blocks, function (block) {
-            if (angular.isUndefined(visibleBlockIds)|| _.indexOf(visibleBlockIds, block.id) > -1) {
+            if (angular.isUndefined(visibleBlockIds) || _.indexOf(visibleBlockIds, block.id) > -1) {
               var answer = ConferenceHelper.findAnswerByBlockId(r.answers, block.id);
               var answerContent = ConferenceHelper.getContentByBlockType(U.isEmpty(answer) ? answer : answer.value, block.type);
               row.push.apply(row, answerContent);
@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
       var titles = [];
 
       angular.forEach(blocks, function (block) {
-        if (angular.isUndefined(visibleBlockIds)|| _.indexOf(visibleBlockIds, block.id) > -1) {
+        if (angular.isUndefined(visibleBlockIds) || _.indexOf(visibleBlockIds, block.id) > -1) {
           if (block.type === 'nameQuestion') {
             titles.push('First');
             titles.push('Last');
