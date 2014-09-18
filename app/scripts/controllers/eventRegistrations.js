@@ -366,10 +366,22 @@ angular.module('confRegistrationWebApp')
     // showRegistrationsCompleted is now passed to this function. If checked only completed registrations will be exported.
     // If unchecked all registrations will be exported
     $scope.exportRegistrations = function () {
-      var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, _.find($scope.registrationViewsDropdown, { 'id': $scope.activeRegViewId }).visibleBlockIds);
+      var table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
       var csvContent = U.stringifyArray(table, ',');
       var url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
       U.submitForm(url, { name: csvContent });
+    };
+
+    /*
+     *   for the export, we should always return the values of the boxes that are checked.  this gets around
+     *   the fact that pre-defined views are not automatically updated.. therefore creating a scenario where
+     *   a user has altered a pre-defined view, but not clicked 'save-as'.  in this case they would have
+     *   exposed or hidden some blocks, but upon export receive just the blocks in the pre-defined view.
+     */
+    $scope.getVisibleBlocksForExport = function () {
+      return _.pluck(_.filter($scope.blocks, function (item) {
+        return item.visible === true;
+      }), 'id');
     };
 
     // Export conference registration payments information to csv
