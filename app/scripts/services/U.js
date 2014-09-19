@@ -27,7 +27,11 @@ angular.module('confRegistrationWebApp')
         }
         return '';
       }
-      return string.replace(/,/g, '');
+      if (angular.isDefined(string)) {
+        return string.replace(/,/g, '');
+      } else {
+        return string;
+      }
     };
 
     this.stringifyArray = function (array, separator, string) {
