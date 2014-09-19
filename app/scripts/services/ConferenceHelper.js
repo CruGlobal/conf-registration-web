@@ -4,13 +4,13 @@ angular.module('confRegistrationWebApp')
   .service('ConferenceHelper', function ConferenceHelper(U) {
 
     this.getRegistrations = function (registrations, onlyCompleted) {
-        if(onlyCompleted) {
-            return _.filter(registrations, function (item) {
-                return item.completed !== false;
-            });
-        } else{
-            return registrations;
-        }
+      if(onlyCompleted) {
+        return _.filter(registrations, function (item) {
+          return item.completed !== false;
+        });
+      } else {
+        return registrations;
+      }
     };
 
     this.getContentByBlockType = function (value, type) {
