@@ -391,7 +391,7 @@ angular.module('confRegistrationWebApp')
          csvContent = U.stringifyArray(table, ',');
          url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
-       } else if(action === 'exportPaymentsOnly') {
+       } else if(action === 'exportPayments') {
          $scope.exportPayments();
        }
       });
