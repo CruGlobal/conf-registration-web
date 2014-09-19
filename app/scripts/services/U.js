@@ -27,7 +27,7 @@ angular.module('confRegistrationWebApp')
         }
         return '';
       }
-      if (angular.isDefined(string)) {
+      if (_.isString(string)) {
         return string.replace(/,/g, '');
       } else {
         return string;
