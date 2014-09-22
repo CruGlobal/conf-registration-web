@@ -5,7 +5,21 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, AnswerCache, RegistrationCache, uuid) {
+      controller: function ($scope, $routeParams, $modal, AnswerCache, RegistrationCache, uuid) {
+
+        /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
+        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices)){
+          if(angular.isUndefined(_.first($scope.block.content.choices).value)){
+            angular.forEach($scope.block.content.choices, function(c, i){
+              $scope.block.content.choices[i] = {
+                value: c,
+                desc: ''
+              };
+            });
+          }
+        }
+        /////////////////////////////////////////////////
+
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistration)) {
             //registration object provided
@@ -52,15 +66,37 @@ angular.module('confRegistrationWebApp')
           if (angular.isUndefined($scope.this.block.content.choices)) {
             $scope.this.block.content = {'choices': [] };
           }
-          if ($.inArray(newOption, $scope.this.block.content.choices) >= 0) {
-            //alert('Option already exists.');
-          } else {
-            $scope.this.block.content.choices.push(newOption);
-          }
+          $scope.this.block.content.choices.push({
+            value: newOption,
+            desc: ''
+          });
         };
 
         $scope.editBlockDeleteOption = function (index) {
           $scope.this.block.content.choices.splice(index, 1);
+        };
+
+        $scope.editBlockOptionDescription = function (index) {
+          $modal.open({
+            templateUrl: 'views/modals/choiceDescription.html',
+            controller: function($scope, $modalInstance, desc){
+              $scope.desc = desc;
+              $scope.close = function () {
+                $modalInstance.dismiss();
+              };
+
+              $scope.save = function (desc) {
+                $modalInstance.close(desc);
+              };
+            },
+            resolve: {
+              desc: function () {
+                return $scope.this.block.content.choices[index].desc;
+              }
+            }
+          }).result.then(function (desc) {
+              $scope.this.block.content.choices[index].desc = desc;
+          });
         };
 
         if($scope.wizard){

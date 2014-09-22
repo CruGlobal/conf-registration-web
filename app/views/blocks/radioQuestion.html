@@ -4,7 +4,8 @@
            name="{{block.id}}"
            ng-required="block.required"
            ng-model="answer.value"
-           ng-value="choice">
-    {{choice}}
+           ng-value="choice.value">
+    <strong>{{choice.value}}</strong>
+    <span ng-show="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
   </label>
 </div>

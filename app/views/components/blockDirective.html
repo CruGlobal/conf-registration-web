@@ -67,20 +67,19 @@
             <div class="form-group" ng-show="hasOptions">
               <label>Question Options</label>
               <div ng-repeat="choice in block.content.choices track by $index" style="margin-bottom:6px;">
-                  <div class="input-group col-xs-6">
-                      <input ng-model="block.content.choices[$index]" type="text" class="form-control">
-    <span class="input-group-btn">
-      <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
-    </span>
+                  <div class="input-group col-xs-9">
+                      <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn" ng-click="editBlockOptionDescription($index)" ng-show="block.type !== 'selectQuestion'">Description</button>
+                        <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
+                      </span>
                   </div>
               </div>
 
-              <div class="input-group col-xs-6">
+              <div class="input-group col-xs-7">
                   <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-primary"
-            ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add
-    </button>
+    <button type="button" class="btn btn-primary" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add</button>
   </span>
               </div>
           </div>
