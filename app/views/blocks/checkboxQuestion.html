@@ -4,6 +4,6 @@
            ng-required="block.required && !atLeastOneChecked"
            ng-model="answer.value[choice.value].value"
            ng-value="true"> <strong>{{choice.value}}</strong>
-    <p ng-show="choice.desc" class="eventhub-linebreak">{{choice.desc}}</p>
+    <span ng-show="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
   </label>
 </div>
