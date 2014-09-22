@@ -1,4 +1,4 @@
 <select ng-required="block.required" ng-model="answer.value" class="form-control">
 <option value="">Choose one...</option>
-<option ng-value="choice" ng-repeat="choice in block.content.choices" ng-bind="choice"></option>
+<option ng-value="choice.value" ng-repeat="choice in block.content.choices" ng-bind="choice.value"></option>
 </select>

@@ -2,7 +2,8 @@
   <label>
     <input type="checkbox"
            ng-required="block.required && !atLeastOneChecked"
-           ng-model="answer.value[choice]"
-           ng-value="true"> {{choice}}
+           ng-model="answer.value[choice.value].value"
+           ng-value="true"> <strong>{{choice.value}}</strong>
+    <p ng-show="choice.desc" class="eventhub-linebreak">{{choice.desc}}</p>
   </label>
 </div>
