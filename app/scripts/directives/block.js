@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
               $scope.block.content.choices[i] = {
                 value: c,
                 desc: ''
-              }
+              };
             });
           }
         }
