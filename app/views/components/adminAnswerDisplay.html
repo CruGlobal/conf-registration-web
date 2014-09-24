@@ -1,6 +1,6 @@
 <ng-switch on="block.type">
   <span ng-switch-when="nameQuestion"> {{answer.value.firstName}} {{answer.value.lastName}}</span>
-  <span ng-switch-when="checkboxQuestion">{{getSelectedCheckboxes(answer.value)| joiner}}</span>
+  <span ng-switch-when="checkboxQuestion">{{getSelectedCheckboxes(answer.value) | joiner}}</span>
   <span ng-switch-when="addressQuestion">{{answer.value.address1}} {{answer.value.address2}}<br>{{answer.value.city}}, {{answer.value.state}} {{answer.value.zip}}</span>
   <span ng-switch-default>{{answer.value}}</span>
 </ng-switch>
