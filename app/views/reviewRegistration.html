@@ -8,6 +8,10 @@
 
 <div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
   <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
+    <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
+      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+    </div>
+
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
       <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
       <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="conference.allowGroupRegistrations" value="Remove">
