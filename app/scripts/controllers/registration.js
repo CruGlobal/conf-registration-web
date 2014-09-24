@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: false
     };
-      conference.allowEditRegistrationAfterComplete = true;
 
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
