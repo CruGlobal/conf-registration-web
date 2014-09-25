@@ -142,14 +142,14 @@ module.exports = function (grunt) {
       }
     },
     useminPrepare: {
-      html: '<%= yeoman.app %>/index.html',
+      html: '<%= yeoman.app %>/*.html',
       options: {
         dest: '<%= yeoman.dist %>',
         flow: { steps: { 'js': ['concat'], 'css': ['concat']}, post: {}}
       }
     },
     usemin: {
-      html: ['<%= yeoman.dist %>/index.html', '<%= yeoman.dist %>/views/**/*.html'],
+      html: ['<%= yeoman.dist %>/*.html', '<%= yeoman.dist %>/views/**/*.html'],
       js: ['<%= yeoman.dist %>/scripts/{,*/}*eventApp.js'],
       css: ['<%= yeoman.dist %>/css/{,*/}*.css'],
       options: {
