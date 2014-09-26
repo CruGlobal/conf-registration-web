@@ -241,6 +241,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         return 'Event Registration Tool';
       }
     };
+
+    //Google Analytics
+    $rootScope.$on('$routeChangeSuccess', function(){
+      ga('send', 'pageview', {'page': $location.path()});
+    });
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
