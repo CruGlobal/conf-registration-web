@@ -224,7 +224,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         redirectTo: '/'
       });
   })
-  .run(function ($rootScope, $cookies, $location) {
+  .run(function ($rootScope, $cookies, $location, $window) {
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
@@ -244,7 +244,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
 
     //Google Analytics
     $rootScope.$on('$routeChangeSuccess', function(){
-      ga('send', 'pageview', {'page': $location.path()});
+      $window.ga('send', 'pageview', {'page': $location.path()});
     });
   })
   .config(function ($httpProvider) {
