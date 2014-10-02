@@ -44,7 +44,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.confirmRegistration = function () {
       jQuery('.confirm-registration').attr('value', 'Loading...');
-      if ($rootScope.currentPayment.amount === 0 || 7 === 7) {
+      if ($rootScope.currentPayment.amount === 0) {
         setRegistrationAsCompleted();
         return;
       }
