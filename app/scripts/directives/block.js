@@ -43,6 +43,9 @@ angular.module('confRegistrationWebApp')
                 return;
               }
               var registrantIndex = _.findIndex(currentRegistration.registrants, { 'id': registrantId });
+              if(registrantIndex === -1){
+                return;
+              }
 
               var answerForThisBlock = _.where(currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
               if (answerForThisBlock.length > 0) {
