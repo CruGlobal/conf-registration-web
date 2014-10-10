@@ -136,6 +136,19 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }]
         }
       })
+      .when('/rideshare/:conferenceId', {
+        template: '<ng-include src="templateUrl"></ng-include>',
+        controller: 'RideshareCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
+          }]
+        }
+      })
       .when('/eventPermissions/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventPermissionsCtrl',
