@@ -384,12 +384,12 @@ angular.module('confRegistrationWebApp')
        if(action === 'exportAllData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
          csvContent = U.stringifyArray(table, ',');
-         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportVisibleData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
          csvContent = U.stringifyArray(table, ',');
-         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportPayments') {
          $scope.exportPayments();
