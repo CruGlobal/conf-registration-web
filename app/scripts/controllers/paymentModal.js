@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.newPayment = {
       registrationId: registration.id,
-      amount: registration.calculatedTotalDue
+      amount: registration.calculatedTotalDue - registration.totalPaid
     };
 
     $scope.updateCostRegistration = [];
@@ -45,9 +45,12 @@ angular.module('confRegistrationWebApp')
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           $scope.registration = data;
           $scope.processing = false;
-          $scope.close();
+
+          $scope.newPayment = {
+            registrationId: registration.id,
+            amount: data.calculatedTotalDue - data.totalPaid
+          };
         });
-        delete $scope.newPayment;
 
       }).error(function () {
         alert('Payment failed...');
