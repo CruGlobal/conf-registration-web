@@ -76,6 +76,7 @@
     <tr>
       <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
       <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="100">Type</th>
+      <th class="tablecenter" width="160">Completed</th>
       <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
       <th class="tablecenter" width="100">Options</th>
       <th width="30"></th>
@@ -87,6 +88,7 @@
         <show-answer block="block" registrant="r"></show-answer>
       </td>
       <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)">{{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}</td>
       <td ng-show="eventHasCost()" class="tablecenter">
         <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
         <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('RegistrationsViewService', function RegistrationsViewService(ConferenceHelper, U) {
+  .service('RegistrationsViewService', function RegistrationsViewService(ConferenceHelper, U, $filter) {
 
     this.getTable = function (conference, registrations, onlyCompleted, visibleBlockIds) {
 
@@ -25,6 +25,7 @@ angular.module('confRegistrationWebApp')
 
       // header row of block titles
       var header = getBlockTitles(blocks, visibleBlockIds);
+      header.push('Completed');
 
       return header;
     };
@@ -46,6 +47,10 @@ angular.module('confRegistrationWebApp')
               row.push.apply(row, answerContent);
             }
           });
+
+          if(registration.completed){
+            row.push.apply(row, ['"' + $filter('evtDateFormat')(registration.completedTimestamp, conference.eventTimezone) + '"']);
+          }
 
           rows.push(row);
         });
