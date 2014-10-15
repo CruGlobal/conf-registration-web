@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'dashboard',
+      mainClass: 'container dashboard',
       bodyClass: '',
       title: 'My Dashboard',
       confId: 0,

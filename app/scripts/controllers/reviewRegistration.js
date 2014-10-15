@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
-      mainClass: 'front-form',
+      mainClass: 'container front-form',
       bodyClass: 'frontend',
       title: conference.name,
       confId: conference.id,
