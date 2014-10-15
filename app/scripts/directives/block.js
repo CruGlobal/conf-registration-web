@@ -79,26 +79,27 @@ angular.module('confRegistrationWebApp')
           $scope.this.block.content.choices.splice(index, 1);
         };
 
-        $scope.editBlockOptionDescription = function (index) {
+        $scope.editBlockOptionAdvanced = function (index) {
           $modal.open({
-            templateUrl: 'views/modals/choiceDescription.html',
-            controller: function($scope, $modalInstance, desc){
-              $scope.desc = desc;
+            templateUrl: 'views/modals/choiceAdvanced.html',
+            controller: function($scope, $modalInstance, choice){
+              $scope.choice = choice;
               $scope.close = function () {
                 $modalInstance.dismiss();
               };
 
               $scope.save = function (desc) {
-                $modalInstance.close(desc);
+                $modalInstance.close(choice);
               };
             },
             resolve: {
-              desc: function () {
-                return $scope.this.block.content.choices[index].desc;
+              choice: function () {
+                return $scope.this.block.content.choices[index];
               }
             }
-          }).result.then(function (desc) {
-              $scope.this.block.content.choices[index].desc = desc;
+          }).result.then(function (choice) {
+              choice.amount = Number(choice.amount);
+              $scope.this.block.content.choices[index] = choice;
           });
         };
 
