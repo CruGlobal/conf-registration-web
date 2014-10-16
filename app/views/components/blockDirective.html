@@ -49,7 +49,7 @@
 
       <div class="edit-options" ng-show="editBlock">
         <ul class="nav nav-tabs">
-          <li ng-class="{active: activeTab === 'options'}"><a href="" ng-click="activeTab = 'options'">Field Options</a></li>
+          <li ng-class="{active: activeTab === 'options'}"><a href="" ng-click="activeTab = 'options'">Options</a></li>
           <li ng-class="{active: activeTab === 'regTypes'}"><a href="" ng-click="activeTab = 'regTypes'">Registration Types</a></li>
         </ul>
 
@@ -57,7 +57,7 @@
         <div class="tab-content">
           <div class="tab-pane fade in" ng-class="{active: activeTab === 'options'}">
             <div class="form-group">
-              <label>Field Title</label>
+              <label>Title</label>
               <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
             </div>
 
@@ -65,19 +65,19 @@
               <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
             </div>
             <div class="form-group" ng-show="hasOptions">
-              <label>Question Options</label>
+              <label>Possible Answers</label>
               <div ng-repeat="choice in block.content.choices track by $index" style="margin-bottom:6px;">
                   <div class="input-group col-xs-9">
                       <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
                       <span class="input-group-btn">
-                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)">Advanced</button>
+                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)">Options</button>
                         <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)">Delete</button>
                       </span>
                   </div>
               </div>
 
               <div class="input-group col-xs-7">
-                  <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Option" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
+                  <input ng-model="editBlockAddOptionValue" type="text" placeholder="Add Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
   <span class="input-group-btn">
     <button type="button" class="btn btn-primary" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">Add</button>
   </span>
