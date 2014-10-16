@@ -81,8 +81,9 @@ angular.module('confRegistrationWebApp')
 
         $scope.editBlockOptionAdvanced = function (index) {
           $modal.open({
-            templateUrl: 'views/modals/choiceAdvanced.html',
-            controller: function($scope, $modalInstance, choice){
+            templateUrl: 'views/modals/choiceOptions.html',
+            controller: function($scope, $modalInstance, choice, blockType){
+              $scope.blockType = blockType;
               $scope.choice = choice;
               $scope.close = function () {
                 $modalInstance.dismiss();
@@ -94,7 +95,10 @@ angular.module('confRegistrationWebApp')
             },
             resolve: {
               choice: function () {
-                return $scope.this.block.content.choices[index];
+                return angular.copy($scope.this.block.content.choices[index]);
+              },
+              blockType: function(){
+                return $scope.this.block.type;
               }
             }
           }).result.then(function (choice) {

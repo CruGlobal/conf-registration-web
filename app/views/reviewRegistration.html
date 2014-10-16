@@ -36,7 +36,7 @@
 
     <dl ng-repeat="block in blocks" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-show="blockInRegType(block, r.registrantTypeId)">
       <dt>{{block.title}}</dt>
-      <dd><show-answer block="block" registrant="r"></show-answer></dd>
+      <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
     </dl>
   </div>
 </div>
