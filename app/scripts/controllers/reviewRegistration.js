@@ -94,7 +94,6 @@ angular.module('confRegistrationWebApp')
     $scope.removeRegistrant = function (id) {
       _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
       RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
-        RegistrationCache.emptyCache();
         $route.reload();
       });
     };

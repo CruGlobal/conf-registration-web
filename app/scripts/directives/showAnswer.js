@@ -3,11 +3,12 @@
 angular.module('confRegistrationWebApp')
   .directive('showAnswer', function () {
     return {
-      templateUrl: 'views/components/adminAnswerDisplay.html',
+      templateUrl: 'views/components/answerDisplay.html',
       restrict: 'E',
       scope: {
         block: '=',
-        registrant: '='
+        registrant: '=',
+        showAmount: '='
       },
       controller: function ($scope) {
         if(angular.isDefined($scope.registrant)){
