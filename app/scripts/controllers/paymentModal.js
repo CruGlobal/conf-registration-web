@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference, RegistrationCache) {
+  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
