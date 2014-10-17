@@ -89,7 +89,7 @@ angular.module('confRegistrationWebApp')
                 $modalInstance.dismiss();
               };
 
-              $scope.save = function (desc) {
+              $scope.save = function (choice) {
                 $modalInstance.close(choice);
               };
             },
