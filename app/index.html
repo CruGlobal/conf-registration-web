@@ -141,11 +141,11 @@
   <section id="pagetitle" ng-class="globalPage.class">
     <div class="container">
       <div class="row">
-        <div ng-class="{'col-xs-3': globalPage.class === 'dashboard', 'col-xs-4': globalPage.class !== 'dashboard'}">
+        <div ng-class="{'col-xs-3': !globalPage.confId, 'col-xs-4': globalPage.confId}">
           <h1 ng-bind="globalPage.title"></h1>
         </div>
-        <div ng-class="{'col-xs-6': globalPage.class === 'dashboard', 'col-xs-5': globalPage.class !== 'dashboard'}">
-          <nav id="subnav" ng-show="globalPage.mainClass !== 'dashboard'" admin-nav>
+        <div ng-class="{'col-xs-6': !globalPage.confId, 'col-xs-5': globalPage.confId}">
+          <nav id="subnav" ng-show="globalPage.confId" admin-nav>
           </nav>
         </div>
         <div class="col-xs-3 right">
@@ -200,7 +200,7 @@
   </div>
 </div>
 
-<main class="container" ng-class="globalPage.mainClass" ng-view=""></main>
+<main ng-class="globalPage.mainClass" ng-view=""></main>
 
 <footer id="pagefooter" ng-show="globalPage.footer">
   <div class="container">
