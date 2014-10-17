@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $routeParams, $modal, AnswerCache, RegistrationCache, uuid) {
 
         /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
-        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices)){
+        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices) && $scope.block.content.choices.length){
           if(angular.isUndefined(_.first($scope.block.content.choices).value)){
             angular.forEach($scope.block.content.choices, function(c, i){
               $scope.block.content.choices[i] = {
