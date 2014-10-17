@@ -26,7 +26,7 @@ env:
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
         - GH_BRANCH_PROD: prod
-        - GH_BRANCH_STAGE: stage
+        - GH_BRANCH_STAGE: gh-pages
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
         # and deploy the output to your project's gh-pages branch.
 
