@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
       //remove blocks not applicable to registrant type
       angular.forEach(conference.registrationPages, function(page) {
         var pageIndex = _.findIndex(conference.registrationPages, { 'id': page.id });
-        angular.forEach(page.blocks, function (block) {
+        angular.forEach(angular.copy(page.blocks), function (block) {
           if (_.contains(block.registrantTypes, registrant.registrantTypeId)) {
             _.remove(conference.registrationPages[pageIndex].blocks, function (b) {
               return b.id === block.id;
