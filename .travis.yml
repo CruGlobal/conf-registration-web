@@ -25,7 +25,8 @@ env:
         - secure: "FwA4flx3SAV0men0Uz1Ae4bSpptx3gfekYzmdAgpta5F9vRHONbpjNWUWiLfuEe5b44pQ+fHjNNkdOhYd+aHkOEyquv9PSD47YdHxKQ+e9NIitVHUcdwYPSC7Tenh9Qso21ailCaDzgCZY4+2Hu/kTkP3sBapYG4Kdz/4gcxpV8="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
-        - GH_BRANCH_STAGE: stage
+        - GH_BRANCH_STAGE: build-stage
+        - GH_BRANCH_PROD: build-production
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
         # and deploy the output to your project's gh-pages branch.
 
@@ -34,7 +35,6 @@ before_script:
     - gem update --system
     - gem uninstall sass
     - gem install sass
-    #- gem install compass
     - npm install -g grunt-cli bower
 script:
     # We want to gate on passing tests and a successful build
@@ -44,7 +44,9 @@ after_success:
     # Any command that using GH_OAUTH_TOKEN must pipe the output to /dev/null to not expose your oauth token
     - git submodule add -b gh-pages https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} site > /dev/null 2>&1
     - cd site
-    - if git checkout ${GH_BRANCH_STAGE}; then git checkout -b ${GH_BRANCH_STAGE}; fi
+    #- if git checkout ${GH_BRANCH_STAGE}; then git checkout -b ${GH_BRANCH_STAGE}; fi
+    - if (${TRAVIS_PULL_REQUEST} != "false"); then git checkout ${GH_BRANCH_STAGE}; fi
+    - if (${TRAVIS_PULL_REQUEST} == "false"); then git checkout ${GH_BRANCH_PROD}; fi
     - git rm -r .
     - cp -R ../dist/* .
     - cp ../dist/.* .
