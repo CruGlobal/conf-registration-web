@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.newPayment = {
       registrationId: registration.id,
-      amount: registration.calculatedTotalDue - registration.totalPaid
+      amount: registration.remainingBalance
     };
 
     $scope.updateCostRegistration = [];
