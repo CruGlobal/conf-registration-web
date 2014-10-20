@@ -30,7 +30,7 @@
 
       <p class="registrantPrice">
         <strong ng-show="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</strong>
-        <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
+        <span ng-show="r.calculatedTotalDue"><br>${{r.calculatedTotalDue}}</span>
       </p>
     </div>
 
@@ -95,7 +95,7 @@
       <tbody>
       <tr ng-repeat="r in currentRegistration.registrants">
         <td>{{registrantName(r)}}</td>
-        <td>${{r.totalDue}}</td>
+        <td>${{r.calculatedTotalDue}}</td>
       </tr>
       </tbody>
     </table>
