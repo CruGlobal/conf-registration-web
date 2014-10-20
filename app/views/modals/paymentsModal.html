@@ -15,7 +15,7 @@
             <tbody>
               <tr ng-repeat="r in registration.registrants">
                 <td>{{registrantName(r.id)}}</td>
-                <td ng-show="!showUpdateCost">${{r.totalDue}}</td>
+                <td ng-show="!showUpdateCost">${{r.calculatedTotalDue}}</td>
                 <td ng-show="showUpdateCost" width="130">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
