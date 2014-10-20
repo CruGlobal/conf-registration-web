@@ -8,8 +8,7 @@ angular.module('confRegistrationWebApp')
       }
       var p = num.toFixed(2).split('.');
       return '$' + p[0].split('').reverse().reduce(function(acc, num, i) {
-        console.log((i % 3));
-          return  num + (i && ((i % 3) === 0) ? ',' : '') + acc;
+        return  num + (i && ((i % 3) === 0) ? ',' : '') + acc;
       }, '') + '.' + p[1];
     };
   });

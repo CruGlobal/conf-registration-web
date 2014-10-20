@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
         alert('Please select a payment type.');
         return;
       }
-      if (Number($scope.newPayment.amount) <= 0 || _.isEmpty($scope.newPayment.amount)) {
+      if (Number($scope.newPayment.amount) <= 0) {
         alert('Payment amount must be a positive number.');
         return;
       }
