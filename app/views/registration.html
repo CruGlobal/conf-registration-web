@@ -26,7 +26,7 @@
         <p>You have already successfully registered for '{{conference.name}}'.</p>
 
         <div ng-show="currentRegistration.remainingBalance > 0">
-          <p><strong>Remaining Balance:</strong> ${{currentRegistration.remainingBalance}}<br>
+          <p><strong>Remaining Balance:</strong> {{currentRegistration.remainingBalance | moneyFormat}}<br>
             <a href="#/payment/{{conference.id}}" ng-show="conference.acceptCreditCards">Make Payment</a></p>
         </div>
 
@@ -34,7 +34,7 @@
           <p><strong>Payments</strong></p>
           <ul>
             <li ng-repeat="payments in currentRegistration.pastPayments">
-              ${{payments.amount}} on {{payments.transactionDatetime | date:'EEEE, MMM d, y'}}
+              {{payments.amount | moneyFormat}} on {{payments.transactionDatetime | date:'EEEE, MMM d, y'}}
             </li>
           </ul>
         </div>

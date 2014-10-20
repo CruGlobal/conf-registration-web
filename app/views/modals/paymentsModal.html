@@ -15,7 +15,7 @@
             <tbody>
               <tr ng-repeat="r in registration.registrants">
                 <td>{{registrantName(r.id)}}</td>
-                <td>${{r.calculatedTotalDue}}</td>
+                <td>{{r.calculatedTotalDue | moneyFormat}}</td>
               </tr>
             </tbody>
           </table>
@@ -25,15 +25,15 @@
               <table class="table pull-right" style="width:200px;">
                 <tr>
                   <th>Total Cost</th>
-                  <td width="90">${{registration.calculatedTotalDue}}</td>
+                  <td width="90">{{registration.calculatedTotalDue | moneyFormat}}</td>
                 </tr>
                 <tr>
                   <th>Total Paid</th>
-                  <td>${{registration.totalPaid}}</td>
+                  <td>{{registration.totalPaid | moneyFormat}}</td>
                 </tr>
                 <tr>
                   <th>Total Due</th>
-                  <td>${{registration.calculatedTotalDue - registration.totalPaid}}</td>
+                  <td>{{registration.calculatedTotalDue - registration.totalPaid | moneyFormat}}</td>
                 </tr>
               </table>
             </div>
@@ -50,7 +50,7 @@
               </tr>
               <tr ng-repeat="payment in registration.pastPayments">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-                <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>${{payment.amount}}</td>
+                <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
                 <td>{{payment.paymentType}}</td>
                 <td>
                   <div ng-show="canBeRefunded(payment)">
