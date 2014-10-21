@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference, RegistrationCache) {
+  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
@@ -21,12 +21,12 @@ angular.module('confRegistrationWebApp')
 
     $scope.newPayment = {
       registrationId: registration.id,
-      amount: registration.calculatedTotalDue - registration.totalPaid
+      amount: registration.remainingBalance
     };
 
     $scope.updateCostRegistration = [];
     angular.forEach(registration.registrants, function (r) {
-      $scope.updateCostRegistration[r.id] = r.totalDue;
+      $scope.updateCostRegistration[r.id] = r.calculatedTotalDue;
     });
 
     $scope.processPayment = function () {
@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
         alert('Please select a payment type.');
         return;
       }
-      if (Number($scope.newPayment.amount) <= 0 || _.isEmpty($scope.newPayment.amount)) {
+      if (Number($scope.newPayment.amount) <= 0) {
         alert('Payment amount must be a positive number.');
         return;
       }
@@ -105,26 +105,5 @@ angular.module('confRegistrationWebApp')
         alert('Refund failed...');
         $scope.processing = false;
       });
-    };
-
-    $scope.saveCost = function () {
-      var updatedRegistration = angular.copy(registration);
-      angular.forEach(updatedRegistration.registrants, function(r) {
-        r.totalDue = Number($scope.updateCostRegistration[r.id]);
-      });
-
-      RegistrationCache.update('registrations/' + updatedRegistration.id, updatedRegistration, function () {
-        RegistrationCache.emptyCache();
-        RegistrationCache.get(updatedRegistration.id).then(function(data){
-          $scope.registration = data;
-        });
-        $scope.showUpdateCost = false;
-      }, function () {
-        alert('Error updating total cost');
-      });
-    };
-
-    $scope.toggleCostUpdate = function(v) {
-      $scope.showUpdateCost = v;
     };
   });

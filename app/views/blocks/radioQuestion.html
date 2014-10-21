@@ -7,5 +7,6 @@
            ng-value="choice.value">
     <strong>{{choice.value}}</strong>
     <span ng-show="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
+    <span ng-show="choice.amount"> - {{choice.amount | moneyFormat}}</span>
   </label>
 </div>

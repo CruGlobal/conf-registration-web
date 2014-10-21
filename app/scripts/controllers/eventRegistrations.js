@@ -356,11 +356,15 @@ angular.module('confRegistrationWebApp')
         }
       };
 
-      $modal.open(editRegistrationDialogOptions).result.then(function (result) {
-        if (angular.isDefined(result)) {
-          var index = _.findIndex($scope.registrants, { 'id': result.id });
-          $scope.registrants[index] = result;
-        }
+      $modal.open(editRegistrationDialogOptions).result.then(function (registration) {
+        //update registration
+        var index = _.findIndex($scope.registrations, { 'id': registration.id });
+        $scope.registrations[index] = registration;
+
+        //update registrant
+        r = _.find(registration.registrants, { 'id': r.id });
+        index = _.findIndex($scope.registrants, { 'id': r.id });
+        $scope.registrants[index] = r;
       });
     };
 

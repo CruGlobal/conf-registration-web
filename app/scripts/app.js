@@ -48,6 +48,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
                 return currentRegistration;

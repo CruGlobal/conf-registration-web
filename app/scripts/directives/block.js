@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $routeParams, $modal, AnswerCache, RegistrationCache, uuid) {
 
         /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
-        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices)){
+        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices) && $scope.block.content.choices.length){
           if(angular.isUndefined(_.first($scope.block.content.choices).value)){
             angular.forEach($scope.block.content.choices, function(c, i){
               $scope.block.content.choices[i] = {
@@ -79,26 +79,31 @@ angular.module('confRegistrationWebApp')
           $scope.this.block.content.choices.splice(index, 1);
         };
 
-        $scope.editBlockOptionDescription = function (index) {
+        $scope.editBlockOptionAdvanced = function (index) {
           $modal.open({
-            templateUrl: 'views/modals/choiceDescription.html',
-            controller: function($scope, $modalInstance, desc){
-              $scope.desc = desc;
+            templateUrl: 'views/modals/choiceOptions.html',
+            controller: function($scope, $modalInstance, choice, blockType){
+              $scope.blockType = blockType;
+              $scope.choice = choice;
               $scope.close = function () {
                 $modalInstance.dismiss();
               };
 
-              $scope.save = function (desc) {
-                $modalInstance.close(desc);
+              $scope.save = function (choice) {
+                $modalInstance.close(choice);
               };
             },
             resolve: {
-              desc: function () {
-                return $scope.this.block.content.choices[index].desc;
+              choice: function () {
+                return angular.copy($scope.this.block.content.choices[index]);
+              },
+              blockType: function(){
+                return $scope.this.block.type;
               }
             }
-          }).result.then(function (desc) {
-              $scope.this.block.content.choices[index].desc = desc;
+          }).result.then(function (choice) {
+              choice.amount = Number(choice.amount);
+              $scope.this.block.content.choices[index] = choice;
           });
         };
 
