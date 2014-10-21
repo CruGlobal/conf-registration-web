@@ -48,19 +48,49 @@
                 <th>Type</th>
                 <th>Refund</th>
               </tr>
-              <tr ng-repeat="payment in registration.pastPayments">
+              <tr ng-repeat="payment in registration.pastPayments | orderBy:transactionDateTime">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
                 <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
                 <td>{{payment.paymentType}}</td>
                 <td>
                   <div ng-show="canBeRefunded(payment)">
-                    <a href="" ng-click="refund(payment)" ng-show="!processing">Refund</a>
+                    <a href="" ng-click="startRefund(payment)" ng-show="!processing">Refund</a>
                     <span ng-show="processing">Processing...</span>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div ng-show="refund">
+            <h4>Refund Payment</h4>
+              <table class="table table-striped">
+                  <tbody>
+                  <tr>
+                      <th>Date</th>
+                      <th>Refundable Amount</th>
+                      <th>Type</th>
+                  </tr>
+                  <tr>
+                      <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                      <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | moneyFormat}}</td>
+                      <td>{{paymentToRefund.paymentType}}</td>
+                  </tr>
+                  </tbody>
+                  </table>
+            <p class="text-muted"><i class="fa fa-info-circle"></i>The selected payment can be refunded up to the amount that originally received less any refunds already processed against it.</p>
+            <p class="text-muted" ng-show="isCreditCardPayment()"><i class="fa fa-info-circle"></i>The credit card used for this payment will be credited the amount entered here.</p>
+            <label>Amount</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+              <input type="text" class="form-control marginless" ng-model="refund.amount" />
+            </div>
+            <br />
+            <div class="form-group">
+              <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
+              <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
+              <span ng-show="processing">Processing...</span>
+            </div>
+          </div>
         </tab>
         <tab heading="Add New Payment"><br>
           <div class="row form-group">

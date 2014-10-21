@@ -59,22 +59,32 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.canBeRefunded = function (payment) {
-      var sum = 0;
+      return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
+        payment.paymentType !== 'REFUND' &&
+        $scope.calculateRefundableAmount(payment) > 0;
+    };
+
+    $scope.calculateRefundableAmount = function (payment) {
+      if(angular.isUndefined(payment)) return 0;
+      var sum = payment.amount;
       _.each($scope.registration.pastPayments, function (prevRefund) {
         if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
           prevRefund.refundedPaymentId === payment.id) {
-          sum += prevRefund.amount;
+          sum -= prevRefund.amount;
         }
       });
-      return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
-        payment.paymentType !== 'REFUND' &&
-        sum < payment.amount;
+      return sum;
     };
 
-    $scope.refund = function (payment) {
-      var refund;
-      if (payment.paymentType === 'CREDIT_CARD') {
-        refund = {
+    $scope.isCreditCardPayment = function () {
+      return $scope.paymentToRefund && $scope.paymentToRefund.paymentType === 'CREDIT_CARD';
+    };
+
+    $scope.startRefund = function (payment) {
+      $scope.paymentToRefund = payment;
+
+      if ($scope.isCreditCardPayment()) {
+        $scope.refund = {
           amount: payment.amount,
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
@@ -85,7 +95,7 @@ angular.module('confRegistrationWebApp')
           readyToProcess: true
         };
       } else {
-        refund = {
+        $scope.refund = {
           amount: payment.amount,
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
@@ -93,9 +103,11 @@ angular.module('confRegistrationWebApp')
           readyToProcess: true
         };
       }
+    };
 
+    $scope.processRefund = function () {
       $scope.processing = true;
-      $http.post('payments/', refund).success(function () {
+      $http.post('payments/', $scope.refund).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
