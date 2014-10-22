@@ -24,6 +24,10 @@
             <div class="col-lg-12">
               <table class="table pull-right" style="width:200px;">
                 <tr>
+                  <th>Additional Expenses</th>
+                  <td width="90">{{registration.calculatedAdditionalExpenses | moneyFormat}}</td>
+                </tr>
+                <tr>
                   <th>Total Cost</th>
                   <td width="90">{{registration.calculatedTotalDue | moneyFormat}}</td>
                 </tr>
