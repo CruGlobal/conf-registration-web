@@ -184,8 +184,8 @@
 
           <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
             <div class="form-group">
-              <label>Description</label>
-              <input ng-model="newTransaction.scholarship.description" type="text" class="form-control" />
+              <label>Source (account/chartfield)</label>
+              <input ng-model="newTransaction.scholarship.source" type="text" class="form-control" />
             </div>
           </div>
 
@@ -193,11 +193,6 @@
             <div class="form-group">
               <label>Source (account/chartfield)</label>
               <input ng-model="newTransaction.transfer.source" type="text" class="form-control" />
-            </div>
-
-            <div class="form-group">
-              <label>Description</label>
-              <input ng-model="newTransaction.scholarship.description" type="text" class="form-control" />
             </div>
           </div>
 
@@ -208,6 +203,10 @@
             </div>
           </div>
 
+          <div class="form-group">
+            <label>Description</label>
+            <input ng-model="newTransaction.description" type="text" class="form-control" />
+          </div>
           <div class="form-group">
             <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing">Process Payment</button>
             <span ng-show="processing">Processing...</span>

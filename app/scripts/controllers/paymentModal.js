@@ -41,7 +41,6 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
 
-
       var path = 'payments';
       if($scope.newTransaction.paymentType == 'ADDITIONAL_EXPENSE') {
         path = 'expenses';
