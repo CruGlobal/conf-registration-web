@@ -42,7 +42,7 @@ angular.module('confRegistrationWebApp')
       $scope.processing = true;
 
       var path = 'payments';
-      if($scope.newTransaction.paymentType == 'ADDITIONAL_EXPENSE') {
+      if($scope.newTransaction.paymentType === 'ADDITIONAL_EXPENSE') {
         path = 'expenses';
         delete $scope.newTransaction.paymentType;
       } else {
@@ -73,7 +73,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.calculateRefundableAmount = function (payment) {
-      if(angular.isUndefined(payment)) return 0;
+      if(angular.isUndefined(payment)) {
+        return 0;
+      }
       var sum = payment.amount;
       _.each($scope.registration.pastPayments, function (prevRefund) {
         if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
@@ -122,7 +124,7 @@ angular.module('confRegistrationWebApp')
           $scope.processing = false;
           $scope.refund = null;
           if(angular.isDefined($scope.newTransaction)) {
-            $scope.newTransaction.amount = data.remainingBalance
+            $scope.newTransaction.amount = data.remainingBalance;
           }
         });
       }).error(function () {
