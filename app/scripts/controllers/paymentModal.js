@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
       return nameBlock.firstName + ' ' + nameBlock.lastName;
     };
 
-    $scope.newPayment = {
+    $scope.newTransaction = {
       registrationId: registration.id,
       amount: registration.remainingBalance
     };
@@ -29,31 +29,40 @@ angular.module('confRegistrationWebApp')
       $scope.updateCostRegistration[r.id] = r.calculatedTotalDue;
     });
 
-    $scope.processPayment = function () {
-      if (_.isEmpty($scope.newPayment.paymentType)) {
-        alert('Please select a payment type.');
+    $scope.processTransaction = function () {
+      if (_.isEmpty($scope.newTransaction.paymentType)) {
+        alert('Please select a transaction type.');
         return;
       }
-      if (Number($scope.newPayment.amount) <= 0) {
-        alert('Payment amount must be a positive number.');
+      if (Number($scope.newTransaction.amount) <= 0) {
+        alert('Transaction amount must be a positive number.');
         return;
       }
 
       $scope.processing = true;
-      $scope.newPayment.readyToProcess = true;
-      $http.post('payments/', $scope.newPayment).success(function () {
+
+
+      var path = 'payments';
+      if($scope.newTransaction.paymentType == 'ADDITIONAL_EXPENSE') {
+        path = 'expenses';
+        delete $scope.newTransaction.paymentType;
+      } else {
+          $scope.newTransaction.readyToProcess = true;
+      }
+
+      $http.post(path, $scope.newTransaction).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           $scope.registration = data;
           $scope.processing = false;
 
-          $scope.newPayment = {
+          $scope.newTransaction = {
             registrationId: registration.id,
             amount: data.remainingBalance
           };
         });
 
       }).error(function () {
-        alert('Payment failed...');
+        alert('Transaction failed...');
         $scope.processing = false;
       });
     };
@@ -113,8 +122,8 @@ angular.module('confRegistrationWebApp')
           $scope.registration = data;
           $scope.processing = false;
           $scope.refund = null;
-          if(angular.isDefined($scope.newPayment)) {
-            $scope.newPayment.amount = data.remainingBalance
+          if(angular.isDefined($scope.newTransaction)) {
+            $scope.newTransaction.amount = data.remainingBalance
           }
         });
       }).error(function () {
