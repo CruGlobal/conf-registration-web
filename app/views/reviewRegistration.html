@@ -132,13 +132,21 @@
             <th>Total Cost</th>
             <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
           </tr>
-          <tr>
+          <tr ng-show="!currentRegistration.completed">
             <th>Payment</th>
             <td>{{currentPayment.amount | moneyFormat}}</td>
           </tr>
-          <tr>
+          <tr ng-show="currentRegistration.completed">
+            <th>Payment(s)</th>
+            <td>{{currentRegistration.totalPaid | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="!currentRegistration.completed">
             <th>Remaining Balance</th>
             <td>{{(currentRegistration.calculatedTotalDue - currentPayment.amount) | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="currentRegistration.completed">
+            <th>Remaining Balance</th>
+            <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
           </tr>
         </table>
       </div>
