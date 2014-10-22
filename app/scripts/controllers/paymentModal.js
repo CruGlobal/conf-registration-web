@@ -48,7 +48,7 @@ angular.module('confRegistrationWebApp')
 
           $scope.newPayment = {
             registrationId: registration.id,
-            amount: data.calculatedTotalDue - data.totalPaid
+            amount: data.remainingBalance
           };
         });
 
@@ -85,7 +85,7 @@ angular.module('confRegistrationWebApp')
 
       if ($scope.isCreditCardPayment()) {
         $scope.refund = {
-          amount: payment.amount,
+          amount: $scope.calculateRefundableAmount(payment),
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
           paymentType: 'CREDIT_CARD_REFUND',
@@ -96,7 +96,7 @@ angular.module('confRegistrationWebApp')
         };
       } else {
         $scope.refund = {
-          amount: payment.amount,
+          amount: $scope.calculateRefundableAmount(payment),
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
           paymentType: 'REFUND',
@@ -112,6 +112,10 @@ angular.module('confRegistrationWebApp')
           //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
+          $scope.refund = null;
+          if(angular.isDefined($scope.newPayment)) {
+            $scope.newPayment.amount = data.remainingBalance
+          }
         });
       }).error(function () {
         alert('Refund failed...');
