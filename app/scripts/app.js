@@ -260,6 +260,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
       return function (exception) {
         $delegate(exception);
+        if (_.contains(['localhost'], location.hostname)) {
+          return;
+        }
         var error = {
           type: 'Angular',
           message: exception.message,

@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp')
   .filter('moneyFormat', function () {
     return function (num) {
-      if(angular.isUndefined(num)){
+      if(angular.isUndefined(num) || _.isNull(num)){
         return '';
       }
       var p = num.toFixed(2).split('.');
