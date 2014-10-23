@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
     if (angular.isUndefined($rootScope.currentPayment)) {
       $rootScope.currentPayment = {
         amount: 0,
-        creditCard: []
+        creditCard: {}
       };
     }
     $rootScope.currentPayment.amount = registration.calculatedTotalDue;
