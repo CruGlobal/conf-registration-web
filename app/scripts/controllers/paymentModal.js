@@ -132,4 +132,8 @@ angular.module('confRegistrationWebApp')
         $scope.processing = false;
       });
     };
+
+    $scope.cancelRefund = function () {
+      delete $scope.refund;
+    }
   });

@@ -92,6 +92,7 @@
             <div class="form-group">
               <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
               <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
+              <a href ng-show="!processing" ng-click="cancelRefund()">Cancel</a>
               <span ng-show="processing">Processing...</span>
             </div>
           </div>
