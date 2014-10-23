@@ -52,7 +52,7 @@
                 <th>Type</th>
                 <th>Refund</th>
               </tr>
-              <tr ng-repeat="payment in registration.pastPayments | orderBy:transactionDatetime">
+              <tr ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
                 <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
                 <td>{{payment.paymentType}}</td>
@@ -89,6 +89,11 @@
               <input type="text" class="form-control marginless" ng-model="refund.amount" />
             </div>
             <br />
+            <label>Description</label>
+            <div class="form-group">
+              <input type="text" class="form-control marginless" ng-model="refund.description" />
+            </div>
+            <br />
             <div class="form-group">
               <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
               <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
@@ -106,7 +111,7 @@
                 <th>Description</th>
                 <th>Remove</th>
               </tr>
-              <tr ng-repeat="expense in registration.expenses | orderBy:createdTimestamp">
+              <tr ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
                 <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
                 <td>{{expense.amount | moneyFormat}}</td>
                 <td>{{expense.description}}</td>
