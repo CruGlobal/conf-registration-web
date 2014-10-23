@@ -135,5 +135,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.cancelRefund = function () {
       delete $scope.refund;
-    }
+    };
   });
