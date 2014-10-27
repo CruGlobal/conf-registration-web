@@ -138,13 +138,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeExpense = function (expense) {
-      expense.removed = true;
-      $http.put('expenses/' + expense.id, expense).success(function() {
+      $http.delete('expenses/' + expense.id).success(function() {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           $scope.registration = data;
         })
       }).error(function () {
-        expense.removed = false;
         alert('Error removing expense.');
       })
     }
