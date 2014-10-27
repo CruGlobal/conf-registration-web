@@ -5,6 +5,7 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
     $scope.adminEditRegistration = angular.copy(registrant);
     $scope.saving = false;
+    var answersToUpdate = [];
 
     $scope.close = function () {
       $modalInstance.close();
@@ -15,9 +16,23 @@ angular.module('confRegistrationWebApp')
 
       angular.forEach($scope.adminEditRegistration.answers, function(a){
         if(!angular.equals(a, _.find(registrant.answers, { 'id': a.id }))){
-          $http.put('answers/' + a.id, a);
+          answersToUpdate.push(a);
         }
       });
-      $modalInstance.close($scope.adminEditRegistration);
+
+      saveAnswer();
+    };
+
+    var saveAnswer = function(){
+      if(answersToUpdate.length){
+        var a = _.first(answersToUpdate);
+        answersToUpdate.shift();
+        $http.put('answers/' + a.id, a).success(saveAnswer);
+      }else{
+        //complete
+        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+          $modalInstance.close(registration);
+        });
+      }
     };
   });

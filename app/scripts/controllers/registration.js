@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, RegistrationCache, conference, currentRegistration, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
-      mainClass: 'front-form',
+      mainClass: 'container front-form',
       bodyClass: 'frontend',
       title: conference.name,
       confId: conference.id,
@@ -31,7 +31,7 @@ angular.module('confRegistrationWebApp')
       }
       angular.forEach($scope.conference.registrationPages, function(page) {
         var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
-        angular.forEach(page.blocks, function(block) {
+        angular.forEach(angular.copy(page.blocks), function(block) {
           if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
             _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
           }

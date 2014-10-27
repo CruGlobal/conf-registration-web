@@ -208,16 +208,18 @@ angular.module('confRegistrationWebApp')
 
     $scope.answerSort = function (registration) {
       if (angular.isDefined($scope.order)) {
-        if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
-          if ($scope.findAnswer(registration, $scope.order).value) { //text field
-            return $scope.findAnswer(registration, $scope.order).value;
-          } else if ($scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).length > 0) {
-            //mc
-            return $scope.getSelectedCheckboxes($scope.findAnswer(registration, $scope.order).value).join(' ');
-          } else if (typeof $scope.findAnswer(registration, $scope.order).value === 'object') { //name
-            return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
-          } else { //radio
-            return $scope.findAnswer(registration, $scope.order).value;
+        if($scope.order === 'completed'){
+          return $scope.getRegistration(registration.registrationId).completedTimestamp;
+        }else if($scope.order === 'type'){
+          return $scope.getRegistrantType(registration.registrantTypeId).name;
+        }else{
+          if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
+            var answerValue = $scope.findAnswer(registration, $scope.order).value;
+            if(_.isObject(answerValue)){
+              return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
+            }else{
+              return answerValue;
+            }
           }
         }
       } else {
@@ -354,11 +356,15 @@ angular.module('confRegistrationWebApp')
         }
       };
 
-      $modal.open(editRegistrationDialogOptions).result.then(function (result) {
-        if (angular.isDefined(result)) {
-          var index = _.findIndex($scope.registrants, { 'id': result.id });
-          $scope.registrants[index] = result;
-        }
+      $modal.open(editRegistrationDialogOptions).result.then(function (registration) {
+        //update registration
+        var index = _.findIndex($scope.registrations, { 'id': registration.id });
+        $scope.registrations[index] = registration;
+
+        //update registrant
+        r = _.find(registration.registrants, { 'id': r.id });
+        index = _.findIndex($scope.registrants, { 'id': r.id });
+        $scope.registrants[index] = r;
       });
     };
 
@@ -384,12 +390,12 @@ angular.module('confRegistrationWebApp')
        if(action === 'exportAllData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
          csvContent = U.stringifyArray(table, ',');
-         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportVisibleData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
          csvContent = U.stringifyArray(table, ',');
-         url = apiUrl + 'services/download/registrations/' + conference.name + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportPayments') {
          $scope.exportPayments();

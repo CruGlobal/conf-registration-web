@@ -48,6 +48,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
                 return currentRegistration;
@@ -272,6 +273,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
       return function (exception) {
         $delegate(exception);
+        if (_.contains(['localhost'], location.hostname)) {
+          return;
+        }
         var error = {
           type: 'Angular',
           message: exception.message,

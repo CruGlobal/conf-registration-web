@@ -6,6 +6,18 @@
   </div>
 </div>
 
+<div class="row" ng-show="!currentRegistration.completed">
+  <div class="well reg-not-complete">
+    <h3>Your registration is not complete!</h3>
+  </div>
+</div>
+<div class="row" ng-show="!currentRegistration.completed">
+  <div class="well">
+    <h4>Review Registration</h4>
+    <p>Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+  </div>
+</div>
+
 <div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
   <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
     <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
@@ -18,13 +30,13 @@
 
       <p class="registrantPrice">
         <strong ng-show="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</strong>
-        <span ng-show="r.totalDue"><br>${{r.totalDue}}</span>
+        <span ng-show="r.calculatedTotalDue"><br>{{r.calculatedTotalDue | moneyFormat}}</span>
       </p>
     </div>
 
     <dl ng-repeat="block in blocks" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-show="blockInRegType(block, r.registrantTypeId)">
       <dt>{{block.title}}</dt>
-      <dd><show-answer block="block" registrant="r"></show-answer></dd>
+      <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
     </dl>
   </div>
 </div>
@@ -36,18 +48,9 @@
   </div>
 </div>
 
-<div class="row" ng-show="!currentPayment.creditCard && !currentRegistration.completed && conference.acceptCreditCards && currentRegistration.calculatedMinimumDeposit > 0">
-  <div class="well">
-    <input type="button" class="btn btn-small pull-right btn-primary" ng-click="editPayment()" value="Enter Payment Details">
-    <p>Payment details not found.</p>
-    <p style="font-weight: bold;">Your registration is not complete until payment is made.</p>
-  </div>
-</div>
-
-<div class="row" ng-show="currentPayment.creditCard && registerMode !== 'preview'">
+<div class="row" ng-show="conference.acceptCreditCards && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
   <div class="well">
     <div ng-show="!currentRegistration.completed">
-      <input type="button" class="btn btn-small pull-right" ng-click="editPayment()" value="Edit payment details">
       <dl class="dl-horizontal">
         <dt>Payment amount</dt>
         <dd>
@@ -55,22 +58,56 @@
           <input type="radio"
                  ng-model="currentPayment.amount"
                  ng-value="currentRegistration.calculatedMinimumDeposit">
-          ${{currentRegistration.calculatedMinimumDeposit}}
+          {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
           </label><br>
           <label ng-show="currentRegistration.calculatedTotalDue !== currentRegistration.calculatedMinimumDeposit">
             <input type="radio"
                    ng-model="currentPayment.amount"
                    ng-value="currentRegistration.calculatedTotalDue">
-            ${{currentRegistration.calculatedTotalDue}}
+            {{currentRegistration.calculatedTotalDue | moneyFormat}}
           </label>
         </dd>
-
-        <dt>Card</dt>
-        <dd>****-****-****-{{currentPayment.creditCard.number.slice(-4)}}</dd>
-
-        <dt>Expiration</dt>
-        <dd>{{currentPayment.creditCard.expirationMonth}}/{{currentPayment.creditCard.expirationYear}}</dd>
       </dl>
+
+      <div ng-show="currentPayment.amount > 0">
+        <label>Name on Card</label>
+        <input type="text" ng-model="currentPayment.creditCard.nameOnCard" class="form-control" />
+
+        <label>Card Number</label>
+        <input type="text" maxlength="16" ng-model="currentPayment.creditCard.number" autocomplete="off" class="form-control" />
+
+        <div class="row">
+          <div class="col-xs-4">
+            <label>Expiration Month</label>
+            <select ng-model="currentPayment.creditCard.expirationMonth" class="form-control">
+              <option value=''>Month</option>
+              <option value='01'>01 - January</option>
+              <option value='02'>02 - February</option>
+              <option value='03'>03 - March</option>
+              <option value='04'>04 - April</option>
+              <option value='05'>05 - May</option>
+              <option value='06'>06 - June</option>
+              <option value='07'>07 - July</option>
+              <option value='08'>08 - August</option>
+              <option value='09'>09 - September</option>
+              <option value='10'>10 - October</option>
+              <option value='11'>11 - November</option>
+              <option value='12'>12 - December</option>
+            </select>
+          </div>
+          <div class="col-xs-3">
+            <label>Expiration Year</label>
+            <select ng-model="currentPayment.creditCard.expirationYear" class="form-control">
+              <option value=''>Year</option>
+              <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+            </select>
+          </div>
+          <div class="col-xs-5">
+            <label>Card CVV</label>
+            <input class="form-control" type="text" maxlength="4" ng-model="currentPayment.creditCard.cvvNumber" autocomplete="off" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <table class="table">
@@ -83,7 +120,7 @@
       <tbody>
       <tr ng-repeat="r in currentRegistration.registrants">
         <td>{{registrantName(r)}}</td>
-        <td>${{r.totalDue}}</td>
+        <td>{{r.calculatedTotalDue | moneyFormat}}</td>
       </tr>
       </tbody>
     </table>
@@ -93,15 +130,23 @@
         <table class="table pull-right" style="width:300px;">
           <tr>
             <th>Total Cost</th>
-            <td width="90">${{currentRegistration.calculatedTotalDue}}</td>
+            <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
           </tr>
-          <tr>
+          <tr ng-show="!currentRegistration.completed">
             <th>Payment</th>
-            <td>${{currentPayment.amount}}</td>
+            <td>{{currentPayment.amount | moneyFormat}}</td>
           </tr>
-          <tr>
+          <tr ng-show="currentRegistration.completed">
+            <th>Payment(s)</th>
+            <td>{{currentRegistration.totalPaid | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="!currentRegistration.completed">
             <th>Remaining Balance</th>
-            <td>${{currentRegistration.calculatedTotalDue - currentPayment.amount}}</td>
+            <td>{{(currentRegistration.calculatedTotalDue - currentPayment.amount) | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="currentRegistration.completed">
+            <th>Remaining Balance</th>
+            <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
           </tr>
         </table>
       </div>
@@ -109,10 +154,10 @@
   </div>
 </div>
 
-<div class="row" ng-hide="currentRegistration.completed || (currentRegistration.calculatedMinimumDeposit > 0 && !currentPayment.creditCard && conference.acceptCreditCards)">
+<div class="row" ng-show="!currentRegistration.completed">
   <div class="well">
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid()">
+    <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
   </div>
 </div>

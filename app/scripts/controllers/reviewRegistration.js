@@ -4,12 +4,13 @@ angular.module('confRegistrationWebApp')
   .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
-      mainClass: 'front-form',
+      mainClass: 'container front-form',
       bodyClass: 'frontend',
       title: conference.name,
       confId: conference.id,
       footer: false
     };
+    $scope.currentYear = new Date().getFullYear();
 
     if(registration.registrants.length === 0) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
@@ -20,13 +21,13 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
-    if (angular.isDefined($rootScope.currentPayment)) {
-      $rootScope.currentPayment.amount = registration.calculatedTotalDue;
-    } else {
+    if (angular.isUndefined($rootScope.currentPayment)) {
       $rootScope.currentPayment = {
-        amount: 0
+        amount: 0,
+        creditCard: {}
       };
     }
+    $rootScope.currentPayment.amount = registration.calculatedTotalDue;
 
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
@@ -43,13 +44,14 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
-      jQuery('.confirm-registration').attr('value', 'Loading...');
-      if ($rootScope.currentPayment.amount === 0) {
+      $scope.submittingRegistration = true;
+      if ($rootScope.currentPayment.amount === 0 || !conference.acceptCreditCards) {
         setRegistrationAsCompleted();
         return;
       }
 
       var currentPayment = angular.copy($rootScope.currentPayment);
+      currentPayment.paymentType = 'CREDIT_CARD';
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
 
@@ -57,21 +59,19 @@ angular.module('confRegistrationWebApp')
         setRegistrationAsCompleted();
         delete $rootScope.currentPayment;
       }).error(function () {
-          var errorModalOptions = {
-            templateUrl: 'views/modals/errorModal.html',
-            controller: 'genericModal',
-            backdrop: 'static',
-            keyboard: false,
-            resolve: {
-              data: function () {
-                return 'Your card was declined, please verify and re-enter your details or use a different card.';
-              }
+        $scope.submittingRegistration = false;
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          backdrop: 'static',
+          keyboard: false,
+          resolve: {
+            data: function () {
+              return 'Your card was declined, please verify your details or use a different card.';
             }
-          };
-          $modal.open(errorModalOptions).result.then(function () {
-            $location.path('/payment/' + conference.id);
-          });
+          }
         });
+      });
     };
 
     var setRegistrationAsCompleted = function() {
@@ -81,9 +81,11 @@ angular.module('confRegistrationWebApp')
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
         $scope.currentRegistration.completed = true;
         RegistrationCache.emptyCache();
+        $scope.submittingRegistration = false;
       }, function () {
         $scope.currentRegistration.completed = false;
         alert('An error occurred while submitting your registration.');
+        $scope.submittingRegistration = false;
       });
     };
 
@@ -94,13 +96,8 @@ angular.module('confRegistrationWebApp')
     $scope.removeRegistrant = function (id) {
       _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
       RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
-        RegistrationCache.emptyCache();
         $route.reload();
       });
-    };
-
-    $scope.editPayment = function () {
-      $location.path('/payment/' + conference.id);
     };
 
     $scope.getRegistrantType = function(id){

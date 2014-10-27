@@ -2,10 +2,11 @@
 <html ng-app="confRegistrationWebApp">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+
   <title ng-bind="generateTitle(globalPage.title)"></title>
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
 
   <!--[if lt IE 10]>
     <script type="text/javascript">
@@ -100,6 +101,7 @@
   <script src="scripts/services/ConferenceHelper.js"></script>
   <script src="scripts/services/U.js"></script>
   <script src="scripts/services/validateRegistrant.js"></script>
+  <script src="scripts/filters/moneyFormat.js"></script>
   <!-- endbuild -->
 
   <script src="//airbrake.io/javascripts/notifier.js"></script>
@@ -142,11 +144,11 @@
   <section id="pagetitle" ng-class="globalPage.class">
     <div class="container">
       <div class="row">
-        <div ng-class="{'col-xs-3': globalPage.class === 'dashboard', 'col-xs-4': globalPage.class !== 'dashboard'}">
+        <div ng-class="{'col-xs-3': !globalPage.confId, 'col-xs-4': globalPage.confId}">
           <h1 ng-bind="globalPage.title"></h1>
         </div>
-        <div ng-class="{'col-xs-6': globalPage.class === 'dashboard', 'col-xs-5': globalPage.class !== 'dashboard'}">
-          <nav id="subnav" ng-show="globalPage.mainClass !== 'dashboard'" admin-nav>
+        <div ng-class="{'col-xs-6': !globalPage.confId, 'col-xs-5': globalPage.confId}">
+          <nav id="subnav" ng-show="globalPage.confId" admin-nav>
           </nav>
         </div>
         <div class="col-xs-3 right">
@@ -201,7 +203,7 @@
   </div>
 </div>
 
-<main class="container" ng-class="globalPage.mainClass" ng-view=""></main>
+<main ng-class="globalPage.mainClass" ng-view=""></main>
 
 <footer id="pagefooter" ng-show="globalPage.footer">
   <div class="container">
