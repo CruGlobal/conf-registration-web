@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
       return nameBlock.firstName + ' ' + nameBlock.lastName;
     };
 
-    $scope.newPayment = {
+    $scope.newTransaction = {
       registrationId: registration.id,
       amount: registration.remainingBalance
     };
@@ -29,53 +29,73 @@ angular.module('confRegistrationWebApp')
       $scope.updateCostRegistration[r.id] = r.calculatedTotalDue;
     });
 
-    $scope.processPayment = function () {
-      if (_.isEmpty($scope.newPayment.paymentType)) {
-        alert('Please select a payment type.');
+    $scope.processTransaction = function () {
+      if (_.isEmpty($scope.newTransaction.paymentType)) {
+        alert('Please select a transaction type.');
         return;
       }
-      if (Number($scope.newPayment.amount) <= 0) {
-        alert('Payment amount must be a positive number.');
+      if (Number($scope.newTransaction.amount) <= 0) {
+        alert('Transaction amount must be a positive number.');
         return;
       }
 
       $scope.processing = true;
-      $scope.newPayment.readyToProcess = true;
-      $http.post('payments/', $scope.newPayment).success(function () {
+
+      var path = 'payments';
+      if($scope.newTransaction.paymentType === 'ADDITIONAL_EXPENSE') {
+        path = 'expenses';
+        delete $scope.newTransaction.paymentType;
+      } else {
+          $scope.newTransaction.readyToProcess = true;
+      }
+
+      $http.post(path, $scope.newTransaction).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           $scope.registration = data;
           $scope.processing = false;
 
-          $scope.newPayment = {
+          $scope.newTransaction = {
             registrationId: registration.id,
-            amount: data.calculatedTotalDue - data.totalPaid
+            amount: data.remainingBalance
           };
         });
 
       }).error(function () {
-        alert('Payment failed...');
+        alert('Transaction failed...');
         $scope.processing = false;
       });
     };
 
     $scope.canBeRefunded = function (payment) {
-      var sum = 0;
+      return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
+        payment.paymentType !== 'REFUND' &&
+        $scope.calculateRefundableAmount(payment) > 0;
+    };
+
+    $scope.calculateRefundableAmount = function (payment) {
+      if(angular.isUndefined(payment)) {
+        return 0;
+      }
+      var sum = payment.amount;
       _.each($scope.registration.pastPayments, function (prevRefund) {
         if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
           prevRefund.refundedPaymentId === payment.id) {
-          sum += prevRefund.amount;
+          sum -= prevRefund.amount;
         }
       });
-      return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
-        payment.paymentType !== 'REFUND' &&
-        sum < payment.amount;
+      return sum;
     };
 
-    $scope.refund = function (payment) {
-      var refund;
-      if (payment.paymentType === 'CREDIT_CARD') {
-        refund = {
-          amount: payment.amount,
+    $scope.isCreditCardPayment = function () {
+      return $scope.paymentToRefund && $scope.paymentToRefund.paymentType === 'CREDIT_CARD';
+    };
+
+    $scope.startRefund = function (payment) {
+      $scope.paymentToRefund = payment;
+
+      if ($scope.isCreditCardPayment()) {
+        $scope.refund = {
+          amount: $scope.calculateRefundableAmount(payment),
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
           paymentType: 'CREDIT_CARD_REFUND',
@@ -85,25 +105,45 @@ angular.module('confRegistrationWebApp')
           readyToProcess: true
         };
       } else {
-        refund = {
-          amount: payment.amount,
+        $scope.refund = {
+          amount: $scope.calculateRefundableAmount(payment),
           refundedPaymentId: payment.id,
           registrationId: payment.registrationId,
           paymentType: 'REFUND',
           readyToProcess: true
         };
       }
+    };
 
+    $scope.processRefund = function () {
       $scope.processing = true;
-      $http.post('payments/', refund).success(function () {
+      $http.post('payments/', $scope.refund).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
+          $scope.refund = null;
+          if(angular.isDefined($scope.newTransaction)) {
+            $scope.newTransaction.amount = data.remainingBalance;
+          }
         });
       }).error(function () {
         alert('Refund failed...');
         $scope.processing = false;
+      });
+    };
+
+    $scope.cancelRefund = function () {
+      delete $scope.refund;
+    };
+
+    $scope.removeExpense = function (expense) {
+      $http.delete('expenses/' + expense.id).success(function() {
+        $http.get('registrations/' + $scope.registration.id).success(function (data) {
+          $scope.registration = data;
+        });
+      }).error(function () {
+        alert('Error removing expense.');
       });
     };
   });
