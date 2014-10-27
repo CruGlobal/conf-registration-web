@@ -141,9 +141,9 @@ angular.module('confRegistrationWebApp')
       $http.delete('expenses/' + expense.id).success(function() {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
           $scope.registration = data;
-        })
+        });
       }).error(function () {
         alert('Error removing expense.');
-      })
-    }
+      });
+    };
   });
