@@ -115,7 +115,10 @@
                 <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
                 <td>{{expense.amount | moneyFormat}}</td>
                 <td>{{expense.description}}</td>
-                <td></td>
+                <td>
+                  <a href ng-show="!expense.removed" ng-click="removeExpense(expense)">Remove</a>
+                  <span ng-show="expense.removed">Removed</span>
+                </td>
               </tr>
             </tbody>
           </table>

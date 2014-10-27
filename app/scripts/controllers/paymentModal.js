@@ -136,4 +136,16 @@ angular.module('confRegistrationWebApp')
     $scope.cancelRefund = function () {
       delete $scope.refund;
     };
+
+    $scope.removeExpense = function (expense) {
+      expense.removed = true;
+      $http.put('expenses/' + expense.id, expense).success(function() {
+        $http.get('registrations/' + $scope.registration.id).success(function (data) {
+          $scope.registration = data;
+        })
+      }).error(function () {
+        expense.removed = false;
+        alert('Error removing expense.');
+      })
+    }
   });
