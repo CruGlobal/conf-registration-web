@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-xs-6">
+    <label>
+      <input type="checkbox" ng-model="conference.rideshareEnabled"> <strong>Enable Rideshare</strong>
+    </label>
+  </div>
+</div>
+
+
+<div class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/admin/events/239">Rideshare Admin</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="">
+          <a href="/admin/events/239/rides">Printable Report</a>
+        </li>
+        <li class="">
+          <a href="/admin/events/239/edit">Email Setup</a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Legend <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu" id="legend">
+            <li><img alt="Ad" height="20px" src="/assets/AD-fb0696a3976cc54acd65b1167c5839be.png" /> Available Driver</li>
+            <li><img alt="Ar" height="20px" src="/assets/AR-cbc84f8e766c39b4c6fef26b386f1a6b.png" /> Available Rider</li>
+            <li><img alt="Selected" height="20px" src="/assets/selected-f584a9e3b9d4bc651cf5e79efe3b0a0f.png" /> Selected Driver/Rider</li>
+            <li><img alt="Ud" height="20px" src="/assets/UD-0dcba5a61a8eb739b057817d943c31da.png" /> Driver with Full Car</li>
+            <li><img alt="Ur" height="20px" src="/assets/UR-0ec97ea38ee933e54a85f63b61281af9.png" /> Assigned Rider</li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://wiki.uscm.org/display/CG/Conference+Registration+System+Ride+Share+Tool">Help</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">1 Drivers - <span id="empty_seats">3</span> Seats Available</h3>
+          </div>
+          <div class="panel-body">
+            <p>
+              <a class="person driver" data-person-id="2614000" href="#">Adam Meyer</a>
+              (<span id="driver_2614000_empty_seats">0</span>/3)
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="unassigned_count">0</span> Unassigned Riders</h3>
+          </div>
+          <div class="panel-body" id="unassigned_riders">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">0 Non-Participants</h3>
+          </div>
+          <div class="panel-body">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><span class="assigned_count">0</span> Assigned Riders</h3>
+          </div>
+          <div class="panel-body" id="assigned_riders">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div id="event-map">
+      <div id="map-canvas"></div>
+    </div>
+  </div>
+</div>
