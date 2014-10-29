@@ -26,6 +26,11 @@ angular.module('confRegistrationWebApp')
       // header row of block titles
       var header = getBlockTitles(blocks, visibleBlockIds);
       header.push('Completed');
+      if(ConferenceHelper.hasCost(conference)) {
+        header.push('Total Due');
+        header.push('Total Paid');
+        header.push('Remaining Balance');
+      }
 
       return header;
     };
@@ -50,6 +55,12 @@ angular.module('confRegistrationWebApp')
 
           if(registration.completed){
             row.push.apply(row, ['"' + $filter('evtDateFormat')(registration.completedTimestamp, conference.eventTimezone) + '"']);
+
+            if(ConferenceHelper.hasCost(conference)){
+              row.push.apply(row, ['"' + $filter('moneyFormat')(registration.calculatedTotalDue) + '"']);
+              row.push.apply(row, ['"' + $filter('moneyFormat')(registration.totalPaid) + '"']);
+              row.push.apply(row, ['"' + $filter('moneyFormat')(registration.remainingBalance) + '"']);
+            }
           }
 
           rows.push(row);
