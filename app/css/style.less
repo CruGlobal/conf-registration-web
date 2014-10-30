@@ -178,7 +178,6 @@ section#pagetitle {
 main {
   margin: 32px 0 50px;
 }
-
 #frontfooter {
   text-align: center;
   margin-top: 40px;
@@ -254,7 +253,7 @@ main.front-form {
         margin-top: 0;
       }
     }
-    input { margin-bottom: 10px; }
+    input, select { margin-bottom: 10px; }
     .btn {
       text-transform: uppercase;
       .proximasemi;
@@ -458,6 +457,13 @@ main.form-builder {
             .btn-sm {
               opacity: 1;
             }
+          }
+        }
+        address-question {
+          display: block;
+          height: 146px;
+          .form-control{
+            margin-bottom: 6px;
           }
         }
         .col-xs-2 {
@@ -928,5 +934,12 @@ a.disabled {
     a:link, a:visited {
       color: #000;
     }
+  }
+}
+
+div[crs-block] {
+  padding-bottom: 10px;
+  .radio, .checkbox {
+    margin-top: -5px;
   }
 }
