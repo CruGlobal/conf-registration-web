@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('PaymentsViewService', function PaymentsViewService(ConferenceHelper, U) {
+  .service('PaymentsViewService', function PaymentsViewService(ConferenceHelper, U, $filter) {
 
     this.getTable = function (conference, registrations) {
       var table = [];
@@ -52,6 +52,7 @@ angular.module('confRegistrationWebApp')
           angular.forEach(registration.pastPayments, function (payment) {
             var row = [];
             row.push.apply(row, name);
+            row.push.apply(row, ['"' + $filter('moneyFormat')(payment.amount) + '"']);
             row.push('$' + U.getValue(payment.amount, '0'));
             if(payment.paymentType === 'CREDIT_CARD') {
               row.push(U.getValue('Credit Card **' + payment.creditCard.lastFourDigits));
