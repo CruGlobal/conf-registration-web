@@ -30,6 +30,7 @@ angular.module('confRegistrationWebApp')
       header.push('Payment');
       header.push('Type');
       header.push('Date');
+      header.push('Description');
 
       return header;
     };
@@ -52,8 +53,23 @@ angular.module('confRegistrationWebApp')
             var row = [];
             row.push.apply(row, name);
             row.push('$' + U.getValue(payment.amount, '0'));
-            row.push(U.getValue(payment.paymentType));
+            if(payment.paymentType == 'CREDIT_CARD') {
+              row.push(U.getValue('Credit Card **' + payment.creditCard.lastFourDigits));
+            } else if(payment.paymentType === 'CHECK') {
+              row.push(U.getValue('Check #' + payment.check.checkNumber));
+            } else if(payment.paymentType === 'SCHOLARSHIP') {
+              row.push(U.getValue('Scholarship from: ' + payment.scholarship.source));
+            } else if(payment.paymentType === 'TRANSFER') {
+              row.push(U.getValue('Transfer from: ' + payment.transfer.source));
+            } else if(payment.paymentType === 'CASH') {
+                row.push(U.getValue('Cash'));
+            } else if(payment.paymentType === 'CREDIT_CARD_REFUND') {
+              row.push(U.getValue('Credit Card Refund **' + payment.creditCard.lastFourDigits));
+            } else if(payment.paymentType === 'REFUND') {
+                row.push(U.getValue('Refund'));
+            }
             row.push(U.getDate(payment.transactionDatetime));
+            row.push(U.getValue(payment.description));
             rows.push(row);
           });
         }
@@ -62,5 +78,4 @@ angular.module('confRegistrationWebApp')
       return rows;
     };
   }
-)
-;
+);
