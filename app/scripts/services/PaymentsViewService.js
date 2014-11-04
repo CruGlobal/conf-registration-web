@@ -53,7 +53,6 @@ angular.module('confRegistrationWebApp')
             var row = [];
             row.push.apply(row, name);
             row.push.apply(row, ['"' + $filter('moneyFormat')(payment.amount) + '"']);
-            row.push('$' + U.getValue(payment.amount, '0'));
             if(payment.paymentType === 'CREDIT_CARD') {
               row.push(U.getValue('Credit Card **' + payment.creditCard.lastFourDigits));
             } else if(payment.paymentType === 'CHECK') {
