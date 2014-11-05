@@ -94,7 +94,11 @@ angular.module('confRegistrationWebApp')
           expirationMonth: $scope.creditCardExpirationMonth,
           expirationYear:  $scope.creditCardExpirationYear,
           number: $scope.creditCardNumber,
-          cvvNumber: $scope.creditCardCVVNumber
+          cvvNumber: $scope.creditCardCVVNumber,
+          billingAddress: $scope.creditCardBillingAddress,
+          bililngCity: $scope.creditCardBillingCity,
+          billingState: $scope.creditCardBillingState,
+          billingZip: $scope.creditCardBillingZip
         }
       };
 
