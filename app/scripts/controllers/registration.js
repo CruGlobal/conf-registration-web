@@ -43,6 +43,14 @@ angular.module('confRegistrationWebApp')
       });
     }
 
+    //add rideshare if applicable
+    if(conference.rideshareEnabled){
+      $scope.conference.registrationPages.push({
+        id: 'rideshare',
+        title: 'Rideshare'
+      });
+    }
+
     function getPageById(pageId) {
       var pages = conference.registrationPages;
 
@@ -56,7 +64,7 @@ angular.module('confRegistrationWebApp')
     var pageId = $routeParams.pageId;
     $scope.activePageId = pageId || '';
     $scope.page = getPageById(pageId);
-    $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
+    $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
 
     function getPageAfterById(pageId) {
       var pages = $scope.conference.registrationPages;

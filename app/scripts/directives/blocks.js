@@ -110,3 +110,86 @@ angular.module('confRegistrationWebApp')
       restrict: 'E'
     };
   });
+
+angular.module('confRegistrationWebApp')
+  .directive('rideshareQuestions', function () {
+    return {
+      templateUrl: 'views/blocks/rideshareQuestions.html',
+      restrict: 'E',
+      controller: function($scope, $http){
+        console.log($scope.$parent.$parent);
+        var activePageId = $scope.$parent.$parent.activePageId;
+        if(activePageId !== 'rideshare'){
+          return;
+        }
+
+        var currentRegistrant = $scope.$parent.$parent.currentRegistrant;
+        var defaultDepartTime = moment($scope.$parent.$parent.conference.eventStartTime).minute(0).subtract(2, 'hours');
+        $http.get('registrants/' + currentRegistrant + '/rideshare').
+          success(function(data) {
+            if(_.isNull(data.departTime)){
+              data.departTime = defaultDepartTime;
+            }
+            $scope.rideshare = data;
+          }).
+          error(function(data, status) {
+            if(status === 404){
+              //create rideshare entry
+              $http.post('registrants/' + currentRegistrant + '/rideshare', {
+                conferenceId: $scope.$parent.$parent.conference.id,
+                personId: currentRegistrant
+              }, function(data){
+                data.departTime = defaultDepartTime;
+                $scope.rideshare = data;
+              });
+            }
+          });
+
+        $scope.$watch('rideshare', function(newValue, oldValue) {
+          if (newValue === oldValue) {
+            return;
+          }
+          var address1 = $scope.rideshare.address1;
+          var city = $scope.rideshare.city;
+          var state = $scope.rideshare.state;
+
+          if(address1 && city && state){
+            updateAddress(address1, city, state);
+          }
+
+          if(angular.isUndefined(oldValue)){
+            return;
+          }
+          var putData = angular.copy($scope.rideshare);
+          putData.departTime = moment(putData.departTime).format('YYYY-MM-DD HH:mm:ss');
+          $http.put('rideshare/' + newValue.id, putData);
+        }, true);
+
+        var updateAddress = function(address1, city, state){
+          var geocoder = new google.maps.Geocoder();
+          var geocoderRequest = { address: address1 + ' ' + city + ', ' + state };
+          geocoder.geocode(geocoderRequest, function(results){
+            var location = {
+              lat:  _.first(results).geometry.location.lat(),
+              lng:  _.first(results).geometry.location.lng()
+            };
+            $scope.map = {
+              id: 0,
+              coords: {
+                latitude: location.lat,
+                longitude: location.lng
+              },
+              zoom: 14,
+              center: {
+                latitude: location.lat,
+                longitude: location.lng
+              }
+            };
+            $scope.rideshare.latitude = Number(location.lat.toFixed(6));
+            $scope.rideshare.longitude = Number(location.lng.toFixed(6));
+            $scope.$digest();
+          });
+        };
+      }
+    };
+  });

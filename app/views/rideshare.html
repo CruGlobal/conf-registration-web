@@ -1,38 +1,29 @@
-<div class="row">
-  <div class="col-xs-6">
-    <label>
-      <input type="checkbox" ng-model="conference.rideshareEnabled"> <strong>Enable Rideshare</strong>
-    </label>
-  </div>
-</div>
-
-
 <div class="navbar navbar-default" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/admin/events/239">Rideshare Admin</a>
+      <a class="navbar-brand">Rideshare Admin</a>
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="">
-          <a href="/admin/events/239/rides">Printable Report</a>
+          <a href="#/rideshare/{{conference.id}}/report" target="_blank">Printable Report</a>
         </li>
         <li class="">
-          <a href="/admin/events/239/edit">Email Setup</a>
+          <a href="">Email Setup</a>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Legend <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu" id="legend">
-            <li><img alt="Ad" height="20px" src="/assets/AD-fb0696a3976cc54acd65b1167c5839be.png" /> Available Driver</li>
-            <li><img alt="Ar" height="20px" src="/assets/AR-cbc84f8e766c39b4c6fef26b386f1a6b.png" /> Available Rider</li>
-            <li><img alt="Selected" height="20px" src="/assets/selected-f584a9e3b9d4bc651cf5e79efe3b0a0f.png" /> Selected Driver/Rider</li>
-            <li><img alt="Ud" height="20px" src="/assets/UD-0dcba5a61a8eb739b057817d943c31da.png" /> Driver with Full Car</li>
-            <li><img alt="Ur" height="20px" src="/assets/UR-0ec97ea38ee933e54a85f63b61281af9.png" /> Assigned Rider</li>
+            <li><img height="20px" src="/img/rideshare/AD.png" /> Available Driver</li>
+            <li><img height="20px" src="/img/rideshare/AR.png" /> Available Rider</li>
+            <li><img height="20px" src="/img/rideshare/selected.png" /> Selected Driver/Rider</li>
+            <li><img height="20px" src="/img/rideshare/UD.png" /> Driver with Full Car</li>
+            <li><img height="20px" src="/img/rideshare/UR.png" /> Assigned Rider</li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="http://wiki.uscm.org/display/CG/Conference+Registration+System+Ride+Share+Tool">Help</a></li>
+        <li><a href="http://wiki.uscm.org/display/CG/Conference+Registration+System+Ride+Share+Tool" target="_blank">Help</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>
@@ -43,12 +34,13 @@
       <div class="col-md-6">
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">1 Drivers - <span id="empty_seats">3</span> Seats Available</h3>
+            <h3 class="panel-title">{{drivers().length}} Driver(s) - {{countAssignedRiders()}} Seats Available</h3>
           </div>
           <div class="panel-body">
-            <p>
-              <a class="person driver" data-person-id="2614000" href="#">Adam Meyer</a>
-              (<span id="driver_2614000_empty_seats">0</span>/3)
+            <p ng-repeat="p in drivers()">
+              <i class="fa fa-arrow-right" ng-show="selectedDriver === p.id"></i>
+              <a href="" ng-click="selectDriver(p)">{{registrantName(p.personId)}}</a>
+              ({{countAssignedRiders(p.id)}}/{{p.numberPassengers}})
             </p>
           </div>
         </div>
@@ -56,9 +48,12 @@
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><span class="unassigned_count">0</span> Unassigned Riders</h3>
+            <h3 class="panel-title">{{ridersUnassigned().length}} Unassigned Riders</h3>
           </div>
-          <div class="panel-body" id="unassigned_riders">
+          <div class="panel-body">
+            <p ng-repeat="p in ridersUnassigned()">
+              <a href="" ng-click="selectRider(p)">{{registrantName(p.personId)}}</a>
+            </p>
           </div>
         </div>
       </div>
@@ -70,23 +65,48 @@
             <h3 class="panel-title">0 Non-Participants</h3>
           </div>
           <div class="panel-body">
+            <p ng-repeat="p in nonParticipants()">
+              <a href="" ng-click="selectRider(p)">{{registrantName(p.personId)}}</a>
+            </p>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title"><span class="assigned_count">0</span> Assigned Riders</h3>
+            <h3 class="panel-title">{{ridersAssigned().length}} Assigned Riders</h3>
           </div>
-          <div class="panel-body" id="assigned_riders">
+          <div class="panel-body">
+            <p ng-repeat="p in ridersAssigned()">
+              <i class="fa fa-arrow-right" ng-show="selectedDriver === p.driverRideId"></i>
+              <a href="" ng-click="selectRider(p)">{{registrantName(p.personId)}}</a>
+            </p>
           </div>
         </div>
       </div>
     </div>
   </div>
   <div class="col-md-6">
-    <div id="event-map">
-      <div id="map-canvas"></div>
-    </div>
+    <ui-gmap-google-map center="map.center" zoom="map.zoom">
+      <ui-gmap-marker coords="p" idkey="p.id" icon="markerIcon(p)" ng-repeat="p in participants | filter:{ driveWillingness: '!na' }">
+        <ui-gmap-window options="windowOptions" show="false">
+          <div>
+            <strong>{{registrantName(p.personId)}}</strong>
+            <p>{{p.address1}} {{p.address2}}<br>
+            {{p.city}}, {{p.state}} {{p.zip}}</p>
+            <p><strong>Departure Time:</strong> {{formatTime(p.departTime)}}<br>
+            <strong>Special Info:</strong> {{p.specialInfo}}</p>
+            <div ng-show="$parent.p.driveWillingness === 'ride'">
+              <p><a href="" ng-click="$parent.assignRider($parent.p)" ng-show="$parent.selectedDriver && !$parent.p.driverRideId">Add to car</a></p>
+              <p><a href="" ng-click="$parent.unassignRider($parent.p)" ng-show="$parent.p.driverRideId">Remove from car</a></p>
+            </div>
+
+            <div ng-show="$parent.p.driveWillingness === 'drive'">
+              <p><a href="" ng-click="$parent.selectDriver($parent.p)" ng-show="$parent.selectedDriver !== $parent.p.id">Select Driver</a></p>
+            </div>
+          </div>
+        </ui-gmap-window>
+      </ui-gmap-marker>
+    </ui-gmap-google-map>
   </div>
 </div>

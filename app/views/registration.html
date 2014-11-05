@@ -55,7 +55,7 @@
     <div class="col-xs-12">
       <ul class="nav nav-pills">
         <li ng-repeat="page in conference.registrationPages" ng-class="{'active': $index === activePageIndex}">
-          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" ng-class="{dfisabled: $index > activePageIndex && !registrationComplete}">
+          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}">
             <span class="circle">{{$index+1}}</span>
             <span ng-bind="page.title"></span>
           </a>

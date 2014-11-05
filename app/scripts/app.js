@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'google-maps'.ns()])
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {
@@ -138,10 +138,29 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         }
       })
       .when('/rideshare/:conferenceId', {
-        template: '<ng-include src="templateUrl"></ng-include>',
+        template: '<ng-include src="templateUrl"></ng-include><div ng-if="!templateUrl">Rideshare is not enabled for this event. Enable Rideshare under <a ng-href="#/eventDetails/{{conference.id}}">Event Details</a>.</div>',
         controller: 'RideshareCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+          }],
+          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId);
+          }],
+          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+            return PermissionCache.getForConference($route.current.params.conferenceId);
+          }]
+        }
+      })
+      .when('/rideshare/:conferenceId/report', {
+        templateUrl: 'views/rideshareReport.html',
+        controller: 'RideshareReportCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth'),
+          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+          }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],

@@ -28,6 +28,7 @@
     "alert": false,
     "jQuery": false,
     "moment": false,
-    "Hoptoad": false
+    "Hoptoad": false,
+    "google": false
   }
 }

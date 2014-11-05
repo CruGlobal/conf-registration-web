@@ -33,3 +33,9 @@
   <input type="checkbox" id="allowEditRegistrationAfterComplete" ng-value="true" ng-model="conference.allowEditRegistrationAfterComplete">
   <label for="allowEditRegistrationAfterComplete">Allow registrants to edit their answers after registration is complete</label>
 </div>
+
+<div class="full">
+  <input type="checkbox" id="rideshareEnabled" ng-model="conference.rideshareEnabled">
+  <label for="rideshareEnabled">Enable Rideshare</label>
+  <p class="text-muted"><i class="fa fa-info-circle"></i> Rideshare is a tool that enables registrants to organize and request rides to your event.<br>You can manage drivers and riders in the <a ng-href="#/rideshare/{{conference.id}}">Rideshare Admin</a>.</p>
+</div>

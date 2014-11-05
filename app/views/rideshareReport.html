@@ -1,0 +1,31 @@
+<div ng-repeat="p in participants | filter:{ driveWillingness: 'drive' }" ng-show="riders(p.id).length">
+  <table class="table">
+    <thead>
+      <tr>
+        <th colspan="6"><h2>{{registrantName(p.personId)}}</h2></th>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Contact Method</th>
+        <th>Departure Time</th>
+      </tr>
+    </thead>
+    <tbody ng-repeat="r in riders(p.id)">
+      <tr>
+        <td>{{registrantName(r.personId)}}</td>
+        <td>{{r.address1}} {{r.address2}}<br />{{r.city}}, {{r.stage}} {{r.zip}}</td>
+        <td>{{r.email}}</td>
+        <td>{{r.phone}}</td>
+        <td>{{r.contactMethod}}</td>
+        <td>{{formatTime(r.departTime)}}</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="rideshare-special"><strong>Special Info:</strong> Honk loudly when you arrive as I am hard of hearing. Also don&#39;t mind the dog. He usually does not bite Christians. (If you are unsure of your salvation then you might worry a little)</td>
+      </tr>
+    </tbody>
+  </table>
+  <hr>
+</div>

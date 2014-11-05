@@ -23,6 +23,7 @@
     <form name="pageForm">
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
+      <rideshare-questions ng-if="page.id === 'rideshare'"></rideshare-questions>
       <br>
       <button class="btn btn-success btn-lg eighty"
               type="submit"
