@@ -73,6 +73,19 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      if (!$scope.creditCardBillingAddress || !$scope.creditCardBillingCity || !$scope.creditCardBillingState || !$scope.creditCardBillingZip) {
+        errorModalOptions = {
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'Please enter card billing details.';
+            }
+          }
+        };
+          $modal.open(errorModalOptions);
+          return;
+        }
       $rootScope.currentPayment = {
         amount: $scope.amount,
         paymentType: 'CREDIT_CARD',
