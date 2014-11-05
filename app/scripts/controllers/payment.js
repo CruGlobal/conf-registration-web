@@ -73,6 +73,19 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      if (!$scope.creditCardBillingAddress || !$scope.creditCardBillingCity || !$scope.creditCardBillingState || !$scope.creditCardBillingZip) {
+        errorModalOptions = {
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'Please enter card billing details.';
+            }
+          }
+        };
+          $modal.open(errorModalOptions);
+          return;
+        }
       $rootScope.currentPayment = {
         amount: $scope.amount,
         paymentType: 'CREDIT_CARD',
@@ -81,7 +94,11 @@ angular.module('confRegistrationWebApp')
           expirationMonth: $scope.creditCardExpirationMonth,
           expirationYear:  $scope.creditCardExpirationYear,
           number: $scope.creditCardNumber,
-          cvvNumber: $scope.creditCardCVVNumber
+          cvvNumber: $scope.creditCardCVVNumber,
+          billingAddress: $scope.creditCardBillingAddress,
+          billingCity: $scope.creditCardBillingCity,
+          billingState: $scope.creditCardBillingState,
+          billingZip: $scope.creditCardBillingZip
         }
       };
 
