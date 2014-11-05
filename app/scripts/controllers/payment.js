@@ -96,7 +96,7 @@ angular.module('confRegistrationWebApp')
           number: $scope.creditCardNumber,
           cvvNumber: $scope.creditCardCVVNumber,
           billingAddress: $scope.creditCardBillingAddress,
-          bililngCity: $scope.creditCardBillingCity,
+          billingCity: $scope.creditCardBillingCity,
           billingState: $scope.creditCardBillingState,
           billingZip: $scope.creditCardBillingZip
         }
