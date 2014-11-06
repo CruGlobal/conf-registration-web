@@ -42,6 +42,9 @@ angular.module('confRegistrationWebApp')
         if(!$scope.currentPayment.creditCard.number){
           errorMsg = 'Please enter your card number.';
         }
+        if(!$scope.currentPayment.creditCard.cvvNumber){
+          errorMsg = 'Please enter card cvv.';
+        }
         if(!$scope.currentPayment.creditCard.expirationMonth || !$scope.currentPayment.creditCard.expirationYear){
           errorMsg = 'Please enter card expiration date.';
         }
