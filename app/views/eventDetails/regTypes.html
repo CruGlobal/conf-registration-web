@@ -58,7 +58,7 @@
       </div>
     </div>
 
-    <div class="row" ng-show="conference.requireLogin && conference.acceptCreditCards">
+    <div class="row" ng-show="conference.requireLogin && anyPaymentMethodAccepted()">
       <div class="col-xs-5">
         <label>Minimum Payment to Register:</label>
         <div class="input-group">
@@ -69,11 +69,11 @@
       </div>
     </div>
 
-    <div class="row" ng-show="!conference.requireLogin || !conference.acceptCreditCards">
+    <div class="row" ng-show="!conference.requireLogin || !anyPaymentMethodAccepted()">
       <div class="col-xs-12">
         <label>Minimum Payment to Register:</label>
         <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments.  Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
-        <p class="text-muted" ng-show="!conference.acceptCreditCards"><i class="fa fa-info-circle"></i> You must accept credit card payments in order to use this option.  Setup credit card payments under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
+        <p class="text-muted" ng-show="!conference.acceptCreditCards"><i class="fa fa-info-circle"></i> You must accept an online payment method in order to use this option.  Setup payment methods under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
       </div>
     </div>
   </div>

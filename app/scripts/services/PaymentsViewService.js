@@ -29,6 +29,7 @@ angular.module('confRegistrationWebApp')
       header.push('Last');
       header.push('Payment');
       header.push('Type');
+      header.push('Source');
       header.push('Date');
       header.push('Description');
 
@@ -58,15 +59,22 @@ angular.module('confRegistrationWebApp')
             } else if(payment.paymentType === 'CHECK') {
               row.push(U.getValue('Check #' + payment.check.checkNumber));
             } else if(payment.paymentType === 'SCHOLARSHIP') {
-              row.push(U.getValue('Scholarship from: ' + payment.scholarship.source));
+              row.push(U.getValue('Scholarship'));
             } else if(payment.paymentType === 'TRANSFER') {
-              row.push(U.getValue('Transfer from: ' + payment.transfer.source));
+              row.push(U.getValue('Account Transfer'));
             } else if(payment.paymentType === 'CASH') {
                 row.push(U.getValue('Cash'));
             } else if(payment.paymentType === 'CREDIT_CARD_REFUND') {
               row.push(U.getValue('Credit Card Refund **' + payment.creditCard.lastFourDigits));
             } else if(payment.paymentType === 'REFUND') {
                 row.push(U.getValue('Refund'));
+            }
+            if(payment.paymentType === 'SCHOLARSHIP') {
+              row.push(U.getValue(payment.scholarship.source));
+            } else if(payment.paymentType === 'TRANSFER') {
+              row.push(U.getValue(payment.transfer.source));
+            } else {
+              row.push(U.getValue(' '));
             }
             row.push(U.getDate(payment.transactionDatetime));
             row.push(U.getValue(payment.description));
