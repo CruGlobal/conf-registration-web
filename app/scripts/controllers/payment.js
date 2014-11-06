@@ -11,122 +11,82 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    $scope.currentYear = new Date().getFullYear();
-
-    if (registration.completed) {
-      $scope.paymentButtonValue = 'Process Payment';
-      $scope.amount = registration.remainingBalance;
-    } else {
-      $scope.paymentButtonValue = 'Continue';
+    var paymentType;
+    if(conference.acceptCreditCards){
+      paymentType = 'CREDIT_CARD';
+    }else if(conference.acceptTransfers){
+      paymentType = 'TRANSFER';
     }
 
+    $scope.currentPayment = {
+      amount: registration.remainingBalance,
+      paymentType: paymentType,
+      creditCard: {},
+      transfer: {}
+    };
+
+    $scope.paymentButtonValue = 'Process Payment';
     $scope.currentRegistration = registration;
     $scope.conference = conference;
 
     $scope.cancel = function(){
-      if (registration.completed) {
-        $location.path('/register/' + conference.id);
-      } else {
-        $location.path('/reviewRegistration/' + conference.id);
-      }
+      $location.path('/register/' + conference.id);
     };
 
     $scope.createPayment = function () {
-      var errorModalOptions = {};
-      if (!$scope.creditCardNameOnCard) {
-        errorModalOptions = {
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please enter the name on your card.';
-            }
-          }
-        };
-        $modal.open(errorModalOptions);
-        return;
-      }
-      if (!$scope.creditCardNumber) {
-        errorModalOptions = {
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please enter your card number.';
-            }
-          }
-        };
-        $modal.open(errorModalOptions);
-        return;
-      }
-      if (!$scope.creditCardExpirationMonth || !$scope.creditCardExpirationYear) {
-        errorModalOptions = {
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please enter card expiration date.';
-            }
-          }
-        };
-        $modal.open(errorModalOptions);
-        return;
-      }
-
-      if (!$scope.creditCardBillingAddress || !$scope.creditCardBillingCity || !$scope.creditCardBillingState || !$scope.creditCardBillingZip) {
-        errorModalOptions = {
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please enter card billing details.';
-            }
-          }
-        };
-          $modal.open(errorModalOptions);
-          return;
+      var errorMsg;
+      if($scope.currentPayment.paymentType === 'CREDIT_CARD'){
+        if(!$scope.currentPayment.creditCard.billingAddress || !$scope.currentPayment.creditCard.billingCity || !$scope.currentPayment.creditCard.billingZip){
+          errorMsg = 'Please enter card billing details.';
         }
-      $rootScope.currentPayment = {
-        amount: $scope.amount,
-        paymentType: 'CREDIT_CARD',
-        creditCard: {
-          nameOnCard: $scope.creditCardNameOnCard,
-          expirationMonth: $scope.creditCardExpirationMonth,
-          expirationYear:  $scope.creditCardExpirationYear,
-          number: $scope.creditCardNumber,
-          cvvNumber: $scope.creditCardCVVNumber,
-          billingAddress: $scope.creditCardBillingAddress,
-          billingCity: $scope.creditCardBillingCity,
-          billingState: $scope.creditCardBillingState,
-          billingZip: $scope.creditCardBillingZip
+        if(!$scope.currentPayment.creditCard.number){
+          errorMsg = 'Please enter your card number.';
         }
-      };
-
-      if (registration.completed) {
-        var currentPayment = angular.copy($rootScope.currentPayment);
-        currentPayment.readyToProcess = true;
-        currentPayment.registrationId =  registration.id;
-
-        $http.post('payments/', currentPayment).success(function () {
-          RegistrationCache.emptyCache();
-          delete $rootScope.currentPayment;
-          $location.path('/register/' + conference.id);
-        }).error(function () {
-            var errorModalOptions = {
-              templateUrl: 'views/modals/errorModal.html',
-              controller: 'genericModal',
-              backdrop: 'static',
-              keyboard: false,
-              resolve: {
-                data: function () {
-                  return 'Your card was declined, please verify and re-enter your details or use a different card.';
-                }
-              }
-            };
-            $modal.open(errorModalOptions);
-          });
-      } else {
-        $location.path('/reviewRegistration/' + conference.id);
+        if(!$scope.currentPayment.creditCard.expirationMonth || !$scope.currentPayment.creditCard.expirationYear){
+          errorMsg = 'Please enter card expiration date.';
+        }
+        if(!$scope.currentPayment.creditCard.nameOnCard){
+          errorMsg = 'Please enter the name on your card.';
+        }
+      }else if($scope.currentPayment.paymentType === 'TRANSFER'){
+        if(!$scope.currentPayment.transfer.source){
+          errorMsg = 'Please enter a Chart Field or Account Number.';
+        }
       }
+
+
+      if (errorMsg) {
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return errorMsg;
+            }
+          }
+        });
+        return;
+      }
+      $scope.paymentButtonValue = 'Processing...';
+      var currentPayment = angular.copy($scope.currentPayment);
+      currentPayment.readyToProcess = true;
+      currentPayment.registrationId =  registration.id;
+
+      $http.post('payments/', currentPayment).success(function () {
+        RegistrationCache.emptyCache();
+        $location.path('/register/' + conference.id);
+      }).error(function () {
+        $scope.paymentButtonValue = 'Process Payment';
+        var errorModalOptions = {
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'Your payment was declined, please verify and re-enter your details.';
+            }
+          }
+        };
+        $modal.open(errorModalOptions);
+      });
     };
   });

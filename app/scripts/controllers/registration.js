@@ -114,4 +114,8 @@ angular.module('confRegistrationWebApp')
       var invalidBlocks = validateRegistrant.validate(conference, _.find(currentRegistration.registrants, { 'id': registrantId }));
       return (invalidBlocks.length === 0);
     };
+
+    $scope.anyPaymentMethodAccepted = function(){
+      return conference.acceptCreditCards || conference.acceptTransfers;
+    };
   });
