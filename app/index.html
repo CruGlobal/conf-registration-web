@@ -20,9 +20,9 @@
   <!-- End jQuery -->
 
   <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-route.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
   <!-- End AngularJS -->
 
   <!-- Bootstrap -->
@@ -113,7 +113,7 @@
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
 
-<div ng-show="globalPage.type === 'admin'">
+<div ng-if="globalPage.type === 'admin'">
   <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
     <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
@@ -159,7 +159,7 @@
   </section>
 </div>
 
-<div ng-show="globalPage.type === 'landing'">
+<div ng-if="globalPage.type === 'landing'">
   <header id="masthead">
     <div class="container">
       <div class="row">
@@ -175,7 +175,7 @@
   </header>
 </div>
 
-<div ng-show="globalPage.type === 'registration'">
+<div ng-if="globalPage.type === 'registration'">
   <header id="frontheader">
   </header>
   <section id="frontpagetitle">
@@ -205,7 +205,7 @@
 
 <main ng-class="globalPage.mainClass" ng-view=""></main>
 
-<footer id="pagefooter" ng-show="globalPage.footer">
+<footer id="pagefooter" ng-if="globalPage.footer">
   <div class="container">
     <div class="row">
       <div class="col-xs-8">
@@ -222,7 +222,7 @@
   </div>
 </footer>
 
-<footer id="frontfooter" ng-show="globalPage.type === 'registration'">
+<footer id="frontfooter" ng-if="globalPage.type === 'registration'">
   <div class="container">
     <span>&copy; 2014 | Created with Event Registration Tool, powered by <a href="http://www.cru.org" target="_blank">Cru</a></span>
   </div>
