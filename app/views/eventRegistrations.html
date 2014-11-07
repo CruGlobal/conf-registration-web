@@ -88,7 +88,14 @@
         <show-answer block="block" registrant="r"></show-answer>
       </td>
       <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
-      <td class="tablecenter" ng-click="expandRegistration(r.id)">{{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}</td>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)">
+        <span ng-show="getRegistration(r.registrationId).completed">
+          {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
+        </span>
+        <span ng-show="!getRegistration(r.registrationId).completed">
+          -
+        </span>
+      </td>
       <td ng-show="eventHasCost()" class="tablecenter">
         <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
         <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
