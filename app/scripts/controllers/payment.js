@@ -16,13 +16,16 @@ angular.module('confRegistrationWebApp')
       paymentType = 'CREDIT_CARD';
     }else if(conference.acceptTransfers){
       paymentType = 'TRANSFER';
+    }else if(conference.acceptScholarships){
+      paymentType = 'SCHOLARSHIP';
     }
 
     $scope.currentPayment = {
       amount: registration.remainingBalance,
       paymentType: paymentType,
       creditCard: {},
-      transfer: {}
+      transfer: {},
+      scholarship: {}
     };
 
     $scope.paymentButtonValue = 'Process Payment';
@@ -34,42 +37,19 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.createPayment = function () {
-      var errorMsg;
-      if($scope.currentPayment.paymentType === 'CREDIT_CARD'){
-        if(!$scope.currentPayment.creditCard.billingAddress || !$scope.currentPayment.creditCard.billingCity || !$scope.currentPayment.creditCard.billingZip){
-          errorMsg = 'Please enter card billing details.';
-        }
-        if(!$scope.currentPayment.creditCard.number){
-          errorMsg = 'Please enter your card number.';
-        }
-        if(!$scope.currentPayment.creditCard.cvvNumber){
-          errorMsg = 'Please enter card cvv.';
-        }
-        if(!$scope.currentPayment.creditCard.expirationMonth || !$scope.currentPayment.creditCard.expirationYear){
-          errorMsg = 'Please enter card expiration date.';
-        }
-        if(!$scope.currentPayment.creditCard.nameOnCard){
-          errorMsg = 'Please enter the name on your card.';
-        }
-      }else if($scope.currentPayment.paymentType === 'TRANSFER'){
-        if(!$scope.currentPayment.transfer.source){
-          errorMsg = 'Please enter a Chart Field or Account Number.';
-        }
-      }
-
-
-      if (errorMsg) {
+      if ($scope.currentPayment.errors) {
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return errorMsg;
+              return $scope.currentPayment.errors;
             }
           }
         });
         return;
       }
+
       $scope.paymentButtonValue = 'Processing...';
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;

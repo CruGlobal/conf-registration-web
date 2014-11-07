@@ -7,7 +7,7 @@
         <dd>{{currentPayment.amount | moneyFormat}}</dd>
       </dl>
 
-      <div ng-show="currentPayment.amount > 0" ert-payment>
+      <div ng-show="currentPayment.amount > 0" ert-payment payment="currentPayment">
       </div>
 
       <button class="btn btn-success btn-lg eighty"

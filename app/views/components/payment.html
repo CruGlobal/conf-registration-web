@@ -7,14 +7,23 @@
              ng-value="'CREDIT_CARD'">
       Credit Card
     </label>
+
     <label ng-show="conference.acceptTransfers">
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'TRANSFER'">
       Account Transfer
     </label>
+
+    <label ng-show="conference.acceptScholarships">
+      <input type="radio"
+             ng-model="currentPayment.paymentType"
+             ng-value="'SCHOLARSHIP'">
+      Scholarship
+    </label>
   </dd>
 </dl>
 
 <ng-include src="paymentMethodsViews.CREDIT_CARD" ng-if="currentPayment.paymentType === 'CREDIT_CARD'"></ng-include>
 <ng-include src="paymentMethodsViews.TRANSFER" ng-if="currentPayment.paymentType === 'TRANSFER'"></ng-include>
+<ng-include src="paymentMethodsViews.SCHOLARSHIP" ng-if="currentPayment.paymentType === 'SCHOLARSHIP'"></ng-include>
