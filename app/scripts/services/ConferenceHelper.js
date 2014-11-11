@@ -45,7 +45,7 @@ angular.module('confRegistrationWebApp')
         content.push(window.S(U.getValue(value.lastName)).capitalize());
       }
       else if (angular.equals(type, 'checkboxQuestion')) {
-        content.push(U.joiner(U.getValue(U.getKeysWhere(value, true)), ' '));
+        content.push(U.joiner(U.getValue(U.stringifyArray(U.getKeysWhere(value, true), '; '), ' ')));
       }
       else if (angular.equals(type, 'addressQuestion')) {
         content.push(U.getValue(value.address1));
