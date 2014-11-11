@@ -351,6 +351,9 @@ angular.module('confRegistrationWebApp')
           registrant: function () {
             return r;
           },
+          registration: function () {
+            return $scope.getRegistration(r.registrationId);
+          },
           conference: function () {
             return conference;
           }

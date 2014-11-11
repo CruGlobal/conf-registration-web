@@ -1,17 +1,18 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, registrant, conference) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, conference, registrant, registration) {
     $scope.conference = conference;
     $scope.adminEditRegistration = angular.copy(registrant);
+    $scope.registration = angular.copy(registration);
     $scope.saving = false;
     var answersToUpdate = [];
 
     $scope.close = function () {
-      $modalInstance.close();
+      $modalInstance.dismiss();
     };
 
-    $scope.submit = function () {
+    $scope.submit = function (setRegistrationAsCompleted) {
       $scope.saving = true;
 
       angular.forEach($scope.adminEditRegistration.answers, function(a){
@@ -20,7 +21,19 @@ angular.module('confRegistrationWebApp')
         }
       });
 
-      saveAnswer();
+      if(setRegistrationAsCompleted){
+        var r = confirm('Are you sure you want to mark this registration as completed?');
+        if (!r) {
+          $scope.saving = false;
+          return;
+        }
+        $scope.registration.completed = true;
+        $http.put('registrations/' + registrant.registrationId, $scope.registration).success(function(){
+          saveAnswer();
+        });
+      }else{
+        saveAnswer();
+      }
     };
 
     var saveAnswer = function(){
