@@ -26,6 +26,13 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }]
         }
       })
+      .when('/approvePayment/:paymentHash', {
+        templateUrl: 'views/paymentApproval.html',
+        controller: 'PaymentApprovalCtrl',
+        resolve: {
+          enforceAuth: $injector.get('enforceAuth')
+        }
+      })
       .when('/payment/:conferenceId', {
         templateUrl: 'views/payment.html',
         controller: 'paymentCtrl',
