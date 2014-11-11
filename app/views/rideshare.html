@@ -11,12 +11,12 @@
         <li class="">
           <a href="">Email Setup</a>
         </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Legend <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu" id="legend">
+        <li>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown">Legend <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
             <li><img height="20px" src="/img/rideshare/AD.png" /> Available Driver</li>
             <li><img height="20px" src="/img/rideshare/AR.png" /> Available Rider</li>
-            <li><img height="20px" src="/img/rideshare/selected.png" /> Selected Driver/Rider</li>
+            <li><img height="20px" src="/img/rideshare/selected.png" /> Selected Driver</li>
             <li><img height="20px" src="/img/rideshare/UD.png" /> Driver with Full Car</li>
             <li><img height="20px" src="/img/rideshare/UR.png" /> Assigned Rider</li>
           </ul>
@@ -34,11 +34,12 @@
       <div class="col-md-6">
         <div class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">{{drivers().length}} Driver(s) - {{countAssignedRiders()}} Seats Available</h3>
+            <h3 class="panel-title">{{drivers().length}} Driver(s) - {{countAssignedRiders()}} Seat(s) Available</h3>
           </div>
           <div class="panel-body">
-            <p ng-repeat="p in drivers()">
+            <p ng-repeat="p in drivers() | orderBy: registrantName(p.personId)">
               <i class="fa fa-arrow-right" ng-show="selectedDriver === p.id"></i>
+              <i class="fa fa-check" ng-show="p.numberPassengers === countAssignedRiders(p.id)" title="Driver's car is full"></i>
               <a href="" ng-click="selectDriver(p)">{{registrantName(p.personId)}}</a>
               ({{countAssignedRiders(p.id)}}/{{p.numberPassengers}})
             </p>
@@ -48,7 +49,7 @@
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ridersUnassigned().length}} Unassigned Riders</h3>
+            <h3 class="panel-title">{{ridersUnassigned().length}} Unassigned Rider(s)</h3>
           </div>
           <div class="panel-body">
             <p ng-repeat="p in ridersUnassigned()">
@@ -74,7 +75,7 @@
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="panel-title">{{ridersAssigned().length}} Assigned Riders</h3>
+            <h3 class="panel-title">{{ridersAssigned().length}} Assigned Rider(s)</h3>
           </div>
           <div class="panel-body">
             <p ng-repeat="p in ridersAssigned()">

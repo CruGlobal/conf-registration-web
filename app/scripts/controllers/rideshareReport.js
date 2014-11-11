@@ -11,6 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
+    $scope.currentDate = new Date();
     $scope.conference = conference;
     $http.get('conferences/' + conference.id + '/rideshare').success(function (data) {
       //remove participants with uncompleted registrations
@@ -33,23 +34,17 @@ angular.module('confRegistrationWebApp')
       return _.filter($scope.participants, { 'driveWillingness': 'ride', 'driverRideId': driverId });
     };
 
-    $scope.registrantName = function(id) {
-      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
+    $scope.registrantAnswer = function(id, profileType) {
+      var block = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': profileType }).id;
       var registrant = _.find(_.flatten(registrations, 'registrants'), { 'id': id });
       if(angular.isUndefined(registrant)){
-        return 'Undefined';
+          return '';
       }
-      var returnStr;
-      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
+      block = _.find(registrant.answers, { 'blockId': block });
 
-      if(angular.isDefined((nameBlock))){
-        nameBlock = nameBlock.value;
-        if(angular.isDefined((nameBlock.firstName))){
-          returnStr = nameBlock.firstName + ' ' + (nameBlock.lastName || '');
-        }
+      if(angular.isDefined((block))){
+        return block.value;
       }
-
-      return returnStr;
     };
 
     $scope.formatTime = function(time){

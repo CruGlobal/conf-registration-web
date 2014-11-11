@@ -2,7 +2,7 @@
   <table class="table">
     <thead>
       <tr>
-        <th colspan="6"><h2>{{registrantName(p.personId)}}</h2></th>
+        <th colspan="6"><h2>{{registrantAnswer(p.personId, 'NAME').firstName}} {{registrantAnswer(p.personId, 'NAME').lastName}}</h2></th>
       </tr>
       <tr>
         <th>Name</th>
@@ -10,22 +10,23 @@
         <th>Email</th>
         <th>Phone</th>
         <th>Contact Method</th>
-        <th>Departure Time</th>
+        <th>Pickup Time</th>
       </tr>
     </thead>
     <tbody ng-repeat="r in riders(p.id)">
       <tr>
-        <td>{{registrantName(r.personId)}}</td>
-        <td>{{r.address1}} {{r.address2}}<br />{{r.city}}, {{r.stage}} {{r.zip}}</td>
-        <td>{{r.email}}</td>
-        <td>{{r.phone}}</td>
+        <td>{{registrantAnswer(r.personId, 'NAME').firstName}} {{registrantAnswer(r.personId, 'NAME').lastName}}</td>
+        <td>{{r.address1}} {{r.address2}}<br />{{r.city}}, {{r.state}} {{r.zip}}</td>
+        <td>{{registrantAnswer(r.personId, 'EMAIL')}}</td>
+        <td>{{registrantAnswer(r.personId, 'PHONE')}}</td>
         <td>{{r.contactMethod}}</td>
         <td>{{formatTime(r.departTime)}}</td>
       </tr>
-      <tr>
-        <td colspan="6" class="rideshare-special"><strong>Special Info:</strong> Honk loudly when you arrive as I am hard of hearing. Also don&#39;t mind the dog. He usually does not bite Christians. (If you are unsure of your salvation then you might worry a little)</td>
+      <tr ng-if="r.specialInfo">
+        <td colspan="6" class="rideshare-special"><strong>Special Info:</strong> {{r.specialInfo}}</td>
       </tr>
     </tbody>
   </table>
   <hr>
 </div>
+<p>Reported generated: {{currentDate | date:'medium'}}</p>

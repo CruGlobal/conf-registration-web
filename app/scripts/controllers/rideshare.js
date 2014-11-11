@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
         }
 
         if(!completed){
-          //_.remove(data, function(rp) { return rp.id === p.id; });
+          _.remove(data, function(rp) { return rp.id === p.id; });
         }
       });
       $scope.participants = data;
@@ -123,7 +123,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.nonParticipants = function(){
-      return _.filter($scope.participants, function(p) { return p.driveWillingness === 'na' || !p.driveWillingness; });
+      return _.filter($scope.participants, function(p) { return p.driveWillingness === 'na'; });
     };
 
     $scope.registrantName = function(id) {
@@ -161,10 +161,12 @@ angular.module('confRegistrationWebApp')
         return;
       }
       rider.driverRideId = $scope.selectedDriver;
+      $http.put('rideshare/' + rider.id, rider);
     };
 
     $scope.unassignRider = function(rider){
       rider.driverRideId = null;
+      $http.put('rideshare/' + rider.id, rider);
     };
 
     $scope.countAssignedRiders = function(driver){
