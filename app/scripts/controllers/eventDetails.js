@@ -92,7 +92,7 @@ angular.module('confRegistrationWebApp')
       //Event Cost
       angular.forEach($scope.conference.registrantTypes, function(t) {
         t.cost = Number(t.cost);
-        if (t.cost < 0) {
+        if (t.cost < 0 || _.isNaN(t.cost)) {
           validationErrors.push('Event cost for \'' + t.name + '\' must be a positive number.');
         }
       });
