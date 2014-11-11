@@ -117,7 +117,6 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/rideshareQuestions.html',
       restrict: 'E',
       controller: function($scope, $http){
-        console.log($scope.$parent.$parent);
         var activePageId = $scope.$parent.$parent.activePageId;
         if(activePageId !== 'rideshare'){
           return;
@@ -138,7 +137,7 @@ angular.module('confRegistrationWebApp')
               $http.post('registrants/' + currentRegistrant + '/rideshare', {
                 conferenceId: $scope.$parent.$parent.conference.id,
                 personId: currentRegistrant
-              }, function(data){
+              }).success(function(data) {
                 data.departTime = defaultDepartTime;
                 $scope.rideshare = data;
               });

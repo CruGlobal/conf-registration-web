@@ -5,7 +5,7 @@
            name="rideshare_drive_willingness"
            ng-required="true"
            ng-model="rideshare.driveWillingness"
-           ng-value="'rider'">
+           ng-value="'ride'">
     I do not have a ride and I would like one arranged for me.
   </label>
 
@@ -35,13 +35,14 @@
   </select>
 </div>
 
-<div class="pb20" ng-show="rideshare.driveWillingness === 'rider' || rideshare.driveWillingness === 'drive'">
+<div class="pb20" ng-show="rideshare.driveWillingness === 'ride' || rideshare.driveWillingness === 'drive'">
   <strong>What time are you available to leave for this event?</strong>
   <timepicker ng-model="rideshare.departTime" hour-step="1" minute-step="15" show-meridian="true"></timepicker>
 </div>
 
-<div ng-show="rideshare.driveWillingness === 'rider'">
-  <strong>Where would like to be picked up?</strong>
+<div ng-show="rideshare.driveWillingness === 'ride' || rideshare.driveWillingness === 'drive'">
+  <strong ng-show="rideshare.driveWillingness === 'ride'">Where would like to be picked up?</strong>
+  <strong ng-show="rideshare.driveWillingness === 'drive'">Where will you be leaving from?</strong>
   <p>Please make sure that your address is mapped correctly. If it is not mapped correctly, please change your address below.</p>
   <div class="row">
     <div class="col-md-6">
@@ -115,7 +116,7 @@
   </div>
 </div>
 
-<div class="radio" ng-show="rideshare.driveWillingness === 'rider' || rideshare.driveWillingness === 'drive'">
+<div class="radio" ng-show="rideshare.driveWillingness === 'ride' || rideshare.driveWillingness === 'drive'">
   <strong>What is your preferred contact method if your ride situation changes?</strong>
   <br><label>
   <input type="radio"
@@ -146,13 +147,13 @@
   <p>(Your initial ride assignment will be by email.)</p>
 </div>
 
-<div class="pb20" ng-show="rideshare.driveWillingness === 'rider' || rideshare.driveWillingness === 'drive'">
+<div class="pb20" ng-show="rideshare.driveWillingness === 'ride' || rideshare.driveWillingness === 'drive'">
   <strong>Is there anything special you need to tell us?</strong>
   <br>This includes if you need to be at the conference at an earlier time, need to leave the conference early, or anything else that you haven't told us.
   <textarea ng-model="rideshare.specialInfo" style="width:100%; height: 120px;"></textarea>
 </div>
 
-<div class="well" ng-show="rideshare.driveWillingness === 'rider' || rideshare.driveWillingness === 'drive'">
+<div class="well" ng-show="rideshare.driveWillingness === 'ride' || rideshare.driveWillingness === 'drive'">
   <p>By using the Rideshare program, I accept all risks associated with participating in the Rideshare program, including, but not limited to, the following: death, sickness or injury from whatever source; loss of personal property; loss of personal information; not receiving a ride; driving a person I have not met; speeding tickets; car accidents; car maintenance problems; or any direct, indirect, incidental, special, consequential, punitive, or exemplary damages that result from use of, or inability to use, the Rideshare program. Specifically, I agree to release Campus Crusade for Christ, Inc. (hereinafter, .CCCI.) and all Rideshare developers from any liability or responsibility for my carpooling safety and accessibility. I am aware of the risks of participation and I choose to accept them.</p>
   <p><strong>In short, I understand that my participation is strictly voluntary. I freely chose to participate. I will not hold CCCI or any Rideshare developer liable for any damage whatsoever.</strong></p>
 </div>
