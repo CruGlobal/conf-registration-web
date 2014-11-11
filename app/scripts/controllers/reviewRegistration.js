@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: false
     };
-    $scope.currentYear = new Date().getFullYear();
 
     if(registration.registrants.length === 0) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
@@ -22,9 +21,18 @@ angular.module('confRegistrationWebApp')
     $scope.regValidate = [];
 
     if (angular.isUndefined($rootScope.currentPayment)) {
+      var paymentType;
+      if(conference.acceptCreditCards){
+        paymentType = 'CREDIT_CARD';
+      }else if(conference.acceptTransfers){
+        paymentType = 'TRANSFER';
+      }
+
       $rootScope.currentPayment = {
         amount: 0,
-        creditCard: {}
+        paymentType: paymentType,
+        creditCard: {},
+        transfer: {}
       };
     }
     $rootScope.currentPayment.amount = registration.calculatedTotalDue;
@@ -45,19 +53,38 @@ angular.module('confRegistrationWebApp')
 
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      if ($rootScope.currentPayment.amount === 0 || !conference.acceptCreditCards) {
+      if ($rootScope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
         setRegistrationAsCompleted();
         return;
       }
 
+      var errorMsg;
+      if($scope.currentPayment.paymentType === 'TRANSFER'){
+        if(!$scope.currentPayment.transfer.source){
+          errorMsg = 'Please enter a Chart Field or Account Number.';
+        }
+      }
+      if (errorMsg) {
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return errorMsg;
+            }
+          }
+        });
+        $scope.submittingRegistration = false;
+        return;
+      }
+
       var currentPayment = angular.copy($rootScope.currentPayment);
-      currentPayment.paymentType = 'CREDIT_CARD';
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
 
       $http.post('payments/', currentPayment).success(function () {
-        setRegistrationAsCompleted();
         delete $rootScope.currentPayment;
+        setRegistrationAsCompleted();
       }).error(function () {
         $scope.submittingRegistration = false;
         $modal.open({
@@ -67,7 +94,7 @@ angular.module('confRegistrationWebApp')
           keyboard: false,
           resolve: {
             data: function () {
-              return 'Your card was declined, please verify your details or use a different card.';
+              return 'Your payment was declined, please verify your details or use a different payment method.';
             }
           }
         });
@@ -79,13 +106,12 @@ angular.module('confRegistrationWebApp')
       registration.completed = true;
 
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
-        $scope.currentRegistration.completed = true;
         RegistrationCache.emptyCache();
-        $scope.submittingRegistration = false;
+        $route.reload();
       }, function () {
         $scope.currentRegistration.completed = false;
-        alert('An error occurred while submitting your registration.');
         $scope.submittingRegistration = false;
+        alert('An error occurred while submitting your registration.');
       });
     };
 
@@ -140,5 +166,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.blockInRegType = function(block, regTypeId){
       return !_.contains(block.registrantTypes, regTypeId);
+    };
+
+    $scope.anyPaymentMethodAccepted = function(){
+      return conference.acceptCreditCards || conference.acceptTransfers;
     };
   });

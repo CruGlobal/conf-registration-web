@@ -240,6 +240,7 @@ angular.module('confRegistrationWebApp')
       var paymentModalOptions = {
         templateUrl: 'views/modals/paymentsModal.html',
         controller: 'paymentModal',
+        size: 'lg',
         backdrop: 'static',
         resolve: {
           registration: function () {

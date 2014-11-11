@@ -51,17 +51,27 @@
                 <th>Amount</th>
                 <th>Type</th>
                 <th>Refund</th>
+                <th>Description</th>
               </tr>
               <tr ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
                 <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
-                <td>{{payment.paymentType}}</td>
+                <td>
+                  <span ng-show="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
+                  <span ng-show="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
+                  <span ng-show="payment.paymentType === 'SCHOLARSHIP'">Scholarship from {{payment.scholarship.source}} </span>
+                  <span ng-show="payment.paymentType === 'TRANSFER'">Transfer from {{payment.transfer.source}}</span>
+                  <span ng-show="payment.paymentType === 'CASH'">Cash</span>
+                  <span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
+                  <span ng-show="payment.paymentType === 'REFUND'">Refund</span>
+                </td>
                 <td>
                   <div ng-show="canBeRefunded(payment)">
                     <a href="" ng-click="startRefund(payment)" ng-show="!processing">Refund</a>
                     <span ng-show="processing">Processing...</span>
                   </div>
                 </td>
+                <td>{{payment.description}}</td>
               </tr>
             </tbody>
           </table>

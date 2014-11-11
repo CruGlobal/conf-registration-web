@@ -5,6 +5,7 @@
   <meta http-equiv="cache-control" content="no-cache" />
   <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
   <meta http-equiv="pragma" content="no-cache" />
+  <meta name="viewport" content="width=630">
 
   <title ng-bind="generateTitle(globalPage.title)"></title>
 
@@ -20,9 +21,9 @@
   <!-- End jQuery -->
 
   <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-route.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.23/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
   <!-- End AngularJS -->
 
   <!-- Bootstrap -->
@@ -71,6 +72,7 @@
   <script src="scripts/directives/formElements.js"></script>
   <script src="scripts/directives/registrationTypeSelect.js"></script>
   <script src="scripts/controllers/eventForm.js"></script>
+  <script src="scripts/directives/payment.js"></script>
   <script src="scripts/services/AnswerCache.js"></script>
   <script src="scripts/services/RegistrationCache.js"></script>
   <script src="scripts/services/ConfCache.js"></script>
@@ -117,7 +119,7 @@
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
 
-<div ng-show="globalPage.type === 'admin'">
+<div ng-if="globalPage.type === 'admin'">
   <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
     <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
@@ -163,7 +165,7 @@
   </section>
 </div>
 
-<div ng-show="globalPage.type === 'landing'">
+<div ng-if="globalPage.type === 'landing'">
   <header id="masthead">
     <div class="container">
       <div class="row">
@@ -179,7 +181,7 @@
   </header>
 </div>
 
-<div ng-show="globalPage.type === 'registration'">
+<div ng-if="globalPage.type === 'registration'">
   <header id="frontheader">
   </header>
   <section id="frontpagetitle">
@@ -209,7 +211,7 @@
 
 <main ng-class="globalPage.mainClass" ng-view=""></main>
 
-<footer id="pagefooter" ng-show="globalPage.footer">
+<footer id="pagefooter" ng-if="globalPage.footer">
   <div class="container">
     <div class="row">
       <div class="col-xs-8">
@@ -226,7 +228,7 @@
   </div>
 </footer>
 
-<footer id="frontfooter" ng-show="globalPage.type === 'registration'">
+<footer id="frontfooter" ng-if="globalPage.type === 'registration'">
   <div class="container">
     <span>&copy; 2014 | Created with Event Registration Tool, powered by <a href="http://www.cru.org" target="_blank">Cru</a></span>
   </div>

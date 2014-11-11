@@ -48,8 +48,9 @@
   </div>
 </div>
 
-<div class="row" ng-show="conference.acceptCreditCards && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
+<div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
   <div class="well">
+    <h3>Payment Information</h3>
     <div ng-show="!currentRegistration.completed">
       <dl class="dl-horizontal">
         <dt>Payment amount</dt>
@@ -59,7 +60,7 @@
                  ng-model="currentPayment.amount"
                  ng-value="currentRegistration.calculatedMinimumDeposit">
           {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
-          </label><br>
+          </label>
           <label ng-show="currentRegistration.calculatedTotalDue !== currentRegistration.calculatedMinimumDeposit">
             <input type="radio"
                    ng-model="currentPayment.amount"
@@ -69,46 +70,11 @@
         </dd>
       </dl>
 
-      <div ng-show="currentPayment.amount > 0">
-        <label>Name on Card</label>
-        <input type="text" ng-model="currentPayment.creditCard.nameOnCard" class="form-control" />
-
-        <label>Card Number</label>
-        <input type="text" maxlength="16" ng-model="currentPayment.creditCard.number" autocomplete="off" class="form-control" />
-
-        <div class="row">
-          <div class="col-xs-4">
-            <label>Expiration Month</label>
-            <select ng-model="currentPayment.creditCard.expirationMonth" class="form-control">
-              <option value=''>Month</option>
-              <option value='01'>01 - January</option>
-              <option value='02'>02 - February</option>
-              <option value='03'>03 - March</option>
-              <option value='04'>04 - April</option>
-              <option value='05'>05 - May</option>
-              <option value='06'>06 - June</option>
-              <option value='07'>07 - July</option>
-              <option value='08'>08 - August</option>
-              <option value='09'>09 - September</option>
-              <option value='10'>10 - October</option>
-              <option value='11'>11 - November</option>
-              <option value='12'>12 - December</option>
-            </select>
-          </div>
-          <div class="col-xs-3">
-            <label>Expiration Year</label>
-            <select ng-model="currentPayment.creditCard.expirationYear" class="form-control">
-              <option value=''>Year</option>
-              <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
-            </select>
-          </div>
-          <div class="col-xs-5">
-            <label>Card CVV</label>
-            <input class="form-control" type="text" maxlength="4" ng-model="currentPayment.creditCard.cvvNumber" autocomplete="off" />
-          </div>
-        </div>
+      <div ng-if="currentPayment.amount > 0" ert-payment>
       </div>
     </div>
+
+    <br />
 
     <table class="table">
       <thead>
