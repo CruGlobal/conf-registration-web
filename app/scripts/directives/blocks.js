@@ -110,3 +110,11 @@ angular.module('confRegistrationWebApp')
       restrict: 'E'
     };
   });
+
+angular.module('confRegistrationWebApp')
+    .directive('textareaQuestion', function () {
+      return {
+        templateUrl: 'views/blocks/textareaQuestion.html',
+        restrict: 'E'
+      };
+    });
