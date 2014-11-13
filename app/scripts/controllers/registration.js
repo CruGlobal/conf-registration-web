@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp')
         $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/').search('reg', null);
         return;
       }
-      angular.forEach($scope.conference.registrationPages, function(page) {
+      angular.forEach(angular.copy(conference.registrationPages), function(page) {
         var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
         angular.forEach(angular.copy(page.blocks), function(block) {
           if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
@@ -37,26 +37,16 @@ angular.module('confRegistrationWebApp')
           }
         });
 
-        if(page.blocks.length === 0) {
+        if($scope.conference.registrationPages[pageIndex].blocks.length === 0) {
           _.remove($scope.conference.registrationPages, function(p) { return p.id === page.id; });
         }
       });
     }
 
-    function getPageById(pageId) {
-      var pages = conference.registrationPages;
-
-      for (var i = 0; i < pages.length; i++) {
-        if (angular.equals(pageId, pages[i].id)) {
-          return pages[i];
-        }
-      }
-    }
-
     var pageId = $routeParams.pageId;
     $scope.activePageId = pageId || '';
-    $scope.page = getPageById(pageId);
-    $scope.activePageIndex = _.findIndex(conference.registrationPages, { id: pageId });
+    $scope.page = _.find(conference.registrationPages, { 'id': pageId });
+    $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
 
     function getPageAfterById(pageId) {
       var pages = $scope.conference.registrationPages;
@@ -68,6 +58,11 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.nextPage = getPageAfterById(pageId);
+
+    //if current page doesn't exist, go to first page
+    if($scope.activePageIndex === -1 && angular.isDefined($scope.page)){
+      $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[0].id);
+    }
 
     $scope.validateAndGoToNext = function (isValid) {
       if (isValid) {
