@@ -81,10 +81,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.previousPage = function () {
-      var previousPage = conference.registrationPages[$scope.activePageIndex - 1];
+      var previousPage = $scope.conference.registrationPages[$scope.activePageIndex - 1];
       if (angular.isDefined(previousPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + previousPage.id);
-      }  {
+      } else {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/');
       }
     };
