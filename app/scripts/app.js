@@ -212,6 +212,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                 delete $cookies.crsAuthProviderType;
                 delete $cookies.crsPreviousToken;
                 delete $cookies.crsToken;
+                $location.url('/#');
               }
             }
           ]
