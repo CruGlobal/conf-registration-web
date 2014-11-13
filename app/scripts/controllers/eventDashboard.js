@@ -87,9 +87,6 @@ angular.module('confRegistrationWebApp')
               conference.id = conferenceOrig.id;
               conference.name = conferenceName;
 
-              //clone registrant types
-              conference.registrantTypes = result.registrantTypes;
-
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
 
