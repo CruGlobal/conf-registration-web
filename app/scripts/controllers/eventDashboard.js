@@ -93,7 +93,7 @@ angular.module('confRegistrationWebApp')
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
 
-              for (i = 0; i < conference.registrantTypes.length; i++) {
+              for (var i = 0; i < conference.registrantTypes.length; i++) {
                 var originalRegTypeId = conference.registrantTypes[i].id;
                 var clonedRegTypeId = uuid();
                 registrantTypeIdMap[originalRegTypeId] = clonedRegTypeId;
@@ -103,7 +103,7 @@ angular.module('confRegistrationWebApp')
 
               //clone conference pages
               conference.registrationPages = result.registrationPages;
-              for (var i = 0; i < conference.registrationPages.length; i++) {
+              for (i = 0; i < conference.registrationPages.length; i++) {
                 var pageUuid = uuid();
                 conference.registrationPages[i].id = pageUuid;
                 conference.registrationPages[i].conferenceId = conference.id;
