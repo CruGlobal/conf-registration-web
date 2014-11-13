@@ -208,6 +208,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                 }).error(function (data, status) {
                   alert('Logout failed: ' + status);
                 });
+              } else {
+                delete $cookies.crsAuthProviderType;
+                delete $cookies.crsPreviousToken;
+                delete $cookies.crsToken;
               }
             }
           ]
