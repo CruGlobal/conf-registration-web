@@ -84,7 +84,7 @@ angular.module('confRegistrationWebApp')
             $http.get('conferences/' + conferenceToClone.id).success(function (result) {
               //clone conference details
               conference = angular.copy(result);
-              //fixme: i don't think this is right
+              //fixme: i don't think this does anything. contactUser is not an object on the conference object
               conference.contactUser = conferenceOrig.contactUser;
               conference.id = conferenceOrig.id;
               conference.name = conferenceName;
