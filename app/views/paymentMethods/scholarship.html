@@ -1,6 +1,6 @@
 <div ng-show="!currentPayment.scholarship.staffEmail">
   <label>Find your Cru Staff:</label>
-  <span class="pull-right" ng-show="loadingStaff"><i class="glyphicon glyphicon-refresh"></i> Searching...</span>
+  <span class="pull-right" ng-show="loadingStaff"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
   <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control"
          typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
          typeahead-loading="loadingStaff"
