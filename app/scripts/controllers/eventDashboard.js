@@ -84,9 +84,24 @@ angular.module('confRegistrationWebApp')
             $http.get('conferences/' + conferenceToClone.id).success(function (result) {
               //clone conference details
               conference = angular.copy(result);
+              //fixme: i don't think this is right
               conference.contactUser = conferenceOrig.contactUser;
               conference.id = conferenceOrig.id;
               conference.name = conferenceName;
+
+              //clone registrant types
+              conference.registrantTypes = result.registrantTypes;
+
+              // map the old id to the new id so that question to registrant type assignments can be cloned.
+              var registrantTypeIdMap = {};
+
+              for (i = 0; i < conference.registrantTypes.length; i++) {
+                var originalRegTypeId = conference.registrantTypes[i].id;
+                var clonedRegTypeId = uuid();
+                registrantTypeIdMap[originalRegTypeId] = clonedRegTypeId;
+                conference.registrantTypes[i].id = clonedRegTypeId;
+                conference.registrantTypes[i].conferenceId = conference.id;
+              }
 
               //clone conference pages
               conference.registrationPages = result.registrationPages;
@@ -97,14 +112,21 @@ angular.module('confRegistrationWebApp')
                 for (var j = 0; j < conference.registrationPages[i].blocks.length; j++) {
                   conference.registrationPages[i].blocks[j].id = uuid();
                   conference.registrationPages[i].blocks[j].pageId = pageUuid;
-                }
-              }
 
-              //clone registrant types
-              conference.registrantTypes = result.registrantTypes;
-              for (i = 0; i < conference.registrantTypes.length; i++) {
-                conference.registrantTypes[i].id = uuid();
-                conference.registrantTypes[i].conferenceId = conference.id;
+                  // take a copy of the registrantTypes for this block
+                  var originalRegTypeIds = angular.copy(conference.registrationPages[i].blocks[j].registrantTypes);
+
+                  // clear the registrantTypes on the block (a copy was just made)
+                  conference.registrationPages[i].blocks[j].registrantTypes = [];
+
+                  // loop through the registantTypes from the original block
+                  for(var k = 0; k <  originalRegTypeIds.length; k++) {
+                    // take the original block ID, and look up the new on that corresponds to it in the map.
+                    // add that new Id to the registrant types on the block
+                    var id = originalRegTypeIds[k];
+                    conference.registrationPages[i].blocks[j].registrantTypes.push(registrantTypeIdMap[id]);
+                  }
+                }
               }
 
               Model.update('conferences/' + conference.id, conference, function () {
