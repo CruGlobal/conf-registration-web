@@ -92,27 +92,6 @@ body.frontend {
   background: @blue;
   border-bottom: 7px solid @darkblue;
   padding-top: 26px;
-  .usr-greeting {
-    text-align: right;
-    .btn-group {
-      text-align: left;
-      .name-btn {
-        text-transform: uppercase;
-        .blue;
-        background: @white;
-        strong {
-          .proximasemi;
-        }
-      }
-      .btn-primary.dropdown-toggle {
-        background-image: linear-gradient(to bottom, @blue 0px, @darkblue 100%);
-      }
-      .dropdown-menu {
-        right: 0;
-        left: auto;
-      }
-    }
-  }
 }
 a.logo, a.logo:hover {
   color: white;
@@ -131,6 +110,30 @@ section#frontpagetitle {
     .white;
     margin: 0;
     padding: 30px 0 20px;
+  }
+}
+.usr-greeting {
+  text-align: right;
+  .btn-group {
+    text-align: left;
+    .name-btn {
+      text-transform: uppercase;
+      .blue;
+      background: @white;
+      strong {
+        .proximasemi;
+      }
+    }
+    .btn-primary.dropdown-toggle {
+      background-image: linear-gradient(to bottom, @blue 0px, @darkblue 100%);
+    }
+    .dropdown-menu {
+      right: 0;
+      left: auto;
+    }
+  }
+  .btn-link{
+    color: #fff;
   }
 }
 section#pagetitle {
