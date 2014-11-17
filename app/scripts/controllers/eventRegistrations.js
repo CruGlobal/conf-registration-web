@@ -18,7 +18,6 @@ angular.module('confRegistrationWebApp')
     $scope.defaultViewId = 'default';
     $scope.activeRegViewId = $scope.defaultViewId;
     $scope.savedState = '';
-    $scope.showRegistrationsCompleted = true;
     $scope.columnsDropdownToggle = false;
     $scope.registrations = registrations;
     $scope.registrants = _.flatten(registrations, 'registrants');
