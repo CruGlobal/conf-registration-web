@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
       transfer: {}
     };
 
-    $scope.paymentButtonValue = 'Process Payment';
+    $scope.paymentButtonValue = 'Submit Payment';
     $scope.currentRegistration = registration;
     $scope.conference = conference;
 
@@ -79,7 +79,7 @@ angular.module('confRegistrationWebApp')
         RegistrationCache.emptyCache();
         $location.path('/register/' + conference.id);
       }).error(function () {
-        $scope.paymentButtonValue = 'Process Payment';
+        $scope.paymentButtonValue = 'Submit Payment';
         var errorModalOptions = {
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
