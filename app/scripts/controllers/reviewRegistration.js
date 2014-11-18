@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -53,12 +53,18 @@ angular.module('confRegistrationWebApp')
 
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
+      var errorMsg;
+
+      if ($rootScope.currentPayment.amount < registration.calculatedMinimumDeposit) {
+        errorMsg = 'You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.';
+      }
+
       if ($rootScope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
         setRegistrationAsCompleted();
         return;
       }
 
-      var errorMsg;
+
       if($scope.currentPayment.paymentType === 'TRANSFER'){
         if(!$scope.currentPayment.transfer.source){
           errorMsg = 'Please enter a Chart Field or Account Number.';
