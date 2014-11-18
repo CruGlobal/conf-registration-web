@@ -1,8 +1,10 @@
 <div class="row" ng-show="currentRegistration.completed">
   <div class="col-xs-12">
     <article>
-      <h4>You are registered!</h4>
-      <p>Keep this information for your records.</p>
+      <div>
+        <h1>You are registered!</h1>
+        <p>Keep this information for your records.</p>
+      </div>
     </article>
   </div>
 </div>
@@ -25,6 +27,8 @@
     </article>
   </div>
 </div>
+
+<br />
 
 <div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
   <div class="col-xs-12" ng-class="{'invalidBorder': regValidate[r.id].length}">
