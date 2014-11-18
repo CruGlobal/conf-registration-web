@@ -242,9 +242,10 @@ angular.module('wysiwyg.module', [])
             ['font'],
             ['font-size'],
             ['remove-format'],
-            ['ordered-list', 'unordered-list', 'outdent', 'indent'],
+            ['ordered-list', 'unordered-list'],
             ['left-justify', 'center-justify', 'right-justify'],
-            ['link', 'image']
+            ['link', 'image'],
+            ['preview']
         ];
 
         var getMenuStyles = function() {
@@ -336,6 +337,9 @@ angular.module('wysiwyg.module', [])
                 case 'image':
                     return '<button title="Image" tabindex="-1" type="button" unselectable="on" class="btn btn-default" ng-click="insertImage()"><i class="fa fa-picture-o"></i> </button>';
                     break;
+                case 'preview':
+                  return '<button title="Preview" tabindex="-1" type="button" unselectable="on" class="btn btn-default" ng-click="$parent.previewEmail($parent.type)"><i class="fa fa-external-link"></i> Preview</button>';
+                  break;
                 default:
                     console.log('Angular.wysiwyg: Unknown menu item.')
                     return '';
