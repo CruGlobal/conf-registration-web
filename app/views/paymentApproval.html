@@ -10,16 +10,16 @@
         </div>
 
         <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">Amount</label>
+          <label class="col-sm-3 control-label">Amount</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputEmail3">
+            <input type="text" class="form-control" ng-model="payment.amount">
           </div>
         </div>
 
         <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">Type</label>
+          <label class="col-sm-3 control-label">Type</label>
           <div class="col-sm-9">
-            <select class="form-control">
+            <select class="form-control" ng-model="payment.scholarship.type">
               <option>Ministry Account Transfer</option>
               <option>Staff Account Transfer</option>
             </select>
@@ -27,14 +27,14 @@
         </div>
 
         <div class="form-group">
-          <label for="inputEmail3" class="col-sm-3 control-label">Account Number</label>
+          <label class="col-sm-3 control-label">Account Number</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" id="inputEmail3">
+            <input type="text" class="form-control" ng-model="payment.scholarship.source">
           </div>
         </div>
       </form>
 
-      <div class="row">
+      <div class="row" ng-show="!posting">
         <div class="col-md-4 col-md-offset-2">
           <button class="btn btn-success btn-lg full"
                   ng-click="updatePayment('APPROVED')"
@@ -46,6 +46,11 @@
                   ng-click="updatePayment('DENIED')"
                   type="submit">Decline
           </button>
+        </div>
+      </div>
+      <div class="row" ng-show="posting">
+        <div class="col-md-12">
+          <p><i class="fa fa-spinner fa-spin"></i> Saving...</p>
         </div>
       </div>
     </article>

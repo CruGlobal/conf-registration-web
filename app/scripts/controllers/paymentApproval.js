@@ -20,11 +20,21 @@ angular.module('confRegistrationWebApp')
         $scope.payment = data;
       }).
       error(function() {
-        //$scope.payment = null;
+        $scope.payment = null;
       });
-      $scope.payment = {
-        scholarship: {
-          scholarshipStatus: 'DENIED'
-        }
-      };
+
+    $scope.updatePayment = function(status){
+      $scope.posting = true;
+      var paymentObject = angular.copy($scope.payment);
+      paymentObject.scholarship.scholarshipStatus = status;
+
+      $http.put('payments/scholarship/' + paymentHash, paymentObject).
+        success(function(data) {
+          $scope.payment = paymentObject;
+        }).
+        error(function() {
+          alert('An error occurred while saving the payment.');
+          $scope.posting = false;
+        });
+    };
   });
