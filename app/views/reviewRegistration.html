@@ -53,20 +53,21 @@
     <h3>Payment Information</h3>
     <div ng-show="!currentRegistration.completed">
       <dl class="dl-horizontal">
-        <dt>Payment amount</dt>
-        <dd>
-          <label>
-          <input type="radio"
-                 ng-model="currentPayment.amount"
-                 ng-value="currentRegistration.calculatedMinimumDeposit">
-          {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
-          </label>
-          <label ng-show="currentRegistration.calculatedTotalDue !== currentRegistration.calculatedMinimumDeposit">
-            <input type="radio"
+        <dt>Amount</dt>
+        <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+            <input type="text"
                    ng-model="currentPayment.amount"
-                   ng-value="currentRegistration.calculatedTotalDue">
-            {{currentRegistration.calculatedTotalDue | moneyFormat}}
-          </label>
+                   ng-value="currentRegistration.calculatedTotalDue"
+                   class="form-control marginless"/>
+          </div>
+          <span class="text-muted"><i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | moneyFormat}} .</span>
+        </dd>
+        <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
+          <input type="radio"
+                   ng-model="currentPayment.amount"
+                   ng-value="currentRegistration.calculatedTotalDue" /> {{currentRegistration.calculatedTotalDue | moneyFormat}}
         </dd>
       </dl>
 
