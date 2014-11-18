@@ -71,7 +71,7 @@
         </dd>
       </dl>
 
-      <div ng-if="currentPayment.amount > 0" ert-payment>
+      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0" ert-payment>
       </div>
     </div>
 
