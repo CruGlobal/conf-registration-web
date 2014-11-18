@@ -1,25 +1,36 @@
 <div class="row" ng-show="currentRegistration.completed">
-  <div class="well">
-    <a class="btn btn-primary pull-right" href="#/logout">Logout</a>
-    <h4>You are registered!</h4>
-    <p>Keep this information for your records.</p>
+  <div class="col-xs-12">
+    <article>
+      <a class="btn btn-primary pull-right" href="#/logout">Logout</a>
+      <h4>You are registered!</h4>
+      <p>Keep this information for your records.</p>
+    </article>
   </div>
 </div>
 
+<!-- haven't checked this section yet -->
 <div class="row" ng-show="!currentRegistration.completed">
-  <div class="well reg-not-complete">
-    <h3>Your registration is not complete!</h3>
+  <div class="col-xs-12">
+    <article>
+      <h3>Your registration is not complete!</h3>
+    </article>
   </div>
 </div>
+
+<!-- haven't checked this section yet -->
 <div class="row" ng-show="!currentRegistration.completed">
-  <div class="well">
-    <h4>Review Registration</h4>
-    <p>Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+  <div class="col-xs-12">
+    <article>
+      <h4>Review Registration</h4>
+      <p>Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+    </article>
   </div>
 </div>
 
 <div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-  <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
+  <div class="col-xs-12" ng-class="{'invalidBorder': regValidate[r.id].length}">
+    <article>
+    <h2>Registration Review</h2>
     <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
       <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
     </div>
@@ -38,6 +49,7 @@
       <dt>{{block.title}}</dt>
       <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
     </dl>
+        </article>
   </div>
 </div>
 
@@ -49,8 +61,9 @@
 </div>
 
 <div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
-  <div class="well">
-    <h3>Payment Information</h3>
+  <div class="col-xs-12">
+    <article>
+    <h2>Payment Information</h2>
     <div ng-show="!currentRegistration.completed">
       <dl class="dl-horizontal">
         <dt>Amount</dt>
@@ -74,8 +87,6 @@
       <div ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0" ert-payment>
       </div>
     </div>
-
-    <br />
 
     <table class="table">
       <thead>
@@ -118,18 +129,25 @@
         </table>
       </div>
     </div>
+    </article>
   </div>
 </div>
 
 <div class="row" ng-show="!currentRegistration.completed">
-  <div class="well">
+  <div class="col-xs-12">
+    <article>
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
     <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
+    </article>
   </div>
 </div>
+
+<!-- haven't checked this section yet -->
 <div class="row" ng-show="currentRegistration.completed">
-  <div class="well">
-    <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
+  <div class="col-xs-12">
+    <article>
+      <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
+    </article>
   </div>
 </div>
