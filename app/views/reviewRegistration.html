@@ -33,11 +33,11 @@
     <article>
     <h2>Registration Review</h2>
     <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
-      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+      <button class="btn btn-small btn-default" ng-click="editRegistrant(r.id)">Edit</button>
     </div>
 
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
-      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+      <input type="button" class="btn btn-small btn-default" ng-click="editRegistrant(r.id)" value="Edit">
       <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="conference.allowGroupRegistrations" value="Remove">
 
       <p class="registrantPrice">
