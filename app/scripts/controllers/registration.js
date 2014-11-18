@@ -11,6 +11,10 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
+    if(currentRegistration.completed) {
+      $rootScope.registerMode = 'reviewRegistration';
+    }
+
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
