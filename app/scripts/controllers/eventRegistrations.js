@@ -18,7 +18,6 @@ angular.module('confRegistrationWebApp')
     $scope.defaultViewId = 'default';
     $scope.activeRegViewId = $scope.defaultViewId;
     $scope.savedState = '';
-    $scope.showRegistrationsCompleted = true;
     $scope.columnsDropdownToggle = false;
     $scope.registrations = registrations;
     $scope.registrants = _.flatten(registrations, 'registrants');
@@ -351,6 +350,9 @@ angular.module('confRegistrationWebApp')
           registrant: function () {
             return r;
           },
+          registration: function () {
+            return $scope.getRegistration(r.registrationId);
+          },
           conference: function () {
             return conference;
           }
@@ -390,12 +392,12 @@ angular.module('confRegistrationWebApp')
        var url;
        if(action === 'exportAllData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
-         csvContent = U.stringifyArray(table, ',');
+         csvContent = U.stringifyArray(table, ',') + '\n';
          url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportVisibleData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
-         csvContent = U.stringifyArray(table, ',');
+         csvContent = U.stringifyArray(table, ',') + '\n';
          url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportPayments') {
@@ -419,7 +421,7 @@ angular.module('confRegistrationWebApp')
     // Export conference registration payments information to csv
     $scope.exportPayments = function () {
       var table = PaymentsViewService.getTable(conference, registrations);
-      var csvContent = U.stringifyArray(table, ',');
+      var csvContent = U.stringifyArray(table, ',') + '\n';
       var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
       U.submitForm(url, { name: csvContent });
     };

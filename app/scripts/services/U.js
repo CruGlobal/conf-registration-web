@@ -45,11 +45,11 @@ angular.module('confRegistrationWebApp')
 
       // assumes first element type identical to others
       if (!angular.isArray(array[0])) {
-        return array.join(separator) + '\n';
+        return array.join(separator);
       }
 
       for (var i = 0; i < array.length; i++) {
-        string += this.stringifyArray(array[i], separator, string);
+        string += this.stringifyArray(array[i], separator, string)  + '\n';
       }
 
       return string;

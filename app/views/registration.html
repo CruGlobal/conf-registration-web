@@ -53,7 +53,7 @@
   <div class="row" ng-show="activePageId !== ''">
     <div class="col-xs-12">
       <ul class="nav nav-pills">
-        <li ng-repeat="page in conference.registrationPages" ng-class="{'active': $index === activePageIndex}">
+        <li ng-repeat="page in conference.registrationPages" ng-class="{'active': page.id === activePageId}">
           <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" ng-class="{dfisabled: $index > activePageIndex && !registrationComplete}">
             <span class="circle">{{$index+1}}</span>
             <span ng-bind="page.title"></span>
@@ -70,7 +70,7 @@
         <div class="well creme2" ng-show="conference.eventStartTime">
           <h2 class="details-heading">Event Dates</h2>
           <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
-          {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}} </p>
+          {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
         </div>
         <div class="well creme2" ng-show="conference.locationName">
           <h2 class="details-heading">Event Location</h2>
@@ -95,9 +95,9 @@
     </div>
   </div>
   <article ng-show="activePageId == '' && !currentRegistration.completed" style="padding-top:0;">
-    <registration-type-select ng-if="currentRegistration.registrants.length === 0"></registration-type-select>
+    <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
 
-    <div class="row" ng-if="currentRegistration.registrants.length">
+    <div class="row" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
       <div class="col-xs-12 text-center">
         <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-success">
           Continue Registration

@@ -90,7 +90,11 @@ angular.module('confRegistrationWebApp')
               };
 
               $scope.save = function (choice) {
-                $modalInstance.close(choice);
+                if(_.isNaN(Number(choice.amount))){
+                  alert('Error: please enter a valid additional cost.');
+                }else{
+                  $modalInstance.close(choice);
+                }
               };
             },
             resolve: {
@@ -102,8 +106,8 @@ angular.module('confRegistrationWebApp')
               }
             }
           }).result.then(function (choice) {
-              choice.amount = Number(choice.amount);
-              $scope.this.block.content.choices[index] = choice;
+            choice.amount = Number(choice.amount);
+            $scope.this.block.content.choices[index] = choice;
           });
         };
 
