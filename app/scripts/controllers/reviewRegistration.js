@@ -35,7 +35,7 @@ angular.module('confRegistrationWebApp')
         transfer: {}
       };
     }
-    $rootScope.currentPayment.amount = registration.calculatedTotalDue;
+    $rootScope.currentPayment.amount = registration.remainingBalance;
 
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
