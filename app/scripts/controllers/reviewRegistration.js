@@ -133,13 +133,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.editRegistrant = function (id) {
-      if($rootScope.registerMode === 'preview') {
-        $location.path('/preview/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
-      } else {
-        $rootScope.registerMode = 'register';
-        $location.path('/register/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
-      }
-
+        $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
     };
 
     $scope.removeRegistrant = function (id) {
