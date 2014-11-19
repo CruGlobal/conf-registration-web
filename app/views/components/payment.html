@@ -11,10 +11,10 @@
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'TRANSFER'">
-      Account Transfer
+      Cru Staff / Ministry Account Transfer
     </label>
   </dd>
-</dl>
 
 <ng-include src="paymentMethodsViews.CREDIT_CARD" ng-if="currentPayment.paymentType === 'CREDIT_CARD'"></ng-include>
 <ng-include src="paymentMethodsViews.TRANSFER" ng-if="currentPayment.paymentType === 'TRANSFER'"></ng-include>
+</dl>

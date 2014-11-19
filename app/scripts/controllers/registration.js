@@ -11,6 +11,12 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
+    var pageId = $routeParams.pageId;
+
+    if(angular.isUndefined(pageId) && currentRegistration.completed) {
+      $location.path('reviewRegistration/' + conference.id);
+    }
+
     $scope.validPages = {};
     $scope.$on('pageValid', function (event, validity) {
       event.stopPropagation();
@@ -43,7 +49,6 @@ angular.module('confRegistrationWebApp')
       });
     }
 
-    var pageId = $routeParams.pageId;
     $scope.activePageId = pageId || '';
     $scope.page = _.find(conference.registrationPages, { 'id': pageId });
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
@@ -84,6 +89,8 @@ angular.module('confRegistrationWebApp')
       var previousPage = $scope.conference.registrationPages[$scope.activePageIndex - 1];
       if (angular.isDefined(previousPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + previousPage.id);
+      } else if($scope.currentRegistration.completed) {
+        $location.path('/reviewRegistration/' + conference.id);
       } else {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/');
       }

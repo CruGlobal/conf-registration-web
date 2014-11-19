@@ -126,6 +126,7 @@ section#frontpagetitle {
     }
     .btn-primary.dropdown-toggle {
       background-image: linear-gradient(to bottom, @blue 0px, @darkblue 100%);
+      margin-top: 0px;
     }
     .dropdown-menu {
       right: 0;
@@ -136,6 +137,12 @@ section#frontpagetitle {
     margin-top: 24px;
     font-size: 16px;
     color: #fff;
+  }
+  .btn-primary {
+    margin-top: 24px;
+    font-size: 16px;
+    text-transform: uppercase;
+    .proximasemi;
   }
 }
 section#pagetitle {
@@ -255,7 +262,9 @@ main.front-form {
       font-size: 24px;
       border-bottom: 3px solid #e9e9e9;
     }
-    p { margin-bottom: 20px; }
+    p {
+      margin-bottom: 20px;
+    }
     label {
       margin-top: 10px;
       &:first-of-type {
@@ -307,11 +316,7 @@ main.front-form {
     }
   }
   .reg-not-complete{
-    background-color:red;
-    color:white;
-    padding:9px;
-    margin:0;
-    text-align:center;
+    padding: 20px 15px;
   }
   @media (max-width: 1050px) {
     .registrantBox {

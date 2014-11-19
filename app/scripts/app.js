@@ -26,22 +26,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }]
         }
       })
-      .when('/payment/:conferenceId', {
-        templateUrl: 'views/payment.html',
-        controller: 'paymentCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function (currentRegistration) {
-                return currentRegistration;
-              });
-          }],
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }]
-        }
-      })
       .when('/reviewRegistration/:conferenceId', {
         templateUrl: 'views/reviewRegistration.html',
         controller: 'ReviewRegistrationCtrl',
