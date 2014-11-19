@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp')
       paymentObject.scholarship.scholarshipStatus = status;
 
       $http.put('payments/scholarship/' + paymentHash, paymentObject).
-        success(function(data) {
+        success(function() {
           $scope.payment = paymentObject;
         }).
         error(function() {
