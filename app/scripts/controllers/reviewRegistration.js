@@ -94,7 +94,12 @@ angular.module('confRegistrationWebApp')
 
       $http.post('payments/', currentPayment).success(function () {
         delete $rootScope.currentPayment;
-        setRegistrationAsCompleted();
+        if(!$scope.currentRegistration.completed) {
+          setRegistrationAsCompleted();
+        } else {
+          window.scrollTo(0, 0);
+          $route.reload();
+        }
       }).error(function () {
         $scope.submittingRegistration = false;
         $modal.open({
