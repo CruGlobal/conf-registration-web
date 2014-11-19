@@ -64,7 +64,43 @@
 <div class="row">
   <div class="col-xs-12">
     <article>
-    <h2>Payment Information</h2>
+      <h2>Summary</h2>
+      <p>A breakdown of the costs and payments associated with your registration.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Registrant</th>
+            <th width="90">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="r in currentRegistration.registrants">
+            <td>{{registrantName(r)}}</td>
+            <td>{{r.calculatedTotalDue | moneyFormat}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table pull-right" style="width:300px;">
+            <tr>
+              <th>Total Cost</th>
+              <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
+            </tr>
+            <tr>
+              <th>Previous Payment(s)</th>
+              <td>{{(currentRegistration.totalPaid) | moneyFormat}}</td>
+            </tr>
+            <tr>
+              <th>Remaining Balance</th>
+              <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    <h2>Payment</h2>
     <div>
       <dl class="dl-horizontal" ng-if="currentRegistration.remainingBalance > 0">
         <dt>Amount</dt>
@@ -87,40 +123,6 @@
       </dl>
 
       <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment>
-      </div>
-    </div>
-
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Registrant</th>
-        <th width="90">Cost</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="r in currentRegistration.registrants">
-        <td>{{registrantName(r)}}</td>
-        <td>{{r.calculatedTotalDue | moneyFormat}}</td>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="row">
-      <div class="col-lg-12">
-        <table class="table pull-right" style="width:300px;">
-          <tr>
-            <th>Total Cost</th>
-            <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
-          </tr>
-          <tr>
-            <th>Previous Payment(s)</th>
-            <td>{{(currentRegistration.totalPaid) | moneyFormat}}</td>
-          </tr>
-          <tr>
-            <th>Remaining Balance</th>
-            <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
-          </tr>
-        </table>
       </div>
     </div>
     </article>
