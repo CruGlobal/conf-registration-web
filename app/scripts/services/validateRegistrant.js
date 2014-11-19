@@ -50,9 +50,8 @@ angular.module('confRegistrationWebApp')
             if (!_.isNumber(answer)) {
               invalidBlocks.push(block.id);
               return;
-           }
+            }
             break;
-
           default:
             if(angular.isUndefined(answer)){
               invalidBlocks.push(block.id);
@@ -64,7 +63,6 @@ angular.module('confRegistrationWebApp')
               return;
             }
             break;
-
         }
       });
 
