@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
-    if (angular.isUndefined($rootScope.currentPayment)) {
+    if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
       if(conference.acceptCreditCards){
         paymentType = 'CREDIT_CARD';
@@ -28,14 +28,13 @@ angular.module('confRegistrationWebApp')
         paymentType = 'TRANSFER';
       }
 
-      $rootScope.currentPayment = {
-        amount: 0,
+      $scope.currentPayment = {
+        amount: $scope.currentRegistration.remainingBalance,
         paymentType: paymentType,
         creditCard: {},
         transfer: {}
       };
     }
-    $rootScope.currentPayment.amount = registration.remainingBalance;
 
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
@@ -60,11 +59,11 @@ angular.module('confRegistrationWebApp')
         can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
         */
       if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
-          $rootScope.currentPayment.amount < $scope.currentRegistration.calculatedMinimumDeposit) {
+          $scope.currentPayment.amount < $scope.currentRegistration.calculatedMinimumDeposit) {
         errorMsg = 'You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.';
       }
 
-      if ($rootScope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
+      if ($scope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
         setRegistrationAsCompleted();
         return;
       }
@@ -88,12 +87,12 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var currentPayment = angular.copy($rootScope.currentPayment);
+      var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
 
       $http.post('payments/', currentPayment).success(function () {
-        delete $rootScope.currentPayment;
+        delete $scope.currentPayment;
         if(!$scope.currentRegistration.completed) {
           setRegistrationAsCompleted();
         } else {
