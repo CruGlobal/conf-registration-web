@@ -9,7 +9,6 @@
   </div>
 </div>
 
-<!-- haven't checked this section yet -->
 <div class="row" ng-show="!currentRegistration.completed">
   <div class="col-xs-12">
     <article class="reg-not-complete">
@@ -23,10 +22,11 @@
 
 <br />
 
-<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-  <div class="col-xs-12" ng-class="{'invalidBorder': regValidate[r.id].length}">
+<div class="row">
+  <div class="col-xs-12">
     <article>
     <h2>Registration Review</h2>
+    <div ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
     <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
       <button class="btn btn-small btn-default" ng-click="editRegistrant(r.id)">Edit</button>
     </div>
@@ -45,14 +45,19 @@
       <dt>{{block.title}}</dt>
       <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
     </dl>
-        </article>
+    <hr />
+    </div>
+    </article>
   </div>
 </div>
 
 <div class="row" ng-show="!currentRegistration.completed && conference.allowGroupRegistrations">
-  <div class="well">
-    <p>Register another participant</p>
-    <registration-type-select></registration-type-select>
+  <div class="col-xs-12" ng-class="{'invalidBorder': regValidate[r.id].length}">
+    <article>
+      <h2>Register Someone Else</h2>
+      <p>Need to add a spouse or family member to your registration?</p>
+      <registration-type-select></registration-type-select>
+      </article>
   </div>
 </div>
 
