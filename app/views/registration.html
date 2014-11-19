@@ -20,36 +20,6 @@
 </div>
 
 <div ng-show="conference.registrationOpen || registerMode === 'preview'">
-  <div class="row" ng-show="currentRegistration.completed && activePageId == ''">
-    <div class="col-xs-12">
-      <article>
-        <p>You have already successfully registered for '{{conference.name}}'.</p>
-
-        <div ng-show="currentRegistration.pastPayments.length > 0">
-          <strong>Payments</strong>
-          <ul>
-            <li ng-repeat="payment in currentRegistration.pastPayments | orderBy:'transactionDatetime'">
-              <span ng-show="payment.paymentType === 'REFUND'">Refund of </span>{{payment.amount | moneyFormat}} on {{payment.transactionDatetime | date:'EEEE, MMM d, y'}}
-            </li>
-          </ul>
-        </div>
-        <div ng-show="currentRegistration.remainingBalance > 0">
-          <strong>Remaining Balance:</strong> {{currentRegistration.remainingBalance | moneyFormat}}<br>
-            <a href="#/payment/{{conference.id}}" ng-show="anyPaymentMethodAccepted()">Make Payment</a>
-        </div>
-        <hr>
-        <p><a ng-href="#/reviewRegistration/{{conference.id}}" ng-show="conference.allowEditRegistrationAfterComplete">Review or modify your registration</a></p>
-
-        <strong>If you have questions, contact:</strong>
-        <ul class="list-unstyled">
-          <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
-          <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
-          <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
-        </ul>
-      </article>
-    </div>
-  </div>
-
   <div class="row" ng-show="activePageId !== ''">
     <div class="col-xs-12">
       <ul class="nav nav-pills">
@@ -62,7 +32,7 @@
       </ul>
     </div>
   </div>
-  <div class="row" ng-show="activePageId == '' && !currentRegistration.completed">
+  <div class="row" ng-show="activePageId == ''">
     <div class="col-xs-12">
       <article>
         <h2>Welcome</h2>
@@ -94,7 +64,7 @@
       </article>
     </div>
   </div>
-  <article ng-show="activePageId == '' && !currentRegistration.completed" style="padding-top:0;">
+  <article ng-show="activePageId == ''" style="padding-top:0;">
     <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
 
     <div class="row" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
