@@ -1,54 +1,60 @@
-<label>Name on Card</label>
-<input type="text" ng-model="currentPayment.creditCard.nameOnCard" class="form-control" />
+<dt>Name on Card</dt>
+<dd>
+  <input type="text" ng-model="currentPayment.creditCard.nameOnCard" class="form-control" />
+</dd>
 
-<label>Card Number</label>
+<dt>Card Number</dt>
+<dd>
 <input type="text" maxlength="16" ng-model="currentPayment.creditCard.number" autocomplete="off" class="form-control" />
+</dd>
 
-<div class="row">
-  <div class="col-xs-4">
-    <label>Expiration Month</label>
-    <select ng-model="currentPayment.creditCard.expirationMonth" class="form-control">
-      <option value=''>Month</option>
-      <option value='01'>01 - January</option>
-      <option value='02'>02 - February</option>
-      <option value='03'>03 - March</option>
-      <option value='04'>04 - April</option>
-      <option value='05'>05 - May</option>
-      <option value='06'>06 - June</option>
-      <option value='07'>07 - July</option>
-      <option value='08'>08 - August</option>
-      <option value='09'>09 - September</option>
-      <option value='10'>10 - October</option>
-      <option value='11'>11 - November</option>
-      <option value='12'>12 - December</option>
-    </select>
-  </div>
-  <div class="col-xs-3">
-    <label>Expiration Year</label>
-    <select ng-model="currentPayment.creditCard.expirationYear" class="form-control">
-      <option value=''>Year</option>
-      <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
-    </select>
-  </div>
-  <div class="col-xs-5">
-    <label>Card CVV</label>
-    <input class="form-control" type="text" maxlength="4" ng-model="currentPayment.creditCard.cvvNumber" autocomplete="off" />
-  </div>
-</div>
+<dt>Expiration Month</dt>
+<dd>
+  <select ng-model="currentPayment.creditCard.expirationMonth" class="form-control">
+    <option value=''>Month</option>
+    <option value='01'>01 - January</option>
+    <option value='02'>02 - February</option>
+    <option value='03'>03 - March</option>
+    <option value='04'>04 - April</option>
+    <option value='05'>05 - May</option>
+    <option value='06'>06 - June</option>
+    <option value='07'>07 - July</option>
+    <option value='08'>08 - August</option>
+    <option value='09'>09 - September</option>
+    <option value='10'>10 - October</option>
+    <option value='11'>11 - November</option>
+    <option value='12'>12 - December</option>
+  </select>
+</dd>
+
+<dt>Expiration Year</dt>
+<dd>
+  <select ng-model="currentPayment.creditCard.expirationYear" class="form-control">
+    <option value=''>Year</option>
+    <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+  </select>
+</dd>
+
+<dt>Card CVV</dt>
+<dd>
+  <input class="form-control" type="text" maxlength="4" ng-model="currentPayment.creditCard.cvvNumber" autocomplete="off" />
+</dd>
 
 <br />
 
-<h3>Billing Address</h3>
-<label>Address</label>
-<input type="text" ng-model="currentPayment.creditCard.billingAddress" class="form-control" />
-<div class="row">
-  <div class="col-sm-5">
-    <label>City</label>
-    <input type="text" ng-model="currentPayment.creditCard.billingCity" class="form-control" />
-  </div>
-  <div class="col-sm-3">
-    <label>State</label>
-    <select ng-model="currentPayment.creditCard.billingState" class="form-control">
+<dt>Card Billing Address</dt>
+<dd>
+  <input type="text" ng-model="currentPayment.creditCard.billingAddress" class="form-control" />
+</dd>
+
+<dt>Card Billing City</dt>
+<dd>
+  <input type="text" ng-model="currentPayment.creditCard.billingCity" class="form-control" />
+</dd>
+
+<dt>Card Billing State</dt>
+<dd>
+  <select ng-model="currentPayment.creditCard.billingState" class="form-control">
       <option value="AL">Alabama</option>
       <option value="AK">Alaska</option>
       <option value="AZ">Arizona</option>
@@ -100,10 +106,10 @@
       <option value="WV">West Virginia</option>
       <option value="WI">Wisconsin</option>
       <option value="WY">Wyoming</option>
-    </select>
-  </div>
-  <div class="col-sm-4">
-    <label>Zip Code</label>
-    <input type="text" ng-model="currentPayment.creditCard.billingZip" class="form-control" />
-  </div>
-</div>
+  </select>
+</dd>
+
+<dt>Card Billing Zip Code</dt>
+<dd>
+  <input type="text" ng-model="currentPayment.creditCard.billingZip" class="form-control" />
+</dd>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
-    if (angular.isUndefined($rootScope.currentPayment)) {
+    if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
       if(conference.acceptCreditCards){
         paymentType = 'CREDIT_CARD';
@@ -30,15 +30,14 @@ angular.module('confRegistrationWebApp')
         paymentType = 'SCHOLARSHIP';
       }
 
-      $rootScope.currentPayment = {
-        amount: 0,
+      $scope.currentPayment = {
+        amount: $scope.currentRegistration.remainingBalance,
         paymentType: paymentType,
         creditCard: {},
         transfer: {},
         scholarship: {}
       };
     }
-    $rootScope.currentPayment.amount = registration.calculatedTotalDue;
 
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
@@ -56,7 +55,21 @@ angular.module('confRegistrationWebApp')
 
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      if ($rootScope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
+      var errorMsg;
+
+      /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
+        show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
+        can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
+        */
+      if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
+          $scope.currentPayment.amount < $scope.currentRegistration.calculatedMinimumDeposit) {
+        errorMsg = 'You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.';
+      }
+
+      if(($scope.currentRegistration.totalPaid + $scope.currentPayment.amount) > $scope.currentRegistration.calculatedTotalDue) {
+          errorMsg = 'You are paying more than the total due of ' + $filter('moneyFormat')(registration.calculatedTotalDue) + ' to register for this event.';
+      }
+      if ($scope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
         setRegistrationAsCompleted();
         return;
       }
@@ -75,13 +88,18 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var currentPayment = angular.copy($rootScope.currentPayment);
+      var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
 
       $http.post('payments/', currentPayment).success(function () {
-        delete $rootScope.currentPayment;
-        setRegistrationAsCompleted();
+        delete $scope.currentPayment;
+        if(!$scope.currentRegistration.completed) {
+          setRegistrationAsCompleted();
+        } else {
+          window.scrollTo(0, 0);
+          $route.reload();
+        }
       }).error(function () {
         $scope.submittingRegistration = false;
         $modal.open({
@@ -113,7 +131,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.editRegistrant = function (id) {
-      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
+        $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
     };
 
     $scope.removeRegistrant = function (id) {

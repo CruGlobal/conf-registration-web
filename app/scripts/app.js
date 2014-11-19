@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'ui.sortable', 'wysiwyg.module'])
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {
@@ -31,22 +31,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         controller: 'PaymentApprovalCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth')
-        }
-      })
-      .when('/payment/:conferenceId', {
-        templateUrl: 'views/payment.html',
-        controller: 'paymentCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
-          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function (currentRegistration) {
-                return currentRegistration;
-              });
-          }],
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
-          }]
         }
       })
       .when('/reviewRegistration/:conferenceId', {

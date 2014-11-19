@@ -1,4 +1,4 @@
-<div class="row" ng-repeat="type in visibleRegistrantTypes | orderBy: ['cost','name']" ng-if="visibleRegistrantTypes.length > 1">
+<div class="row" ng-repeat="type in visibleRegistrantTypes" ng-if="visibleRegistrantTypes.length > 1">
   <div class="col-xs-9">
     <h4>{{type.name}}</h4>
     <span ng-show="isConferenceCost()">{{type.cost | moneyFormat}}</span>

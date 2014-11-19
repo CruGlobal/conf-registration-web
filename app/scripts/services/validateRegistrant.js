@@ -41,6 +41,17 @@ angular.module('confRegistrationWebApp')
               return;
             }
             break;
+          case 'numberQuestion':
+            if(angular.isUndefined(answer)){
+              invalidBlocks.push(block.id);
+              return;
+            }
+
+            if (!_.isNumber(answer)) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            break;
           default:
             if(angular.isUndefined(answer)){
               invalidBlocks.push(block.id);

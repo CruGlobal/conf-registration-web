@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container conference-details',
@@ -164,5 +164,25 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(){
       return $scope.conference.acceptCreditCards || $scope.conference.acceptTransfers || conference.acceptScholarships;
+    };
+
+    $scope.previewEmail = function(reg){
+      var cost = $filter('moneyFormat')(reg.cost);
+      var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
+      var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
+      $modal.open({
+          template: '<div class="modal-header"><button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button><h4>Email Preview</h4></div>' +
+          '<div class="modal-body"><p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
+            '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
+            '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
+            reg.customConfirmationEmailText +
+            '</div>',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return '';
+            }
+          }
+        });
     };
   });

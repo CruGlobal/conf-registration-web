@@ -1,31 +1,38 @@
 <div class="row" ng-show="currentRegistration.completed">
-  <div class="well">
-    <a class="btn btn-primary pull-right" href="#/logout">Logout</a>
-    <h4>You are registered!</h4>
-    <p>Keep this information for your records.</p>
+  <div class="col-xs-12">
+    <article>
+        <h1>You are registered!</h1>
+        <p>Keep this information for your records.</p>
+        <p ng-if="currentRegistration.remainingBalance >0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
+        <p ng-if="currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click "Confirm" you're ready.  That's it!</p>
+    </article>
   </div>
 </div>
 
 <div class="row" ng-show="!currentRegistration.completed">
-  <div class="well reg-not-complete">
-    <h3>Your registration is not complete!</h3>
-  </div>
-</div>
-<div class="row" ng-show="!currentRegistration.completed">
-  <div class="well">
-    <h4>Review Registration</h4>
-    <p>Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+  <div class="col-xs-12">
+    <article class="reg-not-complete">
+      <h3>Your registration is not complete...</h3>
+      <br />
+      <p ng-if="currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click "Confirm" you're ready.  That's it!</p>
+    </article>
   </div>
 </div>
 
-<div class="row" ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-  <div class="well" ng-class="{'invalidBorder': regValidate[r.id].length}">
+<br />
+
+<div class="row">
+  <div class="col-xs-12">
+    <article>
+    <h2>Registration Review</h2>
+    <div ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
     <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
-      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+      <button class="btn btn-small btn-default" ng-click="editRegistrant(r.id)">Edit</button>
     </div>
 
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
-      <input type="button" class="btn btn-small" ng-click="editRegistrant(r.id)" value="Edit">
+      <input type="button" class="btn btn-small btn-default" ng-click="editRegistrant(r.id)" value="Edit">
       <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="conference.allowGroupRegistrations" value="Remove">
 
       <p class="registrantPrice">
@@ -38,97 +45,106 @@
       <dt>{{block.title}}</dt>
       <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
     </dl>
+    <hr />
+    </div>
+    </article>
   </div>
 </div>
 
 <div class="row" ng-show="!currentRegistration.completed && conference.allowGroupRegistrations">
-  <div class="well">
-    <p>Register another participant</p>
-    <registration-type-select></registration-type-select>
+  <div class="col-xs-12">
+    <article>
+      <h2>Register Someone Else</h2>
+      <p>Need to add a spouse or family member to your registration?</p>
+      <registration-type-select></registration-type-select>
+      </article>
   </div>
 </div>
 
-<div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
-  <div class="well">
-    <h3>Payment Information</h3>
-    <div ng-show="!currentRegistration.completed">
+<div class="row">
+  <div class="col-xs-12">
+    <article>
+      <h2>Summary</h2>
+      <p>A breakdown of the costs<span ng-show="currentRegistration.pastPayments.length > 0" > and payments</span> associated with your registration.</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Registrant</th>
+            <th width="90">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="r in currentRegistration.registrants">
+            <td>{{registrantName(r)}}</td>
+            <td>{{r.calculatedTotalDue | moneyFormat}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-lg-12">
+          <table class="table pull-right" style="width:300px;">
+            <tr>
+              <th>Total Cost</th>
+              <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
+            </tr>
+            <tr ng-show="currentRegistration.pastPayments.length > 0">
+              <th>Previous Payment(s)</th>
+              <td>{{(currentRegistration.totalPaid) | moneyFormat}}</td>
+            </tr>
+            <tr ng-show="currentRegistration.pastPayments.length > 0">
+              <th>Remaining Balance</th>
+              <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+    <div ng-if="currentRegistration.remainingBalance > 0">
+      <h2>Payment</h2>
       <dl class="dl-horizontal">
-        <dt>Payment amount</dt>
-        <dd>
-          <label>
-          <input type="radio"
-                 ng-model="currentPayment.amount"
-                 ng-value="currentRegistration.calculatedMinimumDeposit">
-          {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
-          </label>
-          <label ng-show="currentRegistration.calculatedTotalDue !== currentRegistration.calculatedMinimumDeposit">
-            <input type="radio"
+        <dt>Amount</dt>
+        <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+            <input type="text"
                    ng-model="currentPayment.amount"
-                   ng-value="currentRegistration.calculatedTotalDue">
-            {{currentRegistration.calculatedTotalDue | moneyFormat}}
-          </label>
+                   ng-value="currentRegistration.calculatedTotalDue"
+                   class="form-control marginless"/>
+          </div>
+          <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 &&
+                                            currentRegistration.pastPayments.length === 0"><i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}</span>
+        </dd>
+        <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
+          <input type="radio"
+                   ng-model="currentPayment.amount"
+                   ng-value="currentRegistration.calculatedTotalDue" /> {{currentRegistration.calculatedTotalDue | moneyFormat}}
         </dd>
       </dl>
 
-      <div ng-if="currentPayment.amount > 0" ert-payment payment="currentPayment">
+      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment>
       </div>
     </div>
-
-    <br />
-
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Registrant</th>
-        <th width="90">Cost</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr ng-repeat="r in currentRegistration.registrants">
-        <td>{{registrantName(r)}}</td>
-        <td>{{r.calculatedTotalDue | moneyFormat}}</td>
-      </tr>
-      </tbody>
-    </table>
-
-    <div class="row">
-      <div class="col-lg-12">
-        <table class="table pull-right" style="width:300px;">
-          <tr>
-            <th>Total Cost</th>
-            <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
-          </tr>
-          <tr ng-show="!currentRegistration.completed">
-            <th>Payment</th>
-            <td>{{currentPayment.amount | moneyFormat}}</td>
-          </tr>
-          <tr ng-show="currentRegistration.completed">
-            <th>Payment(s)</th>
-            <td>{{currentRegistration.totalPaid | moneyFormat}}</td>
-          </tr>
-          <tr ng-show="!currentRegistration.completed">
-            <th>Remaining Balance</th>
-            <td>{{(currentRegistration.calculatedTotalDue - currentPayment.amount) | moneyFormat}}</td>
-          </tr>
-          <tr ng-show="currentRegistration.completed">
-            <th>Remaining Balance</th>
-            <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
-          </tr>
-        </table>
-      </div>
-    </div>
+    </article>
   </div>
 </div>
 
-<div class="row" ng-show="!currentRegistration.completed">
-  <div class="well">
+<div class="row" ng-show="!currentRegistration.completed || (anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0)">
+  <div class="col-xs-12 text-center">
+    <article>
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
     <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
+    </article>
   </div>
 </div>
+
 <div class="row" ng-show="currentRegistration.completed">
-  <div class="well">
-    <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
+  <div class="col-xs-12">
+    <article>
+      <div class="text-center">
+        <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
+      </div>
+    </article>
   </div>
 </div>

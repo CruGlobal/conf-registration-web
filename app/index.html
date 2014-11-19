@@ -44,6 +44,8 @@
   <script src="bower_components/lodash/dist/lodash.js"></script>
   <script src="bower_components/string/lib/string.js"></script>
   <script src="bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
+  <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+  <script src="components/angular-wysiwyg-custom.js"></script>
   <!-- endbuild -->
   <!-- build:js scripts/eventApp.js -->
   <script src="scripts/app.js"></script>
@@ -88,7 +90,6 @@
   <script src="scripts/filters/evtDateFormat.js"></script>
   <script src="scripts/services/Model.js"></script>
   <script src="scripts/directives/datepicker.js"></script>
-  <script src="scripts/controllers/payment.js"></script>
   <script src="scripts/directives/adminNav.js"></script>
   <script src="scripts/controllers/eventPermissions.js"></script>
   <script src="scripts/controllers/ActiviatePermission.js"></script>
@@ -183,8 +184,11 @@
   <section id="frontpagetitle">
     <div class="container">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-10">
           <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/"><h1 ng-bind="globalPage.title"></h1></a>
+        </div>
+        <div class="col-xs-2 usr-greeting">
+          <a href="#/logout" class="btn btn-primary">Logout</a>
         </div>
       </div>
     </div>
