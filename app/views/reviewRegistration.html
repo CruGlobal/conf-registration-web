@@ -56,12 +56,12 @@
   </div>
 </div>
 
-<div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0 && registerMode !== 'preview'">
+<div class="row">
   <div class="col-xs-12">
     <article>
     <h2>Payment Information</h2>
     <div>
-      <dl class="dl-horizontal">
+      <dl class="dl-horizontal" ng-if="currentRegistration.remainingBalance > 0">
         <dt>Amount</dt>
         <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
           <div class="input-group">
