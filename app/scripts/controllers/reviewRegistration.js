@@ -55,7 +55,12 @@ angular.module('confRegistrationWebApp')
       $scope.submittingRegistration = true;
       var errorMsg;
 
-      if ($rootScope.currentPayment.amount < registration.calculatedMinimumDeposit) {
+      /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
+        show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
+        can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
+        */
+      if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
+          $rootScope.currentPayment.amount < $scope.currentRegistration.calculatedMinimumDeposit) {
         errorMsg = 'You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.';
       }
 
@@ -63,7 +68,6 @@ angular.module('confRegistrationWebApp')
         setRegistrationAsCompleted();
         return;
       }
-
 
       if($scope.currentPayment.paymentType === 'TRANSFER'){
         if(!$scope.currentPayment.transfer.source){
