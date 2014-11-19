@@ -54,11 +54,11 @@
   </div>
 </div>
 
-<div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0 && registerMode !== 'preview'">
+<div class="row" ng-show="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0 && registerMode !== 'preview'">
   <div class="col-xs-12">
     <article>
     <h2>Payment Information</h2>
-    <div ng-show="!currentRegistration.completed">
+    <div>
       <dl class="dl-horizontal">
         <dt>Amount</dt>
         <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
@@ -78,7 +78,7 @@
         </dd>
       </dl>
 
-      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0" ert-payment>
+      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment>
       </div>
     </div>
 
@@ -137,7 +137,6 @@
   </div>
 </div>
 
-<!-- haven't checked this section yet -->
 <div class="row" ng-show="currentRegistration.completed">
   <div class="col-xs-12">
     <article>
