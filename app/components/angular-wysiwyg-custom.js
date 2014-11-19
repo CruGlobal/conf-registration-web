@@ -92,7 +92,7 @@ angular.module('wysiwyg.module', [])
                     })
 
 
-                textarea.on('keyup mouseup', function() {
+                textarea.on('keyup mouseup mouseout', function() {
                     scope.$apply(function readViewText() {
                         var html = textarea.html();
 
