@@ -74,13 +74,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if ($rootScope.currentPayment.errors) {
+      if ($scope.currentPayment.errors) {
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return $rootScope.currentPayment.errors;
+              return $scope.currentPayment.errors;
             }
           }
         });

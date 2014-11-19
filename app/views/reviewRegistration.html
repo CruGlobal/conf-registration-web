@@ -112,8 +112,9 @@
                    ng-value="currentRegistration.calculatedTotalDue"
                    class="form-control marginless"/>
           </div>
-          <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 &&
-                                            currentRegistration.pastPayments.length === 0"><i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}</span>
+          <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0">
+            <i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
+          </span>
         </dd>
         <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
           <input type="radio"
@@ -122,8 +123,7 @@
         </dd>
       </dl>
 
-      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment>
-      </div>
+      <div ng-if="anyPaymentMethodAccepted() && currentPayment.remainingBalance > 0" ert-payment payment="currentPayment"></div>
     </div>
     </article>
   </div>
