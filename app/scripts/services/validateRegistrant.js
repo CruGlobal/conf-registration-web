@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
               return;
             }
 
-            if (answer.match(/\d/g).length !== 10) {
+            if (answer.match(/\d/g).length !== 10 || answer.match(/[a-z]/i)) {
               invalidBlocks.push(block.id);
               return;
             }
