@@ -75,7 +75,19 @@ angular.module('confRegistrationWebApp')
   .directive('selectQuestion', function () {
     return {
       templateUrl: 'views/blocks/selectQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      controller: function($scope, $filter){
+        $scope.$watch('block', function() {
+          $scope.visibleValues = [];
+          angular.forEach($scope.block.content.choices, function(c){
+            var visibleValue = c.value;
+            if(c.amount){
+              visibleValue = visibleValue + ' - ' + $filter('moneyFormat')(c.amount);
+            }
+            $scope.visibleValues.push(visibleValue);
+          });
+        }, true);
+      }
     };
   });
 
