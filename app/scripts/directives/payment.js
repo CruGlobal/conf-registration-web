@@ -33,6 +33,9 @@ angular.module('confRegistrationWebApp')
 
         //payment validation
         $scope.$watch('currentPayment', function(currentPayment){
+          if(angular.isUndefined(currentPayment)){
+            return;
+          }
           var paymentErrors = [];
           if(currentPayment.paymentType === 'CREDIT_CARD'){
             if(!currentPayment.creditCard.nameOnCard){

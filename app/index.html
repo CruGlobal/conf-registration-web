@@ -185,7 +185,10 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-10">
-          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/"><h1 ng-bind="globalPage.title"></h1></a>
+          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
+            <h1 ng-bind="globalPage.title"></h1>
+          </a>
+          <h1 ng-bind="globalPage.title" ng-if="!globalPage.confId"></h1>
         </div>
         <div class="col-xs-2 usr-greeting">
           <a href="#/logout" class="btn btn-primary">Logout</a>

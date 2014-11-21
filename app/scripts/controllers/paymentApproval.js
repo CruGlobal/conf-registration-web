@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       type: 'registration',
       mainClass: 'container front-form',
       bodyClass: 'frontend',
-      title: 'Scholarship Approval',
+      title: 'Event Registration Tool',
       confId: 0,
       footer: false
     };
