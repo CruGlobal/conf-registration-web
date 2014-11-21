@@ -1,0 +1,75 @@
+<div class="row">
+  <div class="col-xs-12">
+    <article ng-show="payment.scholarship.scholarshipStatus === 'REQUESTED'">
+      <h2>Scholarship Approval</h2>
+      <p class="text-muted"><i class="fa fa-info-circle"></i> The registrant below has requested a scholarship.  Please use the form below to approve or deny this request.</p>
+      <form class="form-horizontal" role="form">
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Requester</label>
+          <div class="col-sm-9">
+            {{payment.scholarship.requesterName}}<br>
+            <a ng-href="mailto:{{payment.scholarship.requesterEmail}}">{{payment.scholarship.requesterEmail}}</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Amount</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="payment.amount">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Type</label>
+          <div class="col-sm-9">
+            <select class="form-control" ng-model="payment.scholarship.type">
+              <option>Ministry Account Transfer</option>
+              <option>Staff Account Transfer</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Account Number</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" ng-model="payment.scholarship.source">
+          </div>
+        </div>
+      </form>
+
+      <div class="row" ng-show="!posting">
+        <div class="col-md-4 col-md-offset-2">
+          <button class="btn btn-success btn-lg full"
+                  ng-click="updatePayment('APPROVED')"
+                  type="submit">Approve
+          </button>
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-danger btn-lg full"
+                  ng-click="updatePayment('DENIED')"
+                  type="submit">Decline
+          </button>
+        </div>
+      </div>
+      <div class="row" ng-show="posting">
+        <div class="col-md-12">
+          <p><i class="fa fa-spinner fa-spin"></i> Saving...</p>
+        </div>
+      </div>
+    </article>
+
+    <article ng-show="payment.scholarship.scholarshipStatus === 'APPROVED'">
+      <h2>Scholarship Approved</h2>
+      <p>The scholarship has been approved.</p>
+    </article>
+
+    <article ng-show="payment.scholarship.scholarshipStatus === 'DENIED'">
+      <h2>Scholarship Denied</h2>
+      <p>The scholarship has been denied.</p>
+    </article>
+
+    <article ng-show="!payment">
+      <p>There was an error retrieving the requested payment, please verify that the url is correct.</p>
+    </article>
+  </div>
+</div>

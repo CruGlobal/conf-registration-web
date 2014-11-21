@@ -26,13 +26,16 @@ angular.module('confRegistrationWebApp')
         paymentType = 'CREDIT_CARD';
       }else if(conference.acceptTransfers){
         paymentType = 'TRANSFER';
+      }else if(conference.acceptScholarships){
+        paymentType = 'SCHOLARSHIP';
       }
 
       $scope.currentPayment = {
         amount: $scope.currentRegistration.remainingBalance,
         paymentType: paymentType,
         creditCard: {},
-        transfer: {}
+        transfer: {},
+        scholarship: {}
       };
     }
 
@@ -71,18 +74,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'TRANSFER'){
-        if(!$scope.currentPayment.transfer.source){
-          errorMsg = 'Please enter a Chart Field or Account Number.';
-        }
-      }
-      if (errorMsg) {
+      if ($scope.currentPayment.errors) {
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return errorMsg;
+              return $scope.currentPayment.errors;
             }
           }
         });
@@ -186,6 +184,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptTransfers;
+      return conference.acceptCreditCards || conference.acceptTransfers || conference.acceptScholarships;
     };
   });
