@@ -75,6 +75,22 @@ angular.module('confRegistrationWebApp')
           });
         };
 
+        $scope.editBlockOptionMoveUp = function (index) {
+          if(index > 0 && index < $scope.this.block.content.choices.length){
+            var temp = $scope.this.block.content.choices[index];
+            $scope.this.block.content.choices[index] = $scope.this.block.content.choices[index - 1];
+            $scope.this.block.content.choices[index - 1] = temp;
+          }
+        };
+
+        $scope.editBlockOptionMoveDown = function (index) {
+          if(index >= 0 && index < $scope.this.block.content.choices.length - 1){
+            var temp = $scope.this.block.content.choices[index];
+            $scope.this.block.content.choices[index] = $scope.this.block.content.choices[index + 1];
+            $scope.this.block.content.choices[index + 1] = temp;
+          }
+        };
+
         $scope.editBlockDeleteOption = function (index) {
           $scope.this.block.content.choices.splice(index, 1);
         };
