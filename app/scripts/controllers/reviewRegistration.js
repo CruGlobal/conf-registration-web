@@ -22,8 +22,10 @@ angular.module('confRegistrationWebApp')
 
     if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
-      if(conference.acceptCreditCards){
+      if(conference.acceptCreditCards) {
         paymentType = 'CREDIT_CARD';
+      }else if(conference.acceptChecks){
+        paymentType = 'CHECK';
       }else if(conference.acceptTransfers){
         paymentType = 'TRANSFER';
       }else if(conference.acceptScholarships){
@@ -184,6 +186,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptTransfers || conference.acceptScholarships;
+      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
     };
   });

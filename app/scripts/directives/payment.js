@@ -14,6 +14,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.paymentMethodsViews = {
           CREDIT_CARD: 'views/paymentMethods/creditCard.html',
+          CHECK: 'views/paymentMethods/check.html',
           TRANSFER: 'views/paymentMethods/transfer.html',
           SCHOLARSHIP: 'views/paymentMethods/scholarship.html'
         };

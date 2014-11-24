@@ -118,6 +118,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptTransfers || conference.acceptScholarships;
+      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
     };
   });
