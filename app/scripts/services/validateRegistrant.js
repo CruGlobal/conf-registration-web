@@ -52,6 +52,17 @@ angular.module('confRegistrationWebApp')
               return;
             }
             break;
+          case 'phoneQuestion':
+            if(angular.isUndefined(answer)){
+              invalidBlocks.push(block.id);
+              return;
+            }
+
+            if (answer.match(/\d/g).length !== 10 || answer.match(/[a-z]/i)) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            break;
           default:
             if(angular.isUndefined(answer)){
               invalidBlocks.push(block.id);
