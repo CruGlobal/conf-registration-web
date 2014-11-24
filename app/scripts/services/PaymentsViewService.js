@@ -53,6 +53,9 @@ angular.module('confRegistrationWebApp')
           angular.forEach(registration.pastPayments, function (payment) {
             var row = [];
             row.push.apply(row, name);
+            if(payment.paymentType === 'REFUND' || payment.paymentType === 'CREDIT_CARD_REFUND') {
+              payment.amount = payment.amount * -1;
+            }
             row.push.apply(row, ['"' + $filter('moneyFormat')(payment.amount) + '"']);
             if(payment.paymentType === 'CREDIT_CARD') {
               row.push(U.getValue('Credit Card **' + payment.creditCard.lastFourDigits));
