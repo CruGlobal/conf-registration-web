@@ -102,7 +102,7 @@
 
     <div ng-if="currentRegistration.remainingBalance > 0">
       <h2>Payment</h2>
-      <dl class="dl-horizontal">
+      <dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'CHECK'">
         <dt>Amount</dt>
         <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
           <div class="input-group">

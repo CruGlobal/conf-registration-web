@@ -89,6 +89,15 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      if($scope.currentPayment.paymentType === 'CHECK'){
+        if(!$scope.currentRegistration.completed){
+          setRegistrationAsCompleted();
+        }else{
+          $scope.submittingRegistration = false;
+        }
+        return;
+      }
+
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
