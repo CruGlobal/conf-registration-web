@@ -74,7 +74,7 @@
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button type="button" class="btn btn-info" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span> Options</button>
+                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span> Options</button>
                         <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                       </span>
                   </div>
@@ -83,7 +83,7 @@
               <div class="input-group spacing-above-md">
                   <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> Add Answer</button>
+                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> Add</button>
                   </span>
               </div>
           </div>
