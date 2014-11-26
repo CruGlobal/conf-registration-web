@@ -478,6 +478,10 @@ angular.module('confRegistrationWebApp')
             _.remove($scope.registrants, function (r) {
               return r.id === registrant.id;
             });
+
+            _.remove(registration.registrants, function (r) {
+              return r.id === registrant.id;
+            });
           });
         }
       });
