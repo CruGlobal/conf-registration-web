@@ -22,8 +22,10 @@ angular.module('confRegistrationWebApp')
 
     if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
-      if(conference.acceptCreditCards){
+      if(conference.acceptCreditCards) {
         paymentType = 'CREDIT_CARD';
+      }else if(conference.acceptChecks){
+        paymentType = 'CHECK';
       }else if(conference.acceptTransfers){
         paymentType = 'TRANSFER';
       }else if(conference.acceptScholarships){
@@ -65,8 +67,8 @@ angular.module('confRegistrationWebApp')
         $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.');
       }
 
-      if(($scope.currentRegistration.totalPaid + $scope.currentPayment.amount) > $scope.currentRegistration.calculatedTotalDue) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('moneyFormat')(registration.calculatedTotalDue) + ' to register for this event.');
+      if($scope.currentPayment.amount > $scope.currentRegistration.remainingBalance) {
+        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('moneyFormat')(registration.remainingBalance) + ' to register for this event.');
       }
       if ($scope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
         setRegistrationAsCompleted();
@@ -84,6 +86,15 @@ angular.module('confRegistrationWebApp')
           }
         });
         $scope.submittingRegistration = false;
+        return;
+      }
+
+      if($scope.currentPayment.paymentType === 'CHECK'){
+        if(!$scope.currentRegistration.completed){
+          setRegistrationAsCompleted();
+        }else{
+          $scope.submittingRegistration = false;
+        }
         return;
       }
 
@@ -183,6 +194,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptTransfers || conference.acceptScholarships;
+      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
     };
   });
