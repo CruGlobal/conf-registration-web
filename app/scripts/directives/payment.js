@@ -6,7 +6,8 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/payment.html',
       restrict: 'A',
       scope: {
-        currentPayment: '=payment'
+        currentPayment: '=payment',
+        currentRegistration: '=registration'
       },
       controller: function ($scope, $http) {
         $scope.conference =  $scope.$parent.conference;

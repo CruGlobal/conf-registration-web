@@ -102,28 +102,7 @@
 
     <div ng-if="currentRegistration.remainingBalance > 0">
       <h2>Payment</h2>
-      <dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'CHECK'">
-        <dt>Amount</dt>
-        <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-            <input type="text"
-                   ng-model="currentPayment.amount"
-                   ng-value="currentRegistration.calculatedTotalDue"
-                   class="form-control marginless"/>
-          </div>
-          <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0">
-            <i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | moneyFormat}}
-          </span>
-        </dd>
-        <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
-          <input type="radio"
-                   ng-model="currentPayment.amount"
-                   ng-value="currentRegistration.calculatedTotalDue" /> {{currentRegistration.calculatedTotalDue | moneyFormat}}
-        </dd>
-      </dl>
-
-      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment payment="currentPayment"></div>
+      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment payment="currentPayment" registration="currentRegistration"></div>
     </div>
     </article>
   </div>
