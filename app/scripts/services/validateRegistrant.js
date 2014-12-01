@@ -53,12 +53,12 @@ angular.module('confRegistrationWebApp')
             }
             break;
           case 'phoneQuestion':
-            if(angular.isUndefined(answer) || _.isNull(answer)){
+            if(angular.isUndefined(answer)){
               invalidBlocks.push(block.id);
               return;
             }
 
-            if (answer.match(/\d/g).length !== 10 || answer.match(/[a-z]/i)) {
+            if (_.isNull(answer.match(/\d/g)) || answer.match(/\d/g).length !== 10 || answer.match(/[a-z]/i)) {
               invalidBlocks.push(block.id);
               return;
             }
