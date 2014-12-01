@@ -106,8 +106,9 @@
   <script src="scripts/services/validateRegistrant.js"></script>
   <script src="scripts/filters/moneyFormat.js"></script>
   <!-- endbuild -->
-
-  <script src="//airbrake.io/javascripts/notifier.js"></script>
+  <!-- build:js scripts/errorNotify.js -->
+  <script src="components/errorNotify.js"></script>
+  <!-- endbuild -->
   <script>
     Hoptoad.setKey('e7a93aafa70a5d3929679c5ad95bf8c7');
     Hoptoad.setHost('errors.uscm.org');
