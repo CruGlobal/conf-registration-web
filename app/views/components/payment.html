@@ -48,7 +48,7 @@
   <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
     <input type="radio"
            ng-model="currentPayment.amount"
-           ng-value="currentRegistration.calculatedTotalDue" /> {{currentRegistration.calculatedTotalDue | moneyFormat}}
+           ng-value="currentRegistration.remainingBalance" /> {{currentRegistration.remainingBalance | moneyFormat}}
   </dd>
 </dl>
 
