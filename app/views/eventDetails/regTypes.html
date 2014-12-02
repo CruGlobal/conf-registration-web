@@ -7,7 +7,7 @@
     <label>Cost <em class="required">*</em></label>
   </div>
 </div>
-<div ui-sortable ng-model="conference.registrantTypes">
+<div ui-sortable="{ 'handle': '.fa-bars' }" ng-model="conference.registrantTypes">
   <div ng-repeat="type in conference.registrantTypes">
     <div class="row">
       <div class="form-group col-xs-7">
@@ -24,11 +24,11 @@
           <button type="button" class="btn btn-default" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa" ng-class="{'fa-chevron-down': !openWell[type.id], 'fa-chevron-up': openWell[type.id]}"></i> Options</button>
           <button type="button" class="btn btn-danger" ng-click="deleteRegType(type.id)">Delete</button>
         </div>
-        <i class="fa fa-bars"></i>
+        <i class="fa fa-bars" style="cursor: move;"></i>
       </div>
     </div>
-    <div class="well" collapse="!openWell[type.id]">
 
+    <div class="well" collapse="!openWell[type.id]">
       <label class="space">
         <input type="checkbox" ng-model="type.hidden" ng-value="true">
         Hide from public registration form
