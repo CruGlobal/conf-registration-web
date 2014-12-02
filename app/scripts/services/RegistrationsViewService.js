@@ -87,7 +87,13 @@ angular.module('confRegistrationWebApp')
             titles.push('Zip');
           }
           else {
-            titles.push(block.title.replace(/,/g, ''));
+            var fieldTitle = block.title;
+
+            if(block.exportFieldTitle != '' && block.exportFieldTitle != null) {
+              fieldTitle = block.exportFieldTitle;
+            }
+
+            titles.push(fieldTitle.replace(/,/g, ''));
           }
         }
       });
