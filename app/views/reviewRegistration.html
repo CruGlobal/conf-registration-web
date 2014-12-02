@@ -4,7 +4,7 @@
         <h1>You are registered!</h1>
         <p>Keep this information for your records.</p>
         <p ng-if="currentRegistration.remainingBalance >0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
-        <p ng-if="currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click "Confirm".  That's it!</p>
+        <p ng-if="currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
     </article>
   </div>
 </div>
@@ -15,7 +15,7 @@
       <h3>Your registration is not complete...</h3>
       <br />
       <p ng-if="currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click "Confirm" if correct.</p>
-      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click "Confirm" you're ready.  That's it!</p>
+      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click Confirm.  That's it!</p>
     </article>
   </div>
 </div>
