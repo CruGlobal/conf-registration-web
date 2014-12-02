@@ -63,7 +63,7 @@ angular.module('confRegistrationWebApp')
         can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
         */
       if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
-          $scope.currentPayment.amount < $scope.currentRegistration.calculatedMinimumDeposit) {
+          ($scope.currentPayment.amount + $scope.currentRegistration.totalPaid) < $scope.currentRegistration.calculatedMinimumDeposit) {
         $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.');
       }
 
