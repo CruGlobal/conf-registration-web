@@ -199,6 +199,11 @@ angular.module('confRegistrationWebApp')
         });
     };
 
+    $scope.questionsToolbarVisible = true;
+    $scope.toggleQuestionsToolbar = function() {
+      $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
+    };
+
     var hiddenPages = [];
     $scope.togglePage = function(id) {
       if(_.contains(hiddenPages, id)) {

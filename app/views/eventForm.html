@@ -1,81 +1,92 @@
 <div class="alert eventhub-growl" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.message && !growlMessage"></div>
-<div class="row waypoint1">
+<div class="row">
   <!-- Elements -->
-  <div class="col-xs-3 elements-list" ng-show="conference.registrationPages.length > 0">
-    <h4>Form Elements</h4>
-    <ul id="sortable1" class="crsFormElements">
-      <li id="paragraphContent" default-title="Information" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Information Box </span>
-        <i class="fabtn fa fa-plus-circle"></i>
-      </li>
-      <li id="textQuestion" default-title="Question" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Single Line Text</span>
-        <i class="fabtn fa fa-pencil-square-o"></i>
-      </li>
-      <li id="textareaQuestion" default-title="Question" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Multi Line Text</span>
-        <i class="fabtn fa fa-text-height"></i>
-      </li>
-      <li id="radioQuestion" default-title="Multiple Choice Question" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Multiple Choice (choose one)</span>
-        <i class="fabtn fa fa-list"></i>
-      </li>
-      <li id="checkboxQuestion" default-title="Checkbox Question" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Checkbox (choose one or more)</span>
-        <i class="fabtn fa fa-check-square-o"></i>
-      </li>
-      <li id="selectQuestion" default-title="Dropdown Question" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Dropdown </span>
-        <i class="fabtn fa fa-chevron-down"></i>
-      </li>
-      <li id="numberQuestion" default-title="Number" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Number </span>
-        <i class="fabtn fa fa-superscript"></i>
-      </li>
-      <li id="dateQuestion" default-title="Date" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Date </span>
-        <i class="fabtn fa fa-calendar"></i>
-      </li>
-      <li id="nameQuestion" default-title="Name" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Name </span>
-        <i class="fabtn fa fa-user"></i>
-      </li>
-      <li id="emailQuestion" default-title="Email" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Email </span>
-        <i class="fabtn fa fa-envelope-o"></i>
-      </li>
-      <li id="phoneQuestion" default-title="Telephone" default-profile="PHONE" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Telephone </span>
-        <i class="fabtn fa fa-phone-square"></i>
-      </li>
-      <li id="addressQuestion" default-title="Address" default-profile="ADDRESS" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Address </span>
-        <i class="fabtn fa fa-home"></i>
-      </li>
-      <li id="genderQuestion" default-title="Gender" default-profile="GENDER" type="button" class="btn btn-default btn-sm btn-block text-left">
-        <span class="text">Gender </span>
-        <i class="fabtn fa fa-male"></i>
-      </li>
-      <li id="yearInSchoolQuestion" default-title="Year in School" default-profile="YEAR_IN_SCHOOL" type="button" class="btn btn-default btn-sm btn-block text-left">
-          <span class="text">Year in School </span>
-          <i class="fabtn fa fa-graduation-cap"></i>
-      </li>
-    </ul>
-  </div>
-
-  <div class="functions-header well">
-    <a href="" ng-click="addNewPage()" class="btn btn-primary"><i class="fa fa-plus"></i> Add New Page</a>
-    <a href="" ng-click="previewForm()" class="btn btn-success save-btn btn-right">Preview Form</a>
-  </div>
-  <div class="col-xs-9 form-page">
-    <form class="form page-form" role="form">
-      <div class="well well-sm" ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}" form-elements>
-        <page></page>
-        <div class="col-xs-12 dragnew" ng-show="page.blocks.length <= 2 && $first && !isPageHidden(page.id)">
-          <i class="fa fa-plus-circle"></i>
-          <p>Drag new form elements here!</p>
+  <div form-elements class="col-xs-12" ng-show="conference.registrationPages.length > 0">
+    <div class="questions-toolbar-container">
+      <div class="well well-sm container questions-toolbar" data-spy="affix" data-offset-top="240">
+        <div class="row">
+          <div class="col-sm-4 hidden-xs">
+            <h4>Form Elements</h4>
+          </div>
+          <div class="col-sm-8 col-xs-12">
+            <div class="btn-group pull-right" role="group">
+              <button ng-click="addNewPage()" class="btn btn-success"><i class="fa fa-plus"></i> New Page</button>
+              <button ng-click="previewForm()" class="btn btn-info save-btn"><i class="fa fa-eye"></i> Preview Form</button>
+              <button ng-click="toggleQuestionsToolbar()" class="btn"><i class="fa" ng-class="{'fa-chevron-up': questionsToolbarVisible, 'fa-chevron-down': !questionsToolbarVisible}"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="row spacing-above-xs" ng-if="questionsToolbarVisible">
+          <div class="col-xs-12">
+            <span class="label label-primary" id="paragraphContent" default-title="Information">
+              <i class="fabtn fa fa-plus-circle"></i>
+              <span class="text">Information Box </span>
+            </span>
+            <span class="label label-primary" id="textQuestion" default-title="Question">
+              <i class="fabtn fa fa-pencil-square-o"></i>
+              <span class="text">Single Line Text</span>
+            </span>
+            <span class="label label-primary" id="textareaQuestion" default-title="Question">
+              <i class="fabtn fa fa-text-height"></i>
+              <span class="text">Multi Line Text</span>
+            </span>
+            <span class="label label-primary" id="radioQuestion" default-title="Multiple Choice Question">
+              <i class="fabtn fa fa-list"></i>
+              <span class="text">Multiple Choice (choose one)</span>
+            </span>
+            <span class="label label-primary" id="checkboxQuestion" default-title="Checkbox Question">
+              <i class="fabtn fa fa-check-square-o"></i>
+              <span class="text">Checkbox (choose one or more)</span>
+            </span>
+            <span class="label label-primary" id="selectQuestion" default-title="Dropdown Question">
+              <i class="fabtn fa fa-chevron-down"></i>
+              <span class="text">Dropdown </span>
+            </span>
+            <span class="label label-primary" id="numberQuestion" default-title="Number">
+              <i class="fabtn fa fa-superscript"></i>
+              <span class="text">Number </span>
+            </span>
+            <span class="label label-primary" id="dateQuestion" default-title="Date">
+              <i class="fabtn fa fa-calendar"></i>
+              <span class="text">Date </span>
+            </span>
+            <span class="label label-primary" id="nameQuestion" default-title="Name">
+              <i class="fabtn fa fa-user"></i>
+              <span class="text">Name </span>
+            </span>
+            <span class="label label-primary" id="emailQuestion" default-title="Email">
+              <i class="fabtn fa fa-envelope-o"></i>
+              <span class="text">Email </span>
+            </span>
+            <span class="label label-primary" id="phoneQuestion" default-title="Telephone" default-profile="PHONE">
+              <i class="fabtn fa fa-phone-square"></i>
+              <span class="text">Telephone </span>
+            </span>
+            <span class="label label-primary" id="addressQuestion" default-title="Address" default-profile="ADDRESS">
+              <i class="fabtn fa fa-home"></i>
+              <span class="text">Address </span>
+            </span>
+            <span class="label label-primary" id="genderQuestion" default-title="Gender" default-profile="GENDER">
+              <i class="fabtn fa fa-male"></i>
+              <span class="text">Gender </span>
+            </span>
+            <span class="label label-primary" id="yearInSchoolQuestion" default-title="Year in School" default-profile="YEAR_IN_SCHOOL">
+              <i class="fabtn fa fa-graduation-cap"></i>
+              <span class="text">Year in School </span>
+            </span>
+          </div>
         </div>
       </div>
-    </form>
+    </div>
+    <div class="form-page">
+      <form class="form page-form" role="form">
+        <div class="well well-sm" ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+          <page></page>
+          <div class="col-xs-12 dragnew" ng-show="page.blocks.length <= 2 && $first && !isPageHidden(page.id)">
+            <i class="fa fa-plus-circle"></i>
+            <p>Drag new form elements here!</p>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-</div>

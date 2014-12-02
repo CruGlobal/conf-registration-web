@@ -27,7 +27,6 @@
 /***** GLOBALS *****/
 * {.proxima;}
 
-body {min-width: 1200px;}
 
 body.frontend {
   min-width: 320px;
@@ -414,15 +413,21 @@ main.form-builder {
       font-size: 200%;
     }
   }
-  .elements-list {
-    margin-bottom: 25px;
+  .questions-toolbar{
+    .label{
+      display: inline-block;
+      margin: 4px 2px 1px;
+      font-size: 13px;
+    }
+  }
+  .questions-toolbar.affix{
+    position: fixed;
+    width: 100%;
     top: 0;
-    width: 290px;
+    left: 0;
+    z-index: 5;
   }
   .form-page {
-    border-left: 2px solid #cccccc;
-    float: right;
-    min-height: 500px;
     a.btn + a.btn { margin-left: 10px; }
     ul.pager { display: inline-block; margin-right: 20px; }
     .overflow { min-height: 500px;
@@ -858,7 +863,6 @@ body {
 
 /***** BOOTSTRAP DEFAULT OVERRIDES *****/
 body {
-  .container { width: 1170px !important; }
   .label-success, .btn-success { background: @green; }
   .label-primary, .btn-primary { background: @blue; }
   .nav-pills .active a { background: @darkerblue; }
