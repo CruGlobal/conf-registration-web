@@ -106,6 +106,7 @@ angular.module('confRegistrationWebApp')
               };
 
               $scope.save = function (choice) {
+                choice.amount = choice.amount.replace(',','');
                 if(_.isNaN(Number(choice.amount))){
                   alert('Error: please enter a valid additional cost.');
                 }else{
