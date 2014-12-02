@@ -33,16 +33,20 @@ angular.module('confRegistrationWebApp')
 
         })(jQuery,'smartresize');
 
+        function setQuestionToolbarSize(){
+          $(".questions-toolbar-container").css("min-height", function(){
+            return $(".questions-toolbar").height();
+          });
+        }
         window.setTimeout(function () {
           $(".questions-toolbar").affix({
             offset: {
               top: 240
             }
           });
+          setQuestionToolbarSize();
           $(window).smartresize(function(){
-            $(".questions-toolbar-container").css("min-height", function(){
-              return $(".questions-toolbar").height();
-            });
+            setQuestionToolbarSize();
           });
         }, 500);
       }
