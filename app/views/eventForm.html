@@ -6,7 +6,7 @@
       <div class="well well-sm container questions-toolbar" data-spy="affix" data-offset-top="240">
         <div class="row">
           <div class="col-sm-4 hidden-xs">
-            <h4>Form Elements</h4>
+            <h4>Add Questions</h4>
           </div>
           <div class="col-sm-8 col-xs-12">
             <div class="btn-group pull-right" role="group">
@@ -79,8 +79,12 @@
       </div>
     </div>
     <div class="form-page">
+      <div class="page-header">
+        <h2>Pages <small>Drag questions from above and edit pages</small></h2>
+      </div>
       <form class="form page-form" role="form">
-        <div class="well well-sm" ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+        <div ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+          <hr ng-if="!$first">
           <page></page>
           <div class="col-xs-12 dragnew" ng-show="page.blocks.length <= 2 && $first && !isPageHidden(page.id)">
             <i class="fa fa-plus-circle"></i>

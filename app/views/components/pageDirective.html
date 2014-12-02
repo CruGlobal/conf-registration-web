@@ -1,20 +1,20 @@
 <article>
   <div ng-if="wizard">
-    <div class="row padded">
-      <div class="col-xs-2">
-        <a href="" ng-click="deletePage(page.id, true)" class="btn btn-danger"><i class="fa fa-times"></i> Delete Page</a>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon hidden-xs">Page #{{$index + 1}}</span>
+          <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
+          <div class="input-group-btn">
+            <button class="btn btn-danger" ng-click="deletePage(page.id, true)"><i class="fa fa-times"></i> Delete Page</button>
+            <button class="btn btn-default" ng-click="togglePage(page.id)"><i class="fa" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></button>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-9">
-        <h1><input placeholder="Page Title" type="text" ng-model="page.title"></h1>
-      </div>
-      <div class="col-xs-1">
-        <i class="fa" ng-class="{'fa-caret-square-o-up': !isPageHidden(page.id), 'fa-caret-square-o-down': isPageHidden(page.id)}" style="font-size: 30px;" ng-click="togglePage(page.id)"></i>
-      </div>
+      <ul class="list-group" id="{{page.id}}" ng-show="!isPageHidden(page.id)">
+        <li class="list-group-item" ng-repeat="block in page.blocks" block="block" crs-block></li>
+      </ul>
     </div>
-
-    <ul class="connectedSortable list-unstyled sortable2" id="{{page.id}}" ng-show="!isPageHidden(page.id)">
-      <li ng-repeat="block in page.blocks" block="block" crs-block></li>
-    </ul>
   </div>
 
   <div ng-show="!wizard">

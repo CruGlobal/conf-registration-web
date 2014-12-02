@@ -65,6 +65,10 @@ angular.module('confRegistrationWebApp')
           }
         }
 
+        $scope.toggleBlockEdit = function (){
+          $scope.editBlock = !$scope.editBlock;
+        };
+
         $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.this.block.content.choices)) {
             $scope.this.block.content = {'choices': [] };
