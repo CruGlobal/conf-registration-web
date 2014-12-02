@@ -14,7 +14,7 @@
     <article class="reg-not-complete">
       <h3>Your registration is not complete...</h3>
       <br />
-      <p ng-if="currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click "Confirm" if correct.</p>
+      <p ng-if="!anyPaymentMethodAccepted() || currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
       <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click Confirm.  That's it!</p>
     </article>
   </div>
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-    <div ng-if="currentRegistration.remainingBalance > 0">
+    <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0">
       <h2>Payment</h2>
       <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment payment="currentPayment" registration="currentRegistration"></div>
     </div>
