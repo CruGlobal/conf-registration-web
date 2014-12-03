@@ -25,7 +25,6 @@ env:
         - secure: "FwA4flx3SAV0men0Uz1Ae4bSpptx3gfekYzmdAgpta5F9vRHONbpjNWUWiLfuEe5b44pQ+fHjNNkdOhYd+aHkOEyquv9PSD47YdHxKQ+e9NIitVHUcdwYPSC7Tenh9Qso21ailCaDzgCZY4+2Hu/kTkP3sBapYG4Kdz/4gcxpV8="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
-        - GH_PUBLISH_TO_MODULE: gh-pages
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
         # and deploy the output to your project's gh-pages branch.
 
@@ -34,6 +33,7 @@ before_script:
     - gem update --system
     - npm install -g grunt-cli bower
     - if ["${TRAVIS_PULL_REQUEST}" != "false"]; then export GH_PUBLISH_TO_MODULE='build-stage'; fi
+    - if ["${TRAVIS_PULL_REQUEST}" == "false"]; then export GH_PUBLISH_TO_MODULE='gh-pages'; fi
 script:
     # We want to gate on passing tests and a successful build
     - bower install
