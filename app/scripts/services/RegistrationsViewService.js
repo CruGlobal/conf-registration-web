@@ -89,7 +89,7 @@ angular.module('confRegistrationWebApp')
           else {
             var fieldTitle = block.title;
 
-            if(block.exportFieldTitle != '' && block.exportFieldTitle != null) {
+            if(block.exportFieldTitle !== '' && block.exportFieldTitle !== null) {
               fieldTitle = block.exportFieldTitle;
             }
 
