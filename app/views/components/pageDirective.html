@@ -20,7 +20,7 @@
     <ul ui-tree-nodes ng-model="page.blocks" class="list-group" id="{{page.id}}" ng-if="!isPageHidden(page.id)" drop-type="block">
       <li ui-tree-node class="list-group-item" ng-repeat="block in page.blocks" block="block" crs-block></li>
     </ul>
-    <div class="dropNewTarget" ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)">
+    <div class="panel-footer dropNewTarget" ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)">
       <i class="fa fa-plus-circle"></i>
       <p>Drag form elements here!</p>
     </div>

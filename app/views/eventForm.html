@@ -16,9 +16,9 @@
             </div>
           </div>
         </div>
-        <div ui-tree class="row spacing-above-xs" ng-if="questionsToolbarVisible">
-          <div class="col-xs-12" ui-tree-nodes="" data-nodrop data-drag-enabled="false" ng-model="questions">
-            <span ui-tree-node ng-repeat="question in questions" class="label label-primary" id="{{question.id}}" default-title="{{question.defaultTitle}}">
+        <div ui-tree="toolbarTreeConfig" class="row spacing-above-xs" ng-if="questionsToolbarVisible">
+          <div class="col-xs-12" ui-tree-nodes="" ng-model="questions">
+            <span ui-tree-node ng-repeat="question in questions" class="label label-primary">
               <i class="fabtn fa" ng-class="question.iconClass"></i>
               <span class="text">{{question.name}}</span>
             </span>
@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div ui-tree="treeSettings" class="pages">
+    <div ui-tree="pageTreeConfig" class="pages">
       <div class="page-header">
         <h2>Pages <small>Drag questions from above and edit pages</small></h2>
       </div>

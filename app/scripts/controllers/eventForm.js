@@ -162,9 +162,7 @@ angular.module('confRegistrationWebApp')
         profileType: profileType
       };
 
-      $scope.$apply(function () {
-        $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
-      });
+      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
     };
 
     $scope.deleteBlock = function (blockId, growl) {

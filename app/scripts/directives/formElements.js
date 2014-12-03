@@ -4,14 +4,27 @@ angular.module('confRegistrationWebApp')
   .directive('formElements', function () {
     return {
       restrict: 'A',
-      link: function questionsToolbarInterface(scope) {
-        scope.treeSettings = {
-          accept: function (sourceNode, destNodes, destIndex) {
-            var sourceType = sourceNode.$modelValue.pageId ? 'block' : 'page';
+      link: function dragAndDropInterface(scope) {
+        scope.toolbarTreeConfig = {
+          beforeDrop: function(event) {
+            //cancel regular drop action
+            event.source.nodeScope.$$apply = false;
+            //insert block
+            if(event.dest.nodesScope.$nodeScope){ //prevents error from dropping on source tree
+              var block = event.source.nodeScope.$modelValue;
+              var pageId = event.dest.nodesScope.$nodeScope.$modelValue.id;
+              scope.insertBlock(block.id, pageId, event.dest.index, block.defaultTitle);
+            }
+          }
+        };
+        scope.pageTreeConfig = {
+          accept: function (sourceNode, destNodes) {
+            var sourceType = sourceNode.$modelValue.pageId || sourceNode.$modelValue.defaultTitle ? 'block' : 'page';
             var destType = destNodes.$element.attr('drop-type');
             return (sourceType == destType); // only accept the same type
           }
         };
+
         //Debouncing plugin for jQuery from http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
         (function($,sr){
           // debouncing function from John Hann
@@ -33,7 +46,7 @@ angular.module('confRegistrationWebApp')
               }else if (execAsap) {
                 func.apply(obj, args);
               }
-              timeout = setTimeout(delayed, threshold || 500);
+              timeout = setTimeout(delayed, threshold || 1000);
             };
           };
           // smartresize
@@ -41,6 +54,7 @@ angular.module('confRegistrationWebApp')
 
         })(jQuery,'smartresize');
 
+        //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
           $('.questions-toolbar-container').css('min-height', function(){
             return $('.questions-toolbar').height();
