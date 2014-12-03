@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       link: function dragAndDropInterface(scope) {
         scope.toolbarTreeConfig = {
+          accept: function(sourceNodeScope, destNodesScope) {
+            return sourceNodeScope.$treeScope === destNodesScope.$treeScope;
+          },
           beforeDrop: function(event) {
             //cancel regular drop action
             event.source.nodeScope.$$apply = false;
@@ -21,7 +24,7 @@ angular.module('confRegistrationWebApp')
           accept: function (sourceNode, destNodes) {
             var sourceType = sourceNode.$modelValue.pageId || sourceNode.$modelValue.defaultTitle ? 'block' : 'page';
             var destType = destNodes.$element.attr('drop-type');
-            return (sourceType == destType); // only accept the same type
+            return (sourceType === destType); // only accept the same type
           }
         };
 
