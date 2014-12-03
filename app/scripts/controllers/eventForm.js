@@ -199,6 +199,96 @@ angular.module('confRegistrationWebApp')
         });
     };
 
+    $scope.questions = [
+      {
+        'id': 'paragraphContent',
+        'defaultTitle': 'Information',
+        'iconClass': 'fa-plus-circle',
+        'name': 'Information Box'
+      },
+      {
+        'id': 'textQuestion',
+        'defaultTitle': 'Question',
+        'iconClass': 'fa-pencil-square-o',
+        'name': 'Single Line Text'
+      },
+      {
+        'id': 'textareaQuestion',
+        'defaultTitle': 'Question',
+        'iconClass': 'fa-text-height',
+        'name': 'Multi Line Text'
+      },
+      {
+        'id': 'radioQuestion',
+        'defaultTitle': 'Multiple Choice Question',
+        'iconClass': 'fa-list',
+        'name': 'Multiple Choice (choose one)'
+      },
+      {
+        'id': 'checkboxQuestion',
+        'defaultTitle': 'Checkbox Question',
+        'iconClass': 'fa-check-square-o',
+        'name': 'Checkbox (choose one or more)'
+      },
+      {
+        'id': 'selectQuestion',
+        'defaultTitle': 'Dropdown Question',
+        'iconClass': 'fa-chevron-down',
+        'name': 'Dropdown'
+      },
+      {
+        'id': 'numberQuestion',
+        'defaultTitle': 'Number',
+        'iconClass': 'fa-superscript',
+        'name': 'Number'
+      },
+      {
+        'id': 'dateQuestion',
+        'defaultTitle': 'Date',
+        'iconClass': 'fa-calendar',
+        'name': 'Date'
+      },
+      {
+        'id': 'nameQuestion',
+        'defaultTitle': 'Name',
+        'iconClass': 'fa-user',
+        'name': 'Name'
+      },
+      {
+        'id': 'emailQuestion',
+        'defaultTitle': 'Email',
+        'iconClass': 'fa-envelope-o',
+        'name': 'Email'
+      },
+      {
+        'id': 'phoneQuestion',
+        'defaultTitle': 'Telephone',
+        'defaultProfile': 'PHONE',
+        'iconClass': 'fa-phone-square',
+        'name': 'Telephone'
+      },
+      {
+        'id': 'addressQuestion',
+        'defaultTitle': 'Address',
+        'defaultProfile': 'ADDRESS',
+        'iconClass': 'fa-home',
+        'name': 'Address'
+      },
+      {
+        'id': 'genderQuestion',
+        'defaultTitle': 'Gender',
+        'defaultProfile': 'GENDER',
+        'iconClass': 'fa-male',
+        'name': 'Gender'
+      },
+      {
+        'id': 'yearInSchoolQuestion',
+        'defaultTitle': 'Year in School',
+        'defaultProfile': 'YEAR_IN_SCHOOL',
+        'iconClass': 'fa-graduation-cap',
+        'name': 'Year in School'
+      }];
+
     $scope.questionsToolbarVisible = true;
     $scope.toggleQuestionsToolbar = function() {
       $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;

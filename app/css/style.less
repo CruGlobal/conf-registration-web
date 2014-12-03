@@ -400,24 +400,23 @@ main.registrations {
     }
   }
 }
+.angular-ui-tree-nodes {
+  list-style: none;
+}
+.angular-ui-tree-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .8;
+}
 main.form-builder {
-  .dragnew{
-    text-align:center;
-    margin-top: -140px;
-    color: #C8C8C8;
-    z-index: -1;
-    .fa{
-      font-size: 800%;
-    }
-    p{
-      font-size: 200%;
-    }
-  }
   .questions-toolbar{
     .label{
       display: inline-block;
       margin: 4px 2px 1px;
+      padding: .2em .6em .3em !important;
       font-size: 13px;
+      cursor: move;
     }
   }
   .questions-toolbar.affix{
@@ -427,133 +426,16 @@ main.form-builder {
     left: 0;
     z-index: 5;
   }
-  .form-page {
-    a.btn + a.btn { margin-left: 10px; }
-    ul.pager { display: inline-block; margin-right: 20px; }
-    .overflow { min-height: 500px;
-      .shrink { width: 90%; }
+  .dropNewTarget{
+    text-align:center;
+    color: #C8C8C8;
+    padding: 5px 0px;
+    .fa{
+      font-size: 800%;
     }
-    form { margin-top: 30px; }
-    li {
-      .well.edit {
-        border: 1px solid #E3E3E3; background: @creme; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-        .col-xs-2 {
-          opacity: 1;
-        }
-        .col-xs-10 {
-          margin-bottom: 0;
-          .edit-options {
-            display: block;
-          }
-          .btn-sm {
-            opacity: 1;
-          }
-        }
-      }
+    p{
+      font-size: 200%;
     }
-    .well.ui-state-hover { background: @creme; }
-    .well { background: white; padding-bottom: 25px;
-      .well { background: transparent; border: 1px solid @white; box-shadow: none;
-        &:hover { border: 1px solid #E3E3E3; background: @creme; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-          .col-xs-2 {
-            opacity: 1;
-          }
-          .col-xs-10 {
-            margin-bottom: 0;
-            .btn-sm {
-              opacity: 1;
-            }
-          }
-        }
-        address-question {
-          display: block;
-          height: 146px;
-          .form-control{
-            margin-bottom: 6px;
-          }
-        }
-        .col-xs-2 {
-          .green;
-          font-size: 28px;
-          text-align: center;
-          opacity: 0;
-          .fa-pencil-square-o { margin-right: -6px; cursor: pointer;}
-          p { font-size: 14px; cursor: pointer; display: block; margin: -8px auto 15px;}
-        }
-        .col-xs-10 {
-          margin-bottom: -40px;
-          transition: all .2s;
-          label { display: block; }
-          .edit-box-single-line-question {
-            .form-group {
-              margin-bottom: 0;
-            }
-          }
-          .form-group {
-            input[type="checkbox"], input[type="radio"] {
-              float: left;
-              height: 15px;
-              margin-top: 0;
-              margin-right: 8px;
-            }
-            label.inline { display: inline-block; float: left; margin-right: 12px; }
-            textarea {
-              font-size: 12px;
-            }
-          }
-          .edit-options { margin-top: 15px;
-            ul.nav-tabs { margin-bottom: -1px;
-              li {
-                margin-right: 5px;
-                a {
-                  font-size: 12px;
-                  line-height: 8px;
-                  background: #f2f1e6;
-                  border-radius: 0;
-                  .darkgray;
-                  .proximabold;
-                  text-transform: uppercase;
-                  border-bottom: 1px solid #ece8d8;
-                }
-              }
-              li.active {
-                a { background: @white; border-bottom: 1px solid @white; }
-              }
-            }
-          }
-          .btn-sm {
-            opacity: 0;
-            font-size: 14px;
-            padding-left: 0;
-          }
-          .copy-btn {
-            &:hover {
-              .darkgreen;
-              text-decoration: none;
-            }
-          }
-          .delete-btn {
-            &:hover {
-              .darkgray;
-              text-decoration: none;
-            }
-          }
-          .tab-content {
-            background: @white;
-            border: 1px solid #ece8d8;
-            padding: 15px;
-          }
-        }
-      }
-    }
-  }
-  .functions-header{
-    top: 0;
-    width:858px;
-    z-index:5;
-    background-color:white;
-    margin: 1px 0 0 305px;
-    a.btn + a.btn { margin-left: 10px; }
   }
 }
 main.conference-details {

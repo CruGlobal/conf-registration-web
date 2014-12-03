@@ -4,7 +4,14 @@ angular.module('confRegistrationWebApp')
   .directive('formElements', function () {
     return {
       restrict: 'A',
-      link: function questionsToolbarInterface() {
+      link: function questionsToolbarInterface(scope) {
+        scope.treeSettings = {
+          accept: function (sourceNode, destNodes, destIndex) {
+            var sourceType = sourceNode.$modelValue.pageId ? 'block' : 'page';
+            var destType = destNodes.$element.attr('drop-type');
+            return (sourceType == destType); // only accept the same type
+          }
+        };
         //Debouncing plugin for jQuery from http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
         (function($,sr){
           // debouncing function from John Hann

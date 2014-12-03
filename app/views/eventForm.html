@@ -16,80 +16,24 @@
             </div>
           </div>
         </div>
-        <div class="row spacing-above-xs" ng-if="questionsToolbarVisible">
-          <div class="col-xs-12">
-            <span class="label label-primary" id="paragraphContent" default-title="Information">
-              <i class="fabtn fa fa-plus-circle"></i>
-              <span class="text">Information Box </span>
-            </span>
-            <span class="label label-primary" id="textQuestion" default-title="Question">
-              <i class="fabtn fa fa-pencil-square-o"></i>
-              <span class="text">Single Line Text</span>
-            </span>
-            <span class="label label-primary" id="textareaQuestion" default-title="Question">
-              <i class="fabtn fa fa-text-height"></i>
-              <span class="text">Multi Line Text</span>
-            </span>
-            <span class="label label-primary" id="radioQuestion" default-title="Multiple Choice Question">
-              <i class="fabtn fa fa-list"></i>
-              <span class="text">Multiple Choice (choose one)</span>
-            </span>
-            <span class="label label-primary" id="checkboxQuestion" default-title="Checkbox Question">
-              <i class="fabtn fa fa-check-square-o"></i>
-              <span class="text">Checkbox (choose one or more)</span>
-            </span>
-            <span class="label label-primary" id="selectQuestion" default-title="Dropdown Question">
-              <i class="fabtn fa fa-chevron-down"></i>
-              <span class="text">Dropdown </span>
-            </span>
-            <span class="label label-primary" id="numberQuestion" default-title="Number">
-              <i class="fabtn fa fa-superscript"></i>
-              <span class="text">Number </span>
-            </span>
-            <span class="label label-primary" id="dateQuestion" default-title="Date">
-              <i class="fabtn fa fa-calendar"></i>
-              <span class="text">Date </span>
-            </span>
-            <span class="label label-primary" id="nameQuestion" default-title="Name">
-              <i class="fabtn fa fa-user"></i>
-              <span class="text">Name </span>
-            </span>
-            <span class="label label-primary" id="emailQuestion" default-title="Email">
-              <i class="fabtn fa fa-envelope-o"></i>
-              <span class="text">Email </span>
-            </span>
-            <span class="label label-primary" id="phoneQuestion" default-title="Telephone" default-profile="PHONE">
-              <i class="fabtn fa fa-phone-square"></i>
-              <span class="text">Telephone </span>
-            </span>
-            <span class="label label-primary" id="addressQuestion" default-title="Address" default-profile="ADDRESS">
-              <i class="fabtn fa fa-home"></i>
-              <span class="text">Address </span>
-            </span>
-            <span class="label label-primary" id="genderQuestion" default-title="Gender" default-profile="GENDER">
-              <i class="fabtn fa fa-male"></i>
-              <span class="text">Gender </span>
-            </span>
-            <span class="label label-primary" id="yearInSchoolQuestion" default-title="Year in School" default-profile="YEAR_IN_SCHOOL">
-              <i class="fabtn fa fa-graduation-cap"></i>
-              <span class="text">Year in School </span>
+        <div ui-tree class="row spacing-above-xs" ng-if="questionsToolbarVisible">
+          <div class="col-xs-12" ui-tree-nodes="" data-nodrop data-drag-enabled="false" ng-model="questions">
+            <span ui-tree-node ng-repeat="question in questions" class="label label-primary" id="{{question.id}}" default-title="{{question.defaultTitle}}">
+              <i class="fabtn fa" ng-class="question.iconClass"></i>
+              <span class="text">{{question.name}}</span>
             </span>
           </div>
         </div>
       </div>
     </div>
-    <div class="form-page">
+    <div ui-tree="treeSettings" class="pages">
       <div class="page-header">
         <h2>Pages <small>Drag questions from above and edit pages</small></h2>
       </div>
-      <form class="form page-form" role="form">
-        <div ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+      <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page">
+        <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
           <hr ng-if="!$first">
           <page></page>
-          <div class="col-xs-12 dragnew" ng-show="page.blocks.length <= 2 && $first && !isPageHidden(page.id)">
-            <i class="fa fa-plus-circle"></i>
-            <p>Drag new form elements here!</p>
-          </div>
         </div>
       </form>
     </div>
