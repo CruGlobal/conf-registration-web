@@ -128,22 +128,23 @@
   <header id="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-md-6">
           <a class="logo" href="#/eventDashboard">
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>
-        <div class="col-xs-6 usr-greeting">
+        <div class="col-md-6 usr-greeting">
           <div class="btn-group">
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only"></span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li><a href="#/logout/">Logout</a></li>
-              </ul>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li><a href="#/logout/">Logout</a></li>
+            </ul>
           </div>
+          <a href="#/help/" class="btn btn-info help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
         </div>
       </div>
     </div>
@@ -151,15 +152,12 @@
   <section id="pagetitle" ng-class="globalPage.class">
     <div class="container">
       <div class="row">
-        <div ng-class="{'col-xs-3': !globalPage.confId, 'col-xs-4': globalPage.confId}">
+        <div ng-class="{'col-sm-12': !globalPage.confId, 'col-sm-6': globalPage.confId}">
           <h1 ng-bind="globalPage.title"></h1>
         </div>
-        <div ng-class="{'col-xs-6': !globalPage.confId, 'col-xs-5': globalPage.confId}">
-          <nav id="subnav" ng-show="globalPage.confId" admin-nav>
+        <div class="col-sm-6" ng-if="globalPage.confId">
+          <nav id="subnav" admin-nav>
           </nav>
-        </div>
-        <div class="col-xs-3 right">
-          <a href="#/help/" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
         </div>
       </div>
     </div>
