@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-8">
+  <div class="col-sm-12 col-md-8">
     <div class="row">
       <div class="col-xs-8">
         <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length}} of {{conferences.length}}</strong> events</p>
@@ -38,15 +38,13 @@
         </div>
       </li>
     </ul>
-<!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
+    <!--<a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
     <a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
     <label>
       <input type="checkbox" ng-model="showArchivedEvents"> Show archived events
     </label>
   </div>
-  <div class="col-xs-1 line">
-  </div>
-  <aside class="col-xs-3">
+  <aside class="col-xs-3 col-xs-offset-1 hidden-xs hidden-sm">
     <section>
       <h3>Welcome</h3>
       <p>
