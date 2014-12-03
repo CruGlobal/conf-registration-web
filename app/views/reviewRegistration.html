@@ -66,7 +66,7 @@
     <article>
       <h2>Summary</h2>
       <p>A breakdown of the costs<span ng-show="currentRegistration.pastPayments.length > 0"> and payments</span> associated with your registration.</p>
-      <table class="table">
+      <table class="table price-breakdown">
         <thead>
           <tr>
             <th width="10"></th>
@@ -84,17 +84,17 @@
           </tr>
           <tr ng-show="expandRegistrantCost[r.id]">
             <td></td>
-            <td>Registration</td>
+            <td class="horizon-padding25">Registration</td>
             <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
           </tr>
           <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
             <td></td>
-            <td>{{blockTitle(a.blockId)}}: {{a.value}}</td>
+            <td class="horizon-padding25">{{blockTitle(a.blockId)}}: {{a.value}}</td>
             <td>{{a.amount | moneyFormat}}</td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
             <td></td>
-            <td>Discounts</td>
+            <td class="horizon-padding25">Discounts</td>
             <td>{{(r.calculatedDiscounts * -1) | moneyFormat}}</td>
           </tr>
         </tbody>
