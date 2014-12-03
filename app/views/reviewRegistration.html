@@ -73,10 +73,14 @@
             <th width="90">Cost</th>
           </tr>
         </thead>
-        <tbody>
-          <tr ng-repeat="r in currentRegistration.registrants">
+        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+          <tr>
             <td>{{registrantName(r)}}</td>
             <td>{{r.calculatedTotalDue | moneyFormat}}</td>
+          </tr>
+          <tr ng-repeat="a in r.answers" ng-if="a.amount > 0">
+            <td>{{blockTitle(a.blockId)}}: {{a.value}}</td>
+            <td>{{a.amount | moneyFormat}}</td>
           </tr>
         </tbody>
       </table>
