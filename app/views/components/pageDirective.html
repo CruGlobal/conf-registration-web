@@ -30,7 +30,7 @@
 <div ng-if="!wizard">
   <h2 ng-bind="page.title"></h2>
 
-  <form name="pageForm">
+  <form class="form-horizontal" name="pageForm">
     <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
     <div ng-repeat="block in page.blocks" block="block" crs-block></div>
     <br>

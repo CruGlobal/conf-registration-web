@@ -442,6 +442,35 @@ main.form-builder {
       font-size: 200%;
     }
   }
+  .panel{
+    .list-group-item:hover, .list-group-item:focus {
+      background-color: #FDFFED;
+    }
+  }
+
+  @tab-bkgd-color:        #F2F9FF;
+  .nav-tabs{
+    margin-top: 10px;
+    >li.active>a, >li.active>a:hover, >li.active>a:focus {
+      background-color: @tab-bkgd-color;
+    }
+  }
+  .tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #dddddd;
+    border-radius: 0 0 4px 4px;
+    padding: 10px;
+    background-color: @tab-bkgd-color;
+    .form-group {
+      margin-right: 0px;
+      margin-left: 0px;
+    }
+  }
+
+  .nav-tabs {
+    margin-bottom: 0;
+  }
 }
 main.conference-details {
   .col-xs-9 {

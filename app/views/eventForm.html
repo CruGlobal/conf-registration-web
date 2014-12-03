@@ -30,7 +30,7 @@
       <div class="page-header">
         <h2>Pages <small>Drag questions from above and edit pages</small></h2>
       </div>
-      <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page">
+      <form class="form-horizontal" ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page">
         <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
           <hr ng-if="!$first">
           <page></page>
