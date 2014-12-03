@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .directive('formElements', function () {
     return {
       restrict: 'A',
-      link: function questionsToolbarInterface(scope) {
+      link: function questionsToolbarInterface() {
         //Debouncing plugin for jQuery from http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
         (function($,sr){
           // debouncing function from John Hann
@@ -15,31 +15,32 @@ angular.module('confRegistrationWebApp')
             return function debounced () {
               var obj = this, args = arguments;
               function delayed () {
-                if (!execAsap)
+                if (!execAsap) {
                   func.apply(obj, args);
+                }
                 timeout = null;
-              };
+              }
 
-              if (timeout)
+              if (timeout) {
                 clearTimeout(timeout);
-              else if (execAsap)
+              }else if (execAsap) {
                 func.apply(obj, args);
-
+              }
               timeout = setTimeout(delayed, threshold || 500);
             };
-          }
+          };
           // smartresize
           jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
         })(jQuery,'smartresize');
 
         function setQuestionToolbarSize(){
-          $(".questions-toolbar-container").css("min-height", function(){
-            return $(".questions-toolbar").height();
+          $('.questions-toolbar-container').css('min-height', function(){
+            return $('.questions-toolbar').height();
           });
         }
         window.setTimeout(function () {
-          $(".questions-toolbar").affix({
+          $('.questions-toolbar').affix({
             offset: {
               top: 240
             }
