@@ -25,6 +25,7 @@ env:
         - secure: "FwA4flx3SAV0men0Uz1Ae4bSpptx3gfekYzmdAgpta5F9vRHONbpjNWUWiLfuEe5b44pQ+fHjNNkdOhYd+aHkOEyquv9PSD47YdHxKQ+e9NIitVHUcdwYPSC7Tenh9Qso21ailCaDzgCZY4+2Hu/kTkP3sBapYG4Kdz/4gcxpV8="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
+        - GH_PUBLISH_TO_MODULE: gh-pages
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
         # and deploy the output to your project's gh-pages branch.
 
@@ -32,24 +33,25 @@ before_script:
     # install dependencies
     - gem update --system
     - npm install -g grunt-cli bower
+    - [ "${TRAVIS_PULL_REQUEST}" != "false" ] GH_PUBLISH_TO_MODULE='build-stage' || false
 script:
     # We want to gate on passing tests and a successful build
     - bower install
     - grunt
 after_success:
     # Any command that using GH_OAUTH_TOKEN must pipe the output to /dev/null to not expose your oauth token
-    - git submodule add -b gh-pages https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} site > /dev/null 2>&1
+    - git submodule add -b ${GH_PUBLISH_TO_MODULE} https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} site > /dev/null 2>&1
     - cd site
-    - if git checkout gh-pages; then git checkout -b gh-pages; fi
+    - if git checkout ${GH_PUBLISH_TO_MODULE}; then git checkout -b ${GH_PUBLISH_TO_MODULE}; fi
     - git rm -r .
     - cp -R ../dist/* .
     - cp ../dist/.* .
     - git add -f .
     - git config user.email "ryan.t.carlson@cru.org"
     - git config user.name "ryancarlson"
-    - git commit -am "adding the yeoman build files to gh-pages [ci skip]"
+    - git commit -am "publishing deployable project to ${GH_PUBLISH_TO_MODULE} [ci skip]"
     # Any command that using GH_OAUTH_TOKEN must pipe the output to /dev/null to not expose your oauth token
-    - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:gh-pages > /dev/null 2>&1
+    - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE} > /dev/null 2>&1
 before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
