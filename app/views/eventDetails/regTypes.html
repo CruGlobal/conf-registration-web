@@ -1,6 +1,8 @@
 <h2>Registration Types</h2>
+<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these registrant types into the order that people registering will see them.</p>
+
 <div class="row">
-  <div class="form-group col-xs-7">
+  <div class="form-group col-xs-6">
     <label>Name <em class="required">*</em></label>
   </div>
   <div class="form-group col-xs-2">
@@ -10,7 +12,7 @@
 <div ui-sortable="{ 'handle': '.fa-bars' }" ng-model="conference.registrantTypes">
   <div ng-repeat="type in conference.registrantTypes">
     <div class="row">
-      <div class="form-group col-xs-7">
+      <div class="form-group col-xs-6">
         <input type="text" class="form-control" ng-model="type.name">
       </div>
       <div class="col-xs-2">
@@ -21,77 +23,93 @@
       </div>
       <div class="form-group col-xs-3 text-center">
         <div class="btn-group">
-          <button type="button" class="btn btn-default" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa" ng-class="{'fa-chevron-down': !openWell[type.id], 'fa-chevron-up': openWell[type.id]}"></i> Options</button>
-          <button type="button" class="btn btn-danger" ng-click="deleteRegType(type.id)">Delete</button>
+          <button type="button" class="btn" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa" ng-class="{'fa-chevron-down': !openWell[type.id], 'fa-chevron-up': openWell[type.id]}"></i> Options</button>
+          <button type="button" class="btn btn-danger" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o"></i> Delete</button>
         </div>
-        <i class="fa fa-bars" style="cursor: move;"></i>
+      </div>
+      <div class="form-group col-xs-1">
+        <i class="fa fa-bars" style="cursor: move; padding:9px 0;"></i>
       </div>
     </div>
 
     <div class="well" collapse="!openWell[type.id]">
-      <label class="space">
-        <input type="checkbox" ng-model="type.hidden" ng-value="true">
-        Hide from public registration form
-      </label>
-      <p class="text-muted"><i class="fa fa-info-circle"></i> Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the <a href="#/eventOverview/{{conference.id}}">Event Overview</a> page.</p>
+      <div class="row">
+        <div class="col-xs-6">
+          <h4>Registration Form</h4>
+          <label>
+            <input type="checkbox" ng-model="type.hidden">
+            Hide from Registration Form
+          </label>
+          <button popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
+                  popover-trigger="mouseenter"
+                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
 
-      <label class="space">
-        <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
-        Early Registration Discount
-      </label>
+          <label>
+            <input type="checkbox" ng-model="type.groupSubRegistrantType">
+            Sub Registration Type
+          </label>
+          <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
+                  popover-trigger="mouseenter"
+                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+        </div>
 
-      <div class="modal-body" ng-show="type.earlyRegistrationDiscount">
-        <div class="form-group">
-          <div class="row">
-            <div class="col-xs-7">
-              <label>If registered by</label>
+        <div class="col-xs-6">
+          <h4>Payment</h4>
+          <label class="space">
+            <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
+            Early Registration Discount
+          </label>
+
+          <div ng-show="type.earlyRegistrationDiscount">
+            <div class="form-group">
               <div class="row">
-                <crs-datetimepicker model="type.earlyRegistrationCutoff"></crs-datetimepicker>
-              </div>
-            </div>
-            <div class="col-xs-5">
-              <label>Discount</label>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control marginless" ng-model="type.earlyRegistrationAmount">
+                <div class="col-xs-8">
+                  <span>If registered by</span>
+                  <div class="row">
+                    <crs-datetimepicker model="type.earlyRegistrationCutoff"></crs-datetimepicker>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <span>Discount</span>
+                  <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                    <input type="text" class="form-control marginless" ng-model="type.earlyRegistrationAmount">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div class="row" ng-show="conference.requireLogin && anyPaymentMethodAccepted()">
-        <div class="col-xs-5">
-          <label>Minimum Payment to Register:</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-            <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
+          <div ng-show="conference.requireLogin && anyPaymentMethodAccepted()">
+            <label>Minimum Payment to Register</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+              <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
+            </div>
+            <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
           </div>
-          <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
-        </div>
-      </div>
 
-      <div class="row" ng-show="!conference.requireLogin || !anyPaymentMethodAccepted()">
-        <div class="col-xs-12">
-          <label>Minimum Payment to Register:</label>
-          <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments.  Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
-          <p class="text-muted" ng-show="!conference.acceptCreditCards"><i class="fa fa-info-circle"></i> You must accept an online payment method in order to use this option.  Setup payment methods under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
+          <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted()">
+            <label>Minimum Payment to Register</label>
+            <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments. Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
+            <p class="text-muted" ng-show="!anyPaymentMethodAccepted()"><i class="fa fa-info-circle"></i> You must accept a payment method in order to set a minimum payment. Setup payment methods under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
+          </div>
         </div>
       </div>
 
       <div class="row">
         <div class="col-xs-12">
-          <label>Confirmation Email:</label>
+          <label>Confirmation Email</label>
+          <button popover="Your event name, start time and end time will be included in the email by default"
+                  popover-trigger="mouseenter"
+                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
           <wysiwyg textarea-class="form-control" textarea-height="150px" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
-          <p class="text-muted"><i class="fa fa-info-circle"></i> Your event name, start time and end time will be included in the email by default.</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration.</p>
-<p class="text-muted"><i class="fa fa-info-circle"></i> You can drag and drop these registrant types into the order that people registering will see them.</p>
 <a href="" ng-click="addRegType()">
   <i class="fa fa-plus"></i> Add Registration Type
 </a>

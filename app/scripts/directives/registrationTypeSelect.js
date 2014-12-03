@@ -15,6 +15,11 @@ angular.module('confRegistrationWebApp')
           _.remove($scope.visibleRegistrantTypes, function(t) { return t.hidden; });
         }
 
+        //remove sub registrant types
+        if(_.isEmpty($scope.currentRegistration.registrants)){
+          _.remove($scope.visibleRegistrantTypes, function(t) { return t.groupSubRegistrantType; });
+        }
+
         $scope.newRegistrant = function(type){
           var newId = uuid();
           $scope.currentRegistration.registrants.push({
