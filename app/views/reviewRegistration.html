@@ -69,18 +69,33 @@
       <table class="table">
         <thead>
           <tr>
+            <th width="10"></th>
             <th>Registrant</th>
             <th width="90">Cost</th>
           </tr>
         </thead>
         <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
           <tr>
+            <td>
+              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}" ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"></i>
+            </td>
             <td>{{registrantName(r)}}</td>
             <td>{{r.calculatedTotalDue | moneyFormat}}</td>
           </tr>
-          <tr ng-repeat="a in r.answers" ng-if="a.amount > 0">
+          <tr ng-show="expandRegistrantCost[r.id]">
+            <td></td>
+            <td>Registration</td>
+            <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
+          </tr>
+          <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
+            <td></td>
             <td>{{blockTitle(a.blockId)}}: {{a.value}}</td>
             <td>{{a.amount | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
+            <td></td>
+            <td>Discounts</td>
+            <td>{{(r.calculatedDiscounts * -1) | moneyFormat}}</td>
           </tr>
         </tbody>
       </table>
