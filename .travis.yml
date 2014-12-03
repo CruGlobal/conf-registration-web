@@ -32,8 +32,8 @@ before_script:
     # install dependencies
     - gem update --system
     - npm install -g grunt-cli bower
-    - if ["${TRAVIS_PULL_REQUEST}" != "false"]; then export GH_PUBLISH_TO_MODULE='build-stage'; fi
-    - if ["${TRAVIS_PULL_REQUEST}" == "false"]; then export GH_PUBLISH_TO_MODULE='gh-pages'; fi
+    - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then export GH_PUBLISH_TO_MODULE='build-stage'; fi
+    - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then export GH_PUBLISH_TO_MODULE='gh-pages'; fi
 script:
     # We want to gate on passing tests and a successful build
     - bower install
