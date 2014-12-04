@@ -4,7 +4,7 @@
         <h1>You are registered!</h1>
         <p>Keep this information for your records.</p>
         <p ng-if="currentRegistration.remainingBalance >0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
-        <p ng-if="currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click "Confirm".  That's it!</p>
+        <p ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
     </article>
   </div>
 </div>
@@ -14,8 +14,8 @@
     <article class="reg-not-complete">
       <h3>Your registration is not complete...</h3>
       <br />
-      <p ng-if="currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click "Confirm" if correct.</p>
-      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click "Confirm" you're ready.  That's it!</p>
+      <p ng-if="!anyPaymentMethodAccepted() || currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
+      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click Confirm.  That's it!</p>
     </article>
   </div>
 </div>
@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<div class="row" ng-show="!currentRegistration.completed && conference.allowGroupRegistrations">
+<div class="row" ng-show="conference.allowGroupRegistrations">
   <div class="col-xs-12">
     <article>
       <h2>Register Someone Else</h2>
@@ -100,7 +100,7 @@
         </div>
       </div>
 
-    <div ng-if="currentRegistration.remainingBalance > 0">
+    <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0">
       <h2>Payment</h2>
       <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment payment="currentPayment" registration="currentRegistration"></div>
     </div>
@@ -112,7 +112,7 @@
   <div class="col-xs-12 text-center">
     <article>
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class="btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+    <input type="button" class=" btn btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </article>
   </div>
