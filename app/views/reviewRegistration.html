@@ -107,9 +107,20 @@
               <th>Total</th>
               <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
             </tr>
-            <tr ng-show="currentRegistration.pastPayments.length > 0">
-              <th>Previous Payment(s)</th>
-              <td>{{(currentRegistration.totalPaid) | moneyFormat}}</td>
+            <tr ng-repeat="p in currentRegistration.pastPayments">
+              <td>
+                <strong ng-if="p.paymentType === 'REFUND'">Refund</strong>
+                <strong ng-if="p.paymentType !== 'REFUND'">Payment</strong>
+                {{p.transactionDatetime | date: 'shortDate'}}
+              </td>
+              <td>
+                <span ng-if="p.paymentType === 'REFUND'">
+                  {{p.amount | moneyFormat}}
+                </span>
+                <span ng-if="p.paymentType !== 'REFUND'">
+                  {{(p.amount * -1) | moneyFormat}}
+                </span>
+              </td>
             </tr>
             <tr ng-show="currentRegistration.pastPayments.length > 0">
               <th>Remaining Balance</th>
