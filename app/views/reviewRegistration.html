@@ -75,12 +75,12 @@
           </tr>
         </thead>
         <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-          <tr>
+          <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
             <td>
-              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}" ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"></i>
+              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
             </td>
             <td>{{registrantName(r)}}</td>
-            <td>{{r.calculatedTotalDue | moneyFormat}}</td>
+            <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</span></td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id]">
             <td></td>
@@ -89,7 +89,7 @@
           </tr>
           <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
             <td></td>
-            <td class="horizon-padding25">{{blockTitle(a.blockId)}}: {{a.value}}</td>
+            <td class="horizon-padding25">{{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
             <td>{{a.amount | moneyFormat}}</td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
@@ -104,7 +104,7 @@
         <div class="col-lg-12">
           <table class="table pull-right" style="width:300px;">
             <tr>
-              <th>Total Cost</th>
+              <th>Total</th>
               <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
             </tr>
             <tr ng-show="currentRegistration.pastPayments.length > 0">

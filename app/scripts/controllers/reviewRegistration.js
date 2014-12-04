@@ -55,8 +55,8 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.answers, {blockId: blockId});
     };
 
-    $scope.blockTitle = function (blockId) {
-      return _.find($scope.blocks, {id: blockId}).title;
+    $scope.getBlock = function (blockId) {
+      return _.find($scope.blocks, {id: blockId});
     };
 
     $scope.confirmRegistration = function () {
