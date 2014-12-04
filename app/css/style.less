@@ -473,12 +473,14 @@ main.form-builder {
   }
 }
 main.conference-details {
+  section {
+    padding-bottom: 20px;
+  }
   .event-info-section {
     @media (min-width: 768px) {
       border-right: 2px solid #cccccc;
     }
     section {
-      padding-bottom: 20px;
       input, textarea {
         margin-bottom: 10px;
       }
@@ -511,9 +513,11 @@ main.conference-details {
       font-size: 15px;
     }
   }
-  .col-left-nav{
-    border-right: none;
-    border-left: 2px solid #cccccc;
+  .event-details-edit-section{
+    @media (min-width: 768px) {
+      border-right: none;
+      border-left: 2px solid #cccccc;
+    }
   }
 }
 main.dashboard {

@@ -1,59 +1,60 @@
 <h2 class="page-title border">Registration Types</h2>
 <p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these registrant types into the order that people registering will see them.</p>
 
-<div class="row">
-  <div class="form-group col-xs-6">
+<div class="form-group">
+  <div class="col-xs-6">
     <label>Name <em class="required">*</em></label>
   </div>
-  <div class="form-group col-xs-2">
+  <div class="col-xs-2">
     <label>Cost <em class="required">*</em></label>
   </div>
 </div>
 <div ui-sortable="{ 'handle': '.fa-bars' }" ng-model="conference.registrantTypes">
   <div ng-repeat="type in conference.registrantTypes">
-    <div class="row">
-      <div class="form-group col-xs-6">
+    <div class="form-group">
+      <div class="col-sm-4">
         <input type="text" class="form-control" ng-model="type.name">
       </div>
-      <div class="col-xs-2">
+      <div class="col-sm-3">
         <div class="input-group">
           <span class="input-group-addon"><i class="fa fa-usd"></i></span>
           <input type="text" class="form-control marginless" ng-model="type.cost">
         </div>
       </div>
-      <div class="form-group col-xs-3 text-center">
+      <div class="col-sm-5 text-right">
         <div class="btn-group">
           <button type="button" class="btn" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa" ng-class="{'fa-chevron-down': !openWell[type.id], 'fa-chevron-up': openWell[type.id]}"></i> Options</button>
           <button type="button" class="btn btn-danger" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o"></i> Delete</button>
         </div>
-      </div>
-      <div class="form-group col-xs-1">
         <i class="fa fa-bars" style="cursor: move; padding:9px 0;"></i>
       </div>
     </div>
 
     <div class="well" collapse="!openWell[type.id]">
-      <div class="row">
-        <div class="col-xs-6">
+      <div class="form-group">
+        <div class="col-md-6">
           <h4>Registration Form</h4>
-          <label>
-            <input type="checkbox" ng-model="type.hidden">
-            Hide from Registration Form
-          </label>
-          <button popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
-                  popover-trigger="mouseenter"
-                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
-
-          <label>
-            <input type="checkbox" ng-model="type.groupSubRegistrantType">
-            Sub Registration Type
-          </label>
-          <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
-                  popover-trigger="mouseenter"
-                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+          <div>
+            <label>
+              <input type="checkbox" ng-model="type.hidden">
+              Hide from Registration Form
+            </label>
+            <button popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
+                    popover-trigger="mouseenter"
+                    class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" ng-model="type.groupSubRegistrantType">
+              Sub Registration Type
+            </label>
+            <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
+                    popover-trigger="mouseenter"
+                    class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+          </div>
         </div>
 
-        <div class="col-xs-6">
+        <div class="col-md-6">
           <h4>Payment</h4>
           <label class="space">
             <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
@@ -62,19 +63,15 @@
 
           <div ng-show="type.earlyRegistrationDiscount">
             <div class="form-group">
-              <div class="row">
-                <div class="col-xs-8">
-                  <span>If registered by</span>
-                  <div class="row">
-                    <crs-datetimepicker model="type.earlyRegistrationCutoff"></crs-datetimepicker>
-                  </div>
-                </div>
-                <div class="col-xs-4">
-                  <span>Discount</span>
-                  <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                    <input type="text" class="form-control marginless" ng-model="type.earlyRegistrationAmount">
-                  </div>
+              <div class="col-sm-8">
+                <span>If registered by</span>
+                <crs-datetimepicker model="type.earlyRegistrationCutoff"></crs-datetimepicker>
+              </div>
+              <div class="col-sm-4">
+                <span>Discount</span>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                  <input type="text" class="form-control marginless" ng-model="type.earlyRegistrationAmount">
                 </div>
               </div>
             </div>
@@ -97,7 +94,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="form-group">
         <div class="col-xs-12">
           <label>Confirmation Email</label>
           <button popover="Your event name, start time and end time will be included in the email by default"
