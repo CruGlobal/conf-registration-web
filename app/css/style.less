@@ -473,8 +473,10 @@ main.form-builder {
   }
 }
 main.conference-details {
-  .col-xs-9 {
-    border-right: 2px solid #cccccc;
+  .event-info-section {
+    @media (min-width: 768px) {
+      border-right: 2px solid #cccccc;
+    }
     section {
       padding-bottom: 20px;
       input, textarea {
@@ -488,16 +490,16 @@ main.conference-details {
     button.label { margin-right: 5px; border: none; }
     label.space { margin-right: 20px; }
   }
-  .col-left-nav{
-    border-right: none;
-    border-left: 2px solid #cccccc;
-  }
-  .col-xs-3 {
-    h3 {
+  .event-stats-section {
+    text-align: center;
+    .stats-heading {
       .proxima;
-      font-size: 20px;
+      font-size: 17px;
       color: #636363;
       text-transform: uppercase;
+    }
+    .eventstat-icon{
+      font-size: 48px;
     }
     p {
       color: #636363;
@@ -506,18 +508,12 @@ main.conference-details {
     a.link {
       .green;
       .proximabold;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: .1em;
+      font-size: 15px;
     }
-    section {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #cccccc;
-      &:last-of-type {
-        border-bottom: none;
-      }
-    }
+  }
+  .col-left-nav{
+    border-right: none;
+    border-left: 2px solid #cccccc;
   }
 }
 main.dashboard {
@@ -806,11 +802,6 @@ em.required{
   -webkit-user-select: none;
   -o-user-select: none;
   user-select: none;
-}
-
-.eventstat-icon{
-  font-size: 48px;
-  text-align: center;
 }
 
 .form-control[readonly] {

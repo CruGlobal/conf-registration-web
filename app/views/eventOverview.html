@@ -1,9 +1,18 @@
 <div class="row">
-  <div class="col-xs-9">
+  <aside class="col-sm-3 col-sm-push-9 event-stats-section">
+    <div class="well">
+      <div class="stats-heading">Event Stats</div>
+      <div class="eventstat-icon">
+        <i class="fa fa-users green"></i> {{conference.completedRegistrationCount}}
+      </div>
+      <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
+    </div>
+  </aside>
+  <div class="col-sm-9 col-sm-pull-3 event-info-section">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-sm-6">
         <section>
-          <a href="#/eventDetails/{{conference.id}}" class="btn pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
+          <a href="#/eventDetails/{{conference.id}}" class="btn btn-link pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
           <h2 class="page-title border">Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
           <p ng-bind="conference.description" ng-show="conference.description" class="eventhub-linebreak"></p>
@@ -14,7 +23,7 @@
           </p>
         </section>
       </div>
-      <div class="col-xs-6">
+      <div class="col-sm-6">
         <section>
           <h2 class="page-title border">Registration Window</h2>
           <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
@@ -47,20 +56,4 @@
       </div>
     </section>
   </div>
-
-  <aside class="col-xs-3">
-    <section>
-      <h3>Event Stats</h3>
-      <div class="row eventstat-icon">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-4">
-          <i class="fa fa-users green"></i>
-        </div>
-        <div class="col-xs-4">
-          {{conference.completedRegistrationCount}}
-        </div>
-      </div>
-      <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
-    </section>
-  </aside>
 </div>
