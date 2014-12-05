@@ -19,6 +19,22 @@ angular.module('confRegistrationWebApp')
       return nameBlock.firstName + ' ' + nameBlock.lastName;
     };
 
+    $scope.getBlocks = function() {
+      var allBlocks = [];
+      _.each(conference.registrationPages, function (page) {
+        allBlocks = allBlocks.concat(page.blocks);
+      });
+      return allBlocks;
+    }
+
+    $scope.getRegistrantType = function(id) {
+      return _.find(conference.registrantTypes, { 'id': id });
+    };
+
+    $scope.getBlock = function (blockId) {
+      return _.find($scope.getBlocks(), {id: blockId});
+    };
+
     $scope.newTransaction = {
       registrationId: registration.id,
       amount: registration.remainingBalance
