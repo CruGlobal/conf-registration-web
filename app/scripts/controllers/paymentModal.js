@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
         allBlocks = allBlocks.concat(page.blocks);
       });
       return allBlocks;
-    }
+    };
 
     $scope.getRegistrantType = function(id) {
       return _.find(conference.registrantTypes, { 'id': id });
