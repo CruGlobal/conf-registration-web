@@ -65,7 +65,7 @@ angular.module('confRegistrationWebApp')
             }
           }
           if(_.isEmpty(paymentErrors)){
-            delete $scope.currentPayment.errors;
+            $scope.currentPayment.errors = [];
           }else{
             $scope.currentPayment.errors = paymentErrors;
           }

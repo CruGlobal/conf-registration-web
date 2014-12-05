@@ -55,6 +55,10 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.answers, {blockId: blockId});
     };
 
+    $scope.getBlock = function (blockId) {
+      return _.find($scope.blocks, {id: blockId});
+    };
+
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
 
@@ -75,7 +79,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if ($scope.currentPayment.errors) {
+      if (!_.isEmpty($scope.currentPayment.errors)) {
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
@@ -101,6 +105,7 @@ angular.module('confRegistrationWebApp')
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
+      delete currentPayment.errors;
 
       $http.post('payments/', currentPayment).success(function () {
         delete $scope.currentPayment;
