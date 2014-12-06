@@ -141,10 +141,10 @@
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-              <li><a href="#/logout/">Logout</a></li>
+              <li ng-if="globalPage !== 'dashboard'"><a href="#/help/"><i class="fa fa-medkit"></i> I Need Help!</a></li>
+              <li><a href="#/logout/"><i class="fa fa-sign-out"></i> Logout</a></li>
             </ul>
           </div>
-          <a href="#/help/" class="btn btn-info help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
         </div>
       </div>
     </div>
