@@ -28,6 +28,7 @@
 * {.proxima;}
 
 
+
 body.frontend {
   min-width: 320px;
   background: url('/img/rough_diagonal.png') #e7e8e6;
@@ -135,12 +136,6 @@ section#frontpagetitle {
     margin-top: 24px;
     font-size: 16px;
     color: #fff;
-  }
-}
-
-.stacked-spacing{
-  @media (max-width: 767px) {
-    margin-bottom: 15px;
   }
 }
 
@@ -403,21 +398,7 @@ main.registrations {
     }
   }
 }
-.angular-ui-tree-nodes {
-  list-style: none;
-}
-.angular-ui-tree-drag {
-  position: absolute;
-  pointer-events: none;
-  z-index: 999;
-  opacity: .8;
-}
-.angular-ui-tree-handle {
-  cursor: move;
-}
-.angular-ui-tree-placeholder {
-  display: inline-block;
-}
+
 main.form-builder {
   .questions-toolbar{
     .label{
@@ -614,6 +595,22 @@ main.dashboard {
 }
 
 /***** MISC *****/
+.angular-ui-tree-nodes {
+  list-style: none;
+}
+.angular-ui-tree-drag {
+  position: absolute;
+  pointer-events: none;
+  z-index: 999;
+  opacity: .8;
+}
+.angular-ui-tree-handle {
+  cursor: move;
+}
+.angular-ui-tree-placeholder {
+  display: inline-block;
+}
+
 ul#sortable1 {
   padding: 0;
   li {
@@ -777,6 +774,16 @@ body {
     background-image: url("/img/glyphicons-halflings.png");
     background-position: 14px 14px;
     background-repeat: no-repeat;
+  }
+  //modal-backdrop override needed until angular-bootstrap upgrades to use Bootstrap 3.3.1: https://github.com/angular-ui/bootstrap/issues/2970
+  .modal-backdrop {
+    position: fixed;
+    bottom: 0;
+  }
+  .stacked-spacing{
+    @media (max-width: 767px) {
+      margin-bottom: 15px;
+    }
   }
 }
 

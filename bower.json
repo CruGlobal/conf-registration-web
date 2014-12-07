@@ -7,7 +7,7 @@
     "string": "~1.9.0",
     "momentjs": "~2.8.3",
     "moment-timezone": "~0.2.2",
-    "angular-bootstrap": "~0.11.2",
+    "angular-bootstrap": "~0.12.0",
     "eonasdan-bootstrap-datetimepicker": "3.1.2",
     "angular-ui-sortable": "0.13.1",
     "angular-ui-tree": "2.1.5"
