@@ -11,12 +11,12 @@
   <table class="table table-striped spacing-above-xs">
     <tr>
       <td>
-        <div class="col-sm-7 stacked-spacing">
+        <div class="col-sm-7 stacked-spacing-sm">
           <div class="input-group-md">
             <input type="text" class="form-control" placeholder="Search" ng-model="searchFilter">
           </div>
         </div>
-        <div class="col-sm-2 stacked-spacing">
+        <div class="col-sm-2 stacked-spacing-sm">
           <select ng-show="eventHasCost()" ng-selected="currentPaymentCategory" ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
         <div class="col-sm-3 text-right">
