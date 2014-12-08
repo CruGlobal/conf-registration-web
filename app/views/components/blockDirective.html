@@ -22,7 +22,7 @@
 
 <div class="edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
   <div class="btn-group pull-right" role="group">
-    <button class="btn btn-xs green cru-profile" ng-if="block.profileType" disabled="disabled"><i class="fa fa-user"></i> Cru Profile</button>
+    <button class="btn btn-xs btn-default green cru-profile" ng-if="block.profileType" disabled="disabled"><i class="fa fa-user"></i> Cru Profile</button>
     <button ng-if="!editBlock" class="btn btn-xs btn-warning" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-xs btn-warning" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
     <button class="btn btn-xs btn-info" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>

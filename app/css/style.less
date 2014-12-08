@@ -202,7 +202,7 @@ main {
 }
 #pagefooter {
   background: @paleblue;
-  height: 248px;
+  min-height: 248px;
   position:relative;
   padding: 22px 0 0;
   border-top: 1px solid #c7ecff;
@@ -422,6 +422,10 @@ main.form-builder {
     top: 0;
     left: 0;
     z-index: 5;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-radius: 0;
   }
   .dropNewTarget{
     text-align:center;
@@ -841,7 +845,7 @@ a.disabled {
 
 .small-footer{
   footer{
-    height: 70px !important;
+    min-height: 70px !important;
   }
 }
 

@@ -221,14 +221,14 @@
 <footer id="pagefooter" ng-if="globalPage.footer">
   <div class="container">
     <div class="row">
-      <div class="col-xs-8">
+      <div class="col-sm-8">
         <ul class="horizontal blue">
           <li><a href="#/privacy/">Privacy Policy</a></li>
           <li><a href="#/help/">Help</a></li>
-          <li ng-show="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <li ng-if="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
         </ul>
       </div>
-      <div class="col-xs-4 right">
+      <div class="col-sm-4 text-right">
         <span>&copy; 2014 | <a href="http://www.cru.org" target="_blank">Cru</a></span>
       </div>
     </div>
