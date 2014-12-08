@@ -168,12 +168,10 @@
   <header id="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-xs-12">
           <a class="logo" href="/">
               <i class="fa fa-users"></i> Event Registration Tool
           </a>
-        </div>
-        <div class="col-xs-6">
         </div>
       </div>
     </div>
@@ -186,7 +184,7 @@
   <section id="frontpagetitle">
     <div class="container">
       <div class="row">
-        <div class="col-xs-10">
+        <div class="col-sm-10">
           <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
             <h1 ng-bind="globalPage.title"></h1>
           </a>
@@ -194,7 +192,7 @@
             <h1 ng-bind="globalPage.title"></h1>
           </a>
         </div>
-        <div class="col-xs-2 usr-greeting">
+        <div class="col-sm-2 usr-greeting stacked-spacing-sm">
           <a href="#/logout" class="btn btn-primary btn-uppercase">Logout</a>
         </div>
       </div>
