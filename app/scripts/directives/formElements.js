@@ -69,7 +69,7 @@ angular.module('confRegistrationWebApp')
           $('.questions-toolbar').affix({
             offset: {
               top: function () {
-                return (this.top = $('.questions-toolbar-container').offset().top)
+                return (this.top = $('.questions-toolbar-container').offset().top);
               }
             }
           });
