@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
               }else if (execAsap) {
                 func.apply(obj, args);
               }
-              timeout = setTimeout(delayed, threshold || 1000);
+              timeout = setTimeout(delayed, threshold || 500);
             };
           };
           // smartresize
@@ -59,21 +59,25 @@ angular.module('confRegistrationWebApp')
 
         //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
-          $('.questions-toolbar-container').css('min-height', function(){
+          var container = $('.questions-toolbar-container');
+          $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
+          container.css('min-height', function(){
             return $('.questions-toolbar').height();
           });
         }
-        window.setTimeout(function () {
+        $(document).ready(function () {
           $('.questions-toolbar').affix({
             offset: {
-              top: 240
+              top: function () {
+                return (this.top = $('.questions-toolbar-container').offset().top)
+              }
             }
           });
           setQuestionToolbarSize();
           $(window).smartresize(function(){
             setQuestionToolbarSize();
           });
-        }, 500);
+        });
       }
     };
   });
