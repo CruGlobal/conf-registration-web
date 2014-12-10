@@ -20,16 +20,16 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.regValidate = [];
 
+    //check if group registration is allowed based on registrants already in registration
     if(!_.isEmpty(registration.registrants)){
-      var allGroupRegistration = false;
+      $scope.allowGroupRegistration = false;
       angular.forEach(registration.registrants, function(r){
-        if(allGroupRegistration){
+        if($scope.allowGroupRegistration){
           return;
         }
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
-        allGroupRegistration = regType.allowGroupRegistrations;
+        $scope.allowGroupRegistration = regType.allowGroupRegistrations;
       });
-      $scope.allowGroupRegistration = allGroupRegistration;
     }
 
     if (angular.isUndefined($scope.currentPayment)) {
@@ -215,21 +215,14 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
-      //find group registrants
       var groupRegistrants = 0;
-      angular.forEach(registration.registrants, function(r){
-        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
-        if(regType.allowGroupRegistrations){
-          groupRegistrants = groupRegistrants + 1;
-        }
-      });
-
-      //find non-group registrants
       var noGroupRegistrants = 0;
       angular.forEach(registration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
-        if(!regType.allowGroupRegistrations){
-          noGroupRegistrants = noGroupRegistrants + 1;
+        if(regType.allowGroupRegistrations){
+          groupRegistrants++;
+        }else{
+          noGroupRegistrants++;
         }
       });
 
