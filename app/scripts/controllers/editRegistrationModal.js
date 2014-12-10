@@ -17,8 +17,10 @@ angular.module('confRegistrationWebApp')
     angular.forEach(angular.copy(conference.registrationPages), function(page) {
       var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
       angular.forEach(angular.copy(page.blocks), function(block) {
-        if (_.contains(block.registrantTypes, registrant.registrantTypeId)) {
-          _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id || b.type === 'paragraphContent'; });
+        //check if block has been removed for this registrant type
+        //check if block type is paragraphContent
+        if (_.contains(block.registrantTypes, registrant.registrantTypeId) || block.type === 'paragraphContent') {
+          _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
         }
       });
 
