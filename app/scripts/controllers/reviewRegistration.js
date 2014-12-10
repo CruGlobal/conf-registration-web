@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(registration.registrants.length === 0) {
+    if(_.isEmpty(registration.registrants)) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
@@ -19,6 +19,18 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = registration;
     $scope.blocks = [];
     $scope.regValidate = [];
+
+    //check if group registration is allowed based on registrants already in registration
+    if(!_.isEmpty(registration.registrants)){
+      $scope.allowGroupRegistration = false;
+      angular.forEach(registration.registrants, function(r){
+        if($scope.allowGroupRegistration){
+          return;
+        }
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        $scope.allowGroupRegistration = regType.allowGroupRegistrations;
+      });
+    }
 
     if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
@@ -200,5 +212,23 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(){
       return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    };
+
+    $scope.registrantDeletable = function(r){
+      var groupRegistrants = 0, noGroupRegistrants = 0;
+      angular.forEach(registration.registrants, function(r){
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        if(regType.allowGroupRegistrations){
+          groupRegistrants++;
+        }else{
+          noGroupRegistrants++;
+        }
+      });
+
+      var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+      if(regType.allowGroupRegistrations && groupRegistrants === 1 && noGroupRegistrants){
+        return false;
+      }
+      return true;
     };
   });
