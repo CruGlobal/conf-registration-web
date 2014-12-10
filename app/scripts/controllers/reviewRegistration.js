@@ -218,7 +218,11 @@ angular.module('confRegistrationWebApp')
       var groupRegistrants = 0, noGroupRegistrants = 0;
       angular.forEach(registration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
-        regType.allowGroupRegistrations ? groupRegistrants++ : noGroupRegistrants++;
+        if(regType.allowGroupRegistrations){
+          groupRegistrants++;
+        }else{
+          noGroupRegistrants++;
+        }
       });
 
       var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
