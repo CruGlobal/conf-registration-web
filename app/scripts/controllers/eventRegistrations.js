@@ -393,12 +393,12 @@ angular.module('confRegistrationWebApp')
        if(action === 'exportAllData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
          csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name.replace(/,/g,'')) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportVisibleData') {
          table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
          csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
+         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name.replace(/,/g,'')) + '-registrations.csv';
          U.submitForm(url, { name: csvContent });
        } else if(action === 'exportPayments') {
          $scope.exportPayments();
@@ -422,7 +422,7 @@ angular.module('confRegistrationWebApp')
     $scope.exportPayments = function () {
       var table = PaymentsViewService.getTable(conference, registrations);
       var csvContent = U.stringifyArray(table, ',') + '\n';
-      var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
+      var url = apiUrl + 'services/download/payments/' + conference.name.replace(/,/g, '') + '-payments.csv';
       U.submitForm(url, { name: csvContent });
     };
 
