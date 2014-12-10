@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, RegistrationCache, conference, currentRegistration, validateRegistrant) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, $window, RegistrationCache, conference, currentRegistration, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -77,12 +77,12 @@ angular.module('confRegistrationWebApp')
           $location.path('/reviewRegistration/' + conference.id);
         }
       } else {
+        $window.scrollTo(0, 0);
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml('Please fill in all required fields.')
         };
       }
-      window.scrollTo(0, 0);
     };
 
     $scope.previousPage = function () {
