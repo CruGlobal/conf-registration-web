@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(registration.registrants.length === 0) {
+    if(_.isEmpty(registration.registrants)) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
@@ -19,6 +19,18 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = registration;
     $scope.blocks = [];
     $scope.regValidate = [];
+
+    if(!_.isEmpty(registration.registrants)){
+      var allGroupRegistration = false;
+      angular.forEach(registration.registrants, function(r){
+        if(allGroupRegistration){
+          return;
+        }
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        allGroupRegistration = regType.allowGroupRegistrations;
+      });
+      $scope.allowGroupRegistration = allGroupRegistration;
+    }
 
     if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
@@ -200,5 +212,31 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(){
       return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    };
+
+    $scope.registrantDeletable = function(r){
+      //find group registrants
+      var groupRegistrants = 0;
+      angular.forEach(registration.registrants, function(r){
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        if(regType.allowGroupRegistrations){
+          groupRegistrants = groupRegistrants + 1;
+        }
+      });
+
+      //find non-group registrants
+      var noGroupRegistrants = 0;
+      angular.forEach(registration.registrants, function(r){
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        if(!regType.allowGroupRegistrations){
+          noGroupRegistrants = noGroupRegistrants + 1;
+        }
+      });
+
+      var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+      if(regType.allowGroupRegistrations && groupRegistrants === 1 && noGroupRegistrants){
+        return false;
+      }
+      return true;
     };
   });

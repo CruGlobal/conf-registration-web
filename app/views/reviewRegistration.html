@@ -33,7 +33,7 @@
 
     <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
       <input type="button" class="btn btn-small btn-default" ng-click="editRegistrant(r.id)" value="Edit">
-      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="conference.allowGroupRegistrations" value="Remove">
+      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="registrantDeletable(r)" value="Remove">
 
       <p class="registrantPrice">
         <strong ng-show="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</strong>
@@ -51,7 +51,7 @@
   </div>
 </div>
 
-<div class="row" ng-show="conference.allowGroupRegistrations">
+<div class="row" ng-if="allowGroupRegistration">
   <div class="col-xs-12">
     <article>
       <h2>Register Someone Else</h2>

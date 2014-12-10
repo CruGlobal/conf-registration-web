@@ -51,6 +51,14 @@
           <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
                   popover-trigger="mouseenter"
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+
+          <label>
+            <input type="checkbox" ng-model="type.allowGroupRegistrations">
+            Allow Group Registrations
+          </label>
+          <button popover="Allows a user to register multiple registrants in the same registration if a registrant exsists with this registration type."
+                  popover-trigger="mouseenter"
+                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
         </div>
 
         <div class="col-xs-6">
