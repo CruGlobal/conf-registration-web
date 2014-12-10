@@ -82,7 +82,6 @@ angular.module('confRegistrationWebApp')
           message: $sce.trustAsHtml('Please fill in all required fields.')
         };
       }
-      window.scrollTo(0, 0);
     };
 
     $scope.previousPage = function () {

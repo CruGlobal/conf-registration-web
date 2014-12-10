@@ -231,6 +231,14 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       }
     });
 
+    $rootScope.$on('$routeChangeSuccess', function () {
+      //scroll to top of page when new page is loaded
+      $window.scrollTo(0, 0);
+
+      //Google Analytics
+      $window.ga('send', 'pageview', {'page': $location.path()});
+    });
+
     $rootScope.generateTitle = function (title) {
       if (title) {
         return title + ' | Event Registration Tool';
@@ -238,11 +246,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         return 'Event Registration Tool';
       }
     };
-
-    //Google Analytics
-    $rootScope.$on('$routeChangeSuccess', function(){
-      $window.ga('send', 'pageview', {'page': $location.path()});
-    });
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
