@@ -123,7 +123,11 @@
             <div class="rightside"><show-answer block="block" registrant="r"></show-answer></div>
           </div>
           <div class="row" ng-show="getRegistration(r.registrationId).completed">
-              <div class="leftside">Completed at</div>
+              <div class="leftside">Started on</div>
+              <div class="rightside">{{getRegistration(r.registrationId).createdTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+          </div>
+          <div class="row" ng-show="getRegistration(r.registrationId).completed">
+              <div class="leftside">Completed on</div>
               <div class="rightside">{{getRegistration(r.registrationId).completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
           </div>
         </div>
