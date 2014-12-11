@@ -25,6 +25,7 @@ angular.module('confRegistrationWebApp')
 
       // header row of block titles
       var header = getBlockTitles(blocks, visibleBlockIds);
+      header.push('Type');
       header.push('Completed');
       if(ConferenceHelper.hasCost(conference)) {
         header.push('Total Due');
@@ -52,6 +53,7 @@ angular.module('confRegistrationWebApp')
               row.push.apply(row, answerContent);
             }
           });
+          row.push.apply(row, ['"' + _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name + '"']);
 
           if(registration.completed){
             row.push.apply(row, ['"' + $filter('evtDateFormat')(registration.completedTimestamp, conference.eventTimezone) + '"']);
