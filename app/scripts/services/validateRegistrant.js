@@ -57,8 +57,7 @@ angular.module('confRegistrationWebApp')
               invalidBlocks.push(block.id);
               return;
             }
-
-            if (_.isNull(answer.match(/\d/g)) || answer.match(/\d/g).length !== 10 || answer.match(/[a-z]/i)) {
+            if (_.isNull(answer.match(/^(\D*\d\D*){10,15}$/g))) { //Contains 10-15 digits
               invalidBlocks.push(block.id);
               return;
             }
