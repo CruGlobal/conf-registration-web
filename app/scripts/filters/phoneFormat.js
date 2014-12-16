@@ -34,12 +34,12 @@ angular.module('confRegistrationWebApp')
           return value;
       }
 
-      if (country == 1) {
-        country = "";
+      if (country === 1) {
+        country = '';
       }
 
       number = number.slice(0, 3) + '-' + number.slice(3);
 
-      return (country + " (" + city + ") " + number).trim();
+      return (country + ' (' + city + ') ' + number).trim();
     };
   });
