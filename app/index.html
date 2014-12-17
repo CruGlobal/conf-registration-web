@@ -115,6 +115,11 @@
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
+<div class="rootLoadingMsg" ng-if="loadingMsg">
+  <div class="blueMsg">
+    <div><i class="fa fa-spinner fa-spin"></i> {{loadingMsg}}...</div>
+  </div>
+</div>
 
 <div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
   <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
