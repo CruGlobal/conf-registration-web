@@ -75,9 +75,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         controller: 'eventOverviewCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
-          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
-          }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
