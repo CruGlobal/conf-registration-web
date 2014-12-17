@@ -74,7 +74,7 @@ angular.module('confRegistrationWebApp')
         if (angular.isDefined($scope.nextPage)) {
           $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
         } else {
-          $location.path('/reviewRegistration/' + conference.id);
+          $location.path('/reviewRegistration/' + conference.id).search('regType', null);
         }
       } else {
         $window.scrollTo(0, 0);
