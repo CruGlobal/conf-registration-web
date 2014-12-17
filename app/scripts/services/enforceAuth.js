@@ -43,6 +43,9 @@ angular.module('confRegistrationWebApp')
         }
       } else {
         $modal.open(loginDialogOptions);
+
+        //remove loading message
+        $rootScope.loadingMsg = '';
       }
     }
 
