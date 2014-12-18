@@ -69,6 +69,7 @@
                 <th>Type</th>
                 <th>Refund</th>
                 <th>Description</th>
+                <th></th>
               </tr>
               <tr ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
@@ -89,7 +90,16 @@
                   </div>
                 </td>
                 <td>{{payment.description}}</td>
+                <td><button ng-click="showEditRow = !showEditRow">Edit</button></td>
               </tr>
+            <tr ng-hide="showEditRow">
+              <td></td>
+              <td><input type="number"></td>
+              <td><input type="text"></td>
+              <td></td>
+              <td><input type="text"></td>
+              <td><button>Save</button></td>
+            </tr>
             </tbody>
           </table>
           <div ng-show="refund">
