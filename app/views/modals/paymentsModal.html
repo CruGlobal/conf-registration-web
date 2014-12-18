@@ -26,6 +26,11 @@
                 <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
                 <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
               </tr>
+              <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts > 0">
+                <td></td>
+                <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
+                <td>{{r.calculatedDiscounts * -1 | moneyFormat}}</td>
+              </tr>
               <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
                 <td></td>
                 <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
