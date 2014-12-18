@@ -97,7 +97,8 @@
               </tr>
               <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
                 <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-                <td><input type="number" ng-model="editPayment.amount" class="form-control"></td>
+                <td><input type="number" ng-model="editPayment.amount" class="form-control"
+                           ng-show="editPayment.paymentType === 'SCHOLARSHIP' || editPayment.paymentType === 'TRANSFER' "></td>
                 <td>
                   <input type="text" ng-model="editPayment.transfer.source" class="form-control" ng-show="editPayment.transfer">
                   <input type="text" ng-model="editPayment.scholarship.source" class="form-control" ng-show="editPayment.scholarship">
