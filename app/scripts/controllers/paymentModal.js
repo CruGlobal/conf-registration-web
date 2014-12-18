@@ -160,4 +160,24 @@ angular.module('confRegistrationWebApp')
         alert('Error removing expense.');
       });
     };
+
+    $scope.saveEdits = function (payment) {
+
+      $http.put("payments/" + payment.id, payment).success(function() {
+        console.log("done");
+      });
+
+    };
+
+    $scope.openEditPaymentRow = function (payment) {
+      if(angular.isDefined($scope.editPayment))
+      {
+        delete $scope.editPayment;
+      }
+      else
+      {
+        $scope.editPayment = angular.copy(payment);
+      }
+    };
+
   });
