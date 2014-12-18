@@ -174,9 +174,15 @@ angular.module('confRegistrationWebApp')
       {
         delete $scope.editPayment;
       }
-      else
-      {
+      else {
         $scope.editPayment = angular.copy(payment);
+
+        if ($scope.editPayment.scholarship !== null) {
+          $scope.editPaymentSource = $scope.editPayment.scholarship.source;
+        }
+        else if ($scope.editPayment.transfer !== null) {
+          $scope.editPaymentSource = $scope.editPayment.transfer.source;
+        }
       }
     };
 
