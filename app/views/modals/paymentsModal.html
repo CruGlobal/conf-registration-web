@@ -63,12 +63,12 @@
         <tab heading="Payments">
           <table class="table">
             <tr>
-              <th style="width:25%">Date</th>
-              <th style="width:15%">Amount</th>
+              <th style="width:23%">Date</th>
+              <th style="width:10%">Amount</th>
               <th style="width:20%">Type</th>
               <th style="width:10%">Refund</th>
               <th style="width:25%">Description</th>
-              <th style="width:5%"></th>
+              <th style="width:12%"></th>
             </tr>
             <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
               <tr ng-class="{'active': $even}">
@@ -91,8 +91,9 @@
                 </td>
                 <td>{{payment.description}}</td>
                 <td>
-                  <button ng-click="openEditPaymentRow(payment)" ng-show="!editPayment">Edit</button>
-                  <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id">Close</button>
+                  <button ng-click="openEditPaymentRow(payment)" ng-show="!editPayment" class="fa fa-edit"></button>
+                  <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id"
+                          class="fa fa-edit"> Close</button>
                 </td>
               </tr>
               <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
