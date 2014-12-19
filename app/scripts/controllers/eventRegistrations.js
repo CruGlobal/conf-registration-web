@@ -209,6 +209,8 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined($scope.order)) {
         if($scope.order === 'completed'){
           return $scope.getRegistration(registration.registrationId).completedTimestamp;
+        }else if($scope.order === 'created'){
+          return $scope.getRegistration(registration.registrationId).createdTimestamp;
         }else if($scope.order === 'type'){
           return $scope.getRegistrantType(registration.registrantTypeId).name;
         }else{
