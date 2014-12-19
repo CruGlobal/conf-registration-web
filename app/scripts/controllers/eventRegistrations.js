@@ -207,8 +207,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.answerSort = function (registration) {
       if (angular.isDefined($scope.order)) {
-        if($scope.order === 'completed'){
+        if($scope.order === 'completed') {
           return $scope.getRegistration(registration.registrationId).completedTimestamp;
+        }else if($scope.order === 'created'){
+          return $scope.getRegistration(registration.registrationId).createdTimestamp;
         }else if($scope.order === 'type'){
           return $scope.getRegistrantType(registration.registrantTypeId).name;
         }else{
