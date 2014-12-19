@@ -64,16 +64,7 @@ angular.module('confRegistrationWebApp')
       }
 
       $http.post(path, $scope.newTransaction).success(function () {
-        $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          $scope.registration = data;
-          $scope.processing = false;
-
-          $scope.newTransaction = {
-            registrationId: registration.id,
-            amount: data.remainingBalance
-          };
-        });
-
+          loadPayments();
       }).error(function () {
         alert('Transaction failed...');
         $scope.processing = false;
@@ -160,4 +151,36 @@ angular.module('confRegistrationWebApp')
         alert('Error removing expense.');
       });
     };
+
+    $scope.saveEdits = function (payment) {
+
+      $http.put('payments/' + payment.id, payment).success(function() {
+        loadPayments();
+      });
+
+    };
+
+    $scope.openEditPaymentRow = function (payment) {
+      if(angular.isDefined($scope.editPayment))
+      {
+        delete $scope.editPayment;
+      }
+      else {
+        $scope.editPayment = angular.copy(payment);
+
+      }
+    };
+
+    var loadPayments = function() {
+      $http.get('registrations/' + $scope.registration.id).success(function (data) {
+        $scope.registration = data;
+        $scope.processing = false;
+
+        $scope.newTransaction = {
+          registrationId: registration.id,
+          amount: data.remainingBalance
+        };
+      });
+    };
+
   });

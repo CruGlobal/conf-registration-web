@@ -66,16 +66,17 @@
           </div>
         </tab>
         <tab heading="Payments">
-          <table class="table table-striped">
-            <tbody>
-              <tr>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Refund</th>
-                <th>Description</th>
-              </tr>
-              <tr ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
+          <table class="table">
+            <tr>
+              <th style="width:21%">Date</th>
+              <th style="width:12%">Amount</th>
+              <th style="width:20%">Type</th>
+              <th style="width:10%">Refund</th>
+              <th style="width:25%">Description</th>
+              <th style="width:12%"></th>
+            </tr>
+            <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
+              <tr ng-class="{'active': $even}">
                 <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
                 <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
                 <td>
@@ -94,6 +95,26 @@
                   </div>
                 </td>
                 <td>{{payment.description}}</td>
+                <td>
+                  <button ng-click="openEditPaymentRow(payment)" ng-show="!editPayment" class="fa fa-edit"></button>
+                  <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id"
+                          class="fa fa-edit"> Close</button>
+                </td>
+              </tr>
+              <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
+                <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                <td><input type="number" ng-model="editPayment.amount" class="form-control"
+                           ng-show="editPayment.paymentType === 'SCHOLARSHIP' || editPayment.paymentType === 'TRANSFER' "
+                           step="0.01" min="0"></td>
+                <td>
+                  <input type="text" ng-model="editPayment.transfer.source" class="form-control"
+                         ng-show="editPayment.paymentType === 'TRANSFER'">
+                  <input type="text" ng-model="editPayment.scholarship.source" class="form-control"
+                         ng-show="editPayment.paymentType === 'SCHOLARSHIP'">
+                </td>
+                <td></td>
+                <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
+                <td><button class="btn btn-success" ng-click="saveEdits(editPayment)">Save</button></td>
               </tr>
             </tbody>
           </table>
