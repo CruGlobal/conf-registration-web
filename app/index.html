@@ -47,64 +47,72 @@
   <!-- endbuild -->
   <!-- build:js scripts/eventApp.js -->
   <script src="scripts/app.js"></script>
-  <script src="scripts/services/currentRegistrationInterceptor.js"></script>
-  <script src="scripts/services/authorizationInterceptor.js"></script>
-  <script src="scripts/services/unauthorizedInterceptor.js"></script>
-  <script src="scripts/services/httpReturnStatusInterceptor.js"></script>
-  <script src="scripts/services/debouncePutsInterceptor.js"></script>
-  <script src="scripts/services/uuid.js"></script>
-  <script src="scripts/services/apiUrl.js"></script>
-  <script src="scripts/services/httpUrlInterceptor.js"></script>
-  <script src="scripts/services/growlService.js"></script>
-  <script src="scripts/controllers/eventDashboard.js"></script>
-  <script src="scripts/controllers/registration.js"></script>
-  <script src="scripts/directives/page.js"></script>
-  <script src="scripts/directives/block.js"></script>
-  <script src="scripts/controllers/editRegistrationModal.js"></script>
-  <script src="scripts/controllers/eventRegistrations.js"></script>
-  <script src="scripts/controllers/landing.js"></script>
-  <script src="scripts/controllers/eventDetails.js"></script>
-  <script src="scripts/controllers/eventOverview.js"></script>
-  <script src="scripts/controllers/reviewRegistration.js"></script>
-  <script src="scripts/directives/formElements.js"></script>
-  <script src="scripts/directives/registrationTypeSelect.js"></script>
-  <script src="scripts/controllers/eventForm.js"></script>
-  <script src="scripts/directives/payment.js"></script>
-  <script src="scripts/controllers/paymentApproval.js"></script>
-  <script src="scripts/services/AnswerCache.js"></script>
-  <script src="scripts/services/RegistrationCache.js"></script>
-  <script src="scripts/services/ConfCache.js"></script>
-  <script src="scripts/services/RegViewCache.js"></script>
-  <script src="scripts/services/ProfileCache.js"></script>
-  <script src="scripts/controllers/createEvent.js"></script>
-  <script src="scripts/controllers/confirmModal.js"></script>
-  <script src="scripts/services/enforceAuth.js"></script>
-  <script src="scripts/controllers/loginDialog.js"></script>
-  <script src="scripts/directives/showAnswer.js"></script>
-  <script src="scripts/directives/ngEnter.js"></script>
-  <script src="scripts/directives/selectOnClick.js"></script>
-  <script src="scripts/filters/joiner.js"></script>
-  <script src="scripts/controllers/exportData.js"></script>
-  <script src="scripts/filters/evtDateFormat.js"></script>
-  <script src="scripts/services/Model.js"></script>
-  <script src="scripts/directives/datepicker.js"></script>
-  <script src="scripts/directives/adminNav.js"></script>
-  <script src="scripts/controllers/eventPermissions.js"></script>
+
+  <!--Controllers-->
   <script src="scripts/controllers/ActiviatePermission.js"></script>
-  <script src="scripts/directives/blocks.js"></script>
-  <script src="scripts/services/PermissionCache.js"></script>
-  <script src="scripts/controllers/genericModal.js"></script>
-  <script src="scripts/controllers/paymentModal.js"></script>
+  <script src="scripts/controllers/confirmModal.js"></script>
+  <script src="scripts/controllers/createEvent.js"></script>
   <script src="scripts/controllers/deleteRegistration.js"></script>
+  <script src="scripts/controllers/editRegistrationModal.js"></script>
+  <script src="scripts/controllers/eventDashboard.js"></script>
+  <script src="scripts/controllers/eventDetails.js"></script>
+  <script src="scripts/controllers/eventForm.js"></script>
+  <script src="scripts/controllers/eventOverview.js"></script>
+  <script src="scripts/controllers/eventPermissions.js"></script>
+  <script src="scripts/controllers/eventRegistrations.js"></script>
+  <script src="scripts/controllers/exportData.js"></script>
+  <script src="scripts/controllers/genericModal.js"></script>
+  <script src="scripts/controllers/landing.js"></script>
+  <script src="scripts/controllers/loginDialog.js"></script>
+  <script src="scripts/controllers/paymentApproval.js"></script>
+  <script src="scripts/controllers/paymentModal.js"></script>
+  <script src="scripts/controllers/registration.js"></script>
   <script src="scripts/controllers/registrationModal.js"></script>
-  <script src="scripts/services/RegistrationsViewService.js"></script>
-  <script src="scripts/services/PaymentsViewService.js"></script>
-  <script src="scripts/services/ConferenceHelper.js"></script>
-  <script src="scripts/services/U.js"></script>
-  <script src="scripts/services/validateRegistrant.js"></script>
+  <script src="scripts/controllers/reviewRegistration.js"></script>
+
+  <!--Directives-->
+  <script src="scripts/directives/adminNav.js"></script>
+  <script src="scripts/directives/block.js"></script>
+  <script src="scripts/directives/blocks.js"></script>
+  <script src="scripts/directives/datepicker.js"></script>
+  <script src="scripts/directives/formElements.js"></script>
+  <script src="scripts/directives/ngEnter.js"></script>
+  <script src="scripts/directives/page.js"></script>
+  <script src="scripts/directives/payment.js"></script>
+  <script src="scripts/directives/registrationTypeSelect.js"></script>
+  <script src="scripts/directives/selectOnClick.js"></script>
+  <script src="scripts/directives/showAnswer.js"></script>
+
+  <!--Filters-->
+  <script src="scripts/filters/evtDateFormat.js"></script>
+  <script src="scripts/filters/joiner.js"></script>
   <script src="scripts/filters/moneyFormat.js"></script>
   <script src="scripts/filters/paymentTypeFormat.js"></script>
   <script src="scripts/filters/phoneFormat.js"></script>
+
+  <!--Services-->
+  <script src="scripts/services/AnswerCache.js"></script>
+  <script src="scripts/services/apiUrl.js"></script>
+  <script src="scripts/services/authorizationInterceptor.js"></script>
+  <script src="scripts/services/ConfCache.js"></script>
+  <script src="scripts/services/ConferenceHelper.js"></script>
+  <script src="scripts/services/currentRegistrationInterceptor.js"></script>
+  <script src="scripts/services/debouncePutsInterceptor.js"></script>
+  <script src="scripts/services/enforceAuth.js"></script>
+  <script src="scripts/services/growlService.js"></script>
+  <script src="scripts/services/httpReturnStatusInterceptor.js"></script>
+  <script src="scripts/services/httpUrlInterceptor.js"></script>
+  <script src="scripts/services/Model.js"></script>
+  <script src="scripts/services/PaymentsViewService.js"></script>
+  <script src="scripts/services/PermissionCache.js"></script>
+  <script src="scripts/services/ProfileCache.js"></script>
+  <script src="scripts/services/RegistrationCache.js"></script>
+  <script src="scripts/services/RegistrationsViewService.js"></script>
+  <script src="scripts/services/RegViewCache.js"></script>
+  <script src="scripts/services/U.js"></script>
+  <script src="scripts/services/unauthorizedInterceptor.js"></script>
+  <script src="scripts/services/uuid.js"></script>
+  <script src="scripts/services/validateRegistrant.js"></script>
   <!-- endbuild -->
   <!-- build:js scripts/errorNotify.js -->
   <script src="components/errorNotify.js"></script>
