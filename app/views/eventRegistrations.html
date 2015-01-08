@@ -1,4 +1,4 @@
-<div class="container">
+<div style="width:100%; padding-right:5px;">
   <div class="row">
     <div class="col-xs-7">
       <h2>Registrations</h2>
@@ -23,7 +23,7 @@
           <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
         <div class="col-md-3">
-          Registration Type:
+          Registration type:
           <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
         <div class="col-md-2">
@@ -37,9 +37,9 @@
     </tr>
   </table>
 </div>
-<p>Showing {{regFilter.length}} registration(s)</p>
+<p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
 
-<div class="container" ng-show="registrations.length == 0">
+<div ng-if="registrants.length === 0">
   <p>No one has registered for this event yet.</p>
 </div>
 
@@ -111,4 +111,3 @@
     </tr>
   </tbody>
 </table>
-<p>Showing {{regFilter.length}} registration(s)</p>

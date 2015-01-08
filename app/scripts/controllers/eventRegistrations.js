@@ -186,9 +186,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.editRegistrant = function (r) {
-      expandedRegistrations[r] = 'loading';
       $http.get('registrants/' + r).success(function (registrantData) {
-        delete expandedRegistrations[r];
         //get registration
         var registration = _.find($scope.registrations, { 'id': registrantData.registrationId });
 
