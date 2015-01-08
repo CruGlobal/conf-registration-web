@@ -83,10 +83,7 @@ angular.module('confRegistrationWebApp')
     this.getAllForConference = function (conferenceId, callback) {
       var defer = $q.defer();
 
-      checkCache('conferences/' + conferenceId + '/registrations', function (registrations) {
-        angular.forEach(registrations, function (registration) {
-          update(path(registration.id), registration);
-        });
+      $http.get('conferences/' + conferenceId + '/registrations').success(function (registrations) {
         defer.resolve(registrations);
         if (angular.isDefined(callback)) {
           callback(registrations);
