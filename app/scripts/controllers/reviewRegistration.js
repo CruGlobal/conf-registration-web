@@ -127,7 +127,7 @@ angular.module('confRegistrationWebApp')
           window.scrollTo(0, 0);
           $route.reload();
         }
-      }).error(function () {
+      }).error(function (data, status, headers) {
         $scope.submittingRegistration = false;
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
@@ -136,7 +136,7 @@ angular.module('confRegistrationWebApp')
           keyboard: false,
           resolve: {
             data: function () {
-              return 'Your payment was declined, please verify your details or use a different payment method.';
+              return headers('X-Payment-Client-Error-Message');
             }
           }
         });
