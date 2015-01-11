@@ -25,6 +25,8 @@ angular.module('confRegistrationWebApp')
 
       // header row of block titles
       var header = getBlockTitles(blocks, visibleBlockIds);
+      header.push('Type');
+      header.push('Started');
       header.push('Completed');
       if(ConferenceHelper.hasCost(conference)) {
         header.push('Total Due');
@@ -52,7 +54,8 @@ angular.module('confRegistrationWebApp')
               row.push.apply(row, answerContent);
             }
           });
-
+          row.push.apply(row, ['"' + _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name + '"']);
+          row.push.apply(row, ['"' + $filter('evtDateFormat')(registration.createdTimestamp, conference.eventTimezone) + '"']);
           if(registration.completed){
             row.push.apply(row, ['"' + $filter('evtDateFormat')(registration.completedTimestamp, conference.eventTimezone) + '"']);
 
@@ -87,7 +90,13 @@ angular.module('confRegistrationWebApp')
             titles.push('Zip');
           }
           else {
-            titles.push(block.title.replace(/,/g, ''));
+            var fieldTitle = block.title;
+
+            if(block.exportFieldTitle !== '' && block.exportFieldTitle !== null) {
+              fieldTitle = block.exportFieldTitle;
+            }
+
+            titles.push(fieldTitle.replace(/,/g, ''));
           }
         }
       });

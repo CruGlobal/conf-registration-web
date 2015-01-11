@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(registration.registrants.length === 0) {
+    if(_.isEmpty(registration.registrants)) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
@@ -19,6 +19,18 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = registration;
     $scope.blocks = [];
     $scope.regValidate = [];
+
+    //check if group registration is allowed based on registrants already in registration
+    if(!_.isEmpty(registration.registrants)){
+      $scope.allowGroupRegistration = false;
+      angular.forEach(registration.registrants, function(r){
+        if($scope.allowGroupRegistration){
+          return;
+        }
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        $scope.allowGroupRegistration = regType.allowGroupRegistrations;
+      });
+    }
 
     if (angular.isUndefined($scope.currentPayment)) {
       var paymentType;
@@ -55,6 +67,10 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.answers, {blockId: blockId});
     };
 
+    $scope.getBlock = function (blockId) {
+      return _.find($scope.blocks, {id: blockId});
+    };
+
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
 
@@ -75,7 +91,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if ($scope.currentPayment.errors) {
+      if (!_.isEmpty($scope.currentPayment.errors)) {
         $modal.open({
           templateUrl: 'views/modals/errorModal.html',
           controller: 'genericModal',
@@ -101,6 +117,7 @@ angular.module('confRegistrationWebApp')
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
+      delete currentPayment.errors;
 
       $http.post('payments/', currentPayment).success(function () {
         delete $scope.currentPayment;
@@ -195,5 +212,23 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(){
       return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    };
+
+    $scope.registrantDeletable = function(r){
+      var groupRegistrants = 0, noGroupRegistrants = 0;
+      angular.forEach(registration.registrants, function(r){
+        var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+        if(regType.allowGroupRegistrations){
+          groupRegistrants++;
+        }else{
+          noGroupRegistrants++;
+        }
+      });
+
+      var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
+      if(regType.allowGroupRegistrations && groupRegistrants === 1 && noGroupRegistrants){
+        return false;
+      }
+      return true;
     };
   });

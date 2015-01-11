@@ -33,6 +33,9 @@
             <div class="col-md-6">
               <h4>Registration Form</h4>
               <div>
+                <label>Description</label>
+                <textarea class="form-control" ng-model="type.description"></textarea>
+
                 <label>
                   <input type="checkbox" ng-model="type.hidden">
                   Hide from Registration Form
@@ -47,6 +50,14 @@
                   Sub Registration Type
                 </label>
                 <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
+                        popover-trigger="mouseenter"
+                        class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+
+                <label>
+                  <input type="checkbox" ng-model="type.allowGroupRegistrations">
+                  Allow Group Registrations
+                </label>
+                <button popover="When users choose to register as this registrant type, they will be permitted to add other registrants to their registration."
                         popover-trigger="mouseenter"
                         class="btn btn-link"><i class="fa fa-question-circle"></i></button>
               </div>
@@ -100,7 +111,7 @@
               <button popover="Your event name, start time and end time will be included in the email by default"
                       popover-trigger="mouseenter"
                       class="btn btn-link"><i class="fa fa-question-circle"></i></button>
-              <wysiwyg textarea-class="form-control" textarea-height="150px" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
+              <wysiwyg textarea-class="form-control" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
             </div>
           </div>
         </div>

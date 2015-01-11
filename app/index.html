@@ -2,13 +2,11 @@
 <html ng-app="confRegistrationWebApp">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="cache-control" content="no-cache" />
-  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
-  <meta http-equiv="pragma" content="no-cache" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
 
-  <title ng-bind="generateTitle(globalPage.title)"></title>
+  <title ng-bind="generateTitle(globalPage.title)">Event Registration Tool</title>
 
   <!--[if lt IE 10]>
     <script type="text/javascript">
@@ -22,9 +20,9 @@
   <!-- End jQuery -->
 
   <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-route.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.27/angular-cookies.min.js"></script>
   <!-- End AngularJS -->
 
   <!-- Bootstrap -->
@@ -51,62 +49,72 @@
 
   <!-- build:js scripts/eventApp.js -->
   <script src="scripts/app.js"></script>
-  <script src="scripts/services/currentRegistrationInterceptor.js"></script>
-  <script src="scripts/services/authorizationInterceptor.js"></script>
-  <script src="scripts/services/unauthorizedInterceptor.js"></script>
-  <script src="scripts/services/httpReturnStatusInterceptor.js"></script>
-  <script src="scripts/services/debouncePutsInterceptor.js"></script>
-  <script src="scripts/services/uuid.js"></script>
-  <script src="scripts/services/apiUrl.js"></script>
-  <script src="scripts/services/httpUrlInterceptor.js"></script>
-  <script src="scripts/services/growlService.js"></script>
-  <script src="scripts/controllers/eventDashboard.js"></script>
-  <script src="scripts/controllers/registration.js"></script>
-  <script src="scripts/directives/page.js"></script>
-  <script src="scripts/directives/block.js"></script>
-  <script src="scripts/controllers/editRegistrationModal.js"></script>
-  <script src="scripts/controllers/eventRegistrations.js"></script>
-  <script src="scripts/controllers/landing.js"></script>
-  <script src="scripts/controllers/eventDetails.js"></script>
-  <script src="scripts/controllers/eventOverview.js"></script>
-  <script src="scripts/controllers/reviewRegistration.js"></script>
-  <script src="scripts/directives/formElements.js"></script>
-  <script src="scripts/directives/registrationTypeSelect.js"></script>
-  <script src="scripts/controllers/eventForm.js"></script>
-  <script src="scripts/directives/payment.js"></script>
-  <script src="scripts/controllers/paymentApproval.js"></script>
-  <script src="scripts/services/AnswerCache.js"></script>
-  <script src="scripts/services/RegistrationCache.js"></script>
-  <script src="scripts/services/ConfCache.js"></script>
-  <script src="scripts/services/RegViewCache.js"></script>
-  <script src="scripts/services/ProfileCache.js"></script>
-  <script src="scripts/controllers/createEvent.js"></script>
-  <script src="scripts/controllers/confirmModal.js"></script>
-  <script src="scripts/services/enforceAuth.js"></script>
-  <script src="scripts/controllers/loginDialog.js"></script>
-  <script src="scripts/directives/showAnswer.js"></script>
-  <script src="scripts/directives/ngEnter.js"></script>
-  <script src="scripts/directives/selectOnClick.js"></script>
-  <script src="scripts/filters/joiner.js"></script>
-  <script src="scripts/controllers/exportData.js"></script>
-  <script src="scripts/filters/evtDateFormat.js"></script>
-  <script src="scripts/services/Model.js"></script>
-  <script src="scripts/directives/datepicker.js"></script>
-  <script src="scripts/directives/adminNav.js"></script>
-  <script src="scripts/controllers/eventPermissions.js"></script>
+
+  <!--Controllers-->
   <script src="scripts/controllers/ActiviatePermission.js"></script>
-  <script src="scripts/directives/blocks.js"></script>
-  <script src="scripts/services/PermissionCache.js"></script>
-  <script src="scripts/controllers/genericModal.js"></script>
-  <script src="scripts/controllers/paymentModal.js"></script>
+  <script src="scripts/controllers/confirmModal.js"></script>
+  <script src="scripts/controllers/createEvent.js"></script>
   <script src="scripts/controllers/deleteRegistration.js"></script>
+  <script src="scripts/controllers/editRegistrationModal.js"></script>
+  <script src="scripts/controllers/eventDashboard.js"></script>
+  <script src="scripts/controllers/eventDetails.js"></script>
+  <script src="scripts/controllers/eventForm.js"></script>
+  <script src="scripts/controllers/eventOverview.js"></script>
+  <script src="scripts/controllers/eventPermissions.js"></script>
+  <script src="scripts/controllers/eventRegistrations.js"></script>
+  <script src="scripts/controllers/exportData.js"></script>
+  <script src="scripts/controllers/genericModal.js"></script>
+  <script src="scripts/controllers/landing.js"></script>
+  <script src="scripts/controllers/loginDialog.js"></script>
+  <script src="scripts/controllers/paymentApproval.js"></script>
+  <script src="scripts/controllers/paymentModal.js"></script>
+  <script src="scripts/controllers/registration.js"></script>
   <script src="scripts/controllers/registrationModal.js"></script>
-  <script src="scripts/services/RegistrationsViewService.js"></script>
-  <script src="scripts/services/PaymentsViewService.js"></script>
-  <script src="scripts/services/ConferenceHelper.js"></script>
-  <script src="scripts/services/U.js"></script>
-  <script src="scripts/services/validateRegistrant.js"></script>
+  <script src="scripts/controllers/reviewRegistration.js"></script>
+
+  <!--Directives-->
+  <script src="scripts/directives/adminNav.js"></script>
+  <script src="scripts/directives/block.js"></script>
+  <script src="scripts/directives/blocks.js"></script>
+  <script src="scripts/directives/datepicker.js"></script>
+  <script src="scripts/directives/formElements.js"></script>
+  <script src="scripts/directives/ngEnter.js"></script>
+  <script src="scripts/directives/page.js"></script>
+  <script src="scripts/directives/payment.js"></script>
+  <script src="scripts/directives/registrationTypeSelect.js"></script>
+  <script src="scripts/directives/selectOnClick.js"></script>
+  <script src="scripts/directives/showAnswer.js"></script>
+
+  <!--Filters-->
+  <script src="scripts/filters/evtDateFormat.js"></script>
+  <script src="scripts/filters/joiner.js"></script>
   <script src="scripts/filters/moneyFormat.js"></script>
+  <script src="scripts/filters/paymentTypeFormat.js"></script>
+  <script src="scripts/filters/phoneFormat.js"></script>
+
+  <!--Services-->
+  <script src="scripts/services/AnswerCache.js"></script>
+  <script src="scripts/services/apiUrl.js"></script>
+  <script src="scripts/services/authorizationInterceptor.js"></script>
+  <script src="scripts/services/ConfCache.js"></script>
+  <script src="scripts/services/ConferenceHelper.js"></script>
+  <script src="scripts/services/currentRegistrationInterceptor.js"></script>
+  <script src="scripts/services/debouncePutsInterceptor.js"></script>
+  <script src="scripts/services/enforceAuth.js"></script>
+  <script src="scripts/services/growlService.js"></script>
+  <script src="scripts/services/httpReturnStatusInterceptor.js"></script>
+  <script src="scripts/services/httpUrlInterceptor.js"></script>
+  <script src="scripts/services/Model.js"></script>
+  <script src="scripts/services/PaymentsViewService.js"></script>
+  <script src="scripts/services/PermissionCache.js"></script>
+  <script src="scripts/services/ProfileCache.js"></script>
+  <script src="scripts/services/RegistrationCache.js"></script>
+  <script src="scripts/services/RegistrationsViewService.js"></script>
+  <script src="scripts/services/RegViewCache.js"></script>
+  <script src="scripts/services/U.js"></script>
+  <script src="scripts/services/unauthorizedInterceptor.js"></script>
+  <script src="scripts/services/uuid.js"></script>
+  <script src="scripts/services/validateRegistrant.js"></script>
   <!-- endbuild -->
   <!-- build:js scripts/errorNotify.js -->
   <script src="components/errorNotify.js"></script>
@@ -118,8 +126,13 @@
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
+<div class="rootLoadingMsg" ng-if="loadingMsg">
+  <div class="blueMsg">
+    <div><i class="fa fa-spinner fa-spin"></i> {{loadingMsg}}...</div>
+  </div>
+</div>
 
-<div ng-if="globalPage.type === 'admin'">
+<div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
   <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
     <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
@@ -132,7 +145,7 @@
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>
-        <div class="col-md-6 usr-greeting">
+        <div class="col-md-6 usr-greeting" ng-if="globalGreetingName">
           <div class="btn-group">
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -148,7 +161,7 @@
       </div>
     </div>
   </header>
-  <section id="pagetitle" ng-class="globalPage.class">
+  <section id="pagetitle" ng-if="globalPage.type === 'admin'" ng-class="globalPage.class">
     <div class="container">
       <div class="row">
         <div ng-class="{'col-lg-12': !globalPage.confId, 'col-lg-6': globalPage.confId}">
@@ -161,20 +174,6 @@
       </div>
     </div>
   </section>
-</div>
-
-<div ng-if="globalPage.type === 'landing'">
-  <header id="masthead">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <a class="logo" href="/">
-              <i class="fa fa-users"></i> Event Registration Tool
-          </a>
-        </div>
-      </div>
-    </div>
-  </header>
 </div>
 
 <div ng-if="globalPage.type === 'registration'">

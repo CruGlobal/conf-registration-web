@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .constant('enforceAuth', function ($rootScope, $route, $modal, $cookies, $q, $location, $window, $routeParams, apiUrl, $http, ProfileCache) {
+  .constant('enforceAuth', function ($rootScope, $route, $modal, $cookies, $q, $location, $window, apiUrl, $http, ProfileCache) {
     var defer = $q.defer();
 
     var noAuthControllers = ['RegistrationCtrl', 'paymentCtrl', 'ReviewRegistrationCtrl'];
@@ -15,8 +15,8 @@ angular.module('confRegistrationWebApp')
 
     if (!/^\/auth\/.*/.test($location.url())) {
       $cookies.intendedRoute = $location.path();
-      if(angular.isDefined($routeParams.regType)){
-        $cookies.regType = $routeParams.regType;
+      if(angular.isDefined($route.current.params.regType)){
+        $cookies.regType = $route.current.params.regType;
       }
     }
 
@@ -43,6 +43,9 @@ angular.module('confRegistrationWebApp')
         }
       } else {
         $modal.open(loginDialogOptions);
+
+        //remove loading message
+        $rootScope.loadingMsg = '';
       }
     }
 
