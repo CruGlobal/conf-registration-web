@@ -263,23 +263,4 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
-  })
-  .config(function ($provide) {
-    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
-      return function (exception) {
-        $delegate(exception);
-        if (_.contains(['localhost'], location.hostname)) {
-          return;
-        }
-        var error = {
-          type: 'Angular',
-          message: exception.message,
-          params: {
-            angularVersion: angular.version.full
-          },
-          component: exception.stack
-        };
-        Hoptoad.notify(error);
-      };
-    }]);
   });
