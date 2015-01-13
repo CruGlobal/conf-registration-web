@@ -32,7 +32,7 @@ angular.module('confRegistrationWebApp')
     $scope.paymentGateways = [
       {id: 'AUTHORIZE_NET', name: 'Authorize.Net'},
       {id: 'TRUST_COMMERCE', name: 'TrustCommerce'},
-      {id: 'MULTIPASS', name:"TransIT MultiPASS"}
+      {id: 'MULTIPASS', name:'TransIT MultiPASS'}
     ];
 
     $scope.conference = conference;
