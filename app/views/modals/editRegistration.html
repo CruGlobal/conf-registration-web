@@ -3,10 +3,11 @@
   <h4>Edit Registration</h4>
 </div>
 <div class="modal-body">
-
-  <div ng-repeat="page in conference.registrationPages">
-    <div ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></div>
-  </div>
+  <form>
+    <div ng-repeat="page in conference.registrationPages">
+      <div ng-repeat="block in page.blocks" block="block" answer="findAnswer(block.id)" crs-block></div>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
   <h4 ng-show="saving"><i class="fa fa-circle-o-notch fa-spin"></i> Saving...</h4>

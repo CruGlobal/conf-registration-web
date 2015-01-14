@@ -69,20 +69,20 @@ angular.module('confRegistrationWebApp')
       $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[0].id);
     }
 
-    $scope.validateAndGoToNext = function (isValid) {
-      if (isValid) {
+    $scope.validateAndGoToNext = function (/*isValid*/) {
+      //if (isValid) { //TODO: Remove commented out code if we always want to allow the user to continue to the next page with the form invalid
         if (angular.isDefined($scope.nextPage)) {
           $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
         } else {
           $location.path('/reviewRegistration/' + conference.id).search('regType', null);
         }
-      } else {
+      /*} else {
         $window.scrollTo(0, 0);
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml('Please fill in all required fields.')
         };
-      }
+      }*/
     };
 
     $scope.previousPage = function () {

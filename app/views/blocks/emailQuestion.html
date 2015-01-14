@@ -1,5 +1,2 @@
-<div class="row">
-  <div class="col-xs-12">
-    <input type="email" class="form-control" placeholder="yourname@domain.net" ng-model="answer.value" ng-required="block.required" ng-disabled="editBlock">
-  </div>
-</div>
+<input show-errors name="{{block.id}}" type="email" class="form-control" placeholder="example@domain.com" ng-model="answer.value" ng-required="block.required" ng-disabled="editBlock">
+<span class="help-block help-block-hidden">Please enter a valid email such as: example@domain.com</span>
