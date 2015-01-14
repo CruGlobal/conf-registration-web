@@ -4,21 +4,19 @@ angular.module('confRegistrationWebApp')
   .directive('showErrors', function () {
     return {
       restrict: 'A',
-      require: '^form',
-      link: function (scope, element, attrs, controller) {
-        var elFormCtl = controller[attrs.name];
-
+      require: 'ngModel',
+      link: function (scope, element, attrs, ngModelCtrl) {
         //Logic to handle groups of inputs in one block
         if(attrs.showErrors === 'group'){
           if(!scope.inputs){
             scope.inputs = [];
           }
-          scope.inputs.push(elFormCtl);
+          scope.inputs.push(ngModelCtrl);
         }
 
         scope.$watch(function(){
             if(!scope.inputs){
-              return elFormCtl.$invalid && elFormCtl.$touched;
+              return ngModelCtrl.$invalid && ngModelCtrl.$touched;
             }else{
               //if we are handling a group of inputs and any of the inputs are invalid and touched
               return scope.inputs.some(function(currentValue){
