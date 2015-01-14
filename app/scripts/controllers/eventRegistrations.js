@@ -15,7 +15,7 @@ angular.module('confRegistrationWebApp')
     $scope.blocks = [];
     $scope.reversesort = false;
     $scope.order = 'name';
-    $scope.showRegistrationsCompleted = 0;
+    $scope.showRegistrationsCompleted = 1;
     $scope.filterRegistrantType = '';
     $scope.visibleFilterRegistrantTypes = _.sortBy(conference.registrantTypes, 'name');
     $scope.visibleFilterRegistrantTypes.unshift({
