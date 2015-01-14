@@ -1,26 +1,19 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h3>Export - {{conference.name}} </h3>
+  <h3>Export - {{conference.name}}</h3>
 </div>
 
 <div class="modal-body">
   <div>
-    <a class="btn btn-primary btn-sm" href="" ng-click="submit('exportAllData')"><i class="fa fa-cloud-download"></i> All Data</a>
+    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authTocken}}" target="_blank">
+      <i class="fa fa-cloud-download"></i> All Data</a>
     <span>- Download all answers for all registrants.</span>
   </div>
 
-  <br />
-
-  <div>
-    <a class="btn btn-primary btn-sm" href="" ng-click="submit('exportVisibleData')"><i class="fa fa-cloud-download"></i> Selected Columns</a>
-    <span>- Download answers currently displayed on screen for all registrants.</span>
-  </div>
-
-  <br data-ng-show="hasCost" />
-
-  <div data-ng-show="hasCost">
-    <a class="btn btn-primary btn-sm" href="" ng-click="submit('exportPayments')"><i class="fa fa-cloud-download"></i> Payments</a>
+  <div ng-if="hasCost">
+    <br>
+    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authTocken}}" target="_blank">
+      <i class="fa fa-cloud-download"></i> Payments</a>
     <span>- Download payment data for all registrants.</span>
   </div>
-
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, uuid, registrations, conference, RegistrationsViewService, U, PaymentsViewService, permissions) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, registrations, conference, permissions) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -223,58 +223,19 @@ angular.module('confRegistrationWebApp')
     };
 
     // Export conference registrations information to csv
-    // showRegistrationsCompleted is now passed to this function. If checked only completed registrations will be exported.
-    // If unchecked all registrations will be exported
     $scope.export = function () {
       $modal.open({
         templateUrl: 'views/modals/export.html',
         controller: 'exportDataModal',
         resolve: {
-          conference: function data() {
+          conference: function() {
             return $scope.conference;
           },
-          hasCost: function data() {
+          hasCost: function() {
             return $scope.eventHasCost();
           }
         }
-      }).result.then(function(action) {
-       var table;
-       var csvContent;
-       var url;
-       if(action === 'exportAllData') {
-         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
-         csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
-         U.submitForm(url, { name: csvContent });
-       } else if(action === 'exportVisibleData') {
-         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
-         csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
-         U.submitForm(url, { name: csvContent });
-       } else if(action === 'exportPayments') {
-         $scope.exportPayments();
-       }
       });
-    };
-
-    /*
-     *   for the export, we should always return the values of the boxes that are checked.  this gets around
-     *   the fact that pre-defined views are not automatically updated.. therefore creating a scenario where
-     *   a user has altered a pre-defined view, but not clicked 'save-as'.  in this case they would have
-     *   exposed or hidden some blocks, but upon export receive just the blocks in the pre-defined view.
-     */
-    $scope.getVisibleBlocksForExport = function () {
-      return _.pluck(_.filter($scope.blocks, function (item) {
-        return item.visible === true;
-      }), 'id');
-    };
-
-    // Export conference registration payments information to csv
-    $scope.exportPayments = function () {
-      var table = PaymentsViewService.getTable(conference, registrations);
-      var csvContent = U.stringifyArray(table, ',') + '\n';
-      var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
-      U.submitForm(url, { name: csvContent });
     };
 
     $scope.eventHasCost = function () {
