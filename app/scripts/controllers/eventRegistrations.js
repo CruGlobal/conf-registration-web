@@ -55,7 +55,7 @@ angular.module('confRegistrationWebApp')
       return !_.contains(block.registrantTypes, registrantTypeId);
     };
 
-    $scope.findAnswer = function (registration, blockId) {
+    var findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
         return angular.equals(answer.blockId, blockId);
       });
@@ -74,10 +74,10 @@ angular.module('confRegistrationWebApp')
         }else if($scope.order === 'email') {
           return registration.email;
         }else{
-          if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
-            var answerValue = $scope.findAnswer(registration, $scope.order).value;
+          if (angular.isDefined(findAnswer(registration, $scope.order))) {
+            var answerValue = findAnswer(registration, $scope.order).value;
             if(_.isObject(answerValue)){
-              return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
+              return _.values(findAnswer(registration, $scope.order).value).join(' ');
             }else{
               return answerValue;
             }
