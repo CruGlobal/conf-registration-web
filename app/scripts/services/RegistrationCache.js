@@ -84,7 +84,11 @@ angular.module('confRegistrationWebApp')
       var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';
 
-      $http.get('conferences/' + conferenceId + '/registrations?blocks=' + blocks.join()).success(function (registrations) {
+      var blocksStr = '';
+      if(!_.isEmpty(blocks)){
+        blocksStr = '?block=' + blocks.join('&block=');
+      }
+      $http.get('conferences/' + conferenceId + '/registrations' + blocksStr).success(function (registrations) {
         $rootScope.loadingMsg = '';
         defer.resolve(registrations);
       }).error(function(){
