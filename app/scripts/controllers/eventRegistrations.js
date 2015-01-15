@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, registrations, conference, permissions) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, RegistrationCache, apiUrl, registrations, conference, permissions) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -22,6 +22,7 @@ angular.module('confRegistrationWebApp')
       id: '',
       name: '-Any-'
     });
+    var expandedRegistrations = {};
 
     $scope.registrations = registrations;
     $scope.registrants = _.flatten(registrations, 'registrants');
@@ -35,8 +36,29 @@ angular.module('confRegistrationWebApp')
       });
     });
 
+    // toggle (show/hide) column(s)
+    $scope.toggleColumn = function (block) {
+      $scope.blocks[block].visible = !$scope.blocks[block].visible;
+      if(!$scope.blocks[block].visible){
+        return;
+      }
+
+      RegistrationCache.getAllForConference(conference.id, _.pluck(_.where($scope.blocks, { 'visible': true }), 'id')).then(function(registrations){
+        console.log(registrations);
+        $scope.registrations = registrations;
+        $scope.registrants = _.flatten(registrations, 'registrants');
+        expandedRegistrations = {};
+      });
+    };
+
     $scope.blockIsVisible = function(block, registrantTypeId){
       return !_.contains(block.registrantTypes, registrantTypeId);
+    };
+
+    $scope.findAnswer = function (registration, blockId) {
+      return _.find(registration.answers, function (answer) {
+        return angular.equals(answer.blockId, blockId);
+      });
     };
 
     $scope.answerSort = function (registration) {
@@ -49,8 +71,17 @@ angular.module('confRegistrationWebApp')
           return $scope.getRegistrantType(registration.registrantTypeId).name;
         }else if($scope.order === 'name'){
           return registration.firstName + registration.lastName;
-        }else if($scope.order === 'email'){
+        }else if($scope.order === 'email') {
           return registration.email;
+        }else{
+          if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
+            var answerValue = $scope.findAnswer(registration, $scope.order).value;
+            if(_.isObject(answerValue)){
+              return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
+            }else{
+              return answerValue;
+            }
+          }
         }
       } else {
         return 0;
@@ -156,7 +187,6 @@ angular.module('confRegistrationWebApp')
       return registration.totalPaid >= registration.calculatedTotalDue;
     };
 
-    var expandedRegistrations = {};
     $scope.expandRegistration = function (r) {
       if (expandedRegistrations[r] === 'open') {
         delete expandedRegistrations[r];

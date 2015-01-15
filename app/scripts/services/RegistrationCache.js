@@ -80,14 +80,15 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getAllForConference = function (conferenceId, callback) {
+    this.getAllForConference = function (conferenceId, blocks) {
       var defer = $q.defer();
+      $rootScope.loadingMsg = 'Loading Registrations';
 
-      $http.get('conferences/' + conferenceId + '/registrations').success(function (registrations) {
+      $http.get('conferences/' + conferenceId + '/registrations?blocks=' + blocks.join()).success(function (registrations) {
+        $rootScope.loadingMsg = '';
         defer.resolve(registrations);
-        if (angular.isDefined(callback)) {
-          callback(registrations);
-        }
+      }).error(function(){
+        $rootScope.loadingMsg = '';
       });
 
       return defer.promise;

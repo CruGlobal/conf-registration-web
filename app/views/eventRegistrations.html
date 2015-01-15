@@ -22,7 +22,7 @@
           Payment status:
           <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
           Registration type:
           <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
@@ -31,6 +31,25 @@
           <div class="btn-group">
             <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="0">Show</label>
             <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="1">Hide</label>
+          </div>
+        </div>
+        <div class="col-md-1 colright">
+          Columns<br>
+          <div class="btn-group columns-btn">
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
+              <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
+              <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
+              <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
+                <a href="" ng-click="toggleColumn($index)" style="width:250px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
+                  <i class="fa fa-check-square" ng-show="block.visible"></i>
+                  <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                  {{block.title}}
+                </a>
+              </li>
+            </ul>
+
           </div>
         </div>
       </td>
@@ -48,6 +67,7 @@
     <tr>
       <th><a href="" ng-click="setOrder('name')">Name</a></th>
       <th><a href="" ng-click="setOrder('email')">Email</a></th>
+      <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
       <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
@@ -60,6 +80,9 @@
     <tr ng-class="{'active': $even}" class="noselect">
       <td ng-click="expandRegistration(r.id)">{{r.firstName}} {{r.lastName}}</td>
       <td ng-click="expandRegistration(r.id)">{{r.email}}</td>
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)">
+        <show-answer block="block" registrant="r"></show-answer>
+      </td>
       <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
       <td class="tablecenter" ng-click="expandRegistration(r.id)">
         {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
