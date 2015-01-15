@@ -219,7 +219,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       });
   })
   .run(function ($rootScope, $cookies, $location, $window) {
-    $rootScope.$on('$locationChangeStart', function (e, newUrl) {
+    $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';

@@ -42,10 +42,10 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
               <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
-                <a href="" ng-click="toggleColumn($index)" style="width:250px; white-space: nowrap; overflow:hidden; text-overflow: ellipsis;">
+                <a href="" ng-click="toggleColumn($index)">
                   <i class="fa fa-check-square" ng-show="block.visible"></i>
                   <i class="fa fa-square-o" ng-show="!block.visible"></i>
-                  {{block.title}}
+                  {{block.exportFieldTitle || block.title}}
                 </a>
               </li>
             </ul>
@@ -67,7 +67,7 @@
     <tr>
       <th><a href="" ng-click="setOrder('name')">Name</a></th>
       <th><a href="" ng-click="setOrder('email')">Email</a></th>
-      <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.title}}</a></th>
+      <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a></th>
       <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>

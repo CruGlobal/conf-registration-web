@@ -43,8 +43,8 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      RegistrationCache.getAllForConference(conference.id, _.pluck(_.where($scope.blocks, { 'visible': true }), 'id')).then(function(registrations){
-        console.log(registrations);
+      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
         $scope.registrations = registrations;
         $scope.registrants = _.flatten(registrations, 'registrants');
         expandedRegistrations = {};
