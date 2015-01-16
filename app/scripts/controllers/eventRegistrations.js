@@ -35,15 +35,27 @@ angular.module('confRegistrationWebApp')
         }
       });
     });
+    //turn on visible blocks
+    var visibleBlocks = localStorage.getItem('visibleBlocks:' + conference.id);
+    if(!_.isNull(visibleBlocks)){
+      visibleBlocks = JSON.parse(visibleBlocks);
+      angular.forEach(visibleBlocks, function(blockId){
+        var block = _.find($scope.blocks, { 'id': blockId });
+        if(angular.isDefined(block)){
+          block.visible = true;
+        }
+      });
+    }
 
     // toggle (show/hide) column(s)
     $scope.toggleColumn = function (block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
+      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
       if(!$scope.blocks[block].visible){
         return;
       }
 
-      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
       RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
         $scope.registrations = registrations;
         $scope.registrants = _.flatten(registrations, 'registrants');

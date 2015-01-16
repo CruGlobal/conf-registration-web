@@ -89,7 +89,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId, []);
+            var visibleBlocks = localStorage.getItem('visibleBlocks:' + $route.current.params.conferenceId);
+            if(!_.isNull(visibleBlocks)){
+              visibleBlocks = JSON.parse(visibleBlocks);
+            }
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId, visibleBlocks);
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
