@@ -1,1 +1,4 @@
-<input type="date" ng-model="answer.value" ng-required="block.required" class="form-control" ng-disabled="editBlock">
+<div class="input-group">
+  <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+  <input type="text" pick-a-date="date" placeholder="Select Date" pick-a-date-options="{ format: 'mmm dd, yyyy' }" ng-model="answer.value" ng-required="block.required" class="form-control" ng-disabled="editBlock">
+</div>
