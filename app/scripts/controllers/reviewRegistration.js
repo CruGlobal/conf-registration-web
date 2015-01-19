@@ -215,6 +215,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
+      if(registration.completed){
+        return false;
+      }
       var groupRegistrants = 0, noGroupRegistrants = 0;
       angular.forEach(registration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
