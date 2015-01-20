@@ -18,7 +18,7 @@
                 <td>
                   <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
                 </td>
-                <td>{{registrantName(r.id)}}</td>
+                <td>{{r.firstName}} {{r.lastName}}</td>
                 <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
               </tr>
               <tr ng-show="expandRegistrantCost[r.id]">
