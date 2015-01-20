@@ -5,14 +5,14 @@
 
 <div class="modal-body">
   <div>
-    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authTocken}}" target="_blank">
+    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
       <i class="fa fa-cloud-download"></i> All Data</a>
     <span>- Download all answers for all registrants.</span>
   </div>
 
   <div ng-if="hasCost">
     <br>
-    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authTocken}}" target="_blank">
+    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
       <i class="fa fa-cloud-download"></i> Payments</a>
     <span>- Download payment data for all registrants.</span>
   </div>
