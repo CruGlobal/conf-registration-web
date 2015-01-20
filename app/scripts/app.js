@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'ui.sortable', 'wysiwyg.module'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'ui.sortable', 'wysiwyg.module', 'angular-datepicker'])
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {

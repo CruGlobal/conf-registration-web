@@ -779,6 +779,10 @@ ul.sortable2 {
 .connectedSortable {
   min-height: 360px;
 }
+//For angular-native-picker (datepicker)
+.picker__nav--next, .picker__nav--prev{
+  padding-bottom: 1.4em;
+}
 body {
   button.btn-md.addon {
     padding: 0 0 0 12px;
@@ -879,6 +883,11 @@ body {
   button.nostyle { background: none; border: none; padding: 0; }
   #registrationsModal, #addregistrationModal, #paymentsModal {
     input { margin-bottom: 9px; }
+  }
+  input[pick-a-date], input[pick-a-time] {
+    &[readonly]{
+      background-color: #FFFFFF;
+    }
   }
 }
 
