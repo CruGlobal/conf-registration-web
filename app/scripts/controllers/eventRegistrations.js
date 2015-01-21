@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, apiUrl, uuid, registrations, conference, RegViewCache, RegistrationsViewService, U, PaymentsViewService, permissions) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, RegistrationCache, registrations, conference, permissions) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -14,195 +14,63 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.reversesort = false;
-    $scope.showAllViewId = 'all';
-    $scope.defaultViewId = 'default';
-    $scope.activeRegViewId = $scope.defaultViewId;
-    $scope.savedState = '';
-    $scope.columnsDropdownToggle = false;
+    $scope.order = 'name';
+    $scope.showRegistrationsCompleted = 1;
+    $scope.filterRegistrantType = '';
+    $scope.visibleFilterRegistrantTypes = _.sortBy(conference.registrantTypes, 'name');
+    $scope.visibleFilterRegistrantTypes.unshift({
+      id: '',
+      name: '-Any-'
+    });
+    var expandedRegistrations = {};
+
     $scope.registrations = registrations;
     $scope.registrants = _.flatten(registrations, 'registrants');
 
-    // collect all 'Content' blocks from the conferences' pages
+    //collect all blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
-        if (block.type.indexOf('Content') === -1) {
+        if (block.type !== 'paragraphContent') {
           $scope.blocks.push(angular.copy(block));
         }
       });
     });
+    //turn on visible blocks
+    var visibleBlocks = localStorage.getItem('visibleBlocks:' + conference.id);
+    if(!_.isNull(visibleBlocks)){
+      visibleBlocks = JSON.parse(visibleBlocks);
+      angular.forEach(visibleBlocks, function(blockId){
+        var block = _.find($scope.blocks, { 'id': blockId });
+        if(angular.isDefined(block)){
+          block.visible = true;
+        }
+      });
+    }
 
-    // toggle (show/hide) the column and auto save the registration view
+    // toggle (show/hide) column(s)
     $scope.toggleColumn = function (block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
-      $scope.updateRegView();
-    };
-
-    // set the registration view as per the active registration view id
-    $scope.setRegView = function () {
-      $scope.savedState = '';
-      if ($scope.activeRegViewId === '') {
-
-      } else {
-        var visibleBlocks = _.find($scope.registrationViewsDropdown, { 'id': $scope.activeRegViewId }).visibleBlockIds;
-        angular.forEach($scope.blocks, function (block) {
-          if (visibleBlocks.indexOf(block.id) !== -1) {
-            block.visible = true;
-          } else if (block.type.indexOf('Content') === -1) {
-            block.visible = false;
-          }
-        });
-      }
-    };
-
-    // create a registration view
-    $scope.createRegView = function () {
-      $modal.open({
-        templateUrl: 'views/modals/regViewCreate.html',
-        controller: 'createEventCtrl',
-        resolve: {
-          defaultValue: function () {
-            return '';
-          }
-        }
-      }).result.then(function (viewName) {
-        if (viewName !== '') {
-
-          var regViewNames = _.pluck($scope.registrationViewsDropdown, 'name');
-          if (regViewNames.indexOf(viewName) > -1) {
-            var errorModalOptions = {
-              templateUrl: 'views/modals/errorModal.html',
-              controller: 'genericModal',
-              resolve: {
-                message: function () {
-                  return 'View name "' + viewName + '" already exists. Please provide a different view name.';
-                }
-              }
-            };
-            $modal.open(errorModalOptions);
-
-            return;
-          }
-
-          var newView = {
-            id: uuid(),
-            conferenceId: conference.id,
-            name: viewName,
-            visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
-              return item.visible === true;
-            }), 'id')
-          };
-
-          $http({method: 'POST',
-            url: 'conferences/' + conference.id + '/registration-views',
-            data: newView
-          }).success(function () {
-            $scope.registrationViews = $scope.registrationViews.concat(newView);
-            $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(newView);
-            $scope.activeRegViewId = newView.id;
-          }).error(function () {
-          });
-        }
-      });
-    };
-
-    // update a registration view
-    $scope.updateRegView = function () {
-
-      // don't update predefined view
-      if ($scope.isPredefinedView($scope.activeRegViewId))
-      {
+      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
+      if(!$scope.blocks[block].visible){
         return;
       }
 
-      var thisView = {
-        id: $scope.activeRegViewId,
-        conferenceId: conference.id,
-        name: _.find($scope.registrationViewsDropdown, { 'id': $scope.activeRegViewId }).name,
-        visibleBlockIds: _.pluck(_.filter($scope.blocks, function (item) {
-          return item.visible === true;
-        }), 'id')
-      };
-
-      $scope.savedState = 'Saving...';
-      $http({method: 'PUT',
-        url: 'registration-views/' + $scope.activeRegViewId,
-        data: thisView
-      }).success(function () {
-        $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
-        $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
-          return view.id !== $scope.activeRegViewId;
-        });
-        $scope.registrationViews = $scope.registrationViews.concat(thisView);
-        $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat(thisView);
-        $scope.activeRegViewId = thisView.id;
-        $scope.savedState = 'Saved';
-        RegViewCache.update(conference.id, $scope.registrationViews);
-      }).error(function () {
+      RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
+        $scope.registrations = registrations;
+        $scope.registrants = _.flatten(registrations, 'registrants');
+        expandedRegistrations = {};
       });
     };
 
-    // delete a registration view
-    $scope.delRegView = function () {
-
-      // don't delete predefined views
-      if ($scope.isPredefinedView($scope.activeRegViewId))
-      {
-        return;
-      }
-
-      $http({method: 'DELETE',
-        url: 'registration-views/' + $scope.activeRegViewId
-      }).success(function () {
-        $scope.registrationViews = _.remove($scope.registrationViews, function (view) { return view.id !== $scope.activeRegViewId; });
-        $scope.registrationViewsDropdown = _.remove($scope.registrationViewsDropdown, function (view) {
-          return view.id !== $scope.activeRegViewId;
-        });
-
-        $scope.activeRegViewId = $scope.defaultViewId;
-        $scope.setRegView();
-        RegViewCache.update(conference.id, $scope.registrationViews);
-      }).error(function () {
-      });
+    $scope.blockIsVisible = function(block, registrantTypeId){
+      return !_.contains(block.registrantTypes, registrantTypeId);
     };
 
-    // get all the registration views for this conference
-    RegViewCache.get(conference.id, function (data) {
-      $scope.registrationViews = _.sortBy(data, 'name');
-
-      var profileBlocks = function (blocks) {
-        return _.filter(blocks, function (block) {
-          var profileTypes = [ 'EMAIL', 'NAME' ];
-          return profileTypes.indexOf(block.profileType) > -1;
-        });
-      };
-
-      $scope.registrationViewsDropdown = [
-        {
-          id: $scope.defaultViewId,
-          name: '-Name & Email-',
-          visibleBlockIds: _.pluck(profileBlocks($scope.blocks), 'id')
-        },
-        {
-          id: $scope.showAllViewId,
-          name: '-Show All-',
-          visibleBlockIds: _.pluck($scope.blocks, 'id')
-        }
-      ];
-
-      $scope.registrationViewsDropdown = $scope.registrationViewsDropdown.concat($scope.registrationViews);
-      $scope.setRegView();
-    });
-
-    $scope.findAnswer = function (registration, blockId) {
+    var findAnswer = function (registration, blockId) {
       return _.find(registration.answers, function (answer) {
         return angular.equals(answer.blockId, blockId);
       });
-    };
-
-    $scope.getSelectedCheckboxes = function (choices) {
-      return _.keys(_.pick(choices, function (val) {
-        return val === true;
-      }));
     };
 
     $scope.answerSort = function (registration) {
@@ -213,11 +81,15 @@ angular.module('confRegistrationWebApp')
           return $scope.getRegistration(registration.registrationId).createdTimestamp;
         }else if($scope.order === 'type'){
           return $scope.getRegistrantType(registration.registrantTypeId).name;
+        }else if($scope.order === 'name'){
+          return registration.firstName + registration.lastName;
+        }else if($scope.order === 'email') {
+          return registration.email;
         }else{
-          if (angular.isDefined($scope.findAnswer(registration, $scope.order))) {
-            var answerValue = $scope.findAnswer(registration, $scope.order).value;
+          if (angular.isDefined(findAnswer(registration, $scope.order))) {
+            var answerValue = findAnswer(registration, $scope.order).value;
             if(_.isObject(answerValue)){
-              return _.values($scope.findAnswer(registration, $scope.order).value).join(' ');
+              return _.values(findAnswer(registration, $scope.order).value).join(' ');
             }else{
               return answerValue;
             }
@@ -259,15 +131,10 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.isPredefinedView = function (regViewId) {
-      var predefinedViews = [ $scope.showAllViewId, $scope.defaultViewId ];
-      return predefinedViews.indexOf(regViewId) > -1;
-    };
-
     // define payment categories
     $scope.paymentCategories = [
       {
-        name: 'Show All',
+        name: '-Any-',
         matches: function () {
           return true;
         }
@@ -332,100 +199,85 @@ angular.module('confRegistrationWebApp')
       return registration.totalPaid >= registration.calculatedTotalDue;
     };
 
-    var expandedRegistrations = [];
     $scope.expandRegistration = function (r) {
-      if (_.contains(expandedRegistrations, r)) {
-        _.remove(expandedRegistrations, function (i) { return i === r; });
+      if (expandedRegistrations[r] === 'open') {
+        delete expandedRegistrations[r];
       } else {
-        expandedRegistrations.push(r);
+        expandedRegistrations[r] = 'loading';
+
+        $http.get('registrants/' + r).success(function (registrantData) {
+          expandedRegistrations[r] = 'open';
+
+          //update registrant
+          var index = _.findIndex($scope.registrants, { 'id': registrantData.id });
+          $scope.registrants[index] = registrantData;
+
+          //update registration
+          index = _.findIndex($scope.registrations, { 'id': registrantData.registrationId });
+          var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
+          $scope.registrations[index].registrants[registrantIndex] = registrantData;
+        }).error(function(){
+          alert('Error: registrant data could be be retrieved.');
+          delete expandedRegistrations[r];
+        });
       }
     };
-    $scope.isExpanded = function (r) {
-      return _.contains(expandedRegistrations, r);
+
+    $scope.expandedStatus = function (r) {
+      return expandedRegistrations[r];
     };
 
     $scope.editRegistrant = function (r) {
-      var editRegistrationDialogOptions = {
-        templateUrl: 'views/modals/editRegistration.html',
-        controller: 'editRegistrationModalCtrl',
-        resolve: {
-          registrant: function () {
-            return r;
-          },
-          registration: function () {
-            return $scope.getRegistration(r.registrationId);
-          },
-          conference: function () {
-            return conference;
+      $http.get('registrants/' + r).success(function (registrantData) {
+        //get registration
+        var registration = _.find($scope.registrations, { 'id': registrantData.registrationId });
+
+        var editRegistrationDialogOptions = {
+          templateUrl: 'views/modals/editRegistration.html',
+          controller: 'editRegistrationModalCtrl',
+          resolve: {
+            registrant: function () {
+              return registrantData;
+            },
+            registration: function () {
+              return registration;
+            },
+            conference: function () {
+              return conference;
+            }
           }
-        }
-      };
+        };
 
-      $modal.open(editRegistrationDialogOptions).result.then(function (registration) {
-        //update registration
-        var index = _.findIndex($scope.registrations, { 'id': registration.id });
-        $scope.registrations[index] = registration;
+        $modal.open(editRegistrationDialogOptions).result.then(function (registration) {
+          //update registration
+          var index = _.findIndex($scope.registrations, { 'id': registration.id });
+          $scope.registrations[index] = registration;
 
-        //update registrant
-        r = _.find(registration.registrants, { 'id': r.id });
-        index = _.findIndex($scope.registrants, { 'id': r.id });
-        $scope.registrants[index] = r;
+          //update registrant
+          r = _.find(registration.registrants, { 'id': r });
+          index = _.findIndex($scope.registrants, { 'id': r.id });
+          $scope.registrants[index] = r;
+        });
+      }).error(function(){
+        alert('Error: registrant data could be be retrieved.');
+        delete expandedRegistrations[r];
       });
     };
 
     // Export conference registrations information to csv
-    // showRegistrationsCompleted is now passed to this function. If checked only completed registrations will be exported.
-    // If unchecked all registrations will be exported
     $scope.export = function () {
       $modal.open({
         templateUrl: 'views/modals/export.html',
         controller: 'exportDataModal',
         resolve: {
-          conference: function data() {
+          conference: function() {
             return $scope.conference;
           },
-          hasCost: function data() {
+          hasCost: function() {
             return $scope.eventHasCost();
           }
         }
-      }).result.then(function(action) {
-       var table;
-       var csvContent;
-       var url;
-       if(action === 'exportAllData') {
-         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted);
-         csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
-         U.submitForm(url, { name: csvContent });
-       } else if(action === 'exportVisibleData') {
-         table = RegistrationsViewService.getTable(conference, registrations, $scope.showRegistrationsCompleted, $scope.getVisibleBlocksForExport());
-         csvContent = U.stringifyArray(table, ',') + '\n';
-         url = apiUrl + 'services/download/registrations/' + encodeURIComponent(conference.name) + '-registrations.csv';
-         U.submitForm(url, { name: csvContent });
-       } else if(action === 'exportPayments') {
-         $scope.exportPayments();
-       }
       });
-    };
-
-    /*
-     *   for the export, we should always return the values of the boxes that are checked.  this gets around
-     *   the fact that pre-defined views are not automatically updated.. therefore creating a scenario where
-     *   a user has altered a pre-defined view, but not clicked 'save-as'.  in this case they would have
-     *   exposed or hidden some blocks, but upon export receive just the blocks in the pre-defined view.
-     */
-    $scope.getVisibleBlocksForExport = function () {
-      return _.pluck(_.filter($scope.blocks, function (item) {
-        return item.visible === true;
-      }), 'id');
-    };
-
-    // Export conference registration payments information to csv
-    $scope.exportPayments = function () {
-      var table = PaymentsViewService.getTable(conference, registrations);
-      var csvContent = U.stringifyArray(table, ',') + '\n';
-      var url = apiUrl + 'services/download/payments/' + conference.name + '-payments.csv';
-      U.submitForm(url, { name: csvContent });
     };
 
     $scope.eventHasCost = function () {
