@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
       {id: 'TRUST_COMMERCE', name: 'TrustCommerce'}
     ];
 
-    $scope.conference = conference;
+    $scope.conference = angular.copy(conference);
 
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
