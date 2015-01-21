@@ -54,12 +54,10 @@ angular.module('confRegistrationWebApp')
 
     this.syncBlock = function (scope, name) {
       scope.$watch(name, function (answer, oldAnswer) {
-        if(angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)){
+        if(angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)){
           return;
         }
-        if (angular.isDefined(answer)) {
-          update(path(answer.id), answer);
-        }
+        update(path(answer.id), answer);
       }, true);
     };
   });
