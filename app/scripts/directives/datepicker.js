@@ -6,16 +6,18 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/datepicker.html',
       restrict: 'E',
       scope: {
-        'localModel': '=model',
-        'dateOnly': '=dateOnly'
+        'model': '=model',
+        'dateOnly': '=dateOnly',
+        'required': '=required',
+        'disabled': '=disabled'
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
           $scope.$apply(function () {
             if($scope.dateOnly){
-              $scope.localModel = moment(timestamp).format('YYYY-MM-DD');
+              $scope.model = moment(timestamp).format('YYYY-MM-DD');
             }else{
-              $scope.localModel = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+              $scope.model = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
             }
           });
         };
@@ -27,11 +29,22 @@ angular.module('confRegistrationWebApp')
           dateFormat = 'M/D/YYYY';
         }
         datePickerElement.datetimepicker({
-          defaultDate: moment(scope.localModel),
+          defaultDate: moment(scope.model),
           format: dateFormat
         }).on('dp.change', function (ev) {
           scope.updateTimeStamp(ev.date);
         });
+
+        scope.$watch(function(){
+            return scope.disabled;
+          },
+          function(){
+            if(scope.disabled){
+              datePickerElement.data('DateTimePicker').disable();
+            }else{
+              datePickerElement.data('DateTimePicker').enable();
+            }
+          });
 
         scope.$on('$destroy', function () {
           if (angular.isDefined(datePickerElement.data('DateTimePicker'))) {
