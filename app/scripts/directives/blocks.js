@@ -111,12 +111,7 @@ angular.module('confRegistrationWebApp')
   .directive('dateQuestion', function () {
     return {
       templateUrl: 'views/blocks/dateQuestion.html',
-      restrict: 'E',
-      controller: function($scope){
-        if(angular.isDefined($scope.answer) && !($scope.answer.value instanceof Date)){
-          $scope.answer.value = new Date($scope.answer.value);
-        }
-      }
+      restrict: 'E'
     };
   });
 
