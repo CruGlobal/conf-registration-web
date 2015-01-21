@@ -4,7 +4,6 @@
   <span ng-switch-when="addressQuestion">{{answer.value.address1}} {{answer.value.address2}}<br>{{answer.value.city}}, {{answer.value.state}} {{answer.value.zip}}</span>
   <span ng-switch-when="textareaQuestion" class="eventhub-linebreak">{{answer.value}}</span>
   <span ng-switch-when="phoneQuestion">{{answer.value | tel}}</span>
-  <span ng-switch-when="dateQuestion">{{answer.value | date : 'mediumDate'}}</span>
   <span ng-switch-default>{{answer.value}}</span>
   <span ng-show="answer.amount && showAmount"> - {{answer.amount | moneyFormat}}</span>
 </ng-switch>
