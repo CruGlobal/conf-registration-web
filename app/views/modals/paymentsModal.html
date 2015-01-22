@@ -99,6 +99,7 @@
                   <button ng-click="openEditPaymentRow(payment)" ng-show="!editPayment" class="fa fa-edit"></button>
                   <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id"
                           class="fa fa-edit"> Close</button>
+                  <button ng-click="deletePayment(payment)" ng-show="!editPayment" class="fa fa-trash-o"></button>
                 </td>
               </tr>
               <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
