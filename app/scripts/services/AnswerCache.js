@@ -53,10 +53,11 @@ angular.module('confRegistrationWebApp')
     };
 
     this.syncBlock = function (scope, name) {
-      scope.$watch(name, function (answer) {
-        if (angular.isDefined(answer)) {
-          update(path(answer.id), answer);
+      scope.$watch(name, function (answer, oldAnswer) {
+        if(angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)){
+          return;
         }
+        update(path(answer.id), answer);
       }, true);
     };
   });
