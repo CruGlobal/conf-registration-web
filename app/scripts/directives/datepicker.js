@@ -37,6 +37,10 @@ angular.module('confRegistrationWebApp')
           }, 200);
         });
 
+        scope.togglePicker = function(){
+          datePickerElement.data('DateTimePicker').toggle();
+        };
+
         scope.$watch(function(){
             return scope.model;
           },
