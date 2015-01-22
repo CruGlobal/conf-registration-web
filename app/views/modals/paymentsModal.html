@@ -105,8 +105,10 @@
               </tr>
               <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
                 <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-                <td><input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0"
-                           ng-show="editPayment.paymentType !== 'CREDIT_CARD'"></td>
+                <td ng-show="editPayment.paymentType !== 'CREDIT_CARD'" >
+                  <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
+                </td>
+                <td ng-show="editPayment.paymentType === 'CREDIT_CARD'" >{{editPayment.amount | moneyFormat}}</td>
                 <td>
                   <input type="text" ng-model="editPayment.transfer.source" class="form-control"
                          ng-show="editPayment.paymentType === 'TRANSFER'">
