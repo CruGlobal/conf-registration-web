@@ -89,7 +89,8 @@
                   <span ng-show="payment.paymentType === 'REFUND'">Refund</span>
                 </td>
                 <td>
-                  <div ng-show="canBeRefunded(payment)">
+                  <div ng-show="canBeRefunded(payment) && payment.paymentType !== 'TRANSFER'
+                  && payment.paymentType !== 'SCHOLARSHIP'">
                     <a href="" ng-click="startRefund(payment)" ng-show="!processing">Refund</a>
                     <span ng-show="processing">Processing...</span>
                   </div>
