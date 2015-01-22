@@ -176,7 +176,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePayment = function (payment) {
-      if(window.confirm("Do you really want to delete this payment?")) {
+      if(window.confirm('Do you really want to delete this payment?')) {
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
         });
