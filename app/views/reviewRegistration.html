@@ -26,27 +26,35 @@
   <div class="col-xs-12">
     <article>
     <h2>Registration Review</h2>
-    <div ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-    <div class="pull-right" align="right" ng-show="currentRegistration.completed && conference.allowEditRegistrationAfterComplete">
-      <button class="btn btn-small btn-default" ng-click="editRegistrant(r.id)">Edit</button>
-    </div>
-
-    <div class="pull-right" align="right" ng-show="!currentRegistration.completed">
-      <input type="button" class="btn btn-small btn-default" ng-click="editRegistrant(r.id)" value="Edit">
-      <input type="button" class="btn btn-small btn-danger" ng-click="removeRegistrant(r.id)" ng-show="registrantDeletable(r)" value="Remove">
-
-      <p class="registrantPrice">
-        <strong ng-show="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</strong>
-        <span ng-show="r.calculatedTotalDue"><br>{{r.calculatedTotalDue | moneyFormat}}</span>
-      </p>
-    </div>
-
-    <dl ng-repeat="block in blocks" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-show="blockInRegType(block, r.registrantTypeId)">
-      <dt>{{block.title}}</dt>
-      <dd><show-answer block="block" registrant="r" show-amount="true"></show-answer></dd>
-    </dl>
-    <hr />
-    </div>
+      <table class="table review-breakdown">
+        <thead>
+          <tr>
+            <th width="10"></th>
+            <th>Registrant</th>
+            <th width="110">Type</th>
+            <th width="150"></th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+          <tr>
+            <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
+              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"></i>
+            </td>
+            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{registrantName(r)}}</td>
+            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{getRegistrantType(r.registrantTypeId).name}}</td>
+            <td class="text-center">
+              <input type="button" class="btn btn-sm btn-default" ng-click="editRegistrant(r.id)" value="Edit"
+                     ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
+              <input type="button" class="btn btn-sm btn-danger" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
+            </td>
+          </tr>
+          <tr ng-repeat="block in blocks" ng-if="blockInRegType(block, r.registrantTypeId)" ng-show="expandRegistrant[r.id]">
+            <td></td>
+            <td style="font-weight:bold;" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}">{{block.title}}</td>
+            <td colspan="2"><show-answer block="block" registrant="r" show-amount="true"></show-answer></td>
+          </tr>
+        </tbody>
+      </table>
     </article>
   </div>
 </div>
@@ -54,8 +62,7 @@
 <div class="row" ng-if="allowGroupRegistration">
   <div class="col-xs-12">
     <article>
-      <h2>Register Someone Else</h2>
-      <p>Need to add a spouse or family member to your registration?</p>
+      <h2>Add a Family Member</h2>
       <registration-type-select></registration-type-select>
       </article>
   </div>
@@ -66,7 +73,7 @@
     <article>
       <h2>Summary</h2>
       <p>A breakdown of the costs<span ng-show="currentRegistration.pastPayments.length > 0"> and payments</span> associated with your registration.</p>
-      <table class="table price-breakdown">
+      <table class="table review-breakdown">
         <thead>
           <tr>
             <th width="10"></th>
