@@ -13,7 +13,8 @@ angular.module('confRegistrationWebApp')
         url: 'conferences/' + conference.id + '/permissions',
         data: {
           conferenceId: conference.id,
-          reasonForRequest: reasonForRequest
+          reasonForRequest: reasonForRequest,
+          permissionLevel: 'REQUESTED'
         }
       }).success(function () {
         $modalInstance.close();
