@@ -42,6 +42,15 @@ angular.module('confRegistrationWebApp')
         });
     };
 
+    $scope.requestAccess = function () {
+      $modal.open({
+        templateUrl: 'views/modals/accessEvent.html',
+        controller: 'AccessEventCtrl'
+      }).result.then(function () {
+
+        });
+    };
+
     $scope.goToEventPage = function (page, eventId) {
       var eventData = _.find($scope.conferences, {id: eventId});
       if (!eventData.archived) {

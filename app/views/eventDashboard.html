@@ -4,7 +4,8 @@
       <div class="col-xs-8">
         <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length}} of {{conferences.length}}</strong> events</p>
         <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> Loading events...</p>
-        <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button"><i class="fa fa-plus"></i> Create New Event</a>
+        <button ng-click="createEvent()" class="btn btn-success"><i class="fa fa-plus"></i> Create New Event</button>
+        <button ng-click="requestAccess()" class="btn btn-success"><i class="fa fa-key"></i> Request Access to Existing Event</button>
       </div>
       <div class="col-xs-4">
         <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName">

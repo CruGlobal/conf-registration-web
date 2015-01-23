@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h3>Request Access</h3>
+</div>
+<div class="modal-body">
+  <div ng-show="!selectedEvent">
+    <span class="pull-right" ng-show="loading"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
+    <p>Enter the name of the event that you would like to request access to:</p>
+    <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control"
+           typeahead="e.name for e in eventSearch($viewValue)"
+           typeahead-loading="loading"
+           typeahead-wait-ms="300"
+           typeahead-input-formatter="null"
+           typeahead-on-select="selectEvent($item, $model, $label)">
+  </div>
+  <div class="well" ng-show="selectedEvent">
+    <div class="pull-right">
+      <a href="" ng-click="selectedEvent = null">Choose a different event</a>
+    </div>
+    <strong>{{selectedEvent.name}}</strong> <br />
+    <p>{{selectedEvent.eventStartTime | evtDateFormat: selectedEvent.eventTimezone}} - {{selectedEvent.eventEndTime | evtDateFormat: selectedEvent.eventTimezone}}</p>
+
+    <label>Reason for requesting access:</label>
+    <textarea class="form-control" rows="3" ng-model="reasonForRequest"></textarea>
+  </div>
+</div>
+<div class="modal-footer" ng-show="selectedEvent">
+  <button data-ng-click="submit(selectedEvent, reasonForRequest)" class="btn btn-light">Request Access</button>
+</div>

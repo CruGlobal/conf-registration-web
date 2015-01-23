@@ -1,0 +1,34 @@
+'use strict';
+
+angular.module('confRegistrationWebApp')
+  .controller('AccessEventCtrl', function ($scope, $http, $modalInstance) {
+    $scope.close = function () {
+      $modalInstance.dismiss();
+    };
+
+    $scope.submit = function (conference, reasonForRequest) {
+      console.log(conference, reasonForRequest);
+      $http({
+        method: 'POST',
+        url: 'conferences/' + conference.id + '/permissions',
+        data: {
+          conferenceId: conference.id,
+          reasonForRequest: reasonForRequest
+        }
+      }).success(function () {
+        $modalInstance.close();
+      }).error(function (data) {
+        alert('Error: ' + data);
+      });
+    };
+
+    $scope.eventSearch = function(val) {
+      return $http.get('conferences?conferenceName=' + encodeURIComponent(val)).then(function(response){
+        return response.data;
+      });
+    };
+
+    $scope.selectEvent = function(item){
+      $scope.selectedEvent = item;
+    };
+  });
