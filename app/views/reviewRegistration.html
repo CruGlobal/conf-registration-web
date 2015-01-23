@@ -31,7 +31,7 @@
           <tr>
             <th width="10"></th>
             <th>Registrant</th>
-            <th width="110">Type</th>
+            <th width="110"><span ng-if="conference.registrantTypes.length > 1">Type</span></th>
             <th width="150"></th>
           </tr>
         </thead>
@@ -40,8 +40,10 @@
             <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
               <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"></i>
             </td>
-            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{registrantName(r)}}</td>
-            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{getRegistrantType(r.registrantTypeId).name}}</td>
+            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{r.firstName}} {{r.lastName}}</td>
+            <td ng-class="{'invalidBlock': regValidate[r.id].length}">
+              <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
+            </td>
             <td class="text-center">
               <input type="button" class="btn btn-sm btn-default" ng-click="editRegistrant(r.id)" value="Edit"
                      ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
@@ -86,7 +88,7 @@
             <td>
               <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
             </td>
-            <td>{{registrantName(r)}}</td>
+            <td>{{r.firstName}} {{r.lastName}}</td>
             <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</span></td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id]">

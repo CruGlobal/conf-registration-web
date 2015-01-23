@@ -193,22 +193,6 @@ angular.module('confRegistrationWebApp')
       return returnVal;
     };
 
-    $scope.registrantName = function(r) {
-      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
-      var registrant = _.find(registration.registrants, { 'id': r.id });
-      var returnStr;
-      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
-
-      if(angular.isDefined((nameBlock))){
-        nameBlock = nameBlock.value;
-        if(angular.isDefined((nameBlock.firstName))){
-          returnStr = nameBlock.firstName + ' ' + (nameBlock.lastName || '');
-        }
-      }
-
-      return returnStr || _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name;
-    };
-
     $scope.blockInRegType = function(block, regTypeId){
       return !_.contains(block.registrantTypes, regTypeId);
     };
