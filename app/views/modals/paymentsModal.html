@@ -250,6 +250,13 @@
             </div>
           </div>
 
+          <div ng-show="newTransaction.paymentType === 'OFFLINE_CREDIT_CARD'">
+            <div class="form-group">
+              <label>Transaction ID</label>
+              <input ng-model="newTransaction.offlineCreditCard.transactionId" type="text" class="form-control" />
+            </div>
+          </div>
+
           <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
             <div class="form-group">
               <label>Source (account/chartfield)</label>
