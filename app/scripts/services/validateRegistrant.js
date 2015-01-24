@@ -31,44 +31,31 @@ angular.module('confRegistrationWebApp')
 
         switch (block.type) {
           case 'nameQuestion':
-            if(angular.isUndefined(answer.firstName) || angular.isUndefined(answer.lastName)){
-              invalidBlocks.push(block.id);
-              return;
-            }
-
             if (_.isEmpty(answer.firstName) || _.isEmpty(answer.lastName)) {
               invalidBlocks.push(block.id);
               return;
             }
             break;
-          case 'numberQuestion':
-            if(angular.isUndefined(answer)){
+          case 'emailQuestion':
+            if (_.isEmpty(answer) || _.isNull(answer.match(/^.+@.+$/))) { //Contains an @ sign surrounded by at least one character
               invalidBlocks.push(block.id);
               return;
             }
-
+            break;
+          case 'numberQuestion':
             if (!_.isNumber(answer)) {
               invalidBlocks.push(block.id);
               return;
             }
             break;
           case 'phoneQuestion':
-            if(angular.isUndefined(answer) || _.isNull(answer)){
-              invalidBlocks.push(block.id);
-              return;
-            }
-            if (_.isNull(answer.match(/^(\D*\d\D*){10,15}$/g))) { //Contains 10-15 digits
+            if (_.isNull(answer) || _.isNull(answer.match(/^(\D*\d\D*){10,15}$/))) { //Contains 10-15 digits
               invalidBlocks.push(block.id);
               return;
             }
             break;
           default:
-            if(angular.isUndefined(answer)){
-              invalidBlocks.push(block.id);
-              return;
-            }
-
-            if (_.isEmpty(answer)) {
+            if(_.isEmpty(answer)){
               invalidBlocks.push(block.id);
               return;
             }
