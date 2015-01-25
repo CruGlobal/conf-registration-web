@@ -7,7 +7,8 @@
   <div class="col-sm-6">
     <div class="row">
       <div class="col-sm-6">
-        <select show-errors="group" ng-model="answer.value.state" class="form-control" ng-disabled="editBlock">
+        <select show-errors="group" ng-model="answer.value.state" ng-required="block.required" class="form-control" ng-disabled="editBlock">
+          <option value="">State</option>
           <option value="AL">Alabama</option>
           <option value="AK">Alaska</option>
           <option value="AZ">Arizona</option>

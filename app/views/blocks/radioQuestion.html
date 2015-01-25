@@ -1,6 +1,7 @@
 <div class="radio" ng-repeat="choice in block.content.choices">
   <label>
     <input type="radio"
+           show-errors
            name="{{block.id}}"
            ng-required="block.required"
            ng-model="answer.value"

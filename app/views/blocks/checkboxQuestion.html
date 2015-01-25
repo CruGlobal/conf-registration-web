@@ -1,7 +1,7 @@
 <div ng-repeat="choice in block.content.choices" class="checkbox">
   <label>
-    <input show-errors
-           type="checkbox"
+    <input type="checkbox"
+           show-errors
            ng-required="block.required && !atLeastOneChecked"
            ng-model="answer.value[choice.value]"
            ng-value="true"> <strong>{{choice.value}}</strong>
