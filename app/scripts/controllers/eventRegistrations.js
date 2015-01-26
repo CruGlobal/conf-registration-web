@@ -311,10 +311,14 @@ angular.module('confRegistrationWebApp')
 
     $scope.withdrawRegistrant = function(registrant, value){
       registrant.withdrawn = value;
-      var registration = $scope.getRegistration(registrant.registrationId);
-        //update registrant
-        _.find(registration.registrants, { 'id': registrant.id }).withdrawn = value;
-        $http.put('registrations/' + registrant.registrationId, registration).success(function(){
+      if(value){
+        registrant.withdrawnTimestamp = new Date();
+      }
+
+      //update registration
+      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+        registrant.withdrawn = !value;
+        alert('An error occurred while updating this registration.');
       });
     };
 
