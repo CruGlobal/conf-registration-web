@@ -106,10 +106,10 @@
         <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments" ng-show="getRegistration(r.registrationId).completed">
           <i class="fa fa-usd"></i>
         </button>
-        <button ng-click="withdrawRegistrant(r,!r.withdrawn)" title="Withdraw Registrant" ng-show="!r.withdrawn">
+        <button ng-click="withdrawRegistrant(r, true)" title="Withdraw Registrant" ng-show="!r.withdrawn">
           <i class="fa fa-sign-out"></i>
         </button>
-        <button ng-click="withdrawRegistrant(r,!r.withdrawn)" title="Reinstate Registrant" ng-show="r.withdrawn">
+        <button ng-click="withdrawRegistrant(r, false)" title="Reinstate Registrant" ng-show="r.withdrawn">
           <i class="fa fa-sign-in"></i>
         </button>
         <button ng-click="deleteRegistrant(r)" ng-show="allowDeleteRegistration()" title="Delete Registration">
