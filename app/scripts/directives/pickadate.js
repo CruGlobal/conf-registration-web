@@ -48,6 +48,12 @@ angular.module('confRegistrationWebApp')
               scope.picker.on('set', onSet);
             }
           });
+
+        //open datepicker when icon is clicked
+        scope.open = function(event){
+          scope.picker.open();
+          event.stopPropagation();
+        }
       }
     };
   });
