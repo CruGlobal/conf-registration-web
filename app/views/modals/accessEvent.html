@@ -17,7 +17,9 @@
     <div class="pull-right">
       <a href="" ng-click="selectedEvent = null">Choose a different event</a>
     </div>
-    <strong>{{selectedEvent.name}}</strong> <br />
+    <p><strong>{{selectedEvent.name}}</strong><br />
+    {{selectedEvent.description}}
+    </p>
     <p>{{selectedEvent.eventStartTime | evtDateFormat: selectedEvent.eventTimezone}} - {{selectedEvent.eventEndTime | evtDateFormat: selectedEvent.eventTimezone}}</p>
 
     <label>Reason for requesting access:</label>

@@ -7,7 +7,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.submit = function (conference, reasonForRequest) {
-      console.log(conference, reasonForRequest);
       $http({
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',

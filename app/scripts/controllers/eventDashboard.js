@@ -46,9 +46,7 @@ angular.module('confRegistrationWebApp')
       $modal.open({
         templateUrl: 'views/modals/accessEvent.html',
         controller: 'AccessEventCtrl'
-      }).result.then(function () {
-
-        });
+      });
     };
 
     $scope.goToEventPage = function (page, eventId) {
