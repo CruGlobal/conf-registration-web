@@ -87,6 +87,7 @@
                   <span ng-show="payment.paymentType === 'CASH'">Cash</span>
                   <span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
                   <span ng-show="payment.paymentType === 'REFUND'">Refund</span>
+                  <span ng-show="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
                 </td>
                 <td>
                   <div ng-show="canBeRefunded(payment) && payment.paymentType !== 'TRANSFER'
@@ -186,6 +187,7 @@
               <label>Type</label>
               <select ng-model="newTransaction.paymentType" class="form-control">
                 <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
+                <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
                 <option value="SCHOLARSHIP">Scholarship</option>
                 <option value="TRANSFER">Account Transfer</option>
                 <option value="CHECK">Check</option>
@@ -245,6 +247,13 @@
                   <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
                 </select>
               </div>
+            </div>
+          </div>
+
+          <div ng-show="newTransaction.paymentType === 'OFFLINE_CREDIT_CARD'">
+            <div class="form-group">
+              <label>Transaction ID (required)</label>
+              <input ng-model="newTransaction.offlineCreditCard.transactionId" type="text" class="form-control" />
             </div>
           </div>
 
