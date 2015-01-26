@@ -162,6 +162,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeRegistrant = function (id) {
+      if(!confirm('Are you sure you want to delete this registrant?')){
+        return;
+      }
       _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
       RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
         $route.reload();
@@ -190,22 +193,6 @@ angular.module('confRegistrationWebApp')
       return returnVal;
     };
 
-    $scope.registrantName = function(r) {
-      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
-      var registrant = _.find(registration.registrants, { 'id': r.id });
-      var returnStr;
-      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
-
-      if(angular.isDefined((nameBlock))){
-        nameBlock = nameBlock.value;
-        if(angular.isDefined((nameBlock.firstName))){
-          returnStr = nameBlock.firstName + ' ' + (nameBlock.lastName || '');
-        }
-      }
-
-      return returnStr || _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name;
-    };
-
     $scope.blockInRegType = function(block, regTypeId){
       return !_.contains(block.registrantTypes, regTypeId);
     };
@@ -215,6 +202,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
+      if(registration.completed){
+        return false;
+      }
       var groupRegistrants = 0, noGroupRegistrants = 0;
       angular.forEach(registration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
