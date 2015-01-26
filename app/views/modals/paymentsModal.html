@@ -18,7 +18,7 @@
                 <td>
                   <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
                 </td>
-                <td>{{registrantName(r.id)}}</td>
+                <td>{{r.firstName}} {{r.lastName}}</td>
                 <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
               </tr>
               <tr ng-show="expandRegistrantCost[r.id]">
@@ -89,7 +89,8 @@
                   <span ng-show="payment.paymentType === 'REFUND'">Refund</span>
                 </td>
                 <td>
-                  <div ng-show="canBeRefunded(payment)">
+                  <div ng-show="canBeRefunded(payment) && payment.paymentType !== 'TRANSFER'
+                  && payment.paymentType !== 'SCHOLARSHIP'">
                     <a href="" ng-click="startRefund(payment)" ng-show="!processing">Refund</a>
                     <span ng-show="processing">Processing...</span>
                   </div>
@@ -99,13 +100,16 @@
                   <button ng-click="openEditPaymentRow(payment)" ng-show="!editPayment" class="fa fa-edit"></button>
                   <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id"
                           class="fa fa-edit"> Close</button>
+                  <button ng-click="deletePayment(payment)"
+                          ng-show="!editPayment && editPayment.paymentType !== 'CREDIT_CARD'" class="fa fa-trash-o"></button>
                 </td>
               </tr>
               <tr ng-show="editPayment.id === payment.id" ng-class="{'active': $even}">
                 <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-                <td><input type="number" ng-model="editPayment.amount" class="form-control"
-                           ng-show="editPayment.paymentType === 'SCHOLARSHIP' || editPayment.paymentType === 'TRANSFER' "
-                           step="0.01" min="0"></td>
+                <td ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
+                  <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
+                </td>
+                <td ng-show="editPayment.paymentType === 'CREDIT_CARD'">{{editPayment.amount | moneyFormat}}</td>
                 <td>
                   <input type="text" ng-model="editPayment.transfer.source" class="form-control"
                          ng-show="editPayment.paymentType === 'TRANSFER'">

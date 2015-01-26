@@ -35,7 +35,7 @@
           </span>
         </div>
       </div>
-      <div ng-repeat="type in conference.registrantTypes" ng-if="conference.registrantTypes.length > 1">
+      <div ng-repeat="type in conference.registrantTypes | filter:{ groupSubRegistrantType: false }" ng-if="conference.registrantTypes.length > 1">
         <br>
         <label>'{{type.name}}' Registration Link</label><br>
         <div class="input-group">

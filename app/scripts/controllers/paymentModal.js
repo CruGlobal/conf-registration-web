@@ -11,14 +11,6 @@ angular.module('confRegistrationWebApp')
       $modalInstance.close($scope.registration);
     };
 
-    $scope.registrantName = function(registrantId) {
-      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
-      var registrant = _.find(registration.registrants, { 'id': registrantId });
-      nameBlock = _.find(registrant.answers, { 'blockId': nameBlock }).value;
-
-      return nameBlock.firstName + ' ' + nameBlock.lastName;
-    };
-
     $scope.getRegistrantType = function(id) {
       return _.find(conference.registrantTypes, { 'id': id });
     };
@@ -181,6 +173,14 @@ angular.module('confRegistrationWebApp')
           amount: data.remainingBalance
         };
       });
+    };
+
+    $scope.deletePayment = function (payment) {
+      if(window.confirm('Do you really want to delete this payment?')) {
+        $http.delete('payments/' + payment.id, payment).success(function () {
+          loadPayments();
+        });
+      }
     };
 
   });

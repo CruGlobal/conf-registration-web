@@ -80,17 +80,19 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getAllForConference = function (conferenceId, callback) {
+    this.getAllForConference = function (conferenceId, blocks) {
       var defer = $q.defer();
+      $rootScope.loadingMsg = 'Loading Registrations';
 
-      checkCache('conferences/' + conferenceId + '/registrations', function (registrations) {
-        angular.forEach(registrations, function (registration) {
-          update(path(registration.id), registration);
-        });
+      var blocksStr = '';
+      if(!_.isEmpty(blocks)){
+        blocksStr = '?block=' + blocks.join('&block=');
+      }
+      $http.get('conferences/' + conferenceId + '/registrations' + blocksStr).success(function (registrations) {
+        $rootScope.loadingMsg = '';
         defer.resolve(registrations);
-        if (angular.isDefined(callback)) {
-          callback(registrations);
-        }
+      }).error(function(){
+        $rootScope.loadingMsg = '';
       });
 
       return defer.promise;
