@@ -80,7 +80,7 @@
     <tr ng-class="{'active': $even}" class="noselect">
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
-      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id) "ng-class="{'strike-through':r.withdrawn}">
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         <show-answer block="block" registrant="r"></show-answer>
       </td>
       <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
