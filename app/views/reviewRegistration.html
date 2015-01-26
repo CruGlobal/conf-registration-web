@@ -45,9 +45,9 @@
               <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
             </td>
             <td class="text-center">
-              <input type="button" class="btn btn-sm btn-default" ng-click="editRegistrant(r.id)" value="Edit"
+              <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="editRegistrant(r.id)" value="Edit"
                      ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
-              <input type="button" class="btn btn-sm btn-danger" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
+              <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
             </td>
           </tr>
           <tr ng-repeat="block in blocks" ng-if="blockInRegType(block, r.registrantTypeId)" ng-show="expandRegistrant[r.id]">
@@ -150,7 +150,7 @@
   <div class="col-xs-12 text-center">
     <article>
     <p ng-show="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class=" btn btn-lg btn-success confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+    <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
     <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </article>
   </div>
@@ -160,7 +160,7 @@
   <div class="col-xs-12">
     <article>
       <div class="text-center">
-        <input type="button" class="btn btn-small" onClick="window.print();" value="Print this page">
+        <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
       </div>
     </article>
   </div>
