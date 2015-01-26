@@ -310,14 +310,14 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.withdrawRegistrant = function(registrant, value){
-     registrant.withdrawn = value;
-     var registration = $scope.getRegistration(registrant.registrationId);
-               //update registrant
-               _.find(registration.registrants, { 'id': registrant.id }).withdrawn = value;
-             $http.put('registrations/' + registrant.registrationId, registration).success(function(){
-             });
-
+      registrant.withdrawn = value;
+      var registration = $scope.getRegistration(registrant.registrationId);
+        //update registrant
+        _.find(registration.registrants, { 'id': registrant.id }).withdrawn = value;
+        $http.put('registrations/' + registrant.registrationId, registration).success(function(){
+      });
     };
+
     $scope.deleteRegistrant = function (registrant) {
       var modalInstance = $modal.open({
         templateUrl: 'views/modals/deleteRegistration.html',
