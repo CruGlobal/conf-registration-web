@@ -53,7 +53,7 @@ angular.module('confRegistrationWebApp')
         scope.open = function(event){
           scope.picker.open();
           event.stopPropagation();
-        }
+        };
       }
     };
   });
