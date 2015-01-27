@@ -7,7 +7,7 @@
         <a href="" ng-click="createEvent()" class="btn btn-success newform-btn" role="button"><i class="fa fa-plus"></i> Create New Event</a>
       </div>
       <div class="col-xs-4">
-        <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName">
+        <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName" ng-init="filterName=''">
       </div>
     </div>
     <div ng-show="filteredEvents.length === 0" class="alert alert-info">
