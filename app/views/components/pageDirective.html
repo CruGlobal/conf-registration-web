@@ -24,17 +24,17 @@
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
       <br>
-      <button class="btn btn-success btn-lg eighty"
+      <button class="btn btn-success btn-lg btn-important eighty"
               type="submit"
               ng-click="goToNext(pageForm.$valid)"
               ng-show="nextPage">Next Page
       </button>
 
-      <button class="btn btn-success btn-lg eighty"
+      <button class="btn btn-success btn-lg btn-important eighty"
               ng-click="goToNext(pageForm.$valid)"
               ng-show="!nextPage">Continue
       </button>
-      <a href="" ng-click="previousPage()" class="btn btn-default btn-lg twenty">Go Back</a>
+      <a href="" ng-click="previousPage()" class="btn btn-subtle btn-lg twenty">Go Back</a>
     </form>
   </div>
 </article>
