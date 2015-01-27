@@ -166,13 +166,24 @@
                 <th style="width:43px;"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+            <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+              <tr>
                 <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
                 <td>{{expense.amount | moneyFormat}}</td>
                 <td>{{expense.description}}</td>
                 <td>
                   <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                </td>
+              </tr>
+              <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
+                <td>
+                  {{expense.createdTimestamp | date:'MMM d, y h:mm a'}}
+                </td>
+                <td>
+                  <input type="number" ng-model="editExpense.amount" class="form-control" step="0.01" min="0">
+                </td>
+                <td>
+                  <input type="text" ng-model="editExpense.description" class="form-control">
                 </td>
               </tr>
             </tbody>
