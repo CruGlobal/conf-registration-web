@@ -162,10 +162,10 @@
           <table class="table table-striped" ng-show="registration.expenses.length">
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Amount</th>
+                <th style="width:180px;">Date</th>
+                <th style="width:100px;">Amount</th>
                 <th>Description</th>
-                <th style="width:43px;"></th>
+                <th style="width:73px;"></th>
               </tr>
             </thead>
             <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
