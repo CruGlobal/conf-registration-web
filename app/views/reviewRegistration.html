@@ -44,7 +44,7 @@
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
               <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
             </td>
-            <td class="text-center">
+            <td class="text-right">
               <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="editRegistrant(r.id)" value="Edit"
                      ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
               <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
