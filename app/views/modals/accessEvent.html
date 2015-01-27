@@ -18,9 +18,13 @@
       <a href="" ng-click="selectedEvent = null">Choose a different event</a>
     </div>
     <p><strong>{{selectedEvent.name}}</strong><br />
-    {{selectedEvent.description}}
+    {{selectedEvent.description}}</p>
+    <p><strong>Dates:</strong> {{selectedEvent.eventStartTime | evtDateFormat: selectedEvent.eventTimezone}} - {{selectedEvent.eventEndTime | evtDateFormat: selectedEvent.eventTimezone}}</p>
+    <p><strong>Contact:</strong>
+      <span ng-if="selectedEvent.contactPersonName">{{selectedEvent.contactPersonName}}</span>
+      <span ng-if="selectedEvent.contactPersonEmail"> | <a ng-href="mailto:{{selectedEvent.contactPersonEmail}}">{{selectedEvent.contactPersonEmail}}</a></span>
+      <span ng-if="selectedEvent.contactPersonPhone"> | {{selectedEvent.contactPersonPhone}}</span>
     </p>
-    <p>{{selectedEvent.eventStartTime | evtDateFormat: selectedEvent.eventTimezone}} - {{selectedEvent.eventEndTime | evtDateFormat: selectedEvent.eventTimezone}}</p>
 
     <label>Reason for requesting access:</label>
     <textarea class="form-control" rows="3" ng-model="reasonForRequest"></textarea>

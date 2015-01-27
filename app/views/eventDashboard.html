@@ -12,7 +12,7 @@
       </div>
     </div>
     <div ng-show="filteredEvents.length === 0" class="alert alert-info">
-      <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> to get started!</p>
+      <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> or <a href="" ng-click="requestAccess()" class="alert-link">request access to an existing event</a> to get started!</p>
     </div>
     <ul id="sortable">
       <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEventsFilter}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
