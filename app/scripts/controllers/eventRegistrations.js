@@ -309,6 +309,19 @@ angular.module('confRegistrationWebApp')
       return _.find(conference.registrantTypes, { 'id': id });
     };
 
+    $scope.withdrawRegistrant = function(registrant, value){
+      registrant.withdrawn = value;
+      if(value){
+        registrant.withdrawnTimestamp = new Date();
+      }
+
+      //update registration
+      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+        registrant.withdrawn = !value;
+        alert('An error occurred while updating this registration.');
+      });
+    };
+
     $scope.deleteRegistrant = function (registrant) {
       var modalInstance = $modal.open({
         templateUrl: 'views/modals/deleteRegistration.html',

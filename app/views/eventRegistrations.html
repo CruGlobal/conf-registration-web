@@ -72,22 +72,22 @@
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
       <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
-      <th class="tablecenter" width="100">Options</th>
+      <th class="tablecenter" width="160">Options</th>
       <th width="30"></th>
     </tr>
   </thead>
   <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:completeStatus)) | orderBy:answerSort:reversesort">
     <tr ng-class="{'active': $even}" class="noselect">
-      <td ng-click="expandRegistration(r.id)">{{r.firstName}} {{r.lastName}}</td>
-      <td ng-click="expandRegistration(r.id)">{{r.email}}</td>
-      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)">
+      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
+      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         <show-answer block="block" registrant="r"></show-answer>
       </td>
-      <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
-      <td class="tablecenter" ng-click="expandRegistration(r.id)">
+      <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
       </td>
-      <td class="tablecenter" ng-click="expandRegistration(r.id)">
+      <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         <span ng-show="getRegistration(r.registrationId).completed">
           {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
         </span>
@@ -105,6 +105,12 @@
         </button>
         <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
           <i class="fa fa-usd"></i>
+        </button>
+        <button ng-click="withdrawRegistrant(r, true)" title="Withdraw Registrant" ng-show="!r.withdrawn">
+          <i class="fa fa-sign-out"></i>
+        </button>
+        <button ng-click="withdrawRegistrant(r, false)" title="Reinstate Registrant" ng-show="r.withdrawn">
+          <i class="fa fa-sign-in"></i>
         </button>
         <button ng-click="deleteRegistrant(r)" ng-show="allowDeleteRegistration()" title="Delete Registration">
           <i class="fa fa-trash-o"></i>
@@ -128,6 +134,10 @@
           <div class="row" ng-show="getRegistration(r.registrationId).completed">
               <div class="leftside">Completed on</div>
               <div class="rightside">{{getRegistration(r.registrationId).completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+          </div>
+          <div class="row" ng-show="r.withdrawn">
+            <div class="leftside">Withdrawn on</div>
+            <div class="rightside">{{r.withdrawnTimestamp | evtDateFormat: conference.eventTimezone}}</div>
           </div>
         </div>
       </td>
