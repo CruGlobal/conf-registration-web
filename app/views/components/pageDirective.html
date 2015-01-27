@@ -34,18 +34,22 @@
     <form class="form-horizontal" name="pageForm">
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
-      <br>
-      <button class="btn btn-success btn-lg eighty"
-              type="submit"
-              ng-click="validateAndGoToNext(pageForm.$valid)"
-              ng-show="nextPage">Next Page
-      </button>
-
-      <button class="btn btn-success btn-lg eighty"
-              ng-click="validateAndGoToNext(pageForm.$valid)"
-              ng-show="!nextPage">Continue
-      </button>
-      <a href="" ng-click="previousPage()" class="btn btn-default btn-lg twenty">Go Back</a>
+      <div class="row spacing-above-md">
+        <div class="col-sm-9 col-xs-7">
+          <button class="btn btn-success btn-lg btn-block"
+                  type="submit"
+                  ng-click="validateAndGoToNext(pageForm.$valid)"
+                  ng-if="nextPage">Next Page
+          </button>
+          <button class="btn btn-success btn-lg btn-block"
+                  ng-click="validateAndGoToNext(pageForm.$valid)"
+                  ng-if="!nextPage">Continue
+          </button>
+        </div>
+        <div class="col-sm-3 col-xs-5">
+          <a href="" ng-click="previousPage()" class="btn btn-default btn-lg btn-block">Go Back</a>
+        </div>
+      </div>
     </form>
   </article>
 </div>
