@@ -129,7 +129,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }]
         }
       })
-      .when('/eventPermissions/:conferenceId', {
+      .when('/eventUsers/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventPermissionsCtrl',
         resolve: {

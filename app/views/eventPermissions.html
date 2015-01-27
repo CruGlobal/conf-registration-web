@@ -1,26 +1,24 @@
 <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
-<h2>Current Permissions</h2>
+<h2>Current Users</h2>
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>Name</th>
-        <th>Email</th>
+        <th>User</th>
         <th style="width:160px;">Level</th>
         <th style="width:160px;">Last Update</th>
         <th style="width:85px;">Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr data-ng-repeat="permission in currentPermissions | orderBy: 'emailAddress'">
-        <td>{{permission.firstName}} {{permission.lastName}}</td>
-        <td>{{permission.emailAddress}}</td>
+      <tr data-ng-repeat="permission in currentPermissions | orderBy: ['firstName', 'lastName', 'emailAddress']">
+        <td>{{permission.firstName}} {{permission.lastName}}<span ng-if="permission.firstName || permission.lastName"> | </span>{{permission.emailAddress}}</td>
         <td>
           <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
             <option ng-if="permission.permissionLevel === 'CREATOR'">CREATOR</option>
             <option>FULL</option>
             <option>UPDATE</option>
             <option>VIEW</option>
-            <option>REQUESTED</option>
+            <option ng-if="permission.permissionLevel === 'REQUESTED'">REQUESTED</option>
           </select>
         </td>
         <td>{{permission.timestamp | date:'short'}}</td>
