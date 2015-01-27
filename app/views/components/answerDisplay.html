@@ -8,7 +8,6 @@
   </span>
   <span ng-switch-when="textareaQuestion" class="eventhub-linebreak">{{answer.value}}</span>
   <span ng-switch-when="phoneQuestion">{{answer.value | tel}}</span>
-  <span ng-switch-when="dateQuestion">{{answer.value | date : 'mediumDate'}}</span>
   <span ng-switch-default>{{answer.value}}</span>
   <span ng-show="answer.amount && showAmount"> - {{answer.amount | moneyFormat}}</span>
 </ng-switch>
