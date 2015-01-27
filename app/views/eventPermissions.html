@@ -10,7 +10,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr data-ng-repeat="permission in currentPermissions">
+      <tr data-ng-repeat="permission in currentPermissions | orderBy: 'emailAddress'">
         <td>{{permission.emailAddress}}</td>
         <td>
           <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">

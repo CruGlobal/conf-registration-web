@@ -41,7 +41,6 @@
   <script src="bower_components/momentjs/moment.js"></script>
   <script src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
   <script src="bower_components/lodash/dist/lodash.js"></script>
-  <script src="bower_components/string/lib/string.js"></script>
   <script src="bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
   <script src="components/angular-wysiwyg-custom.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
@@ -97,7 +96,6 @@
   <script src="scripts/services/apiUrl.js"></script>
   <script src="scripts/services/authorizationInterceptor.js"></script>
   <script src="scripts/services/ConfCache.js"></script>
-  <script src="scripts/services/ConferenceHelper.js"></script>
   <script src="scripts/services/currentRegistrationInterceptor.js"></script>
   <script src="scripts/services/debouncePutsInterceptor.js"></script>
   <script src="scripts/services/enforceAuth.js"></script>
@@ -105,24 +103,17 @@
   <script src="scripts/services/httpReturnStatusInterceptor.js"></script>
   <script src="scripts/services/httpUrlInterceptor.js"></script>
   <script src="scripts/services/Model.js"></script>
-  <script src="scripts/services/PaymentsViewService.js"></script>
   <script src="scripts/services/PermissionCache.js"></script>
   <script src="scripts/services/ProfileCache.js"></script>
   <script src="scripts/services/RegistrationCache.js"></script>
-  <script src="scripts/services/RegistrationsViewService.js"></script>
-  <script src="scripts/services/RegViewCache.js"></script>
-  <script src="scripts/services/U.js"></script>
   <script src="scripts/services/unauthorizedInterceptor.js"></script>
   <script src="scripts/services/uuid.js"></script>
   <script src="scripts/services/validateRegistrant.js"></script>
   <!-- endbuild -->
   <!-- build:js scripts/errorNotify.js -->
-  <script src="components/errorNotify.js"></script>
+  <script src="components/hoptoad.js"></script>
+  <script src="scripts/errorNotify.js"></script>
   <!-- endbuild -->
-  <script>
-    Hoptoad.setKey('e7a93aafa70a5d3929679c5ad95bf8c7');
-    Hoptoad.setHost('errors.uscm.org');
-  </script>
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>

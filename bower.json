@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "lodash": "~2.4.1",
-    "string": "~1.9.0",
     "momentjs": "~2.8.3",
     "moment-timezone": "~0.2.2",
     "angular-bootstrap": "~0.12.0",

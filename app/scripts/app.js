@@ -89,7 +89,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId);
+            var visibleBlocks = localStorage.getItem('visibleBlocks:' + $route.current.params.conferenceId);
+            if(!_.isNull(visibleBlocks)){
+              visibleBlocks = JSON.parse(visibleBlocks);
+            }
+            return RegistrationCache.getAllForConference($route.current.params.conferenceId, visibleBlocks);
           }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
@@ -219,11 +223,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       });
   })
   .run(function ($rootScope, $cookies, $location, $window) {
-    $rootScope.$on('$locationChangeStart', function (e, newUrl) {
-      if(_.contains(newUrl, '/eventRegistrations')){
-        $rootScope.loadingMsg = 'Loading Registrations';
-      }
-
+    $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';
@@ -233,19 +233,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     });
 
     $rootScope.$on('$routeChangeSuccess', function () {
-      //remove loading message
-      $rootScope.loadingMsg = '';
-
       //scroll to top of page when new page is loaded
       $window.scrollTo(0, 0);
 
       //Google Analytics
       $window.ga('send', 'pageview', {'page': $location.path()});
-    });
-
-    $rootScope.$on('$routeChangeError', function () {
-      //remove loading message
-      $rootScope.loadingMsg = '';
     });
 
     $rootScope.generateTitle = function (title) {
@@ -263,23 +255,4 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
-  })
-  .config(function ($provide) {
-    $provide.decorator('$exceptionHandler', ['$delegate', function ($delegate) {
-      return function (exception) {
-        $delegate(exception);
-        if (_.contains(['localhost'], location.hostname)) {
-          return;
-        }
-        var error = {
-          type: 'Angular',
-          message: exception.message,
-          params: {
-            angularVersion: angular.version.full
-          },
-          component: exception.stack
-        };
-        Hoptoad.notify(error);
-      };
-    }]);
   });
