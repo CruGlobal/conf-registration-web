@@ -114,7 +114,9 @@
                          ng-show="editPayment.paymentType === 'SCHOLARSHIP'">
                 </td>
                 <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
-                <td class="text-center"><button class="btn btn-success" ng-click="saveEdits(editPayment)">Save</button></td>
+                <td class="text-center">
+                  <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -192,7 +194,7 @@
                   <input type="text" ng-model="editExpense.description" class="form-control">
                 </td>
                 <td>
-                  <button class="btn btn-success" ng-click="saveEdits(editExpense)">Save</button>
+                  <button class="btn btn-success" ng-click="saveExpenseEdits(editExpense)">Save</button>
                 </td>
               </tr>
             </tbody>
