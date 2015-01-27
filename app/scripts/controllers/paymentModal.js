@@ -178,4 +178,12 @@ angular.module('confRegistrationWebApp')
         });
       }
     };
+
+    $scope.openEditExpenseRow = function (expense) {
+      if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
+        delete $scope.editExpense;
+      } else {
+        $scope.editExpense = angular.copy(expense);
+      }
+    };
   });

@@ -172,7 +172,13 @@
                 <td>{{expense.amount | moneyFormat}}</td>
                 <td>{{expense.description}}</td>
                 <td>
-                  <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  <div ng-show="editExpense.id !== expense.id">
+                    <button ng-click="openEditExpenseRow(expense)" title="Edit Expense" class="btn btn-xs"><i class="fa fa-edit"></i></button>
+                    <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  </div>
+
+                  <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn
+                   btn-xs"><i class="fa fa-times"></i> Close</button>
                 </td>
               </tr>
               <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
@@ -184,6 +190,9 @@
                 </td>
                 <td>
                   <input type="text" ng-model="editExpense.description" class="form-control">
+                </td>
+                <td>
+                  <button class="btn btn-success" ng-click="saveEdits(editExpense)">Save</button>
                 </td>
               </tr>
             </tbody>
