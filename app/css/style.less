@@ -352,7 +352,7 @@ main.front-form {
   }
 }
 main.registrations {
-  padding: 0 10px;
+  //padding: 0 10px;
   .columns-btn {
     li {
       text-align: left;
@@ -807,16 +807,6 @@ body {
     position: fixed;
     bottom: 0;
   }
-  .stacked-spacing-sm {
-    @media (max-width: 767px) {
-      margin-bottom: 15px;
-    }
-  }
-  .stacked-spacing-md {
-    @media (max-width: 991px) {
-      margin-bottom: 15px;
-    }
-  }
 }
 
 
@@ -885,6 +875,10 @@ div[crs-block] {
   }
 }
 
+.well-full{
+  border-radius: 0;
+}
+
 .spacing-above-xs{
   margin-top: 0.5em;
 }
@@ -907,6 +901,18 @@ div[crs-block] {
 
 .spacing-below-md{
   margin-bottom: 1.5em;
+}
+
+.stacked-spacing-sm {
+  @media (max-width: 767px) {
+    margin-bottom: 15px;
+  }
+}
+
+.stacked-spacing-md {
+  @media (max-width: 991px) {
+    margin-bottom: 15px;
+  }
 }
 
 .rootLoadingMsg {
