@@ -237,11 +237,6 @@ main.front-form {
       font-size: 14px;
       line-height: 1.43;
     }
-    a.btn {
-      font-size: 18px;
-      text-transform: uppercase;
-      .proximasemi;
-    }
     .well.creme2 {
       background: @creme2;
       border-radius: 0;
@@ -280,13 +275,17 @@ main.front-form {
       }
     }
     input, select { margin-bottom: 10px; }
-    .btn {
+    .btn-important {
       text-transform: uppercase;
       .proximasemi;
     }
-    .btn-default {
+    .btn-bold{
+      .proximasemi;
+    }
+    .btn-subtle {
       background: #f4f4f4;
       .gray;
+      border-color: #ccc;
     }
     button.eighty, a.eighty {
       width: 78%;
@@ -871,6 +870,16 @@ body {
     float: right;
   }
   .full { width: 100%; display: block; }
+
+  //pickadate.js modifications
+  .picker__select--month, .picker__select--year {
+    padding: .2em;
+  }
+  pick-a-date, pick-a-time {
+    .form-control[readonly]:not([disabled]){
+      background-color: #FFFFFF;
+    }
+  }
 
   .timepicker, .datepicker {
     .add-on { cursor: pointer; }
