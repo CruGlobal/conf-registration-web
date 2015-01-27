@@ -32,6 +32,7 @@ angular.module('confRegistrationWebApp')
         var onSet = function(){
           scope.$apply(function(){
             ngModelController.$setViewValue(scope.picker.get('select', 'yyyy-mm-dd'));
+            ngModelController.$setTouched();
           });
         };
         scope.picker.on('set', onSet);
