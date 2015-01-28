@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ActiviatePermissionCtrl', function ($scope, $route, $http, $location, $timeout) {
+  .controller('activatePermissionCtrl', function ($scope, $route, $http, $location, $timeout) {
     var permissionAuthCode = $route.current.params.permissionAuthCode;
 
     $scope.message = 'Verifying Auth Code...';

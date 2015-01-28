@@ -144,7 +144,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/activatePermission/:permissionAuthCode', {
         template: '{{message}}',
-        controller: 'ActiviatePermissionCtrl',
+        controller: 'activatePermissionCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth')
         }
