@@ -52,7 +52,8 @@
   <script src="scripts/app.js"></script>
 
   <!--Controllers-->
-  <script src="scripts/controllers/ActiviatePermission.js"></script>
+  <script src="scripts/controllers/accessEvent.js"></script>
+  <script src="scripts/controllers/activatePermission.js"></script>
   <script src="scripts/controllers/confirmModal.js"></script>
   <script src="scripts/controllers/createEvent.js"></script>
   <script src="scripts/controllers/deleteRegistration.js"></script>
@@ -65,6 +66,7 @@
   <script src="scripts/controllers/eventRegistrations.js"></script>
   <script src="scripts/controllers/exportData.js"></script>
   <script src="scripts/controllers/genericModal.js"></script>
+  <script src="scripts/controllers/help.js"></script>
   <script src="scripts/controllers/landing.js"></script>
   <script src="scripts/controllers/loginDialog.js"></script>
   <script src="scripts/controllers/paymentApproval.js"></script>
@@ -136,7 +138,10 @@
     <div class="container">
       <div class="row">
         <div class="col-xs-6">
-          <a class="logo" href="#/eventDashboard">
+          <a class="logo" href="#/" ng-if="globalPage.type === 'landing'">
+            <i class="fa fa-users"></i> Event Registration Tool
+          </a>
+          <a class="logo" href="#/eventDashboard" ng-if="globalPage.type === 'admin'">
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>

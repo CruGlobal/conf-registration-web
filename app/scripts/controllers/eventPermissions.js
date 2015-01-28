@@ -38,6 +38,9 @@ angular.module('confRegistrationWebApp')
           class: 'alert-success',
           message: $sce.trustAsHtml('User updated.')
         };
+
+        //update timestamp
+        _.find($scope.currentPermissions, { 'id': id }).timestamp = new Date();
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
@@ -73,6 +76,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePermission = function (id) {
+      if(!confirm('Are you sure you want to remove this user?')){
+        return;
+      }
       $http({
         method: 'DELETE',
         url: 'permissions/' + id

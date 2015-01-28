@@ -129,7 +129,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }]
         }
       })
-      .when('/eventPermissions/:conferenceId', {
+      .when('/eventUsers/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventPermissionsCtrl',
         resolve: {
@@ -144,7 +144,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/activatePermission/:permissionAuthCode', {
         template: '{{message}}',
-        controller: 'ActiviatePermissionCtrl',
+        controller: 'activatePermissionCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth')
         }
@@ -212,11 +212,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/help/', {
         templateUrl: 'views/help.html',
-        controller: 'landingCtrl'
+        controller: 'helpCtrl'
       })
       .when('/privacy/', {
         templateUrl: 'views/privacy.html',
-        controller: 'landingCtrl'
+        controller: 'helpCtrl'
       })
       .otherwise({
         redirectTo: '/'
