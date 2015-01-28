@@ -162,10 +162,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
               ProfileCache.getCache(function (data) {
                 $cookies.crsAuthProviderType = data.authProviderType;
                 if(angular.isDefined($cookies.regType)) {
-                  $location.path($cookies.intendedRoute || '/').search('regType', $cookies.regType);
+                  $location.path($cookies.intendedRoute || '/').search('regType', $cookies.regType).replace();
                   delete $cookies.regType;
                 } else {
-                  $location.path($cookies.intendedRoute || '/');
+                  $location.path($cookies.intendedRoute || '/').replace();
                 }
               });
             }
