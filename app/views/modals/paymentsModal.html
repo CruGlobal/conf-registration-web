@@ -272,11 +272,11 @@
             <input ng-model="newTransaction.description" type="text" class="form-control" />
           </div>
 
-          <div class="checkbox" ng-show="newTransaction.paymentType !== 'ADDITIONAL_EXPENSE'">
+<!--          <div class="checkbox" ng-show="newTransaction.paymentType !== 'ADDITIONAL_EXPENSE'">
             <label>
               <input type="checkbox" ng-model="newTransaction.sendEmailReceipt"> Send email receipt to registrant(s)
             </label>
-          </div>
+          </div>-->
           <div class="form-group">
             <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing">Process</button>
             <span ng-show="processing">Processing...</span>
