@@ -6,6 +6,12 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
     $scope.processing = false;
+    $scope.activeTab = {};
+    $scope.newTransaction = {
+      registrationId: registration.id,
+      amount: 0,
+      sendEmailReceipt: false
+    };
 
     $scope.close = function () {
       $modalInstance.close($scope.registration);
@@ -17,23 +23,11 @@ angular.module('confRegistrationWebApp')
 
     $scope.getBlock = function (blockId) {
       var allBlocks = [];
-
       _.each(conference.registrationPages, function (page) {
         allBlocks = allBlocks.concat(page.blocks);
       });
-
       return _.find(allBlocks, {id: blockId});
     };
-
-    $scope.newTransaction = {
-      registrationId: registration.id,
-      amount: registration.remainingBalance
-    };
-
-    $scope.updateCostRegistration = [];
-    angular.forEach(registration.registrants, function (r) {
-      $scope.updateCostRegistration[r.id] = r.calculatedTotalDue;
-    });
 
     $scope.processTransaction = function () {
       if (_.isEmpty($scope.newTransaction.paymentType)) {
@@ -46,19 +40,24 @@ angular.module('confRegistrationWebApp')
       }
 
       $scope.processing = true;
-
-      var path = 'payments';
+      var path = 'payments?sendEmailReceipt=' + $scope.newTransaction.sendEmailReceipt;
+      delete $scope.newTransaction.sendEmailReceipt;
       if($scope.newTransaction.paymentType === 'ADDITIONAL_EXPENSE') {
         path = 'expenses';
         delete $scope.newTransaction.paymentType;
       } else {
-          $scope.newTransaction.readyToProcess = true;
+        $scope.newTransaction.readyToProcess = true;
       }
 
       $http.post(path, $scope.newTransaction).success(function () {
-          loadPayments();
+        loadPayments();
+        if(path === 'expenses'){
+          $scope.activeTab[2] = true;
+        }else{
+          $scope.activeTab[1] = true;
+        }
       }).error(function () {
-        alert('Transaction failed...');
+        alert('Transaction failed.');
         $scope.processing = false;
       });
     };
@@ -66,6 +65,8 @@ angular.module('confRegistrationWebApp')
     $scope.canBeRefunded = function (payment) {
       return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
         payment.paymentType !== 'REFUND' &&
+        payment.paymentType !== 'TRANSFER' &&
+        payment.paymentType !== 'SCHOLARSHIP' &&
         $scope.calculateRefundableAmount(payment) > 0;
     };
 
@@ -116,13 +117,9 @@ angular.module('confRegistrationWebApp')
       $scope.processing = true;
       $http.post('payments/', $scope.refund).success(function () {
         $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          //RegistrationCache.update('registrations/' + data.id, data, function () {});
           $scope.registration = data;
           $scope.processing = false;
           $scope.refund = null;
-          if(angular.isDefined($scope.newTransaction)) {
-            $scope.newTransaction.amount = data.remainingBalance;
-          }
         });
       }).error(function () {
         alert('Refund failed...');
@@ -135,32 +132,35 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeExpense = function (expense) {
-      $http.delete('expenses/' + expense.id).success(function() {
-        $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          $scope.registration = data;
+      if(confirm('Are you sure you want to delete this expense?')) {
+        $http.delete('expenses/' + expense.id).success(function () {
+          loadPayments();
+        }).error(function () {
+          alert('An error occurred while deleting this expense.');
         });
-      }).error(function () {
-        alert('Error removing expense.');
-      });
+      }
     };
 
-    $scope.saveEdits = function (payment) {
-
+    $scope.savePaymentEdits = function (payment) {
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
+        delete $scope.editPayment;
       });
-
     };
 
     $scope.openEditPaymentRow = function (payment) {
-      if(angular.isDefined($scope.editPayment))
-      {
+      if(angular.isDefined($scope.editPayment) && $scope.editPayment.id === payment.id) {
         delete $scope.editPayment;
-      }
-      else {
+      } else {
         $scope.editPayment = angular.copy(payment);
-
       }
+    };
+
+    $scope.saveExpenseEdits = function (expense) {
+      $http.put('expenses/' + expense.id, expense).success(function() {
+        loadPayments();
+        delete $scope.editExpense;
+      });
     };
 
     var loadPayments = function() {
@@ -170,17 +170,27 @@ angular.module('confRegistrationWebApp')
 
         $scope.newTransaction = {
           registrationId: registration.id,
-          amount: data.remainingBalance
+          amount: 0,
+          sendEmailReceipt: false
         };
       });
     };
 
     $scope.deletePayment = function (payment) {
-      if(window.confirm('Do you really want to delete this payment?')) {
+      if(confirm('Are you sure you want to delete this payment?')) {
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
+        }).error(function () {
+          alert('An error occurred while deleting this payment.');
         });
       }
     };
 
+    $scope.openEditExpenseRow = function (expense) {
+      if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
+        delete $scope.editExpense;
+      } else {
+        $scope.editExpense = angular.copy(expense);
+      }
+    };
   });
