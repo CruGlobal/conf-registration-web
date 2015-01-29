@@ -71,7 +71,7 @@
             <thead>
               <tr>
                 <th style="width:190px;">Date</th>
-                <th style="width:100px;">Amount</th>
+                <th style="width:120px;">Amount</th>
                 <th>Type</th>
                 <th style="width:240px;">Description</th>
                 <th style="width:100px"></th>
@@ -163,7 +163,7 @@
             <thead>
               <tr>
                 <th style="width:180px;">Date</th>
-                <th style="width:100px;">Amount</th>
+                <th style="width:120px;">Amount</th>
                 <th>Description</th>
                 <th style="width:73px;"></th>
               </tr>
@@ -179,8 +179,7 @@
                     <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
                   </div>
 
-                  <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn
-                   btn-xs"><i class="fa fa-times"></i> Close</button>
+                  <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
                 </td>
               </tr>
               <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
