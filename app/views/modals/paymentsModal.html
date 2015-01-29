@@ -71,7 +71,7 @@
             <thead>
               <tr>
                 <th style="width:190px;">Date</th>
-                <th style="width:100px;">Amount</th>
+                <th style="width:120px;">Amount</th>
                 <th>Type</th>
                 <th style="width:240px;">Description</th>
                 <th style="width:100px"></th>
@@ -115,7 +115,9 @@
                          ng-show="editPayment.paymentType === 'SCHOLARSHIP'">
                 </td>
                 <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
-                <td class="text-center"><button class="btn btn-success" ng-click="saveEdits(editPayment)">Save</button></td>
+                <td class="text-center">
+                  <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -161,19 +163,38 @@
           <table class="table table-striped" ng-show="registration.expenses.length">
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Amount</th>
+                <th style="width:180px;">Date</th>
+                <th style="width:120px;">Amount</th>
                 <th>Description</th>
-                <th style="width:43px;"></th>
+                <th style="width:73px;"></th>
               </tr>
             </thead>
-            <tbody>
-              <tr ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+            <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+              <tr>
                 <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
                 <td>{{expense.amount | moneyFormat}}</td>
                 <td>{{expense.description}}</td>
                 <td>
-                  <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  <div ng-show="editExpense.id !== expense.id">
+                    <button ng-click="openEditExpenseRow(expense)" title="Edit Expense" class="btn btn-xs"><i class="fa fa-edit"></i></button>
+                    <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  </div>
+
+                  <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
+                </td>
+              </tr>
+              <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
+                <td>
+                  {{expense.createdTimestamp | date:'MMM d, y h:mm a'}}
+                </td>
+                <td>
+                  <input type="number" ng-model="editExpense.amount" class="form-control" step="0.01" min="0">
+                </td>
+                <td>
+                  <input type="text" ng-model="editExpense.description" class="form-control">
+                </td>
+                <td>
+                  <button class="btn btn-success" ng-click="saveExpenseEdits(editExpense)">Save</button>
                 </td>
               </tr>
             </tbody>

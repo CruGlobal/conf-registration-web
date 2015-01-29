@@ -141,7 +141,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.saveEdits = function (payment) {
+    $scope.savePaymentEdits = function (payment) {
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
@@ -154,6 +154,13 @@ angular.module('confRegistrationWebApp')
       } else {
         $scope.editPayment = angular.copy(payment);
       }
+    };
+
+    $scope.saveExpenseEdits = function (expense) {
+      $http.put('expenses/' + expense.id, expense).success(function() {
+        loadPayments();
+        delete $scope.editExpense;
+      });
     };
 
     var loadPayments = function() {
@@ -176,6 +183,14 @@ angular.module('confRegistrationWebApp')
         }).error(function () {
           alert('An error occurred while deleting this payment.');
         });
+      }
+    };
+
+    $scope.openEditExpenseRow = function (expense) {
+      if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
+        delete $scope.editExpense;
+      } else {
+        $scope.editExpense = angular.copy(expense);
       }
     };
   });
