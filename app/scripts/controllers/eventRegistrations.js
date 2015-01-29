@@ -237,7 +237,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event admin to request permission.';
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
             }
           }
         });
@@ -307,7 +307,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event admin to request permission.';
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
             }
           }
         });
@@ -340,7 +340,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event admin to request permission.';
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
             }
           }
         });
