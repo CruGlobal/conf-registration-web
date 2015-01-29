@@ -121,6 +121,9 @@ angular.module('confRegistrationWebApp')
           },
           conference: function () {
             return conference;
+          },
+          permissions: function () {
+            return permissions;
           }
         }
       };
