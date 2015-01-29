@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference) {
+  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference, permissions, permissionConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
@@ -12,6 +12,7 @@ angular.module('confRegistrationWebApp')
       amount: 0,
       sendEmailReceipt: false
     };
+    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event admininstrator to request permission.';
 
     $scope.close = function () {
       $modalInstance.close($scope.registration);
@@ -37,6 +38,18 @@ angular.module('confRegistrationWebApp')
       if (Number($scope.newTransaction.amount) <= 0) {
         alert('Transaction amount must be a positive number.');
         return;
+      }
+
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
+          if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
+            alert('Your permission level only allows scholarship payments to be added. Please contact an event admininstrator to request permission.');
+            return;
+          }
+        }else{
+          alert(permissionRequiredMsg);
+          return;
+        }
       }
 
       $scope.processing = true;
@@ -89,6 +102,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.startRefund = function (payment) {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        alert(permissionRequiredMsg);
+        return;
+      }
       $scope.paymentToRefund = payment;
 
       if ($scope.isCreditCardPayment()) {
@@ -132,6 +149,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeExpense = function (expense) {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        alert(permissionRequiredMsg);
+        return;
+      }
+
       if(confirm('Are you sure you want to delete this expense?')) {
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
@@ -152,7 +174,11 @@ angular.module('confRegistrationWebApp')
       if(angular.isDefined($scope.editPayment) && $scope.editPayment.id === payment.id) {
         delete $scope.editPayment;
       } else {
-        $scope.editPayment = angular.copy(payment);
+        if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
+          $scope.editPayment = angular.copy(payment);
+        }else{
+          alert(permissionRequiredMsg);
+        }
       }
     };
 
@@ -177,6 +203,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePayment = function (payment) {
+      if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
+      }else{
+        alert(permissionRequiredMsg);
+        return;
+      }
       if(confirm('Are you sure you want to delete this payment?')) {
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
@@ -190,6 +221,11 @@ angular.module('confRegistrationWebApp')
       if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
         delete $scope.editExpense;
       } else {
+        if(permissions.permissionInt < permissionConstants.UPDATE){
+          alert(permissionRequiredMsg);
+          return;
+        }
+
         $scope.editExpense = angular.copy(expense);
       }
     };
