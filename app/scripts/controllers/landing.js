@@ -11,7 +11,9 @@ angular.module('confRegistrationWebApp')
       footer: true
     };
 
-    $scope.userIsLoggedIn = angular.isDefined($cookies.crsToken);
+    $scope.userIsLoggedIn = function(){
+      return angular.isDefined($cookies.crsToken) && $cookies.crsAuthProviderType !== 'NONE';
+    };
 
     $scope.login = function(provider){
       $cookies.intendedRoute = '/eventDashboard';
