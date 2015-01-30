@@ -12,131 +12,141 @@
     <!--<div class="col-xs-12">
       Filters
     </div>
-    <div class="col-md-1">
-      <h4>Filter</h4>
+        <div class="col-md-1">
+          <h4>Filter</h4>
     </div>-->
     <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-md">
       <label>Search visible columns:</label>
-      <input type="text" class="form-control" ng-model="searchFilter">
-    </div>
+          <input type="text" class="form-control" ng-model="searchFilter">
+        </div>
     <div class="col-md-2 col-sm-4 stacked-spacing-sm" ng-if="eventHasCost()">
       <label>Payment status:</label>
-      <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
-    </div>
+          <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
+        </div>
     <div class="col-md-2 col-sm-5 stacked-spacing-sm">
       <label>Registration type:</label>
-      <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
-    </div>
+          <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
+        </div>
     <div class="col-md-3 col-sm-4 col-xs-7">
       <label>Incomplete registrations:</label><br>
-      <div class="btn-group">
-        <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="0">Show</label>
-        <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="1">Hide</label>
-      </div>
-    </div>
+          <div class="btn-group">
+            <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="0">Show</label>
+            <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="1">Hide</label>
+          </div>
+        </div>
     <div class="col-md-2 col-sm-3 col-xs-5 spacing-above-md text-right">
-      <div class="btn-group columns-btn">
-        <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle =! columnsDropdownToggle">
+          <div class="btn-group columns-btn">
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
           Columns
-          <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
-          <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
-          <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
-            <a href="" ng-click="toggleColumn($index)">
-              <i class="fa fa-check-square" ng-show="block.visible"></i>
-              <i class="fa fa-square-o" ng-show="!block.visible"></i>
-              {{block.exportFieldTitle || block.title}}
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+              <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
+              <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
+              <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
+                <a href="" ng-click="toggleColumn($index)">
+                  <i class="fa fa-check-square" ng-show="block.visible"></i>
+                  <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                  {{block.exportFieldTitle || block.title}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+</div>
   <div class="row">
     <div class="col-xs-12">
-      <p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
+<p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12" ng-if="registrants.length === 0">
-      <p>No one has registered for this event yet.</p>
-    </div>
+  <p>No one has registered for this event yet.</p>
+</div>
   </div>
   <div class="row">
     <div class="col-xs-12 table-responsive">
-      <table class="table" ng-show="regFilter.length > 0">
-        <thead>
-          <tr>
-            <th><a href="" ng-click="setOrder('name')">Name</a></th>
-            <th><a href="" ng-click="setOrder('email')">Email</a></th>
-            <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a></th>
-            <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
-            <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
-            <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
-            <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
-            <th class="tablecenter" width="100">Options</th>
-            <th width="30"></th>
-          </tr>
-        </thead>
-        <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:completeStatus)) | orderBy:answerSort:reversesort">
-          <tr ng-class="{'active': $even}" class="noselect">
-            <td ng-click="expandRegistration(r.id)">{{r.firstName}} {{r.lastName}}</td>
-            <td ng-click="expandRegistration(r.id)">{{r.email}}</td>
-            <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)">
-              <show-answer block="block" registrant="r"></show-answer>
-            </td>
-            <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
-            <td class="tablecenter" ng-click="expandRegistration(r.id)">
-              {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
-            </td>
-            <td class="tablecenter" ng-click="expandRegistration(r.id)">
-              <span ng-show="getRegistration(r.registrationId).completed">
-                {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
-              </span>
-              <span ng-show="!getRegistration(r.registrationId).completed">
-                -
-              </span>
-            </td>
-            <td ng-show="eventHasCost()" class="tablecenter">
-              <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
-              <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
-            </td>
-            <td class="tablecenter registration_edit_buttons">
-              <button ng-click="editRegistrant(r.id)" title="Edit Registration">
-                <i class="fa fa-edit"></i>
-              </button>
-              <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
-                <i class="fa fa-usd"></i>
-              </button>
-              <button ng-click="deleteRegistrant(r)" ng-show="allowDeleteRegistration()" title="Delete Registration">
-                <i class="fa fa-trash-o"></i>
-              </button>
-            </td>
-            <td class="tablecenter rowtoggle" ng-click="expandRegistration(r.id)">
-              <i class="fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
-            </td>
-          </tr>
-          <tr class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">
-            <td colspan="100%">
-              <div class="well">
-                <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r.registrantTypeId)">
+<table class="table" ng-show="regFilter.length > 0">
+  <thead>
+    <tr>
+      <th><a href="" ng-click="setOrder('name')">Name</a></th>
+      <th><a href="" ng-click="setOrder('email')">Email</a></th>
+      <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a></th>
+      <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
+      <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
+      <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
+      <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
+      <th class="tablecenter" width="160">Options</th>
+      <th width="30"></th>
+    </tr>
+  </thead>
+  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:completeStatus)) | orderBy:answerSort:reversesort">
+    <tr ng-class="{'active': $even}" class="noselect">
+      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
+      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
+      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+        <show-answer block="block" registrant="r"></show-answer>
+      </td>
+      <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+        {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
+      </td>
+      <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+        <span ng-show="getRegistration(r.registrationId).completed">
+          {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
+        </span>
+        <span ng-show="!getRegistration(r.registrationId).completed">
+          -
+        </span>
+      </td>
+      <td ng-show="eventHasCost()" class="tablecenter">
+        <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
+        <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
+      </td>
+      <td class="tablecenter registration_edit_buttons">
+        <button ng-click="editRegistrant(r.id)" title="Edit Registration">
+          <i class="fa fa-edit"></i>
+        </button>
+        <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
+          <i class="fa fa-usd"></i>
+        </button>
+        <button ng-click="withdrawRegistrant(r, true)" title="Withdraw Registrant" ng-show="!r.withdrawn">
+          <i class="fa fa-sign-out"></i>
+        </button>
+        <button ng-click="withdrawRegistrant(r, false)" title="Reinstate Registrant" ng-show="r.withdrawn">
+          <i class="fa fa-sign-in"></i>
+        </button>
+        <button ng-click="deleteRegistrant(r)" title="Delete Registration">
+          <i class="fa fa-trash-o"></i>
+        </button>
+      </td>
+      <td class="tablecenter rowtoggle" ng-click="expandRegistration(r.id)">
+        <i class="fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
+      </td>
+    </tr>
+    <tr class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">
+      <td colspan="100%">
+        <div class="well">
+          <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r.registrantTypeId)">
                   <div class="col-xs-3 leftside" ng-bind="block.title"></div>
                   <div class="col-xs-9 rightside"><show-answer block="block" registrant="r"></show-answer></div>
-                </div>
-                <div class="row">
+          </div>
+          <div class="row">
                   <div class="col-xs-3 leftside">Started on</div>
                   <div class="col-xs-9 rightside">{{getRegistration(r.registrationId).createdTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-                </div>
-                <div class="row" ng-show="getRegistration(r.registrationId).completed">
+          </div>
+          <div class="row" ng-show="getRegistration(r.registrationId).completed">
                   <div class="col-xs-3 leftside">Completed on</div>
                   <div class="col-xs-9 rightside">{{getRegistration(r.registrationId).completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          </div>
+          <div class="row" ng-show="r.withdrawn">
+            <div class="leftside">Withdrawn on</div>
+            <div class="rightside">{{r.withdrawnTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
     </div>
   </div>
 </div>

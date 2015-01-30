@@ -1,5 +1,5 @@
-<div ng-if="!wizard">
-  <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
+<div ng-if="!wizard" class="form-group">
+  <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind="block.content" class="eventhub-linebreak"></p>
@@ -107,13 +107,14 @@
             </label>
           </div>
         </div>
-        <div class="tab-pane fade in" ng-class="{active: activeTab === 'advanced'}">
-          <label class="inline-label">Export Title</label>
-          <i popover="Enter a value here to replace the question title in a registration export."
-             popover-trigger="mouseenter" class="fa fa-question-circle btn-link"></i>
-          <input type="text" class="form-control field-label"
-                 ng-model="block.exportFieldTitle" />
-        </div>
+      </div>
+      <div class="tab-pane fade in" ng-class="{active: activeTab === 'advanced'}">
+        <label class="inline-label">Export Title</label>
+        <i popover="Enter a value here to replace the question title in a registration export."
+           popover-trigger="mouseenter" class="fa fa-question-circle btn-link"></i>
+        <input type="text"
+               class="form-control field-label"
+               ng-model="block.exportFieldTitle" />
       </div>
     </div>
   </div>

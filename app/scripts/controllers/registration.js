@@ -69,19 +69,24 @@ angular.module('confRegistrationWebApp')
       $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[0].id);
     }
 
-    $scope.validateAndGoToNext = function (isValid) {
-      if (isValid) {
-        if (angular.isDefined($scope.nextPage)) {
-          $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
-        } else {
-          $location.path('/reviewRegistration/' + conference.id).search('regType', null);
-        }
+    //setup visited flags array to store visits by a specific registrant to a specific page
+    if(!$rootScope.visitedPages){
+      $rootScope.visitedPages = [];
+    }
+    //bool for the show-errors directive that tells it whether the current page has been visited by the current registrant
+    var pageAndRegistrantId = $scope.currentRegistrant + '_' + $scope.activePageIndex;
+    $scope.currentPageVisited = _.contains($rootScope.visitedPages, pageAndRegistrantId);
+
+    $scope.goToNext = function () {
+      //add current page and registrant combo to the visitedPages array
+      if($scope.currentRegistrant){
+        $rootScope.visitedPages.push(pageAndRegistrantId);
+      }
+
+      if (angular.isDefined($scope.nextPage)) {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
       } else {
-        $window.scrollTo(0, 0);
-        $scope.notify = {
-          class: 'alert-danger',
-          message: $sce.trustAsHtml('Please fill in all required fields.')
-        };
+        $location.path('/reviewRegistration/' + conference.id).search('regType', null);
       }
     };
 

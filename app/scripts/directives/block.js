@@ -70,33 +70,33 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.editBlockAddOption = function (newOption) {
-          if (angular.isUndefined($scope.this.block.content.choices)) {
-            $scope.this.block.content = {'choices': [] };
+          if (angular.isUndefined($scope.block.content.choices)) {
+            $scope.block.content = {'choices': [] };
           }
-          $scope.this.block.content.choices.push({
+          $scope.block.content.choices.push({
             value: newOption,
             desc: ''
           });
         };
 
         $scope.editBlockOptionMoveUp = function (index) {
-          if(index > 0 && index < $scope.this.block.content.choices.length){
-            var temp = $scope.this.block.content.choices[index];
-            $scope.this.block.content.choices[index] = $scope.this.block.content.choices[index - 1];
-            $scope.this.block.content.choices[index - 1] = temp;
+          if(index > 0 && index < $scope.block.content.choices.length){
+            var temp = $scope.block.content.choices[index];
+            $scope.block.content.choices[index] = $scope.block.content.choices[index - 1];
+            $scope.block.content.choices[index - 1] = temp;
           }
         };
 
         $scope.editBlockOptionMoveDown = function (index) {
-          if(index >= 0 && index < $scope.this.block.content.choices.length - 1){
-            var temp = $scope.this.block.content.choices[index];
-            $scope.this.block.content.choices[index] = $scope.this.block.content.choices[index + 1];
-            $scope.this.block.content.choices[index + 1] = temp;
+          if(index >= 0 && index < $scope.block.content.choices.length - 1){
+            var temp = $scope.block.content.choices[index];
+            $scope.block.content.choices[index] = $scope.block.content.choices[index + 1];
+            $scope.block.content.choices[index + 1] = temp;
           }
         };
 
         $scope.editBlockDeleteOption = function (index) {
-          $scope.this.block.content.choices.splice(index, 1);
+          $scope.block.content.choices.splice(index, 1);
         };
 
         $scope.editBlockOptionAdvanced = function (index) {
@@ -120,15 +120,15 @@ angular.module('confRegistrationWebApp')
             },
             resolve: {
               choice: function () {
-                return angular.copy($scope.this.block.content.choices[index]);
+                return angular.copy($scope.block.content.choices[index]);
               },
               blockType: function(){
-                return $scope.this.block.type;
+                return $scope.block.type;
               }
             }
           }).result.then(function (choice) {
             choice.amount = Number(choice.amount);
-            $scope.this.block.content.choices[index] = choice;
+            $scope.block.content.choices[index] = choice;
           });
         };
 
@@ -157,33 +157,33 @@ angular.module('confRegistrationWebApp')
           typeToProfile.genderQuestion = 'GENDER';
           typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
 
-          $scope.this.profileCheck = !_.isNull($scope.this.block.profileType);
-          $scope.this.profileOption = _.has(typeToProfile, $scope.this.block.type);
-          $scope.this.requiredOption = !_.contains(['paragraphContent'], $scope.this.block.type);
-          $scope.this.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.this.block.profileType);
-          $scope.this.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.this.block.type);
+          $scope.profileCheck = !_.isNull($scope.block.profileType);
+          $scope.profileOption = _.has(typeToProfile, $scope.block.type);
+          $scope.requiredOption = !_.contains(['paragraphContent'], $scope.block.type);
+          $scope.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.block.profileType);
+          $scope.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type);
         }
 
         $scope.toggleProfileType = function (value) {
           if (!value) {
-            $scope.this.block.profileType = null;
+            $scope.block.profileType = null;
           } else {
-            $scope.this.block.profileType = typeToProfile[$scope.this.block.type];
+            $scope.block.profileType = typeToProfile[$scope.block.type];
             var profileCount = 0;
             $scope.conference.registrationPages.forEach(function (page) {
               page.blocks.forEach(function (block) {
-                if ($scope.this.block.profileType === block.profileType) {
+                if ($scope.block.profileType === block.profileType) {
                   profileCount++;
                 }
               });
             });
             if (profileCount > 1) {
               alert('Only one ' +
-                $scope.this.block.profileType.charAt(0).toUpperCase() +
-                $scope.this.block.profileType.slice(1).toLowerCase() +
+                $scope.block.profileType.charAt(0).toUpperCase() +
+                $scope.block.profileType.slice(1).toLowerCase() +
                 ' profile block can be used per form.');
-              $scope.this.block.profileType = null;
-              $scope.this.profileCheck = false;
+              $scope.block.profileType = null;
+              $scope.profileCheck = false;
             }
           }
         };

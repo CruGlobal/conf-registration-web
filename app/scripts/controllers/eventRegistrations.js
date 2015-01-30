@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, RegistrationCache, registrations, conference, permissions) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -121,6 +121,9 @@ angular.module('confRegistrationWebApp')
           },
           conference: function () {
             return conference;
+          },
+          permissions: function () {
+            return permissions;
           }
         }
       };
@@ -228,6 +231,19 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.editRegistrant = function (r) {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+            }
+          }
+        });
+        return;
+      }
+
       $http.get('registrants/' + r).success(function (registrantData) {
         //get registration
         var registration = _.find($scope.registrations, { 'id': registrantData.registrationId });
@@ -285,7 +301,20 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registerUser = function () {
-      var registrationModalOptions = {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+            }
+          }
+        });
+        return;
+      }
+
+      $modal.open({
         templateUrl: 'views/modals/manualRegistration.html',
         controller: 'registrationModal',
         resolve: {
@@ -293,12 +322,7 @@ angular.module('confRegistrationWebApp')
             return conference;
           }
         }
-      };
-      $modal.open(registrationModalOptions);
-    };
-
-    $scope.allowDeleteRegistration = function () {
-      return permissions.permissionInt > 1;
+      });
     };
 
     $scope.getRegistration = function(id){
@@ -309,7 +333,46 @@ angular.module('confRegistrationWebApp')
       return _.find(conference.registrantTypes, { 'id': id });
     };
 
+    $scope.withdrawRegistrant = function(registrant, value){
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+            }
+          }
+        });
+        return;
+      }
+
+      registrant.withdrawn = value;
+      if(value){
+        registrant.withdrawnTimestamp = new Date();
+      }
+
+      //update registration
+      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+        registrant.withdrawn = !value;
+        alert('An error occurred while updating this registration.');
+      });
+    };
+
     $scope.deleteRegistrant = function (registrant) {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return 'You do not have permission to perform this action. Please contact an event admin to request permission.';
+            }
+          }
+        });
+        return;
+      }
+
       var modalInstance = $modal.open({
         templateUrl: 'views/modals/deleteRegistration.html',
         controller: 'deleteRegistrationCtrl'

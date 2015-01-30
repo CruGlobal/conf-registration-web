@@ -247,11 +247,6 @@ main.front-form {
       font-size: 14px;
       line-height: 1.43;
     }
-    a.btn {
-      font-size: 18px;
-      text-transform: uppercase;
-      .proximasemi;
-    }
     .well.creme2 {
       background: @creme2;
       border-radius: 0;
@@ -289,14 +284,17 @@ main.front-form {
         margin-top: 0;
       }
     }
-    input, select { margin-bottom: 10px; }
-    .btn {
+    .btn-important {
       text-transform: uppercase;
       .proximasemi;
     }
-    .btn-default {
+    .btn-bold{
+      .proximasemi;
+    }
+    .btn-subtle {
       background: #f4f4f4;
       .gray;
+      border-color: #ccc;
     }
   }
   .invalidBorder{
@@ -412,6 +410,9 @@ main.registrations {
     button{
       width: 32px;
     }
+  }
+  .strike-through{
+    text-decoration:line-through;
   }
 }
 
@@ -612,6 +613,27 @@ main.dashboard {
       }
     }
   }
+  .landing-jumbo {
+    background-color: #ECF0F1;
+    background-image: url('/img/rough_diagonal.png');
+    background-repeat: repeat;
+    padding: 30px;
+    margin-bottom: 20px;
+    border-top: 2px #D5D5D5 solid;
+    border-bottom: 2px #D5D5D5 solid;
+    .fa-users{
+      font-size: 11em;
+    }
+    .welcome{
+      font-size: 3.75em;
+      display: block;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .container{
+      margin: auto;
+    }
+  }
 }
 
 /***** MISC *****/
@@ -757,6 +779,16 @@ body {
   }
   .full { width: 100%; display: block; }
 
+  //pickadate.js modifications
+  .picker__select--month, .picker__select--year {
+    padding: .2em;
+  }
+  pick-a-date, pick-a-time {
+    .form-control[readonly]:not([disabled]){
+      background-color: #FFFFFF;
+    }
+  }
+
   .timepicker, .datepicker {
     .add-on { cursor: pointer; }
   }
@@ -769,10 +801,18 @@ body {
 
 /***** BOOTSTRAP DEFAULT OVERRIDES *****/
 body {
-  .label-success, .btn-success { background: @green; }
-  .label-primary, .btn-primary { background: @blue; }
-  .nav-pills .active a { background: @darkerblue; }
-  .modal-body .container { max-width: 560px; }
+  .label-success, .btn-success {
+    background: @green;
+  }
+  .label-primary, .btn-primary {
+    background: @blue;
+  }
+  .nav-pills .active a {
+    background: @darkerblue;
+  }
+  .modal-body .container {
+    max-width: 560px;
+  }
   .icon-chevron-up {
     background-position: -288px -120px !important;
   }
@@ -800,132 +840,149 @@ body {
     position: fixed;
     bottom: 0;
   }
-}
-
-
-/***** Event Registration Tool Specific *****/
-.eventhub-growl{
-  position: fixed;
-  margin: 0px;
-  z-index: 1031;
-  bottom: 20px;
-  right: 20px;
-}
-
-em.required{
-  font-style: normal;
-  color: #C00;
-}
-
-.eventhub-linebreak{
-  white-space: pre-line;
-}
-
-.nav-tabs>li>a{
-  cursor: pointer;
-}
-
-.noselect{
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-.form-control[readonly] {
-  cursor: default;
-}
-
-a.disabled {
-  pointer-events: none;
-  cursor: default;
-}
-
-.small-footer{
-  footer{
-    min-height: 70px !important;
+  .form-group .help-block.help-block-hidden {
+    display: none;
   }
-}
 
-.previewRow {
-  text-align: center;
-  background: rgba(255, 165, 0, .5);
-  padding: 8px;
-  margin: auto;
-  .horizontal {
-    font-size: 14px;
-    a:link, a:visited {
-      color: #000;
+  .form-group.has-error .help-block.help-block-hidden {
+    display: block;
+  }
+  .form-control.has-no-error {
+    border: 1px solid #ccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    &:focus {
+      border-color: #66afe9;
+      outline: 0;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
     }
   }
-}
 
-div[crs-block] {
-  padding-bottom: 10px;
-  .radio, .checkbox {
-    margin-top: -5px;
-  }
-}
-
-.well-full{
-  border-radius: 0;
-}
-
-.spacing-above-xs{
-  margin-top: 0.5em;
-}
-
-.spacing-below-xs{
-  margin-bottom: 0.5em;
-}
-
-.spacing-above-sm{
-  margin-top: 1em;
-}
-
-.spacing-below-sm{
-  margin-bottom: 1em;
-}
-
-.spacing-above-md{
-  margin-top: 1.5em;
-}
-
-.spacing-below-md{
-  margin-bottom: 1.5em;
-}
-
-.stacked-spacing-sm {
-  @media (max-width: 767px) {
-    margin-bottom: 15px;
-  }
-}
-
-.stacked-spacing-md {
-  @media (max-width: 991px) {
-    margin-bottom: 15px;
-  }
-}
-
-.rootLoadingMsg {
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.75);
-  position: fixed;
-  z-index: 10;
-  cursor: progress;
-  .blueMsg{
-    width: 100%;
-    height: 130px;
-    top:40%;
+  /***** Event Registration Tool Specific *****/
+  .eventhub-growl {
     position: fixed;
+    margin: 0px;
+    z-index: 1031;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  em.required {
+    font-style: normal;
+    color: #C00;
+  }
+
+  .eventhub-linebreak {
+    white-space: pre-line;
+  }
+
+  .nav-tabs > li > a {
+    cursor: pointer;
+  }
+
+  .noselect {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
+
+  .form-control[readonly] {
+    cursor: default;
+  }
+
+  a.disabled {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .small-footer {
+    footer {
+      min-height: 70px !important;
+    }
+  }
+
+  .previewRow {
     text-align: center;
-    background: rgba(43, 134, 183, 0.75);
-    > div {
-      font-size: 22px;
-      margin-top: 50px;
-      color: #fff;
+    background: rgba(255, 165, 0, .5);
+    padding: 8px;
+    margin: auto;
+    .horizontal {
+      font-size: 14px;
+      a:link, a:visited {
+        color: #000;
+      }
+    }
+  }
+
+  div[crs-block] {
+    padding-bottom: 10px;
+    .radio, .checkbox {
+      margin-top: -5px;
+    }
+  }
+
+  .well-full {
+    border-radius: 0;
+  }
+
+  .spacing-above-xs {
+    margin-top: 0.5em;
+  }
+
+  .spacing-below-xs {
+    margin-bottom: 0.5em;
+  }
+
+  .spacing-above-sm {
+    margin-top: 1em;
+  }
+
+  .spacing-below-sm {
+    margin-bottom: 1em;
+  }
+
+  .spacing-above-md {
+    margin-top: 1.5em;
+  }
+
+  .spacing-below-md {
+    margin-bottom: 1.5em;
+  }
+
+  .stacked-spacing-sm {
+    @media (max-width: 767px) {
+      margin-bottom: 15px;
+    }
+  }
+
+  .stacked-spacing-md {
+    @media (max-width: 991px) {
+      margin-bottom: 15px;
+    }
+  }
+
+  .rootLoadingMsg {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.75);
+    position: fixed;
+    z-index: 10;
+    cursor: progress;
+    .blueMsg {
+      width: 100%;
+      height: 130px;
+      top: 40%;
+      position: fixed;
+      text-align: center;
+      background: rgba(43, 134, 183, 0.75);
+      > div {
+        font-size: 22px;
+        margin-top: 50px;
+        color: #fff;
+      }
     }
   }
 }

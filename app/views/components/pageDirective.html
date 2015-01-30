@@ -1,4 +1,4 @@
-<div ng-if="wizard">
+  <div ng-if="wizard">
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="row">
@@ -6,15 +6,15 @@
           <div class="input-group input-group-lg">
             <span class="input-group-addon">Page {{$index + 1}}</span>
             <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
-          </div>
-        </div>
+      </div>
+      </div>
         <div class="col-sm-4 text-right">
           <div class="btn-group" role="group">
             <button class="btn btn-danger" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o"></i> Delete Page</button>
             <span class="btn btn-default" ui-tree-handle><i class="fa fa-unsorted"></i> Move</span>
             <button class="btn btn-default" ng-click="togglePage(page.id)"><i class="fa" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></button>
-          </div>
-        </div>
+      </div>
+    </div>
       </div>
     </div>
     <ul ui-tree-nodes ng-model="page.blocks" class="list-group" id="{{page.id}}" ng-if="!isPageHidden(page.id)" drop-type="block">
@@ -31,25 +31,25 @@
   <article>
     <h2 ng-bind="page.title"></h2>
 
-    <form class="form-horizontal" name="pageForm">
+    <form name="pageForm" novalidate>
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
       <div class="row spacing-above-md">
         <div class="col-sm-9 col-xs-7">
-          <button class="btn btn-success btn-lg btn-block"
-                  type="submit"
-                  ng-click="validateAndGoToNext(pageForm.$valid)"
-                  ng-if="nextPage">Next Page
+          <button class="btn btn-success btn-important btn-lg btn-block"
+              type="submit"
+              ng-click="goToNext(pageForm.$valid)"
+              ng-if="nextPage">Next Page
           </button>
-          <button class="btn btn-success btn-lg btn-block"
-                  ng-click="validateAndGoToNext(pageForm.$valid)"
-                  ng-if="!nextPage">Continue
+          <button class="btn btn-success btn-important btn-lg btn-block"
+              ng-click="goToNext(pageForm.$valid)"
+              ng-if="!nextPage">Continue
           </button>
         </div>
         <div class="col-sm-3 col-xs-5">
-          <a href="" ng-click="previousPage()" class="btn btn-default btn-lg btn-block">Go Back</a>
+          <a href="" ng-click="previousPage()" class="btn btn-subtle btn-lg btn-block">Go Back</a>
         </div>
       </div>
     </form>
   </article>
-</div>
+  </div>
