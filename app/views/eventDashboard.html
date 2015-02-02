@@ -18,21 +18,21 @@
     <div ng-show="filteredEvents.length === 0" class="alert alert-info">
       <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> or <a href="" ng-click="requestAccess()" class="alert-link">request access to an existing event</a> to get started!</p>
     </div>
-    <ul id="sortable">
+    <ul id="event-list">
       <li class="form" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEventsFilter}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
         <h2>{{event.name}}</h2>
         <div class="row">
           <div class="col-sm-9">
-        <ul class="horizontal" ng-if="!event.archived">
-          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
-          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
-          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
-          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-        </ul>
-        <ul class="horizontal" ng-if="event.archived">
-          <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
-          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-        </ul>
+            <ul class="horizontal" ng-if="!event.archived">
+              <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+              <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+              <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+              <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+            </ul>
+            <ul class="horizontal" ng-if="event.archived">
+              <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
+              <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+            </ul>
           </div>
           <div class="col-sm-3">
             <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">
