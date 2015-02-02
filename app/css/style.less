@@ -481,9 +481,6 @@ main.conference-details {
     padding-bottom: 20px;
   }
   .event-info-section {
-    @media (min-width: 768px) {
-      border-right: 2px solid #cccccc;
-    }
     section {
       input, textarea {
         margin-bottom: 10px;
@@ -517,16 +514,9 @@ main.conference-details {
       font-size: 15px;
     }
   }
-  .event-details-edit-section{
-    @media (min-width: 768px) {
-      border-right: none;
-      border-left: 2px solid #cccccc;
-    }
-  }
 }
 main.dashboard {
-  .col-xs-3 {
-    border-left: 2px solid #cccccc;
+  aside.welcome {
     h3 {
       .proxima;
       font-size: 20px;
@@ -546,11 +536,6 @@ main.dashboard {
     }
     section {
       margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #cccccc;
-      &:last-of-type {
-        border-bottom: none;
-      }
     }
   }
   .btn.small {
@@ -924,6 +909,30 @@ body {
 
   .well-full {
     border-radius: 0;
+  }
+
+  .divider-left-col-sm{
+    @media (min-width: 768px) {
+      border-left: 2px solid #cccccc;
+    }
+  }
+
+  .divider-right-col-sm{
+    @media (min-width: 768px) {
+      border-right: 2px solid #cccccc;
+    }
+  }
+
+  .divider-left-col-md{
+    @media (min-width: 992px) {
+      border-left: 2px solid #cccccc;
+    }
+  }
+
+  .divider-right-col-md{
+    @media (min-width: 992px) {
+      border-right: 2px solid #cccccc;
+    }
   }
 
   .spacing-above-xs {
