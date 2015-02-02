@@ -48,18 +48,18 @@
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
 
           <label>
-            <input type="checkbox" ng-model="type.groupSubRegistrantType">
-            Sub Registration Type
+            <input type="checkbox" ng-model="type.allowGroupRegistrations">
+            Allow Family Registrations
           </label>
-          <button popover="This will require at least one registrant in the registration before this type will become available. (example: adult must be registered before child)"
+          <button popover="When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration."
                   popover-trigger="mouseenter"
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
 
           <label>
-            <input type="checkbox" ng-model="type.allowGroupRegistrations">
-            Allow Group Registrations
+            <input type="checkbox" ng-model="type.groupSubRegistrantType">
+            Family-only Registration Type
           </label>
-          <button popover="When users choose to register as this registrant type, they will be permitted to add other registrants to their registration."
+          <button popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
                   popover-trigger="mouseenter"
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
         </div>
