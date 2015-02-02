@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .constant('enforceAuth', function ($rootScope, $route, $modal, $cookies, $q, $location, $window, apiUrl, $http, ProfileCache) {
     var defer = $q.defer();
 
-    var noAuthControllers = ['RegistrationCtrl', 'paymentCtrl', 'ReviewRegistrationCtrl'];
+    var noAuthControllers = ['RegistrationCtrl', 'ReviewRegistrationCtrl'];
 
     var loginDialogOptions = {
       templateUrl: 'views/modals/loginDialog.html',
@@ -43,9 +43,6 @@ angular.module('confRegistrationWebApp')
         }
       } else {
         $modal.open(loginDialogOptions);
-
-        //remove loading message
-        $rootScope.loadingMsg = '';
       }
     }
 

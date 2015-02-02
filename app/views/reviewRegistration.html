@@ -1,10 +1,31 @@
-<div class="row" ng-show="currentRegistration.completed">
+<div class="row" ng-if="currentRegistration.completed">
   <div class="col-xs-12">
     <article>
         <h1>You are registered!</h1>
         <p>Keep this information for your records.</p>
-        <p ng-if="currentRegistration.remainingBalance >0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
-        <p ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance >0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
+        <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
+        <p ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
+
+      <div class="well">
+        <h2 class="details-heading">{{conference.name}}</h2>
+        <p ng-bind="conference.description" class="eventhub-linebreak"></p>
+
+        <strong>Event Dates</strong>
+        <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
+          {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
+
+        <strong ng-if="conference.locationName">Event Location</strong>
+        <p>{{conference.locationName}}
+          <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}} {{conference.locationZipCode}}</span>
+        </p>
+
+        <strong>Contact Info</strong>
+        <ul class="list-unstyled">
+          <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
+          <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
+          <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+        </ul>
+      </div>
     </article>
   </div>
 </div>
