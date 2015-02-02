@@ -15,7 +15,7 @@
                 <button type="button" class="btn" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa" ng-class="{'fa-chevron-down': !openWell[type.id], 'fa-chevron-up': openWell[type.id]}"></i></button>
               </div>
             </div>
-            <div class="col-md-5 col-md-pull-4 stacked-spacing-md">
+            <div class="col-md-5 col-md-pull-4 stacked-spacing-col-md">
               <label>Name <em class="required">*</em></label>
               <input type="text" class="form-control" ng-model="type.name">
             </div>
@@ -74,7 +74,7 @@
 
               <div ng-show="type.earlyRegistrationDiscount">
                 <div class="form-group">
-                  <div class="col-sm-8 stacked-spacing-sm">
+                  <div class="col-sm-8 stacked-spacing-col-sm">
                     <span>If registered by</span>
                     <crs-datetimepicker model="type.earlyRegistrationCutoff"></crs-datetimepicker>
                   </div>

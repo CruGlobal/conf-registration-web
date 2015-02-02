@@ -183,8 +183,8 @@
   </header>
   <section id="frontpagetitle">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-10">
+      <div class="row spacing-above-md spacing-below-md">
+        <div class="col-sm-10 stacked-spacing-col-sm">
           <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
             <h1 ng-bind="globalPage.title"></h1>
           </a>
@@ -192,7 +192,7 @@
             <h1 ng-bind="globalPage.title"></h1>
           </a>
         </div>
-        <div class="col-sm-2 usr-greeting stacked-spacing-sm">
+        <div class="col-sm-2 usr-greeting">
           <a href="#/logout" class="btn btn-primary btn-uppercase">Logout</a>
         </div>
       </div>

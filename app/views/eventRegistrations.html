@@ -15,15 +15,15 @@
         <div class="col-md-1">
           <h4>Filter</h4>
     </div>-->
-    <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-md">
+    <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-col-md">
       <label>Search visible columns:</label>
           <input type="text" class="form-control" ng-model="searchFilter">
         </div>
-    <div class="col-md-2 col-sm-4 stacked-spacing-sm" ng-if="eventHasCost()">
+    <div class="col-md-2 col-sm-4 stacked-spacing-col-sm" ng-if="eventHasCost()">
       <label>Payment status:</label>
           <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
         </div>
-    <div class="col-md-2 col-sm-5 stacked-spacing-sm">
+    <div class="col-md-2 col-sm-5 stacked-spacing-col-sm">
       <label>Registration type:</label>
           <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
