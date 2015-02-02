@@ -1,18 +1,19 @@
-  <div ng-if="wizard">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class="row">
-          <div class="col-sm-8 stacked-spacing-col-sm">
-            <div class="input-group input-group-lg">
-              <span class="input-group-addon">Page {{$index + 1}}</span>
-              <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
-            </div>
+<div ng-if="wizard">
+  <a id="page{{$index + 1}}"></a>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-sm-8 stacked-spacing-col-sm">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon">Page {{$index + 1}}</span>
+            <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
           </div>
-          <div class="col-sm-4 text-right">
-            <a href="" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o fa-inset"></i></a>
-            <a href="" ng-click="togglePage(page.id)"><i class="fa fa-inset" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></a>
-            <i class="fa fa-bars fa-inset" ui-tree-handle></i>
-          </div>
+        </div>
+        <div class="col-sm-4 text-right">
+          <a href="" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o fa-inset"></i></a>
+          <a href="" ng-click="togglePage(page.id)"><i class="fa fa-inset" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></a>
+          <i class="fa fa-bars fa-inset" ui-tree-handle></i>
+        </div>
       </div>
     </div>
     <ul ui-tree-nodes ng-model="page.blocks" class="list-group" id="{{page.id}}" ng-if="!isPageHidden(page.id)" drop-type="block">
