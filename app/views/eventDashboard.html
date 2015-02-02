@@ -6,10 +6,10 @@
         <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> Loading events...</p>
       </div>
     </div>
-    <div class="row spacing-below-md">
-      <div class="col-sm-8 stacked-spacing-col-sm">
-        <button ng-click="createEvent()" class="btn btn-success" role="button"><i class="fa fa-plus"></i> Create New Event</button>
-        <button ng-click="requestAccess()" class="btn btn-success" role="button"><i class="fa fa-key"></i> Request Access to Existing Event</button>
+    <div class="row spacing-below-sm">
+      <div class="col-sm-8">
+        <button ng-click="createEvent()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-plus"></i> Create New Event</button>
+        <button ng-click="requestAccess()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-key"></i> Request Access to Existing Event</button>
       </div>
       <div class="col-sm-4">
         <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName" ng-init="filterName=''">
