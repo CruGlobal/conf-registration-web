@@ -27,9 +27,7 @@
       </div>
     </div>
     <div ui-tree="pageTreeConfig" class="pages">
-      <div class="page-header">
-        <h2>Pages <small>Drag questions from above and edit pages</small></h2>
-      </div>
+      <h2 class="page-title border">Pages <small>Drag questions from above and edit pages</small></h2>
       <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page" novalidate>
         <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
           <hr ng-if="!$first">
