@@ -87,6 +87,10 @@
                     <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> Add</button>
                   </span>
               </div>
+
+              <div class="checkbox" ng-if="block.type === 'radioQuestion'">
+                <label><input type="checkbox" ng-model="block.content.otherOption.enabled"> Allow custom "other" option</label>
+              </div>
           </div>
 
             <div class="checkbox" ng-show="requiredOption">

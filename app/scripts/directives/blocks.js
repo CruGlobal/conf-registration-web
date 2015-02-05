@@ -67,7 +67,26 @@ angular.module('confRegistrationWebApp')
   .directive('radioQuestion', function () {
     return {
       templateUrl: 'views/blocks/radioQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      controller: function ($scope) {
+        $scope.$watch('answer.value', function () {
+          if(angular.isDefined($scope.answer)){
+            //check if answer is not in current choices
+            if(!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)){
+              $scope.otherAnswer = $scope.answer.value;
+            }
+          }
+        });
+        if($scope.wizard){
+          $scope.answer = {
+            value: ''
+          };
+        }
+
+        $scope.selectOtherAnswer = function(){
+          $scope.answer.value = $scope.otherAnswer;
+        };
+      }
     };
   });
 
