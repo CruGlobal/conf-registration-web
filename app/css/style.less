@@ -19,14 +19,14 @@
 @red: #FF0000; .red {color: @red;}
 
 /***** TYPOGRAPHY *****/
-.proxima {font-family: sans-serif;}
-.proximalight {font-family: sans-serif; font-weight:300;}
-.proximamedium {font-family: sans-serif; font-weight:400;}
-.proximasemi {font-family: sans-serif; font-weight:600;}
-.proximabold {font-family: sans-serif; font-weight:700;}
+.sans-serif {font-family: sans-serif;}
+.sans-serif-light {font-family: sans-serif; font-weight:300;}
+.sans-serif-medium {font-family: sans-serif; font-weight:400;}
+.sans-serif-semi {font-family: sans-serif; font-weight:600;}
+.sans-serif-bold {font-family: sans-serif; font-weight:700;}
 
 /***** GLOBALS *****/
-* {.proxima;}
+* {.sans-serif;}
 
 html {
   background-color: @paleblue; //the footer color
@@ -50,7 +50,7 @@ body.frontend {
     background: @darkerblue;
     h1 {
       font-size: 24px;
-      .proximasemi;
+      .sans-serif-semi;
       .white;
       margin: 5px 0 0 0;
     }
@@ -66,7 +66,7 @@ body.frontend {
         line-height: 45px;
         padding: 0 10px;
         span.circle {
-          .proximabold;
+          .sans-serif-bold;
           font-size: 11px;
           display: inline-block;
           margin-right: 5px;
@@ -103,10 +103,10 @@ body.frontend {
     }
     .btn-important {
       text-transform: uppercase;
-      .proximasemi;
+      .sans-serif-semi;
     }
     .btn-bold{
-      .proximasemi;
+      .sans-serif-semi;
     }
     .btn-subtle {
       background: #f4f4f4;
@@ -186,7 +186,7 @@ a.logo, a.logo:hover {
       .blue;
       background: @white;
       strong {
-        .proximasemi;
+        .sans-serif-semi;
       }
     }
     .btn-primary.dropdown-toggle {
@@ -205,8 +205,7 @@ a.logo, a.logo:hover {
   .btn-uppercase {
     font-size: 16px;
     text-transform: uppercase;
-    font-family: sans-serif;
-    font-weight: 600;
+    .sans-serif-semi;
   }
 }
 
@@ -217,7 +216,7 @@ section#pagetitle {
   border-bottom: 1px solid #ece8d8;
   h1 {
     margin-top: 10px;
-    .proximalight;
+    .sans-serif-light;
     font-size: 30px;
     .sevengray;
     margin-bottom: 10px;
@@ -236,7 +235,7 @@ section#pagetitle {
     }
     li.blue {
       font-size: 16px;
-      .proxima;
+      .sans-serif;
     }
     li.dropdown {
       a.dropdown-toggle {
@@ -301,7 +300,7 @@ main.registrations {
   .col-xs-5 { margin-bottom: 15px; }
   p.columns {
     .gray;
-    .proximasemi;
+    .sans-serif-semi;
     font-size: 14px;
     margin-top: 2px;
     margin-right: 5px;
@@ -322,14 +321,13 @@ main.registrations {
       .leftside {
         margin: 0;
         text-align: right;
-        .proxima;
-        font-weight: bold;
+        .sans-serif-bold;
         font-size: 14px;
         .darkgray;
       }
       .rightside {
         margin: 0;
-        .proxima;
+        .sans-serif;
         font-size: 14px;
         .darkgray;
       }
@@ -439,7 +437,7 @@ main.conference-details {
   .event-stats-section {
     text-align: center;
     .stats-heading {
-      .proxima;
+      .sans-serif;
       font-size: 17px;
       color: #636363;
       text-transform: uppercase;
@@ -453,7 +451,7 @@ main.conference-details {
     }
     a.link {
       .green;
-      .proximabold;
+      .sans-serif-bold;
       font-size: 15px;
     }
   }
@@ -461,7 +459,7 @@ main.conference-details {
 main.dashboard {
   aside.welcome {
     h3 {
-      .proxima;
+      .sans-serif;
       font-size: 20px;
       color: #636363;
       text-transform: uppercase;
@@ -472,7 +470,7 @@ main.dashboard {
     }
     a.link {
       .green;
-      .proximabold;
+      .sans-serif-bold;
       font-size: 13px;
       text-transform: uppercase;
       letter-spacing: .1em;
@@ -483,7 +481,7 @@ main.dashboard {
   }
   .btn.small {
     font-size: 12px;
-    .proximasemi;
+    .sans-serif-semi;
     margin-top: 10px;
     margin-right: 10px;
   }
@@ -506,7 +504,7 @@ main.dashboard {
     h2 {
       .green;
       display: block;
-      .proximamedium;
+      .sans-serif-medium;
       line-height: 20px;
       font-size: 20px;
       text-transform: uppercase;
@@ -534,7 +532,7 @@ main.dashboard {
       padding-left: 18px;
       a {
         color: #666;
-        .proxima;
+        .sans-serif;
         font-size: 14px;
       }
     }
@@ -554,7 +552,7 @@ main.dashboard {
       font-size: 3.75em;
       display: block;
       text-transform: uppercase;
-      font-weight: 700;
+      .sans-serif-bold;
     }
     .container{
       margin: auto;
@@ -594,7 +592,7 @@ body {
   }
   .undo-btn {
     .gray;
-    .proximasemi;
+    .sans-serif-semi;
     font-size: 16px;
     margin-left: 15px;
     &:hover {
@@ -614,7 +612,7 @@ body {
     border: 1px solid #90a92f;
     font-size: 13px;
     padding-left: 33px;
-    .proximasemi;
+    .sans-serif-semi;
     .white;
     .fa { font-size: 20px; padding-right: 3px; position: absolute; left: 25px;}
   }
