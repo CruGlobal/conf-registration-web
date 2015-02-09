@@ -24,13 +24,21 @@
   <div class="col-xs-4">
     <label>Event Timezone</label><br>
     <select class="form-control" ng-model="conference.eventTimezone">
-      <option value="America/New_York">Eastern</option>
-      <option value="America/Chicago">Central</option>
-      <option value="America/Denver">Mountain</option>
-      <option value="America/Phoenix">Mountain Standard</option>
-      <option value="America/Los_Angeles">Pacific</option>
-      <option value="America/Anchorage">Alaska</option>
-      <option value="Pacific/Honolulu">Hawaii</option>
+      <optgroup label="America">
+        <option value="America/New_York">Eastern</option>
+        <option value="America/Chicago">Central</option>
+        <option value="America/Denver">Mountain</option>
+        <option value="America/Phoenix">Mountain Standard</option>
+        <option value="America/Los_Angeles">Pacific</option>
+        <option value="America/Anchorage">Alaska</option>
+        <option value="Pacific/Honolulu">Hawaii</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="Europe/Moscow">Belarus/Western Russia</option>
+        <option value="Europe/Athens">Eastern</option>
+        <option value="Europe/Berlin">Central</option>
+        <option value="Europe/London">Western</option>
+      </optgroup>
     </select>
   </div>
 </div>
