@@ -11,3 +11,7 @@
     <span ng-show="choice.amount"> - {{choice.amount | moneyFormat}}</span>
   </label>
 </div>
+<label ng-show="block.content.otherOption.enabled">
+  <input type="radio" ng-checked="answer.value === otherAnswer && answer.value !== ''" ng-click="selectOtherAnswer()">
+  <input type="text" class="form-control" ng-model="otherAnswer" ng-change="selectOtherAnswer()" style="display:inline;width:auto;">
+</label>
