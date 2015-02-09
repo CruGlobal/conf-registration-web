@@ -132,7 +132,7 @@
 </div>
 
 <div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
-  <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
+  <div class="alert alert-warning growl-message" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
     <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
   </div>

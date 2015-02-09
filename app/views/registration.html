@@ -31,7 +31,7 @@
     </p>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border">Welcome</h2>
-      <p ng-bind="conference.description" class="eventhub-linebreak"></p>
+      <p ng-bind="conference.description" class="display-linebreaks"></p>
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading">Event Dates</h2>
         <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -

@@ -3,8 +3,9 @@
 /***** COLORS *****/
 @white: #fff; .white {color: @white;}
 @black: #000; .black {color: @black;}
-@lightgray: #f9f9f9; .lightgray {color: @lightgray;}
-@bkgdgray: #e7e8e6; .bkgdgray {color: @bkgdgray;}
+@verylightgray: #f9f9f9; .verylightgray {color: @verylightgray;}
+@lightgray: #e7e8e6; .lightgray {color: @lightgray;}
+@lightgrayaccent: #e2e2e2; .lightgrayaccent {color: @lightgrayaccent;}
 @mediumlightgray: #c8c8c8; .mediumlightgray {color: @mediumlightgray;}
 @gray: #9b9b9b; .gray {color: @gray;}
 @sixgray: #636363; .sixgray {color: @sixgray;}
@@ -42,7 +43,7 @@ body {
   background-color: @white; //the body color
 }
 
-/* Buttons */
+/*** Buttons ***/
 .btn-bold{
   .sans-serif-semi;
 }
@@ -55,6 +56,18 @@ body {
   .gray;
   border-color: #ccc;
 }
+.fa-inset{
+  margin: 3px 10px;
+  font-size: 39px;
+  color: rgba(174, 174, 174, 0.8);
+  text-shadow: 0 2px 2px #FFF, 0 0 0 #000, 1px 4px 6px #FFF;
+}
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+/*** Text Styles ***/
 
 /* Headings */
 h2.page-title{
@@ -69,9 +82,151 @@ h2.page-title{
   }
 }
 
+/* Body Text */
+.display-linebreaks {
+  white-space: pre-line;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  -khtml-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+/*** Dividers ***/
+.divider-left-col-sm{
+  @media (min-width: 768px) {
+    border-left: 2px solid #cccccc;
+  }
+}
+.divider-right-col-sm{
+  @media (min-width: 768px) {
+    border-right: 2px solid #cccccc;
+  }
+}
+.divider-left-col-md{
+  @media (min-width: 992px) {
+    border-left: 2px solid #cccccc;
+  }
+}
+.divider-right-col-md{
+  @media (min-width: 992px) {
+    border-right: 2px solid #cccccc;
+  }
+}
+
+/*** Spacing ***/
+.spacing-above-xs {
+  margin-top: 0.5em;
+}
+.spacing-below-xs {
+  margin-bottom: 0.5em;
+}
+.spacing-above-sm {
+  margin-top: 1em;
+}
+.spacing-below-sm {
+  margin-bottom: 1em;
+}
+.spacing-above-md {
+  margin-top: 1.5em;
+}
+.spacing-below-md {
+  margin-bottom: 1.5em;
+}
+.stacked-spacing-col-sm {
+  @media (max-width: 767px) {
+    margin-bottom: 1em;
+  }
+}
+.stacked-spacing-col-md {
+  @media (max-width: 991px) {
+    margin-bottom: 1em;
+  }
+}
+.btn.btn-spacing-below, .btn-group.btn-group-spacing-below{
+  margin-bottom: 0.5em;
+}
+
+/*** Forms ***/
+
+/* Inputs */
+div[crs-block] {
+  padding-bottom: 10px;
+  .radio, .checkbox {
+    margin-top: -5px;
+  }
+}
+.form-control[readonly] {
+  cursor: default;
+}
+
+/* Validation */
+.form-group .help-block.help-block-hidden {
+  display: none;
+}
+.form-group.has-error .help-block.help-block-hidden {
+  display: block;
+}
+.form-control.has-no-error {
+  border: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  &:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+  }
+}
+
+/** Features **/
+
+/* Loading Message */
+.rootLoadingMsg {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.75);
+  position: fixed;
+  z-index: 10;
+  cursor: progress;
+  .blueMsg {
+    width: 100%;
+    height: 130px;
+    top: 40%;
+    position: fixed;
+    text-align: center;
+    background: rgba(43, 134, 183, 0.75);
+    > div {
+      font-size: 22px;
+      margin-top: 50px;
+      color: #fff;
+    }
+  }
+}
+
+/* Growl Message */
+.growl-message {
+  position: fixed;
+  margin: 0;
+  z-index: 1031;
+  bottom: 20px;
+  right: 20px;
+}
+
+/* Full Size Well */
+.well-full {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
 /***** FRONT END *****/
 body.frontend {
-  background: url('/img/rough_diagonal.png') @bkgdgray;
+  background: url('/img/rough_diagonal.png') @lightgray;
   .container {
     max-width: 612px;
   }
@@ -87,6 +242,23 @@ body.frontend {
       .sans-serif-semi;
       .white;
       margin: 5px 0 0 0;
+    }
+  }
+  .previewRow {
+    text-align: center;
+    background: rgba(255, 165, 0, .5);
+    padding: 8px;
+    margin: auto;
+    .preview-nav {
+      margin-bottom: 0;
+      a:link, a:visited {
+        .black;
+      }
+      li + li {
+        border-left: solid 1px black;
+        margin-left: -4px;
+        line-height: 14px;
+      }
     }
   }
   .nav-pills {
@@ -173,8 +345,12 @@ body.frontend {
     padding-top: 15px;
     padding-bottom: 15px;
   }
-  //TODO: check below in this block
+  em.required {
+    font-style: normal;
+    color: #C00;
+  }
   .dl-horizontal label{
+    //Used for Payment Radio Buttons
     display: block;
   }
   .review-breakdown{
@@ -194,7 +370,7 @@ body.frontend {
 
 /***** BACK END *****/
 
-/* Template Styles */
+/*** Template Styles ***/
 #masthead {
   background: @blue;
   border-bottom: 7px solid @darkblue;
@@ -260,7 +436,7 @@ main {
   }
 }
 
-/* Page Styles */
+/*** Page Styles ***/
 main.dashboard {
    .landing-jumbo {
      background-color: #ECF0F1;
@@ -359,7 +535,7 @@ main.event-registrations {
     width: 100%;
   }
   .rowdetails .well {
-    background: @lightgray;
+    background: @verylightgray;
     border-radius: 0;
     .details-heading {
       text-align: right;
@@ -443,13 +619,9 @@ main.event-questions {
       margin-left: 0;
     }
   }
-
-  .nav-tabs {
-    margin-bottom: 0;
-  }
 }
 
-/***** Components *****/
+/***** COMPONENTS *****/
 
 /* Angular UI Tree */
 .angular-ui-tree-nodes {
@@ -490,233 +662,31 @@ pick-a-date, pick-a-time {
 }
 .bootstrap-datetimepicker-widget {
   z-index: 10000;
+  td {
+    a.btn {
+      background: @lightgray;
+      &:hover {
+        background: @lightgrayaccent;
+      }
+    }
+    span:hover {
+      background: none;
+    }
+  }
 }
 
 /***** BOOTSTRAP DEFAULT OVERRIDES *****/
-body {
-  .label-success, .btn-success {
-    background: @green;
-  }
-  .label-primary, .btn-primary {
-    background: @blue;
-  }
-  .nav-pills .active a {
-    background: @darkerblue;
-  }
-  .modal-body .container {
-    max-width: 560px;
-  }
-  .icon-chevron-up {
-    background-position: -288px -120px !important;
-  }
-  .timepicker-picker a.btn {
-    background: #eeeeee;
-  }
-  .icon-chevron-down {
-    background-position: -313px -119px !important;
-  }
-  [class^="icon-"],
-  [class*=" icon-"] {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    margin-top: 1px;
-    *margin-right: .3em;
-    line-height: 14px;
-    vertical-align: text-top;
-    background-image: url("/img/glyphicons-halflings.png");
-    background-position: 14px 14px;
-    background-repeat: no-repeat;
-  }
-  //modal-backdrop override needed until angular-bootstrap upgrades to use Bootstrap 3.3.1: https://github.com/angular-ui/bootstrap/issues/2970
-  .modal-backdrop {
-    position: fixed;
-    bottom: 0;
-  }
-  .form-group .help-block.help-block-hidden {
-    display: none;
-  }
-
-  .form-group.has-error .help-block.help-block-hidden {
-    display: block;
-  }
-  .form-control.has-no-error {
-    border: 1px solid #ccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    &:focus {
-      border-color: #66afe9;
-      outline: 0;
-      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-      box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
-    }
-  }
-
-  /***** Event Registration Tool Specific *****/
-  .eventhub-growl {
-    position: fixed;
-    margin: 0;
-    z-index: 1031;
-    bottom: 20px;
-    right: 20px;
-  }
-
-  em.required {
-    font-style: normal;
-    color: #C00;
-  }
-
-  .eventhub-linebreak {
-    white-space: pre-line;
-  }
-
-  .nav-tabs > li > a {
-    cursor: pointer;
-  }
-
-  .noselect {
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-  }
-
-  .form-control[readonly] {
-    cursor: default;
-  }
-
-  a.disabled {
-    pointer-events: none;
-    cursor: default;
-  }
-
-  .small-footer {
-    footer {
-      min-height: 70px !important;
-    }
-  }
-
-  .previewRow {
-    text-align: center;
-    background: rgba(255, 165, 0, .5);
-    padding: 8px;
-    margin: auto;
-    .preview-nav {
-      font-size: 14px;
-      margin-bottom: 0;
-      a:link, a:visited {
-        .black;
-      }
-      li + li {
-        border-left: solid 1px black;
-        margin-left: -4px;
-        line-height: 14px;
-      }
-    }
-  }
-
-  div[crs-block] {
-    padding-bottom: 10px;
-    .radio, .checkbox {
-      margin-top: -5px;
-    }
-  }
-
-  .well-full {
-    border-radius: 0;
-  }
-
-  .fa-inset{
-    margin: 3px 10px;
-    font-size: 39px;
-    color: rgba(174, 174, 174, 0.8);
-    text-shadow: 0 2px 2px #FFF, 0 0 0 #000, 1px 4px 6px #FFF;
-  }
-
-  .divider-left-col-sm{
-    @media (min-width: 768px) {
-      border-left: 2px solid #cccccc;
-    }
-  }
-
-  .divider-right-col-sm{
-    @media (min-width: 768px) {
-      border-right: 2px solid #cccccc;
-    }
-  }
-
-  .divider-left-col-md{
-    @media (min-width: 992px) {
-      border-left: 2px solid #cccccc;
-    }
-  }
-
-  .divider-right-col-md{
-    @media (min-width: 992px) {
-      border-right: 2px solid #cccccc;
-    }
-  }
-
-  .spacing-above-xs {
-    margin-top: 0.5em;
-  }
-
-  .spacing-below-xs {
-    margin-bottom: 0.5em;
-  }
-
-  .spacing-above-sm {
-    margin-top: 1em;
-  }
-
-  .spacing-below-sm {
-    margin-bottom: 1em;
-  }
-
-  .spacing-above-md {
-    margin-top: 1.5em;
-  }
-
-  .spacing-below-md {
-    margin-bottom: 1.5em;
-  }
-
-  .stacked-spacing-col-sm {
-    @media (max-width: 767px) {
-      margin-bottom: 1em;
-    }
-  }
-
-  .stacked-spacing-col-md {
-    @media (max-width: 991px) {
-      margin-bottom: 1em;
-    }
-  }
-
-  .btn.btn-spacing-below, .btn-group.btn-group-spacing-below{
-    margin-bottom: 0.5em;
-  }
-
-  .rootLoadingMsg {
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.75);
-    position: fixed;
-    z-index: 10;
-    cursor: progress;
-    .blueMsg {
-      width: 100%;
-      height: 130px;
-      top: 40%;
-      position: fixed;
-      text-align: center;
-      background: rgba(43, 134, 183, 0.75);
-      > div {
-        font-size: 22px;
-        margin-top: 50px;
-        color: #fff;
-      }
-    }
-  }
+.label-success, .btn-success {
+  background: @green;
+}
+.label-primary, .btn-primary {
+  background: @blue;
+}
+.nav-pills .active a {
+  background: @darkerblue;
+}
+//modal-backdrop override needed until angular-bootstrap upgrades to use Bootstrap 3.3.1: https://github.com/angular-ui/bootstrap/issues/2970
+.modal-backdrop {
+  position: fixed;
+  bottom: 0;
 }

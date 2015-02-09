@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-questions',
-      bodyClass: 'small-footer',
+      bodyClass: '',
       title: conference.name,
       confId: conference.id,
       footer: true

@@ -8,7 +8,7 @@
 
       <div class="well well-creme2">
         <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
-        <p ng-bind="conference.description" class="eventhub-linebreak"></p>
+        <p ng-bind="conference.description" class="display-linebreaks"></p>
 
         <strong>Event Dates</strong>
         <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -

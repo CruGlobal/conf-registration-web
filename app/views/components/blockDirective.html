@@ -2,7 +2,7 @@
   <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="eventhub-linebreak"></p>
+    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
@@ -31,7 +31,7 @@
   </div>
   <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="eventhub-linebreak"></p>
+    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
