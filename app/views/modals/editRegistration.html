@@ -5,11 +5,11 @@
 <div class="modal-body">
   <div class="form-group">
     <label class="control-label">Registration Type</label>
-    <select class="form-control" ng-model="adminEditRegistration.registrantTypeId" ng-options="t.id as t.name for t in conference.registrantTypes"></select>
+    <select class="form-control" ng-model="adminEditRegistrant.registrantTypeId" ng-options="t.id as t.name for t in conference.registrantTypes"></select>
   </div>
 
   <div ng-repeat="page in conference.registrationPages">
-    <div ng-repeat="block in page.blocks" ng-if="blockInRegType(block, adminEditRegistration.registrantTypeId)" block="block" answer="findAnswer(block.id)" crs-block></div>
+    <div ng-repeat="block in page.blocks" ng-if="blockInRegType(block, adminEditRegistrant.registrantTypeId)" block="block" answer="findAnswer(block.id)" crs-block></div>
   </div>
 </div>
 <div class="modal-footer">

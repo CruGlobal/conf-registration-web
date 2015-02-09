@@ -244,16 +244,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $http.get('registrants/' + r).success(function (registrantData) {
-        //get registration
-        var registration = _.find($scope.registrations, { 'id': registrantData.registrationId });
-
+      $http.get('registrations/' + r.registrationId).success(function (registration) {
         var editRegistrationDialogOptions = {
           templateUrl: 'views/modals/editRegistration.html',
           controller: 'editRegistrationModalCtrl',
           resolve: {
-            registrant: function () {
-              return registrantData;
+            registrantId: function () {
+              return r.id;
             },
             registration: function () {
               return registration;
@@ -270,7 +267,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[index] = registration;
 
           //update registrant
-          r = _.find(registration.registrants, { 'id': r });
+          r = _.find(registration.registrants, { 'id': r.id });
           index = _.findIndex($scope.registrants, { 'id': r.id });
           $scope.registrants[index] = r;
         });
