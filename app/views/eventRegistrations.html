@@ -63,11 +63,11 @@
           <th><a href="" ng-click="setOrder('name')">Name</a></th>
           <th><a href="" ng-click="setOrder('email')">Email</a></th>
           <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a></th>
-          <th ng-show="conference.registrantTypes.length > 1" class="tablecenter" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
-          <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
-          <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
-          <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
-          <th class="tablecenter" width="160">Options</th>
+          <th ng-show="conference.registrantTypes.length > 1" class="text-center" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
+          <th class="text-center" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
+          <th class="text-center" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
+          <th ng-show="eventHasCost()" class="text-center" width="60">Paid</th>
+          <th class="text-center" width="160">Options</th>
           <th width="30"></th>
         </tr>
         </thead>
@@ -78,11 +78,11 @@
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
             <show-answer block="block" registrant="r"></show-answer>
           </td>
-          <td class="tablecenter" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
-          <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+          <td class="text-center" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
+          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
             {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
           </td>
-          <td class="tablecenter" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         <span ng-show="getRegistration(r.registrationId).completed">
           {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
         </span>
@@ -90,11 +90,11 @@
           -
         </span>
           </td>
-          <td ng-show="eventHasCost()" class="tablecenter">
+          <td ng-show="eventHasCost()" class="text-center">
             <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
             <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
           </td>
-          <td class="tablecenter registration_edit_buttons">
+          <td class="text-center registration_edit_buttons">
             <button ng-click="editRegistrant(r.id)" title="Edit Registration">
               <i class="fa fa-edit"></i>
             </button>
@@ -111,8 +111,8 @@
               <i class="fa fa-trash-o"></i>
             </button>
           </td>
-          <td class="tablecenter rowtoggle" ng-click="expandRegistration(r.id)">
-            <i class="fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
+          <td class="text-center" ng-click="expandRegistration(r.id)">
+            <i class="rowtoggle fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
           </td>
         </tr>
         <tr class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">

@@ -204,11 +204,11 @@
       Preview Mode
     </div>
     <div class="col-xs-12">
-      <ul class="horizontal">
+      <ul class="list-inline preview-nav">
         <li><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-        <li> | <a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li> | <a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-        <li> | <a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+        <li><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+        <li><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+        <li><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
       </ul>
     </div>
   </div>
@@ -220,7 +220,7 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-8">
-        <ul class="horizontal blue">
+        <ul class="list-inline">
           <li><a href="#/privacy/">Privacy Policy</a></li>
           <li><a href="#/help/">Help</a></li>
           <li ng-if="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
