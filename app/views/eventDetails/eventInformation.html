@@ -24,13 +24,38 @@
   <div class="col-xs-4">
     <label>Event Timezone</label><br>
     <select class="form-control" ng-model="conference.eventTimezone">
-      <option value="America/New_York">Eastern</option>
-      <option value="America/Chicago">Central</option>
-      <option value="America/Denver">Mountain</option>
-      <option value="America/Phoenix">Mountain Standard</option>
-      <option value="America/Los_Angeles">Pacific</option>
-      <option value="America/Anchorage">Alaska</option>
-      <option value="Pacific/Honolulu">Hawaii</option>
+      <optgroup label="America">
+        <option value="America/Halifax">Atlantic</option>
+        <option value="America/Puerto_Rico">Atlantic Standard</option>
+        <option value="America/New_York">Eastern</option>
+        <option value="America/Chicago">Central</option>
+        <option value="America/Denver">Mountain</option>
+        <option value="America/Phoenix">Mountain Standard</option>
+        <option value="America/Los_Angeles">Pacific</option>
+        <option value="America/Anchorage">Alaska</option>
+        <option value="Pacific/Honolulu">Hawaii</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="Europe/Moscow">Moscow</option>
+        <option value="Europe/Athens">Eastern</option>
+        <option value="Europe/Berlin">Central</option>
+        <option value="Europe/London">Western</option>
+      </optgroup>
+      <optgroup label="Asia">
+        <option value="Asia/Dubai">Gulf</option>
+        <option value="Asia/Kabul">Afghanistan</option>
+        <option value="Asia/Karachi">Pakistan</option>
+        <option value="Asia/Kolkata">India</option>
+        <option value="Asia/Katmandu">Nepal</option>
+        <option value="Asia/Dhaka">Bangladesh</option>
+        <option value="Asia/Rangoon">Myanmar</option>
+        <option value="Asia/Bangkok">Thailand</option>
+        <option value="Asia/Hong_Kong">China</option>
+        <option value="Asia/Tokyo">Japan</option>
+        <option value="Asia/Vladivostok">Yakutsk</option>
+        <option value="Asia/Sakhalin">Vladivostok Standard</option>
+        <option value="Asia/Anadyr">Anadyr</option>
+      </optgroup>
     </select>
   </div>
 </div>
