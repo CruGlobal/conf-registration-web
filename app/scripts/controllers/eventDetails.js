@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-details',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,

@@ -147,8 +147,8 @@
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>
-        <div class="col-md-6 usr-greeting" ng-if="globalGreetingName">
-          <div class="btn-group">
+        <div class="col-md-6 text-right" ng-if="globalGreetingName">
+          <div class="btn-group usr-greeting">
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
               <span class="caret"></span>
@@ -192,8 +192,8 @@
             <h1 ng-bind="globalPage.title"></h1>
           </a>
         </div>
-        <div class="col-sm-2 usr-greeting">
-          <a href="#/logout" class="btn btn-primary btn-uppercase">Logout</a>
+        <div class="col-sm-2 text-right">
+          <a href="#/logout" class="btn btn-primary btn-important">Logout</a>
         </div>
       </div>
     </div>

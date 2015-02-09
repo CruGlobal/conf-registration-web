@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-users',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
