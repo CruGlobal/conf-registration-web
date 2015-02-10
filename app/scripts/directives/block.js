@@ -106,7 +106,7 @@ angular.module('confRegistrationWebApp')
               };
 
               $scope.save = function (choice) {
-                if(choice.amount == null){
+                if(!choice.amount){
                   choice.amount = 0;
                 }else if(_.isString(choice.amount)){
                   choice.amount = choice.amount.replace(',','');
