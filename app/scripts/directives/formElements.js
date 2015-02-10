@@ -60,10 +60,12 @@ angular.module('confRegistrationWebApp')
         //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
           var container = $('.questions-toolbar-container');
-          $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
-          container.css('min-height', function(){
-            return $('.questions-toolbar').height();
-          });
+          if(container.length){
+            $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
+            container.css('min-height', function(){
+              return $('.questions-toolbar').height();
+            });
+          }
         }
         $(document).ready(function () {
           $('.questions-toolbar').affix({
