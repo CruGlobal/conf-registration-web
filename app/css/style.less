@@ -36,6 +36,22 @@
 * {.sans-serif;}
 
 /*** Buttons ***/
+.btn-primary {
+  background: @blue;
+  border-color: #2F84CD;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
+  background-color: #337ab7;
+  border-color: #2969A0;
+}
+.btn-info{
+  background-color: @lightblue;
+  border-color: #318FC2;
+}
+.btn-info:hover, .btn-info:focus, .btn-info.focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info{
+  background-color: #4FC0EC;
+  border-color: #2BABD0;
+}
 .btn-bold{
   .sans-serif-semi;
 }
@@ -47,6 +63,12 @@
   background: #f4f4f4;
   .gray;
   border-color: #ccc;
+}
+.btn-subtle:hover, .btn-subtle:focus, .btn-subtle.focus, .btn-subtle:active, .btn-subtle.active, .open>.dropdown-toggle.btn-subtle{
+  background: #e2e2e2;
+}
+.btn-spacing{
+  margin: 0.5em;
 }
 .fa-inset{
   margin: 3px 10px;
@@ -681,22 +703,6 @@ pick-a-date, pick-a-time {
 }
 .label-primary{
   background: @blue;
-}
-.btn-primary {
-  background: @blue;
-  border-color: #2F84CD;
-}
-.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary{
-  background-color: #337ab7;
-  border-color: #2969A0;
-}
-.btn-info{
-  background-color: @lightblue;
-  border-color: #318FC2;
-}
-.btn-info:hover, .btn-info:focus, .btn-info.focus, .btn-info:active, .btn-info.active, .open>.dropdown-toggle.btn-info{
-  background-color: #4FC0EC;
-  border-color: #2BABD0;
 }
 .nav-pills .active a {
   background: @darkerblue;

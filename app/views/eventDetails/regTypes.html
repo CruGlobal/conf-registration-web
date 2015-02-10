@@ -99,7 +99,7 @@
 
           <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted()">
             <label>Minimum Payment to Register</label>
-            <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments. Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
+            <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must be signed in order to accept multiple payments. Require sign in under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
             <p class="text-muted" ng-show="!anyPaymentMethodAccepted()"><i class="fa fa-info-circle"></i> You must accept a payment method in order to set a minimum payment. Setup payment methods under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
           </div>
         </div>

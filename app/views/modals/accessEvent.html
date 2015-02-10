@@ -30,6 +30,7 @@
     <textarea class="form-control" rows="3" ng-model="reasonForRequest"></textarea>
   </div>
 </div>
-<div class="modal-footer" ng-show="selectedEvent">
-  <button data-ng-click="submit(selectedEvent, reasonForRequest)" class="btn btn-light">Request Access</button>
+<div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
+  <button ng-if="selectedEvent" ng-click="submit(selectedEvent, reasonForRequest)" class="btn btn-primary">Request Access</button>
 </div>

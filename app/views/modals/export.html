@@ -10,10 +10,12 @@
     <span>- Download all answers for all registrants.</span>
   </div>
 
-  <div ng-if="hasCost">
-    <br>
+  <div ng-if="hasCost" class="spacing-above-md">
     <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
       <i class="fa fa-cloud-download"></i> Payments</a>
     <span>- Download payment data for all registrants.</span>
   </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
 </div>

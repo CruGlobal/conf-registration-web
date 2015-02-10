@@ -22,10 +22,10 @@
           </div>
           <div class="col-md-6">
             <div ng-show="!userIsLoggedIn()">
-              <h2>Login to create or manage an event</h2>
+              <h2>Sign in to create or manage an event</h2>
               <p>View registrations, manage scholarships, change questions and more.</p>
-              <a ng-click="login('FACEBOOK')" class="btn btn-default" title="Facebook"><img src="/img/signin-facebook.png"></a>
-              <a ng-click="login('RELAY')" class="btn btn-default" title="Relay"><img src="/img/signin-relay.png"></a>
+              <a ng-click="login('FACEBOOK')" class="btn btn-default spacing-below-xs" title="Facebook"><img src="/img/signin-facebook.png"></a>
+              <a ng-click="login('RELAY')" class="btn btn-default spacing-below-xs" title="Relay"><img src="/img/signin-relay.png"></a>
             </div>
             <div ng-show="userIsLoggedIn()">
               <h2>Create or manage your events</h2>
