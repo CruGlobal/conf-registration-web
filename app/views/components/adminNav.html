@@ -1,8 +1,8 @@
 <ul class="nav nav-pills nav-justified">
-  <li class="blue"><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-  <li class="blue"><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-  <li class="blue"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-  <li class="blue"><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventOverview')}"><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventRegistrations')}"><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventDetails')}"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventForm')}"><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
   <li class="dropdown" dropdown>
     <a href="" class="dropdown-toggle" type="button" dropdown-toggle>
       <i class="fa fa-plus-circle"></i>&nbsp;More

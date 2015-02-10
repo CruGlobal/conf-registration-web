@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/adminNav.html',
       restrict: 'A',
       controller: function ($scope, $modal, $location, PermissionCache, permissionConstants) {
+        $scope.isActive = function(viewLocation){
+          return viewLocation === $location.path().substr(0, viewLocation.length);
+        };
         $scope.archiveEvent = function (conferenceId) {
           PermissionCache.getForConference(conferenceId).then(function(permissions){
             if(permissions.permissionInt < permissionConstants.FULL){
