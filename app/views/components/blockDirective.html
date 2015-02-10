@@ -23,9 +23,9 @@
 <div class="edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
   <div class="btn-group btn-group-xs pull-right" role="group">
     <button class="btn btn-default green cru-profile" ng-if="block.profileType" disabled="disabled"><i class="fa fa-user"></i> Cru Profile</button>
-    <button ng-if="!editBlock" class="btn btn-warning" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
-    <button ng-if="editBlock" class="btn btn-warning" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
-    <button class="btn btn-info" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
+    <button ng-if="!editBlock" class="btn btn-info" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
+    <button ng-if="editBlock" class="btn btn-info" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
+    <button class="btn btn-primary" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> Delete</button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> Move</span>
     </div>
