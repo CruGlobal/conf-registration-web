@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.reversesort = false;
-    $scope.order = 'name';
+    $scope.order = 'lastName';
     $scope.showRegistrationsCompleted = 1;
     $scope.filterRegistrantType = '';
     $scope.visibleFilterRegistrantTypes = _.sortBy(conference.registrantTypes, 'name');
@@ -81,8 +81,10 @@ angular.module('confRegistrationWebApp')
           return $scope.getRegistration(registration.registrationId).createdTimestamp;
         }else if($scope.order === 'type'){
           return $scope.getRegistrantType(registration.registrantTypeId).name;
-        }else if($scope.order === 'name'){
-          return registration.firstName + registration.lastName;
+        }else if($scope.order === 'firstName'){
+          return registration.firstName;
+        }else if($scope.order === 'lastName'){
+          return registration.lastName;
         }else if($scope.order === 'email') {
           return registration.email;
         }else{

@@ -60,20 +60,36 @@
       <table class="table" ng-show="regFilter.length > 0">
         <thead>
         <tr>
-          <th><a href="" ng-click="setOrder('name')">Name</a></th>
-          <th><a href="" ng-click="setOrder('email')">Email</a></th>
-          <th ng-repeat="block in blocks | filter:{ visible: true }"><a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a></th>
-          <th ng-show="conference.registrantTypes.length > 1" class="text-center" width="150"><a href="" ng-click="setOrder('type')">Type</a></th>
-          <th class="text-center" width="160"><a href="" ng-click="setOrder('created')">Started</a></th>
-          <th class="text-center" width="160"><a href="" ng-click="setOrder('completed')">Completed</a></th>
-          <th ng-show="eventHasCost()" class="text-center" width="60">Paid</th>
+          <th>
+            <a href="" ng-click="setOrder('firstName')">First Name</a>
+            <i ng-if="order === 'firstName'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th>
+            <a href="" ng-click="setOrder('lastName')">Last Name</a>
+            <i ng-if="order === 'lastName'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+          <th>
+            <a href="" ng-click="setOrder('email')">Email</a>
+            <i ng-if="order === 'email'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th ng-repeat="block in blocks | filter:{ visible: true }">
+            <a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a>
+            <i ng-if="order === block.id" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th ng-show="conference.registrantTypes.length > 1" class="text-center" width="150">
+            <a href="" ng-click="setOrder('type')">Type</a>
+            <i ng-if="order === 'type'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th class="text-center" width="160"><a href="" ng-click="setOrder('created')">Started</a> <i ng-if="order === 'created'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+          <th class="text-center" width="160"><a href="" ng-click="setOrder('completed')">Completed</a> <i ng-if="order === 'completed'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+          <th ng-if="eventHasCost()" class="text-center" width="60">Paid</th>
           <th class="text-center" width="160">Options</th>
           <th width="30"></th>
         </tr>
         </thead>
         <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:completeStatus)) | orderBy:answerSort:reversesort">
         <tr ng-class="{'active': $even}" class="noselect">
-          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
             <show-answer block="block" registrant="r"></show-answer>
