@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       require: 'ngModel',
       scope: {
-        'disabled': '='
+        'disabled': '=pickerDisabled'
       },
       link: function (scope, element, attr, ngModelController) {
         //load date value from model into datepicker
