@@ -14,17 +14,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.blockInRegType = function(block, regTypeId){
-      return !_.contains(block.registrantTypes, regTypeId);
+      return block.type !== 'paragraphContent' && !_.contains(block.registrantTypes, regTypeId);
     };
 
     $scope.submit = function (setRegistrationAsCompleted) {
       $scope.saving = true;
-
-      angular.forEach($scope.adminEditRegistrant.answers, function(a){
-        if(!angular.equals(a, _.find(originalRegistrantObject.answers, { 'id': a.id }))){
-          answersToUpdate.push(a);
-        }
-      });
 
       if(setRegistrationAsCompleted){
         if (!confirm('Are you sure you want to mark this registration as completed?')) {
@@ -42,6 +36,12 @@ angular.module('confRegistrationWebApp')
             saveAnswer();
           });
         }else{
+          angular.forEach($scope.adminEditRegistrant.answers, function(a){
+            if(!angular.equals(a, _.find(originalRegistrantObject.answers, { 'id': a.id }))){
+              answersToUpdate.push(a);
+            }
+          });
+
           saveAnswer();
         }
       }
