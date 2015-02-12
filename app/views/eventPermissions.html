@@ -10,8 +10,8 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="permission in currentPermissions | orderBy: ['firstName', 'lastName', 'emailAddress']">
-      <td>{{permission.firstName}} {{permission.lastName}}<span ng-if="permission.firstName || permission.lastName"> | </span>{{permission.emailAddress}}</td>
+    <tr ng-repeat="permission in currentPermissions | orderBy: ['lastName', 'firstName', 'emailAddress']">
+      <td><span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} | </span>{{permission.emailAddress}}</td>
       <td>
         <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
           <option ng-if="permission.permissionLevel === 'CREATOR'" value="CREATOR">Creator</option>
