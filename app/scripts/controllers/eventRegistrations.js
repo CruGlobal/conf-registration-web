@@ -112,27 +112,31 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.viewPayments = function (registrationId) {
-      var paymentModalOptions = {
-        templateUrl: 'views/modals/paymentsModal.html',
-        controller: 'paymentModal',
-        size: 'lg',
-        backdrop: 'static',
-        resolve: {
-          registration: function () {
-            return _.find(registrations, { 'id': registrationId });
-          },
-          conference: function () {
-            return conference;
-          },
-          permissions: function () {
-            return permissions;
+      $http.get('registrations/' + registrationId).success(function (registration) {
+        var paymentModalOptions = {
+          templateUrl: 'views/modals/paymentsModal.html',
+          controller: 'paymentModal',
+          size: 'lg',
+          backdrop: 'static',
+          resolve: {
+            registration: function () {
+              return registration;
+            },
+            conference: function () {
+              return conference;
+            },
+            permissions: function () {
+              return permissions;
+            }
           }
-        }
-      };
+        };
 
-      $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
-        var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
-        $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
+        $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
+          var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
+          $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
+        });
+      }).error(function(){
+        alert('Error: registration data could be be retrieved.');
       });
     };
 
