@@ -21,20 +21,20 @@ angular.module('confRegistrationWebApp')
         /////////////////////////////////////////////////
 
         if (!$scope.wizard) {
-          if (angular.isDefined($scope.adminEditRegistration)) {
+          if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
-            var answerForThisBlock = _.where($scope.adminEditRegistration.answers, { 'blockId': $scope.block.id });
+            var answerForThisBlock = _.where($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
             if (answerForThisBlock.length > 0) {
               $scope.answer = answerForThisBlock[0];
             }
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
-                registrantId : $scope.adminEditRegistration.id,
+                registrantId : $scope.adminEditRegistrant.id,
                 blockId : $scope.block.id,
                 value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
               };
-              $scope.adminEditRegistration.answers.push($scope.answer);
+              $scope.adminEditRegistrant.answers.push($scope.answer);
             }
           } else {
             RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {

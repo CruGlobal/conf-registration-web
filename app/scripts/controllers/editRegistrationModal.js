@@ -1,10 +1,11 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, conference, registrant, registration) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, conference, registrantId, registration) {
     $scope.conference = angular.copy(conference);
-    $scope.adminEditRegistration = angular.copy(registrant);
     $scope.registration = angular.copy(registration);
+    $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
+    var originalRegistrantObject = angular.copy($scope.adminEditRegistrant);
     $scope.saving = false;
     var answersToUpdate = [];
 
@@ -12,45 +13,37 @@ angular.module('confRegistrationWebApp')
       $modalInstance.dismiss();
     };
 
-
-    //remove blocks that are not part of registrant type
-    angular.forEach(angular.copy(conference.registrationPages), function(page) {
-      var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
-      angular.forEach(angular.copy(page.blocks), function(block) {
-        //check if block has been removed for this registrant type
-        //check if block type is paragraphContent
-        if (_.contains(block.registrantTypes, registrant.registrantTypeId) || block.type === 'paragraphContent') {
-          _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
-        }
-      });
-
-      if($scope.conference.registrationPages[pageIndex].blocks.length === 0) {
-        _.remove($scope.conference.registrationPages, function(p) { return p.id === page.id; });
-      }
-    });
-
+    $scope.blockInRegType = function(block, regTypeId){
+      return block.type !== 'paragraphContent' && !_.contains(block.registrantTypes, regTypeId);
+    };
 
     $scope.submit = function (setRegistrationAsCompleted) {
       $scope.saving = true;
 
-      angular.forEach($scope.adminEditRegistration.answers, function(a){
-        if(!angular.equals(a, _.find(registrant.answers, { 'id': a.id }))){
-          answersToUpdate.push(a);
-        }
-      });
-
       if(setRegistrationAsCompleted){
-        var r = confirm('Are you sure you want to mark this registration as completed?');
-        if (!r) {
+        if (!confirm('Are you sure you want to mark this registration as completed?')) {
           $scope.saving = false;
           return;
         }
         $scope.registration.completed = true;
-        $http.put('registrations/' + registrant.registrationId, $scope.registration).success(function(){
+        $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(function(){
           saveAnswer();
         });
       }else{
-        saveAnswer();
+        //check if registrant type has been changed
+        if(originalRegistrantObject.registrantTypeId !== $scope.adminEditRegistrant.registrantTypeId){
+          $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(function(){
+            saveAnswer();
+          });
+        }else{
+          angular.forEach($scope.adminEditRegistrant.answers, function(a){
+            if(!angular.equals(a, _.find(originalRegistrantObject.answers, { 'id': a.id }))){
+              answersToUpdate.push(a);
+            }
+          });
+
+          saveAnswer();
+        }
       }
     };
 
@@ -61,7 +54,7 @@ angular.module('confRegistrationWebApp')
         $http.put('answers/' + a.id, a).success(saveAnswer);
       }else{
         //complete
-        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+        $http.get('registrations/' + originalRegistrantObject.registrationId).success(function(registration){
           $modalInstance.close(registration);
         });
       }
