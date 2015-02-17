@@ -4,7 +4,7 @@
     <span class="eventhub-linebreak">{{type.description}}</span>
   </div>
   <div class="col-xs-2 text-right" ng-if="isConferenceCost()">
-    <h5 >{{type.cost | moneyFormat}}</h5>
+    <h5><div ng-show="type.cost>0">{{type.cost | moneyFormat}}</h5>
   </div>
   <div class="col-xs-3">
     <a href="" ng-click="newRegistrant(type.id)" class="btn btn-success btn-important">
