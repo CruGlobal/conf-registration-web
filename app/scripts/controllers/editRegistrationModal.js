@@ -1,13 +1,12 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, conference, registrantId, registration) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, $q, conference, registrantId, registration) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
     var originalRegistrantObject = angular.copy($scope.adminEditRegistrant);
     $scope.saving = false;
-    var answersToUpdate = [];
 
     $scope.close = function () {
       $modalInstance.dismiss();
@@ -26,37 +25,28 @@ angular.module('confRegistrationWebApp')
           return;
         }
         $scope.registration.completed = true;
-        $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(function(){
-          saveAnswer();
-        });
+        saveAllAnswers();
+      }else if(originalRegistrantObject.registrantTypeId !== $scope.adminEditRegistrant.registrantTypeId){ //check if registrant type has been changed
+        saveAllAnswers();
       }else{
-        //check if registrant type has been changed
-        if(originalRegistrantObject.registrantTypeId !== $scope.adminEditRegistrant.registrantTypeId){
-          $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(function(){
-            saveAnswer();
-          });
-        }else{
-          angular.forEach($scope.adminEditRegistrant.answers, function(a){
-            if(!angular.equals(a, _.find(originalRegistrantObject.answers, { 'id': a.id }))){
-              answersToUpdate.push(a);
-            }
-          });
-
-          saveAnswer();
-        }
+        //PUT individual answers
+        var answersUpdatePromises = [];
+        angular.forEach($scope.adminEditRegistrant.answers, function(a){
+          if(!angular.equals(a, _.find(originalRegistrantObject.answers, { 'id': a.id }))){
+            answersUpdatePromises.push($http.put('answers/' + a.id, a));
+          }
+        });
+        $q.all(answersUpdatePromises).then(getRegistrantAndClose);
       }
     };
 
-    var saveAnswer = function(){
-      if(answersToUpdate.length){
-        var a = _.first(answersToUpdate);
-        answersToUpdate.shift();
-        $http.put('answers/' + a.id, a).success(saveAnswer);
-      }else{
-        //complete
-        $http.get('registrations/' + originalRegistrantObject.registrationId).success(function(registration){
-          $modalInstance.close(registration);
-        });
-      }
+    var saveAllAnswers = function() {
+      $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(getRegistrantAndClose);
+    };
+
+    var getRegistrantAndClose = function(){
+      $http.get('registrations/' + originalRegistrantObject.registrationId).success(function (registration) {
+        $modalInstance.close(registration);
+      });
     };
   });
