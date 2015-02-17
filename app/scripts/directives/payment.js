@@ -43,8 +43,10 @@ angular.module('confRegistrationWebApp')
             if(!currentPayment.creditCard.nameOnCard){
               paymentErrors.push('Please enter the name on your card.');
             }
-            if(!currentPayment.creditCard.number){
-              paymentErrors.push('Please enter your card number.');
+
+            var validationError = ccp.validateCardNumber(currentPayment.creditCard.number || '');
+            if(validationError){
+              paymentErrors.push('Please enter a valid card number. The ' + validationError + '.');
             }
             if(!currentPayment.creditCard.expirationMonth || !currentPayment.creditCard.expirationYear){
               paymentErrors.push('Please enter your card expiration date.');

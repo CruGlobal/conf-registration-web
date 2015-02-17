@@ -117,6 +117,11 @@ angular.module('confRegistrationWebApp')
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
+      if(currentPayment.paymentType === 'CREDIT_CARD'){
+        var encrypted = ccp.encrypt(currentPayment.creditCard.number);
+        console.log(encrypted);
+        return;
+      }
       delete currentPayment.errors;
 
       $http.post('payments/', currentPayment).success(function () {

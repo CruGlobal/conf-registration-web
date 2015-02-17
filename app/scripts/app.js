@@ -247,6 +247,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         return 'Event Registration Tool';
       }
     };
+
+    ccp.initialize('-----BEGIN PUBLIC KEY----- MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxg4JmOVEfpkZn6pmjtHx /Vo9FHsrDRy0hILA6EWMXUKkVe4VtFL8dRUKvUygApojmfe6EkjF+z1Lw7VpDhWS ASDagWf9rBN2vR4io8lkMw6HRhfmP3HWUrQtgQ3j2DuihnSWeBjtVWvG8FEu3cy1 +ig3nCz8cfElekXV2UurAfsqdpmnya20JOR9qYpw+QQzNchxv/Rxlpum0gAHxCHw pOjP6SyDfwqOI/bSGv7QkKwUaXCA2LSvlIKfSAvQQNJ6Naq7l/4i5GQuASlt2e6n Yd8hzRr0r2oHmD52YXYIeZeauqaMOI2vDNdCG9jvehibQXt5He63i+KfmmWuUCVZ xQIDAQAB -----END PUBLIC KEY-----');
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
