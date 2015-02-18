@@ -1,10 +1,10 @@
 <div class="row reg-type-select" ng-repeat="type in visibleRegistrantTypes" ng-if="visibleRegistrantTypes.length > 1">
-  <div ng-class="{'col-xs-7': isConferenceCost(), 'col-xs-9': !isConferenceCost()}">
+  <div ng-class="{'col-xs-7': type.cost>0, 'col-xs-9': type.cost==0}">
     <h4>{{type.name}}</h4>
     <span class="eventhub-linebreak">{{type.description}}</span>
   </div>
-  <div class="col-xs-2 text-right" ng-if="isConferenceCost()">
-    <h5 >{{type.cost | moneyFormat}}</h5>
+  <div class="col-xs-2 text-right" ng-show="type.cost">
+    <h5>{{type.cost | moneyFormat}}</h5>
   </div>
   <div class="col-xs-3">
     <a href="" ng-click="newRegistrant(type.id)" class="btn btn-success btn-important">
