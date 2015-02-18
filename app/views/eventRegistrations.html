@@ -111,7 +111,7 @@
             <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
           </td>
           <td class="text-center registration_edit_buttons">
-            <button ng-click="editRegistrant(r.id)" title="Edit Registration">
+            <button ng-click="editRegistrant(r)" title="Edit Registration">
               <i class="fa fa-edit"></i>
             </button>
             <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">

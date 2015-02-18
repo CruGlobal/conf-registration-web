@@ -112,27 +112,31 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.viewPayments = function (registrationId) {
-      var paymentModalOptions = {
-        templateUrl: 'views/modals/paymentsModal.html',
-        controller: 'paymentModal',
-        size: 'lg',
-        backdrop: 'static',
-        resolve: {
-          registration: function () {
-            return _.find(registrations, { 'id': registrationId });
-          },
-          conference: function () {
-            return conference;
-          },
-          permissions: function () {
-            return permissions;
+      $http.get('registrations/' + registrationId).success(function (registration) {
+        var paymentModalOptions = {
+          templateUrl: 'views/modals/paymentsModal.html',
+          controller: 'paymentModal',
+          size: 'lg',
+          backdrop: 'static',
+          resolve: {
+            registration: function () {
+              return registration;
+            },
+            conference: function () {
+              return conference;
+            },
+            permissions: function () {
+              return permissions;
+            }
           }
-        }
-      };
+        };
 
-      $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
-        var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
-        $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
+        $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
+          var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
+          $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
+        });
+      }).error(function(){
+        alert('Error: registration data could be be retrieved.');
       });
     };
 
@@ -246,16 +250,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $http.get('registrants/' + r).success(function (registrantData) {
-        //get registration
-        var registration = _.find($scope.registrations, { 'id': registrantData.registrationId });
-
+      $http.get('registrations/' + r.registrationId).success(function (registration) {
         var editRegistrationDialogOptions = {
           templateUrl: 'views/modals/editRegistration.html',
           controller: 'editRegistrationModalCtrl',
           resolve: {
-            registrant: function () {
-              return registrantData;
+            registrantId: function () {
+              return r.id;
             },
             registration: function () {
               return registration;
@@ -272,7 +273,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[index] = registration;
 
           //update registrant
-          r = _.find(registration.registrants, { 'id': r });
+          r = _.find(registration.registrants, { 'id': r.id });
           index = _.findIndex($scope.registrants, { 'id': r.id });
           $scope.registrants[index] = r;
         });

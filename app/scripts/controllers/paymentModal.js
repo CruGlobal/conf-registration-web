@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
       amount: 0,
       sendEmailReceipt: false
     };
-    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event admininstrator to request permission.';
+    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
 
     $scope.close = function () {
       $modalInstance.close($scope.registration);
@@ -43,7 +43,7 @@ angular.module('confRegistrationWebApp')
       if(permissions.permissionInt < permissionConstants.UPDATE){
         if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
           if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
-            alert('Your permission level only allows scholarship payments to be added. Please contact an event admininstrator to request permission.');
+            alert('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
             return;
           }
         }else{
