@@ -22,11 +22,17 @@ angular.module('confRegistrationWebApp')
             }
           });
 
-        //initialize datepicker
-        scope.picker = $(element).find('input').first().pickadate({
+        var pickerOptions = {
           format: 'mmm d, yyyy',
           selectYears: true
-        }).pickadate('picker');
+        };
+        
+        if(element.parents('.modal').length){
+          pickerOptions.container = 'body';
+        }
+
+        //initialize datepicker
+        scope.picker = $(element).find('input').first().pickadate(pickerOptions).pickadate('picker');
 
         //when date is chosen, update model
         var onSet = function(){
