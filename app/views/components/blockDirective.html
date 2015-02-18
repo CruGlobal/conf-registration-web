@@ -22,7 +22,6 @@
 
 <div class="edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
   <div class="btn-group btn-group-xs pull-right" role="group">
-    <button class="btn btn-default green" ng-if="block.profileType" disabled="disabled"><i class="fa fa-user"></i> Cru Profile</button>
     <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
     <button class="btn btn-default" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
@@ -91,11 +90,11 @@
           </div>
         </div>
 
-        <div class="checkbox" ng-show="requiredOption">
+        <div class="checkbox" ng-if="requiredOption">
           <label><input type="checkbox" ng-model="block.required"> Required</label>
         </div>
-        <div class="checkbox" ng-show="profileOption">
-          <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Cru Profile</label>
+        <div class="checkbox" ng-if="profileOption || block.profileType">
+          <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> Cru Profile</label>
         </div>
       </div>
 
