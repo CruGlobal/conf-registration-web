@@ -129,7 +129,6 @@ angular.module('confRegistrationWebApp')
         if(!$scope.currentRegistration.completed) {
           setRegistrationAsCompleted();
         } else {
-          window.scrollTo(0, 0);
           $route.reload();
         }
       }).error(function () {
