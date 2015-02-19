@@ -62,6 +62,10 @@ angular.module('confRegistrationWebApp')
         $scope.newTransaction.readyToProcess = true;
       }
 
+      if($scope.newTransaction.paymentType === 'SCHOLARSHIP') {
+        $scope.newTransaction.scholarship.scholarshipStatus = 'APPROVED';
+      }
+
       $http.post(path, $scope.newTransaction).success(function () {
         loadPayments();
         if(path === 'expenses'){
