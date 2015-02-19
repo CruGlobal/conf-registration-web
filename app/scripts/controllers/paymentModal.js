@@ -168,6 +168,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.savePaymentEdits = function (payment) {
+      if(payment.paymentType === 'SCHOLARSHIP'){
+        payment.scholarship.scholarshipStatus = 'APPROVED';
+      }
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;

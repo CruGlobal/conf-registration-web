@@ -113,14 +113,18 @@
                 </td>
                 <td ng-show="editPayment.paymentType === 'CREDIT_CARD'">{{editPayment.amount | moneyFormat}}</td>
                 <td>
-                  <input type="text" ng-model="editPayment.transfer.source" class="form-control"
-                         ng-show="editPayment.paymentType === 'TRANSFER'">
-                  <input type="text" ng-model="editPayment.scholarship.source" class="form-control"
-                         ng-show="editPayment.paymentType === 'SCHOLARSHIP'">
+                  <input type="text" ng-model="editPayment.transfer.source" class="form-control" ng-if="editPayment.paymentType === 'TRANSFER'">
+                  <input type="text" ng-model="editPayment.scholarship.source" class="form-control" ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
                 </td>
                 <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
                 <td class="text-center">
                   <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                </td>
+              </tr>
+              <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.scholarship.scholarshipStatus !== 'APPROVED'" ng-class="{'active': $even}">
+                <td></td>
+                <td colspan="4">
+                  <p class="text-muted"><strong>Note:</strong> Editing this scholarship will mark it as "Approved".</p>
                 </td>
               </tr>
             </tbody>
