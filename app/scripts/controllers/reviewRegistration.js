@@ -117,13 +117,23 @@ angular.module('confRegistrationWebApp')
       var currentPayment = angular.copy($scope.currentPayment);
       currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
-      if(currentPayment.paymentType === 'CREDIT_CARD'){
-        var encrypted = ccp.encrypt(currentPayment.creditCard.number);
-        console.log(encrypted);
-        return;
-      }
       delete currentPayment.errors;
+      if(currentPayment.paymentType === 'CREDIT_CARD'){
+        $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
+          ccp.initialize(ccpClientEncryptionKey);
+          currentPayment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(currentPayment.creditCard.number);
+          currentPayment.creditCard.number = ccp.encrypt(currentPayment.creditCard.number);
+          currentPayment.creditCard.cvvNumber = ccp.encrypt(currentPayment.creditCard.cvvNumber);
+          postPayment(currentPayment);
+        }).error(function() {
+          alert('An error occurred while requesting the ccp encryption key. Please try your payment again.');
+        });
+      }else{
+        postPayment(currentPayment);
+      }
+    };
 
+    var postPayment = function(currentPayment){
       $http.post('payments/', currentPayment).success(function () {
         delete $scope.currentPayment;
         if(!$scope.currentRegistration.completed) {
@@ -148,7 +158,6 @@ angular.module('confRegistrationWebApp')
     };
 
     var setRegistrationAsCompleted = function() {
-      window.scrollTo(0, 0);
       registration.completed = true;
 
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
