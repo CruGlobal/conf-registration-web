@@ -39,6 +39,13 @@ angular.module('confRegistrationWebApp')
         alert('Transaction amount must be a positive number.');
         return;
       }
+      if ($scope.newTransaction.paymentType === 'CREDIT_CARD') {
+        var validationError = ccp.validateCardNumber($scope.newTransaction.creditCard.number || '');
+        if(validationError){
+          alert('Please enter a valid card number. The ' + validationError + '.');
+          return;
+        }
+      }
 
       if(permissions.permissionInt < permissionConstants.UPDATE){
         if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
@@ -53,16 +60,35 @@ angular.module('confRegistrationWebApp')
       }
 
       $scope.processing = true;
-      var path = 'payments?sendEmailReceipt=' + $scope.newTransaction.sendEmailReceipt;
-      delete $scope.newTransaction.sendEmailReceipt;
-      if($scope.newTransaction.paymentType === 'ADDITIONAL_EXPENSE') {
+      var transaction = angular.copy($scope.newTransaction);
+      var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
+      delete transaction.sendEmailReceipt;
+
+      if(transaction.paymentType === 'ADDITIONAL_EXPENSE') {
         path = 'expenses';
-        delete $scope.newTransaction.paymentType;
+        delete transaction.paymentType;
       } else {
-        $scope.newTransaction.readyToProcess = true;
+        transaction.readyToProcess = true;
       }
 
-      $http.post(path, $scope.newTransaction).success(function () {
+      if(transaction.paymentType === 'CREDIT_CARD'){
+        $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
+          ccp.initialize(ccpClientEncryptionKey);
+          transaction.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(transaction.creditCard.number);
+          transaction.creditCard.number = ccp.encrypt(transaction.creditCard.number);
+          transaction.creditCard.cvvNumber = ccp.encrypt(transaction.creditCard.cvvNumber);
+          postTransaction(path, transaction);
+        }).error(function() {
+          $scope.processing = false;
+          alert('An error occurred while requesting the ccp encryption key.');
+        });
+      }else{
+        postTransaction(path, transaction);
+      }
+    };
+
+    var postTransaction = function(path, transaction){
+      $http.post(path, transaction).success(function () {
         loadPayments();
         if(path === 'expenses'){
           $scope.activeTab[2] = true;
