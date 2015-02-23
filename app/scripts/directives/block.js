@@ -161,6 +161,7 @@ angular.module('confRegistrationWebApp')
           $scope.profileOption = _.has(typeToProfile, $scope.block.type);
           $scope.requiredOption = !_.contains(['paragraphContent'], $scope.block.type);
           $scope.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.block.profileType);
+          $scope.canChangeRegTypes = $scope.canDelete;
           $scope.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type);
         }
 
