@@ -1,320 +1,328 @@
 <div class="modal-header">
-  <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
-  <h4>Payments &amp; Expenses</h4>
+    <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+    <h4>Payments &amp; Expenses</h4>
 </div>
 <div class="modal-body tab-content-spacing-above">
-  <tabset>
-    <tab heading="Summary">
-      <table class="table">
-        <thead>
-        <tr>
-          <th width="10"></th>
-          <th>Registrant</th>
-          <th width="90">Cost</th>
-        </tr>
-        </thead>
-        <tbody ng-repeat="r in registration.registrants">
-        <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
-          <td>
-            <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
-          </td>
-          <td>{{r.firstName}} {{r.lastName}}</td>
-          <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
-        </tr>
-        <tr ng-show="expandRegistrantCost[r.id]">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
-          <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
-        </tr>
-        <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts > 0">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
-          <td>{{r.calculatedDiscounts * -1 | moneyFormat}}</td>
-        </tr>
-        <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
-          <td>{{a.amount | moneyFormat}}</td>
-        </tr>
-        </tbody>
-        <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
-        <tr ng-click="expandExpense[expense.id] = !expandExpense[expense.id]">
-          <td></td>
-          <td>Additional Expense: {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})</td>
-          <td>{{expense.amount | moneyFormat}}</td>
-        </tr>
-        </tbody>
-      </table>
-
-      <div class="row">
-        <div class="col-lg-12">
-          <table class="table pull-right" style="width:200px;">
-            <tr>
-              <th>Total Cost</th>
-              <td width="90">{{registration.calculatedTotalDue | moneyFormat}}</td>
-            </tr>
-            <tr>
-              <th>Total Paid</th>
-              <td>{{registration.totalPaid | moneyFormat}}</td>
-            </tr>
-            <tr>
-              <th>Total Due</th>
-              <td>{{registration.remainingBalance | moneyFormat}}</td>
-            </tr>
+      <tabset>
+        <tab heading="Summary">
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="10"></th>
+                <th>Registrant</th>
+                <th width="90">Cost</th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="r in registration.registrants">
+              <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
+                <td>
+                  <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
+                </td>
+                <td>{{r.firstName}} {{r.lastName}}</td>
+                <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
+              </tr>
+              <tr ng-show="expandRegistrantCost[r.id]">
+                <td></td>
+                <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
+                <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
+              </tr>
+              <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts > 0">
+                <td></td>
+                <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
+                <td>{{r.calculatedDiscounts * -1 | moneyFormat}}</td>
+              </tr>
+              <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
+                <td></td>
+                <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
+                <td>{{a.amount | moneyFormat}}</td>
+              </tr>
+            </tbody>
+            <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+              <tr ng-click="expandExpense[expense.id] = !expandExpense[expense.id]">
+                <td></td>
+                <td>Additional Expense: {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})</td>
+                <td>{{expense.amount | moneyFormat}}</td>
+              </tr>
+            </tbody>
           </table>
-        </div>
-      </div>
-    </tab>
-    <tab heading="Payments" active="activeTab[1]">
-      <p ng-show="!registration.pastPayments.length">This registration does not contain any payments.</p>
-      <div  class="table-responsive">
-        <table class="table" ng-show="registration.pastPayments.length">
-          <thead>
-          <tr>
-            <th style="width:190px;">Date</th>
-            <th style="width:120px;">Amount</th>
-            <th>Type</th>
-            <th style="width:240px;">Description</th>
-            <th style="width:100px"></th>
-          </tr>
-          </thead>
-          <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
-          <tr ng-class="{'active': $even}">
-            <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
-            <td>
-              <span ng-show="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
-              <span ng-show="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
-              <span ng-show="payment.paymentType === 'SCHOLARSHIP'">Scholarship from {{payment.scholarship.source}} </span>
-              <span ng-show="payment.paymentType === 'TRANSFER'">Transfer from {{payment.transfer.source}}</span>
-              <span ng-show="payment.paymentType === 'CASH'">Cash</span>
-              <span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
-              <span ng-show="payment.paymentType === 'REFUND'">Refund</span>
-              <span ng-show="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
-            </td>
-            <td>{{payment.description}}</td>
-            <td class="text-center">
-              <div ng-show="editPayment.id !== payment.id">
-                <button ng-click="openEditPaymentRow(payment)" title="Edit Payment" class="btn btn-xs"><i class="fa fa-edit"></i></button>
-                <button ng-click="startRefund(payment)" ng-show="canBeRefunded(payment)" title="Refund Payment" class="btn btn-xs"><i class="fa fa-undo"></i></button>
-                <button ng-click="deletePayment(payment)" ng-show="payment.paymentType !== 'CREDIT_CARD'" title="Delete Payment" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
-              </div>
 
-              <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
-            </td>
-          </tr>
-          <tr ng-if="editPayment.id === payment.id" ng-class="{'active': $even}">
-            <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
-              <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
-            </td>
-            <td ng-show="editPayment.paymentType === 'CREDIT_CARD'">{{editPayment.amount | moneyFormat}}</td>
-            <td>
-              <input type="text" ng-model="editPayment.transfer.source" class="form-control"
-                     ng-show="editPayment.paymentType === 'TRANSFER'">
-              <input type="text" ng-model="editPayment.scholarship.source" class="form-control"
-                     ng-show="editPayment.paymentType === 'SCHOLARSHIP'">
-            </td>
-            <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
-            <td class="text-center">
-              <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
+          <div class="row">
+            <div class="col-lg-12">
+              <table class="table pull-right" style="width:200px;">
+                <tr>
+                  <th>Total Cost</th>
+                  <td width="90">{{registration.calculatedTotalDue | moneyFormat}}</td>
+                </tr>
+                <tr>
+                  <th>Total Paid</th>
+                  <td>{{registration.totalPaid | moneyFormat}}</td>
+                </tr>
+                <tr>
+                  <th>Total Due</th>
+                  <td>{{registration.remainingBalance | moneyFormat}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </tab>
+        <tab heading="Payments" active="activeTab[1]">
+          <p ng-show="!registration.pastPayments.length">This registration does not contain any payments.</p>
+      <div  class="table-responsive">
+          <table class="table" ng-show="registration.pastPayments.length">
+            <thead>
+              <tr>
+                <th style="width:190px;">Date</th>
+                <th style="width:120px;">Amount</th>
+                <th>Type</th>
+                <th style="width:240px;">Description</th>
+                <th style="width:100px"></th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
+              <tr ng-class="{'active': $even}">
+                <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
+                <td>
+                  <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
+                  <span ng-if="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
+                  <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
+                    <span ng-if="payment.scholarship.scholarshipStatus === 'APPROVED'">Scholarship from {{payment.scholarship.source}}</span>
+                    <span ng-if="payment.scholarship.scholarshipStatus === 'REQUESTED'" style="font-style: italic;">Scholarship Requested</span>
+                    <span ng-if="payment.scholarship.scholarshipStatus === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
+                  </span>
+                  <span ng-if="payment.paymentType === 'TRANSFER'">Transfer from {{payment.transfer.source}}</span>
+                  <span ng-if="payment.paymentType === 'CASH'">Cash</span>
+                  <span ng-if="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
+                  <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
+                  <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
+                </td>
+                <td>{{payment.description}}</td>
+                <td class="text-center">
+                  <div ng-show="editPayment.id !== payment.id">
+                    <button ng-click="openEditPaymentRow(payment)" title="Edit Payment" class="btn btn-xs"><i class="fa fa-edit"></i></button>
+                    <button ng-click="startRefund(payment)" ng-show="canBeRefunded(payment)" title="Refund Payment" class="btn btn-xs"><i class="fa fa-undo"></i></button>
+                    <button ng-click="deletePayment(payment)" ng-show="payment.paymentType !== 'CREDIT_CARD'" title="Delete Payment" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  </div>
+
+                  <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
+                </td>
+              </tr>
+              <tr ng-if="editPayment.id === payment.id" ng-class="{'active': $even}">
+                <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                <td ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
+                  <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
+                </td>
+                <td ng-show="editPayment.paymentType === 'CREDIT_CARD'">{{editPayment.amount | moneyFormat}}</td>
+                <td>
+                  <input type="text" ng-model="editPayment.transfer.source" class="form-control" ng-if="editPayment.paymentType === 'TRANSFER'">
+                  <input type="text" ng-model="editPayment.scholarship.source" class="form-control" ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
+                </td>
+                <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
+                <td class="text-center">
+                  <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                </td>
+              </tr>
+              <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.scholarship.scholarshipStatus !== 'APPROVED'" ng-class="{'active': $even}">
+                <td></td>
+                <td colspan="4">
+                  <p class="text-muted"><strong>Note:</strong> Editing this scholarship will mark it as "Approved".</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
       </div>
-      <div ng-show="refund">
-        <h4>Refund Payment</h4>
-        <table class="table table-striped">
-          <tbody>
-          <tr>
-            <th>Date</th>
-            <th>Refundable Amount</th>
-            <th>Type</th>
-          </tr>
-          <tr>
-            <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | moneyFormat}}</td>
-            <td>{{paymentToRefund.paymentType}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <p class="text-muted"><i class="fa fa-info-circle"></i>The selected payment can be refunded up to the amount that was originally received less any refunds already processed against it.</p>
-        <p class="text-muted" ng-show="isCreditCardPayment()"><i class="fa fa-info-circle"></i>The credit card used for this payment will be credited the amount entered here.</p>
-        <label>Amount</label>
-        <div class="input-group">
-          <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-          <input type="text" class="form-control marginless" ng-model="refund.amount" />
-        </div>
-        <br />
-        <label>Description</label>
-        <div class="form-group">
-          <input type="text" class="form-control marginless" ng-model="refund.description" />
-        </div>
-        <br />
+          <div ng-show="refund">
+            <h4>Refund Payment</h4>
+              <table class="table table-striped">
+                  <tbody>
+                  <tr>
+                      <th>Date</th>
+                      <th>Refundable Amount</th>
+                      <th>Type</th>
+                  </tr>
+                  <tr>
+                      <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
+                      <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | moneyFormat}}</td>
+                      <td>{{paymentToRefund.paymentType}}</td>
+                  </tr>
+                  </tbody>
+                  </table>
+            <p class="text-muted"><i class="fa fa-info-circle"></i>The selected payment can be refunded up to the amount that was originally received less any refunds already processed against it.</p>
+            <p class="text-muted" ng-show="isCreditCardPayment()"><i class="fa fa-info-circle"></i>The credit card used for this payment will be credited the amount entered here.</p>
+            <label>Amount</label>
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+              <input type="text" class="form-control marginless" ng-model="refund.amount" />
+            </div>
+            <br />
+            <label>Description</label>
+            <div class="form-group">
+              <input type="text" class="form-control marginless" ng-model="refund.description" />
+            </div>
+            <br />
         <div class="form-group text-right">
           <button class="btn btn-default" ng-if="!processing" ng-click="cancelRefund()">Cancel</button>
-          <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
-          <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
-          <span ng-show="processing">Processing...</span>
-        </div>
-      </div>
-    </tab>
-    <tab heading="Expenses" active="activeTab[2]">
-      <p ng-show="!registration.expenses.length">This registration does not contain any additional expenses.</p>
+              <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
+              <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
+              <span ng-show="processing">Processing...</span>
+            </div>
+          </div>
+        </tab>
+        <tab heading="Expenses" active="activeTab[2]">
+          <p ng-show="!registration.expenses.length">This registration does not contain any additional expenses.</p>
       <div class="table-responsive">
-        <table class="table table-striped" ng-show="registration.expenses.length">
-          <thead>
-          <tr>
-            <th style="width:180px;">Date</th>
-            <th style="width:120px;">Amount</th>
-            <th>Description</th>
-            <th style="width:73px;"></th>
-          </tr>
-          </thead>
-          <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
-          <tr>
-            <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
-            <td>{{expense.amount | moneyFormat}}</td>
-            <td>{{expense.description}}</td>
-            <td>
-              <div ng-show="editExpense.id !== expense.id">
-                <button ng-click="openEditExpenseRow(expense)" title="Edit Expense" class="btn btn-xs"><i class="fa fa-edit"></i></button>
-                <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+          <table class="table table-striped" ng-show="registration.expenses.length">
+            <thead>
+              <tr>
+                <th style="width:180px;">Date</th>
+                <th style="width:120px;">Amount</th>
+                <th>Description</th>
+                <th style="width:73px;"></th>
+              </tr>
+            </thead>
+            <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
+              <tr>
+                <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
+                <td>{{expense.amount | moneyFormat}}</td>
+                <td>{{expense.description}}</td>
+                <td>
+                  <div ng-show="editExpense.id !== expense.id">
+                    <button ng-click="openEditExpenseRow(expense)" title="Edit Expense" class="btn btn-xs"><i class="fa fa-edit"></i></button>
+                    <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                  </div>
+
+                  <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
+                </td>
+              </tr>
+              <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
+                <td>
+                  {{expense.createdTimestamp | date:'MMM d, y h:mm a'}}
+                </td>
+                <td>
+                  <input type="number" ng-model="editExpense.amount" class="form-control" step="0.01" min="0">
+                </td>
+                <td>
+                  <input type="text" ng-model="editExpense.description" class="form-control">
+                </td>
+                <td>
+                  <button class="btn btn-success" ng-click="saveExpenseEdits(editExpense)">Save</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+        </tab>
+    <tab heading="Add">
+          <div class="row form-group">
+        <div class="col-sm-7 stacked-spacing-col-sm">
+              <label>Type</label>
+              <select ng-model="newTransaction.paymentType" class="form-control">
+                <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
+                <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
+                <option value="SCHOLARSHIP">Scholarship</option>
+                <option value="TRANSFER">Account Transfer</option>
+                <option value="CHECK">Check</option>
+                <option value="CASH">Cash</option>
+                <option value="ADDITIONAL_EXPENSE">Additional Expense</option>
+              </select>
+            </div>
+
+            <div class="col-sm-5">
+              <label>Amount</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                <input type="text" class="form-control marginless" ng-model="newTransaction.amount">
+              </div>
+            </div>
+          </div>
+          <div ng-show="newTransaction.paymentType === 'CREDIT_CARD'">
+            <div class="form-group">
+              <label>Name on Card</label>
+              <input ng-model="newTransaction.creditCard.nameOnCard" type="text" class="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label>Credit Card Number</label>
+              <input ng-model="newTransaction.creditCard.number" type="text" class="form-control" autocomplete="off" maxlength="16" />
+            </div>
+
+            <div class="form-group">
+              <label>Credit Card CVV</label>
+              <input ng-model="newTransaction.creditCard.cvvNumber" type="text" class="form-control" autocomplete="off" maxlength="4" />
+            </div>
+
+            <div class="row form-group">
+          <div class="col-sm-7 stacked-spacing-col-sm">
+                <label>Credit Card Expiration Month</label>
+                <select ng-model="newTransaction.creditCard.expirationMonth" class="form-control">
+                  <option value=''>Month</option>
+                  <option value='01'>01 - January</option>
+                  <option value='02'>02 - February</option>
+                  <option value='03'>03 - March</option>
+                  <option value='04'>04 - April</option>
+                  <option value='05'>05 - May</option>
+                  <option value='06'>06 - June</option>
+                  <option value='07'>07 - July</option>
+                  <option value='08'>08 - August</option>
+                  <option value='09'>09 - September</option>
+                  <option value='10'>10 - October</option>
+                  <option value='11'>11 - November</option>
+                  <option value='12'>12 - December</option>
+                </select>
               </div>
 
-              <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
-            </td>
-          </tr>
-          <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
-            <td>
-              {{expense.createdTimestamp | date:'MMM d, y h:mm a'}}
-            </td>
-            <td>
-              <input type="number" ng-model="editExpense.amount" class="form-control" step="0.01" min="0">
-            </td>
-            <td>
-              <input type="text" ng-model="editExpense.description" class="form-control">
-            </td>
-            <td>
-              <button class="btn btn-success" ng-click="saveExpenseEdits(editExpense)">Save</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </tab>
-    <tab heading="Add">
-      <div class="row form-group">
-        <div class="col-sm-7 stacked-spacing-col-sm">
-          <label>Type</label>
-          <select ng-model="newTransaction.paymentType" class="form-control">
-            <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
-            <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
-            <option value="SCHOLARSHIP">Scholarship</option>
-            <option value="TRANSFER">Account Transfer</option>
-            <option value="CHECK">Check</option>
-            <option value="CASH">Cash</option>
-            <option value="ADDITIONAL_EXPENSE">Additional Expense</option>
-          </select>
-        </div>
-
-        <div class="col-sm-5">
-          <label>Amount</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-            <input type="text" class="form-control marginless" ng-model="newTransaction.amount">
-          </div>
-        </div>
-      </div>
-      <div ng-show="newTransaction.paymentType === 'CREDIT_CARD'">
-        <div class="form-group">
-          <label>Name on Card</label>
-          <input ng-model="newTransaction.creditCard.nameOnCard" type="text" class="form-control" />
-        </div>
-
-        <div class="form-group">
-          <label>Credit Card Number</label>
-          <input ng-model="newTransaction.creditCard.number" type="text" class="form-control" autocomplete="off" maxlength="16" />
-        </div>
-
-        <div class="form-group">
-          <label>Credit Card CVV</label>
-          <input ng-model="newTransaction.creditCard.cvvNumber" type="text" class="form-control" autocomplete="off" maxlength="4" />
-        </div>
-
-        <div class="row form-group">
-          <div class="col-sm-7 stacked-spacing-col-sm">
-            <label>Credit Card Expiration Month</label>
-            <select ng-model="newTransaction.creditCard.expirationMonth" class="form-control">
-              <option value=''>Month</option>
-              <option value='01'>01 - January</option>
-              <option value='02'>02 - February</option>
-              <option value='03'>03 - March</option>
-              <option value='04'>04 - April</option>
-              <option value='05'>05 - May</option>
-              <option value='06'>06 - June</option>
-              <option value='07'>07 - July</option>
-              <option value='08'>08 - August</option>
-              <option value='09'>09 - September</option>
-              <option value='10'>10 - October</option>
-              <option value='11'>11 - November</option>
-              <option value='12'>12 - December</option>
-            </select>
+              <div class="col-sm-5">
+                <label>Credit Card Expiration Year</label>
+                <select ng-model="newTransaction.creditCard.expirationYear" class="form-control">
+                  <option value=''>Year</option>
+                  <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
+                </select>
+              </div>
+            </div>
           </div>
 
-          <div class="col-sm-5">
-            <label>Credit Card Expiration Year</label>
-            <select ng-model="newTransaction.creditCard.expirationYear" class="form-control">
-              <option value=''>Year</option>
-              <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
-            </select>
+          <div ng-show="newTransaction.paymentType === 'OFFLINE_CREDIT_CARD'">
+            <div class="form-group">
+              <label>Transaction ID (required)</label>
+              <input ng-model="newTransaction.offlineCreditCard.transactionId" type="text" class="form-control" />
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div ng-show="newTransaction.paymentType === 'OFFLINE_CREDIT_CARD'">
-        <div class="form-group">
-          <label>Transaction ID (required)</label>
-          <input ng-model="newTransaction.offlineCreditCard.transactionId" type="text" class="form-control" />
-        </div>
-      </div>
+          <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
+            <div class="form-group">
+              <label>Source (account/chartfield)</label>
+              <input ng-model="newTransaction.scholarship.source" type="text" class="form-control" />
+            </div>
+          </div>
 
-      <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
-        <div class="form-group">
-          <label>Source (account/chartfield)</label>
-          <input ng-model="newTransaction.scholarship.source" type="text" class="form-control" />
-        </div>
-      </div>
+          <div ng-show="newTransaction.paymentType === 'TRANSFER'">
+            <div class="form-group">
+              <label>Source (account/chartfield)</label>
+              <input ng-model="newTransaction.transfer.source" type="text" class="form-control" />
+            </div>
+          </div>
 
-      <div ng-show="newTransaction.paymentType === 'TRANSFER'">
-        <div class="form-group">
-          <label>Source (account/chartfield)</label>
-          <input ng-model="newTransaction.transfer.source" type="text" class="form-control" />
-        </div>
-      </div>
+          <div ng-show="newTransaction.paymentType === 'CHECK'">
+            <div class="form-group">
+              <label>Check Number</label>
+              <input ng-model="newTransaction.check.checkNumber" type="text" class="form-control" />
+            </div>
+          </div>
 
-      <div ng-show="newTransaction.paymentType === 'CHECK'">
-        <div class="form-group">
-          <label>Check Number</label>
-          <input ng-model="newTransaction.check.checkNumber" type="text" class="form-control" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <input ng-model="newTransaction.description" type="text" class="form-control" />
-      </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input ng-model="newTransaction.description" type="text" class="form-control" />
+          </div>
 
       <!--<div class="checkbox" ng-show="newTransaction.paymentType !== 'ADDITIONAL_EXPENSE'">
-				  <label>
-					<input type="checkbox" ng-model="newTransaction.sendEmailReceipt"> Send email receipt to registrant(s)
-				  </label>
-				</div>-->
+            <label>
+              <input type="checkbox" ng-model="newTransaction.sendEmailReceipt"> Send email receipt to registrant(s)
+            </label>
+          </div>-->
       <div class="form-group text-right">
-        <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing">Process</button>
-        <span ng-show="processing">Processing...</span>
-      </div>
-    </tab>
-  </tabset>
+            <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing">Process</button>
+            <span ng-show="processing">Processing...</span>
+          </div>
+        </tab>
+      </tabset>
 </div>

@@ -62,6 +62,10 @@ angular.module('confRegistrationWebApp')
         $scope.newTransaction.readyToProcess = true;
       }
 
+      if($scope.newTransaction.paymentType === 'SCHOLARSHIP') {
+        $scope.newTransaction.scholarship.scholarshipStatus = 'APPROVED';
+      }
+
       $http.post(path, $scope.newTransaction).success(function () {
         loadPayments();
         if(path === 'expenses'){
@@ -164,6 +168,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.savePaymentEdits = function (payment) {
+      if(payment.paymentType === 'SCHOLARSHIP'){
+        payment.scholarship.scholarshipStatus = 'APPROVED';
+      }
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
