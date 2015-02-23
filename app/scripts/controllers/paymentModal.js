@@ -71,6 +71,10 @@ angular.module('confRegistrationWebApp')
         transaction.readyToProcess = true;
       }
 
+      if(transaction.paymentType === 'SCHOLARSHIP') {
+        transaction.scholarship.scholarshipStatus = 'APPROVED';
+      }
+
       if(transaction.paymentType === 'CREDIT_CARD'){
         $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
           ccp.initialize(ccpClientEncryptionKey);
@@ -190,6 +194,9 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.savePaymentEdits = function (payment) {
+      if(payment.paymentType === 'SCHOLARSHIP'){
+        payment.scholarship.scholarshipStatus = 'APPROVED';
+      }
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
