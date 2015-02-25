@@ -217,6 +217,7 @@
         <div class="col-sm-7 stacked-spacing-col-sm">
           <label>Type</label>
           <select ng-model="newTransaction.paymentType" class="form-control">
+            <option value="" disabled selected>Choose one...</option>
             <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
             <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
             <option value="SCHOLARSHIP">Scholarship</option>
@@ -248,7 +249,7 @@
 
         <div class="row form-group">
           <div class="col-sm-6 stacked-spacing-col-sm">
-            <label>Credit Card Expiration Month</label>
+            <label>Expiration Month</label>
             <select ng-model="newTransaction.creditCard.expirationMonth" class="form-control">
               <option value=''>Month</option>
               <option value='01'>01 - January</option>
@@ -266,8 +267,8 @@
             </select>
           </div>
 
-          <div class="col-sm-3">
-            <label>Credit Card Expiration Year</label>
+          <div class="col-sm-3 stacked-spacing-col-sm">
+            <label>Expiration Year</label>
             <select ng-model="newTransaction.creditCard.expirationYear" class="form-control">
               <option value=''>Year</option>
               <option value='{{currentYear+$index}}' ng-repeat="t in [0,1,2,3,4,5]">{{currentYear+$index}}</option>
@@ -275,7 +276,7 @@
           </div>
 
           <div class="col-sm-3">
-            <label>Credit Card CVV</label>
+            <label>Verification Code</label>
             <input ng-model="newTransaction.creditCard.cvvNumber" type="text" class="form-control" autocomplete="off" maxlength="4" />
           </div>
         </div>
