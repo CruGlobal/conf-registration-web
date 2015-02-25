@@ -20,31 +20,25 @@
     </div>
     <ul id="event-list">
       <li class="event-box" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEventsFilter}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
+        <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">
+          <i class="fa fa-users green"></i>
+          <strong>{{event.completedRegistrationCount}}</strong> Registered
+        </button>
         <h2>{{event.name}}</h2>
-        <div class="row">
-          <div class="col-sm-9">
-            <ul class="list-inline" ng-if="!event.archived">
-              <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
-              <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
-              <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
-              <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-            </ul>
-            <ul class="list-inline" ng-if="event.archived">
-              <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
-              <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-            </ul>
-          </div>
-          <div class="col-sm-3">
-            <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">
-              <i class="fa fa-users green"></i>
-              <strong>{{event.completedRegistrationCount}}</strong> Registered
-            </button>
-          </div>
-        </div>
+        <ul class="list-inline" ng-if="!event.archived">
+          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+        </ul>
+        <ul class="list-inline" ng-if="event.archived">
+          <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+        </ul>
       </li>
     </ul>
-<!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
-    <a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
+    <!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
+		<a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
     <label>
       <input type="checkbox" ng-model="showArchivedEvents"> Show archived events
     </label>
