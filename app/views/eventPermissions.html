@@ -1,4 +1,37 @@
 <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
+<h2 ng-show="requestedPermissions.length">Pending Users</h2>
+<table class="table table-striped" ng-show="requestedPermissions.length">
+  <thead>
+  <tr>
+    <th>User</th>
+    <th style="width:160px;">Level</th>
+    <th style="width:160px;">Requested</th>
+    <th style="width:85px;">Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="permission in requestedPermissions = (currentPermissions | filter:{ permissionLevel: 'REQUESTED' }) | orderBy: ['lastName', 'firstName', 'emailAddress']">
+      <td>
+        <span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}
+        <span ng-if="permission.reasonForRequest">
+          <br><strong>Reason: </strong>{{permission.reasonForRequest}}
+        </span>
+      </td>
+      <td>
+        <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+          <option value="FULL">Full</option>
+          <option value="UPDATE">Update</option>
+          <option value="SCHOLARSHIP">Scholarship</option>
+          <option value="VIEW">View</option>
+          <option ng-if="permission.permissionLevel === 'REQUESTED'" value="REQUESTED">Requested</option>
+        </select>
+      </td>
+      <td>{{permission.timestamp | date:'short'}}</td>
+      <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
+    </tr>
+  </tbody>
+</table>
+
 <h2>Current Users</h2>
 <table class="table table-striped">
   <thead>
@@ -10,7 +43,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="permission in currentPermissions | orderBy: ['lastName', 'firstName', 'emailAddress']">
+    <tr ng-repeat="permission in currentPermissions | filter:{ permissionLevel: '!REQUESTED' } | orderBy: ['lastName', 'firstName', 'emailAddress']">
       <td><span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}</td>
       <td>
         <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
@@ -19,7 +52,6 @@
           <option value="UPDATE">Update</option>
           <option value="SCHOLARSHIP">Scholarship</option>
           <option value="VIEW">View</option>
-          <option ng-if="permission.permissionLevel === 'REQUESTED'" value="REQUESTED">Requested</option>
         </select>
       </td>
       <td>{{permission.timestamp | date:'short'}}</td>
