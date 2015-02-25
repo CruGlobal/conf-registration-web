@@ -94,7 +94,7 @@
               <label><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)"> Cru Profile</label>
             </div>
           </tab>
-          <tab heading="Registration Types" ng-if="canChangeRegTypes">
+          <tab heading="Registration Types" disabled="!canChangeRegTypes">
             <div class="form-group">
               <label>Show this question for the following registration types:</label>
               <div ng-repeat="type in conference.registrantTypes" class="checkbox">
