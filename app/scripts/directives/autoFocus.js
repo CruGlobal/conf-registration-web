@@ -3,7 +3,7 @@
 angular.module('confRegistrationWebApp').directive('autoFocus', function($timeout) {
   return {
     restrict: 'A',
-    link: function postLink(scope, element) {
+    link: function(scope, element) {
         $timeout(function () {
           element[0].focus();
         }, 300);
