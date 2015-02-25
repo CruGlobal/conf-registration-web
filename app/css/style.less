@@ -154,11 +154,17 @@ h2.page-title{
 .stacked-spacing-col-sm {
   @media (max-width: 767px) {
     margin-bottom: 1em;
+    &.spacing-xs{
+      margin-bottom: 0.5em;
+    }
   }
 }
 .stacked-spacing-col-md {
   @media (max-width: 991px) {
     margin-bottom: 1em;
+    &.spacing-xs{
+      margin-bottom: 0.5em;
+    }
   }
 }
 .btn.btn-spacing-below, .btn-group.btn-group-spacing-below{
@@ -353,11 +359,12 @@ body.frontend {
         border-top: 1px solid #ddd;
       }
       padding: 10px 5px;
-      h4, h5 {
+      h4 {
         margin-top: 0;
       }
-      h5 {
+      .cost {
         font-size: 16px;
+        padding-right: 20px;
       }
     }
   }

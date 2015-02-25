@@ -1,12 +1,10 @@
 <div class="row reg-type-select" ng-repeat="type in visibleRegistrantTypes" ng-if="visibleRegistrantTypes.length > 1">
-  <div ng-class="{'col-xs-7': type.cost>0, 'col-xs-9': type.cost==0}">
+  <div class="stacked-spacing-col-sm spacing-xs" ng-class="{'col-sm-8': type.cost>0, 'col-sm-9': type.cost==0}">
     <h4>{{type.name}}</h4>
     <span class="display-linebreaks">{{type.description}}</span>
   </div>
-  <div class="col-xs-2 text-right" ng-show="type.cost">
-    <h5>{{type.cost | moneyFormat}}</h5>
-  </div>
-  <div class="col-xs-3 text-right">
+  <div class="text-right" ng-class="{'col-sm-4': type.cost>0, 'col-sm-3': type.cost==0}">
+    <span class="cost" ng-if="type.cost">{{type.cost | moneyFormat}}</span>
     <a href="" ng-click="newRegistrant(type.id)" class="btn btn-sm btn-success btn-important">
       Register
     </a>
