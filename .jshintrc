@@ -29,6 +29,7 @@
     "jQuery": false,
     "moment": false,
     "Hoptoad": false,
-    "confirm": false
+    "confirm": false,
+    "ccp": false
   }
 }
