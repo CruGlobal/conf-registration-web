@@ -27,98 +27,90 @@
     <button class="btn btn-default" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> Delete</button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> Move</span>
-  </div>
-  <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
-  <ng-switch on="block.type">
+    </div>
+      <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
+      <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
-    <text-question block="block" ng-switch-when="textQuestion"></text-question>
-    <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
-    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
-    <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
-    <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
-    <name-question block="block" ng-switch-when="nameQuestion"></name-question>
-    <address-question block="block" ng-switch-when="addressQuestion"></address-question>
-    <number-question block="block" ng-switch-when="numberQuestion"></number-question>
-    <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
-    <date-question block="block" ng-switch-when="dateQuestion"></date-question>
-    <year-in-school-question block="block" ng-switch-when="yearInSchoolQuestion"></year-in-school-question>
-  </ng-switch>
+        <text-question block="block" ng-switch-when="textQuestion"></text-question>
+        <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
+        <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
+        <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+        <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
+        <email-question block="block" ng-switch-when="emailQuestion"></email-question>
+        <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+        <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+        <address-question block="block" ng-switch-when="addressQuestion"></address-question>
+        <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+        <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+        <date-question block="block" ng-switch-when="dateQuestion"></date-question>
+        <year-in-school-question block="block" ng-switch-when="yearInSchoolQuestion"></year-in-school-question>
+      </ng-switch>
 
-  <div class="edit-options" ng-if="editBlock">
-    <ul class="nav nav-tabs">
-      <li ng-class="{active: activeTab === 'options'}"><a href="" ng-click="activeTab = 'options'">Options</a></li>
-      <li ng-class="{active: activeTab === 'regTypes'}"><a href="" ng-click="activeTab = 'regTypes'">Registration Types</a></li>
-      <li ng-class="{active: activeTab === 'advanced'}"><a href="" ng-click="activeTab = 'advanced'">Advanced</a></li>
-    </ul>
+      <div class="edit-options" ng-if="editBlock">
+        <!-- Tab panes -->
+        <tabset>
+          <tab heading="Options">
+            <div class="form-group">
+                  <label class="inline-label">Title</label>
+                  <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
+            </div>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane fade in" ng-class="{active: activeTab === 'options'}">
-        <div class="form-group">
-          <label class="inline-label">Title</label>
-          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
-        </div>
-
-        <div class="form-group" ng-show="block.type === 'paragraphContent'">
-          <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
-        </div>
-        <div class="form-group" ng-show="hasOptions">
-          <label>Possible Answers</label>
-          <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
-            <div class="input-group">
-              <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
+            <div class="form-group" ng-show="block.type === 'paragraphContent'">
+              <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
+            </div>
+            <div class="form-group" ng-show="hasOptions">
+              <label>Possible Answers</label>
+              <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
+                  <div class="input-group">
+                      <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
                       <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
                         <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> Options</span></button>
                         <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> Delete</span></button>
                       </span>
-            </div>
-          </div>
+                  </div>
+              </div>
 
-          <div class="input-group spacing-above-md">
-            <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
+              <div class="input-group spacing-above-md">
+                  <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> Add</button>
                   </span>
-          </div>
+              </div>
 
-          <div class="checkbox" ng-if="block.type === 'radioQuestion'">
-            <label><input type="checkbox" ng-model="block.content.otherOption.enabled"> Allow custom "other" option</label>
+              <div class="checkbox" ng-if="block.type === 'radioQuestion'">
+                <label><input type="checkbox" ng-model="block.content.otherOption.enabled"> Allow custom "other" option</label>
+              </div>
           </div>
-        </div>
 
         <div class="checkbox" ng-if="requiredOption">
-          <label><input type="checkbox" ng-model="block.required"> Required</label>
-        </div>
+              <label><input type="checkbox" ng-model="block.required"> Required</label>
+            </div>
         <div class="checkbox" ng-if="profileOption || block.profileType">
           <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> Cru Profile</label>
-        </div>
-      </div>
-
-
-      <div class="tab-pane fade in" ng-class="{active: activeTab === 'regTypes'}">
-        <div class="form-group">
-          <label>Show this question for the following registration types:</label>
-          <div ng-repeat="type in conference.registrantTypes" class="checkbox">
-            <label>
-              <input type="checkbox"
-                     ng-model="$parent.visibleRegTypes[type.id]"
-                     ng-value="true"> {{type.name}}
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade in" ng-class="{active: activeTab === 'advanced'}">
-        <label class="inline-label">Export Title</label>
-        <i popover="Enter a value here to replace the question title in a registration export."
-           popover-trigger="mouseenter" class="fa fa-question-circle btn-link"></i>
+            </div>
+          </tab>
+          <tab heading="Registration Types" disabled="!canChangeRegTypes">
+            <div class="form-group">
+              <label>Show this question for the following registration types:</label>
+              <div ng-repeat="type in conference.registrantTypes" class="checkbox">
+                <label>
+                  <input type="checkbox"
+                         ng-model="$parent.visibleRegTypes[type.id]"
+                         ng-value="true"> {{type.name}}
+                </label>
+              </div>
+            </div>
+          </tab>
+          <tab heading="Advanced">
+            <label class="inline-label">Export Title</label>
+            <i popover="Enter a value here to replace the question title in a registration export."
+               popover-trigger="mouseenter" class="fa fa-question-circle btn-link"></i>
         <input type="text"
                class="form-control field-label"
-               ng-model="block.exportFieldTitle" />
-      </div>
-    </div>
+                   ng-model="block.exportFieldTitle" />
+          </tab>
+        </tabset>
   </div>
-</div>
+  </div>
