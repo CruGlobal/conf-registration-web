@@ -91,7 +91,7 @@ angular.module('confRegistrationWebApp')
         }else if($scope.order === 'email') {
           return registration.email;
         }else if($scope.order === 'checkedIn') {
-          return registration.checkedIn;
+          return registration.checkedInTimestamp;
         }else{
           if (angular.isDefined(findAnswer(registration, $scope.order))) {
             var answerValue = findAnswer(registration, $scope.order).value;
@@ -212,9 +212,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.filterCheckedIn = function(registrant){
       if ($scope.filterCheckedInRegistrations === 'hide') {
-        return !registrant.checkedIn;
+        return !registrant.checkedInTimestamp;
       } else if ($scope.filterCheckedInRegistrations === 'only') {
-        return registrant.checkedIn;
+        return registrant.checkedInTimestamp;
       } else {
         return true;
       }
@@ -404,12 +404,12 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var originalValue = angular.copy(registrant.checkedIn);
-      registrant.checkedIn = (value ? new Date() : null);
+      var originalValue = angular.copy(registrant.checkedInTimestamp);
+      registrant.checkedInTimestamp = (value ? new Date() : null);
 
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
-        registrant.checkedIn = originalValue;
+        registrant.checkedInTimestamp = originalValue;
         alert('An error occurred while updating this registration.');
       });
     };
