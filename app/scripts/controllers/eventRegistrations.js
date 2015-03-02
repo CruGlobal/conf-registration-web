@@ -53,12 +53,14 @@ angular.module('confRegistrationWebApp')
     // toggle (show/hide) column(s)
     $scope.toggleColumn = function (block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
-      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
       localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
-      if(!$scope.blocks[block].visible){
-        return;
+      if($scope.blocks[block].visible){
+        $scope.refreshRegistrations();
       }
+    };
 
+    $scope.refreshRegistrations = function(){
       RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
         $scope.registrations = registrations;
         $scope.registrants = _.flatten(registrations, 'registrants');
@@ -405,7 +407,7 @@ angular.module('confRegistrationWebApp')
       }
 
       var originalValue = angular.copy(registrant.checkedInTimestamp);
-      registrant.checkedInTimestamp = (value ? new Date() : null);
+      registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){

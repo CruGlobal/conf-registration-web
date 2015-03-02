@@ -23,14 +23,16 @@
           Registration type:
           <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
-        <div class="col-md-4 text-center">
+        <div class="col-md-3 text-center">
           <br>
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>More Filters</button>
         </div>
-        <div class="col-md-1 colright">
-          Columns<br>
+        <div class="col-md-2 colright">
+          <br>
+          <button class="btn btn-primary" ng-click="refreshRegistrations()">Refresh</button>
           <div class="btn-group columns-btn">
             <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
+              Columns
               <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
               <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
             </button>
