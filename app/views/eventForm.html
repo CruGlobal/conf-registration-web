@@ -1,8 +1,8 @@
 <div class="alert growl-message" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.message && !growlMessage"></div>
 <div class="row">
   <!-- Elements -->
-  <div form-elements class="col-xs-12" ng-show="conference.registrationPages.length > 0">
-    <div class="questions-toolbar-container">
+  <div ng-controller="AngularUiTreeConfig" class="col-xs-12" ng-show="conference.registrationPages.length > 0">
+    <div class="questions-toolbar-container" question-toolbar>
       <div class="well well-sm questions-toolbar">
         <div class="row">
           <div class="col-sm-4 hidden-xs">
