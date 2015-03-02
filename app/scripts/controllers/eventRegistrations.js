@@ -381,7 +381,7 @@ angular.module('confRegistrationWebApp')
 
       registrant.withdrawn = value;
       if(value){
-        //used to update front view only, backend generates it's own timestamp
+        //used to update front view only, backend generates its own timestamp
         registrant.withdrawnTimestamp = new Date();
       }
 
