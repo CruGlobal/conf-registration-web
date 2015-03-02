@@ -29,9 +29,9 @@
         </div>
         <div class="col-md-2 colright">
           <br>
-          <button class="btn btn-primary" ng-click="refreshRegistrations()">Refresh</button>
+          <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i> Refresh</button>
           <div class="btn-group columns-btn">
-            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-model="columnsDropdownToggle" btn-checkbox>
               Columns
               <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
               <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
