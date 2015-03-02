@@ -108,18 +108,6 @@ angular.module('confRegistrationWebApp')
       return tempPositionArray;
     };
 
-    $scope.moveBlock = function (blockId, newPage, newPosition) {
-      var tempPositionArray = makePositionArray();
-      var newPageIndex = _.findIndex($scope.conference.registrationPages, { id: newPage });
-      var origPageIndex = tempPositionArray[blockId].page;
-
-      var origBlock = angular.copy($scope.conference.registrationPages[origPageIndex].blocks[tempPositionArray[blockId].block]);
-      origBlock.pageId = newPage;
-
-      deleteBlockFromPage(blockId);
-      $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, origBlock);
-    };
-
     $scope.copyBlock = function (blockId) {
       var tempPositionArray = makePositionArray();
       var origPageIndex = tempPositionArray[blockId].page;
@@ -159,7 +147,8 @@ angular.module('confRegistrationWebApp')
         required: false,
         title: title,
         type: blockType,
-        profileType: profileType
+        profileType: profileType,
+        registrantTypes: []
       };
 
       $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
@@ -288,6 +277,7 @@ angular.module('confRegistrationWebApp')
       $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
     };
 
+    //Logic to handle collapsing pages
     var hiddenPages = [];
     $scope.togglePage = function(id) {
       if(_.contains(hiddenPages, id)) {
@@ -299,15 +289,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.isPageHidden = function(id) {
       return _.contains(hiddenPages, id);
-    };
-
-    $scope.movePage = function (pageId, newPosition) {
-      var origPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-      var origPage = $scope.conference.registrationPages[origPageIndex];
-
-      $scope.$apply(function (scope) {
-        scope.conference.registrationPages.splice(origPageIndex, 1);
-        scope.conference.registrationPages.splice(newPosition, 0, origPage);
-      });
     };
   });

@@ -139,18 +139,13 @@ angular.module('confRegistrationWebApp')
         if($scope.wizard){
           $scope.activeTab = 'options';
           $scope.visibleRegTypes = {};
+          //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
           angular.forEach($scope.conference.registrantTypes, function(type) {
             $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
           });
           $scope.$watch('visibleRegTypes', function (object) {
-            if (angular.isDefined(object)) {
-              $scope.block.registrantTypes = [];
-              angular.forEach(object, function(v, k) {
-                if(!v){
-                  $scope.block.registrantTypes.push(k);
-                }
-              });
-            }
+            //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
+            $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; }));
           }, true);
 
           var typeToProfile = [];

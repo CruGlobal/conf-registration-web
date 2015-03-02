@@ -8,7 +8,7 @@
     "angular-bootstrap": "~0.12.0",
     "eonasdan-bootstrap-datetimepicker": "3.1.2",
     "pickadate": "3.5.4",
-    "angular-ui-tree": "2.1.5",
+    "angular-ui-tree": "https://github.com/OzzieOrca/angular-ui-tree.git#fix-watches",
     "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip"
   },
   "devDependencies": {}
