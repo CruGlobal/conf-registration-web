@@ -59,6 +59,11 @@ angular.module('confRegistrationWebApp')
         }
       }
 
+      if(permissions.permissionInt < permissionConstants.FULL && _.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], $scope.newTransaction.paymentType)){
+        alert(permissionRequiredMsg);
+        return;
+      }
+
       $scope.processing = true;
       var transaction = angular.copy($scope.newTransaction);
       var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
