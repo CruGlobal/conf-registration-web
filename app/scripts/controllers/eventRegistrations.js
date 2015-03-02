@@ -10,12 +10,15 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
+    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
 
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.reversesort = false;
     $scope.order = 'lastName';
-    $scope.showRegistrationsCompleted = 1;
+    $scope.filterIncompleteRegistrations = 'hide';
+    $scope.filterCheckedInRegistrations = 'show';
+    $scope.filterWithdrawnRegistrations = 'show';
     $scope.filterRegistrantType = '';
     $scope.visibleFilterRegistrantTypes = _.sortBy(conference.registrantTypes, 'name');
     $scope.visibleFilterRegistrantTypes.unshift({
@@ -50,12 +53,14 @@ angular.module('confRegistrationWebApp')
     // toggle (show/hide) column(s)
     $scope.toggleColumn = function (block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
-      var visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
       localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
-      if(!$scope.blocks[block].visible){
-        return;
+      if($scope.blocks[block].visible){
+        $scope.refreshRegistrations();
       }
+    };
 
+    $scope.refreshRegistrations = function(){
       RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
         $scope.registrations = registrations;
         $scope.registrants = _.flatten(registrations, 'registrants');
@@ -87,6 +92,8 @@ angular.module('confRegistrationWebApp')
           return registration.lastName;
         }else if($scope.order === 'email') {
           return registration.email;
+        }else if($scope.order === 'checkedIn') {
+          return registration.checkedInTimestamp;
         }else{
           if (angular.isDefined(findAnswer(registration, $scope.order))) {
             var answerValue = findAnswer(registration, $scope.order).value;
@@ -194,10 +201,32 @@ angular.module('confRegistrationWebApp')
       return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
 
-    $scope.completeStatus = function (registrant) {
-      var registration = _.find(registrations, { 'id': registrant.registrationId });
-      if ($scope.showRegistrationsCompleted) {
-          return registration.completed;
+    $scope.filterCompleteStatus = function (registrant) {
+      var registration = _.find(registrations, {'id': registrant.registrationId});
+      if ($scope.filterIncompleteRegistrations === 'hide') {
+        return registration.completed;
+      } else if ($scope.filterIncompleteRegistrations === 'only') {
+        return !registration.completed;
+      } else {
+        return true;
+      }
+    };
+
+    $scope.filterCheckedIn = function(registrant){
+      if ($scope.filterCheckedInRegistrations === 'hide') {
+        return !registrant.checkedInTimestamp;
+      } else if ($scope.filterCheckedInRegistrations === 'only') {
+        return registrant.checkedInTimestamp;
+      } else {
+        return true;
+      }
+    };
+
+    $scope.filterWithdrawn = function(registrant){
+      if ($scope.filterWithdrawnRegistrations === 'hide') {
+        return !registrant.withdrawn;
+      } else if ($scope.filterWithdrawnRegistrations === 'only') {
+        return registrant.withdrawn;
       } else {
         return true;
       }
@@ -243,7 +272,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+              return permissionRequiredMsg;
             }
           }
         });
@@ -310,7 +339,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+              return permissionRequiredMsg;
             }
           }
         });
@@ -343,7 +372,7 @@ angular.module('confRegistrationWebApp')
           controller: 'genericModal',
           resolve: {
             data: function () {
-              return 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+              return permissionRequiredMsg;
             }
           }
         });
@@ -352,12 +381,37 @@ angular.module('confRegistrationWebApp')
 
       registrant.withdrawn = value;
       if(value){
+        //used to update front view only, backend generates its own timestamp
         registrant.withdrawnTimestamp = new Date();
       }
 
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
         registrant.withdrawn = !value;
+        alert('An error occurred while updating this registration.');
+      });
+    };
+
+    $scope.checkInRegistrant = function(registrant, value){
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        $modal.open({
+          templateUrl: 'views/modals/errorModal.html',
+          controller: 'genericModal',
+          resolve: {
+            data: function () {
+              return permissionRequiredMsg;
+            }
+          }
+        });
+        return;
+      }
+
+      var originalValue = angular.copy(registrant.checkedInTimestamp);
+      registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
+
+      //update registration
+      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+        registrant.checkedInTimestamp = originalValue;
         alert('An error occurred while updating this registration.');
       });
     };

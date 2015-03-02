@@ -11,10 +11,7 @@
   <table class="table table-striped">
     <tr>
       <td>
-        <div class="col-md-1">
-          <h4>Filter</h4>
-        </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           Visible columns contains:
           <input type="text" class="form-control" ng-model="searchFilter">
         </div>
@@ -26,17 +23,16 @@
           Registration type:
           <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
-        <div class="col-md-2">
-          Incomplete registrations:<br>
-          <div class="btn-group">
-            <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="0">Show</label>
-            <label class="btn btn-default" ng-model="showRegistrationsCompleted" btn-radio="1">Hide</label>
-          </div>
+        <div class="col-md-3 text-center">
+          <br>
+          <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>More Filters</button>
         </div>
-        <div class="col-md-1 colright">
-          Columns<br>
+        <div class="col-md-2 colright">
+          <br>
+          <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i> Refresh</button>
           <div class="btn-group columns-btn">
-            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-click="columnsDropdownToggle=!columnsDropdownToggle">
+            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-model="columnsDropdownToggle" btn-checkbox>
+              Columns
               <i class="fa fa-bars" ng-show="!columnsDropdownToggle"></i>
               <i class="fa fa-times" ng-show="columnsDropdownToggle"></i>
             </button>
@@ -49,12 +45,49 @@
                 </a>
               </li>
             </ul>
-
           </div>
         </div>
       </td>
     </tr>
   </table>
+  <div class="well" collapse="!showMoreFilters">
+    <div class="row">
+      <div class="col-sm-offset-7 col-sm-2">
+        <label>Incomplete registrations</label>
+      </div>
+      <div class="col-sm-3">
+        <div class="btn-group">
+          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'show'">Show</label>
+          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'hide'">Hide</label>
+          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'only'">Only</label>
+        </div>
+      </div>
+    </div>
+    <div class="row top-buffer">
+      <div class="col-sm-offset-7 col-sm-2">
+        <label>Checked-in registrations</label>
+      </div>
+      <div class="col-sm-3">
+        <div class="btn-group">
+          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'show'">Show</label>
+          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'hide'">Hide</label>
+          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'only'">Only</label>
+        </div>
+      </div>
+    </div>
+    <div class="row top-buffer">
+      <div class="col-sm-offset-7 col-sm-2">
+        <label>Withdrawn registrations</label>
+      </div>
+      <div class="col-sm-3">
+        <div class="btn-group">
+          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'show'">Show</label>
+          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'hide'">Hide</label>
+          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'only'">Only</label>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
 
@@ -87,11 +120,12 @@
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('created')">Started</a> <i ng-if="order === 'created'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
       <th class="tablecenter" width="160"><a href="" ng-click="setOrder('completed')">Completed</a> <i ng-if="order === 'completed'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
       <th ng-show="eventHasCost()" class="tablecenter" width="60">Paid</th>
-      <th class="tablecenter" width="160">Options</th>
+      <th class="tablecenter" width="108"><a href="" ng-click="setOrder('checkedIn')">Checked-in</a> <i ng-if="order === 'checkedIn'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+      <th class="tablecenter" width="150">Options</th>
       <th width="30"></th>
     </tr>
   </thead>
-  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:completeStatus)) | orderBy:answerSort:reversesort">
+  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:filterCompleteStatus | filter:filterCheckedIn | filter:filterWithdrawn)) | orderBy:answerSort:reversesort">
     <tr ng-class="{'active': $even}" class="noselect">
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
@@ -115,6 +149,10 @@
         <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
         <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
       </td>
+      <td class="tablecenter">
+        <i class="fa fa-check" ng-show="r.checkedInTimestamp"></i>
+        <i class="fa fa-minus" ng-show="!r.checkedInTimestamp"></i>
+      </td>
       <td class="tablecenter registration_edit_buttons">
         <button ng-click="editRegistrant(r)" title="Edit Registration">
           <i class="fa fa-edit"></i>
@@ -122,15 +160,38 @@
         <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
           <i class="fa fa-usd"></i>
         </button>
-        <button ng-click="withdrawRegistrant(r, true)" title="Withdraw Registrant" ng-show="!r.withdrawn">
-          <i class="fa fa-sign-out"></i>
-        </button>
-        <button ng-click="withdrawRegistrant(r, false)" title="Reinstate Registrant" ng-show="r.withdrawn">
-          <i class="fa fa-sign-in"></i>
-        </button>
-        <button ng-click="deleteRegistrant(r)" title="Delete Registration">
-          <i class="fa fa-trash-o"></i>
-        </button>
+        <div class="btn-group" dropdown>
+          <button type="button" class="dropdown-toggle" dropdown-toggle>
+            More <i class="fa fa-caret-down"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li ng-show="!r.withdrawn && !r.checkedInTimestamp">
+              <a href="" ng-click="checkInRegistrant(r, true)">
+                <i class="fa fa-check-square-o"></i> Check-in
+              </a>
+            </li>
+            <li ng-show="r.checkedInTimestamp">
+              <a href="" ng-click="checkInRegistrant(r, false)">
+                <i class="fa fa-square-o"></i> Remove Check-in
+              </a>
+            </li>
+            <li ng-show="!r.withdrawn">
+              <a href="" ng-click="withdrawRegistrant(r, true)">
+                <i class="fa fa-sign-out"></i> Withdraw
+              </a>
+            </li>
+            <li ng-show="r.withdrawn">
+              <a href="" ng-click="withdrawRegistrant(r, false)">
+                <i class="fa fa-sign-in"></i> Reinstate
+              </a>
+            </li>
+            <li>
+              <a href="" ng-click="deleteRegistrant(r)">
+                <i class="fa fa-trash-o"></i> Delete
+              </a>
+            </li>
+          </ul>
+        </div>
       </td>
       <td class="tablecenter rowtoggle" ng-click="expandRegistration(r.id)">
         <i class="fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
@@ -154,6 +215,10 @@
           <div class="row" ng-show="r.withdrawn">
             <div class="leftside">Withdrawn on</div>
             <div class="rightside">{{r.withdrawnTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+          </div>
+          <div class="row" ng-show="r.checkedInTimestamp">
+            <div class="leftside">Checked in at</div>
+            <div class="rightside">{{r.checkedInTimestamp | evtDateFormat: conference.eventTimezone}}</div>
           </div>
         </div>
       </td>
