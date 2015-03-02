@@ -38,9 +38,13 @@
               </tr>
             </tbody>
             <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
-              <tr ng-click="expandExpense[expense.id] = !expandExpense[expense.id]">
+              <tr>
                 <td></td>
-                <td>Additional Expense: {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})</td>
+                <td>
+                  <span ng-if="expense.amount > 0">Additional Expense:</span>
+                  <span ng-if="expense.amount < 0">Discount:</span>
+                  {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})
+                </td>
                 <td>{{expense.amount | moneyFormat}}</td>
               </tr>
             </tbody>
@@ -213,13 +217,18 @@
             <div class="col-sm-7">
               <label>Type</label>
               <select ng-model="newTransaction.paymentType" class="form-control">
-                <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
-                <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
-                <option value="SCHOLARSHIP">Scholarship</option>
-                <option value="TRANSFER">Account Transfer</option>
-                <option value="CHECK">Check</option>
-                <option value="CASH">Cash</option>
-                <option value="ADDITIONAL_EXPENSE">Additional Expense</option>
+                <optgroup label="Payment">
+                  <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
+                  <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
+                  <option value="SCHOLARSHIP">Scholarship</option>
+                  <option value="TRANSFER">Account Transfer</option>
+                  <option value="CHECK">Check</option>
+                  <option value="CASH">Cash</option>
+                </optgroup>
+                <optgroup label="Other">
+                  <option value="DISCOUNT">Discount</option>
+                  <option value="ADDITIONAL_EXPENSE">Additional Expense</option>
+                </optgroup>
               </select>
             </div>
 
