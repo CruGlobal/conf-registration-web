@@ -165,23 +165,23 @@
             More <i class="fa fa-caret-down"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-right">
-            <li>
-              <a href="" ng-click="checkInRegistrant(r, true)" ng-show="!r.withdrawn && !r.checkedInTimestamp">
+            <li ng-show="!r.withdrawn && !r.checkedInTimestamp">
+              <a href="" ng-click="checkInRegistrant(r, true)">
                 <i class="fa fa-check-square-o"></i> Check-in
               </a>
             </li>
-            <li>
-              <a href="" ng-click="checkInRegistrant(r, false)" ng-show="!r.withdrawn && r.checkedInTimestamp">
-                <i class="fa fa-check-square-o"></i> Remove Check-in
+            <li ng-show="r.checkedInTimestamp">
+              <a href="" ng-click="checkInRegistrant(r, false)">
+                <i class="fa fa-square-o"></i> Remove Check-in
               </a>
             </li>
-            <li>
-              <a href="" ng-click="withdrawRegistrant(r, true)" ng-show="!r.withdrawn && !r.checkedInTimestamp">
+            <li ng-show="!r.withdrawn">
+              <a href="" ng-click="withdrawRegistrant(r, true)">
                 <i class="fa fa-sign-out"></i> Withdraw
               </a>
             </li>
-            <li>
-              <a href="" ng-click="withdrawRegistrant(r, false)" ng-show="r.withdrawn">
+            <li ng-show="r.withdrawn">
+              <a href="" ng-click="withdrawRegistrant(r, false)">
                 <i class="fa fa-sign-in"></i> Reinstate
               </a>
             </li>
