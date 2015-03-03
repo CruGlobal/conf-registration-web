@@ -471,27 +471,27 @@ main {
 
 /*** Page Styles ***/
 main.dashboard {
-   .landing-jumbo {
-     background-color: #ECF0F1;
-     background-image: url('/img/rough_diagonal.png');
-     background-repeat: repeat;
-     padding: 30px;
-     border-top: 2px #D5D5D5 solid;
-     border-bottom: 2px #D5D5D5 solid;
-     .fa-users{
-       font-size: 11em;
-     }
-     .welcome{
-       font-size: 3.75em;
-       display: block;
-       text-transform: uppercase;
-       .sans-serif-bold;
-     }
-     .container{
-       margin: auto;
-     }
-   }
- }
+  .landing-jumbo {
+    background-color: #ECF0F1;
+    background-image: url('/img/rough_diagonal.png');
+    background-repeat: repeat;
+    padding: 30px;
+    border-top: 2px #D5D5D5 solid;
+    border-bottom: 2px #D5D5D5 solid;
+    .fa-users{
+      font-size: 11em;
+    }
+    .welcome{
+      font-size: 3.75em;
+      display: block;
+      text-transform: uppercase;
+      .sans-serif-bold;
+    }
+    .container{
+      margin: auto;
+    }
+  }
+}
 main.event-dashboard {
   aside.welcome {
     color: @sixgray;
@@ -543,26 +543,26 @@ main.event-dashboard {
   }
 }
 main.event-overview {
-   section {
-     padding-bottom: 20px;
-   }
-   .event-stats-section {
-     text-align: center;
-     .stats-heading {
-       font-size: 17px;
-       color: #636363;
-       text-transform: uppercase;
-     }
-     .eventstat-icon{
-       font-size: 48px;
-     }
-     a.link {
-       .green;
-       .sans-serif-bold;
-       font-size: 15px;
-     }
-   }
- }
+  section {
+    padding-bottom: 20px;
+  }
+  .event-stats-section {
+    text-align: center;
+    .stats-heading {
+      font-size: 17px;
+      color: #636363;
+      text-transform: uppercase;
+    }
+    .eventstat-icon{
+      font-size: 48px;
+    }
+    a.link {
+      .green;
+      .sans-serif-bold;
+      font-size: 15px;
+    }
+  }
+}
 main.event-registrations {
   .full {
     width: 100%;
@@ -583,8 +583,17 @@ main.event-registrations {
       text-overflow: ellipsis;
     }
   }
-  .registration_edit_buttons button{
-    width: 32px;
+  .well-border-above{
+    border-top: 1px #E8E8E8 solid;
+    padding-top: 1em;
+  }
+  .registration-edit-buttons{
+    > button {
+      width: 32px;
+    }
+    .btn-group {
+      vertical-align: inherit;
+    }
   }
   .strike-through{
     text-decoration:line-through;
