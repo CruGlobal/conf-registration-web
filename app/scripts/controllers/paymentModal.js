@@ -35,7 +35,7 @@ angular.module('confRegistrationWebApp')
         alert('Please select a transaction type.');
         return;
       }
-      if (Number($scope.newTransaction.amount) <= 0) {
+      if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
         alert('Transaction amount must be a positive number.');
         return;
       }
@@ -66,6 +66,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
       var transaction = angular.copy($scope.newTransaction);
+      transaction.amount = Number(transaction.amount);
       var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
       delete transaction.sendEmailReceipt;
 
