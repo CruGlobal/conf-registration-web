@@ -14,11 +14,14 @@
               </tr>
             </thead>
             <tbody ng-repeat="r in registration.registrants">
-              <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
+              <tr>
                 <td>
-                  <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
+                  <i class="fa"
+                     ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
+                     ng-show="!r.withdrawn"
+                     ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"></i>
                 </td>
-                <td>{{r.firstName}} {{r.lastName}}</td>
+                <td ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
                 <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
               </tr>
               <tr ng-show="expandRegistrantCost[r.id]">
