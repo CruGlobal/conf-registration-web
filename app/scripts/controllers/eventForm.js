@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container form-builder',
@@ -79,15 +79,7 @@ angular.module('confRegistrationWebApp')
     $scope.deletePage = function (pageId, growl) {
       var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
       if ($scope.conference.registrationPages[delPageIndex].blocks.length > 0) {
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please remove all questions from page before deleting.';
-            }
-          }
-        });
+        modalMessage.error('Please remove all questions from page before deleting.');
         return;
       }
       if (growl) {

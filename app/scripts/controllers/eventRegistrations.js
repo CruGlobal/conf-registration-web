@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, errorModal, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
 
     function hasPermission(){
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        errorModal.show('You do not have permission to perform this action. Please contact an event administrator to request permission.');
+        modalMessage.error('You do not have permission to perform this action. Please contact an event administrator to request permission.');
         return false;
       }else{
         return true;
@@ -151,7 +151,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
         });
       }).error(function(){
-        errorModal.show('Error: registration data could be be retrieved.');
+        modalMessage.error('Error: registration data could be be retrieved.');
       });
     };
 
@@ -263,7 +263,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          errorModal.show('Error: registrant data could be be retrieved.');
+          modalMessage.error('Error: registrant data could be be retrieved.');
           delete expandedRegistrations[r];
         });
       }
@@ -306,7 +306,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        errorModal.show('Error: registrant data could be be retrieved.');
+        modalMessage.error('Error: registrant data could be be retrieved.');
         delete expandedRegistrations[r];
       });
     };
@@ -369,7 +369,7 @@ angular.module('confRegistrationWebApp')
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
         registrant.withdrawn = !value;
-        errorModal.show('An error occurred while withdrawing this registrant.');
+        modalMessage.error('An error occurred while withdrawing this registrant.');
       });
     };
 
@@ -384,7 +384,7 @@ angular.module('confRegistrationWebApp')
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
         registrant.checkedInTimestamp = originalValue;
-        errorModal.show('An error occurred while checking in this registrant.');
+        modalMessage.error('An error occurred while checking in this registrant.');
       });
     };
 
@@ -393,34 +393,27 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var modalInstance = $modal.open({
-        templateUrl: 'views/modals/deleteRegistration.html',
-        controller: 'deleteRegistrationCtrl'
-      });
+      modalMessage.confirm('Delete Registration', 'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.', 'Delete', 'Cancel', true).then(function(){
+        var registration = _.find(registrations, { 'id': registrant.registrationId });
+        var url = 'registrations/' + registration.id;
 
-      modalInstance.result.then(function (doDelete) {
-        if (doDelete) {
-          var registration = _.find(registrations, { 'id': registrant.registrationId });
-          var url = 'registrations/' + registration.id;
-
-          if(registration.registrants.length > 1){
-            //Delete Registrant
-            url = 'registrants/' + registrant.id;
-          }
-
-          $http({
-            method: 'DELETE',
-            url: url
-          }).success(function () {
-            _.remove($scope.registrants, function (r) {
-              return r.id === registrant.id;
-            });
-
-            _.remove(registration.registrants, function (r) {
-              return r.id === registrant.id;
-            });
-          });
+        if(registration.registrants.length > 1){
+          //Delete Registrant
+          url = 'registrants/' + registrant.id;
         }
+
+        $http({
+          method: 'DELETE',
+          url: url
+        }).success(function () {
+          _.remove($scope.registrants, function (r) {
+            return r.id === registrant.id;
+          });
+
+          _.remove(registration.registrants, function (r) {
+            return r.id === registrant.id;
+          });
+        });
       });
     };
   });

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('ConfCache', function ConfCache($cacheFactory, $rootScope, $http, $q, uuid) {
+  .service('ConfCache', function ConfCache($cacheFactory, $rootScope, $http, $q, uuid, modalMessage) {
     var cache = $cacheFactory('conf');
 
     var path = function (id) {
@@ -104,7 +104,7 @@ angular.module('confRegistrationWebApp')
           cache.removeAll();
           return conference;
         } else {
-          alert('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
+          modalMessage.error('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
         }
       });
     };

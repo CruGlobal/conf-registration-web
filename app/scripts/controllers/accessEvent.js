@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AccessEventCtrl', function ($scope, $http, $modalInstance) {
+  .controller('AccessEventCtrl', function ($scope, $http, $modalInstance, modalMessage) {
     $scope.close = function () {
       $modalInstance.dismiss();
     };
@@ -18,7 +18,7 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         $modalInstance.close();
       }).error(function (data) {
-        alert('Error: ' + data);
+        modalMessage.error('Error: ' + data);
       });
     };
 
