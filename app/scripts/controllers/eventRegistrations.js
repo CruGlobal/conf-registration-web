@@ -386,7 +386,15 @@ angular.module('confRegistrationWebApp')
       }
 
       //update registration
-      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
+      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
+      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
+
+      $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
+      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
+        $rootScope.loadingMsg = '';
+      }).error(function(){
+        $rootScope.loadingMsg = '';
         registrant.withdrawn = !value;
         alert('An error occurred while updating this registration.');
       });
@@ -410,7 +418,15 @@ angular.module('confRegistrationWebApp')
       registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
       //update registration
-      $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
+      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
+      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
+      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
+
+      $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
+      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
+        $rootScope.loadingMsg = '';
+      }).error(function(){
+        $rootScope.loadingMsg = '';
         registrant.checkedInTimestamp = originalValue;
         alert('An error occurred while updating this registration.');
       });
