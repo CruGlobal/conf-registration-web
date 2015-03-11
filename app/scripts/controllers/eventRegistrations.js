@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, errorModal, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -10,7 +10,15 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+
+    function hasPermission(){
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        errorModal.show('You do not have permission to perform this action. Please contact an event administrator to request permission.');
+        return false;
+      }else{
+        return true;
+      }
+    }
 
     $scope.conference = conference;
     $scope.blocks = [];
@@ -143,7 +151,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
         });
       }).error(function(){
-        alert('Error: registration data could be be retrieved.');
+        errorModal.show('Error: registration data could be be retrieved.');
       });
     };
 
@@ -255,7 +263,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          alert('Error: registrant data could be be retrieved.');
+          errorModal.show('Error: registrant data could be be retrieved.');
           delete expandedRegistrations[r];
         });
       }
@@ -266,16 +274,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.editRegistrant = function (r) {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return permissionRequiredMsg;
-            }
-          }
-        });
+      if(!hasPermission()){
         return;
       }
 
@@ -307,7 +306,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        alert('Error: registrant data could be be retrieved.');
+        errorModal.show('Error: registrant data could be be retrieved.');
         delete expandedRegistrations[r];
       });
     };
@@ -333,16 +332,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registerUser = function () {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return permissionRequiredMsg;
-            }
-          }
-        });
+      if(!hasPermission()){
         return;
       }
 
@@ -366,16 +356,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.withdrawRegistrant = function(registrant, value){
-      if(permissions.permissionInt < permissionConstants.UPDATE){
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return permissionRequiredMsg;
-            }
-          }
-        });
+      if(!hasPermission()){
         return;
       }
 
@@ -388,21 +369,12 @@ angular.module('confRegistrationWebApp')
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
         registrant.withdrawn = !value;
-        alert('An error occurred while updating this registration.');
+        errorModal.show('An error occurred while withdrawing this registrant.');
       });
     };
 
     $scope.checkInRegistrant = function(registrant, value){
-      if(permissions.permissionInt < permissionConstants.UPDATE){
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return permissionRequiredMsg;
-            }
-          }
-        });
+      if(!hasPermission()){
         return;
       }
 
@@ -412,21 +384,12 @@ angular.module('confRegistrationWebApp')
       //update registration
       $http.put('registrations/' + registrant.registrationId, $scope.getRegistration(registrant.registrationId)).error(function(){
         registrant.checkedInTimestamp = originalValue;
-        alert('An error occurred while updating this registration.');
+        errorModal.show('An error occurred while checking in this registrant.');
       });
     };
 
     $scope.deleteRegistrant = function (registrant) {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'You do not have permission to perform this action. Please contact an event admin to request permission.';
-            }
-          }
-        });
+      if(!hasPermission()){
         return;
       }
 
