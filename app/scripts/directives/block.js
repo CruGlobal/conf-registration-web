@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, $modal, AnswerCache, RegistrationCache, uuid) {
+      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, RegistrationCache, uuid) {
 
         /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
         if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices) && $scope.block.content.choices.length){
@@ -112,7 +112,7 @@ angular.module('confRegistrationWebApp')
                   choice.amount = choice.amount.replace(',','');
                 }
                 if(_.isNaN(Number(choice.amount))){
-                  alert('Error: please enter a valid additional cost.');
+                  modalMessage.error('Error: please enter a valid additional cost.');
                 }else{
                   $modalInstance.close(choice);
                 }
@@ -179,7 +179,7 @@ angular.module('confRegistrationWebApp')
               });
             });
             if (profileCount > 1) {
-              alert('Only one ' +
+              modalMessage.error('Only one ' +
                 $scope.block.profileType.charAt(0).toUpperCase() +
                 $scope.block.profileType.slice(1).toLowerCase() +
                 ' profile block can be used per form.');

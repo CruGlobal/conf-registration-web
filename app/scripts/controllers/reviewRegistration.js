@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $modal, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -92,15 +92,7 @@ angular.module('confRegistrationWebApp')
       }
 
       if (!_.isEmpty($scope.currentPayment.errors)) {
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return $scope.currentPayment.errors;
-            }
-          }
-        });
+        modalMessage.error($scope.currentPayment.errors, false, 'Please correct the following errors:');
         $scope.submittingRegistration = false;
         return;
       }
@@ -126,7 +118,7 @@ angular.module('confRegistrationWebApp')
           currentPayment.creditCard.cvvNumber = ccp.encrypt(currentPayment.creditCard.cvvNumber);
           postPayment(currentPayment);
         }).error(function() {
-          alert('An error occurred while requesting the ccp encryption key. Please try your payment again.');
+          modalMessage.error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
         });
       }else{
         postPayment(currentPayment);
@@ -143,17 +135,7 @@ angular.module('confRegistrationWebApp')
         }
       }).error(function () {
         $scope.submittingRegistration = false;
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          backdrop: 'static',
-          keyboard: false,
-          resolve: {
-            data: function () {
-              return 'Your payment was declined, please verify your details or use a different payment method.';
-            }
-          }
-        });
+        modalMessage.error('Your payment was declined, please verify your details or use a different payment method.', true);
       });
     };
 
@@ -166,7 +148,7 @@ angular.module('confRegistrationWebApp')
       }, function () {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        alert('An error occurred while submitting your registration.');
+        modalMessage.error('An error occurred while submitting your registration.');
       });
     };
 
@@ -175,12 +157,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeRegistrant = function (id) {
-      if(!confirm('Are you sure you want to delete this registrant?')){
-        return;
-      }
-      _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
-      RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
-        $route.reload();
+      modalMessage.confirm('Delete registrant?', 'Are you sure you want to delete this registrant?').then(function(){
+        _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
+        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
+          $route.reload();
+        });
       });
     };
 

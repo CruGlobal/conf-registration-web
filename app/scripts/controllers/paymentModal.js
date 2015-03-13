@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, $http, registration, conference, permissions, permissionConstants) {
+  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
@@ -32,17 +32,17 @@ angular.module('confRegistrationWebApp')
 
     $scope.processTransaction = function () {
       if (_.isEmpty($scope.newTransaction.paymentType)) {
-        alert('Please select a transaction type.');
+        modalMessage.error('Please select a transaction type.');
         return;
       }
       if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
-        alert('Transaction amount must be a positive number.');
+        modalMessage.error('Transaction amount must be a positive number.');
         return;
       }
       if ($scope.newTransaction.paymentType === 'CREDIT_CARD') {
         var validationError = ccp.validateCardNumber($scope.newTransaction.creditCard.number || '');
         if(validationError){
-          alert('Please enter a valid card number. The ' + validationError + '.');
+          modalMessage.error('Please enter a valid card number. The ' + validationError + '.');
           return;
         }
       }
@@ -50,17 +50,17 @@ angular.module('confRegistrationWebApp')
       if(permissions.permissionInt < permissionConstants.UPDATE){
         if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
           if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
-            alert('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
+            modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
             return;
           }
         }else{
-          alert(permissionRequiredMsg);
+          modalMessage.error(permissionRequiredMsg);
           return;
         }
       }
 
       if(permissions.permissionInt < permissionConstants.FULL && _.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], $scope.newTransaction.paymentType)){
-        alert(permissionRequiredMsg);
+        modalMessage.error(permissionRequiredMsg);
         return;
       }
 
@@ -93,7 +93,7 @@ angular.module('confRegistrationWebApp')
           postTransaction(path, transaction);
         }).error(function() {
           $scope.processing = false;
-          alert('An error occurred while requesting the ccp encryption key.');
+          modalMessage.error('An error occurred while requesting the ccp encryption key.');
         });
       }else{
         postTransaction(path, transaction);
@@ -109,7 +109,7 @@ angular.module('confRegistrationWebApp')
           $scope.activeTab[1] = true;
         }
       }).error(function () {
-        alert('Transaction failed.');
+        modalMessage.error('Transaction failed.');
         $scope.processing = false;
       });
     };
@@ -142,7 +142,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.startRefund = function (payment) {
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        alert(permissionRequiredMsg);
+        modalMessage.error(permissionRequiredMsg);
         return;
       }
       $scope.paymentToRefund = payment;
@@ -178,7 +178,7 @@ angular.module('confRegistrationWebApp')
           $scope.refund = null;
         });
       }).error(function () {
-        alert('Refund failed...');
+        modalMessage.error('Refund failed...');
         $scope.processing = false;
       });
     };
@@ -189,17 +189,18 @@ angular.module('confRegistrationWebApp')
 
     $scope.removeExpense = function (expense) {
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        alert(permissionRequiredMsg);
+        modalMessage.error(permissionRequiredMsg);
         return;
       }
 
-      if(confirm('Are you sure you want to delete this expense?')) {
+      modalMessage.confirm('Delete Expense?', 'Are you sure you want to delete this expense?').then(function(){
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
         }).error(function () {
-          alert('An error occurred while deleting this expense.');
+          modalMessage.error('An error occurred while deleting this expense.');
         });
-      }
+      });
+
     };
 
     $scope.savePaymentEdits = function (payment) {
@@ -219,7 +220,7 @@ angular.module('confRegistrationWebApp')
         if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
           $scope.editPayment = angular.copy(payment);
         }else{
-          alert(permissionRequiredMsg);
+          modalMessage.error(permissionRequiredMsg);
         }
       }
     };
@@ -247,16 +248,16 @@ angular.module('confRegistrationWebApp')
     $scope.deletePayment = function (payment) {
       if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
       }else{
-        alert(permissionRequiredMsg);
+        modalMessage.error(permissionRequiredMsg);
         return;
       }
-      if(confirm('Are you sure you want to delete this payment?')) {
+      modalMessage.confirm('Delete payment?', 'Are you sure you want to delete this payment?').then(function(){
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
         }).error(function () {
-          alert('An error occurred while deleting this payment.');
+          modalMessage.error('An error occurred while deleting this payment.');
         });
-      }
+      });
     };
 
     $scope.openEditExpenseRow = function (expense) {
@@ -264,7 +265,7 @@ angular.module('confRegistrationWebApp')
         delete $scope.editExpense;
       } else {
         if(permissions.permissionInt < permissionConstants.UPDATE){
-          alert(permissionRequiredMsg);
+          modalMessage.error(permissionRequiredMsg);
           return;
         }
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, $http, $q, conference, registrantId, registration) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
@@ -20,12 +20,13 @@ angular.module('confRegistrationWebApp')
       $scope.saving = true;
 
       if(setRegistrationAsCompleted){
-        if (!confirm('Are you sure you want to mark this registration as completed?')) {
+        modalMessage.confirm('Mark as completed?', 'Are you sure you want to mark this registration as completed?').then(function(){
+          $scope.registration.completed = true;
+          saveAllAnswers();
+        },
+        function(){
           $scope.saving = false;
-          return;
-        }
-        $scope.registration.completed = true;
-        saveAllAnswers();
+        });
       }else if(originalRegistrantObject.registrantTypeId !== $scope.adminEditRegistrant.registrantTypeId){ //check if registrant type has been changed
         saveAllAnswers();
       }else{
@@ -43,7 +44,7 @@ angular.module('confRegistrationWebApp')
     var saveAllAnswers = function() {
       $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(getRegistrantAndClose).error(function(){
         $scope.saving = false;
-        alert('An error occurred while saving this registration.');
+        modalMessage.error('An error occurred while saving this registration.');
       });
     };
 
