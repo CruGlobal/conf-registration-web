@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, $location, $http, Model, uuid) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, modalMessage, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-dashboard',
@@ -68,7 +68,7 @@ angular.module('confRegistrationWebApp')
         //Clear cache
         ConfCache.empty();
       }).error(function (data) {
-        alert('Error: ' + data);
+        modalMessage.error('Error: ' + data);
         eventData.archived = true;
       });
     };

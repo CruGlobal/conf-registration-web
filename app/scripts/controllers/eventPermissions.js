@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -76,23 +76,22 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePermission = function (id) {
-      if(!confirm('Are you sure you want to remove this user?')){
-        return;
-      }
-      $http({
-        method: 'DELETE',
-        url: 'permissions/' + id
-      }).success(function () {
-        getPermissions();
-        $scope.notify = {
-          class: 'alert-success',
-          message: $sce.trustAsHtml('User removed.')
-        };
-      }).error(function (data) {
-        $scope.notify = {
-          class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data)
-        };
+      modalMessage.confirm('Remove User?', 'Are you sure you want to remove this user?', 'Yes', 'No').then(function(){
+        $http({
+          method: 'DELETE',
+          url: 'permissions/' + id
+        }).success(function () {
+          getPermissions();
+          $scope.notify = {
+            class: 'alert-success',
+            message: $sce.trustAsHtml('User removed.')
+          };
+        }).error(function (data) {
+          $scope.notify = {
+            class: 'alert-danger',
+            message: $sce.trustAsHtml('Error: ' + data)
+          };
+        });
       });
     };
   });

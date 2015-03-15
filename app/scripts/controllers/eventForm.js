@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, $location, $anchorScroll, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-questions',
@@ -39,9 +39,9 @@ angular.module('confRegistrationWebApp')
 
       formSaving = true;
       /*$scope.notify = {
-        class: 'alert-warning',
-        message: $sce.trustAsHtml('Saving...')
-      };*/
+       class: 'alert-warning',
+       message: $sce.trustAsHtml('Saving...')
+       };*/
 
       $http({
         method: 'PUT',
@@ -79,15 +79,7 @@ angular.module('confRegistrationWebApp')
     $scope.deletePage = function (pageId, growl) {
       var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
       if ($scope.conference.registrationPages[delPageIndex].blocks.length > 0) {
-        $modal.open({
-          templateUrl: 'views/modals/errorModal.html',
-          controller: 'genericModal',
-          resolve: {
-            data: function () {
-              return 'Please remove all questions from page before deleting.';
-            }
-          }
-        });
+        modalMessage.error('Please remove all questions from page before deleting.');
         return;
       }
       if (growl) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('PaymentApprovalCtrl', function ($scope, $rootScope, $routeParams, $http) {
+  .controller('PaymentApprovalCtrl', function ($scope, $rootScope, $routeParams, $http, modalMessage) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
           $scope.payment = paymentObject;
         }).
         error(function() {
-          alert('An error occurred while saving the payment.');
+          modalMessage.error('An error occurred while saving the payment.');
           $scope.posting = false;
         });
     };
