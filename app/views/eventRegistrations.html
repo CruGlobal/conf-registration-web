@@ -13,15 +13,22 @@
       <td>
         <div class="col-md-3">
           Visible columns contains:
-          <input type="text" class="form-control" ng-model="searchFilter">
+          <input type="text" class="form-control" ng-model="queryParameters.filter">
         </div>
         <div class="col-md-2" ng-show="eventHasCost()">
           Payment status:
-          <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
+          <select ng-model="queryParameters.filterPayment" class="form-control">
+            <option value="">-Any-</option>
+            <option value="full">Full/Overpaid</option>
+            <option value="partial">Partial</option>
+            <option value="full-partial">Full/Partial</option>
+            <option value="none">Not Paid</option>
+            <option value="over">Overpaid</option>
+          </select>
         </div>
         <div class="col-md-2">
           Registration type:
-          <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
+          <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
         </div>
         <div class="col-md-2 text-right">
           <br>
@@ -57,9 +64,9 @@
       </div>
       <div class="col-sm-3">
         <div class="btn-group">
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterIncomplete" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterIncomplete" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterIncomplete" btn-radio="'only'">Only</label>
         </div>
       </div>
     </div>
@@ -69,9 +76,9 @@
       </div>
       <div class="col-sm-3">
         <div class="btn-group">
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterCheckin" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterCheckin" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterCheckin" btn-radio="'only'">Only</label>
         </div>
       </div>
     </div>
@@ -81,21 +88,41 @@
       </div>
       <div class="col-sm-3">
         <div class="btn-group">
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterWithdrawn" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterWithdrawn" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.filterWithdrawn" btn-radio="'only'">Only</label>
         </div>
       </div>
     </div>
   </div>
 </div>
-<p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
-
-<div ng-if="registrants.length === 0">
-  <p>No one has registered for this event yet.</p>
+<nav class="pull-right">
+  <ul class="pagination">
+    <li ng-if="queryParameters.page > 1">
+      <a href="" ng-click="queryParameters.page = queryParameters.page - 1" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li ng-repeat="i in paginationRange()" ng-class="{active: queryParameters.page === i}">
+      <a href="" ng-click="queryParameters.page = i">{{i}}</a>
+    </li>
+    <li ng-if="queryParameters.page !== meta.totalPages">
+      <a href="" ng-click="queryParameters.page = queryParameters.page + 1" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div ng-if="registrants.length > 0">
+  <p>Page {{queryParameters.page}} of {{meta.totalPages}}</p>
+  <p>Showing {{registrants.length || 0}} of {{meta.totalRegistrants}} registration(s)</p>
 </div>
 
-<table class="table" ng-show="regFilter.length > 0">
+<div ng-if="registrants.length === 0">
+  <p>No registrations have been found to match your filter.</p>
+</div>
+
+<table class="table" ng-show="registrants.length > 0">
   <thead>
     <tr>
       <th>
@@ -125,7 +152,7 @@
       <th width="30"></th>
     </tr>
   </thead>
-  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:filterCompleteStatus | filter:filterCheckedIn | filter:filterWithdrawn)) | orderBy:answerSort:reversesort">
+  <tbody ng-repeat="r in registrants">
     <tr ng-class="{'active': $even}" class="noselect">
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
       <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>

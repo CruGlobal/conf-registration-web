@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, RegistrationCache, registrations, conference, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, RegistrationCache, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -22,21 +22,51 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = conference;
     $scope.blocks = [];
+    $scope.queryParameters = {
+      //blocks: [],
+      page: 1,
+      limit: 20,
+      orderBy: 'last_name',
+      order: 'ASC',
+      filter: '',
+      filterPayment: '',
+      filterRegType: '',
+      filterCheckin: 'yes',
+      filterWithdrawn: 'yes',
+      filterIncomplete: 'no'
+    };
+    $scope.meta = {
+      totalPages: 0
+    };
+    $scope.$watch('queryParameters', function(q, oldQ){
+      //reset page
+      if(q.page > 1 && q.page === oldQ.page){
+        $scope.queryParameters.page = 1;
+        return;
+      }
+      console.log($scope.queryParameters);
+
+      $scope.refreshRegistrations();
+    }, true);
+
+
+    $scope.paginationRange = function(){
+      var start = 1, end = $scope.meta.totalPages;
+
+      var pagination = [start].concat(_.range(($scope.queryParameters.page - 3), $scope.queryParameters.page + 4), _.range((end - 1), end));
+      _.remove(pagination, function(num) {
+        return num < 1 || num >= end;
+      });
+      return _.uniq(pagination);
+    };
     $scope.reversesort = false;
     $scope.order = 'lastName';
-    $scope.filterIncompleteRegistrations = 'hide';
-    $scope.filterCheckedInRegistrations = 'show';
-    $scope.filterWithdrawnRegistrations = 'show';
     $scope.filterRegistrantType = '';
-    $scope.visibleFilterRegistrantTypes = _.sortBy(conference.registrantTypes, 'name');
-    $scope.visibleFilterRegistrantTypes.unshift({
+    $scope.visibleFilterRegistrantTypes = _.sortBy(angular.copy(conference.registrantTypes).concat({
       id: '',
       name: '-Any-'
-    });
+    }), 'name');
     var expandedRegistrations = {};
-
-    $scope.registrations = registrations;
-    $scope.registrants = _.flatten(registrations, 'registrants');
 
     //collect all blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
@@ -69,10 +99,15 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.refreshRegistrations = function(){
-      RegistrationCache.getAllForConference(conference.id, visibleBlocks).then(function(registrations){
-        $scope.registrations = registrations;
-        $scope.registrants = _.flatten(registrations, 'registrants');
+      RegistrationCache.getAllForConference(conference.id, $scope.queryParameters).then(function(data){
+        console.log(data);
+        $scope.meta = data.meta;
+        $scope.registrations = data.registrations;
+        $scope.registrants = _.flatten(data.registrations, 'registrants');
         expandedRegistrations = {};
+      }, function(){
+        $scope.registrations = [];
+        $scope.registrants = [];
       });
     };
 
@@ -155,62 +190,15 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    // define payment categories
-    $scope.paymentCategories = [
-      {
-        name: '-Any-',
-        matches: function () {
-          return true;
-        }
-      },
-      {
-        name: 'Full/Overpaid',
-        matches: function (x, y) {
-          return x >= y;
-        }
-      },
-      {
-        name: 'Partial',
-        matches: function (x, y) {
-          return x > 0 && x < y;
-        }
-      },
-      {
-        name: 'Full/Partial',
-        matches: function (x) {
-          return x > 0;
-        }
-      },
-      {
-        name: 'Not Paid',
-        matches: function (x) {
-          if (x === null) {
-            return true;
-          }
-
-          return x <= 0;
-        }
-      },
-      {
-        name: 'Overpaid',
-        matches: function (x, y) {
-          return x > y;
-        }
-      }
-    ];
-
-    // set current to first in array
-    $scope.currentPaymentCategory = _.first($scope.paymentCategories).name;
-
     // determine if registration payment status matches current payment category
     $scope.paymentStatus = function (registrant) {
-      var registration = _.find(registrations, { 'id': registrant.registrationId });
+      var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
       return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
 
     $scope.filterCompleteStatus = function (registrant) {
-      var registration = _.find(registrations, {'id': registrant.registrationId});
+      var registration = _.find($scope.registrations, {'id': registrant.registrationId});
       if ($scope.filterIncompleteRegistrations === 'hide') {
         return registration.completed;
       } else if ($scope.filterIncompleteRegistrations === 'only') {
@@ -241,7 +229,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.paidInFull = function (registrantId) {
-      var registration = _.find(registrations, { 'id': registrantId });
+      var registration = _.find($scope.registrations, { 'id': registrantId });
       return registration.totalPaid >= registration.calculatedTotalDue;
     };
 
@@ -348,7 +336,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.getRegistration = function(id){
-      return _.find(registrations, { 'id': id });
+      return _.find($scope.registrations, { 'id': id });
     };
 
     $scope.getRegistrantType = function(id){
