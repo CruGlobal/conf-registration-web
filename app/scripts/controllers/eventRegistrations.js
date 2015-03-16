@@ -194,6 +194,9 @@ angular.module('confRegistrationWebApp')
     $scope.paymentStatus = function (registrant) {
       var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
       var paymentCategory = _.find($scope.paymentCategories, { 'name': $scope.currentPaymentCategory });
+      if(angular.isUndefined(registration)){
+        return false;
+      }
       return paymentCategory.matches(registration.totalPaid, registration.calculatedTotalDue);
     };
 
