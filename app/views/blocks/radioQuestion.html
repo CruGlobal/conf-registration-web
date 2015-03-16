@@ -3,15 +3,14 @@
     <input type="radio"
            show-errors
            name="{{block.id}}"
-           ng-required="block.required"
            ng-model="answer.value"
            ng-value="choice.value">
     <strong>{{choice.value}}</strong>
-    <span ng-show="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
-    <span ng-show="choice.amount"> - {{choice.amount | moneyFormat}}</span>
+    <span ng-if="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
+    <span ng-if="choice.amount"> - {{choice.amount | moneyFormat}}</span>
   </label>
 </div>
-<label ng-show="block.content.otherOption.enabled">
-  <input type="radio" ng-checked="answer.value === otherAnswer && answer.value !== ''" ng-click="selectOtherAnswer()">
-  <input type="text" class="form-control" ng-model="otherAnswer" ng-change="selectOtherAnswer()" style="display:inline;width:auto;">
+<label ng-if="block.content.otherOption.enabled">
+  <input type="radio" ng-model="answer.value" ng-value="otherAnswer">
+  <input type="text" class="form-control" ng-model="otherAnswer" ng-change="answer.value = otherAnswer" style="display:inline;width:auto;">
 </label>

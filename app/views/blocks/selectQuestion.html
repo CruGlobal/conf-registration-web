@@ -1,6 +1,6 @@
-<select show-errors ng-required="block.required" ng-model="answer.value" class="form-control">
+<select show-errors ng-model="answer.value" class="form-control">
   <option value="">Choose one...</option>
   <option value="{{choice.value}}" ng-repeat="choice in block.content.choices" ng-selected="{{choice.value === answer.value}}">
-    {{visibleValues[$index]}}
+    {{generateVisibleOption(choice)}}
   </option>
 </select>
