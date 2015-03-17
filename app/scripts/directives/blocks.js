@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/nameQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           firstName : {required: validation.genericValidators.required($scope.block.required)},
           lastName : {required: validation.genericValidators.required($scope.block.required)}
         };
@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/addressQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           address1 : {required: validation.genericValidators.required($scope.block.required)},
           city : {required: validation.genericValidators.required($scope.block.required)},
           state : {required: validation.genericValidators.required($scope.block.required)},
@@ -37,7 +37,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value : {requiredAndAtLeastOneChecked: function(){
             //$scope.atLeastOneChecked is used in the ng-required attribute of all choices so that when the value of atLeastOneChecked changes, all inputs are revalidated.
             $scope.atLeastOneChecked = angular.isDefined($scope.answer) && _.any($scope.answer.value, function(value){ return value === true; });
@@ -57,7 +57,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/emailQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required),
             email: validation.genericValidators.email()}
         };
@@ -72,7 +72,7 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       controller: function ($scope) {
         //named number2 because of a name collision with the number parser
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required),
             number2: validation.genericValidators.number()}
         };
@@ -86,7 +86,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/phoneQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required),
             phone: validation.genericValidators.phone()}
         };
@@ -100,7 +100,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/radioQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
         $scope.$watch('answer.value', function () {
@@ -126,7 +126,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/selectQuestion.html',
       restrict: 'E',
       controller: function ($scope, $filter) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
         $scope.generateVisibleOption = function(choice){
@@ -146,7 +146,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/textQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
       }
@@ -159,7 +159,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/genderQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
       }
@@ -172,7 +172,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/dateQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
       }
@@ -185,7 +185,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/yearInSchoolQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
       }
@@ -198,7 +198,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/textareaQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.validators = {
+        $scope.block.validators = {
           value: {required: validation.genericValidators.required($scope.block.required)}
         };
       }

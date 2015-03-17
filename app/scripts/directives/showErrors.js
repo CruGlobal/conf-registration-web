@@ -7,11 +7,11 @@ angular.module('confRegistrationWebApp')
       require: 'ngModel',
       link: function ($scope, element, attrs, ngModelCtrl) {
         //adds validator functions from blocks.js to the ngModel as validators
-        if($scope.validators !== undefined) {
-          if (_.has($scope.validators, 'value')) { //condition for blocks with only one input element and therefore only one answer
-            _.merge(ngModelCtrl.$validators, $scope.validators.value);
+        if($scope.block.validators !== undefined) {
+          if (_.has($scope.block.validators, 'value')) { //condition for blocks with only one input element and therefore only one answer
+            _.merge(ngModelCtrl.$validators, $scope.block.validators.value);
           }else{
-            _.merge(ngModelCtrl.$validators, $scope.validators[attrs.ngModel.replace('answer.value.', '')]);
+            _.merge(ngModelCtrl.$validators, $scope.block.validators[attrs.ngModel.replace('answer.value.', '')]);
           }
         }
 
