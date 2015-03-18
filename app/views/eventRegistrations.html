@@ -97,23 +97,9 @@
   </div>
 </div>
 <div ng-if="registrants.length > 0">
-  <nav class="pull-right">
-    <ul class="pagination">
-      <li ng-if="queryParameters.page > 1">
-        <a href="" ng-click="queryParameters.page = queryParameters.page - 1" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li ng-repeat="i in paginationRange()" ng-class="{active: queryParameters.page === i}">
-        <a href="" ng-click="queryParameters.page = i">{{i}}</a>
-      </li>
-      <li ng-if="queryParameters.page !== meta.totalPages">
-        <a href="" ng-click="queryParameters.page = queryParameters.page + 1" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div class="pull-right">
+    <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
+  </div>
 
   <p>Page {{queryParameters.page}} of {{meta.totalPages}}</p>
   <p>Showing {{registrants.length || 0}} of {{meta.totalRegistrantsFilter}} registration(s)</p>

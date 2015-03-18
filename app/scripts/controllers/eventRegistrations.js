@@ -55,18 +55,6 @@ angular.module('confRegistrationWebApp')
       $scope.refreshRegistrations();
     }, true);
 
-
-    $scope.paginationRange = function(){
-      var start = 1, end = $scope.meta.totalPages;
-
-      var pagination = [start].concat(_.range(($scope.queryParameters.page - 3), $scope.queryParameters.page + 4), _.range(end, end + 1));
-      _.remove(pagination, function(num) {
-        return num < 1 || num > end;
-      });
-      return _.uniq(pagination);
-    };
-
-
     //collect all blocks from the conferences' pages
     angular.forEach(conference.registrationPages, function (page) {
       angular.forEach(page.blocks, function (block) {
