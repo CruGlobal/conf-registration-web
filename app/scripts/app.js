@@ -192,7 +192,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                  * server side so the users access_token can be fetched to build the log out URL.
                  * after the GET, if successful, then delete the cookies. */
               } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
-                $http.get('/auth/facebook/logout').success(function (data, status, headers) {
+                $http.get('auth/facebook/logout').success(function (data, status, headers) {
                   delete $cookies.crsAuthProviderType;
                   delete $cookies.crsPreviousToken;
                   delete $cookies.crsToken;
