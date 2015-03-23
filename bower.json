@@ -9,7 +9,8 @@
     "eonasdan-bootstrap-datetimepicker": "3.1.2",
     "angular-ui-sortable": "0.13.1",
     "pickadate": "3.5.4",
-    "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip"
+    "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip",
+    "ng-facebook": "0.1.6"
   },
   "devDependencies": {}
 }

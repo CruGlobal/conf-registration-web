@@ -174,8 +174,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/logout/', {
         resolve: {
-          redirect: ['$location', '$cookies', '$window', '$http',
-            function ($location, $cookies, $window, $http) {
+          redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
+            function ($location, $cookies, $window, $http, $facebook) {
 
               /* if RELAY log out, delete the cookies first and then redirect.  cookies must be deleted
                * first b/c the browser is being redirected and will not come back here.  the auth token
@@ -192,12 +192,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
                  * server side so the users access_token can be fetched to build the log out URL.
                  * after the GET, if successful, then delete the cookies. */
               } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
-                $http.get('auth/facebook/logout').success(function (data, status, headers) {
+                $http.get('auth/facebook/logout').success(function () {
                   delete $cookies.crsAuthProviderType;
                   delete $cookies.crsPreviousToken;
                   delete $cookies.crsToken;
 
-                  FB.logout(function(response) {
+                  $facebook.logout().then(function(){
                     $location.url('/#');
                   });
 
@@ -259,4 +259,24 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
+  })
+  .run(function () {
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '217890171695297',
+        xfbml      : true,
+        version    : 'v2.2'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  })
+  .config( function( $facebookProvider ) {
+    $facebookProvider.setAppId('217890171695297');
   });
