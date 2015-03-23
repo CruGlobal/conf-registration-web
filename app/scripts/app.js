@@ -260,15 +260,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngFacebook', 
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
   })
-  .run(function () {
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : '217890171695297',
-        xfbml      : true,
-        version    : 'v2.2'
-      });
-    };
-
+  .run(function ($rootScope) {
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
