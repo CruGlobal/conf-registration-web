@@ -181,12 +181,15 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngFacebook', 
                * first b/c the browser is being redirected and will not come back here.  the auth token
                * is not needed server side before logging out */
               if ($cookies.crsAuthProviderType  === 'RELAY') {
-                delete $cookies.crsAuthProviderType;
-                delete $cookies.crsPreviousToken;
-                delete $cookies.crsToken;
-                // make sure we come back to home page, not logout page
-                var serviceUrl = $location.absUrl().replace('logout','');
-                $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+                $http.get('auth/relay/logout').success(function() {
+                  delete $cookies.crsAuthProviderType;
+                  delete $cookies.crsPreviousToken;
+                  delete $cookies.crsToken;
+                  // make sure we come back to home page, not logout page
+                  var serviceUrl = $location.absUrl().replace('logout','');
+                  $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+                });
+
                 /* if FACEBOOK log out, issue an async GET to retrieve the log out URL from the API
                  * the cookies cannot be deleted first b/c the auth token is needed to access the session & identity
                  * server side so the users access_token can be fetched to build the log out URL.
@@ -198,17 +201,19 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngFacebook', 
                   delete $cookies.crsToken;
 
                   $facebook.logout().then(function(){
-                    $location.url('/#');
+                    $location.url('/');
                   });
 
                 }).error(function (data, status) {
                   alert('Logout failed: ' + status);
                 });
               } else {
-                delete $cookies.crsAuthProviderType;
-                delete $cookies.crsPreviousToken;
-                delete $cookies.crsToken;
-                $location.url('/#');
+                $http.get('auth/none/logout').success(function () {
+                  delete $cookies.crsAuthProviderType;
+                  delete $cookies.crsPreviousToken;
+                  delete $cookies.crsToken;
+                  $location.url('/');
+                });
               }
             }
           ]
