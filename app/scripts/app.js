@@ -176,45 +176,28 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngFacebook', 
         resolve: {
           redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
             function ($location, $cookies, $window, $http, $facebook) {
+              $http.get('auth/logout').success(function() {
+                delete $cookies.crsAuthProviderType;
+                delete $cookies.crsPreviousToken;
+                delete $cookies.crsToken;
 
-              /* if RELAY log out, delete the cookies first and then redirect.  cookies must be deleted
-               * first b/c the browser is being redirected and will not come back here.  the auth token
-               * is not needed server side before logging out */
-              if ($cookies.crsAuthProviderType  === 'RELAY') {
-                $http.get('auth/relay/logout').success(function() {
-                  delete $cookies.crsAuthProviderType;
-                  delete $cookies.crsPreviousToken;
-                  delete $cookies.crsToken;
-                  // make sure we come back to home page, not logout page
-                  var serviceUrl = $location.absUrl().replace('logout','');
-                  $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
-                });
-
-                /* if FACEBOOK log out, issue an async GET to retrieve the log out URL from the API
-                 * the cookies cannot be deleted first b/c the auth token is needed to access the session & identity
-                 * server side so the users access_token can be fetched to build the log out URL.
-                 * after the GET, if successful, then delete the cookies. */
-              } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
-                $http.get('auth/facebook/logout').success(function () {
-                  delete $cookies.crsAuthProviderType;
-                  delete $cookies.crsPreviousToken;
-                  delete $cookies.crsToken;
-
-                  $facebook.logout().then(function(){
+                /* if facebook, then use the FB JavaScript SDK to log out user from FB */
+                if ($cookies.crsAuthProviderType === 'FACEBOOK') {
+                  $facebook.logout().then(function () {
                     $location.url('/');
                   });
-
-                }).error(function (data, status) {
-                  alert('Logout failed: ' + status);
-                });
-              } else {
-                $http.get('auth/none/logout').success(function () {
-                  delete $cookies.crsAuthProviderType;
-                  delete $cookies.crsPreviousToken;
-                  delete $cookies.crsToken;
+                /* if relay, then then redirect to the Relay logout URL w/ service to bring user
+                 * back to ERT home page */
+                } else if ($cookies.crsAuthProviderType  === 'RELAY') {
+                  var serviceUrl = $location.absUrl().replace('logout', '');
+                  $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+                /* for no auth logins, nothing further is needed, back to ERT home page */
+                } else {
                   $location.url('/');
-                });
-              }
+                }
+              }).error(function (data, status) {
+                alert('Logout failed: ' + status);
+              });
             }
           ]
         }
