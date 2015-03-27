@@ -38,7 +38,7 @@ script:
     - bower install
     - grunt
 after_success:
-    - git submodule add -b ${GH_PUBLISH_TO_MODULE} git@github.com/${GH_OWNER}/${GH_PROJECT_NAME} site
+    - git submodule add -b ${GH_PUBLISH_TO_MODULE} git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} site
     - cd site
     - if git checkout ${GH_PUBLISH_TO_MODULE}; then git checkout -b ${GH_PUBLISH_TO_MODULE}; fi
     - git rm -r .
@@ -48,7 +48,7 @@ after_success:
     - git config user.email "ryan.t.carlson@cru.org"
     - git config user.name "ryancarlson"
     - git commit -am "publishing deployable project to ${GH_PUBLISH_TO_MODULE} [ci skip]"
-    - git push git@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE}
+    - git push git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE}
 before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
