@@ -177,22 +177,24 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngFacebook', 
           redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
             function ($location, $cookies, $window, $http, $facebook) {
               $http.get('auth/logout').success(function() {
-                delete $cookies.crsAuthProviderType;
                 delete $cookies.crsPreviousToken;
                 delete $cookies.crsToken;
 
                 /* if facebook, then use the FB JavaScript SDK to log out user from FB */
                 if ($cookies.crsAuthProviderType === 'FACEBOOK') {
                   $facebook.logout().then(function () {
+                    delete $cookies.crsAuthProviderType;
                     $location.url('/');
                   });
                 /* if relay, then then redirect to the Relay logout URL w/ service to bring user
                  * back to ERT home page */
                 } else if ($cookies.crsAuthProviderType  === 'RELAY') {
+                  delete $cookies.crsAuthProviderType;
                   var serviceUrl = $location.absUrl().replace('logout', '');
                   $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
                 /* for no auth logins, nothing further is needed, back to ERT home page */
                 } else {
+                  delete $cookies.crsAuthProviderType;
                   $location.url('/');
                 }
               }).error(function (data, status) {
