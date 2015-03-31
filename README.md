@@ -13,4 +13,3 @@ https://stage.eventregistrationtool.com
 4. Run `npm install` to install the command line tools.
 5. Run `bower install` to install the web app dependencies.
 6. Run `grunt server`. That command should open a browser and now you can code!
-
