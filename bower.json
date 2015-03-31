@@ -9,7 +9,8 @@
     "eonasdan-bootstrap-datetimepicker": "3.1.2",
     "pickadate": "3.5.4",
     "angular-ui-tree": "https://github.com/OzzieOrca/angular-ui-tree.git#fix-watches",
-    "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip"
+    "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip",
+    "ng-facebook": "0.1.6"
   },
   "devDependencies": {}
 }

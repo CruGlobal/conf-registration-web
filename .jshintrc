@@ -30,6 +30,7 @@
     "moment": false,
     "Hoptoad": false,
     "confirm": false,
-    "ccp": false
+    "ccp": false,
+    "FB": false
   }
 }
