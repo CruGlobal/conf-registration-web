@@ -54,6 +54,7 @@ angular.module('confRegistrationWebApp')
       },
       phone: function phoneFactory() {
         return function (value) {
+          //Contains 10-15 digits
           return factory.genericValidators.regex(/^(\D*\d\D*){10,15}$/)(value);
         };
       },

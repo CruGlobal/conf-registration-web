@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
       $scope.registrationComplete = _.filter($scope.validPages).length === $scope.conference.registrationPages.length;
     });
 
-    $scope.conference = angular.copy(conference);
+    $scope.conference = conference;
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
 
