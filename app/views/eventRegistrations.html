@@ -1,4 +1,4 @@
-<div style="width:100%; padding-right:5px;">
+<div style="padding-right:5px;">
   <div class="row">
     <div class="col-xs-7">
       <h2>Registrations</h2>
@@ -248,3 +248,25 @@
     </tr>
   </tbody>
 </table>
+
+<div style="padding-right: 5px;">
+  <form class="form-horizontal">
+    <div class="form-group">
+      <p class="col-sm-11 control-label">Registrations per page</p>
+      <div class="col-sm-1">
+        <select class="form-control" ng-model="queryParameters.limit">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="50">50</option>
+          <option value="60">60</option>
+          <option value="70">70</option>
+          <option value="80">80</option>
+          <option value="90">90</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+    </div>
+  </form>
+</div>
