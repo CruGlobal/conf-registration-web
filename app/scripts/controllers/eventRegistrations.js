@@ -139,13 +139,20 @@ angular.module('confRegistrationWebApp')
       }else if(orderBy === 'checked_in_timestamp') {
         return registrant.checkedInTimestamp;
       }else{
-        if (angular.isDefined(findAnswer(registrant, orderBy))) {
-          var answerValue = findAnswer(registrant, orderBy).value;
-          if(_.isObject(answerValue)){
-            return _.values(findAnswer(registrant, orderBy).value).join(' ');
+        if(angular.isUndefined(findAnswer(registrant, orderBy))) {
+          return '';
+        }
+
+        var answerValue = findAnswer(registrant, orderBy).value;
+        if(_.isObject(answerValue)){
+          var blockType = _.find($scope.blocks, { 'id': orderBy }).type;
+          if(blockType === 'checkboxQuestion'){
+            return _.keys(_.pick(answerValue, function(val){ return val; })).join();
           }else{
-            return answerValue;
+            return _.values(answerValue).join();
           }
+        }else{
+          return answerValue;
         }
       }
     };
