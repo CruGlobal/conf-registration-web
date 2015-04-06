@@ -139,11 +139,12 @@ angular.module('confRegistrationWebApp')
       }else if(orderBy === 'checked_in_timestamp') {
         return registrant.checkedInTimestamp;
       }else{
-        if(angular.isUndefined(findAnswer(registrant, orderBy))) {
+        var answerValue = findAnswer(registrant, orderBy);
+        if(angular.isUndefined(answerValue)){
           return '';
         }
 
-        var answerValue = findAnswer(registrant, orderBy).value;
+        answerValue = answerValue.value;
         if(_.isObject(answerValue)){
           var blockType = _.find($scope.blocks, { 'id': orderBy }).type;
           if(blockType === 'checkboxQuestion'){
