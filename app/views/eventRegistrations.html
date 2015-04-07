@@ -249,17 +249,18 @@
   </tbody>
 </table>
 
-<div style="padding-right: 5px;">
-  <form class="form-horizontal">
-    <div class="form-group">
-      <p class="col-sm-11 control-label">Registrations per page</p>
-      <div class="col-sm-1">
-        <select class="form-control" ng-model="queryParameters.limit">
-          <option value="20">20</option>
-          <option value="50">50</option>
-          <option value="100">100</option>
-        </select>
-      </div>
-    </div>
-  </form>
+<div class="pull-right" ng-if="registrants.length > 0">
+  <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
 </div>
+
+<form class="form-inline">
+  <div class="form-group">
+    Registrations per page
+    <select class="form-control" ng-model="queryParameters.limit">
+      <option value="20">20</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+</form>
+
