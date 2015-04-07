@@ -80,19 +80,16 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getAllForConference = function (conferenceId, blocks) {
+    this.getAllForConference = function (conferenceId, queryParameters) {
       var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';
 
-      var blocksStr = '';
-      if(!_.isEmpty(blocks)){
-        blocksStr = '?block=' + blocks.join('&block=');
-      }
-      $http.get('conferences/' + conferenceId + '/registrations' + blocksStr).success(function (registrations) {
+      $http.get('conferences/' + conferenceId + '/registrations', {params: queryParameters}).success(function (data) {
         $rootScope.loadingMsg = '';
-        defer.resolve(registrations);
+        defer.resolve(data);
       }).error(function(){
         $rootScope.loadingMsg = '';
+        defer.reject();
       });
 
       return defer.promise;
