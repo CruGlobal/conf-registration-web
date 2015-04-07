@@ -31,7 +31,23 @@ angular.module('confRegistrationWebApp')
           RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
             RegistrationCache.emptyCache();
             $location.path(($rootScope.registerMode || 'register') + '/' + $scope.conference.id + '/page/' + $scope.conference.registrationPages[0].id).search('reg', newId);
+          }, function(){
+            alert('An error occurred while updating your registration.');
           });
+        };
+
+        $scope.registrationTypeFull = function(type){
+          if(!type.useLimit){
+            return false;
+          }
+          if(!type.availableSlots){
+            return true;
+          }
+
+          //subtract registrants from current registration from availableSlots
+          if(type.availableSlots - _.filter($scope.currentRegistration.registrants, { 'registrantTypeId': type.id }).length <= 0){
+            return true;
+          }
         };
       }
     };
