@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, RegistrationCache, conference, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'registrations',
@@ -50,6 +50,11 @@ angular.module('confRegistrationWebApp')
       if(q.page > 1 && q.page === oldQ.page){
         $scope.queryParameters.page = 1;
         return;
+      }
+
+      if(q.page !== oldQ.page){
+        //scroll to top on page change
+        $window.scrollTo(0, 0);
       }
 
       $scope.refreshRegistrations();
