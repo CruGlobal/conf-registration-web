@@ -17,10 +17,10 @@
 </div>
 <div class="row" ng-if="visibleRegistrantTypes.length === 1">
   <div class="col-xs-12 text-center">
-    <a href ng-click="newRegistrant(visibleRegistrantTypes[0].id)" class="btn btn-success btn-important" ng-if="!visibleRegistrantTypes[0].useLimit || visibleRegistrantTypes[0].availableSlots">
+    <a href ng-click="newRegistrant(visibleRegistrantTypes[0].id)" class="btn btn-success btn-important" ng-if="!registrationTypeFull(visibleRegistrantTypes[0])">
       Register
     </a>
-    <p ng-if="visibleRegistrantTypes[0].useLimit && !visibleRegistrantTypes[0].availableSlots">
+    <p ng-if="registrationTypeFull(visibleRegistrantTypes[0])">
       Sorry, this event is full.
     </p>
   </div>
