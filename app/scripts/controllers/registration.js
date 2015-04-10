@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, $window, RegistrationCache, conference, currentRegistration, validateRegistrant) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, $window, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -124,5 +124,12 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(){
       return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    };
+
+    $scope.startOver = function(){
+      modalMessage.confirm('Start Over', 'Are you sure you want to start over? All answers will be erased.', 'Start Over', 'Cancel', true).then(function(){
+        $scope.currentRegistration.registrants = [];
+        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration);
+      });
     };
   });
