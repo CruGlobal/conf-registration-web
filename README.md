@@ -1,6 +1,6 @@
 conf-registration-web
 =====================
-[![Build Status](https://travis-ci.org/CruGlobal/conf-registration-web.png?branch=master)](https://travis-ci.org/CruGlobal/conf-registration-web)
+[![Build Status](https://magnum.travis-ci.com/CruGlobal/conf-registration-web.svg?token=PvqerGdca9sUAJycadyP&branch=master)](https://magnum.travis-ci.com/CruGlobal/conf-registration-web)
 
 https://www.eventregistrationtool.com
 
