@@ -37,7 +37,14 @@ angular.module('confRegistrationWebApp')
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        $http.put(path, registration).then(cb, errorCallback);
+        $http.put(path, registration).then(function(){
+          //update cache
+          cache.put(path, angular.copy(registration));
+
+          if(cb){
+            cb();
+          }
+        }, errorCallback);
       }
     };
 
