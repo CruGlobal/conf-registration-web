@@ -62,6 +62,12 @@
           <button popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
                   popover-trigger="mouseenter"
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+
+          <label>
+            <input type="checkbox" ng-model="type.useLimit">
+            Limit the number of registrants
+          </label>
+          <input type="text" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
         </div>
 
         <div class="col-xs-6">
