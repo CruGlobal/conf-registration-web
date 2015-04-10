@@ -27,20 +27,17 @@ angular.module('confRegistrationWebApp')
     this.update = function (path, registration, cb, errorCallback) {
       if ($rootScope.registerMode === 'preview') {
         $rootScope.previewRegCache = registration;
-        cb();
+        if(cb){
+          cb();
+        }
         return;
       }
-
-      var callback = cb || function () {
-        cache.put(path, angular.copy(registration));
-        $rootScope.broadcast(path, registration);
-      };
 
       var cachedReg = cache.get(path);
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        $http.put(path, registration).then(callback, errorCallback);
+        $http.put(path, registration).then(cb, errorCallback);
       }
     };
 
