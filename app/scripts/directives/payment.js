@@ -58,8 +58,17 @@ angular.module('confRegistrationWebApp')
               paymentErrors.push('Please enter your card billing details.');
             }
           }else if(currentPayment.paymentType === 'TRANSFER'){
-            if(!currentPayment.transfer.source){
-              paymentErrors.push('Please enter a Chart Field or Account Number.');
+            if(!currentPayment.transfer.accountType){
+              paymentErrors.push('Please select an Account Type.');
+            }
+            if(currentPayment.transfer.accountType === 'STAFF'){
+              if(!currentPayment.transfer.accountNumber){
+                paymentErrors.push('Please enter a Staff Account Number.');
+              }
+            }else if(currentPayment.transfer.accountType === 'MINISTRY'){
+              if(!currentPayment.transfer.businessUnit || !currentPayment.transfer.operatingUnit || !currentPayment.transfer.department || !currentPayment.transfer.projectId){
+                paymentErrors.push('Please fill in all account transfer fields.');
+              }
             }
           }else if(currentPayment.paymentType === 'SCHOLARSHIP'){
             if(!currentPayment.scholarship.staffEmail){

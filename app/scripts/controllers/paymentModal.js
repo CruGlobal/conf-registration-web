@@ -210,6 +210,8 @@ angular.module('confRegistrationWebApp')
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
+      }).error(function(){
+        modalMessage.error('Payment could not be saved. Please verify all required fields are filled in correctly.');
       });
     };
 
