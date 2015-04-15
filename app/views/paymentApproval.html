@@ -20,19 +20,41 @@
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Type</label>
+          <label class="col-sm-3 control-label">Account Type</label>
           <div class="col-sm-9">
-            <select class="form-control" ng-model="payment.scholarship.type">
-              <option>Ministry Account Transfer</option>
-              <option>Staff Account Transfer</option>
+            <select ng-model="payment.scholarship.accountType" class="form-control">
+              <option value="STAFF">Staff</option>
+              <option value="MINISTRY">Ministry</option>
             </select>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-show="payment.scholarship.accountType === 'STAFF'">
           <label class="col-sm-3 control-label">Account Number</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="payment.scholarship.source">
+            <input ng-model="payment.scholarship.accountNumber" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="row" ng-show="payment.scholarship.accountType === 'MINISTRY'">
+          <div class="col-sm-3">
+            <label>Business Unit</label>
+            <input ng-model="payment.scholarship.businessUnit" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3">
+            <label>Operating Unit</label>
+            <input ng-model="payment.scholarship.operatingUnit" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3">
+            <label>Department</label>
+            <input ng-model="payment.scholarship.department" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3">
+            <label>Project Id</label>
+            <input ng-model="payment.scholarship.projectId" type="text" class="form-control">
           </div>
         </div>
       </form>
