@@ -59,14 +59,19 @@
     </section>
     <section ng-if="activePageId == ''" style="padding-top:0;">
       <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
-
-      <div class="text-center" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
-        <a href="" ng-click="startOver()" class="btn btn-lg btn-default">
-          Start Over
-        </a>
-        <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-lg btn-success btn-important">
-          Continue Registration
-        </a>
+      <div class="row spacing-above-md" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
+        <div class="col-sm-3 col-xs-6">
+          <button class="btn btn-subtle btn-lg btn-block"
+                  ng-click="startOver()">
+            Start Over
+          </button>
+        </div>
+        <div class="col-sm-9 col-xs-6">
+          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}"
+             class="btn btn-success btn-important btn-lg btn-block">
+            Continue
+          </a>
+        </div>
       </div>
     </section>
     <page ng-repeat="page in conference.registrationPages" ng-if="page.id == activePageId"></page>
