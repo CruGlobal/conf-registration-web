@@ -60,6 +60,12 @@
                   popover-trigger="mouseenter"
                   popover-append-to-body="true"
                   class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+
+          <label>
+            <input type="checkbox" ng-model="type.useLimit">
+            Limit the number of registrants
+          </label>
+          <input type="text" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
         </div>
             </div>
 

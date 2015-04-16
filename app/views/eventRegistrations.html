@@ -12,18 +12,25 @@
     <div class="row">
       <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-col-md">
         <label>Search visible columns:</label>
-          <input type="text" class="form-control" ng-model="searchFilter">
-        </div>
+        <input type="text" class="form-control" ng-model="strFilter">
+      </div>
       <div class="col-md-2 col-sm-4 stacked-spacing-col-sm" ng-if="eventHasCost()">
         <label>Payment status:</label>
-          <select ng-model="currentPaymentCategory" ng-options="paymentCategory.name as paymentCategory.name for paymentCategory in paymentCategories" class="form-control"></select>
-        </div>
+        <select ng-model="queryParameters.filterPayment" class="form-control">
+          <option value="">-Any-</option>
+          <option value="full">Full/Overpaid</option>
+          <option value="partial">Partial</option>
+          <option value="full-partial">Full/Partial</option>
+          <option value="none">Not Paid</option>
+          <option value="over">Overpaid</option>
+        </select>
+      </div>
       <div class="col-lg-3 col-md-2 col-sm-6 stacked-spacing-col-sm">
         <label>Registration type:</label>
-          <select ng-model="filterRegistrantType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
-        </div>
+        <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
+      </div>
       <div class="col-lg-4 col-md-5 col-sm-6 text-right">
-          <br>
+        <br>
         <div class="btn-group" role="group">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
             More Filters
@@ -31,104 +38,119 @@
             <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
           </button>
           <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i> Refresh</button>
-            <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-model="columnsDropdownToggle" btn-checkbox>
-              Columns
+          <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-model="columnsDropdownToggle" btn-checkbox>
+            Columns
             <i class="fa fa-caret-down" ng-show="!columnsDropdownToggle"></i>
             <i class="fa fa-caret-up" ng-show="columnsDropdownToggle"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
-              <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
-                <a href="" ng-click="toggleColumn($index)">
-                  <i class="fa fa-check-square" ng-show="block.visible"></i>
-                  <i class="fa fa-square-o" ng-show="!block.visible"></i>
-                  {{block.exportFieldTitle || block.title}}
-                </a>
-              </li>
-            </ul>
-          </div>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
+            <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
+              <a href="" ng-click="toggleColumn($index)">
+                <i class="fa fa-check-square" ng-show="block.visible"></i>
+                <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                {{block.exportFieldTitle || block.title}}
+              </a>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
     <div class="row spacing-above-sm well-border-above" collapse="!showMoreFilters">
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label>Incomplete registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterIncompleteRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'only'">Only</label>
         </div>
       </div>
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label>Checked-in registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterCheckedInRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'only'">Only</label>
         </div>
       </div>
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label>Withdrawn registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'show'">Show</label>
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'hide'">Hide</label>
-          <label class="btn btn-default" ng-model="filterWithdrawnRegistrations" btn-radio="'only'">Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'yes'">Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'no'">Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'only'">Only</label>
         </div>
       </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <p>Showing {{regFilter.length || 0}} of {{registrants.length}} registration(s)</p>
+      <div ng-if="registrants.length > 0">
+        <div class="pull-right">
+          <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
+        </div>
+
+        <p>Page {{queryParameters.page}} of {{meta.totalPages}}</p>
+        <p>Showing {{registrants.length || 0}} of {{meta.totalRegistrantsFilter}} registration(s)</p>
+      </div>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12" ng-if="registrants.length === 0">
-  <p>No one has registered for this event yet.</p>
+      <p>No registrations have been found to match your filter.</p>
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12 table-responsive">
-      <table class="table" ng-show="regFilter.length > 0">
-  <thead>
-    <tr>
-      <th>
-        <a href="" ng-click="setOrder('firstName')">First Name</a>
-        <i ng-if="order === 'firstName'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
-      </th>
-      <th>
-        <a href="" ng-click="setOrder('lastName')">Last Name</a>
-        <i ng-if="order === 'lastName'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
-      <th>
-        <a href="" ng-click="setOrder('email')">Email</a>
-        <i ng-if="order === 'email'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
-      </th>
-      <th ng-repeat="block in blocks | filter:{ visible: true }">
-        <a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a>
-        <i ng-if="order === block.id" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
-      </th>
+      <table class="table" ng-if="registrants.length > 0">
+        <thead>
+        <tr>
+          <th>
+            <a href="" ng-click="setOrder('first_name')">First Name</a>
+            <i ng-if="queryParameters.orderBy === 'first_name'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th>
+            <a href="" ng-click="setOrder('last_name')">Last Name</a>
+            <i ng-if="queryParameters.orderBy === 'last_name'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+          <th>
+            <a href="" ng-click="setOrder('email')">Email</a>
+            <i ng-if="queryParameters.orderBy === 'email'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th ng-repeat="block in blocks | filter:{ visible: true }">
+            <a href="" ng-click="setOrder(block.id)">{{block.exportFieldTitle || block.title}}</a>
+            <i ng-if="queryParameters.orderBy === block.id" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
           <th ng-show="conference.registrantTypes.length > 1" class="text-center" width="150">
-        <a href="" ng-click="setOrder('type')">Type</a>
-        <i ng-if="order === 'type'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
-      </th>
-          <th class="text-center" width="160"><a href="" ng-click="setOrder('created')">Started</a> <i ng-if="order === 'created'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
-          <th class="text-center" width="160"><a href="" ng-click="setOrder('completed')">Completed</a> <i ng-if="order === 'completed'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+            <a href="" ng-click="setOrder('registrant_type_id')">Type</a>
+            <i ng-if="queryParameters.orderBy === 'registrant_type_id'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th class="tablecenter" width="160">
+            <a href="" ng-click="setOrder('created_timestamp')">Started</a>
+            <i ng-if="queryParameters.orderBy === 'created_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
+          <th class="tablecenter" width="160">
+            <a href="" ng-click="setOrder('completed_timestamp')">Completed</a>
+            <i ng-if="queryParameters.orderBy === 'completed_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
+          </th>
           <th ng-if="eventHasCost()" class="text-center" width="60">Paid</th>
-          <th class="text-center" width="108"><a href="" ng-click="setOrder('checkedIn')">Checked-in</a> <i ng-if="order === 'checkedIn'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
+          <th class="text-center" width="108">
+            <a href="" ng-click="setOrder('checked_in_timestamp')">Checked-in</a>
+            <i ng-if="queryParameters.orderBy === 'checked_in_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
           <th class="text-center" width="160">Options</th>
-      <th width="30"></th>
-    </tr>
-  </thead>
-  <tbody ng-repeat="r in (regFilter = (registrants | filter:searchFilter | filter:paymentStatus | filter:{registrantTypeId: filterRegistrantType} | filter:filterCompleteStatus | filter:filterCheckedIn | filter:filterWithdrawn)) | orderBy:answerSort:reversesort">
-    <tr ng-class="{'active': $even}" class="noselect">
-      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
-      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
-      <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
-      <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
-        <show-answer block="block" registrant="r"></show-answer>
-      </td>
+          <th width="30"></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="r in registrants | orderBy:answerSort:reversesort">
+        <tr ng-class="{'active': $even}" class="noselect">
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
+          <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+            <show-answer block="block" registrant="r"></show-answer>
+          </td>
           <td class="text-center" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
           <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
-        {{getRegistration(r.registrationId).createdTimestamp | date: 'short'}}
-      </td>
+            {{r.createdTimestamp | date: 'short'}}
+          </td>
           <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
         <span ng-show="getRegistration(r.registrationId).completed">
           {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
@@ -136,87 +158,102 @@
         <span ng-show="!getRegistration(r.registrationId).completed">
           -
         </span>
-      </td>
+          </td>
           <td ng-show="eventHasCost()" class="text-center">
-        <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
-        <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
-      </td>
+            <i class="fa fa-check" ng-show="paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
+            <i class="fa fa-minus" ng-show="!paidInFull(r.registrationId) && getRegistration(r.registrationId).completed"></i>
+          </td>
           <td class="text-center">
-        <i class="fa fa-check" ng-show="r.checkedInTimestamp"></i>
-        <i class="fa fa-minus" ng-show="!r.checkedInTimestamp"></i>
-      </td>
+            <i class="fa fa-check" ng-show="r.checkedInTimestamp"></i>
+            <i class="fa fa-minus" ng-show="!r.checkedInTimestamp"></i>
+          </td>
           <td class="text-center registration-edit-buttons">
-        <button ng-click="editRegistrant(r)" title="Edit Registration">
-          <i class="fa fa-edit"></i>
-        </button>
-        <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
-          <i class="fa fa-usd"></i>
-        </button>
-        <div class="btn-group" dropdown>
-          <button type="button" class="dropdown-toggle" dropdown-toggle>
-            More <i class="fa fa-caret-down"></i>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li ng-show="!r.withdrawn && !r.checkedInTimestamp">
-              <a href="" ng-click="checkInRegistrant(r, true)">
-                <i class="fa fa-check-square-o"></i> Check-in
-              </a>
-            </li>
-            <li ng-show="r.checkedInTimestamp">
-              <a href="" ng-click="checkInRegistrant(r, false)">
-                <i class="fa fa-square-o"></i> Remove Check-in
-              </a>
-            </li>
-            <li ng-show="!r.withdrawn">
-              <a href="" ng-click="withdrawRegistrant(r, true)">
-                <i class="fa fa-sign-out"></i> Withdraw
-              </a>
-            </li>
-            <li ng-show="r.withdrawn">
-              <a href="" ng-click="withdrawRegistrant(r, false)">
-                <i class="fa fa-sign-in"></i> Reinstate
-              </a>
-            </li>
-            <li>
-              <a href="" ng-click="deleteRegistrant(r)">
-                <i class="fa fa-trash-o"></i> Delete
-              </a>
-            </li>
-          </ul>
-        </div>
-      </td>
+            <button ng-click="editRegistrant(r)" title="Edit Registration">
+              <i class="fa fa-edit"></i>
+            </button>
+            <button ng-click="viewPayments(r.registrationId)" title="View/Edit Payments &amp; Expenses" ng-show="getRegistration(r.registrationId).completed">
+              <i class="fa fa-usd"></i>
+            </button>
+            <div class="btn-group" dropdown>
+              <button type="button" class="dropdown-toggle" dropdown-toggle>
+                More <i class="fa fa-caret-down"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li ng-show="!r.withdrawn && !r.checkedInTimestamp">
+                  <a href="" ng-click="checkInRegistrant(r, true)">
+                    <i class="fa fa-check-square-o"></i> Check-in
+                  </a>
+                </li>
+                <li ng-show="r.checkedInTimestamp">
+                  <a href="" ng-click="checkInRegistrant(r, false)">
+                    <i class="fa fa-square-o"></i> Remove Check-in
+                  </a>
+                </li>
+                <li ng-show="!r.withdrawn">
+                  <a href="" ng-click="withdrawRegistrant(r, true)">
+                    <i class="fa fa-sign-out"></i> Withdraw
+                  </a>
+                </li>
+                <li ng-show="r.withdrawn">
+                  <a href="" ng-click="withdrawRegistrant(r, false)">
+                    <i class="fa fa-sign-in"></i> Reinstate
+                  </a>
+                </li>
+                <li>
+                  <a href="" ng-click="deleteRegistrant(r)">
+                    <i class="fa fa-trash-o"></i> Delete
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </td>
           <td class="text-center" ng-click="expandRegistration(r.id)">
             <i class="rowtoggle fa" ng-class="{'fa-minus-square-o': (expandedStatus(r.id) === 'open'), 'fa-plus-square-o': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"></i>
-      </td>
-    </tr>
-    <tr class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">
-      <td colspan="100%">
-        <div class="well">
-          <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r.registrantTypeId)">
+          </td>
+        </tr>
+        <tr class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">
+          <td colspan="100%">
+            <div class="well">
+              <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r.registrantTypeId)">
                 <div class="col-xs-3 details-heading" ng-bind="block.title"></div>
                 <div class="col-xs-9"><show-answer block="block" registrant="r"></show-answer></div>
-          </div>
-          <div class="row">
+              </div>
+              <div class="row">
                 <div class="col-xs-3 details-heading">Started on</div>
-                <div class="col-xs-9">{{getRegistration(r.registrationId).createdTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-          </div>
-          <div class="row" ng-show="getRegistration(r.registrationId).completed">
+                <div class="col-xs-9">{{r.createdTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+              </div>
+              <div class="row" ng-show="getRegistration(r.registrationId).completed">
                 <div class="col-xs-3 details-heading">Completed on</div>
                 <div class="col-xs-9">{{getRegistration(r.registrationId).completedTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-          </div>
-          <div class="row" ng-show="r.withdrawn">
+              </div>
+              <div class="row" ng-show="r.withdrawn">
                 <div class="col-xs-3 details-heading">Withdrawn on</div>
                 <div class="col-xs-9">{{r.withdrawnTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-          </div>
-          <div class="row" ng-show="r.checkedInTimestamp">
-            <div class="leftside">Checked in at</div>
-            <div class="rightside">{{r.checkedInTimestamp | evtDateFormat: conference.eventTimezone}}</div>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tbody>
+              </div>
+              <div class="row" ng-show="r.checkedInTimestamp">
+                <div class="leftside">Checked in at</div>
+                <div class="rightside">{{r.checkedInTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
       </table>
+
+      <div class="pull-right" ng-if="registrants.length > 0">
+        <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
+      </div>
+
+      <form class="form-inline">
+        <div class="form-group">
+          Registrations per page
+          <select class="form-control" ng-model="queryParameters.limit">
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+          </select>
+        </div>
+
+      </form>
     </div>
   </div>
-</div>

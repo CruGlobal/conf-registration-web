@@ -61,6 +61,9 @@
       <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
 
       <div class="text-center" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
+        <a href="" ng-click="startOver()" class="btn btn-lg btn-default">
+          Start Over
+        </a>
         <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-lg btn-success btn-important">
           Continue Registration
         </a>

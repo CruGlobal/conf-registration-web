@@ -145,10 +145,10 @@ angular.module('confRegistrationWebApp')
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
         RegistrationCache.emptyCache();
         $route.reload();
-      }, function () {
+      }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        modalMessage.error('An error occurred while submitting your registration.');
+        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.msg ? data.data.msg : ''));
       });
     };
 
