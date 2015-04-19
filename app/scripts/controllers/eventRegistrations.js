@@ -281,16 +281,14 @@ angular.module('confRegistrationWebApp')
         resolve: {
           conference: function() {
             return $scope.conference;
-          },
-          hasCost: function() {
-            return $scope.eventHasCost();
           }
         }
       });
     };
 
     $scope.eventHasCost = function () {
-      return _.max(_.flatten(conference.registrantTypes, 'cost')) > 0;
+      //check if any registrations shown have a cost
+      return _.max(_.flatten($scope.registrations, 'calculatedTotalDue')) > 0;
     };
 
     $scope.registerUser = function () {
