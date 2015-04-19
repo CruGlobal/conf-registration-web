@@ -8,7 +8,7 @@
       <a class="btn btn-primary btn-sm" href="" ng-click="export()"><i class="fa fa-cloud-download"></i> Export</a>
     </div>
   </div>
-  <div class="row well well-full spacing-above-xs">
+  <div class="row well well-full spacing-above-xs spacing-below-sm">
     <div class="row">
       <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-col-md">
         <label>Search visible columns:</label>
@@ -82,20 +82,29 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div ng-if="registrants.length > 0">
-        <div class="pull-right">
-          <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
-        </div>
 
-        <p>Page {{queryParameters.page}} of {{meta.totalPages}}</p>
-        <p>Showing {{registrants.length || 0}} of {{meta.totalRegistrantsFilter}} registration(s)</p>
+  <div class="row spacing-below-xs" ng-if="registrants.length > 0">
+    <div class="col-sm-8 stacked-spacing-col-sm spacing-xs">
+        <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
+    </div>
+    <div class="col-sm-4 text-right">
+      <div class="btn-group">
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="20">20</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="50">50</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="100">100</label>
+        <label class="btn btn-default" disabled="disabled">per page</label>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12" ng-if="registrants.length === 0">
+  <div class="row spacing-below-xs" ng-if="registrants.length > 0">
+    <div class="col-sm-12">
+      Showing {{registrants.length || 0}}<ng-pluralize count="meta.totalRegistrantsFilter" when="{'1': ' of {} registration', 'other': ' of {} registrations'}"></ng-pluralize>
+      <ng-pluralize count="meta.totalPages" when="{'0': '', '1': '', 'other': ' on {} pages'}"></ng-pluralize>
+    </div>
+  </div>
+
+  <div class="row" ng-if="registrants.length === 0">
+    <div class="col-xs-12">
       <p>No registrations have been found to match your filter.</p>
     </div>
   </div>
@@ -162,13 +171,12 @@
           </td>
           <td ng-if="eventHasCost()" class="text-center">
             <div ng-if="getRegistration(r.registrationId).completed">
-                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': paidInFull(r.registrationId), 'btn-default': !paidInFull(r.registrationId)}" title="View/Edit Payments &amp; Expenses">
-                  &nbsp;
-                  <i ng-if="paidInFull(r.registrationId)" class="fa fa-check-square-o"></i>
-                  <i ng-if="!paidInFull(r.registrationId)" class="fa fa-square-o"></i>
-                  &nbsp;
-                </button>
-              </div>
+              <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': paidInFull(r.registrationId), 'btn-default': !paidInFull(r.registrationId)}" title="View/Edit Payments &amp; Expenses">
+                &nbsp;
+                <i ng-if="paidInFull(r.registrationId)" class="fa fa-check-square-o"></i>
+                <i ng-if="!paidInFull(r.registrationId)" class="fa fa-square-o"></i>
+                &nbsp;
+              </button>
             </div>
           </td>
           <td class="text-center">
@@ -225,21 +233,19 @@
         </tr>
         </tbody>
       </table>
-
-      <div class="pull-right" ng-if="registrants.length > 0">
-        <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" boundary-links="true" rotate="false"></pagination>
-      </div>
-
-      <form class="form-inline">
-        <div class="form-group">
-          Registrations per page
-          <select class="form-control" ng-model="queryParameters.limit">
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-
-      </form>
     </div>
   </div>
+  <div class="row spacing-above-xs" ng-if="registrants.length > 0">
+    <div class="col-sm-8 stacked-spacing-col-sm spacing-xs">
+      <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
+    </div>
+    <div class="col-sm-4 text-right">
+      <div class="btn-group">
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="20">20</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="50">50</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="100">100</label>
+        <label class="btn btn-default" disabled="disabled">per page</label>
+      </div>
+    </div>
+  </div>
+</div>
