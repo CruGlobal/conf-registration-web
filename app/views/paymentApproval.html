@@ -15,7 +15,10 @@
         <div class="form-group">
           <label class="col-sm-3 control-label">Amount</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="payment.amount">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+              <input type="text" ng-model="payment.amount" class="form-control marginless">
+            </div>
           </div>
         </div>
 
