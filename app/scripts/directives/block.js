@@ -140,12 +140,9 @@ angular.module('confRegistrationWebApp')
           });
           $scope.$watch('visibleRegTypes', function (object) {
             if (angular.isDefined(object)) {
-              $scope.block.registrantTypes = [];
-              angular.forEach(object, function(v, k) {
-                if(!v){
-                  $scope.block.registrantTypes.push(k);
-                }
-              });
+              $scope.block.registrantTypes = _.keys(_.pick(object, function(v){
+                return !v;
+              })).sort();
             }
           }, true);
 
