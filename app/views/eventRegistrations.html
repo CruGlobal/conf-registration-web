@@ -173,8 +173,7 @@
             <div ng-if="getRegistration(r.registrationId).completed">
               <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': paidInFull(r.registrationId), 'btn-default': !paidInFull(r.registrationId)}" title="View/Edit Payments &amp; Expenses">
                 &nbsp;
-                <i ng-if="paidInFull(r.registrationId)" class="fa fa-check-square-o"></i>
-                <i ng-if="!paidInFull(r.registrationId)" class="fa fa-square-o"></i>
+                <i class="fa fa-usd"></i>
                 &nbsp;
               </button>
             </div>
