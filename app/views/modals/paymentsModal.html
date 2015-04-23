@@ -92,11 +92,25 @@
                   <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
                   <span ng-if="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
                   <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
-                    <span ng-if="payment.scholarship.scholarshipStatus === 'APPROVED'">Scholarship from {{payment.scholarship.source}}</span>
+                    <span ng-if="payment.scholarship.scholarshipStatus === 'APPROVED'">
+                      <span ng-if="payment.scholarship.accountType === 'STAFF'">
+                        Scholarship from staff {{payment.scholarship.accountNumber}}
+                      </span>
+                      <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
+                        Scholarship from {{payment.scholarship.businessUnit}}/{{payment.scholarship.operatingUnit}}/{{payment.scholarship.department}}/{{payment.scholarship.projectId}}
+                      </span>
+                    </span>
                     <span ng-if="payment.scholarship.scholarshipStatus === 'REQUESTED'" style="font-style: italic;">Scholarship Requested</span>
                     <span ng-if="payment.scholarship.scholarshipStatus === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
                   </span>
-                  <span ng-if="payment.paymentType === 'TRANSFER'">Transfer from {{payment.transfer.source}}</span>
+                  <span ng-if="payment.paymentType === 'TRANSFER'">
+                    <span ng-if="payment.transfer.accountType === 'STAFF'">
+                      Staff Transfer from {{payment.transfer.accountNumber}}
+                    </span>
+                    <span ng-if="payment.transfer.accountType === 'MINISTRY'">
+                      Transfer from {{payment.transfer.businessUnit}}/{{payment.transfer.operatingUnit}}/{{payment.transfer.department}}/{{payment.transfer.projectId}}
+                    </span>
+                  </span>
                   <span ng-if="payment.paymentType === 'CASH'">Cash</span>
                   <span ng-if="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
                   <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
@@ -115,17 +129,118 @@
               </tr>
               <tr ng-if="editPayment.id === payment.id" ng-class="{'active': $even}">
                 <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-                <td ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
-                  <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
-                </td>
-                <td ng-show="editPayment.paymentType === 'CREDIT_CARD'">{{editPayment.amount | moneyFormat}}</td>
-                <td>
-                  <input type="text" ng-model="editPayment.transfer.source" class="form-control" ng-if="editPayment.paymentType === 'TRANSFER'">
-                  <input type="text" ng-model="editPayment.scholarship.source" class="form-control" ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
-                </td>
-                <td><input type="text" ng-model="editPayment.description" class="form-control"></td>
-                <td class="text-center">
-                  <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                <td colspan="4">
+                  <div class="form-horizontal">
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Amount</label>
+                      <div class="col-sm-9">
+                        <div ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
+                          <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                            <input type="number" ng-model="editPayment.amount" class="form-control" step="0.01" min="0">
+                          </div>
+                        </div>
+                        <div ng-show="editPayment.paymentType === 'CREDIT_CARD'">
+                          {{editPayment.amount | moneyFormat}}
+                        </div>
+                      </div>
+                    </div>
+                    <div ng-if="editPayment.paymentType === 'TRANSFER'">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Account Type</label>
+                        <div class="col-sm-9">
+                          <select ng-model="editPayment.transfer.accountType" class="form-control">
+                            <option value="STAFF">Staff</option>
+                            <option value="MINISTRY">Ministry</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div ng-show="editPayment.transfer.accountType === 'STAFF'">
+                          <label class="col-sm-3 control-label">Account Number</label>
+                          <div class="col-sm-9">
+                            <input ng-model="editPayment.transfer.accountNumber" type="text" class="form-control">
+                          </div>
+                        </div>
+
+                        <div ng-show="editPayment.transfer.accountType === 'MINISTRY'">
+                          <div class="col-sm-3">
+                            <label>Business Unit</label>
+                            <input ng-model="editPayment.transfer.businessUnit" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Operating Unit</label>
+                            <input ng-model="editPayment.transfer.operatingUnit" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Department</label>
+                            <input ng-model="editPayment.transfer.department" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Project Id</label>
+                            <input ng-model="editPayment.transfer.projectId" type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
+                      <div class="form-group">
+                        <label class="col-sm-3 control-label">Account Type</label>
+                        <div class="col-sm-9">
+                          <select ng-model="editPayment.scholarship.accountType" class="form-control">
+                            <option value="STAFF">Staff</option>
+                            <option value="MINISTRY">Ministry</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="row form-group">
+                        <div ng-show="editPayment.scholarship.accountType === 'STAFF'">
+                          <label class="col-sm-3 control-label">Account Number</label>
+                          <div class="col-sm-9">
+                            <input ng-model="editPayment.scholarship.accountNumber" type="text" class="form-control">
+                          </div>
+                        </div>
+
+                        <div ng-show="editPayment.scholarship.accountType === 'MINISTRY'">
+                          <div class="col-sm-3">
+                            <label>Business Unit</label>
+                            <input ng-model="editPayment.scholarship.businessUnit" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Operating Unit</label>
+                            <input ng-model="editPayment.scholarship.operatingUnit" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Department</label>
+                            <input ng-model="editPayment.scholarship.department" type="text" class="form-control">
+                          </div>
+
+                          <div class="col-sm-3">
+                            <label>Project Id</label>
+                            <input ng-model="editPayment.scholarship.projectId" type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-sm-3 control-label">Description</label>
+                      <div class="col-sm-9">
+                        <input type="text" ng-model="editPayment.description" class="form-control">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="col-sm-offset-3 col-sm-9">
+                        <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                      </div>
+                    </div>
+                  </div>
                 </td>
               </tr>
               <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.scholarship.scholarshipStatus !== 'APPROVED'" ng-class="{'active': $even}">
@@ -297,16 +412,78 @@
           </div>
 
           <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
-            <div class="form-group">
-              <label>Staff Account or Chartfield to be charged</label>
-              <input ng-model="newTransaction.scholarship.source" type="text" class="form-control" />
+            <div class="row form-group">
+              <div class="col-sm-3">
+                <label>Account Type</label>
+                <select ng-model="newTransaction.scholarship.accountType" class="form-control">
+                  <option value="STAFF">Staff</option>
+                  <option value="MINISTRY">Ministry</option>
+                </select>
+              </div>
+
+              <div class="col-sm-9" ng-show="newTransaction.scholarship.accountType === 'STAFF'">
+                <label>Account Number</label>
+                <input ng-model="newTransaction.scholarship.accountNumber" type="text" class="form-control">
+              </div>
+
+              <div ng-show="newTransaction.scholarship.accountType === 'MINISTRY'">
+                <div class="col-sm-2">
+                  <label>Business Unit</label>
+                  <input ng-model="newTransaction.scholarship.businessUnit" type="text" class="form-control">
+                </div>
+
+                <div class="col-sm-2">
+                  <label>Operating Unit</label>
+                  <input ng-model="newTransaction.scholarship.operatingUnit" type="text" class="form-control">
+                </div>
+
+                <div class="col-sm-2">
+                  <label>Department</label>
+                  <input ng-model="newTransaction.scholarship.department" type="text" class="form-control">
+                </div>
+
+                <div class="col-sm-3">
+                  <label>Project Id</label>
+                  <input ng-model="newTransaction.scholarship.projectId" type="text" class="form-control">
+                </div>
+              </div>
             </div>
           </div>
 
           <div ng-show="newTransaction.paymentType === 'TRANSFER'">
-            <div class="form-group">
-              <label>Source (account/chartfield)</label>
-              <input ng-model="newTransaction.transfer.source" type="text" class="form-control" />
+            <div class="row form-group">
+              <div class="col-sm-3">
+                <label>Account Type</label>
+                <select ng-model="newTransaction.transfer.accountType" class="form-control">
+                  <option value="STAFF">Staff</option>
+                  <option value="MINISTRY">Ministry</option>
+                </select>
+              </div>
+
+              <div class="col-sm-9" ng-show="newTransaction.transfer.accountType === 'STAFF'">
+                <label>Account Number</label>
+                <input ng-model="newTransaction.transfer.accountNumber" type="text" class="form-control">
+              </div>
+
+              <div class="col-sm-2" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
+                <label>Business Unit</label>
+                <input ng-model="newTransaction.transfer.businessUnit" type="text" class="form-control">
+              </div>
+
+              <div class="col-sm-2" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
+                <label>Operating Unit</label>
+                <input ng-model="newTransaction.transfer.operatingUnit" type="text" class="form-control">
+              </div>
+
+              <div class="col-sm-2" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
+                <label>Department</label>
+                <input ng-model="newTransaction.transfer.department" type="text" class="form-control">
+              </div>
+
+              <div class="col-sm-3" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
+                <label>Project Id</label>
+                <input ng-model="newTransaction.transfer.projectId" type="text" class="form-control">
+              </div>
             </div>
           </div>
 
