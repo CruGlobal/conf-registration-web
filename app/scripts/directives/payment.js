@@ -12,6 +12,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $http) {
         $scope.conference =  $scope.$parent.conference;
         $scope.currentYear = new Date().getFullYear();
+        $scope.creditCardCountry = 'US';
 
         $scope.paymentMethodsViews = {
           CREDIT_CARD: 'views/paymentMethods/creditCard.html',
