@@ -131,9 +131,9 @@ angular.module('confRegistrationWebApp')
               }
             }
           }).result.then(function (choice) {
-            choice.amount = Number(choice.amount);
-            $scope.block.content.choices[index] = choice;
-          });
+              choice.amount = Number(choice.amount);
+              $scope.block.content.choices[index] = choice;
+            });
         };
 
         if($scope.wizard){
@@ -144,8 +144,10 @@ angular.module('confRegistrationWebApp')
             $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
           });
           $scope.$watch('visibleRegTypes', function (object) {
-            //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
-            $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; }));
+            if (angular.isDefined(object)) {
+              //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
+              $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; })).sort();
+            }
           }, true);
 
           var typeToProfile = [];
@@ -179,9 +181,9 @@ angular.module('confRegistrationWebApp')
             });
             if (profileCount > 1) {
               modalMessage.error('Only one ' +
-                $scope.block.profileType.charAt(0).toUpperCase() +
-                $scope.block.profileType.slice(1).toLowerCase() +
-                ' profile block can be used per form.');
+              $scope.block.profileType.charAt(0).toUpperCase() +
+              $scope.block.profileType.slice(1).toLowerCase() +
+              ' profile block can be used per form.');
               $scope.block.profileType = null;
               $scope.profileCheck = false;
             }
