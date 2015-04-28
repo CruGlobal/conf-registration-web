@@ -1,4 +1,36 @@
 <div class="form-group">
-  <label>Account Number</label>
-  <input type="text" ng-model="currentPayment.transfer.source" class="form-control" />
+  <label>Account Type</label>
+  <select ng-model="currentPayment.transfer.accountType" class="form-control">
+    <option value="STAFF">Staff</option>
+    <option value="MINISTRY">Ministry</option>
+  </select>
+</div>
+
+<div class="row">
+  <div class="col-sm-12" ng-show="currentPayment.transfer.accountType === 'STAFF'">
+    <label>Account Number</label>
+    <input ng-model="currentPayment.transfer.accountNumber" type="text" class="form-control">
+  </div>
+
+  <div ng-show="currentPayment.transfer.accountType === 'MINISTRY'">
+    <div class="col-sm-3 stacked-spacing-col-sm">
+      <label>Business Unit</label>
+      <input ng-model="currentPayment.transfer.businessUnit" type="text" class="form-control">
+    </div>
+
+    <div class="col-sm-3 stacked-spacing-col-sm">
+      <label>Operating Unit</label>
+      <input ng-model="currentPayment.transfer.operatingUnit" type="text" class="form-control">
+    </div>
+
+    <div class="col-sm-3 stacked-spacing-col-sm">
+      <label>Department</label>
+      <input ng-model="currentPayment.transfer.department" type="text" class="form-control">
+    </div>
+
+    <div class="col-sm-3">
+      <label>Project Id</label>
+      <input ng-model="currentPayment.transfer.projectId" type="text" class="form-control">
+    </div>
+  </div>
 </div>
