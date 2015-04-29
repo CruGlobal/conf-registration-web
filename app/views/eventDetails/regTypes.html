@@ -72,6 +72,26 @@
 
         <div class="col-xs-6">
           <h4>Payment</h4>
+          <label class="space input-group">
+            <input type="checkbox" ng-model="type.acceptCreditCards">
+            Accept Credit Cards
+          </label>
+
+          <label class="space input-group">
+            <input type="checkbox" ng-model="type.acceptChecks">
+            Accept Checks
+          </label>
+
+          <label class="input-group">
+            <input type="checkbox" ng-model="type.acceptTransfers">
+            Accept Account Transfers
+          </label>
+
+          <label class="input-group">
+            <input type="checkbox" ng-model="type.acceptScholarships">
+            Accept Scholarships
+          </label>
+
           <label class="space">
             <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
             Early Registration Discount
@@ -97,7 +117,7 @@
             </div>
           </div>
 
-          <div ng-show="conference.requireLogin && anyPaymentMethodAccepted()">
+          <div ng-show="conference.requireLogin && anyPaymentMethodAccepted(type)">
             <label>Minimum Payment to Register</label>
             <div class="input-group">
               <span class="input-group-addon"><i class="fa fa-usd"></i></span>
@@ -106,10 +126,10 @@
             <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
           </div>
 
-          <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted()">
+          <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
             <label>Minimum Payment to Register</label>
             <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must login in order to accept multiple payments. Require a login under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
-            <p class="text-muted" ng-show="!anyPaymentMethodAccepted()"><i class="fa fa-info-circle"></i> You must accept a payment method in order to set a minimum payment. Setup payment methods under the <a href ng-click="changeTab(tabs[3])">Payment Options</a> tab.</p>
+            <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> You must accept a at least one payment method in order to set a minimum payment.</p>
           </div>
         </div>
       </div>

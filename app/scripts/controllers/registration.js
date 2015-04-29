@@ -122,10 +122,6 @@ angular.module('confRegistrationWebApp')
       return (invalidBlocks.length === 0);
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
-    };
-
     $scope.startOver = function(){
       modalMessage.confirm('Start Over', 'Are you sure you want to start over? All answers will be erased.', 'Start Over', 'Cancel', true).then(function(){
         $scope.currentRegistration.registrants = [];

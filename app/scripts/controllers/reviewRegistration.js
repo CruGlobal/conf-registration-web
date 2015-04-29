@@ -86,7 +86,7 @@ angular.module('confRegistrationWebApp')
       if($scope.currentPayment.amount > $scope.currentRegistration.remainingBalance) {
         $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('moneyFormat')(registration.remainingBalance) + ' to register for this event.');
       }
-      if ($scope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
+      if ($scope.currentPayment.amount === 0 || !$scope.acceptedPaymentMethods()) {
         setRegistrationAsCompleted();
         return;
       }
@@ -191,8 +191,24 @@ angular.module('confRegistrationWebApp')
       return !_.contains(block.registrantTypes, regTypeId);
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    $scope.acceptedPaymentMethods = function(){
+      var paymentMethods = {};
+      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId){
+        var regType = $scope.getRegistrantType(registrantTypeId);
+        if(regType.acceptCreditCards){
+          paymentMethods.acceptCreditCards = true;
+        }
+        if(regType.acceptChecks){
+          paymentMethods.acceptChecks = true;
+        }
+        if(regType.acceptTransfers){
+          paymentMethods.acceptTransfers = true;
+        }
+        if(regType.acceptScholarships){
+          paymentMethods.acceptScholarships = true;
+        }
+      });
+      return (_.isEmpty(paymentMethods) ? false : paymentMethods);
     };
 
     $scope.registrantDeletable = function(r){

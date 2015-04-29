@@ -98,7 +98,7 @@ angular.module('confRegistrationWebApp')
 
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted() && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
+        if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
           t.minimumDeposit = Number(t.minimumDeposit);
           if (t.minimumDeposit > t.cost) {
             validationErrors.push('The minimum deposit for \'' + t.name + '\' must be less than the cost.');
@@ -161,8 +161,8 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return $scope.conference.acceptCreditCards || $scope.conference.acceptChecks || $scope.conference.acceptTransfers || conference.acceptScholarships;
+    $scope.anyPaymentMethodAccepted = function(type){
+      return type.acceptCreditCards || type.acceptChecks || type.acceptTransfers || type.acceptScholarships;
     };
 
     $scope.previewEmail = function(reg){
