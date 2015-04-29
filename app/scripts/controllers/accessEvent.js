@@ -23,7 +23,12 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.eventSearch = function(val) {
-      return $http.get('conferences?conferenceName=' + encodeURIComponent(val)).then(function(response){
+      return $http.get('conferences', {
+        params: {
+          conferenceName: val,
+          historic: true
+        }
+      }).then(function(response){
         return response.data;
       });
     };
