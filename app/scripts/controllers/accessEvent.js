@@ -2,6 +2,9 @@
 
 angular.module('confRegistrationWebApp')
   .controller('AccessEventCtrl', function ($scope, $http, $modalInstance, modalMessage) {
+    //default to true
+    $scope.eventSearchHistoric = true;
+
     $scope.close = function () {
       $modalInstance.dismiss();
     };
@@ -26,7 +29,7 @@ angular.module('confRegistrationWebApp')
       return $http.get('conferences', {
         params: {
           conferenceName: val,
-          historic: true
+          historic: $scope.eventSearchHistoric
         }
       }).then(function(response){
         return response.data;
