@@ -1,28 +1,28 @@
 <dl class="dl-horizontal">
   <dt>Payment method</dt>
   <dd>
-    <label ng-show="conference.acceptCreditCards">
+    <label ng-show="paymentMethods().acceptCreditCards">
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'CREDIT_CARD'">
       Credit Card
     </label>
 
-    <label ng-show="conference.acceptChecks">
+    <label ng-show="paymentMethods().acceptChecks">
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'CHECK'">
       Check
     </label>
 
-    <label ng-show="conference.acceptTransfers">
+    <label ng-show="paymentMethods().acceptTransfers">
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'TRANSFER'">
       Cru Staff / Ministry Account Transfer
     </label>
 
-    <label ng-show="conference.acceptScholarships">
+    <label ng-show="paymentMethods().acceptScholarships">
       <input type="radio"
              ng-model="currentPayment.paymentType"
              ng-value="'SCHOLARSHIP'">
