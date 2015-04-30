@@ -192,23 +192,18 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.acceptedPaymentMethods = function(){
-      var paymentMethods = {};
-      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId){
-        var regType = $scope.getRegistrantType(registrantTypeId);
-        if(regType.acceptCreditCards){
-          paymentMethods.acceptCreditCards = true;
-        }
-        if(regType.acceptChecks){
-          paymentMethods.acceptChecks = true;
-        }
-        if(regType.acceptTransfers){
-          paymentMethods.acceptTransfers = true;
-        }
-        if(regType.acceptScholarships){
-          paymentMethods.acceptScholarships = true;
-        }
+      var regTypesInRegistration = [];
+      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId) {
+        regTypesInRegistration.push($scope.getRegistrantType(registrantTypeId));
       });
-      return (_.isEmpty(paymentMethods) ? false : paymentMethods);
+
+      var paymentMethods = {
+        acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
+        acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
+        acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
+        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships')
+      };
+      return (!_.some(paymentMethods) ? false : paymentMethods);
     };
 
     $scope.registrantDeletable = function(r){

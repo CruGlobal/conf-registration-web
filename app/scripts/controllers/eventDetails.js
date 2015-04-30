@@ -90,7 +90,7 @@ angular.module('confRegistrationWebApp')
       });
 
       //Credit cards
-      if (_.isEmpty($scope.conference.paymentGatewayId) && _.some(_.pluck($scope.conference.registrantTypes, 'acceptCreditCards'))) {
+      if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
         validationErrors.push('Please enter a credit card Account ID.');
       }
 
