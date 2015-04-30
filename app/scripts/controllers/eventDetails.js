@@ -74,13 +74,6 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('Registration end date/time must be after registration start date/time.');
       }
 
-      //Credit cards
-      if ($scope.conference.acceptCreditCards) {
-        if (_.isEmpty($scope.conference.paymentGatewayId)) {
-          validationErrors.push('Please enter a merchant account ID.');
-        }
-      }
-
       //Registrant Name
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (_.isEmpty(t.name)) {
@@ -96,6 +89,11 @@ angular.module('confRegistrationWebApp')
         }
       });
 
+      //Credit cards
+      if (_.isEmpty($scope.conference.paymentGatewayId) && _.some(_.pluck($scope.conference.registrantTypes, 'acceptCreditCards'))) {
+        validationErrors.push('Please enter a credit card Account ID.');
+      }
+
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
@@ -106,7 +104,6 @@ angular.module('confRegistrationWebApp')
         } else {
           t.minimumDeposit = null;
         }
-
       });
 
       //Early bird discount
