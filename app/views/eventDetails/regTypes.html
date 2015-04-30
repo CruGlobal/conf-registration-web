@@ -72,10 +72,13 @@
 
         <div class="col-xs-6">
           <h4>Payment</h4>
-          <label class="input-group">
+          <label>
             <input type="checkbox" ng-model="type.acceptCreditCards">
             Accept Credit Cards
           </label>
+          <button popover="Enter credit card processing details under the Payment Options tab."
+                  popover-trigger="mouseenter"
+                  class="btn btn-link"><i class="fa fa-question-circle"></i></button>
 
           <label class="input-group">
             <input type="checkbox" ng-model="type.acceptChecks">
