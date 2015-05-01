@@ -24,11 +24,15 @@
   </ul>
 </div>
 
-<div class="row">
+<div class="row" ng-if="!conference.registrationOpen && registerMode !== 'preview'">
   <div class="col-xs-12 form-content">
-    <p ng-if="!conference.registrationOpen && registerMode !== 'preview'">
+    <p>
       Sorry, registration for this event is not open.
     </p>
+  </div>
+</div>
+<div class="row" ng-if="conference.registrationOpen || registerMode === 'preview'">
+  <div class="col-xs-12 form-content">
     <section ng-if="activePageId == ''">
       <h2 class="page-title border">Welcome</h2>
       <p ng-bind="conference.description" class="display-linebreaks"></p>
