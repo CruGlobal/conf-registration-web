@@ -7,7 +7,8 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       scope: {
         currentPayment: '=payment',
-        currentRegistration: '=registration'
+        currentRegistration: '=registration',
+        paymentMethods: '=paymentMethods'
       },
       controller: function ($scope, $http) {
         $scope.conference =  $scope.$parent.conference;

@@ -4,7 +4,7 @@
         <h1>You are registered!</h1>
         <p>Keep this information for your records.</p>
         <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
-        <p ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
+        <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
 
       <div class="well well-creme2">
         <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
@@ -30,8 +30,8 @@
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3>Your registration is not complete...</h3>
       <br />
-      <p ng-if="!anyPaymentMethodAccepted() || currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
-      <p ng-if="anyPaymentMethodAccepted() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click Confirm.  That's it!</p>
+      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0">Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
+      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0">Almost done. Please review your registration details and enter your payment information below.  Then click Confirm.  That's it!</p>
     </section>
   </div>
 </div>
@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration">
+    <section ng-if="allowGroupRegistration && !currentRegistration.completed">
       <h2 class="page-title border">Add a Family Member</h2>
       <registration-type-select></registration-type-select>
     </section>
@@ -81,35 +81,35 @@
       <p>A breakdown of the costs<span ng-show="currentRegistration.pastPayments.length > 0"> and payments</span> associated with your registration.</p>
       <table class="table review-breakdown">
         <thead>
-        <tr>
-          <th width="10"></th>
-          <th>Registrant</th>
-          <th width="90">Cost</th>
-        </tr>
+          <tr>
+            <th width="10"></th>
+            <th>Registrant</th>
+            <th width="90">Cost</th>
+          </tr>
         </thead>
         <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-        <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
-          <td>
-            <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
-          </td>
-          <td>{{r.firstName}} {{r.lastName}}</td>
-          <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</span></td>
-        </tr>
-        <tr ng-show="expandRegistrantCost[r.id]">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
-          <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
-        </tr>
-        <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
-          <td>{{a.amount | moneyFormat}}</td>
-        </tr>
-        <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
-          <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
-          <td>{{(r.calculatedDiscounts * -1) | moneyFormat}}</td>
-        </tr>
+          <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
+            <td>
+              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
+            </td>
+            <td>{{r.firstName}} {{r.lastName}}</td>
+            <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</span></td>
+          </tr>
+          <tr ng-show="expandRegistrantCost[r.id]">
+            <td></td>
+            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
+            <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
+          </tr>
+          <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
+            <td></td>
+            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
+            <td>{{a.amount | moneyFormat}}</td>
+          </tr>
+          <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
+            <td></td>
+            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
+            <td>{{(r.calculatedDiscounts * -1) | moneyFormat}}</td>
+          </tr>
         </tbody>
       </table>
 
@@ -142,18 +142,18 @@
         </div>
       </div>
 
-      <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0">
+    <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">
         <h2 class="page-title border">Payment</h2>
-        <div ng-if="anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0" ert-payment payment="currentPayment" registration="currentRegistration"></div>
-      </div>
+      <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
+    </div>
     </section>
-    <section class="text-center spacing-above-md" ng-if="!currentRegistration.completed || (anyPaymentMethodAccepted() && currentRegistration.remainingBalance > 0)">
+    <section class="text-center spacing-above-md" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
       <p ng-if="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
-      <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
+    <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+    <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </section>
     <section class="text-center spacing-above-md" ng-if="currentRegistration.completed">
-      <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
+        <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
     </section>
   </div>
 </div>

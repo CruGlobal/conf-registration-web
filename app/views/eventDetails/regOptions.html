@@ -12,15 +12,22 @@
 
 <div class="form-group">
   <div class="col-xs-12">
-  <input type="checkbox" id="requireLogin" ng-value="true" ng-model="conference.requireLogin">
-  <label for="requireLogin">Require Relay or Facebook sign in to register</label>
-  <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-value="true" ng-model="conference.requireLogin">
+        Require Relay or Facebook sign in to register
+      </label>
+    </div>
+    <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
   </div>
 </div>
 
 <div class="form-group">
   <div class="col-xs-12">
-    <input type="checkbox" id="allowEditRegistrationAfterComplete" ng-value="true" ng-model="conference.allowEditRegistrationAfterComplete">
-    <label for="allowEditRegistrationAfterComplete">Allow registrants to edit their answers after registration is complete</label>
+    <div class="checkbox">
+      <label><input type="checkbox" ng-value="true" ng-model="conference.allowEditRegistrationAfterComplete">
+        Allow registrants to edit their answers after registration is complete
+      </label>
+    </div>
   </div>
 </div>

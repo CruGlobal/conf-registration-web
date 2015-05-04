@@ -12,7 +12,7 @@
             <div>
               <span class="pull-right" ng-show="loading"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
               <p class="text-left">Enter the name of the event that you would like to register for.</p>
-              <input type="text" ng-model="staffSelectTypeahead" class="form-control"
+              <input type="text" ng-model="eventSearchTypeahead" class="form-control"
                      typeahead="e.name for e in eventSearch($viewValue)"
                      typeahead-loading="loading"
                      typeahead-wait-ms="300"
