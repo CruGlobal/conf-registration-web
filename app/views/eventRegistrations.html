@@ -11,7 +11,7 @@
   <div class="row well well-full spacing-above-xs spacing-below-sm">
     <div class="row">
       <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-col-md">
-        <label>Search visible columns:</label>
+        <label>Search<small> (visible columns only)</small>:</label>
         <input type="text" class="form-control" ng-model="strFilter">
       </div>
       <div class="col-md-2 col-sm-4 stacked-spacing-col-sm" ng-if="eventHasCost()">
