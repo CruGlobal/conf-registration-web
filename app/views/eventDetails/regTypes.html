@@ -38,30 +38,33 @@
                   <input type="checkbox" ng-model="type.hidden">
                   Hide from Registration Form
                 </label>
-                <button popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
-                        popover-trigger="mouseenter"
-                        popover-append-to-body="true"
-                        class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+                <i class="question-popover fa fa-question-circle"
+                   popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
               </div>
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.allowGroupRegistrations">
                   Allow Family Registrations
                 </label>
-                <button popover="When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration."
-                        popover-trigger="mouseenter"
-                        popover-append-to-body="true"
-                        class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+                <i class="question-popover fa fa-question-circle"
+                   popover="When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration."
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
               </div>
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.groupSubRegistrantType">
                   Family-only Registration Type
                 </label>
-                <button popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
-                        popover-trigger="mouseenter"
-                        popover-append-to-body="true"
-                        class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+                <i class="question-popover fa fa-question-circle"
+                   popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
               </div>
               <div class="checkbox">
                 <label>
@@ -79,9 +82,10 @@
                   <input type="checkbox" ng-model="type.acceptCreditCards">
                   Accept Credit Cards
                 </label>
-                <button popover="Enter credit card processing details under the Payment Options tab."
-                        popover-trigger="mouseenter"
-                        class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+                <i class="question-popover fa fa-question-circle"
+                   popover="Enter credit card processing details under the Payment Options tab."
+                   popover-trigger="mouseenter">
+                </i>
               </div>
               <div class="checkbox">
                 <label>
@@ -104,12 +108,12 @@
               <hr>
               <div class="form-group">
                 <div class="col-xs-12">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
-                    Early Registration Discount
-                  </label>
-                </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="type.earlyRegistrationDiscount" ng-value="true">
+                      Early Registration Discount
+                    </label>
+                  </div>
                 </div>
                 <div ng-if="type.earlyRegistrationDiscount">
                   <div class="col-sm-8 stacked-spacing-col-sm">
@@ -146,9 +150,10 @@
           <div class="form-group">
             <div class="col-xs-12">
               <label>Confirmation Email</label>
-              <button popover="Your event name, start time and end time will be included in the email by default"
-                      popover-trigger="mouseenter"
-                      class="btn btn-link"><i class="fa fa-question-circle"></i></button>
+              <i class="question-popover fa fa-question-circle"
+                 popover="Your event name, start time and end time will be included in the email by default"
+                 popover-trigger="mouseenter">
+              </i>
               <wysiwyg textarea-class="form-control" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
             </div>
           </div>
