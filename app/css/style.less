@@ -741,7 +741,9 @@ pick-a-date, pick-a-time {
   }
 }
 
-/***** BOOTSTRAP DEFAULT OVERRIDES *****/
+/***** BOOTSTRAP *****/
+
+/* Default Overrides */
 .label-success, .btn-success {
   background: @green;
 }
@@ -750,4 +752,29 @@ pick-a-date, pick-a-time {
 }
 .nav-pills .active a {
   background: @darkerblue;
+}
+
+/* Additional Features */
+.has-feedback.has-clear {
+  /* Remove Internet Explorer native clear button */
+  input::-ms-clear {
+    display: none;
+  }
+
+  .form-control-clear {
+    color: #bbb;
+    color: rgba(0, 0, 0, 0.4);
+
+    /*
+     * Enable pointer events as they have been disabled since Bootstrap 3.3
+     * See https://github.com/twbs/bootstrap/pull/14104
+     */
+    pointer-events: auto;
+
+    &:hover {
+      color: #777;
+      color: rgba(0, 0, 0, 0.7);
+      cursor: pointer;
+    }
+  }
 }
