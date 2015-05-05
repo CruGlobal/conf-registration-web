@@ -99,6 +99,9 @@ angular.module('confRegistrationWebApp')
         throttleFilter();
       }
     });
+    $scope.resetStrFilter = function(){
+      $scope.strFilter = '';
+    };
 
     $scope.refreshRegistrations = function(){
       RegistrationCache.getAllForConference(conference.id, $scope.queryParameters).then(function(data){
