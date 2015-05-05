@@ -20,7 +20,7 @@
     </div>
     <ul id="event-list">
       <li class="event-box" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEventsFilter}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
-        <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">
+        <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" ng-disabled="event.archived">
           <i class="fa fa-users green"></i>
           <strong>{{event.completedRegistrationCount}}</strong> Registered
         </button>
