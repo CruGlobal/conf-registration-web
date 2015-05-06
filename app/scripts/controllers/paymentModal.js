@@ -278,7 +278,7 @@ angular.module('confRegistrationWebApp')
     $scope.allowCreditCardPayments = function () {
       var allow = false;
       _.each($scope.registration.registrants, function(registrant) {
-        var registrantType = $scope.getRegistrantType(registrant.registrantTypeId)
+        var registrantType = $scope.getRegistrantType(registrant.registrantTypeId);
         if(registrantType.acceptCreditCards) {
           allow = true;
         }
