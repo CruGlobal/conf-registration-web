@@ -336,7 +336,7 @@
               <label>Type</label>
               <select ng-model="newTransaction.paymentType" class="form-control">
                 <optgroup label="Payment">
-                  <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
+                  <option value="CREDIT_CARD" ng-if="allowCreditCardPayments()">Credit Card</option>
                   <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
                   <option value="SCHOLARSHIP">Scholarship</option>
                   <option value="TRANSFER">Account Transfer</option>
