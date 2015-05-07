@@ -138,7 +138,7 @@
                     <div ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                        <input type="number" ng-model="editPayment.amount"  class="form-control" step="0.01" min="0">
+                        <input type="number" ng-model="editPayment.amount" class="form-control" step="0.01" min="0">
                       </div>
                     </div>
                     <div ng-show="editPayment.paymentType === 'CREDIT_CARD'">
@@ -341,7 +341,7 @@
           <select ng-model="newTransaction.paymentType" class="form-control">
             <option value="" disabled selected>Choose one...</option>
             <optgroup label="Payment">
-              <option value="CREDIT_CARD" ng-if="conference.acceptCreditCards">Credit Card</option>
+              <option value="CREDIT_CARD" ng-if="allowCreditCardPayments()">Credit Card</option>
               <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
               <option value="SCHOLARSHIP">Scholarship</option>
               <option value="TRANSFER">Account Transfer</option>
