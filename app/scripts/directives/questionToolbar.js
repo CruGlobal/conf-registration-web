@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('questionToolbar', function ($document) {
+  .directive('questionToolbar', function ($document, $timeout) {
     return {
       restrict: 'A',
       link: function() {
@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
           if(container.length){
             $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
             container.css('min-height', function(){
-              return $('.questions-toolbar').height();
+              return $('.questions-toolbar').outerHeight(true);
             });
           }
         }
@@ -52,7 +52,7 @@ angular.module('confRegistrationWebApp')
               }
             }
           });
-          setQuestionToolbarSize();
+          $timeout(setQuestionToolbarSize, 0);
           $(window).smartresize(function(){
             setQuestionToolbarSize();
           });

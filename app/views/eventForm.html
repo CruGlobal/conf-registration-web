@@ -1,9 +1,9 @@
 <div class="alert growl-message" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.message && !growlMessage"></div>
-<div class="row">
+<div class="container full">
   <!-- Elements -->
-  <div ng-controller="AngularUiTreeConfig" class="col-xs-12" ng-show="conference.registrationPages.length > 0">
+  <div ng-controller="AngularUiTreeConfig">
     <div class="questions-toolbar-container" question-toolbar>
-      <div class="well well-sm questions-toolbar">
+      <div class="row well well-sm well-full questions-toolbar">
         <div class="row">
           <div class="col-sm-4 hidden-xs">
             <h2 class="page-title">Questions</h2>
@@ -26,13 +26,21 @@
         </div>
       </div>
     </div>
-    <div ui-tree="pageTreeConfig" class="pages">
-      <h2 class="page-title border">Pages <small>Drag questions from above and edit pages</small></h2>
-      <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page" novalidate>
-        <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
-          <hr ng-if="!$first">
-          <page></page>
-        </div>
-      </form>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div ui-tree="pageTreeConfig" class="pages">
+        <h2 class="page-title border">Pages <small>Drag questions from above and edit pages</small></h2>
+        <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page" novalidate>
+          <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+            <hr ng-if="!$first">
+            <page></page>
+          </div>
+        </form>
+      </div>
+      <div class="well" ng-if="conference.registrationPages.length == 0">There are currently no pages. Add a new page using the toolbar above.</div>
     </div>
   </div>
+</div>
