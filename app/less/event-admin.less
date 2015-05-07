@@ -85,12 +85,18 @@ main.dashboard {
     border-bottom: 2px #D5D5D5 solid;
     .fa-users{
       font-size: 11em;
+      @media (max-width: @screen-xs-max){
+        font-size: 8em;
+      }
     }
     .welcome{
       font-size: 3.75em;
       display: block;
       text-transform: uppercase;
       .sans-serif-bold;
+      @media (max-width: @screen-xs-max){
+        font-size: 2.65em;
+      }
     }
     .container{
       margin: auto;
