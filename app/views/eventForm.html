@@ -2,9 +2,9 @@
 <div class="container full">
   <!-- Elements -->
   <div ng-controller="AngularUiTreeConfig">
-    <div class="questions-toolbar-container" question-toolbar>
+    <div class="questions-toolbar-placeholder" question-toolbar>
       <div class="row well well-sm well-full questions-toolbar">
-        <div class="row">
+        <div class="questions-toolbar-wrap">
           <div class="col-sm-4 hidden-xs">
             <h2 class="page-title">Questions</h2>
           </div>
@@ -16,7 +16,7 @@
             </div>
           </div>
         </div>
-        <div ui-tree="toolbarTreeConfig" class="row spacing-above-xs" ng-if="questionsToolbarVisible">
+        <div ui-tree="toolbarTreeConfig" class="questions-toolbar-wrap spacing-above-xs" ng-if="questionsToolbarVisible">
           <div class="col-xs-12" ui-tree-nodes="" ng-model="questions">
             <span ui-tree-node ng-repeat="question in questions" class="label label-primary">
               <i class="fabtn fa" ng-class="question.iconClass"></i>

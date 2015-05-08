@@ -36,10 +36,10 @@ angular.module('confRegistrationWebApp')
 
         //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
-          var container = $('.questions-toolbar-container');
-          if(container.length){
-            $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
-            container.css('min-height', function(){
+          var placeholder = $('.questions-toolbar-placeholder');
+          if(placeholder.length){
+            $('.questions-toolbar').data('bs.affix').options.offset.top = placeholder.offset().top;
+            placeholder.css('min-height', function(){
               return $('.questions-toolbar').outerHeight(true);
             });
           }
@@ -48,7 +48,7 @@ angular.module('confRegistrationWebApp')
           $('.questions-toolbar').affix({
             offset: {
               top: function () {
-                return (this.top = $('.questions-toolbar-container').offset().top);
+                return (this.top = $('.questions-toolbar-placeholder').offset().top);
               }
             }
           });
