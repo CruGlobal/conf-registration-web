@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
-      bodyClass: 'frontend',
+      bodyClass: 'user-registration',
       title: conference.name,
       confId: conference.id,
       footer: false
