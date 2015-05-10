@@ -4,13 +4,17 @@
 
 <div class="form-group" ng-show="!currentPayment.scholarship.staffEmail">
   <label>Staff member name:</label>
-  <span class="pull-right" ng-show="loadingStaff"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
-  <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control"
-         typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-         typeahead-loading="loadingStaff"
-         typeahead-wait-ms="300"
-         typeahead-input-formatter="null"
-         typeahead-on-select="selectStaff($item, $model, $label)">
+  <div class="form-group has-feedback">
+    <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control"
+           typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+           typeahead-loading="loadingStaff"
+           typeahead-wait-ms="300"
+           typeahead-input-formatter="null"
+           typeahead-on-select="selectStaff($item, $model, $label)">
+    <span class="form-control-feedback" title="Searching..." ng-if="loadingStaff">
+      <i class="fa fa-spinner fa-spin"></i>
+    </span>
+  </div>
 </div>
 
 <div class="well" ng-show="currentPayment.scholarship.staffEmail">
