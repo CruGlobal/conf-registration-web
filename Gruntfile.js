@@ -30,10 +30,10 @@ module.exports = function (grunt) {
     yeoman: yeomanConfig,
     watch: {
       styles: {
-        files: ['css/*.less'], // which files to watch
-        tasks: ['less'],
+        files: ['<%= yeoman.app %>/less/*.less'], // which files to watch
+        tasks: ['less:dev'],
         options: {
-          nospawn: true
+          spawn: false
         }
       },
       livereload: {
@@ -123,8 +123,14 @@ module.exports = function (grunt) {
         },
         files: {
           // target.css file: source.less file
-          '.tmp/css/style.css': '<%= yeoman.app %>/css/style.less',
-          '<%= yeoman.dist %>/css/style.css': '<%= yeoman.app %>/css/style.less'
+          '.tmp/css/style.css': '<%= yeoman.app %>/less/style.less',
+          '<%= yeoman.dist %>/css/style.css': '<%= yeoman.app %>/less/style.less'
+        }
+      },
+      dev: {
+        files: {
+          // target.css file: source.less file
+          '.tmp/css/style.css': '<%= yeoman.app %>/less/style.less'
         }
       }
     },
