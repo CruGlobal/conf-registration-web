@@ -36,19 +36,18 @@
       </div>
       <div class="col-lg-4 col-md-5 col-sm-6 text-right">
         <br>
-        <div class="btn-group" role="group">
+        <div class="btn-group" role="group" dropdown auto-close="outsideClick">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
             More Filters
             <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
             <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
           </button>
           <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i> Refresh</button>
-          <button type="button" class="btn btn-primary btn-md dropdown-toggle col-dropdown" ng-model="columnsDropdownToggle" btn-checkbox>
+          <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
             Columns
-            <i class="fa fa-caret-down" ng-show="!columnsDropdownToggle"></i>
-            <i class="fa fa-caret-up" ng-show="columnsDropdownToggle"></i>
+            <i class="fa fa-caret-down"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown" ng-show="columnsDropdownToggle">
+          <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown">
             <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
               <a href="" ng-click="toggleColumn($index)">
                 <i class="fa fa-check-square" ng-show="block.visible"></i>
@@ -98,7 +97,7 @@
       </div>
     </div>
     <div class="col-sm-8 text-right">
-        <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
+      <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
     </div>
   </div>
   <div class="row spacing-below-xs" ng-if="registrants.length > 0">
