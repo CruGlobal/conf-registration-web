@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
       type: 'registration',
       mainClass: 'container front-form',
       bodyClass: 'frontend',
-      title: conference.name,
+      conference: conference,
       confId: conference.id,
       footer: false
     };
