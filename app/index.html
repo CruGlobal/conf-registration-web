@@ -189,11 +189,19 @@
   <section id="frontpagetitle">
     <div class="container">
       <div class="row">
-        <div class="col-xs-10">
-          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
-            <h1 ng-bind="globalPage.title"></h1>
+        <div class="col-xs-10" ng-if="globalPage.confId">
+          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/">
+            <h1 ng-bind="globalPage.conference.name"></h1>
           </a>
-          <a href="#/" ng-if="!globalPage.confId">
+          <p style="color:white;"><i class="fa fa-calendar fa-fw"></i>
+            {{globalPage.conference.eventStartTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}} -
+            {{globalPage.conference.eventEndTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}}
+            <span ng-if="globalPage.conference.locationName"><br><i class="fa fa-map-marker fa-fw"></i>
+            {{globalPage.conference.locationName}}</span>
+          </p>
+        </div>
+        <div class="col-xs-10" ng-if="!globalPage.confId">
+          <a href="#/">
             <h1 ng-bind="globalPage.title"></h1>
           </a>
         </div>
