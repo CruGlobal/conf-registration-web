@@ -9,6 +9,9 @@
     color: white;
     font-size: 36px;
     text-decoration: none;
+    @media (max-width: @screen-xs-max){
+      font-size: 22px;
+    }
   }
 
   .usr-greeting {
@@ -78,16 +81,25 @@ main.dashboard {
     background-image: url('/img/rough_diagonal.png');
     background-repeat: repeat;
     padding: 30px;
+    @media (max-width: @screen-xs-max) {
+      padding: 30px 0px;
+    }
     border-top: 2px #D5D5D5 solid;
     border-bottom: 2px #D5D5D5 solid;
     .fa-users{
       font-size: 11em;
+      @media (max-width: @screen-xs-max){
+        font-size: 8em;
+      }
     }
     .welcome{
       font-size: 3.75em;
       display: block;
       text-transform: uppercase;
       .sans-serif-bold;
+      @media (max-width: @screen-xs-max){
+        font-size: 2.65em;
+      }
     }
     .container{
       margin: auto;
@@ -166,9 +178,6 @@ main.event-overview {
   }
 }
 main.event-registrations {
-  .full {
-    width: 100%;
-  }
   .rowdetails .well {
     background: @verylightgray;
     border-radius: 0;
@@ -178,7 +187,7 @@ main.event-registrations {
     }
   }
   .reg-views-dropdown {
-    display: block;
+    z-index: 9;
     a {
       width:250px;
       overflow:hidden;
@@ -213,19 +222,31 @@ main.event-details {
   }
 }
 main.event-questions {
+  .questions-toolbar-placeholder {
+    margin-bottom: 10px;
+  }
+  .questions-toolbar-wrap{
+    margin-left: -3px;
+    margin-right: -3px;
+  }
   .questions-toolbar{
+    margin-bottom: 0;
     .label{
       display: inline-block;
       margin: 4px 2px 1px;
       font-size: 13px;
       cursor: move;
+      width: 100%
     }
   }
   .questions-toolbar.affix{
     position: fixed;
-    width: 100%;
+    //width: 100%;
     top: 0;
     left: 0;
+    right: 0;
+    margin-left: 0;
+    margin-right: 0;
     z-index: 5;
     border-left: 0;
     border-right: 0;

@@ -11,6 +11,11 @@ angular.module('confRegistrationWebApp')
       footer: true
     };
 
+    $scope.filterName = '';
+    $scope.resetFilterName = function(){
+      $scope.filterName = '';
+    };
+
     $scope.$on('conferences/', function (event, conferences) {
       $scope.conferences = conferences;
     });

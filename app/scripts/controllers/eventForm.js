@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container event-questions',
+      mainClass: 'event-questions',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -178,14 +178,14 @@ angular.module('confRegistrationWebApp')
       {
         'id': 'paragraphContent',
         'defaultTitle': 'Information',
-        'iconClass': 'fa-plus-circle',
-        'name': 'Information Box'
+        'iconClass': 'fa-info-circle',
+        'name': 'Information'
       },
       {
         'id': 'textQuestion',
         'defaultTitle': 'Question',
         'iconClass': 'fa-pencil-square-o',
-        'name': 'Single Line Text'
+        'name': 'Text'
       },
       {
         'id': 'textareaQuestion',
@@ -197,13 +197,15 @@ angular.module('confRegistrationWebApp')
         'id': 'radioQuestion',
         'defaultTitle': 'Multiple Choice Question',
         'iconClass': 'fa-list',
-        'name': 'Multiple Choice (choose one)'
+        'name': 'Multiple Choice',
+        'tooltip': 'Choose one'
       },
       {
         'id': 'checkboxQuestion',
         'defaultTitle': 'Checkbox Question',
         'iconClass': 'fa-check-square-o',
-        'name': 'Checkbox (choose one or more)'
+        'name': 'Checkbox',
+        'tooltip': 'Choose one or more'
       },
       {
         'id': 'selectQuestion',
@@ -263,11 +265,6 @@ angular.module('confRegistrationWebApp')
         'iconClass': 'fa-graduation-cap',
         'name': 'Year in School'
       }];
-
-    $scope.questionsToolbarVisible = true;
-    $scope.toggleQuestionsToolbar = function() {
-      $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
-    };
 
     //Logic to handle collapsing pages
     var hiddenPages = [];

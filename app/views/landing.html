@@ -9,15 +9,17 @@
         <div class="row">
           <div class="col-md-6">
             <h2>Register for an event</h2>
-            <div>
-              <span class="pull-right" ng-show="loading"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
-              <p class="text-left">Enter the name of the event that you would like to register for.</p>
-              <input type="text" ng-model="eventSearchTypeahead" class="form-control"
+            <p class="text-left">Enter the name of the event that you would like to register for.</p>
+            <div class="form-group has-feedback">
+              <input type="text" ng-model="eventSearchTypeahead" class="form-control" placeholder="Search"
                      typeahead="e.name for e in eventSearch($viewValue)"
                      typeahead-loading="loading"
                      typeahead-wait-ms="300"
                      typeahead-input-formatter="null"
                      typeahead-on-select="selectEvent($item, $model, $label)">
+              <span class="form-control-feedback" title="Searching..." ng-if="loading">
+                <i class="fa fa-spinner fa-spin"></i>
+              </span>
             </div>
           </div>
           <div class="col-md-6">

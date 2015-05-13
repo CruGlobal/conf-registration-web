@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('questionToolbar', function ($document) {
+  .directive('questionToolbar', function ($document, $timeout) {
     return {
       restrict: 'A',
-      link: function() {
+      link: function($scope) {
         //Debouncing plugin for jQuery from http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
         (function($,sr){
           // debouncing function from John Hann
@@ -36,23 +36,30 @@ angular.module('confRegistrationWebApp')
 
         //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
-          var container = $('.questions-toolbar-container');
-          if(container.length){
-            $('.questions-toolbar').data('bs.affix').options.offset.top = container.offset().top;
-            container.css('min-height', function(){
-              return $('.questions-toolbar').height();
+          var placeholder = $('.questions-toolbar-placeholder');
+          if(placeholder.length){
+            $('.questions-toolbar').data('bs.affix').options.offset.top = placeholder.offset().top;
+            placeholder.css('min-height', function(){
+              return $('.questions-toolbar').outerHeight(true);
             });
           }
         }
+
+        $scope.questionsToolbarVisible = true;
+        $scope.toggleQuestionsToolbar = function() {
+          $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
+          $timeout(setQuestionToolbarSize, 0);
+        };
+
         $document.ready(function () {
           $('.questions-toolbar').affix({
             offset: {
               top: function () {
-                return (this.top = $('.questions-toolbar-container').offset().top);
+                return (this.top = $('.questions-toolbar-placeholder').offset().top);
               }
             }
           });
-          setQuestionToolbarSize();
+          $timeout(setQuestionToolbarSize, 0);
           $(window).smartresize(function(){
             setQuestionToolbarSize();
           });
