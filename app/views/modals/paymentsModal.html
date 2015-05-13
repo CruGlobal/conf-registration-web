@@ -418,7 +418,7 @@
 
       <div ng-show="newTransaction.paymentType === 'SCHOLARSHIP'">
         <div class="row form-group">
-          <div class="col-sm-3" ng-class="{'stacked-spacing-col-sm': newTransaction.scholarship.accountType != null}">
+          <div class="col-sm-3">
             <label>Account Type</label>
             <select ng-model="newTransaction.scholarship.accountType" class="form-control">
               <option value="STAFF">Staff</option>
@@ -426,12 +426,12 @@
             </select>
           </div>
 
-          <div class="col-sm-9" ng-show="newTransaction.scholarship.accountType === 'STAFF'">
+          <div class="col-sm-9 stacked-spacing-above-col-sm" ng-show="newTransaction.scholarship.accountType === 'STAFF'">
             <label>Account Number</label>
             <input ng-model="newTransaction.scholarship.accountNumber" type="text" class="form-control">
           </div>
 
-          <div ng-show="newTransaction.scholarship.accountType === 'MINISTRY'">
+          <div class="stacked-spacing-above-col-sm" ng-show="newTransaction.scholarship.accountType === 'MINISTRY'">
             <div class="col-sm-2 stacked-spacing-col-sm">
               <label>Business Unit</label>
               <input ng-model="newTransaction.scholarship.businessUnit" type="text" class="form-control">
@@ -456,7 +456,7 @@
       </div>
 
       <div ng-show="newTransaction.paymentType === 'TRANSFER'" class="row form-group">
-        <div class="col-sm-3" ng-class="{'stacked-spacing-col-sm': newTransaction.transfer.accountType != null}">
+        <div class="col-sm-3">
           <label>Account Type</label>
           <select ng-model="newTransaction.transfer.accountType" class="form-control">
             <option value="STAFF">Staff</option>
@@ -464,12 +464,12 @@
           </select>
         </div>
 
-        <div class="col-sm-9" ng-show="newTransaction.transfer.accountType === 'STAFF'">
+        <div class="col-sm-9 stacked-spacing-above-col-sm" ng-show="newTransaction.transfer.accountType === 'STAFF'">
           <label>Account Number</label>
           <input ng-model="newTransaction.transfer.accountNumber" type="text" class="form-control">
         </div>
 
-        <div class="col-sm-2 stacked-spacing-col-sm" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
+        <div class="col-sm-2 stacked-spacing-col-sm stacked-spacing-above-col-sm" ng-show="newTransaction.transfer.accountType === 'MINISTRY'">
           <label>Business Unit</label>
           <input ng-model="newTransaction.transfer.businessUnit" type="text" class="form-control">
         </div>
@@ -490,7 +490,7 @@
         </div>
       </div>
 
-      <div ng-show="newTransaction.paymentType === 'CHECK'">
+      <div class="stacked-spacing-above-col-sm" ng-show="newTransaction.paymentType === 'CHECK'">
         <div class="form-group">
           <label>Check Number</label>
           <input ng-model="newTransaction.check.checkNumber" type="text" class="form-control" />

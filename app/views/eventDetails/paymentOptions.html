@@ -15,7 +15,7 @@
         <label>Payment Gateway:</label>
         <select class="form-control" ng-model="conference.paymentGatewayType" ng-options="gateway.id as gateway.name for gateway in paymentGateways"></select>
       </div>
-      <div class="col-sm-6" ng-show="conference.paymentGatewayKeySaved">
+      <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
         <label>Account ID:</label>
         <p>{{conference.paymentGatewayId}}
           <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
