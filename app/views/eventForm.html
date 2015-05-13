@@ -20,7 +20,7 @@
         <div ui-tree="toolbarTreeConfig" class="questions-toolbar-wrap spacing-above-xs" ng-if="questionsToolbarVisible">
           <div ui-tree-nodes="" ng-model="questions">
             <span ui-tree-node ng-repeat="question in questions" class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-              <span class="label label-primary">
+              <span class="label label-primary" tooltip="{{question.tooltip}}" tooltip-placement="bottom">
                 <i class="fabtn fa" ng-class="question.iconClass"></i>
                 <span class="text">{{question.name}}</span>
               </span>

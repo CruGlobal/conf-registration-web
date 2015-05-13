@@ -178,14 +178,14 @@ angular.module('confRegistrationWebApp')
       {
         'id': 'paragraphContent',
         'defaultTitle': 'Information',
-        'iconClass': 'fa-plus-circle',
-        'name': 'Information Box'
+        'iconClass': 'fa-info-circle',
+        'name': 'Information'
       },
       {
         'id': 'textQuestion',
         'defaultTitle': 'Question',
         'iconClass': 'fa-pencil-square-o',
-        'name': 'Single Line Text'
+        'name': 'Text'
       },
       {
         'id': 'textareaQuestion',
@@ -197,13 +197,15 @@ angular.module('confRegistrationWebApp')
         'id': 'radioQuestion',
         'defaultTitle': 'Multiple Choice Question',
         'iconClass': 'fa-list',
-        'name': 'Multiple Choice (choose one)'
+        'name': 'Multiple Choice',
+        'tooltip': 'Choose one'
       },
       {
         'id': 'checkboxQuestion',
         'defaultTitle': 'Checkbox Question',
         'iconClass': 'fa-check-square-o',
-        'name': 'Checkbox (choose one or more)'
+        'name': 'Checkbox',
+        'tooltip': 'Choose one or more'
       },
       {
         'id': 'selectQuestion',
