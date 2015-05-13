@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .directive('questionToolbar', function ($document, $timeout) {
     return {
       restrict: 'A',
-      link: function() {
+      link: function($scope) {
         //Debouncing plugin for jQuery from http://www.paulirish.com/2009/throttled-smartresize-jquery-event-handler/
         (function($,sr){
           // debouncing function from John Hann
@@ -44,6 +44,13 @@ angular.module('confRegistrationWebApp')
             });
           }
         }
+
+        $scope.questionsToolbarVisible = true;
+        $scope.toggleQuestionsToolbar = function() {
+          $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
+          $timeout(setQuestionToolbarSize, 0);
+        };
+
         $document.ready(function () {
           $('.questions-toolbar').affix({
             offset: {

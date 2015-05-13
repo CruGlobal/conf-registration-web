@@ -266,11 +266,6 @@ angular.module('confRegistrationWebApp')
         'name': 'Year in School'
       }];
 
-    $scope.questionsToolbarVisible = true;
-    $scope.toggleQuestionsToolbar = function() {
-      $scope.questionsToolbarVisible = !$scope.questionsToolbarVisible;
-    };
-
     //Logic to handle collapsing pages
     var hiddenPages = [];
     $scope.togglePage = function(id) {
