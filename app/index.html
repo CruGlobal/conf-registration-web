@@ -194,18 +194,24 @@
   </header>
   <section id="frontpagetitle">
     <div class="container">
-      <div class="row spacing-above-md spacing-below-md">
-        <div class="col-sm-10 stacked-spacing-col-sm">
-          <h1>
-            <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
-              {{globalPage.title}}
-            </a>
-            <a href="#/" ng-if="!globalPage.confId">
-              {{globalPage.title}}
-            </a>
-          </h1>
+      <div class="row spacing-above-md">
+        <div class="col-sm-10 col-xs-12 stacked-spacing-col-sm" ng-if="globalPage.confId">
+          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/">
+            <h1 ng-bind="globalPage.conference.name"></h1>
+          </a>
+          <p class="spacing-above-md"><i class="fa fa-calendar fa-fw"></i>
+            {{globalPage.conference.eventStartTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}} -
+            {{globalPage.conference.eventEndTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}}
+            <span ng-if="globalPage.conference.locationName"><br><i class="fa fa-map-marker fa-fw"></i>
+            {{globalPage.conference.locationName}}</span>
+          </p>
         </div>
-        <div class="col-sm-2 text-right">
+        <div class="col-sm-10 col-xs-12 stacked-spacing-col-sm" ng-if="!globalPage.confId">
+          <a href="#/">
+            <h1 ng-bind="globalPage.title"></h1>
+          </a>
+        </div>
+        <div class="col-sm-2 text-right hidden-xs">
           <a href="#/logout" class="btn btn-primary btn-important">Sign out</a>
         </div>
       </div>
