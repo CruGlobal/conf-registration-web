@@ -156,9 +156,9 @@
           </a>
         </div>
         <div class="col-sm-4 text-right" ng-if="globalGreetingName">
-          <div class="btn-group usr-greeting spacing-below-xs">
+          <div class="btn-group usr-greeting spacing-below-xs" dropdown>
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
               <span class="caret"></span>
               <span class="sr-only">Toggle Dropdown</span>
             </button>
