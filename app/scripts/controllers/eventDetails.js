@@ -162,6 +162,18 @@ angular.module('confRegistrationWebApp')
       return type.acceptCreditCards || type.acceptChecks || type.acceptTransfers || type.acceptScholarships;
     };
 
+    $scope.acceptedPaymentMethods = function(){
+      var regTypes = $scope.conference.registrantTypes;
+
+      var paymentMethods = {
+        acceptCreditCards: _.some(regTypes, 'acceptCreditCards'),
+        acceptChecks:_.some(regTypes, 'acceptChecks'),
+        acceptTransfers: _.some(regTypes, 'acceptTransfers'),
+        acceptScholarships: _.some(regTypes, 'acceptScholarships')
+      };
+      return paymentMethods;
+    };
+
     $scope.previewEmail = function(reg){
       var cost = $filter('moneyFormat')(reg.cost);
       var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
