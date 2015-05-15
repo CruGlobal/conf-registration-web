@@ -1,10 +1,10 @@
 <h2 class="page-title border">Payment Options</h2>
 
-<div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin">
-  <h4>Enable Payment Types</h4>
-  <p>Enable payment types per registration type under the <a href ng-click="changeTab(tabs[2])">Registration Types</a> tab.</p>
+<div class="bs-callout bs-callout-info" ng-show="!acceptedPaymentMethods().acceptCreditCards && !acceptedPaymentMethods().acceptChecks">
+  <h4>No applicable payment methods accepted</h4>
+  <p>You must accept credit cards or checks for at least one <a href ng-click="changeTab(tabs[2])">registration type</a> before payment options can be set.</p>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="acceptedPaymentMethods().acceptCreditCards">
   <div class="panel-heading">
     <h3 class="panel-title">Credit Card</h3>
   </div>
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-<div class="panel panel-default">
+<div class="panel panel-default" ng-show="acceptedPaymentMethods().acceptChecks">
   <div class="panel-heading">
     <h3 class="panel-title">Checks</h3>
   </div>
