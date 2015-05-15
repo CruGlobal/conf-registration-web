@@ -228,8 +228,8 @@
                 <div class="col-xs-9">{{r.withdrawnTimestamp | evtDateFormat: conference.eventTimezone}}</div>
               </div>
               <div class="row" ng-show="r.checkedInTimestamp">
-                <div class="leftside">Checked in at</div>
-                <div class="rightside">{{r.checkedInTimestamp | evtDateFormat: conference.eventTimezone}}</div>
+                <div class="col-xs-3 details-heading">Checked in at</div>
+                <div class="col-xs-9">{{r.checkedInTimestamp | evtDateFormat: conference.eventTimezone}}</div>
               </div>
             </div>
           </td>
