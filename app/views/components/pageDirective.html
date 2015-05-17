@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="col-sm-4 text-right">
-          <a href="" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o fa-inset"></i></a>
+          <a href="" ng-click="deletePage(page.id, true)" ng-if="page.blocks.length == 0"><i class="fa fa-trash-o fa-inset"></i></a>
           <a href="" ng-click="togglePage(page.id)"><i class="fa fa-inset" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></a>
           <i class="fa fa-bars fa-inset" ui-tree-handle></i>
         </div>
