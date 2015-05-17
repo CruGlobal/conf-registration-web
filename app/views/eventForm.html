@@ -1,7 +1,6 @@
 <div class="alert growl-message" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.message && !growlMessage"></div>
-<div class="container full">
-  <!-- Elements -->
-  <div ng-controller="AngularUiTreeConfig">
+<div ng-controller="AngularUiTreeConfig">
+  <div class="container full">
     <div class="questions-toolbar-placeholder" question-toolbar>
       <div class="row well well-sm well-full questions-toolbar">
         <div class="questions-toolbar-wrap">
@@ -30,20 +29,20 @@
       </div>
     </div>
   </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <div ui-tree="pageTreeConfig" class="pages">
-        <h2 class="page-title border">Pages <small>Drag questions from above and edit pages</small></h2>
-        <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page" novalidate>
-          <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
-            <hr ng-if="!$first">
-            <page></page>
-          </div>
-        </form>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div ui-tree="pageTreeConfig" class="pages">
+          <h2 class="page-title border">Pages <small>Drag questions from above and edit pages</small></h2>
+          <form ui-tree-nodes role="form" ng-model="conference.registrationPages" drop-type="page" novalidate>
+            <div ui-tree-node ng-class="{overflow: !isPageHidden(page.id)}" ng-repeat="page in conference.registrationPages" data-page-id="{{page.id}}">
+              <hr ng-if="!$first">
+              <page></page>
+            </div>
+          </form>
+        </div>
+        <div class="well" ng-if="conference.registrationPages.length == 0">There are currently no pages. Add a new page using the toolbar above.</div>
       </div>
-      <div class="well" ng-if="conference.registrationPages.length == 0">There are currently no pages. Add a new page using the toolbar above.</div>
     </div>
   </div>
 </div>

@@ -18,9 +18,9 @@ angular.module('confRegistrationWebApp')
       }
     };
     $scope.pageTreeConfig = {
-      accept: function (sourceNode, destNodes) {
-        var sourceType = sourceNode.$modelValue.pageId || sourceNode.$modelValue.defaultTitle ? 'block' : 'page';
-        var destType = destNodes.$element.attr('drop-type');
+      accept: function (sourceNodeScope, destNodesScope) {
+        var sourceType = sourceNodeScope.$modelValue.pageId || sourceNodeScope.$modelValue.defaultTitle ? 'block' : 'page';
+        var destType = destNodesScope.$element.attr('drop-type');
         return (sourceType === destType); // only accept the same type
       }
     };
