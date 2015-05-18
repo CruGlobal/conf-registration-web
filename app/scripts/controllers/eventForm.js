@@ -85,7 +85,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var confirmMessage = 'Are you sure you want to delete "' + page.title + '"?' + (page.blocks.length ? ' All questions on this page will also be deleted.':'');
+      var confirmMessage = 'Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will also be deleted.' : '');
       modalMessage.confirm('Delete Page', confirmMessage).then(function(){
         if (growl) {
           var page = _.find($scope.conference.registrationPages, {id: pageId});
