@@ -78,16 +78,22 @@ angular.module('confRegistrationWebApp')
 
     $scope.deletePage = function (pageId, growl) {
       var delPageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-      if ($scope.conference.registrationPages[delPageIndex].blocks.length > 0) {
-        modalMessage.error('Please remove all questions from page before deleting.');
+      var page = $scope.conference.registrationPages[delPageIndex];
+
+      if (_.some(page.blocks, 'profileType', ['EMAIL', 'NAME'])) {
+        modalMessage.error('This page contains required profile questions and cannot be deleted.');
         return;
       }
-      if (growl) {
-        var page = _.find($scope.conference.registrationPages, {id: pageId});
-        var message = 'Page "' + page.title + '" has been deleted.';
-        GrowlService.growl($scope, 'conference', $scope.conference, message);
-      }
-      $scope.conference.registrationPages.splice(delPageIndex, 1);
+
+      var confirmMessage = 'Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will also be deleted.' : '');
+      modalMessage.confirm('Delete Page', confirmMessage).then(function(){
+        if (growl) {
+          var page = _.find($scope.conference.registrationPages, {id: pageId});
+          var message = 'Page "' + page.title + '" has been deleted.';
+          GrowlService.growl($scope, 'conference', $scope.conference, message);
+        }
+        $scope.conference.registrationPages.splice(delPageIndex, 1);
+      });
     };
 
     var makePositionArray = function () {
