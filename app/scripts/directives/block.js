@@ -6,20 +6,6 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
       controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, RegistrationCache, uuid) {
-
-        /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
-        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices) && $scope.block.content.choices.length){
-          if(angular.isUndefined(_.first($scope.block.content.choices).value)){
-            angular.forEach($scope.block.content.choices, function(c, i){
-              $scope.block.content.choices[i] = {
-                value: c,
-                desc: ''
-              };
-            });
-          }
-        }
-        /////////////////////////////////////////////////
-
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
@@ -188,6 +174,28 @@ angular.module('confRegistrationWebApp')
               $scope.profileCheck = false;
             }
           }
+        };
+
+        $scope.addRule = function(blockId){
+          $scope.block.rules.push({
+            id: uuid(),
+            parentBlockId: '',
+            operator: '=',
+            value: ''
+          });
+        };
+
+        $scope.ruleBlocks = function(){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          _.remove(blocks, {id: $scope.block.id});
+          return blocks;
+        };
+
+        $scope.removeRule = function(id){
+          _.remove($scope.block.rules, {id: id});
+
+          var message = '"' + block.title + '" has been deleted.';
+          //GrowlService.growl($scope, 'conference', $scope.conference, message);
         };
       }
     };

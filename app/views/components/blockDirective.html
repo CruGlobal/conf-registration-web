@@ -114,6 +114,28 @@
           <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> This question must be shown for all registration types.</p>
         </div>
       </tab>
+      <tab heading="Rules" ng-if="canChangeRegTypes">
+        <button class="btn btn-default" ng-click="addRule(block.id)">Add Rule</button>
+        <div class="form-horizontal">
+          <div ng-repeat="rule in block.rules" class="form-group">
+            <div class="col-md-4">
+              <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-control" ng-model="rule.operator">
+                <option value="=">equals</option>
+                <option value="!=">does not equal</option>
+              </select>
+            </div>
+            <div class="col-md-5">
+              <input type="text" ng-model="rule.value" class="form-control">
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-danger" ng-click="removeRule(rule.id)"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
+        </div>
+      </tab>
     </tabset>
   </div>
 </div>
