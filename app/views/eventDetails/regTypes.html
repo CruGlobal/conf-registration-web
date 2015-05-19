@@ -7,16 +7,15 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row">
-            <div class="col-md-4 col-md-push-8 text-right">
-              <a href="" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o fa-inset fa-inset-shrink-on-sm"></i></a>
+            <div class="col-md-3 col-md-push-9 text-right">
               <a href="" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa fa-inset fa-inset-shrink-on-sm" ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"></i></a>
               <i class="fa fa-bars fa-inset fa-inset-shrink-on-sm" ui-tree-handle></i>
             </div>
-            <div class="col-md-5 col-md-pull-4 stacked-spacing-col-md">
+            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
               <label>Name <em class="required">*</em></label>
               <input type="text" class="form-control" ng-model="type.name">
             </div>
-            <div class="col-md-3 col-md-pull-4 stacked-spacing-">
+            <div class="col-md-3 col-md-pull-3 stacked-spacing-">
               <label>Cost <em class="required">*</em></label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
@@ -26,6 +25,7 @@
           </div>
         </div>
         <div class="panel-body" collapse="!openWell[type.id]">
+          <button class="btn btn-xs btn-danger reg-type-delete" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Registration Type</span></button>
           <div class="row">
             <div class="col-md-6">
               <h4>Registration Form</h4>
