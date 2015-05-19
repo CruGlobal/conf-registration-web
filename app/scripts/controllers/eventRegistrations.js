@@ -208,9 +208,9 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.paidInFull = function (registrantId) {
-      var registration = _.find($scope.registrations, { 'id': registrantId });
-      return registration.totalPaid >= registration.calculatedTotalDue;
+    $scope.remainingBalance = function (registrationId) {
+      var registration = _.find($scope.registrations, { 'id': registrationId });
+      return registration.remainingBalance;
     };
 
     $scope.expandRegistration = function (r) {

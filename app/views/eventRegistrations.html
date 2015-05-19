@@ -175,7 +175,7 @@
           </td>
           <td ng-if="eventHasCost()" class="text-center">
             <div ng-if="getRegistration(r.registrationId).completed">
-              <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': paidInFull(r.registrationId), 'btn-default': !paidInFull(r.registrationId)}" title="View/Edit Payments &amp; Expenses">
+                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': remainingBalance(r.registrationId)==0, 'btn-default': remainingBalance(r.registrationId)>0, 'btn-warning': remainingBalance(r.registrationId)<0}" title="View/Edit Payments &amp; Expenses">
                 &nbsp;
                 <i class="fa fa-fw fa-usd"></i>
                 &nbsp;
