@@ -338,7 +338,7 @@
       <div class="row form-group">
         <div class="col-sm-7 stacked-spacing-col-sm">
           <label>Type</label>
-          <select ng-model="newTransaction.paymentType" class="form-control">
+          <select ng-model="newTransaction.paymentType" class="form-control" ng-change="setTransactionAmount()">
             <option value="" disabled selected>Choose one...</option>
             <optgroup label="Payment">
               <option value="CREDIT_CARD" ng-if="allowCreditCardPayments()">Credit Card</option>
