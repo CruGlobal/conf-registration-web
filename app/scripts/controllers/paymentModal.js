@@ -286,4 +286,13 @@ angular.module('confRegistrationWebApp')
 
       return allow;
     };
+
+    //auto set new transaction amount
+    $scope.setTransactionAmount = function(){
+      var paymentTypes = ['CREDIT_CARD', 'OFFLINE_CREDIT_CARD', 'SCHOLARSHIP', 'TRANSFER', 'CHECK', 'CASH'];
+
+      if($scope.registration.remainingBalance > 0 && $scope.newTransaction.amount == 0 && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
+        $scope.newTransaction.amount = $scope.registration.remainingBalance;
+      }
+    };
   });
