@@ -115,8 +115,15 @@
         </div>
       </tab>
       <tab heading="Rules" ng-if="canChangeRegTypes">
-        <button class="btn btn-default" ng-click="addRule(block.id)">Add Rule</button>
+        <p class="text-muted"><i class="fa fa-info-circle"></i> Rules are a great way to hide unneeded questions. All rules created must be met before the question is displayed.</p>
+
         <div class="form-horizontal">
+          <div class="form-group">
+            <div class="col-md-12">
+              <button class="btn btn-default" ng-click="addRule(block.id)"><i class="fa fa-plus"></i> Add Rule</button>
+            </div>
+          </div>
+
           <div ng-repeat="rule in block.rules" class="form-group">
             <div class="col-md-4">
               <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
@@ -125,13 +132,16 @@
               <select class="form-control" ng-model="rule.operator">
                 <option value="=">equals</option>
                 <option value="!=">does not equal</option>
+                <option value=">" ng-if="!ruleValues(rule.parentBlockId).length">is greater than</option>
+                <option value="<" ng-if="!ruleValues(rule.parentBlockId).length">is less than</option>
               </select>
             </div>
             <div class="col-md-5">
-              <input type="text" ng-model="rule.value" class="form-control">
+              <input type="text" ng-model="rule.value" ng-show="!ruleValues(rule.parentBlockId).length" class="form-control">
+              <select ng-model="rule.value" ng-options="v as v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValues(rule.parentBlockId).length" class="form-control"></select>
             </div>
-            <div class="col-md-1">
-              <button class="btn btn-danger" ng-click="removeRule(rule.id)"><i class="fa fa-trash-o"></i></button>
+            <div class="col-md-1 text-center">
+              <button class="btn btn-danger" ng-click="removeRule(rule.id)" title="Delete Rule"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
         </div>

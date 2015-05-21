@@ -179,7 +179,7 @@ angular.module('confRegistrationWebApp')
         $scope.addRule = function(blockId){
           $scope.block.rules.push({
             id: uuid(),
-            parentBlockId: '',
+            parentBlockId: $scope.ruleBlocks()[0].id,
             operator: '=',
             value: ''
           });
@@ -187,15 +187,42 @@ angular.module('confRegistrationWebApp')
 
         $scope.ruleBlocks = function(){
           var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
-          _.remove(blocks, {id: $scope.block.id});
+          //remove blocks after current block
+          var remove = false;
+          _.remove(blocks, function(b){
+            if(b.id === $scope.block.id){
+              remove = true;
+            }
+            return remove;
+          });
+
+          //remove invalid block types
+          blocks = _.remove(blocks, function(b){
+            return _.contains(['radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'], b.type);
+          });
+
           return blocks;
+        };
+
+        $scope.ruleValues = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': parentBlockId });
+
+          switch (block.type) {
+            case 'selectQuestion':
+            case 'radioQuestion':
+              return _.pluck(block.content.choices, 'value');
+            case 'genderQuestion':
+              return ['Male', 'Female'];
+            case 'yearInSchoolQuestion':
+              return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
+            default:
+              return [];
+          }
         };
 
         $scope.removeRule = function(id){
           _.remove($scope.block.rules, {id: id});
-
-          var message = '"' + block.title + '" has been deleted.';
-          //GrowlService.growl($scope, 'conference', $scope.conference, message);
         };
       }
     };
