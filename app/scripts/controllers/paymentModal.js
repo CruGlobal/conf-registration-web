@@ -291,7 +291,7 @@ angular.module('confRegistrationWebApp')
     $scope.setTransactionAmount = function(){
       var paymentTypes = ['CREDIT_CARD', 'OFFLINE_CREDIT_CARD', 'SCHOLARSHIP', 'TRANSFER', 'CHECK', 'CASH'];
 
-      if($scope.registration.remainingBalance > 0 && $scope.newTransaction.amount == 0 && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
+      if($scope.registration.remainingBalance > 0 && ($scope.newTransaction.amount === 0 || $scope.newTransaction.amount === '' || $scope.newTransaction.amount === '0') && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
         $scope.newTransaction.amount = $scope.registration.remainingBalance;
       }
     };
