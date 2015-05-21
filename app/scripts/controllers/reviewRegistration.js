@@ -53,6 +53,11 @@ angular.module('confRegistrationWebApp')
       };
     }
 
+    $scope.isPaymentMethodValid = function(){
+      //If nothing is due, there are no ways to pay, or if the payment type is selected, then valid
+      return $scope.currentRegistration.remainingBalance === 0 || !$scope.acceptedPaymentMethods() || !_.isUndefined($scope.currentPayment.paymentType);
+    }
+
     angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
       if (block.type.indexOf('Content') === -1) {
         $scope.blocks.push(block);
