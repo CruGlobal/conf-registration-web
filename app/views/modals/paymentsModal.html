@@ -1,6 +1,16 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
-  <h4>Payments &amp; Expenses</h4>
+  <h4>Payments &amp; Expenses
+    <small>
+      <ng-pluralize count="registration.registrants.length" offset=2
+                    when="{'0': '',
+                     '1': '{{registration.registrants[0].firstName}} {{registration.registrants[0].lastName}}',
+                     '2': '{{registration.registrants[0].firstName}} {{registration.registrants[0].lastName}} & {{registration.registrants[1].firstName}} {{registration.registrants[1].lastName}}',
+                     'one': '{{registration.registrants[0].firstName}} {{registration.registrants[0].lastName}}, {{registration.registrants[1].firstName}} {{registration.registrants[1].lastName}}, & one other',
+                     'other': '{{registration.registrants[0].firstName}} {{registration.registrants[0].lastName}}, {{registration.registrants[1].firstName}} {{registration.registrants[1].lastName}}, & {} others'}">
+      </ng-pluralize>
+    </small>
+  </h4>
 </div>
 <div class="modal-body tab-content-spacing-above">
   <tabset>
@@ -129,16 +139,15 @@
             </td>
           </tr>
           <tr ng-if="editPayment.id === payment.id" ng-class="{'active': $even}">
-            <td>{{editPayment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td colspan="4">
-              <div class="form-horizontal">
+            <td colspan="5">
+              <div class="form-horizontal col-xs-12">
                 <div class="form-group">
                   <label class="col-sm-3 control-label">Amount</label>
                   <div class="col-sm-9">
                     <div ng-show="editPayment.paymentType !== 'CREDIT_CARD'">
                       <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                        <input type="number" ng-model="editPayment.amount" class="form-control" step="0.01" min="0">
+                        <input type="number" ng-model="editPayment.amount" class="form-control" step="1" min="0">
                       </div>
                     </div>
                     <div ng-show="editPayment.paymentType === 'CREDIT_CARD'">
@@ -305,29 +314,23 @@
           <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
           <tr>
             <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
-            <td>{{expense.amount | moneyFormat}}</td>
-            <td>{{expense.description}}</td>
             <td>
-              <div ng-show="editExpense.id !== expense.id">
+              <span ng-if="editExpense.id !== expense.id">{{expense.amount | moneyFormat}}</span>
+              <input ng-if="editExpense.id === expense.id" type="number" ng-model="editExpense.amount" class="form-control" step="1">
+            </td>
+            <td>
+              <span ng-if="editExpense.id !== expense.id">{{expense.description}}</span>
+              <input ng-if="editExpense.id === expense.id" type="text" ng-model="editExpense.description" class="form-control">
+            </td>
+            <td>
+              <div ng-if="editExpense.id !== expense.id">
                 <button ng-click="openEditExpenseRow(expense)" title="Edit Expense" class="btn btn-xs"><i class="fa fa-edit"></i></button>
                 <button ng-click="removeExpense(expense)" title="Delete Expense" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
               </div>
-
-              <button ng-click="openEditExpenseRow(expense)" ng-show="editExpense.id === expense.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
-            </td>
-          </tr>
-          <tr ng-if="editExpense.id === expense.id" ng-class="{'active': $even}">
-            <td>
-              {{expense.createdTimestamp | date:'MMM d, y h:mm a'}}
-            </td>
-            <td>
-              <input type="number" ng-model="editExpense.amount" class="form-control" step="0.01" min="0">
-            </td>
-            <td>
-              <input type="text" ng-model="editExpense.description" class="form-control">
-            </td>
-            <td>
-              <button class="btn btn-success" ng-click="saveExpenseEdits(editExpense)">Save</button>
+              <div ng-if="editExpense.id === expense.id">
+                <button class="btn btn-xs" ng-click="openEditExpenseRow(expense)"><i class="fa fa-times"></i></button>
+                <button class="btn btn-xs btn-success" ng-click="saveExpenseEdits(editExpense)"><i class="fa fa-check"></i></button>
+              </div>
             </td>
           </tr>
           </tbody>
