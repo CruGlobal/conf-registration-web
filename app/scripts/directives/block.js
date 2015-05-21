@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, RegistrationCache, uuid) {
+      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, uuid) {
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
@@ -23,30 +23,29 @@ angular.module('confRegistrationWebApp')
               $scope.adminEditRegistrant.answers.push($scope.answer);
             }
           } else {
-            RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
-              var registrantId = $routeParams.reg;
-              if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
-                return;
-              }
-              var registrantIndex = _.findIndex(currentRegistration.registrants, { 'id': registrantId });
-              if(registrantIndex === -1){
-                return;
-              }
+            var registrantId = $routeParams.reg;
+            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
+              return;
+            }
+            var registrantIndex = _.findIndex($scope.currentRegistration.registrants, { 'id': registrantId });
+            if(registrantIndex === -1){
+              return;
+            }
 
-              var answerForThisBlock = _.where(currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
-              if (answerForThisBlock.length > 0) {
-                $scope.answer = answerForThisBlock[0];
-              }
-              if (angular.isUndefined($scope.answer)) {
-                $scope.answer = {
-                  id : uuid(),
-                  registrantId : registrantId,
-                  blockId : $scope.block.id,
-                  value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
-                };
-                currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
-              }
-            });
+            var answerForThisBlock = _.where($scope.currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
+            if (answerForThisBlock.length > 0) {
+              $scope.answer = answerForThisBlock[0];
+            }
+            if (angular.isUndefined($scope.answer)) {
+              $scope.answer = {
+                id : uuid(),
+                registrantId : registrantId,
+                blockId : $scope.block.id,
+                value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+              };
+              $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+            }
+
             AnswerCache.syncBlock($scope, 'answer');
           }
         }
@@ -223,6 +222,30 @@ angular.module('confRegistrationWebApp')
 
         $scope.removeRule = function(id){
           _.remove($scope.block.rules, {id: id});
+        };
+
+
+        $scope.blockVisibleRuleCheck = function(block){
+          var returnValue = true;
+          var answers = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant}).answers;
+          angular.forEach(block.rules, function(rule){
+            var answer = _.find(answers, {blockId: rule.parentBlockId});
+            if(angular.isUndefined(answer)){
+              returnValue = false;
+            }else{
+              if(rule.operator === '=' && answer.value !== rule.value) {
+                returnValue = false;
+              }else if(rule.operator === '!=' && answer.value === rule.value){
+                returnValue = false;
+              }else if(rule.operator === '>' && answer.value <= rule.value){
+                returnValue = false;
+              }else if(rule.operator === '<' && answer.value >= rule.value){
+                returnValue = false;
+              }
+            }
+          });
+
+          return returnValue;
         };
       }
     };

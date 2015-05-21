@@ -146,7 +146,8 @@ angular.module('confRegistrationWebApp')
         title: title,
         type: blockType,
         profileType: profileType,
-        registrantTypes: []
+        registrantTypes: [],
+        rules: []
       };
 
       $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);

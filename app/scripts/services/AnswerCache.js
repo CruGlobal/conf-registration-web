@@ -1,9 +1,8 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('AnswerCache', function AnswerCache($cacheFactory, $rootScope, $http, $q) {
+  .service('AnswerCache', function AnswerCache($cacheFactory, $rootScope, $http) {
     var cache = $cacheFactory('answers');
-    var blockIndex = $cacheFactory('blockIndex');
 
     var path = function (id) {
       return 'answers/' + (id || '');
@@ -12,7 +11,6 @@ angular.module('confRegistrationWebApp')
     var update = function (path, object) {
       updateServer(object);
       cache.put(path, object);
-      blockIndex.put(object.block, object);
       $rootScope.$broadcast(path, object);
     };
 
@@ -41,11 +39,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.get = function (id) {
-      var defer = $q.defer();
-      checkCache(path(id), function (conferences) {
-        defer.resolve(conferences);
-      });
-      return defer.promise;
+      return cache.get(path(id));
     };
 
     this.put = function (answer) {
