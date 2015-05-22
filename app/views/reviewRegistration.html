@@ -149,7 +149,7 @@
     </section>
     <section class="text-center spacing-above-md" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
       <p ng-if="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration || !isPaymentMethodValid()">
+      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
       <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </section>
     <section class="text-center spacing-above-md" ng-if="currentRegistration.completed">
