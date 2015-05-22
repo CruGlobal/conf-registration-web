@@ -154,18 +154,22 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deleteBlock = function (blockId, growl) {
+      //check if block is parent for any rules
+      var allRules = _.flatten(_.flatten(conference.registrationPages, 'blocks'), 'rules');
+      if(_.some(allRules, {parentBlockId: blockId})){
+        modalMessage.error('This question is referenced in rules for other questions. Rules reference must be removed before question can be deleted.');
+        return;
+      }
+
       if (growl) {
         var t = makePositionArray();
         var block = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block];
         var message = '"' + block.title + '" has been deleted.';
         GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
-      deleteBlockFromPage(blockId);
-    };
 
-    var deleteBlockFromPage = function (blockId) {
       var tempPositionArray = makePositionArray();
-      _.remove($scope.conference.registrationPages[tempPositionArray[blockId].page].blocks, function(b) { return b.id === blockId; });
+      _.remove($scope.conference.registrationPages[tempPositionArray[blockId].page].blocks, { 'id': blockId });
     };
 
     $scope.addNewPage = function () {

@@ -175,10 +175,15 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $scope.addRule = function(blockId){
+        $scope.addRule = function(){
+          var ruleBlocks = $scope.ruleBlocks();
+          if(!ruleBlocks.length){
+            return;
+          }
+
           $scope.block.rules.push({
             id: uuid(),
-            parentBlockId: $scope.ruleBlocks()[0].id,
+            parentBlockId: ruleBlocks[0].id,
             operator: '=',
             value: ''
           });
