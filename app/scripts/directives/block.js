@@ -178,6 +178,10 @@ angular.module('confRegistrationWebApp')
         $scope.addRule = function(){
           var ruleBlocks = $scope.ruleBlocks();
           if(!ruleBlocks.length){
+            modalMessage.info({
+              title: 'Add Rule',
+              message: 'No valid questions appear before this question in your form. Rule cannot be added.'
+            });
             return;
           }
 
