@@ -72,6 +72,16 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.confirmRegistration = function () {
+      var isPaymentMethodValid = function(){
+        //If nothing is due, there are no ways to pay, or if the payment type is selected, then valid
+        return $scope.currentRegistration.remainingBalance === 0 || !$scope.acceptedPaymentMethods() || !_.isUndefined($scope.currentPayment.paymentType);
+      };
+
+      if(!isPaymentMethodValid()){
+        modalMessage.error('Please select a payment type to finish your registration.', false, 'Payment type not chosen');
+        return;
+      }
+
       $scope.submittingRegistration = true;
 
       /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
