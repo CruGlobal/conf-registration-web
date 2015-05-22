@@ -181,9 +181,9 @@ angular.module('confRegistrationWebApp')
             });
             if (profileCount > 1) {
               modalMessage.error('Only one ' +
-              $scope.block.profileType.charAt(0).toUpperCase() +
-              $scope.block.profileType.slice(1).toLowerCase() +
-              ' profile block can be used per form.');
+                $scope.block.profileType.charAt(0).toUpperCase() +
+                $scope.block.profileType.slice(1).toLowerCase() +
+                ' profile block can be used per form.');
               $scope.block.profileType = null;
               $scope.profileCheck = false;
             }

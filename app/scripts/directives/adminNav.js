@@ -16,7 +16,13 @@ angular.module('confRegistrationWebApp')
               return;
             }
 
-            modalMessage.confirm('Archive Event', 'Are you sure you want to archive this event? Events can be unarchived later.', 'Archive', 'Cancel', true).then(function(){
+            modalMessage.confirm({
+              'title': 'Archive Event',
+              'question': 'Are you sure you want to archive this event? Events can be unarchived later.',
+              'yesString': 'Archive',
+              'noString': 'Cancel',
+              'normalSize': true
+            }).then(function(){
               ConfCache.getCallback(conferenceId, function(conference){
                 conference.archived = true;
 
