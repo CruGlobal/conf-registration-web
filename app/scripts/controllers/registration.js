@@ -123,7 +123,13 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.startOver = function(){
-      modalMessage.confirm('Start Over', 'Are you sure you want to start over? All answers will be erased.', 'Start Over', 'Cancel', true).then(function(){
+      modalMessage.confirm({
+        'title': 'Start Over',
+        'question': 'Are you sure you want to start over? All answers will be erased.',
+        'yesString': 'Start Over',
+        'noString': 'Cancel',
+        'normalSize': true
+      }).then(function(){
         $scope.currentRegistration.registrants = [];
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration);
       });

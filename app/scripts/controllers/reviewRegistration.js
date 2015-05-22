@@ -92,7 +92,10 @@ angular.module('confRegistrationWebApp')
       }
 
       if (!_.isEmpty($scope.currentPayment.errors)) {
-        modalMessage.error($scope.currentPayment.errors, false, 'Please correct the following errors:');
+        modalMessage.error({
+          'title': 'Please correct the following errors:',
+          'message': $scope.currentPayment.errors
+        });
         $scope.submittingRegistration = false;
         return;
       }
@@ -135,7 +138,10 @@ angular.module('confRegistrationWebApp')
         }
       }).error(function () {
         $scope.submittingRegistration = false;
-        modalMessage.error('Your payment was declined, please verify your details or use a different payment method.', true);
+        modalMessage.error({
+          'message': 'Your payment was declined, please verify your details or use a different payment method.',
+          'forceAction': true
+        });
       });
     };
 
@@ -157,7 +163,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeRegistrant = function (id) {
-      modalMessage.confirm('Delete registrant?', 'Are you sure you want to delete this registrant?').then(function(){
+      modalMessage.confirm({
+        'title': 'Delete registrant?',
+        'question': 'Are you sure you want to delete this registrant?'
+      }).then(function(){
         _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
           $route.reload();
