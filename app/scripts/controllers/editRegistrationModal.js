@@ -20,7 +20,10 @@ angular.module('confRegistrationWebApp')
       $scope.saving = true;
 
       if(setRegistrationAsCompleted){
-        modalMessage.confirm('Mark as completed?', 'Are you sure you want to mark this registration as completed?').then(function(){
+        modalMessage.confirm({
+          'title': 'Mark as completed?',
+          'question': 'Are you sure you want to mark this registration as completed?'
+        }).then(function(){
           $scope.registration.completed = true;
           saveAllAnswers();
         },

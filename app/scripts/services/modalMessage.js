@@ -6,30 +6,42 @@ angular.module('confRegistrationWebApp')
 
     /*
      Usage:
-     modalMessage.error('Error Message', false, 'Title', 'Optional string for Ok btn');
+     //Basic error message
+     modalMessage.error('Error message');
 
-     The forceAction parameter is optional and, if set to true, disables clicking outside the modal or using the ESC key to close the model
+     //Advanced error message with more options
+     modalMessage.error({
+        'title': 'Title of Modal',
+        'message': 'Error Message (shown in body of modal)',
+        'forceAction': true,
+        'okString': 'Got it'
+     });
 
-     The title parameter is optional and defaults to Error
+     The title option defaults to Error
+
+     The forceAction option is optional and, if set to true, disables clicking outside the modal or using the ESC key to close the modal
      */
-    factory.error = function(message, forceAction, title, okString){
-      if(title === undefined){
-        title = 'Error';
+    factory.error = function(options){
+      if(!_.isObject(options)){ //is message string instead of object
+        options = {'message': options};
       }
-      if(okString === undefined){
-        okString = 'Ok';
-      }
+      _.defaults(options, {
+        'title': 'Error',
+        'message': '',
+        'forceAction': false,
+        'okString': 'Ok'
+      });
       var scope = $rootScope.$new(true);
-      scope.title = title;
-      scope.message = message;
-      scope.okString = okString;
-      scope.isArray = _.isArray(message);
+      scope.title = options.title;
+      scope.message = options.message;
+      scope.okString = options.okString;
+      scope.isArray = _.isArray(options.message);
 
       var errorModalConfig = {
         templateUrl: 'views/modals/genericModal.html',
         scope: scope
       };
-      if(forceAction){
+      if(options.forceAction){
         errorModalConfig.backdrop = 'static';
         errorModalConfig.keyboard =  false;
       }
@@ -38,46 +50,65 @@ angular.module('confRegistrationWebApp')
 
     /*
      Usage:
-     modalMessage.info('Info Message', false, 'Title', 'Optional string for Ok btn');
+     //Basic info message
+     modalMessage.info('Info message');
+
+     //Advanced info message with more options
+     modalMessage.info({
+       'title': 'Title of Modal',
+       'message': 'Info Message (shown in body of modal)',
+       'forceAction': true,
+       'okString': 'Got it'
+     });
 
      Alias for modalMessage.error() with different default title. To be used to display something that is not meant to be an error. Functionality is identical for now.
      */
-    factory.info = function(message, forceAction, title, okString){
-      if(title === undefined){
-        title = 'Info';
+    factory.info = function(options){
+      if(!_.isObject(options)){ //is message string instead of object
+        options = {'message': options};
       }
-      factory.error(message, forceAction, title, okString);
+      _.defaults(options, {
+        'title': 'Info'
+      });
+      factory.error(options);
     };
 
     /*
      Usage:
-     modalMessage.confirm('Model Title', 'Model Description or Question', 'Optional string for Yes btn', 'Optional string for No btn', true).then(function(result){
+     modalMessage.confirm({
+       'title': 'Modal Title',
+       'question': 'Modal Description or Question',
+       'yesString': 'Optional string for Yes btn',
+       'noString': 'Optional string for No btn',
+       'normalSize': true
+     }).then(function(result){
        //yes actions
      },
      function(reason){
        //no actions
      });
 
-     If the optional normalSize parameter is not set to true, the modal size will be set to small
+     The modal size will be set to small unless the normalSize option is set to true. Default is false.
      */
-    factory.confirm = function(title, question, yesString, noString, normalSize){
-      if(yesString === undefined){
-        yesString = 'Yes';
-      }
-      if(noString === undefined){
-        noString = 'No';
-      }
+    factory.confirm = function(options){
+      _.defaults(options, {
+        'title': '',
+        'question': '',
+        'yesString': 'Yes',
+        'noString': 'No',
+        'normalSize': false
+      });
       var scope = $rootScope.$new(true);
-      scope.title = title;
-      scope.question = question;
-      scope.yesString = yesString;
-      scope.noString = noString;
+      scope.title = options.title;
+      scope.question = options.question;
+      scope.yesString = options.yesString;
+      scope.noString = options.noString;
 
       var confirmModalConfig = {
         templateUrl: 'views/modals/confirmModal.html',
         scope: scope
       };
-      if(!normalSize) {
+      if(!options.normalSize) {
         confirmModalConfig.size = 'sm';
       }
       return $modal.open(confirmModalConfig).result;

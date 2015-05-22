@@ -193,7 +193,10 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      modalMessage.confirm('Delete Expense?', 'Are you sure you want to delete this expense?').then(function(){
+      modalMessage.confirm({
+        'title': 'Delete Expense?',
+        'question': 'Are you sure you want to delete this expense?'
+      }).then(function(){
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
         }).error(function () {
@@ -253,7 +256,10 @@ angular.module('confRegistrationWebApp')
         modalMessage.error(permissionRequiredMsg);
         return;
       }
-      modalMessage.confirm('Delete payment?', 'Are you sure you want to delete this payment?').then(function(){
+      modalMessage.confirm({
+        'title':'Delete payment?',
+        'question': 'Are you sure you want to delete this payment?'
+      }).then(function(){
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
         }).error(function () {

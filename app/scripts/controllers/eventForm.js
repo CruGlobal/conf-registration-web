@@ -81,12 +81,18 @@ angular.module('confRegistrationWebApp')
       var page = $scope.conference.registrationPages[delPageIndex];
 
       if (_.some(page.blocks, 'profileType', ['EMAIL', 'NAME'])) {
-        modalMessage.error('This page contains required profile questions and cannot be deleted.');
+        modalMessage.error({
+          'title': 'Error Deleting Page',
+          'message': 'This page contains required profile questions and cannot be deleted.'
+        });
         return;
       }
 
       var confirmMessage = 'Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will also be deleted.' : '');
-      modalMessage.confirm('Delete Page', confirmMessage).then(function(){
+      modalMessage.confirm({
+        'title': 'Delete Page',
+        'question': confirmMessage
+      }).then(function(){
         if (growl) {
           var page = _.find($scope.conference.registrationPages, {id: pageId});
           var message = 'Page "' + page.title + '" has been deleted.';
