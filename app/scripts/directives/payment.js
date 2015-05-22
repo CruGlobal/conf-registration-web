@@ -41,7 +41,9 @@ angular.module('confRegistrationWebApp')
             return;
           }
           var paymentErrors = [];
-          if(currentPayment.paymentType === 'CREDIT_CARD'){
+          if(angular.isUndefined(currentPayment.paymentType)){
+            paymentErrors.push('Please select a payment method.');
+          }else if(currentPayment.paymentType === 'CREDIT_CARD'){
             if(!currentPayment.creditCard.nameOnCard){
               paymentErrors.push('Please enter the name on your card.');
             }
