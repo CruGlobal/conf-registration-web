@@ -3,6 +3,31 @@
 angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
+    var blockVisibleRuleCheck = function(block, registrant){
+      var returnValue = true;
+      var answers = registrant.answers;
+      angular.forEach(block.rules, function(rule){
+        var answer = _.find(answers, {blockId: rule.parentBlockId});
+        if(angular.isUndefined(answer)){
+          returnValue = false;
+        }else{
+          if(rule.operator === '=' && answer.value !== rule.value) {
+            returnValue = false;
+          }else if(rule.operator === '!=' && answer.value === rule.value){
+            returnValue = false;
+          }else if(rule.operator === '>' && answer.value <= rule.value){
+            returnValue = false;
+          }else if(rule.operator === '<' && answer.value >= rule.value){
+            returnValue = false;
+          }
+        }
+      });
+
+      return returnValue;
+    };
+
+    this.blockVisibleRuleCheck = blockVisibleRuleCheck;
+
     this.validate = function(conference, registrant) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
@@ -20,7 +45,7 @@ angular.module('confRegistrationWebApp')
       });
 
       angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function(block){
-        if (!block.required) { return; }
+        if (!block.required || !blockVisibleRuleCheck(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
         if (angular.isUndefined(answer)) {

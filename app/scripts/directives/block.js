@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, uuid) {
+      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, uuid, validateRegistrant) {
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
@@ -226,26 +226,8 @@ angular.module('confRegistrationWebApp')
 
 
         $scope.blockVisibleRuleCheck = function(block){
-          var returnValue = true;
-          var answers = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant}).answers;
-          angular.forEach(block.rules, function(rule){
-            var answer = _.find(answers, {blockId: rule.parentBlockId});
-            if(angular.isUndefined(answer)){
-              returnValue = false;
-            }else{
-              if(rule.operator === '=' && answer.value !== rule.value) {
-                returnValue = false;
-              }else if(rule.operator === '!=' && answer.value === rule.value){
-                returnValue = false;
-              }else if(rule.operator === '>' && answer.value <= rule.value){
-                returnValue = false;
-              }else if(rule.operator === '<' && answer.value >= rule.value){
-                returnValue = false;
-              }
-            }
-          });
-
-          return returnValue;
+          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          return validateRegistrant.blockVisibleRuleCheck(block, registrant);
         };
       }
     };

@@ -187,8 +187,8 @@ angular.module('confRegistrationWebApp')
       return returnVal;
     };
 
-    $scope.blockInRegType = function(block, regTypeId){
-      return !_.contains(block.registrantTypes, regTypeId);
+    $scope.blockVisibleForRegistrant = function(block, registrant){
+      return !_.contains(block.registrantTypes, registrant.registrantTypeId) && validateRegistrant.blockVisibleRuleCheck(block, registrant);
     };
 
     $scope.acceptedPaymentMethods = function(){
