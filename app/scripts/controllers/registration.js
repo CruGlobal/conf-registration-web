@@ -17,13 +17,6 @@ angular.module('confRegistrationWebApp')
       $location.path('reviewRegistration/' + conference.id);
     }
 
-    $scope.validPages = {};
-    $scope.$on('pageValid', function (event, validity) {
-      event.stopPropagation();
-      $scope.validPages[event.targetScope.page.id] = validity;
-      $scope.registrationComplete = _.filter($scope.validPages).length === $scope.conference.registrationPages.length;
-    });
-
     $scope.conference = angular.copy(conference);
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
@@ -52,17 +45,7 @@ angular.module('confRegistrationWebApp')
     $scope.activePageId = pageId || '';
     $scope.page = _.find(conference.registrationPages, { 'id': pageId });
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-
-    function getPageAfterById(pageId) {
-      var pages = $scope.conference.registrationPages;
-      for (var i = 0; i < pages.length; i++) {
-        if (angular.equals(pageId, pages[i].id)) {
-          return pages[i + 1];
-        }
-      }
-    }
-
-    $scope.nextPage = getPageAfterById(pageId);
+    $scope.nextPage = $scope.conference.registrationPages[_.findIndex($scope.conference.registrationPages, { 'id': pageId }) + 1];
 
     //if current page doesn't exist, go to first page
     if($scope.activePageIndex === -1 && angular.isDefined($scope.page)){
