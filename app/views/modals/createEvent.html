@@ -10,5 +10,6 @@
   <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" ng-enter="submit(name)" auto-focus>
 </div>
 <div class="modal-footer">
-  <button data-ng-click="submit(name)" class="btn btn-light">Create</button>
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
+  <button ng-click="submit(name)" class="btn btn-primary">Create</button>
 </div>

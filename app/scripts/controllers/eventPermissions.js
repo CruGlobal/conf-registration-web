@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-users',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -76,7 +76,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePermission = function (id) {
-      modalMessage.confirm('Remove User?', 'Are you sure you want to remove this user?', 'Yes', 'No').then(function(){
+      modalMessage.confirm({
+        'title': 'Remove User?',
+        'question': 'Are you sure you want to remove this user?'
+      }).then(function(){
         $http({
           method: 'DELETE',
           url: 'permissions/' + id

@@ -65,6 +65,10 @@ angular.module('confRegistrationWebApp')
           }
         }
 
+        $scope.toggleBlockEdit = function (){
+          $scope.editBlock = !$scope.editBlock;
+        };
+
         $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.block.content.choices)) {
             $scope.block.content = {'choices': [] };
@@ -127,22 +131,22 @@ angular.module('confRegistrationWebApp')
               }
             }
           }).result.then(function (choice) {
-            choice.amount = Number(choice.amount);
-            $scope.block.content.choices[index] = choice;
-          });
+              choice.amount = Number(choice.amount);
+              $scope.block.content.choices[index] = choice;
+            });
         };
 
         if($scope.wizard){
           $scope.activeTab = 'options';
           $scope.visibleRegTypes = {};
+          //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
           angular.forEach($scope.conference.registrantTypes, function(type) {
             $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
           });
           $scope.$watch('visibleRegTypes', function (object) {
             if (angular.isDefined(object)) {
-              $scope.block.registrantTypes = _.keys(_.pick(object, function(v){
-                return !v;
-              })).sort();
+              //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
+              $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; })).sort();
             }
           }, true);
 

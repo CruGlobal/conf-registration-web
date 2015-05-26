@@ -1,40 +1,59 @@
-<article>
-  <div ng-if="wizard">
-    <div class="row padded">
-      <div class="col-xs-2">
-        <a href="" ng-click="deletePage(page.id, true)" class="btn btn-danger"><i class="fa fa-times"></i> Delete Page</a>
-      </div>
-      <div class="col-xs-9">
-        <h1><input placeholder="Page Title" type="text" ng-model="page.title"></h1>
-      </div>
-      <div class="col-xs-1">
-        <i class="fa" ng-class="{'fa-caret-square-o-up': !isPageHidden(page.id), 'fa-caret-square-o-down': isPageHidden(page.id)}" style="font-size: 30px;" ng-click="togglePage(page.id)"></i>
+<div ng-if="wizard">
+  <a id="page{{$index + 1}}"></a>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-sm-8 stacked-spacing-col-sm">
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon">Page {{$index + 1}}</span>
+            <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
+          </div>
+        </div>
+        <div class="col-sm-4 text-right">
+          <a href="" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o fa-inset"></i></a>
+          <a href="" ng-click="togglePage(page.id)"><i class="fa fa-inset" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></a>
+          <i class="fa fa-bars fa-inset" ui-tree-handle></i>
+        </div>
       </div>
     </div>
-
-    <ul class="connectedSortable list-unstyled sortable2" id="{{page.id}}" ng-show="!isPageHidden(page.id)">
-      <li ng-repeat="block in page.blocks" block="block" crs-block></li>
+    <ul ui-tree-nodes ng-model="page.blocks" class="list-group" id="{{page.id}}" ng-if="!isPageHidden(page.id)" drop-type="block">
+      <li ui-tree-node class="list-group-item" ng-repeat="block in page.blocks" block="block" crs-block></li>
     </ul>
+    <div class="panel-footer dropNewTarget" ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)">
+      <i class="fa fa-plus-circle"></i>
+      <p>Drag form elements here!</p>
+    </div>
   </div>
+</div>
 
-  <div ng-show="!wizard">
-    <h2 ng-bind="page.title"></h2>
+<div ng-if="!wizard">
+  <article>
+    <h2 class="page-title border" ng-bind="page.title"></h2>
 
     <form name="pageForm" novalidate>
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
       <div ng-repeat="block in page.blocks" block="block" crs-block></div>
-      <br>
-      <button class="btn btn-success btn-lg btn-important eighty"
-              type="submit"
-              ng-click="goToNext(pageForm.$valid)"
-              ng-show="nextPage">Next Page
-      </button>
-
-      <button class="btn btn-success btn-lg btn-important eighty"
-              ng-click="goToNext(pageForm.$valid)"
-              ng-show="!nextPage">Continue
-      </button>
-      <a href="" ng-click="previousPage()" class="btn btn-subtle btn-lg twenty">Go Back</a>
+      <div class="row spacing-above-md">
+        <div class="col-sm-3 col-xs-5">
+          <button class="btn btn-subtle btn-lg btn-block"
+                  ng-click="previousPage()">
+            Go Back
+          </button>
+        </div>
+        <div class="col-sm-9 col-xs-7">
+          <button class="btn btn-success btn-important btn-lg btn-block"
+                  type="submit"
+                  ng-click="goToNext(pageForm.$valid)"
+                  ng-if="nextPage">
+            Next Page
+          </button>
+          <button class="btn btn-success btn-important btn-lg btn-block"
+                  ng-click="goToNext(pageForm.$valid)"
+                  ng-if="!nextPage">
+            Continue
+          </button>
+        </div>
+      </div>
     </form>
-  </div>
-</article>
+  </article>
+</div>

@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-details',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -162,13 +162,29 @@ angular.module('confRegistrationWebApp')
       return type.acceptCreditCards || type.acceptChecks || type.acceptTransfers || type.acceptScholarships;
     };
 
+    $scope.acceptedPaymentMethods = function(){
+      var regTypes = $scope.conference.registrantTypes;
+
+      var paymentMethods = {
+        acceptCreditCards: _.some(regTypes, 'acceptCreditCards'),
+        acceptChecks:_.some(regTypes, 'acceptChecks'),
+        acceptTransfers: _.some(regTypes, 'acceptTransfers'),
+        acceptScholarships: _.some(regTypes, 'acceptScholarships')
+      };
+      return paymentMethods;
+    };
+
     $scope.previewEmail = function(reg){
       var cost = $filter('moneyFormat')(reg.cost);
       var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
-      modalMessage.info('<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
-          '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
-          '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
-          reg.customConfirmationEmailText, false, 'Email Preview', 'Close');
+      modalMessage.info({
+        'title': 'Email Preview',
+        'message': '<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
+        '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
+        '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
+        reg.customConfirmationEmailText,
+        'okString': 'Close'
+      });
     };
   });

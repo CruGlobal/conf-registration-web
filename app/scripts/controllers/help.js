@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('helpCtrl', function ($rootScope) {
     $rootScope.globalPage = {
       type: 'landing',
-      mainClass: 'container dashboard',
+      mainClass: 'container',
       bodyClass: '',
       title: '',
       confId: 0,

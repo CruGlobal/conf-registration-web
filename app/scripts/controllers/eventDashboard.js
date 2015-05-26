@@ -4,11 +4,16 @@ angular.module('confRegistrationWebApp')
   .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, modalMessage, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container dashboard',
+      mainClass: 'container event-dashboard',
       bodyClass: '',
       title: 'My Dashboard',
       confId: 0,
       footer: true
+    };
+
+    $scope.filterName = '';
+    $scope.resetFilterName = function(){
+      $scope.filterName = '';
     };
 
     $scope.$on('conferences/', function (event, conferences) {

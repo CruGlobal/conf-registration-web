@@ -1,13 +1,13 @@
-<ul class="horizontal">
-  <li class="blue"><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-  <li class="blue"><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-  <li class="blue"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-  <li class="blue"><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+<ul class="nav nav-pills nav-justified">
+  <li class="blue" ng-class="{ active: isActive('/eventOverview')}"><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventRegistrations')}"><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventDetails')}"><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventForm')}"><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
   <li class="dropdown" dropdown>
-    <button class="dropdown-toggle" type="button" dropdown-toggle>
-      <i class="fa fa-plus-circle"></i> More
-    </button>
-    <ul class="dropdown-menu">
+    <a href="" class="dropdown-toggle" type="button" dropdown-toggle>
+      <i class="fa fa-plus-circle"></i>&nbsp;More
+    </a>
+    <ul class="dropdown-menu dropdown-menu-right">
       <li><a ng-href="#/preview/{{globalPage.confId}}/page/">Preview Registration Form</a></li>
       <li><a ng-href="#/eventUsers/{{globalPage.confId}}">Users</a></li>
       <li><a href="" ng-click="archiveEvent(globalPage.confId)">Archive Event</a></li>

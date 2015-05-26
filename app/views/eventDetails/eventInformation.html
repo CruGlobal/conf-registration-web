@@ -1,27 +1,26 @@
-<h2>Event Information</h2>
+<h2 class="page-title border">Event Information</h2>
 <div class="form-group">
-  <label>Event Name <em class="required">*</em></label>
-  <input type="text" class="form-control" placeholder="" ng-model="conference.name">
+  <div class="col-sm-12">
+    <label>Event Name <em class="required">*</em></label>
+    <input type="text" class="form-control" ng-model="conference.name">
+  </div>
 </div>
-<label>Description</label>
-<textarea type="text" class="form-control" rows="3" placeholder="" ng-model="conference.description"></textarea>
-
-<div class="row">
-  <div class="col-xs-4">
+<div class="form-group">
+  <div class="col-sm-12">
+    <label>Description</label>
+    <textarea type="text" class="form-control" rows="3" ng-model="conference.description"></textarea>
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-sm-4 stacked-spacing-col-sm">
     <label>Event Starts</label><br>
-
-    <div class="row">
-      <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
-    </div>
+    <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
   </div>
-  <div class="col-xs-4">
+  <div class="col-sm-4 stacked-spacing-col-sm">
     <label>Event Ends</label><br>
-
-    <div class="row">
-      <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
-    </div>
+    <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
   </div>
-  <div class="col-xs-4">
+  <div class="col-sm-4">
     <label>Event Timezone</label><br>
     <select class="form-control" ng-model="conference.eventTimezone">
       <optgroup label="America">
@@ -59,84 +58,89 @@
     </select>
   </div>
 </div>
-<br>
 <div class="form-group">
-  <label>Event Location</label>
-  <input type="text" class="form-control" placeholder="Name" ng-model="conference.locationName">
-  <label>Event Location Address</label>
-  <input type="text" class="form-control" placeholder="Address" ng-model="conference.locationAddress">
-
-  <div class="row">
-    <div class="col-sm-6">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="City" ng-model="conference.locationCity">
-      </div>
-    </div>
-    <div class="col-xs-6">
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="form-group">
-            <select class="form-control" ng-model="conference.locationState">
-              <option value="AL">Alabama</option>
-              <option value="AK">Alaska</option>
-              <option value="AZ">Arizona</option>
-              <option value="AR">Arkansas</option>
-              <option value="CA">California</option>
-              <option value="CO">Colorado</option>
-              <option value="CT">Connecticut</option>
-              <option value="DE">Delaware</option>
-              <option value="DC">District of Columbia</option>
-              <option value="FL">Florida</option>
-              <option value="GA">Georgia</option>
-              <option value="HI">Hawaii</option>
-              <option value="ID">Idaho</option>
-              <option value="IL">Illinois</option>
-              <option value="IN">Indiana</option>
-              <option value="IA">Iowa</option>
-              <option value="KS">Kansas</option>
-              <option value="KY">Kentucky</option>
-              <option value="LA">Louisiana</option>
-              <option value="ME">Maine</option>
-              <option value="MD">Maryland</option>
-              <option value="MA">Massachusetts</option>
-              <option value="MI">Michigan</option>
-              <option value="MN">Minnesota</option>
-              <option value="MS">Mississippi</option>
-              <option value="MO">Missouri</option>
-              <option value="MT">Montana</option>
-              <option value="NE">Nebraska</option>
-              <option value="NV">Nevada</option>
-              <option value="NH">New Hampshire</option>
-              <option value="NJ">New Jersey</option>
-              <option value="NM">New Mexico</option>
-              <option value="NY">New York</option>
-              <option value="NC">North Carolina</option>
-              <option value="ND">North Dakota</option>
-              <option value="OH">Ohio</option>
-              <option value="OK">Oklahoma</option>
-              <option value="OR">Oregon</option>
-              <option value="PA">Pennsylvania</option>
-              <option value="RI">Rhode Island</option>
-              <option value="SC">South Carolina</option>
-              <option value="SD">South Dakota</option>
-              <option value="TN">Tennessee</option>
-              <option value="TX">Texas</option>
-              <option value="UT">Utah</option>
-              <option value="VT">Vermont</option>
-              <option value="VA">Virginia</option>
-              <option value="WA">Washington</option>
-              <option value="WV">West Virginia</option>
-              <option value="WI">Wisconsin</option>
-              <option value="WY">Wyoming</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Postal Code" ng-model="conference.locationZipCode">
-          </div>
-        </div>
-      </div>
+  <div class="col-sm-12">
+    <label>Event Location</label>
+    <input type="text" class="form-control" placeholder="Name" ng-model="conference.locationName">
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-sm-12">
+    <label>Event Location Address</label>
+    <input type="text" class="form-control" placeholder="Address" ng-model="conference.locationAddress">
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-sm-6 stacked-spacing-col-sm">
+    <input type="text" class="form-control" placeholder="City" ng-model="conference.locationCity">
+  </div>
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <select class="form-control" ng-model="conference.locationState">
+      <option value="AL">Alabama</option>
+      <option value="AK">Alaska</option>
+      <option value="AZ">Arizona</option>
+      <option value="AR">Arkansas</option>
+      <option value="CA">California</option>
+      <option value="CO">Colorado</option>
+      <option value="CT">Connecticut</option>
+      <option value="DE">Delaware</option>
+      <option value="DC">District of Columbia</option>
+      <option value="FL">Florida</option>
+      <option value="GA">Georgia</option>
+      <option value="HI">Hawaii</option>
+      <option value="ID">Idaho</option>
+      <option value="IL">Illinois</option>
+      <option value="IN">Indiana</option>
+      <option value="IA">Iowa</option>
+      <option value="KS">Kansas</option>
+      <option value="KY">Kentucky</option>
+      <option value="LA">Louisiana</option>
+      <option value="ME">Maine</option>
+      <option value="MD">Maryland</option>
+      <option value="MA">Massachusetts</option>
+      <option value="MI">Michigan</option>
+      <option value="MN">Minnesota</option>
+      <option value="MS">Mississippi</option>
+      <option value="MO">Missouri</option>
+      <option value="MT">Montana</option>
+      <option value="NE">Nebraska</option>
+      <option value="NV">Nevada</option>
+      <option value="NH">New Hampshire</option>
+      <option value="NJ">New Jersey</option>
+      <option value="NM">New Mexico</option>
+      <option value="NY">New York</option>
+      <option value="NC">North Carolina</option>
+      <option value="ND">North Dakota</option>
+      <option value="OH">Ohio</option>
+      <option value="OK">Oklahoma</option>
+      <option value="OR">Oregon</option>
+      <option value="PA">Pennsylvania</option>
+      <option value="RI">Rhode Island</option>
+      <option value="SC">South Carolina</option>
+      <option value="SD">South Dakota</option>
+      <option value="TN">Tennessee</option>
+      <option value="TX">Texas</option>
+      <option value="UT">Utah</option>
+      <option value="VT">Vermont</option>
+      <option value="VA">Virginia</option>
+      <option value="WA">Washington</option>
+      <option value="WV">West Virginia</option>
+      <option value="WI">Wisconsin</option>
+      <option value="WY">Wyoming</option>
+    </select>
+  </div>
+  <div class="col-sm-3">
+    <input type="text" class="form-control" placeholder="Postal Code" ng-model="conference.locationZipCode">
+  </div>
+</div>
+<div class="form-group">
+  <div class="col-sm-12">
+    <label>Cru Event</label>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="conference.cruEvent">
+        This is a Cru Event.
+      </label>
     </div>
   </div>
 </div>

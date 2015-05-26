@@ -4,7 +4,7 @@ angular.module('confRegistrationWebApp')
   .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'registrations',
+      mainClass: 'event-registrations',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -13,7 +13,10 @@ angular.module('confRegistrationWebApp')
 
     function hasPermission(){
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        modalMessage.error('You do not have permission to perform this action. Please contact an event administrator to request permission.');
+        modalMessage.error({
+          'title': 'Permissions Error',
+          'message': 'You do not have permission to perform this action. Please contact an event administrator to request permission.'
+        });
         return false;
       }else{
         return true;
@@ -99,6 +102,9 @@ angular.module('confRegistrationWebApp')
         throttleFilter();
       }
     });
+    $scope.resetStrFilter = function(){
+      $scope.strFilter = '';
+    };
 
     $scope.refreshRegistrations = function(){
       RegistrationCache.getAllForConference(conference.id, $scope.queryParameters).then(function(data){
@@ -369,7 +375,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      modalMessage.confirm('Delete Registration', 'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.', 'Delete', 'Cancel', true).then(function(){
+      modalMessage.confirm({
+        'title': 'Delete Registration',
+        'question': 'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.',
+        'yesString': 'Delete',
+        'noString': 'Cancel',
+        'normalSize': true
+      }).then(function(){
         var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
         var url = 'registrations/' + registration.id;
 

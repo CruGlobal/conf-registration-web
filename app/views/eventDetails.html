@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-3">
+  <div class="col-sm-3">
     <section>
       <ul class="nav nav-pills nav-stacked">
         <li ng-class="{active: activeTab.id === tab.id}" ng-repeat="tab in tabs">
@@ -8,9 +8,9 @@
       </ul>
     </section>
   </div>
-  <div class="col-xs-9 col-left-nav">
+  <div class="col-sm-9 divider-left-col-sm">
     <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
-    <form>
+    <form class="form-horizontal">
       <section ng-include="activeTab.view"></section>
       <div class="well">
         <button type="submit" class="btn btn-success btn-lg" ng-click="saveEvent()">Save</button>

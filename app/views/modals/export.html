@@ -4,12 +4,29 @@
 </div>
 
 <div class="modal-body">
-  <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
-    <i class="fa fa-cloud-download"></i> Registrations</a>
-  <span>- Download all registrations and answers.</span>
-
-  <br><br>
-  <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
-    <i class="fa fa-cloud-download"></i> Payments</a>
-  <span>- Download payment data.</span>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-5">
+        <a class="btn btn-primary btn-sm btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Registrations
+        </a>
+      </div>
+      <div class="col-xs-7">
+        Download all registrations and answers.
+      </div>
+    </div>
+    <div class="row spacing-above-md">
+      <div class="col-xs-5">
+        <a class="btn btn-primary btn-sm btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Payments
+        </a>
+      </div>
+      <div class="col-xs-7">
+        Download payment data.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
 </div>

@@ -1,29 +1,33 @@
-<h2>Registration Options</h2>
-<div class="row">
+<h2 class="page-title border">Registration Options</h2>
+<div class="form-group">
+  <div class="col-sm-6 stacked-spacing-col-sm">
+    <label>Registration Starts <em class="required">*</em></label>
+    <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
+  </div>
   <div class="col-sm-6">
-    <label>Registration Starts <em class="required">*</em></label><br>
-
-    <div class="row">
-      <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
-    </div>
-  </div>
-  <div class="col-xs-6">
-    <label>Registration Ends <em class="required">*</em></label><br>
-
-    <div class="row">
-      <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
-    </div>
+    <label>Registration Ends <em class="required">*</em></label>
+    <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
   </div>
 </div>
-<br>
 
-<div class="full">
-  <input type="checkbox" id="requireLogin" ng-value="true" ng-model="conference.requireLogin">
-  <label for="requireLogin">Require Relay or Facebook login to register</label>
-  <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
+<div class="form-group">
+  <div class="col-xs-12">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="conference.requireLogin">
+        Require Relay or Facebook sign in to register
+      </label>
+    </div>
+    <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
+  </div>
 </div>
 
-<div class="full">
-  <input type="checkbox" id="allowEditRegistrationAfterComplete" ng-value="true" ng-model="conference.allowEditRegistrationAfterComplete">
-  <label for="allowEditRegistrationAfterComplete">Allow registrants to edit their answers after registration is complete</label>
+<div class="form-group">
+  <div class="col-xs-12">
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">
+        Allow registrants to edit their answers after registration is complete
+      </label>
+    </div>
+  </div>
 </div>

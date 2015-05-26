@@ -1,87 +1,87 @@
-<div class="registrantBox" ng-show="currentRegistration.registrants.length > 1">
-  <h4>Registrants</h4>
-  <ul class="nav nav-pills nav-stacked">
-    <li ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-class="{'active': currentRegistrant === r.id}">
-      <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
-        {{registrantName(r)}}
-        <i class="fa fa-check pull-right" style="padding-top: 14px;" ng-show="registrantIsComplete(r.id)"></i>
+<div class="row registrantBox" ng-if="currentRegistration.registrants.length > 1">
+  <div class="col-xs-12">
+    <h4>Registrants</h4>
+    <ul class="nav nav-pills nav-stacked spacing-below-xs">
+      <li ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-class="{'active': currentRegistrant === r.id}">
+        <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
+          {{registrantName(r)}}
+          <i class="fa fa-check pull-right" style="padding-top: 14px;" ng-show="registrantIsComplete(r.id)"></i>
+        </a>
+      </li>
+    </ul>
+    <a ng-href="#/reviewRegistration/{{conference.id}}">Review Registration</a>
+  </div>
+</div>
+
+<div class="row" ng-if="(conference.registrationOpen || registerMode === 'preview') && activePageId !== ''">
+  <ul class="nav nav-pills">
+    <li ng-repeat="page in conference.registrationPages" ng-class="{'active': page.id === activePageId}">
+      <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" ng-class="{dfisabled: $index > activePageIndex && !registrationComplete}">
+        <span class="circle">{{$index+1}}</span>
+        <span ng-bind="page.title"></span>
       </a>
     </li>
   </ul>
-  <a ng-href="#/reviewRegistration/{{conference.id}}">Review Registration</a>
 </div>
 
-<div class="row" ng-show="!conference.registrationOpen && registerMode !== 'preview'">
-  <div class="col-xs-12">
-    <article>
-      <p>Sorry, registration for this event is not open.</p>
-    </article>
+<div class="row" ng-if="!conference.registrationOpen && registerMode !== 'preview'">
+  <div class="col-xs-12 form-content">
+    <h2 class="page-title border">Registration Closed</h2>
+    <p>
+      Sorry, registration for this event is closed.
+    </p>
+    <p>
+      If you are looking for another event, search for it on the <a href="#/">Welcome Page</a>.
+    </p>
   </div>
 </div>
-
-<div ng-show="conference.registrationOpen || registerMode === 'preview'">
-  <div class="row" ng-show="activePageId !== ''">
-    <div class="col-xs-12">
-      <ul class="nav nav-pills">
-        <li ng-repeat="page in conference.registrationPages" ng-class="{'active': page.id === activePageId}">
-          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" ng-class="{dfisabled: $index > activePageIndex && !registrationComplete}">
-            <span class="circle">{{$index+1}}</span>
-            <span ng-bind="page.title"></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-  <div class="row" ng-show="activePageId == ''">
-    <div class="col-xs-12">
-      <article>
-        <h2>Welcome</h2>
-        <p ng-bind="conference.description" class="eventhub-linebreak"></p>
-        <div class="well creme2" ng-show="conference.eventStartTime">
-          <h2 class="details-heading">Event Dates</h2>
-          <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
-          {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
-        </div>
-        <div class="well creme2" ng-show="conference.locationName">
-          <h2 class="details-heading">Event Location</h2>
-          <p>{{conference.locationName}}
-            <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}} {{conference.locationZipCode}}</span>
-          </p>
-        </div>
-        <div class="well creme2" ng-show="conference.registrationStartTime">
-          <h2 class="details-heading">Registration Window</h2>
-          <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
-            {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}} </p>
-        </div>
-        <div class="well creme2" ng-show="conference.contactPersonName || conference.contactPersonPhone || conference.contactPersonEmail">
-          <h2 class="details-heading">Contact Info</h2>
-          <ul class="list-unstyled">
-            <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
-            <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
-            <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
-          </ul>
-        </div>
-      </article>
-    </div>
-  </div>
-  <article ng-show="activePageId == ''" style="padding-top:0;">
-    <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
-
-    <div class="row" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
-      <div class="col-xs-12 text-center">
-        <a href="" ng-click="startOver()" class="btn btn-default">
-          Start Over
-        </a>
-        <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}" class="btn btn-success btn-important">
-          Continue Registration
-        </a>
+<div class="row" ng-if="conference.registrationOpen || registerMode === 'preview'">
+  <div class="col-xs-12 form-content">
+    <section ng-if="activePageId == ''">
+      <h2 class="page-title border">Welcome</h2>
+      <p ng-bind="conference.description" class="display-linebreaks"></p>
+      <div class="well well-creme2" ng-show="conference.eventStartTime">
+        <h2 class="page-title border details-heading">Event Dates</h2>
+        <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
+           {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
       </div>
-    </div>
-  </article>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <page ng-repeat="page in conference.registrationPages" ng-show="page.id == activePageId"></page>
-    </div>
+      <div class="well well-creme2" ng-show="conference.locationName">
+        <h2 class="page-title border details-heading">Event Location</h2>
+        <p>{{conference.locationName}}
+          <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}} {{conference.locationZipCode}}</span>
+        </p>
+      </div>
+      <div class="well well-creme2" ng-show="conference.registrationStartTime">
+        <h2 class="page-title border details-heading">Registration Window</h2>
+        <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
+           {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}} </p>
+      </div>
+      <div class="well well-creme2" ng-show="conference.contactPersonName || conference.contactPersonPhone || conference.contactPersonEmail">
+        <h2 class="page-title border details-heading">Contact Info</h2>
+        <ul class="list-unstyled">
+          <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
+          <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
+          <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+        </ul>
+      </div>
+    </section>
+    <section ng-if="activePageId == ''" style="padding-top:0;">
+      <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
+      <div class="row spacing-above-md" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
+        <div class="col-sm-3 col-xs-6">
+          <button class="btn btn-subtle btn-lg btn-block"
+                  ng-click="startOver()">
+            Start Over
+          </button>
+        </div>
+        <div class="col-sm-9 col-xs-6">
+          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}"
+             class="btn btn-success btn-important btn-lg btn-block">
+            Continue
+          </a>
+        </div>
+      </div>
+    </section>
+    <page ng-repeat="page in conference.registrationPages" ng-if="page.id == activePageId"></page>
   </div>
 </div>
