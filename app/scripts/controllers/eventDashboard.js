@@ -73,7 +73,7 @@ angular.module('confRegistrationWebApp')
         //Clear cache
         ConfCache.empty();
       }).error(function (data) {
-        modalMessage.error('Error: ' + data);
+        modalMessage.error('Error: ' + data.errorMessage);
         eventData.archived = true;
       });
     };

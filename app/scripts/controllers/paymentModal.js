@@ -108,8 +108,8 @@ angular.module('confRegistrationWebApp')
         }else{
           $scope.activeTab[1] = true;
         }
-      }).error(function () {
-        modalMessage.error('Transaction failed.');
+      }).error(function (data) {
+        modalMessage.error('Transaction failed. ' + data.errorMessage);
         $scope.processing = false;
       });
     };
@@ -177,8 +177,8 @@ angular.module('confRegistrationWebApp')
           $scope.processing = false;
           $scope.refund = null;
         });
-      }).error(function () {
-        modalMessage.error('Refund failed...');
+      }).error(function (data) {
+        modalMessage.error('Refund failed. ' + data.errorMessage);
         $scope.processing = false;
       });
     };

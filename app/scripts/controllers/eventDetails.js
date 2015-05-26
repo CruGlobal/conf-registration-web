@@ -152,7 +152,7 @@ angular.module('confRegistrationWebApp')
             window.scrollTo(0, 0);
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error</strong> ' + data)
+              message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
             };
           });
       }
