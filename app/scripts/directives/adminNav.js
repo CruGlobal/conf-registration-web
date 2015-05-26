@@ -37,7 +37,7 @@ angular.module('confRegistrationWebApp')
                   //redirect to dashboard
                   $location.path('/eventDashboard');
                 }).error(function (data) {
-                  modalMessage.error('Error: ' + data);
+                  modalMessage.error('Error: ' + data.errorMessage);
                 });
               });
             });

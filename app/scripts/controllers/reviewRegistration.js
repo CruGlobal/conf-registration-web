@@ -154,7 +154,7 @@ angular.module('confRegistrationWebApp')
       }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.msg ? data.data.msg : ''));
+        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.errorMessage ? data.data.errorMessage : ''));
       });
     };
 

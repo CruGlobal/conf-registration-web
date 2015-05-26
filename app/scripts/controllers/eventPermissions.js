@@ -44,7 +44,7 @@ angular.module('confRegistrationWebApp')
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data)
+          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
         };
       });
     };
@@ -70,7 +70,7 @@ angular.module('confRegistrationWebApp')
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data)
+          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
         };
       });
     };
@@ -92,7 +92,7 @@ angular.module('confRegistrationWebApp')
         }).error(function (data) {
           $scope.notify = {
             class: 'alert-danger',
-            message: $sce.trustAsHtml('Error: ' + data)
+            message: $sce.trustAsHtml('Error: ' + data.errorMessage)
           };
         });
       });

@@ -51,7 +51,7 @@ angular.module('confRegistrationWebApp')
           $route.reload();
         })
         .error(function (data) {
-          console.log('Error: ' + data);
+          console.log('Error: ' + data.errorMessage);
         });
 
       $modalInstance.close();

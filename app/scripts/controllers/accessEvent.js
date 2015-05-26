@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         $modalInstance.close();
       }).error(function (data) {
-        modalMessage.error('Error: ' + data);
+        modalMessage.error('Error: ' + data.errorMessage);
       });
     };
 
