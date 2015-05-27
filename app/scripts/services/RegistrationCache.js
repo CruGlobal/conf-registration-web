@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('RegistrationCache', function RegistrationCache($cacheFactory, $rootScope, $http, $q, AnswerCache) {
+  .service('RegistrationCache', function RegistrationCache($cacheFactory, $rootScope, $http, $q) {
     var cache = $cacheFactory('registration');
     var path = function (id) {
       return 'registrations/' + (id || '');
@@ -78,11 +78,6 @@ angular.module('confRegistrationWebApp')
           }
         }
         update(path(registration.id), registration);
-        //update answer cache
-        angular.forEach(_.flatten(_.pluck(registration.registrants, 'answers')), function(a){
-          AnswerCache.put(a);
-        });
-
         defer.resolve(registration);
       });
 
