@@ -9,10 +9,7 @@ angular.module('confRegistrationWebApp')
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
-            var answerForThisBlock = _.where($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
-            if (answerForThisBlock.length > 0) {
-              $scope.answer = answerForThisBlock[0];
-            }
+            $scope.answer = _.find($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
@@ -32,10 +29,7 @@ angular.module('confRegistrationWebApp')
               return;
             }
 
-            var answerForThisBlock = _.where($scope.currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
-            if (answerForThisBlock.length > 0) {
-              $scope.answer = answerForThisBlock[0];
-            }
+            $scope.answer = _.find($scope.currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
