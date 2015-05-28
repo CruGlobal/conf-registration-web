@@ -172,7 +172,7 @@ angular.module('confRegistrationWebApp')
         }
         modalMessage.error({
           'title': 'Error Removing Question',
-          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:' + questions.join('') + 'Please remove the rules that depend on this question and then try deleting it again.'
+          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:<ul>' + questions.join('') + '</ul>Please remove the rules that depend on this question and then try deleting it again.'
         });
         return;
       }
