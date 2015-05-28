@@ -49,7 +49,6 @@ angular.module('confRegistrationWebApp')
           var parentBlockLocation = positionArray[rule.parentBlockId];
           if(parentBlockLocation.page > destPageIndex || (parentBlockLocation.page === destPageIndex && parentBlockLocation.block >= event.dest.index)){
             rulesViolated.push('"' + block.title + '" must be below "' + parentBlockLocation.title + '".');
-            event.source.nodeScope.$$apply = false;
           }
         });
 
