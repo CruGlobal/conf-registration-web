@@ -1,14 +1,13 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AngularUiTreeConfig', function ($scope, modalMessage) {
+  .controller('AngularUiTreeConfig', function ($scope, modalMessage, $sanitize) {
     $scope.toolbarTreeConfig = {
       accept: function(sourceNodeScope, destNodesScope) {
         return sourceNodeScope.$treeScope === destNodesScope.$treeScope;
       },
       beforeDrop: function(event) {
-        //cancel regular drop action
-        event.source.nodeScope.$$apply = false;
+        event.source.nodeScope.$$apply = false; //cancel regular drop action
         //insert block
         if(event.dest.nodesScope.$nodeScope){ //prevents error from dropping on source tree
           var block = event.source.nodeScope.$modelValue;
@@ -24,6 +23,8 @@ angular.module('confRegistrationWebApp')
         return (sourceType === destType); // only accept the same type
       },
       beforeDrop: function(event){
+        /** Check for rule violations. Blocks with rules must be below the blocks they depend on. **/
+
         var block = event.source.nodeScope.block;
         if(angular.isUndefined(block)){ //must be a block to continue
           return;
@@ -48,7 +49,7 @@ angular.module('confRegistrationWebApp')
         angular.forEach(block.rules, function(rule){
           var parentBlockLocation = positionArray[rule.parentBlockId];
           if(parentBlockLocation.page > destPageIndex || (parentBlockLocation.page === destPageIndex && parentBlockLocation.block >= event.dest.index)){
-            rulesViolated.push('"' + block.title + '" must be below "' + parentBlockLocation.title + '".');
+            rulesViolated.push('<strong>' + $sanitize(block.title) + '</strong> must be below <strong>' + $sanitize(parentBlockLocation.title) + '</strong>.');
           }
         });
 
@@ -62,12 +63,12 @@ angular.module('confRegistrationWebApp')
               (childBlockLocation.page === destPageIndex && childBlockLocation.block < event.dest.index) ||
               (childBlockLocation.page === destPageIndex && sourcePageIndex === destPageIndex && childBlockLocation.block === event.dest.index)
           ){
-            rulesViolated.push('"' + childBlockLocation.title + '" must be below "' + block.title + '".');
+            rulesViolated.push('<strong>' + $sanitize(childBlockLocation.title) + '</strong> must be below <strong>' + $sanitize(block.title) + '</strong>.');
           }
         });
 
         if(rulesViolated.length){
-          event.source.nodeScope.$$apply = false;
+          event.source.nodeScope.$$apply = false; //cancel regular drop action
           modalMessage.error({
             'title': 'Error Moving Question',
             'message': '<p><strong>Rule violations:</strong></p><ul><li>' + rulesViolated.join('</li><li>') + '</li></ul>'
