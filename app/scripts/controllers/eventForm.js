@@ -162,18 +162,17 @@ angular.module('confRegistrationWebApp')
       var allBlocks = _.flatten(conference.registrationPages, 'blocks');
       var childRules = _.filter(_.flatten(allBlocks, 'rules'), {parentBlockId: blockId});
       if(childRules.length !== 0){
-        var questions = '';
-        _.forEach(childRules, function(rule){
+        var questions = _(childRules).map(function(rule){
           var block = _.find(allBlocks, {'id': rule.blockId});
-          questions += '<li>' + $sanitize(block.title) + '</li>';
-        });
+          return '<li>' + $sanitize(block.title) + '</li>';
+        }).unique().value();
         var pluralize = 'question has';
-        if(childRules.length > 1){
+        if(questions.length > 1){
           pluralize = 'questions have';
         }
         modalMessage.error({
           'title': 'Error Removing Question',
-          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:' + questions + 'Please remove the rules that depend on this question and then try deleting it again.'
+          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:' + questions.join('') + 'Please remove the rules that depend on this question and then try deleting it again.'
         });
         return;
       }
