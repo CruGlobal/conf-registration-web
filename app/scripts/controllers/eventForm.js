@@ -18,10 +18,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = conference;
     $scope.$watch('conference', function (newObject, oldObject) {
-      if (angular.isDefined(newObject) && angular.isDefined(oldObject)) {
-        if(!_.isEqual(newObject, oldObject)){
-          saveForm();
-        }
+      if (angular.isDefined(newObject) && angular.isDefined(oldObject) && !_.isEqual(newObject, oldObject)) {
+        saveForm();
       }
     }, true);
 

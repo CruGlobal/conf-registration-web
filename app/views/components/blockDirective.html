@@ -20,7 +20,7 @@
 </div>
 
 
-<div class="edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
+<div class="edit-box-name crsQuestion" ng-if="wizard">
   <div class="btn-group btn-group-xs pull-right" role="group">
     <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
@@ -115,7 +115,8 @@
         </div>
       </tab>
       <tab heading="Rules" ng-if="canChangeRegTypes">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> Rules are a great way to hide unneeded questions. All rules created must be met before the question is displayed.</p>
+        <p class="text-muted"><i class="fa fa-info-circle"></i> Rules are a great way to hide unneeded questions. All rules created must be met before the question is displayed.
+          Rules can depend on questions of <a href="" tooltip="Multiple Choice, Dropdown, Number, Date, Gender or Year in School">these types</a> that are above this question.</p>
 
         <div class="form-horizontal">
           <div class="form-group">
@@ -137,8 +138,9 @@
               </select>
             </div>
             <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
-              <input type="text" ng-model="rule.value" ng-show="!ruleValues(rule.parentBlockId).length" class="form-control">
-              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValues(rule.parentBlockId).length" class="form-control"></select>
+              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
+              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
+              <pick-a-date ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'date'"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">
