@@ -1,4 +1,4 @@
-<div ng-if="!wizard" class="form-group" ng-show="blockVisibleRuleCheck(block)">
+<div ng-if="!wizard" class="form-group" ng-if="blockVisibleRuleCheck(block)">
   <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
@@ -120,15 +120,15 @@
         <div class="form-horizontal">
           <div class="form-group">
             <div class="col-md-12">
-              <button class="btn btn-default" ng-click="addRule()"><i class="fa fa-plus"></i> Add Rule</button>
+              <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> Add Rule</button>
             </div>
           </div>
 
           <div ng-repeat="rule in block.rules" class="form-group">
-            <div class="col-md-4">
+            <div class="col-md-4 stacked-spacing-col-md">
               <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-sm-5 stacked-spacing-col-md">
               <select class="form-control" ng-model="rule.operator">
                 <option value="=">equals</option>
                 <option value="!=">does not equal</option>
@@ -136,11 +136,12 @@
                 <option value="<" ng-if="!ruleValues(rule.parentBlockId).length">is less than</option>
               </select>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
               <input type="text" ng-model="rule.value" ng-show="!ruleValues(rule.parentBlockId).length" class="form-control">
-              <select ng-model="rule.value" ng-options="v as v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValues(rule.parentBlockId).length" class="form-control"></select>
+              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValues(rule.parentBlockId).length" class="form-control"></select>
             </div>
-            <div class="col-md-1 text-center">
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-1 text-right">
               <button class="btn btn-danger" ng-click="removeRule(rule.id)" title="Delete Rule"><i class="fa fa-trash-o"></i></button>
             </div>
           </div>
