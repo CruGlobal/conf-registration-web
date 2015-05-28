@@ -232,6 +232,23 @@ angular.module('confRegistrationWebApp')
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           return validateRegistrant.blockVisibleRuleCheck(block, registrant);
         };
+
+        $scope.ruleValueInputType = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var parentBlock = _.find(blocks, { 'id': parentBlockId });
+
+          switch (parentBlock.type) {
+            case 'selectQuestion':
+            case 'radioQuestion':
+            case 'genderQuestion':
+            case 'yearInSchoolQuestion':
+              return 'select';
+            case 'dateQuestion':
+              return 'date';
+            case 'numberQuestion':
+              return 'number';
+          }
+        };
       }
     };
   });
