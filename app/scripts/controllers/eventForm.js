@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-questions',
@@ -159,9 +159,21 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, growl) {
       //check if block is parent for any rules
-      var allRules = _.flatten(_.flatten(conference.registrationPages, 'blocks'), 'rules');
-      if(_.some(allRules, {parentBlockId: blockId})){
-        modalMessage.error('This question is referenced in rules for other questions. Rules reference must be removed before question can be deleted.');
+      var allBlocks = _.flatten(conference.registrationPages, 'blocks');
+      var childRules = _.filter(_.flatten(allBlocks, 'rules'), {parentBlockId: blockId});
+      if(childRules.length !== 0){
+        var questions = _(childRules).map(function(rule){
+          var block = _.find(allBlocks, {'id': rule.blockId});
+          return '<li>' + $sanitize(block.title) + '</li>';
+        }).unique().value();
+        var pluralize = 'question has';
+        if(questions.length > 1){
+          pluralize = 'questions have';
+        }
+        modalMessage.error({
+          'title': 'Error Removing Question',
+          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:' + questions.join('') + 'Please remove the rules that depend on this question and then try deleting it again.'
+        });
         return;
       }
 

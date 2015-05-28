@@ -198,8 +198,8 @@ angular.module('confRegistrationWebApp')
             return remove;
           });
 
-          //remove invalid block types
-          blocks = _.remove(blocks, function(b){
+          //keep valid block types that can be used in rules
+          blocks = _.filter(blocks, function(b){
             return _.contains(['radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'], b.type);
           });
 
