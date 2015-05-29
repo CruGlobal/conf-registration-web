@@ -86,15 +86,42 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var confirmMessage = 'Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will also be deleted.' : '');
+      var blocksOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), { 'pageId': page.id });
+      var blocksNotOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), function(block){ return block.pageId !== page.id; });
+      var rulesToBeRemoved = _.where(_.flatten(blocksNotOnPage, 'rules'), function(rule){ return _.contains(_.pluck(blocksOnPage, 'id'), rule.parentBlockId); });
+
+      var confirmMessage = '<p>Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will be deleted.</p>' : '</p>');
+      if(rulesToBeRemoved.length){
+        confirmMessage += '<p>The following rules will also be deleted:</p><ul>';
+        angular.forEach(rulesToBeRemoved, function(rule){
+          var parentBlock = _.find(blocksOnPage, { 'id': rule.parentBlockId });
+          var block = _.find(blocksNotOnPage, { 'id': rule.blockId });
+
+          confirmMessage += '<li><strong>' + $sanitize(parentBlock.title) + '</strong> ' + rule.operator + ' <strong>' + rule.value + '</strong> on <strong>' + $sanitize(block.title) + '</strong>.</li>';
+        });
+        confirmMessage += '</ul>';
+      }
       modalMessage.confirm({
         'title': 'Delete Page',
-        'question': confirmMessage
+        'question': confirmMessage,
+        'normalSize': true
       }).then(function(){
         if (growl) {
           var page = _.find($scope.conference.registrationPages, {id: pageId});
           var message = 'Page "' + page.title + '" has been deleted.';
           GrowlService.growl($scope, 'conference', $scope.conference, message);
+        }
+
+        if(rulesToBeRemoved.length){ //remove rules
+          angular.forEach($scope.conference.registrationPages, function(page, pageIndex){
+            angular.forEach(page.blocks, function(block, blockIndex){
+              angular.forEach(block.rules, function(rule, ruleIndex){
+                if(_.contains(_.pluck(rulesToBeRemoved, 'id'), rule.id)){
+                  $scope.conference.registrationPages[pageIndex].blocks[blockIndex].rules.splice(ruleIndex, 1);
+                }
+              });
+            });
+          });
         }
         $scope.conference.registrationPages.splice(delPageIndex, 1);
       });
