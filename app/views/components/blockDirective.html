@@ -1,4 +1,4 @@
-<div ng-if="!wizard" class="form-group" ng-if="blockVisibleRuleCheck(block)">
+<div ng-if="!wizard" class="form-group" ng-show="blockVisibleRuleCheck(block)">
   <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
