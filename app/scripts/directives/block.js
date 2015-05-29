@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
             }
 
-            AnswerCache.syncBlock($scope, 'answer');
+            AnswerCache.syncBlock($scope, 'answer', $scope.conference.id, $scope.currentRegistration);
           }
         }
 
