@@ -85,6 +85,10 @@ angular.module('confRegistrationWebApp')
     };
 
     this.updateCurrent = function(conferenceId, currentRegistration){
+      if ($rootScope.registerMode === 'preview') {
+        $rootScope.previewRegCache = currentRegistration;
+        return;
+      }
       cache.put('conferences/' + conferenceId + '/registrations/current', angular.copy(currentRegistration));
     };
 
