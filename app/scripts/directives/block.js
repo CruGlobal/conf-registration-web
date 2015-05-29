@@ -220,7 +220,7 @@ angular.module('confRegistrationWebApp')
             case 'radioQuestion':
               return _.pluck(block.content.choices, 'value');
             case 'genderQuestion':
-              return ['Male', 'Female'];
+              return ['M', 'F'];
             case 'yearInSchoolQuestion':
               return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
             default:
@@ -245,9 +245,10 @@ angular.module('confRegistrationWebApp')
           switch (parentBlock.type) {
             case 'selectQuestion':
             case 'radioQuestion':
-            case 'genderQuestion':
             case 'yearInSchoolQuestion':
               return 'select';
+            case 'genderQuestion':
+              return 'gender';
             case 'dateQuestion':
               return 'date';
             case 'numberQuestion':
