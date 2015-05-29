@@ -185,6 +185,7 @@ angular.module('confRegistrationWebApp')
 
           $scope.block.rules.push({
             id: uuid(),
+            blockId: $scope.block.id,
             parentBlockId: ruleBlocks[0].id,
             operator: '=',
             value: ''

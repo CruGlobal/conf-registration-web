@@ -159,7 +159,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, growl) {
       //check if block is parent for any rules
-      var allBlocks = _.flatten(conference.registrationPages, 'blocks');
+      var allBlocks = _.flatten($scope.conference.registrationPages, 'blocks');
       var childRules = _.filter(_.flatten(allBlocks, 'rules'), {parentBlockId: blockId});
       if(childRules.length !== 0){
         var questions = _(childRules).map(function(rule){
