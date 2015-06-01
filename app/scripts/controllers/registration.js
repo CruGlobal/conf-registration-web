@@ -45,7 +45,12 @@ angular.module('confRegistrationWebApp')
     $scope.activePageId = pageId || '';
     $scope.page = _.find(conference.registrationPages, { 'id': pageId });
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-    $scope.nextPage = $scope.conference.registrationPages[_.findIndex($scope.conference.registrationPages, { 'id': pageId }) + 1];
+    $scope.nextPage = function(){
+      var visiblePageArray = _.filter($scope.conference.registrationPages, function(page) {
+        return $scope.pageIsVisible(page);
+      });
+      return visiblePageArray[_.findIndex(visiblePageArray, { 'id': pageId }) + 1];
+    };
 
     //if current page doesn't exist, go to first page
     if($scope.activePageIndex === -1 && angular.isDefined($scope.page)){
@@ -66,15 +71,20 @@ angular.module('confRegistrationWebApp')
         $rootScope.visitedPages.push(pageAndRegistrantId);
       }
 
-      if (angular.isDefined($scope.nextPage)) {
-        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
+      var nextPage = $scope.nextPage();
+      if (angular.isDefined(nextPage)) {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + nextPage.id);
       } else {
         $location.path('/reviewRegistration/' + conference.id).search('regType', null);
       }
     };
 
     $scope.previousPage = function () {
-      var previousPage = $scope.conference.registrationPages[$scope.activePageIndex - 1];
+      var visiblePageArray = _.filter($scope.conference.registrationPages, function(page) {
+        return $scope.pageIsVisible(page);
+      });
+
+      var previousPage = visiblePageArray[_.findIndex(visiblePageArray, { 'id': pageId }) - 1];
       if (angular.isDefined(previousPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + previousPage.id);
       } else if($scope.currentRegistration.completed) {
@@ -116,5 +126,11 @@ angular.module('confRegistrationWebApp')
         $scope.currentRegistration.registrants = [];
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration);
       });
+    };
+
+    $scope.pageIsVisible = function(page){
+      return _.contains(_.map(page.blocks, function(block){
+        return validateRegistrant.blockVisibleRuleCheck(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
+      }), true);
     };
   });
