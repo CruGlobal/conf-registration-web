@@ -21,27 +21,6 @@ angular.module('confRegistrationWebApp')
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
 
-    //remove blocks that are not part of registrant type
-    if(angular.isDefined($routeParams.reg)){
-      var reg = _.find(currentRegistration.registrants, { 'id': $routeParams.reg});
-      if(angular.isUndefined(reg)){
-        $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/').search('reg', null);
-        return;
-      }
-      angular.forEach(angular.copy(conference.registrationPages), function(page) {
-        var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
-        angular.forEach(angular.copy(page.blocks), function(block) {
-          if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
-            _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
-          }
-        });
-
-        if($scope.conference.registrationPages[pageIndex].blocks.length === 0) {
-          _.remove($scope.conference.registrationPages, function(p) { return p.id === page.id; });
-        }
-      });
-    }
-
     $scope.activePageId = pageId || '';
     $scope.page = _.find(conference.registrationPages, { 'id': pageId });
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
@@ -130,7 +109,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.pageIsVisible = function(page){
       return _.contains(_.map(page.blocks, function(block){
-        return validateRegistrant.blockVisibleRuleCheck(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
+        return validateRegistrant.blockVisible(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
       }), true);
     };
   });

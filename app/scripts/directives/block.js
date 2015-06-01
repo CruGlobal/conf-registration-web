@@ -233,9 +233,9 @@ angular.module('confRegistrationWebApp')
         };
 
 
-        $scope.blockVisibleRuleCheck = function(block){
+        $scope.blockVisible = function(block){
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
-          return validateRegistrant.blockVisibleRuleCheck(block, registrant);
+          return validateRegistrant.blockVisible(block, registrant);
         };
 
         $scope.ruleValueInputType = function(parentBlockId){
