@@ -32,7 +32,7 @@
 
     <form name="pageForm" novalidate>
       <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
-      <div ng-repeat="block in page.blocks" block="block" crs-block></div>
+      <div ng-repeat="block in page.blocks" block="block" crs-block ng-show="blockVisible(block)"></div>
       <div class="row spacing-above-md">
         <div class="col-sm-3 col-xs-5">
           <button class="btn btn-subtle btn-lg btn-block"
