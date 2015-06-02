@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-registrations',
@@ -118,8 +118,8 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.blockIsVisible = function(block, registrantTypeId){
-      return !_.contains(block.registrantTypes, registrantTypeId);
+    $scope.blockIsVisible = function(block, registrant){
+      return validateRegistrant.blockVisible(block, registrant);
     };
 
     var findAnswer = function (registration, blockId) {

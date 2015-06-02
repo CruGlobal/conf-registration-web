@@ -211,7 +211,7 @@
         <tr ng-repeat-end class="rowdetails on" ng-if="expandedStatus(r.id) === 'open'">
           <td colspan="100%">
             <div class="well">
-              <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r.registrantTypeId)">
+              <div class="row" ng-repeat="block in blocks" ng-if="blockIsVisible(block, r)">
                 <div class="col-xs-3 details-heading" ng-bind="block.title"></div>
                 <div class="col-xs-9"><show-answer block="block" registrant="r"></show-answer></div>
               </div>
