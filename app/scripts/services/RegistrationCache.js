@@ -84,6 +84,14 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
+    this.updateCurrent = function(conferenceId, currentRegistration){
+      if ($rootScope.registerMode === 'preview') {
+        $rootScope.previewRegCache = currentRegistration;
+        return;
+      }
+      cache.put('conferences/' + conferenceId + '/registrations/current', angular.copy(currentRegistration));
+    };
+
     this.getAllForConference = function (conferenceId, queryParameters) {
       var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';

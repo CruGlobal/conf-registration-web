@@ -44,12 +44,12 @@
           <button class="btn btn-success btn-important btn-lg btn-block"
                   type="submit"
                   ng-click="goToNext(pageForm.$valid)"
-                  ng-if="nextPage">
+                  ng-if="nextPage()">
             Next Page
           </button>
           <button class="btn btn-success btn-important btn-lg btn-block"
                   ng-click="goToNext(pageForm.$valid)"
-                  ng-if="!nextPage">
+                  ng-if="!nextPage()">
             Continue
           </button>
         </div>

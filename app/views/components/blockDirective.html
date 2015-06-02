@@ -1,4 +1,4 @@
-<div ng-if="!wizard" class="form-group">
+<div ng-if="!wizard" class="form-group" ng-show="blockVisible(block)">
   <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
@@ -20,7 +20,7 @@
 </div>
 
 
-<div class="edit-box-name crsQuestion" ng-if="wizard" id="{{block.id}}">
+<div class="edit-box-name crsQuestion" ng-if="wizard">
   <div class="btn-group btn-group-xs pull-right" role="group">
     <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
@@ -112,6 +112,45 @@
             </div>
           </div>
           <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> This question must be shown for all registration types.</p>
+        </div>
+      </tab>
+      <tab heading="Rules" ng-if="canHaveRules">
+        <p class="text-muted"><i class="fa fa-info-circle"></i> Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created must be met before the question is displayed.
+          Rules can depend on questions of <a href="" tooltip="Multiple Choice, Dropdown, Number, Date, Gender or Year in School">these types</a> that are above this question.</p>
+
+        <div class="form-horizontal">
+          <div class="form-group">
+            <div class="col-md-12">
+              <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> Add Rule</button>
+            </div>
+          </div>
+
+          <div ng-repeat="rule in block.rules" class="form-group">
+            <div class="col-md-4 stacked-spacing-col-md">
+              <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
+            </div>
+            <div class="col-md-2 col-sm-5 stacked-spacing-col-md">
+              <select class="form-control" ng-model="rule.operator">
+                <option value="=">equals</option>
+                <option value="!=">does not equal</option>
+                <option value=">" ng-if="!ruleValues(rule.parentBlockId).length">is greater than</option>
+                <option value="<" ng-if="!ruleValues(rule.parentBlockId).length">is less than</option>
+              </select>
+            </div>
+            <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
+              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
+              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
+              <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+              </select>
+              <pick-a-date ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'date'"></pick-a-date>
+            </div>
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-1 text-right">
+              <button class="btn btn-danger" ng-click="removeRule(rule.id)" title="Delete Rule"><i class="fa fa-trash-o"></i></button>
+            </div>
+          </div>
         </div>
       </tab>
     </tabset>

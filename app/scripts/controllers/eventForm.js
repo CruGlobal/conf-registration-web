@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-questions',
@@ -18,10 +18,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = conference;
     $scope.$watch('conference', function (newObject, oldObject) {
-      if (angular.isDefined(newObject) && angular.isDefined(oldObject)) {
-        if(!_.isEqual(newObject, oldObject)){
-          saveForm();
-        }
+      if (angular.isDefined(newObject) && angular.isDefined(oldObject) && !_.isEqual(newObject, oldObject)) {
+        saveForm();
       }
     }, true);
 
@@ -88,15 +86,42 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var confirmMessage = 'Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will also be deleted.' : '');
+      var blocksOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), { 'pageId': page.id });
+      var blocksNotOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), function(block){ return block.pageId !== page.id; });
+      var rulesToBeRemoved = _.where(_.flatten(blocksNotOnPage, 'rules'), function(rule){ return _.contains(_.pluck(blocksOnPage, 'id'), rule.parentBlockId); });
+
+      var confirmMessage = '<p>Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will be deleted.</p>' : '</p>');
+      if(rulesToBeRemoved.length){
+        confirmMessage += '<p>The following rules will also be deleted:</p><ul>';
+        angular.forEach(rulesToBeRemoved, function(rule){
+          var parentBlock = _.find(blocksOnPage, { 'id': rule.parentBlockId });
+          var block = _.find(blocksNotOnPage, { 'id': rule.blockId });
+
+          confirmMessage += '<li><strong>' + $sanitize(parentBlock.title) + '</strong> ' + rule.operator + ' <strong>' + rule.value + '</strong> on <strong>' + $sanitize(block.title) + '</strong>.</li>';
+        });
+        confirmMessage += '</ul>';
+      }
       modalMessage.confirm({
         'title': 'Delete Page',
-        'question': confirmMessage
+        'question': confirmMessage,
+        'normalSize': true
       }).then(function(){
         if (growl) {
           var page = _.find($scope.conference.registrationPages, {id: pageId});
           var message = 'Page "' + page.title + '" has been deleted.';
           GrowlService.growl($scope, 'conference', $scope.conference, message);
+        }
+
+        if(rulesToBeRemoved.length){ //remove rules
+          angular.forEach($scope.conference.registrationPages, function(page, pageIndex){
+            angular.forEach(page.blocks, function(block, blockIndex){
+              angular.forEach(block.rules, function(rule, ruleIndex){
+                if(_.contains(_.pluck(rulesToBeRemoved, 'id'), rule.id)){
+                  $scope.conference.registrationPages[pageIndex].blocks[blockIndex].rules.splice(ruleIndex, 1);
+                }
+              });
+            });
+          });
         }
         $scope.conference.registrationPages.splice(delPageIndex, 1);
       });
@@ -152,25 +177,42 @@ angular.module('confRegistrationWebApp')
         title: title,
         type: blockType,
         profileType: profileType,
-        registrantTypes: []
+        registrantTypes: [],
+        rules: []
       };
 
       $scope.conference.registrationPages[newPageIndex].blocks.splice(newPosition, 0, newBlock);
     };
 
     $scope.deleteBlock = function (blockId, growl) {
+      //check if block is parent for any rules
+      var allBlocks = _.flatten($scope.conference.registrationPages, 'blocks');
+      var childRules = _.filter(_.flatten(allBlocks, 'rules'), {parentBlockId: blockId});
+      if(childRules.length !== 0){
+        var questions = _(childRules).map(function(rule){
+          var block = _.find(allBlocks, {'id': rule.blockId});
+          return '<li>' + $sanitize(block.title) + '</li>';
+        }).unique().value();
+        var pluralize = 'question has';
+        if(questions.length > 1){
+          pluralize = 'questions have';
+        }
+        modalMessage.error({
+          'title': 'Error Removing Question',
+          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:<ul>' + questions.join('') + '</ul>Please remove the rules that depend on this question and then try deleting it again.'
+        });
+        return;
+      }
+
       if (growl) {
         var t = makePositionArray();
         var block = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block];
         var message = '"' + block.title + '" has been deleted.';
         GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
-      deleteBlockFromPage(blockId);
-    };
 
-    var deleteBlockFromPage = function (blockId) {
       var tempPositionArray = makePositionArray();
-      _.remove($scope.conference.registrationPages[tempPositionArray[blockId].page].blocks, function(b) { return b.id === blockId; });
+      _.remove($scope.conference.registrationPages[tempPositionArray[blockId].page].blocks, { 'id': blockId });
     };
 
     $scope.addNewPage = function () {
