@@ -9,7 +9,7 @@
   </div>
 
   <div ng-repeat="page in conference.registrationPages">
-    <div ng-repeat="block in page.blocks" ng-if="blockInRegType(block, adminEditRegistrant.registrantTypeId)" block="block" answer="findAnswer(block.id)" crs-block></div>
+    <div ng-repeat="block in page.blocks" ng-show="blockIsVisible(block, adminEditRegistrant)" block="block" answer="findAnswer(block.id)" crs-block></div>
   </div>
 </div>
 <div class="modal-footer">
