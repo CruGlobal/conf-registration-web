@@ -144,9 +144,27 @@
             <a href="" ng-click="setOrder('completed_timestamp')">Completed</a>
             <i ng-if="queryParameters.orderBy === 'completed_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
-          <th ng-if="eventHasCost()" class="text-center" width="62">
+
+<!--          <i class="question-popover fa fa-question-circle"
+             popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
+             popover-trigger="mouseenter"
+             popover-append-to-body="true">
+          </i> -->
+
+
+          <!--<button popover-template="dynamicPopover.templateUrl" popover-title="{{dynamicPopover.title}}" class="btn btn-default">Popover With Template</button>-->
+
+          <th ng-if="eventHasCost()"
+          <th class="text-center" width="70">
             Paid
+            <i class="fa fa-question-circle"
+               button popover-template="'views/components/registrationsPaidPopover.html'"
+               popover-trigger="mouseenter"
+               popover-append-to-body="true">
+            </i>
           </th>
+
+
           <th class="text-center" width="94">
             <a href="" ng-click="setOrder('checked_in_timestamp')">Checked-in</a>
             <i ng-if="queryParameters.orderBy === 'checked_in_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
@@ -175,7 +193,7 @@
           </td>
           <td ng-if="eventHasCost()" class="text-center">
             <div ng-if="getRegistration(r.registrationId).completed">
-                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': remainingBalance(r.registrationId)==0, 'btn-default': remainingBalance(r.registrationId)>0, 'btn-warning': remainingBalance(r.registrationId)<0}" title="View/Edit Payments &amp; Expenses">
+                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': remainingBalance(r.registrationId)==0, 'btn-default': remainingBalance(r.registrationId)>0, 'btn-danger': remainingBalance(r.registrationId)<0}" title="View/Edit Payments &amp; Expenses">
                 &nbsp;
                 <i class="fa fa-fw fa-usd"></i>
                 &nbsp;
