@@ -48,7 +48,7 @@ angular.module('confRegistrationWebApp')
 
 
     //save answers on route change
-    $scope.$on('$routeChangeStart', function (event, next) {
+    $scope.$on('$routeChangeStart', function () {
       $interval.cancel(saveAnswersInterval);
       if(angular.isUndefined($scope.currentRegistrant)){
         return;
