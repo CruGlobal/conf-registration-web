@@ -36,6 +36,7 @@
         <div class="col-sm-3 col-xs-5">
           <button class="btn btn-subtle btn-lg btn-block"
                   type="button"
+                  ng-disabled="savingAnswers"
                   ng-click="previousPage()">
             Go Back
           </button>
@@ -43,14 +44,11 @@
         <div class="col-sm-9 col-xs-7">
           <button class="btn btn-success btn-important btn-lg btn-block"
                   type="submit"
-                  ng-click="goToNext()"
-                  ng-if="nextPage()">
-            Next Page
-          </button>
-          <button class="btn btn-success btn-important btn-lg btn-block"
-                  ng-click="goToNext()"
-                  ng-if="!nextPage()">
-            Continue
+                  ng-disabled="savingAnswers"
+                  ng-click="goToNext()">
+            <span ng-show="!savingAnswers && !nextPage()">Continue</span>
+            <span ng-show="!savingAnswers && nextPage()">Next Page</span>
+            <span ng-show="savingAnswers">Saving...</span>
           </button>
         </div>
       </div>
