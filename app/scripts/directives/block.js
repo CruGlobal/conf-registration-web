@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
             }
           } else {
             var registrantId = $routeParams.reg;
-            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
+            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block) || $scope.block.type === 'paragraphContent'){
               return;
             }
             var registrantIndex = _.findIndex($scope.currentRegistration.registrants, { 'id': registrantId });
