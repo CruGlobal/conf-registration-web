@@ -32,22 +32,22 @@
                ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"></i>
           </td>
           <td ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
-          <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</td>
+          <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | currency:'$'}}</td>
         </tr>
         <tr ng-show="expandRegistrantCost[r.id]">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
-          <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
+          <td>{{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}</td>
         </tr>
         <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts > 0">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
-          <td>{{r.calculatedDiscounts * -1 | moneyFormat}}</td>
+          <td>{{r.calculatedDiscounts * -1 | currency:'$'}}</td>
         </tr>
         <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
-          <td>{{a.amount | moneyFormat}}</td>
+          <td>{{a.amount | currency:'$'}}</td>
         </tr>
         </tbody>
         <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
@@ -58,7 +58,7 @@
             <span ng-if="expense.amount < 0">Discount:</span>
             {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})
           </td>
-          <td>{{expense.amount | moneyFormat}}</td>
+          <td>{{expense.amount | currency:'$'}}</td>
         </tr>
         </tbody>
       </table>
@@ -68,15 +68,15 @@
           <table class="table pull-right" style="width:200px;">
             <tr>
               <th>Total Cost</th>
-              <td width="90">{{registration.calculatedTotalDue | moneyFormat}}</td>
+              <td width="90">{{registration.calculatedTotalDue | currency:'$'}}</td>
             </tr>
             <tr>
               <th>Total Paid</th>
-              <td>{{registration.totalPaid | moneyFormat}}</td>
+              <td>{{registration.totalPaid | currency:'$'}}</td>
             </tr>
             <tr>
               <th>Total Due</th>
-              <td>{{registration.remainingBalance | moneyFormat}}</td>
+              <td>{{registration.remainingBalance | currency:'$'}}</td>
             </tr>
           </table>
         </div>
@@ -98,7 +98,7 @@
           <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
           <tr ng-class="{'active': $even}">
             <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | moneyFormat}}</td>
+            <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | currency:'$'}}</td>
             <td>
               <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
               <span ng-if="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
@@ -151,7 +151,7 @@
                       </div>
                     </div>
                     <div ng-show="editPayment.paymentType === 'CREDIT_CARD'">
-                      {{editPayment.amount | moneyFormat}}
+                      {{editPayment.amount | currency:'$'}}
                     </div>
                   </div>
                 </div>
@@ -273,7 +273,7 @@
           </tr>
           <tr>
             <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | moneyFormat}}</td>
+            <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | currency:'$'}}</td>
             <td>{{paymentToRefund.paymentType}}</td>
           </tr>
           </tbody>
@@ -315,7 +315,7 @@
           <tr>
             <td>{{expense.createdTimestamp | date:'MMM d, y h:mm a'}}</td>
             <td>
-              <span ng-if="editExpense.id !== expense.id">{{expense.amount | moneyFormat}}</span>
+              <span ng-if="editExpense.id !== expense.id">{{expense.amount | currency:'$'}}</span>
               <input ng-if="editExpense.id === expense.id" type="number" ng-model="editExpense.amount" class="form-control" step="1">
             </td>
             <td>

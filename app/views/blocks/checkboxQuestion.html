@@ -6,6 +6,6 @@
            ng-model="answer.value[choice.value]"
            ng-value="true"> <strong>{{choice.value}}</strong>
     <span ng-show="choice.desc" class="display-linebreaks"> - {{choice.desc}}</span>
-    <span ng-show="choice.amount"> - {{choice.amount | moneyFormat}}</span>
+    <span ng-show="choice.amount"> - {{choice.amount | currency:'$'}}</span>
   </label>
 </div>
