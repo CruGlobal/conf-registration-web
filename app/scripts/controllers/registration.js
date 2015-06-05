@@ -12,11 +12,6 @@ angular.module('confRegistrationWebApp')
     };
 
     var pageId = $routeParams.pageId;
-
-    if(angular.isUndefined(pageId) && currentRegistration.completed) {
-      $location.path('reviewRegistration/' + conference.id);
-    }
-
     $scope.conference = angular.copy(conference);
     var originalCurrentRegistration = angular.copy(currentRegistration);
     $scope.currentRegistration = currentRegistration;
