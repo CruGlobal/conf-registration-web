@@ -175,7 +175,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.previewEmail = function(reg){
-      var cost = $filter('moneyFormat')(reg.cost);
+      var cost = $filter('currency')(reg.cost, '$');
       var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
       modalMessage.info({

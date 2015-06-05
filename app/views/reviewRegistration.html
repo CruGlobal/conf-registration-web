@@ -3,7 +3,7 @@
     <section ng-if="currentRegistration.completed">
         <h1>You are registered!</h1>
         <p>Keep this information for your records.</p>
-        <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | moneyFormat}}</p>
+        <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | currency:'$'}}</p>
         <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
 
       <div class="well well-creme2">
@@ -93,22 +93,22 @@
               <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
             </td>
             <td>{{r.firstName}} {{r.lastName}}</td>
-            <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | moneyFormat}}</span></td>
+            <td><span ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | currency:'$'}}</span></td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id]">
             <td></td>
             <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
-            <td>{{getRegistrantType(r.registrantTypeId).cost | moneyFormat}}</td>
+            <td>{{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}</td>
           </tr>
           <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
             <td></td>
             <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
-            <td>{{a.amount | moneyFormat}}</td>
+            <td>{{a.amount | currency:'$'}}</td>
           </tr>
           <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
             <td></td>
             <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
-            <td>{{(r.calculatedDiscounts * -1) | moneyFormat}}</td>
+            <td>{{(r.calculatedDiscounts * -1) | currency:'$'}}</td>
           </tr>
         </tbody>
       </table>
@@ -118,7 +118,7 @@
           <table class="table pull-right">
             <tr>
               <th>Total</th>
-              <td width="90">{{currentRegistration.calculatedTotalDue | moneyFormat}}</td>
+              <td width="90">{{currentRegistration.calculatedTotalDue | currency:'$'}}</td>
             </tr>
             <tr ng-repeat="p in currentRegistration.pastPayments">
               <td>
@@ -127,16 +127,16 @@
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
-                  {{p.amount | moneyFormat}}
+                  {{p.amount | currency:'$'}}
                 </span>
                 <span ng-if="p.paymentType !== 'REFUND'">
-                  {{(p.amount * -1) | moneyFormat}}
+                  {{(p.amount * -1) | currency:'$'}}
                 </span>
               </td>
             </tr>
             <tr ng-show="currentRegistration.pastPayments.length > 0">
               <th>Remaining Balance</th>
-              <td>{{(currentRegistration.remainingBalance) | moneyFormat}}</td>
+              <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
             </tr>
           </table>
         </div>

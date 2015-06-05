@@ -101,7 +101,7 @@ angular.module('confRegistrationWebApp')
           angular.forEach($scope.block.content.choices, function(c){
             var visibleValue = c.value;
             if(c.amount){
-              visibleValue = visibleValue + ' - ' + $filter('moneyFormat')(c.amount);
+              visibleValue = visibleValue + ' - ' + $filter('currency')(c.amount, '$');
             }
             $scope.visibleValues.push(visibleValue);
           });

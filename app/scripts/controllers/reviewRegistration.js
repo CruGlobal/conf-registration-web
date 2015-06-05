@@ -78,15 +78,14 @@ angular.module('confRegistrationWebApp')
         show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
         can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
         */
-      if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
-          ($scope.currentPayment.amount + $scope.currentRegistration.totalPaid) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.');
+      if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
+        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
       }
 
-      if($scope.currentPayment.amount > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('moneyFormat')(registration.remainingBalance) + ' to register for this event.');
+      if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
+        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
       }
-      if ($scope.currentPayment.amount === 0 || !$scope.acceptedPaymentMethods()) {
+      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
         setRegistrationAsCompleted();
         return;
       }
