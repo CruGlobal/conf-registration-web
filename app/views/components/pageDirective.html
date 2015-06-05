@@ -30,12 +30,13 @@
   <article>
     <h2 class="page-title border" ng-bind="page.title"></h2>
 
-    <form name="pageForm" novalidate>
-      <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
+    <form novalidate>
       <div ng-repeat="block in page.blocks" block="block" crs-block ng-show="blockVisible(block)"></div>
       <div class="row spacing-above-md">
         <div class="col-sm-3 col-xs-5">
           <button class="btn btn-subtle btn-lg btn-block"
+                  type="button"
+                  ng-disabled="savingAnswers"
                   ng-click="previousPage()">
             Go Back
           </button>
@@ -43,14 +44,11 @@
         <div class="col-sm-9 col-xs-7">
           <button class="btn btn-success btn-important btn-lg btn-block"
                   type="submit"
-                  ng-click="goToNext(pageForm.$valid)"
-                  ng-if="nextPage()">
-            Next Page
-          </button>
-          <button class="btn btn-success btn-important btn-lg btn-block"
-                  ng-click="goToNext(pageForm.$valid)"
-                  ng-if="!nextPage()">
-            Continue
+                  ng-disabled="savingAnswers"
+                  ng-click="goToNext()">
+            <span ng-show="!savingAnswers && !nextPage()">Continue</span>
+            <span ng-show="!savingAnswers && nextPage()">Next Page</span>
+            <span ng-show="savingAnswers">Saving...</span>
           </button>
         </div>
       </div>

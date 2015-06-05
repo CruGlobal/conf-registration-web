@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, uuid, validateRegistrant) {
+      controller: function ($scope, $routeParams, $modal, modalMessage, RegistrationCache, uuid, validateRegistrant) {
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
             }
           } else {
             var registrantId = $routeParams.reg;
-            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
+            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block) || $scope.block.type === 'paragraphContent'){
               return;
             }
             var registrantIndex = _.findIndex($scope.currentRegistration.registrants, { 'id': registrantId });
@@ -34,13 +34,41 @@ angular.module('confRegistrationWebApp')
               $scope.answer = {
                 id : uuid(),
                 registrantId : registrantId,
-                blockId : $scope.block.id,
-                value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+                blockId : $scope.block.id
               };
+              //default value
+              switch ($scope.block.type) {
+                case 'checkboxQuestion':
+                  $scope.answer.value = {};
+                  break;
+                case 'nameQuestion':
+                  $scope.answer.value = {
+                    firstName: '',
+                    lastName: ''
+                  };
+                  break;
+                case 'addressQuestion':
+                  $scope.answer.value = {
+                    address1: '',
+                    address2: '',
+                    city: '',
+                    state: '',
+                    zip: ''
+                  };
+                  break;
+                default:
+                  $scope.answer.value = '';
+              }
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
             }
 
-            AnswerCache.syncBlock($scope, 'answer', $scope.conference.id, $scope.currentRegistration);
+            $scope.$watch('answer', function (answer, oldAnswer) {
+              if(angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)){
+                return;
+              }
+
+              RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+            }, true);
           }
         }
 
