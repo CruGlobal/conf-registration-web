@@ -113,8 +113,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.registrantName = function(r) {
       var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
-      var registrant = _.find(currentRegistration.registrants, { 'id': r.id });
-      var returnStr;
+      var registrant = _.find($scope.currentRegistration.registrants, { 'id': r.id });
+      var returnStr = '';
       nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
 
       if(angular.isDefined((nameBlock))){
@@ -124,7 +124,7 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      return returnStr || _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name;
+      return (returnStr.trim().length ? returnStr : _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name);
     };
 
     $scope.registrantIsComplete = function(registrantId) {

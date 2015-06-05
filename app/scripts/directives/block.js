@@ -34,9 +34,31 @@ angular.module('confRegistrationWebApp')
               $scope.answer = {
                 id : uuid(),
                 registrantId : registrantId,
-                blockId : $scope.block.id,
-                value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+                blockId : $scope.block.id
               };
+              //default value
+              switch ($scope.block.type) {
+                case 'checkboxQuestion':
+                  $scope.answer.value = {};
+                  break;
+                case 'nameQuestion':
+                  $scope.answer.value = {
+                    firstName: '',
+                    lastName: ''
+                  };
+                  break;
+                case 'addressQuestion':
+                  $scope.answer.value = {
+                    address1: '',
+                    address2: '',
+                    city: '',
+                    state: '',
+                    zip: ''
+                  };
+                  break;
+                default:
+                  $scope.answer.value = '';
+              }
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
             }
 
