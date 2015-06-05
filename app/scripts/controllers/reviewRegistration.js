@@ -170,6 +170,11 @@ angular.module('confRegistrationWebApp')
         _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
           $route.reload();
+        }, function(){
+          modalMessage.error({
+            'message': 'An error occurred while removing registrant.'
+          });
+          $route.reload();
         });
       });
     };

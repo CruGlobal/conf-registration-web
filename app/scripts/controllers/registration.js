@@ -100,6 +100,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.reviewRegistration = function(){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        $location.path('/reviewRegistration/' + conference.id).search('regType', null).search('reg', null);
+        return;
+      }
+
       $scope.savingAnswers = true;
       $q.all(findAnswersToSave()).then(function(){
         $location.path('/reviewRegistration/' + conference.id).search('regType', null).search('reg', null);
