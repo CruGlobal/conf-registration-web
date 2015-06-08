@@ -236,11 +236,6 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
-      }
-    },
     processhtml: {
       dist: {
         options: {
@@ -313,7 +308,6 @@ module.exports = function (grunt) {
         'concurrent:dist',
         'concat',
         'copy',
-        'cdnify',
         'rev',
         'usemin',
         //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
@@ -332,7 +326,6 @@ module.exports = function (grunt) {
         'concurrent:dist',
         'concat',
         'copy',
-        'cdnify',
         'rev',
         'usemin',
         //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
