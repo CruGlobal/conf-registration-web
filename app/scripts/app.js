@@ -21,8 +21,16 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
-          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId);
+          currentRegistration: ['$route', '$q', '$location', 'RegistrationCache', function ($route, $q, $location, RegistrationCache) {
+            var q = $q.defer();
+            RegistrationCache.getCurrent($route.current.params.conferenceId).then(function(registration){
+              if(registration.completed && angular.isUndefined($route.current.params.pageId)){
+                $location.path('/reviewRegistration/' + $route.current.params.conferenceId);
+              }else{
+                q.resolve(registration);
+              }
+            });
+            return q.promise;
           }]
         }
       })
