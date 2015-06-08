@@ -141,6 +141,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.pageIsVisible = function(page){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        return false;
+      }
+
       return _.contains(_.map(page.blocks, function(block){
         return validateRegistrant.blockVisible(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
       }), true);
