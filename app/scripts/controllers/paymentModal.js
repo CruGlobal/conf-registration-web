@@ -80,7 +80,7 @@ angular.module('confRegistrationWebApp')
         transaction.readyToProcess = true;
       }
 
-      if(transaction.paymentType === 'SCHOLARSHIP') {
+      if(transaction.paymentType === 'SCHOLARSHIP' && angular.isDefined(transaction.scholarship)) {
         transaction.scholarship.scholarshipStatus = 'APPROVED';
       }
 
