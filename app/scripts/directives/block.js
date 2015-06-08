@@ -262,7 +262,7 @@ angular.module('confRegistrationWebApp')
 
 
         $scope.blockVisible = function(block){
-          if(angular.isUndefined($scope.currentRegistration)){
+          if(angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)){
             return false;
           }
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
