@@ -241,7 +241,9 @@
         <ul class="list-inline">
           <li><a href="#/privacy/">Privacy Policy</a></li>
           <li><a href="#/help/">Help</a></li>
-          <li ng-if="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <!-- build:remove:dist -->
+          <li><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <!-- /build -->
         </ul>
       </div>
       <div class="col-sm-4 text-right">
@@ -262,7 +264,9 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  <!-- build:remove:stage -->
   ga('create', 'UA-325725-55', 'auto');
+  <!-- /build -->
 </script>
 </body>
 </html>
