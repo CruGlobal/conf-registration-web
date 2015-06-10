@@ -1,13 +1,13 @@
+'use strict';
+
 angular.module('confRegistrationWebApp').filter('unique', function () {
-
     return function (items, filterOn) {
-
         if (filterOn === false) {
             return items;
         }
 
         if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
-            var hashCheck = {}, newItems = [];
+            var newItems = [];
 
             var extractValueToCompare = function (item) {
                 if (angular.isObject(item) && angular.isString(filterOn)) {
@@ -18,7 +18,7 @@ angular.module('confRegistrationWebApp').filter('unique', function () {
             };
 
             angular.forEach(items, function (item) {
-                var valueToCheck, isDuplicate = false;
+                var isDuplicate = false;
 
                 for (var i = 0; i < newItems.length; i++) {
                     if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {

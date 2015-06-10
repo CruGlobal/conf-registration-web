@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $window, $location, apiUrl) {
+  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location, ConfCache) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'dashboard',
@@ -14,8 +14,8 @@ angular.module('confRegistrationWebApp')
     var userIsLoggedIn = angular.isDefined($cookies.crsToken) && $cookies.crsAuthProviderType !== 'NONE';
     var loggedInUserEvents = [];
     if(userIsLoggedIn){
-      $http.get('conferences').then(function(response){
-        loggedInUserEvents = _.pluck(response.data, 'id');
+      ConfCache.get('').then(function(response){
+        loggedInUserEvents = _.pluck(response, 'id');
       });
     }
 
