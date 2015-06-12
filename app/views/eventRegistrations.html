@@ -159,7 +159,7 @@
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
-            <show-answer block="block" registrant="r"></show-answer>
+            <show-answer block="block" registrant="r" ng-if="blockIsVisible(block, r)"></show-answer>
           </td>
           <td class="text-center" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
           <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
