@@ -36,7 +36,8 @@ before_script:
 script:
     # We want to gate on passing tests and a successful build
     - bower install
-    - grunt
+    - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then grunt build:stage; fi
+    - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then grunt build:dist; fi
 after_success:
     - git submodule add -b ${GH_PUBLISH_TO_MODULE} git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} site
     - cd site
