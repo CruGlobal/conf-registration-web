@@ -31,7 +31,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.blockVisible = function(block, registrant){
-        return blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+      return blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
     };
 
     this.validate = function(conference, registrant) {
