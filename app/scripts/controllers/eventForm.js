@@ -147,6 +147,12 @@ angular.module('confRegistrationWebApp')
       newBlock.position = newPosition;
       newBlock.title = newBlock.title + ' (copy)';
 
+      //update rules
+      angular.forEach(newBlock.rules, function(r){
+        r.id = uuid();
+        r.blockId = newBlock.id;
+      });
+
       $scope.conference.registrationPages[origPageIndex].blocks.splice(newPosition, 0, newBlock);
     };
 
