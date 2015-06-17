@@ -101,6 +101,7 @@ angular.module('confRegistrationWebApp')
 
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
+              var blockIdMap = {};
 
               for (var i = 0; i < conference.registrantTypes.length; i++) {
                 var originalRegTypeId = conference.registrantTypes[i].id;
@@ -117,8 +118,17 @@ angular.module('confRegistrationWebApp')
                 conference.registrationPages[i].id = pageUuid;
                 conference.registrationPages[i].conferenceId = conference.id;
                 for (var j = 0; j < conference.registrationPages[i].blocks.length; j++) {
-                  conference.registrationPages[i].blocks[j].id = uuid();
+                  var blockUuid = uuid();
+                  blockIdMap[conference.registrationPages[i].blocks[j].id] = blockUuid;
+                  conference.registrationPages[i].blocks[j].id = blockUuid;
                   conference.registrationPages[i].blocks[j].pageId = pageUuid;
+
+                  //block rules
+                  for (var l = 0; l < conference.registrationPages[i].blocks[j].rules.length; l++) {
+                    conference.registrationPages[i].blocks[j].rules[l].id = uuid();
+                    conference.registrationPages[i].blocks[j].rules[l].blockId = blockUuid;
+                    conference.registrationPages[i].blocks[j].rules[l].parentBlockId = blockIdMap[conference.registrationPages[i].blocks[j].rules[l].parentBlockId];
+                  }
 
                   // take a copy of the registrantTypes for this block
                   var originalRegTypeIds = angular.copy(conference.registrationPages[i].blocks[j].registrantTypes);
