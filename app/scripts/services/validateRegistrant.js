@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
       var answers = registrant.answers;
       angular.forEach(block.rules, function(rule){
         var answer = _.find(answers, {blockId: rule.parentBlockId});
-        if(angular.isUndefined(answer)){
+        if(angular.isUndefined(answer) || answer.value === ''){
           returnValue = false;
         }else{
           if(rule.operator === '=' && answer.value !== rule.value) {
