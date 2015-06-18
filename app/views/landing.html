@@ -28,34 +28,34 @@
   <div class="row">
     <div class="col-md-4">
       <h4>Filters</h4>
-      <accordion close-others="false">
-        <accordion-group heading="Location" is-open="true">
-          <div class="list-group">
-            <a href=""
-               class="list-group-item"
-               ng-class="{'active': eventFilters.locationName === ''}"
-               ng-click="eventFilters.locationName = ''">-Any-</a>
-            <a href=""
-               class="list-group-item"
-               ng-class="{'active': eventFilters.locationName === e.locationName}"
-               ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'"
-               ng-click="eventFilters.locationName = e.locationName"
-               ng-if="e.locationName">{{e.locationName}}</a>
-          </div>
-        </accordion-group>
-        <accordion-group heading="Date" is-open="true">
-          <div class="list-group">
-            <a href=""
-               class="list-group-item"
-               ng-class="{'active': eventFilters.date === ''}"
-               ng-click="eventFilters.date = ''">-Any-</a>
-            <a href="" class="list-group-item"
-               ng-click="eventFilters.date = d"
-               ng-class="{'active': eventFilters.date === d}"
-               ng-repeat="d in ['This Week', 'This Weekend', 'Next Week', 'This Month']">{{d}}</a>
-          </div>
-        </accordion-group>
-      </accordion>
+      <div class="panel panel-default">
+        <div class="panel-heading">Location</div>
+        <div class="list-group">
+          <a href=""
+             class="list-group-item"
+             ng-class="{'active': eventFilters.locationName === ''}"
+             ng-click="eventFilters.locationName = ''">-Any-</a>
+          <a href=""
+             class="list-group-item"
+             ng-class="{'active': eventFilters.locationName === e.locationName}"
+             ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'"
+             ng-click="eventFilters.locationName = e.locationName"
+             ng-if="e.locationName">{{e.locationName}}</a>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">Date</div>
+        <div class="list-group">
+          <a href=""
+             class="list-group-item"
+             ng-class="{'active': eventFilters.date === ''}"
+             ng-click="eventFilters.date = ''">-Any-</a>
+          <a href="" class="list-group-item"
+             ng-click="eventFilters.date = d"
+             ng-class="{'active': eventFilters.date === d}"
+             ng-repeat="d in ['This Week', 'This Weekend', 'Next Week', 'This Month']">{{d}}</a>
+        </div>
+      </div>
     </div>
     <div class="col-md-8">
       <div class="list-group">
