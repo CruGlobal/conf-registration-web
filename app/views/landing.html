@@ -8,7 +8,7 @@
             <div class="input-group">
               <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control">
               <span class="input-group-btn">
-                <button class="btn btn-default" type="submit">Search</button>
+                <button class="btn btn-primary" type="submit">Search</button>
               </span>
             </div>
           </form>
@@ -64,8 +64,8 @@
            class="list-group-item"
            ng-repeat="e in searchResults | filter:{ locationName: eventFilters.locationName } | filter: dateFilter | orderBy: 'name'">
           <div class="pull-right">
-            <button ng-click="selectEvent(e, 'register')" class="btn btn-primary" ng-if="!userAdminForEvent(e.id)">Register</button>
-            <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success" ng-if="userAdminForEvent(e.id)">Manage</button>
+            <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)">Register</button>
+            <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)">Manage</button>
           </div>
           <h3 class="list-group-item-heading">{{e.name}}</h3>
           <p class="spacing-above-md list-group-item-text"><i class="fa fa-calendar fa-fw"></i>
