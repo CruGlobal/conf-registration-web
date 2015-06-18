@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
       });
     }
 
-    $scope.eventSearch = function(val) {
+    $scope.eventSearch = _.throttle(function(val) {
       $http.get('conferences', {
         params: {
           conferenceName: val
@@ -32,7 +32,7 @@ angular.module('confRegistrationWebApp')
         $scope.searchComplete = val;
         $scope.searchResults = response.data;
       });
-    };
+    }, 500, {leading: false});
 
     $scope.dateFilter = function(event){
       var eventStartTime = moment.tz(event.eventStartTime, event.eventTimezone);

@@ -6,7 +6,7 @@
           <h1>Search for an event</h1>
           <form ng-submit="eventSearch(searchVal)">
             <div class="input-group">
-              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control">
+              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
               <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit">Search</button>
               </span>
