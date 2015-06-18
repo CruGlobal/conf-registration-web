@@ -236,9 +236,22 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    cdnify: {
+    processhtml: {
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        options: {
+          strip: true
+        },
+        files: {
+          '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']
+        }
+      },
+      stage: {
+        options: {
+          strip: true
+        },
+        files: {
+          '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']
+        }
       }
     },
     uglify: {
@@ -284,24 +297,43 @@ module.exports = function (grunt) {
     //'karma'
   ]);
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'copy',
-    'cdnify',
-    'rev',
-    'usemin',
-    //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
-    'rev',
-    'usemin',
-    'uglify'
-  ]);
+  grunt.registerTask('build', function (target) {
+    if (target === 'stage') {
+      return grunt.task.run([
+        'jshint',
+        'test',
 
-  grunt.registerTask('default', [
-    'jshint',
-    'test',
-    'build'
-  ]);
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'concat',
+        'copy',
+        'rev',
+        'usemin',
+        //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
+        'rev',
+        'usemin',
+        'processhtml:stage',
+        'uglify'
+      ]);
+    }else{
+      return grunt.task.run([
+        'jshint',
+        'test',
+
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'concat',
+        'copy',
+        'rev',
+        'usemin',
+        //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
+        'rev',
+        'usemin',
+        'processhtml:dist',
+        'uglify'
+      ]);
+    }
+  });
 };
