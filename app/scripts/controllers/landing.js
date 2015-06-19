@@ -16,10 +16,10 @@ angular.module('confRegistrationWebApp')
         url: '/img/landing/big-break.jpg',
         position: '0 85%'
       }, {
-        url: 'http://cache1.asset-cache.net/xc/479706311.jpg?v=2&c=IWSAsset&k=2&d=48Cd-2UFMkPiYPy6EBt_9dfkZ9cAf7N9GxSGSGB066G75ggZ7ZCGSgDouEDf47Kt0',
+        url: '/img/landing/311.jpg',
         position: '0 10%'
       }, {
-        url: 'http://cache3.asset-cache.net/xc/488613187.jpg?v=2&c=IWSAsset&k=2&d=e27x9TJ6f85cSxl6ixp1rl1rI4cDtsOLYsPc55tqPfKd1NYqgmigru1zTVjLyxG80',
+        url: '/img/landing/187.jpg',
         position: '0 60%'
       }
     ];
