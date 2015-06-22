@@ -17,6 +17,8 @@ angular.module('confRegistrationWebApp')
           $scope.message = 'Error: Permission auth code was not found.';
         } else if (status === 403) {
           $scope.message = 'Error: Permission auth code has already been used or is more than 2 months old.';
+        } else {
+          $scope.message = data.errorMessage;
         }
       });
   });
