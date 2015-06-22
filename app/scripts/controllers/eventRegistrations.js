@@ -23,6 +23,7 @@ angular.module('confRegistrationWebApp')
       }
     }
 
+    $scope.paidPopoverTemplateUrl = 'views/components/registrationsPaidPopover.html';
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.queryParameters = {
