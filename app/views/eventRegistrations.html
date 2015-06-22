@@ -145,8 +145,7 @@
             <i ng-if="queryParameters.orderBy === 'completed_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
 
-          <th ng-if="eventHasCost()"
-          <th class="text-center" width="70">
+          <th ng-if="eventHasCost()" class="text-center" width="70">
             Paid
             <i class="fa fa-question-circle"
                button popover-template="'views/components/registrationsPaidPopover.html'"
