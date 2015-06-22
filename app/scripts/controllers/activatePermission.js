@@ -7,11 +7,10 @@ angular.module('confRegistrationWebApp')
     $scope.message = 'Verifying Auth Code...';
 
     $http({method: 'PUT',
-      url: 'permissions/' + permissionAuthCode + '/accept',
-      data: '{}'
+      url: 'permissions/' + permissionAuthCode + '/accept'
     }).success(function () {
         $scope.message = 'Success! Permission has been granted.  Redirecting now...';
-        $timeout(function () { $location.path('/'); }, 2000);
+        $timeout(function () { $location.path('/eventDashboard'); }, 2000);
       }).error(function (data, status) {
         if (status === 404) {
           $scope.message = 'Error: Permission auth code was not found.';
