@@ -29,12 +29,12 @@
     <div class="col-md-4">
       <h4>Filters</h4>
       <div class="panel panel-default">
-        <div class="panel-heading panel-title">Location</div>
+        <div class="panel-heading panel-title">Event Location</div>
         <div class="list-group">
           <a href=""
              class="list-group-item"
              ng-class="{'active': eventFilters.locationName === ''}"
-             ng-click="eventFilters.locationName = ''">-Any-</a>
+             ng-click="eventFilters.locationName = ''">-All Locations-</a>
           <a href=""
              class="list-group-item"
              ng-class="{'active': eventFilters.locationName === e.locationName}"
@@ -44,16 +44,16 @@
         </div>
       </div>
       <div class="panel panel-default">
-        <div class="panel-heading panel-title">Date</div>
+        <div class="panel-heading panel-title">Event Date</div>
         <div class="list-group">
           <a href=""
              class="list-group-item"
              ng-class="{'active': eventFilters.date === ''}"
-             ng-click="eventFilters.date = ''">-Any-</a>
+             ng-click="eventFilters.date = ''">-All Dates-</a>
           <a href="" class="list-group-item"
              ng-click="eventFilters.date = d"
              ng-class="{'active': eventFilters.date === d}"
-             ng-repeat="d in ['This Week', 'This Weekend', 'Next Week', 'This Month']">{{d}}</a>
+             ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']">{{d}}</a>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
         <a href=""
            ng-click="eventCollapse[e.id] = !eventCollapse[e.id]"
            class="list-group-item"
-           ng-repeat="e in searchResults | filter:{ locationName: eventFilters.locationName } | filter: dateFilter | orderBy: 'name'">
+           ng-repeat="e in filteredEvents = (searchResults | filter:{ locationName: eventFilters.locationName } | filter: dateFilter) | orderBy: 'name'">
           <div class="pull-right">
             <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)">Register</button>
             <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)">Manage</button>
@@ -80,6 +80,7 @@
         </a>
       </div>
       <p ng-show="!searchResults.length">No events found matching "{{searchComplete}}".</p>
+      <p ng-show="searchResults.length && !filteredEvents.length">No events found matching the selected filters.</p>
     </div>
   </div>
 </div>

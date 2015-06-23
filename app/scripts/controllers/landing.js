@@ -58,16 +58,16 @@ angular.module('confRegistrationWebApp')
           var mondayMidnight = moment().startOf('week');
           var saturdayMidnight = moment().startOf('week').add(6, 'days');
           return eventStartTime >= mondayMidnight && eventStartTime <= saturdayMidnight;
-        case 'This Weekend':
-          var fridayMidnight = moment().startOf('week').add(5, 'days');
-          var nextMondayMidnight = moment().startOf('week').add(8, 'days');
-          return eventStartTime >= fridayMidnight && eventStartTime <= nextMondayMidnight;
         case 'Next Week':
           var nextMonday = moment().startOf('week').add(8, 'days');
           var nextSundayMidnight = moment().startOf('week').add(14, 'days');
           return eventStartTime >= nextMonday && eventStartTime <= nextSundayMidnight;
         case 'This Month':
           return eventStartTime >= moment().startOf('month') && eventStartTime <= moment().startOf('month').add(1, 'month');
+        case 'Next Month':
+          return eventStartTime >= moment().startOf('month').add(1, 'month') && eventStartTime <= moment().startOf('month').add(2, 'month');
+        case 'Greater Than Next Month':
+          return eventStartTime >= moment().startOf('month').add(2, 'month');
       }
     };
 
