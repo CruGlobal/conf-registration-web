@@ -23,10 +23,12 @@ angular.module('confRegistrationWebApp').filter('unique', function () {
                 for (var i = 0; i < newItems.length; i++) {
                     if (angular.equals(extractValueToCompare(newItems[i]), extractValueToCompare(item))) {
                         isDuplicate = true;
+                        newItems[i]._count++;
                         break;
                     }
                 }
                 if (!isDuplicate) {
+                    item._count = 1;
                     newItems.push(item);
                 }
 

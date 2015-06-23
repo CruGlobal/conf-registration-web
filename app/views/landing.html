@@ -40,7 +40,7 @@
              ng-class="{'active': eventFilters.locationName === e.locationName}"
              ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'"
              ng-click="eventFilters.locationName = e.locationName"
-             ng-if="e.locationName">{{e.locationName}}</a>
+             ng-if="e.locationName">{{e.locationName}} ({{e._count}})</a>
         </div>
       </div>
       <div class="panel panel-default">
