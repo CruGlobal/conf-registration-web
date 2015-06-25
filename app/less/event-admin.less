@@ -60,6 +60,14 @@ main {
   margin: 20px 0;
 }
 
+.bs-callout {
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: #3494c7;
+}
+
 #pagefooter {
   background: @paleblue;
   box-shadow: 0px 500px 0px 500px @paleblue;
@@ -91,6 +99,29 @@ main.dashboard {
     }
     .container{
       margin: auto;
+      .inline-form{
+        display: inline-block;
+        border-collapse: separate;
+        padding: 0;
+        .form-control, .btn{
+          height: 40px;
+          font-size: 120%;
+          border-bottom-left-radius: 0;
+          border-top-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+    }
+  }
+  .row_masonry {
+    -moz-column-width: 30em;
+    -webkit-column-width: 30em;
+    column-width: 30em;
+    .col_masonry {
+      display: inline-block;
+      padding:  1rem;
+      width:  100%;
     }
   }
 }
@@ -198,14 +229,6 @@ main.event-registrations {
 main.event-details {
   section {
     padding-bottom: 20px;
-  }
-  .bs-callout {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-    border-left-color: #1b809e;
   }
   .reg-type-delete{
     position: absolute;
