@@ -1,39 +1,61 @@
-<div class="landing-jumbo">
-  <div class="row container">
-    <div class="col-xs-12">
-      <p class="text-center">
-        <i class="fa fa-users"></i>
-      </p>
-      <div class="text-center">
-        <span class="welcome">Welcome</span>
-        <div class="row">
-          <div class="col-md-6">
-            <h2>Register for an event</h2>
-            <p class="text-left">Enter the name of the event that you would like to register for.</p>
-            <div class="form-group has-feedback">
-              <input type="text" ng-model="eventSearchTypeahead" class="form-control" placeholder="Search"
-                     typeahead="e.name for e in eventSearch($viewValue)"
-                     typeahead-loading="loading"
-                     typeahead-wait-ms="300"
-                     typeahead-input-formatter="null"
-                     typeahead-on-select="selectEvent($item, $model, $label)">
-              <span class="form-control-feedback" title="Searching..." ng-if="loading">
-                <i class="fa fa-spinner fa-spin"></i>
-              </span>
+<div class="landing-jumbo" ng-style="{'background-image': 'url(' + jumboImg.url + ')', 'background-position': jumboImg.position}">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Search for an event</h1>
+
+        <form class="search-toolbar" ng-submit="eventSearch(searchVal)">
+          <div class="row row-no-padding">
+            <div class="col-xs-9 col-sm-5">
+              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
+            </div>
+            <div class="hidden-xs col-sm-3">
+              <select class="form-control" ng-model="eventFilters.locationName">
+                <option value="">-Any Location-</option>
+                <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
+                </option>
+              </select>
+            </div>
+            <div class="hidden-xs col-sm-3">
+              <select class="form-control" ng-model="eventFilters.date">
+                <option value="">-Any Date-</option>
+                <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-1">
+              <button class="btn btn-primary" type="submit">Search</button>
             </div>
           </div>
-          <div class="col-md-6">
-            <div ng-show="!userIsLoggedIn()">
-              <h2>Sign in to create or manage an event</h2>
-              <p>View registrations, manage scholarships, change questions and more.</p>
-              <a ng-click="login('FACEBOOK')" class="btn btn-default spacing-below-xs" title="Facebook"><img src="/img/signin-facebook.png"></a>
-              <a ng-click="login('RELAY')" class="btn btn-default spacing-below-xs" title="Relay"><img src="/img/signin-relay.png"></a>
-            </div>
-            <div ng-show="userIsLoggedIn()">
-              <h2>Create or manage your events</h2>
-              <p><a class="btn btn-default btn-lg" role="button" href="#/eventDashboard/">My Dashboard ></a></p>
-            </div>
-          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container spacing-above-md" ng-if="!searchComplete">
+  <h3>Register for an event</h3>
+  <p>To register for an event, search the event name above.</p>
+
+  <h3>Create or manage an event</h3>
+  <p>To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your <a href="#/eventDashboard">Event Dashboard</a>.</p>
+</div>
+<div class="container spacing-above-md" ng-if="searchComplete">
+    <p ng-show="!searchResults.length">No events found matching "{{searchComplete}}".</p>
+    <p ng-show="searchResults.length && !filteredEvents.length">No events found matching the selected filters.</p>
+  <div class="row_masonry">
+    <div class="col_masonry" ng-repeat="e in filteredEvents = (searchResults | filter:{ locationName: eventFilters.locationName } | filter: dateFilter) | orderBy: 'name'">
+      <div class="bs-callout">
+        <h3 class="list-group-item-heading">{{e.name}}</h3>
+        <p class="spacing-above-md list-group-item-text"><i class="fa fa-calendar fa-fw"></i>
+          {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY h:mma'}} -
+          {{e.eventEndTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY h:mma'}}
+          <span ng-if="e.locationName"><br><i class="fa fa-map-marker fa-fw"></i>
+          {{e.locationName}}</span>
+        </p>
+        <p class="spacing-above-md" ng-if="e.description">{{e.description}}</p>
+        <div class="text-center">
+          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)">Register</button>
+          <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)">Manage</button>
         </div>
       </div>
     </div>

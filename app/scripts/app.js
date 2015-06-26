@@ -75,7 +75,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         templateUrl: 'views/eventDashboard.html',
         controller: 'eventDashboardCtrl',
         resolve: {
-          enforceAuth: $injector.get('enforceAuth')
+          enforceAuth: $injector.get('enforceAuth'),
+          conferences: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get('');
+          }]
         }
       })
       .when('/eventOverview/:conferenceId', {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, modalMessage, $location, $http, Model, uuid) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-dashboard',
@@ -11,15 +11,11 @@ angular.module('confRegistrationWebApp')
       footer: true
     };
 
+    $scope.conferences = conferences;
     $scope.filterName = '';
     $scope.resetFilterName = function(){
       $scope.filterName = '';
     };
-
-    $scope.$on('conferences/', function (event, conferences) {
-      $scope.conferences = conferences;
-    });
-    ConfCache.query();
 
     $scope.$watch('showArchivedEvents', function (v) {
       if (v) {

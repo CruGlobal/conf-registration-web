@@ -60,6 +60,14 @@ main {
   margin: 20px 0;
 }
 
+.bs-callout {
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  border-left-color: #3494c7;
+}
+
 #pagefooter {
   background: @paleblue;
   box-shadow: 0px 500px 0px 500px @paleblue;
@@ -77,32 +85,45 @@ main {
 /*** Page Styles ***/
 main.dashboard {
   .landing-jumbo {
-    background-color: #ECF0F1;
-    background-image: url('/img/rough_diagonal.png');
-    background-repeat: repeat;
-    padding: 30px;
+    background-color: #000011;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    h1{
+      color: #fff;
+      font-weight: 600;
+      text-shadow: 2px 2px #000011;
+    }
     @media (max-width: @screen-xs-max) {
       padding: 30px 0px;
     }
-    border-top: 2px #D5D5D5 solid;
-    border-bottom: 2px #D5D5D5 solid;
-    .fa-users{
-      font-size: 11em;
-      @media (max-width: @screen-xs-max){
-        font-size: 8em;
+    .search-toolbar {
+      .form-control, .btn {
+        height: 40px;
+        font-size: 120%;
+      }
+      //keep left most element rounded
+      :not(:first-child) > * {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
+      }
+      //keep right most element rounded
+      :not(:last-child) > * {
+        border-bottom-right-radius: 0;
+        border-top-right-radius: 0;
+        border-right: none; //remove duplicate borders
       }
     }
-    .welcome{
-      font-size: 3.75em;
-      display: block;
-      text-transform: uppercase;
-      .sans-serif-bold;
-      @media (max-width: @screen-xs-max){
-        font-size: 2.65em;
-      }
-    }
-    .container{
-      margin: auto;
+  }
+  .row_masonry {
+    -moz-column-width: 30em;
+    -webkit-column-width: 30em;
+    column-width: 30em;
+    .col_masonry {
+      display: inline-block;
+      padding:  1rem;
+      width:  100%;
     }
   }
 }
@@ -133,7 +154,6 @@ main.event-dashboard {
       .green;
       line-height: 20px;
       font-size: 20px;
-      text-transform: uppercase;
       margin: 5px 0 15px;
     }
     .btn.btn-reg-count {
@@ -211,14 +231,6 @@ main.event-registrations {
 main.event-details {
   section {
     padding-bottom: 20px;
-  }
-  .bs-callout {
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-    border-left-color: #1b809e;
   }
   .reg-type-delete{
     position: absolute;
