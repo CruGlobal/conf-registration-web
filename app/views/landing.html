@@ -1,35 +1,33 @@
 <div class="landing-jumbo" ng-style="{'background-image': 'url(' + jumboImg.url + ')', 'background-position': jumboImg.position}">
-  <div class="row container">
-    <div class="col-xs-12">
-      <div class="row">
-        <div class="col-md-12">
-          <h1>Search for an event</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <h1>Search for an event</h1>
 
-          <form ng-submit="eventSearch(searchVal)">
-            <div class="row">
-              <div class="col-xs-9 col-sm-5 inline-form">
-                <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
-              </div>
-              <div class="hidden-xs col-sm-3 inline-form">
-                <select class="form-control" ng-model="eventFilters.locationName">
-                  <option value="">-Any Location-</option>
-                  <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
-                  </option>
-                </select>
-              </div>
-              <div class="hidden-xs col-sm-3 inline-form">
-                <select class="form-control" ng-model="eventFilters.date">
-                  <option value="">-Any Date-</option>
-                  <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
-                  </option>
-                </select>
-              </div>
-              <span class="col-sm-1 inline-form">
-                <button class="btn btn-primary" type="submit">Search</button>
-              </span>
+        <form class="search-toolbar" ng-submit="eventSearch(searchVal)">
+          <div class="row row-no-padding">
+            <div class="col-xs-9 col-sm-5">
+              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
             </div>
-          </form>
-        </div>
+            <div class="hidden-xs col-sm-3">
+              <select class="form-control" ng-model="eventFilters.locationName">
+                <option value="">-Any Location-</option>
+                <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
+                </option>
+              </select>
+            </div>
+            <div class="hidden-xs col-sm-3">
+              <select class="form-control" ng-model="eventFilters.date">
+                <option value="">-Any Date-</option>
+                <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
+                </option>
+              </select>
+            </div>
+            <div class="col-sm-1">
+              <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
