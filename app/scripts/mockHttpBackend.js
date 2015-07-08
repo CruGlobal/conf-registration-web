@@ -118,260 +118,602 @@ angular.module('confRegistrationWebApp')
       ]
     };
 
-    var conferences = [
-      {
-        'id': '012aoeu',
-        'name': 'A Test Page Conf',
-        'registrationPages': [
-          {
-            'id': '1',
-            'title': 'About You',
-            'blocks': [
-              {
-                'id': 'block-1',
-                'title': 'Important Information',
-                'type': 'paragraphContent',
-                'content': 'This is a paragraph of text.'
-              },
-              {
-                'id': 'block-2',
-                'title': 'Name Question',
-                'type': 'nameQuestion',
-                'required': true
-              },
-              {
-                'id': 'block-3',
-                'title': 'Text Question',
-                'type': 'textQuestion',
-                'required': true
-              },
-              {
-                'id': 'block-4',
-                'title': 'Radio Question',
-                'type': 'radioQuestion',
-                'content': {
-                  'choices': [
-                    'Choice 1',
-                    'Choice 2',
-                    'Choice 3'
-                  ]
-                },
-                'required': true
-              },
-              {
-                'id': 'block-4a',
-                'title': 'Checkbox Question',
-                'type': 'checkboxQuestion',
-                'content': {
-                  'choices': [
-                    'Choice 1',
-                    'Choice 2',
-                    'Choice 3'
-                  ]
-                },
-                'required': true
-              },
-              {
-                'id': 'block-4b',
-                'title': 'Select Question',
-                'type': 'selectQuestion',
-                'choices': [
-                  'Choice 1',
-                  'Choice 2',
-                  'Choice 3'
-                ],
-                'required': true
-              },
-              {
-                'id': 'block-5',
-                'title': 'Email Question',
-                'type': 'emailQuestion',
-                'required': true
-              }
-            ]
-          }
-        ]
-      },
-      {
-        'id': '012',
-        'name': 'A Sweet Fall Retreat',
-        'landingPage': {
-          'blocks': [
-            {
-              'id': 'landingpage-1',
-              'title': 'Location',
-              'type': 'paragraphContent',
-              'content': '123 Main St. Orlando, FL, 32828'
+      var conferences = [{
+        "id": "34e4f769-3b80-44e1-88b5-29053662ed93",
+        "name": "Montana State Cru Fall Raft Trip 2014",
+        "description": "Come Join us for a great day on the water!\n\nThis year we will take a half-day trip down the Yellowstone River through Gardiner, MT with professional guides from Wild West Rafting. This will be a great time to get out and enjoy a day off from classes and experience something truly Montana, and get to make a lot of friends! After our exciting time on the water we will head to Roosevelt Park to enjoy lunch together (provided) before heading back to Bozeman.\n\nWe will meet at the parking lot in front of Roskie Residence Hall at 9am to sign release waivers as well as pay and find rides for everybody to Gardiner. \n\nThings to bring:\nSwimsuit (wearing it in the morning is suggested)\nTowel\nSunscreen\nWarm Clothes (To wear after rafting)\nFrisbee or Football (for park)\n\nWe look forward to sharing some rapids with you!!",
+        "registrationPages": [{
+          "id": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+          "conferenceId": "34e4f769-3b80-44e1-88b5-29053662ed93",
+          "title": "Your Information",
+          "position": 0,
+          "blocks": [{
+            "id": "74b26da5-36cd-49bf-b2f5-d9e708f83dc9",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Name",
+            "exportFieldTitle": null,
+            "type": "nameQuestion",
+            "required": true,
+            "position": 0,
+            "content": null,
+            "profileType": "NAME",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "9fbdbfa4-d38f-4b1d-8396-10c4a346f5df",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Phone Number",
+            "exportFieldTitle": null,
+            "type": "numberQuestion",
+            "required": true,
+            "position": 1,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "8aa2d508-4c5f-498c-ade9-1a1de79f34f9",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Email",
+            "exportFieldTitle": null,
+            "type": "emailQuestion",
+            "required": true,
+            "position": 2,
+            "content": null,
+            "profileType": "EMAIL",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "9468d54f-fb8d-4580-bdc4-c7c74846d2b0",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Year in School",
+            "exportFieldTitle": null,
+            "type": "yearInSchoolQuestion",
+            "required": true,
+            "position": 3,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "8ef01221-9052-4278-9dfb-d2913638ecc6",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Gender",
+            "exportFieldTitle": null,
+            "type": "genderQuestion",
+            "required": true,
+            "position": 4,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "84f84c37-fc6d-49e9-95fb-c570ed39cbc0",
+            "pageId": "433d978a-87c1-4b9b-9f10-a177d15d27f0",
+            "title": "Do you have a car and would be willing to drive?",
+            "exportFieldTitle": null,
+            "type": "selectQuestion",
+            "required": true,
+            "position": 5,
+            "content": {"choices": [{"value": "Yes", "desc": ""}, {"value": "No", "desc": ""}]},
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }]
+        }],
+        "registrantTypes": [{
+          "id": "5b256026-46b2-fd2b-8577-7cbf191296e7",
+          "conferenceId": "34e4f769-3b80-44e1-88b5-29053662ed93",
+          "name": "STANDARD",
+          "hidden": false,
+          "createdTimestamp": "2015-04-02T13:44:56.041Z",
+          "lastUpdatedTimestamp": "2015-04-02T13:44:56.041Z",
+          "cost": 20,
+          "minimumDeposit": null,
+          "earlyRegistrationCutoff": "2014-08-25 20:00:00",
+          "earlyRegistrationDiscount": false,
+          "earlyRegistrationAmount": 0,
+          "position": 0,
+          "customConfirmationEmailText": null,
+          "groupSubRegistrantType": false,
+          "description": null,
+          "allowGroupRegistrations": false,
+          "numberSlotsLimit": 0,
+          "useLimit": false,
+          "availableSlots": 0,
+          "acceptCreditCards": false,
+          "acceptTransfers": false,
+          "acceptScholarships": false,
+          "acceptChecks": false
+        }],
+        "eventStartTime": "2014-09-01 09:00:00",
+        "eventEndTime": "2015-09-01 16:00:00",
+        "registrationStartTime": "2014-08-24 13:30:00",
+        "registrationEndTime": "2015-08-31 11:59:00",
+        "eventTimezone": "America/Denver",
+        "registrationOpen": true,
+        "contactPersonName": "Adam",
+        "contactPersonEmail": "adam.meyer@cru.org",
+        "contactPersonPhone": null,
+        "locationName": "Wild West Whitewater Rafting",
+        "locationAddress": "906 Scott Street",
+        "locationCity": "Gardiner",
+        "locationState": "MT",
+        "locationZipCode": "59030",
+        "requireLogin": false,
+        "archived": false,
+        "earlyRegistrationOpen": false,
+        "paymentGatewayType": "TRUST_COMMERCE",
+        "paymentGatewayId": null,
+        "paymentGatewayKey": null,
+        "paymentGatewayKeySaved": false,
+        "registrationCount": 201,
+        "completedRegistrationCount": 118,
+        "customPaymentEmailText": null,
+        "rideshareEnabled": false,
+        "rideshareEmailContent": null,
+        "allowEditRegistrationAfterComplete": false,
+        "checkPayableTo": null,
+        "checkMailingAddress": null,
+        "checkMailingCity": null,
+        "checkMailingState": null,
+        "checkMailingZip": null,
+        "businessUnit": null,
+        "operatingUnit": null,
+        "department": null,
+        "projectId": null,
+        "accountNumber": null,
+        "glAccount": null,
+        "cruEvent": false
+      }, {
+        "id": "fd1c1808-2bc1-453c-8366-719b2e79c614",
+        "name": "Reg complete error test",
+        "description": null,
+        "registrationPages": [{
+          "id": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+          "conferenceId": "fd1c1808-2bc1-453c-8366-719b2e79c614",
+          "title": "Your Information",
+          "position": 0,
+          "blocks": [{
+            "id": "71453907-e806-4f68-93bf-7e504f298755",
+            "pageId": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+            "title": "Email",
+            "exportFieldTitle": null,
+            "type": "emailQuestion",
+            "required": true,
+            "position": 0,
+            "content": null,
+            "profileType": "EMAIL",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "81e2a7cc-127f-4958-8f56-b00729364c9b",
+            "pageId": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+            "title": "Information",
+            "exportFieldTitle": null,
+            "type": "paragraphContent",
+            "required": false,
+            "position": 1,
+            "content": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "91403687-dd67-40d2-b08c-63611e5c3e72",
+            "pageId": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+            "title": "Name",
+            "exportFieldTitle": null,
+            "type": "nameQuestion",
+            "required": true,
+            "position": 2,
+            "content": null,
+            "profileType": "NAME",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "30446f3b-9842-4004-84ac-86597ea17521",
+            "pageId": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+            "title": "Are you bringing a parent?",
+            "exportFieldTitle": null,
+            "type": "radioQuestion",
+            "required": false,
+            "position": 3,
+            "content": {
+              "choices": [{"value": "Yes", "desc": ""}, {
+                "value": "No",
+                "desc": ""
+              }, {"value": "Depends if they're still alive", "desc": ""}]
             },
-            {
-              'id': 'landingpage-2',
-              'title': 'Registration Begins',
-              'type': 'paragraphContent',
-              'content': 'August 19, 2013 12:00 AM Eastern Time'
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "c1108a85-a993-409e-a3b8-8bc73627dbed",
+            "pageId": "8b9503ad-0fdc-4414-8a8a-c9965adc820c",
+            "title": "Date",
+            "exportFieldTitle": null,
+            "type": "dateQuestion",
+            "required": false,
+            "position": 4,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": [{
+              "id": "30e5c1ad-a07a-4705-9190-882c950c258b",
+              "blockId": "c1108a85-a993-409e-a3b8-8bc73627dbed",
+              "parentBlockId": "30446f3b-9842-4004-84ac-86597ea17521",
+              "operator": "=",
+              "value": "Yes",
+              "position": 0
+            }]
+          }]
+        }, {
+          "id": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+          "conferenceId": "fd1c1808-2bc1-453c-8366-719b2e79c614",
+          "title": "Page 2",
+          "position": 1,
+          "blocks": [{
+            "id": "b1db263e-464a-45fb-9ac8-22df78a1969b",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Question",
+            "exportFieldTitle": null,
+            "type": "textQuestion",
+            "required": false,
+            "position": 0,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "3045456f-ae51-4a8f-8f88-b8630415a657",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Question",
+            "exportFieldTitle": null,
+            "type": "textareaQuestion",
+            "required": false,
+            "position": 1,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "812ea2ab-b6d3-41da-9679-bee027c03b66",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Multiple Choice Question",
+            "exportFieldTitle": null,
+            "type": "radioQuestion",
+            "required": false,
+            "position": 2,
+            "content": {
+              "choices": [{"value": "1", "desc": ""}, {"value": "2", "desc": ""}, {
+                "value": "C",
+                "desc": ""
+              }, {"value": "D", "desc": ""}]
             },
-            {
-              'id': 'landingpage-2',
-              'title': 'Registration Ends',
-              'type': 'paragraphContent',
-              'content': 'October 12, 2013 3:00 AM Eastern Time'
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "26e1e8f3-cd1b-4fa7-87ef-b9b7e208eea7",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Checkbox Question",
+            "exportFieldTitle": null,
+            "type": "checkboxQuestion",
+            "required": false,
+            "position": 3,
+            "content": {
+              "choices": [{"value": "1", "desc": ""}, {"value": "2", "desc": ""}, {
+                "value": "3",
+                "desc": ""
+              }, {"value": "4", "desc": ""}]
             },
-            {
-              'id': 'landingpage-2',
-              'title': 'Fall Retreat Starts',
-              'type': 'paragraphContent',
-              'content': 'October 18, 2013 6:00 PM Eastern Time'
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "64e4b312-6cff-414a-ba46-53eb227692e7",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Dropdown Question",
+            "exportFieldTitle": null,
+            "type": "selectQuestion",
+            "required": false,
+            "position": 4,
+            "content": {
+              "choices": [{"value": "1", "desc": "", "amount": 12}, {"value": "2", "desc": ""}, {
+                "value": "3",
+                "desc": "",
+                "amount": 2345
+              }, {"value": "4", "desc": ""}, {"value": "5", "desc": ""}]
             },
-            {
-              'id': 'landingpage-2',
-              'title': 'Fall Retreat Ends',
-              'type': 'paragraphContent',
-              'content': 'October 20, 2013 10:00 AM Eastern Time'
-            },
-            {
-              'id': 'landingpage-2',
-              'title': 'Contact Info',
-              'type': 'paragraphContent',
-              'content': 'John Smith <john.smith@example.com> 555-555-5555'
-            }
-          ]
-        },
-        'registrationPages': [
-          {
-            'id': '1',
-            'title': 'About You',
-            'blocks': [
-              {
-                'id': 'block-1',
-                'title': 'Important Information',
-                'type': 'paragraphContent',
-                'content': 'We are glad you are coming to Fall Retreat!'
-              },
-              {
-                'id': 'block-2',
-                'title': 'What\'s your name?',
-                'required': true,
-                'type': 'nameQuestion'
-              },
-              {
-                'id': 'block-3',
-                'title': 'What school do you currently attend?',
-                'type': 'textQuestion',
-                'required': true
-              },
-              {
-                'id': 'block-4',
-                'title': 'Man or Lady?',
-                'type': 'selectQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Man',
-                    'Lady'
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            'id': '2',
-            'title': 'Rides',
-            'blocks': [
-              {
-                'id': 'block-1',
-                'title': 'Ride Situation',
-                'type': 'paragraphContent',
-                'content': 'If you are driving, please give someone a ride.'
-              },
-              {
-                'id': 'block-5',
-                'title': 'Do you have a car?',
-                'type': 'radioQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Yes',
-                    'No'
-                  ]
-                }
-              },
-              {
-                'id': 'block-6',
-                'title': 'Do you need a ride?',
-                'type': 'radioQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Yes',
-                    'No'
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            'id': '3',
-            'title': 'Food',
-            'blocks': [
-              {
-                'id': 'block-7',
-                'title': 'What do you want to eat for breakfast?',
-                'type': 'checkboxQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Pancakes',
-                    'Waffles',
-                    'Omelettes'
-                  ]
-                }
-              },
-              {
-                'id': 'block-8',
-                'title': 'What do you want to eat for lunch?',
-                'type': 'radioQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Sandwich',
-                    'Soup',
-                    'Burger'
-                  ]
-                }
-              },
-              {
-                'id': 'block-9',
-                'title': 'What do you want to eat for dinner?',
-                'type': 'radioQuestion',
-                'required': true,
-                'content': {
-                  'choices': [
-                    'Steak',
-                    'Shrimp',
-                    'Lobster'
-                  ]
-                }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        'id': '123',
-        'name': 'Fall Retreat WOOO'
-      },
-      {
-        'id': '234',
-        'name': 'Fall Retreat!'
-      },
-      {
-        'id': '345',
-        'name': 'Yet Another Fall Retreat (YAFR)'
-      },
-      {
-        'id': '456',
-        'name': 'Fall Retreat Is Never Gonna Give You Up'
-      }
-    ];
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "772ed40f-5822-4c2e-a7c9-2c4a9c3def31",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Number",
+            "exportFieldTitle": null,
+            "type": "numberQuestion",
+            "required": false,
+            "position": 5,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "85fff1d7-1a2d-45b2-9791-f659c068ebdc",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Date",
+            "exportFieldTitle": null,
+            "type": "dateQuestion",
+            "required": false,
+            "position": 6,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "007352f1-2673-4764-b485-ad2509ebefa2",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Name",
+            "exportFieldTitle": null,
+            "type": "nameQuestion",
+            "required": false,
+            "position": 7,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "bcce2e00-ef13-427f-abc1-c2f64cee57e3",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Email",
+            "exportFieldTitle": null,
+            "type": "emailQuestion",
+            "required": false,
+            "position": 8,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "591ca2bf-b47c-4263-a34e-beb66065464c",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Telephone",
+            "exportFieldTitle": null,
+            "type": "phoneQuestion",
+            "required": false,
+            "position": 9,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "821bf0e1-4ceb-450e-a931-318137aa49fd",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Address",
+            "exportFieldTitle": null,
+            "type": "addressQuestion",
+            "required": false,
+            "position": 10,
+            "content": "",
+            "profileType": "ADDRESS",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "efb5bb35-1611-4089-a9a8-c2c99e5b7c31",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Gender",
+            "exportFieldTitle": null,
+            "type": "genderQuestion",
+            "required": false,
+            "position": 11,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "8f5358ed-2fd7-4fa9-9d9c-ea5039ce63b2",
+            "pageId": "d6eb3486-d6fc-4942-bdb5-bce898770aff",
+            "title": "Year in School",
+            "exportFieldTitle": null,
+            "type": "yearInSchoolQuestion",
+            "required": false,
+            "position": 12,
+            "content": "",
+            "profileType": null,
+            "registrantTypes": [],
+            "rules": []
+          }]
+        }],
+        "registrantTypes": [{
+          "id": "c78cfbc1-21d3-4a4c-b9d4-2049c6695af0",
+          "conferenceId": "fd1c1808-2bc1-453c-8366-719b2e79c614",
+          "name": "Default",
+          "hidden": false,
+          "createdTimestamp": "2015-07-01T17:48:07.779Z",
+          "lastUpdatedTimestamp": "2015-07-01T17:48:07.779Z",
+          "cost": 2500,
+          "minimumDeposit": 10,
+          "earlyRegistrationCutoff": "2014-09-22 13:40:10",
+          "earlyRegistrationDiscount": false,
+          "earlyRegistrationAmount": null,
+          "position": 0,
+          "customConfirmationEmailText": "",
+          "groupSubRegistrantType": false,
+          "description": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.",
+          "allowGroupRegistrations": true,
+          "numberSlotsLimit": 500,
+          "useLimit": false,
+          "availableSlots": 0,
+          "acceptCreditCards": true,
+          "acceptTransfers": false,
+          "acceptScholarships": true,
+          "acceptChecks": false
+        }, {
+          "id": "cc0e0fb5-8fcb-4feb-a7a6-0c6509331565",
+          "conferenceId": "fd1c1808-2bc1-453c-8366-719b2e79c614",
+          "name": "Secondary",
+          "hidden": false,
+          "createdTimestamp": "2015-07-01T17:48:07.781Z",
+          "lastUpdatedTimestamp": "2015-07-01T17:48:07.782Z",
+          "cost": 15.63,
+          "minimumDeposit": null,
+          "earlyRegistrationCutoff": "2015-05-06 16:13:12",
+          "earlyRegistrationDiscount": false,
+          "earlyRegistrationAmount": null,
+          "position": 1,
+          "customConfirmationEmailText": "",
+          "groupSubRegistrantType": false,
+          "description": "Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undo.",
+          "allowGroupRegistrations": true,
+          "numberSlotsLimit": 0,
+          "useLimit": false,
+          "availableSlots": 0,
+          "acceptCreditCards": false,
+          "acceptTransfers": true,
+          "acceptScholarships": true,
+          "acceptChecks": false
+        }],
+        "eventStartTime": "2015-07-09 12:33:00",
+        "eventEndTime": "2019-01-29 13:40:00",
+        "registrationStartTime": "2014-09-15 13:40:10",
+        "registrationEndTime": "2017-09-29 13:40:00",
+        "eventTimezone": "America/New_York",
+        "registrationOpen": true,
+        "contactPersonName": "adam meyer",
+        "contactPersonEmail": "adam.meyer@cru.org",
+        "contactPersonPhone": null,
+        "locationName": "Cru",
+        "locationAddress": null,
+        "locationCity": null,
+        "locationState": null,
+        "locationZipCode": null,
+        "requireLogin": true,
+        "archived": false,
+        "earlyRegistrationOpen": false,
+        "paymentGatewayType": "AUTHORIZE_NET",
+        "paymentGatewayId": "123",
+        "paymentGatewayKey": null,
+        "paymentGatewayKeySaved": false,
+        "registrationCount": 3,
+        "completedRegistrationCount": 0,
+        "customPaymentEmailText": null,
+        "rideshareEnabled": false,
+        "rideshareEmailContent": null,
+        "allowEditRegistrationAfterComplete": true,
+        "checkPayableTo": "Adam",
+        "checkMailingAddress": null,
+        "checkMailingCity": null,
+        "checkMailingState": null,
+        "checkMailingZip": null,
+        "businessUnit": null,
+        "operatingUnit": null,
+        "department": null,
+        "projectId": null,
+        "accountNumber": null,
+        "glAccount": null,
+        "cruEvent": false
+      }, {
+        "id": "4942dea0-4912-498e-a186-4f324768b7c4",
+        "name": "Adam's Big Event 2015 (clone)",
+        "description": null,
+        "registrationPages": [{
+          "id": "90600ee1-a1c9-45cb-9d98-9c403298acd4",
+          "conferenceId": "4942dea0-4912-498e-a186-4f324768b7c4",
+          "title": "Your Information",
+          "position": 0,
+          "blocks": [{
+            "id": "cf82b6c2-62d7-44a8-bda1-4ec8d3b42e3c",
+            "pageId": "90600ee1-a1c9-45cb-9d98-9c403298acd4",
+            "title": "Name",
+            "exportFieldTitle": null,
+            "type": "nameQuestion",
+            "required": true,
+            "position": 0,
+            "content": null,
+            "profileType": "NAME",
+            "registrantTypes": [],
+            "rules": []
+          }, {
+            "id": "739e6c52-5c65-450b-8de8-8a2b2f118deb",
+            "pageId": "90600ee1-a1c9-45cb-9d98-9c403298acd4",
+            "title": "Email",
+            "exportFieldTitle": null,
+            "type": "emailQuestion",
+            "required": true,
+            "position": 1,
+            "content": null,
+            "profileType": "EMAIL",
+            "registrantTypes": [],
+            "rules": []
+          }]
+        }],
+        "registrantTypes": [{
+          "id": "be57418f-62e8-4897-8982-0bc3275c5f08",
+          "conferenceId": "4942dea0-4912-498e-a186-4f324768b7c4",
+          "name": "Default",
+          "hidden": false,
+          "createdTimestamp": "2015-06-10T18:43:20.046Z",
+          "lastUpdatedTimestamp": "2015-06-10T18:43:20.046Z",
+          "cost": 0,
+          "minimumDeposit": null,
+          "earlyRegistrationCutoff": "2015-06-17 14:43:15",
+          "earlyRegistrationDiscount": false,
+          "earlyRegistrationAmount": null,
+          "position": 0,
+          "customConfirmationEmailText": null,
+          "groupSubRegistrantType": false,
+          "description": null,
+          "allowGroupRegistrations": false,
+          "numberSlotsLimit": 0,
+          "useLimit": false,
+          "availableSlots": 0,
+          "acceptCreditCards": false,
+          "acceptTransfers": false,
+          "acceptScholarships": false,
+          "acceptChecks": false
+        }],
+        "eventStartTime": "2015-06-24 14:43:15",
+        "eventEndTime": "2015-06-30 14:43:15",
+        "registrationStartTime": "2015-06-10 14:43:15",
+        "registrationEndTime": "2015-06-24 14:43:15",
+        "eventTimezone": "America/New_York",
+        "registrationOpen": false,
+        "contactPersonName": "Adam Meyer",
+        "contactPersonEmail": "adam.meyer@cru.org",
+        "contactPersonPhone": null,
+        "locationName": null,
+        "locationAddress": null,
+        "locationCity": null,
+        "locationState": null,
+        "locationZipCode": null,
+        "requireLogin": false,
+        "archived": true,
+        "earlyRegistrationOpen": false,
+        "paymentGatewayType": "AUTHORIZE_NET",
+        "paymentGatewayId": null,
+        "paymentGatewayKey": null,
+        "paymentGatewayKeySaved": false,
+        "registrationCount": 0,
+        "completedRegistrationCount": 0,
+        "customPaymentEmailText": null,
+        "rideshareEnabled": false,
+        "rideshareEmailContent": null,
+        "allowEditRegistrationAfterComplete": true,
+        "checkPayableTo": null,
+        "checkMailingAddress": null,
+        "checkMailingCity": null,
+        "checkMailingState": null,
+        "checkMailingZip": null,
+        "businessUnit": null,
+        "operatingUnit": null,
+        "department": null,
+        "projectId": null,
+        "accountNumber": null,
+        "glAccount": null,
+        "cruEvent": false
+      }];
 
     $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
       console.log(arguments);
