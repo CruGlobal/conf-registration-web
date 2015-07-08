@@ -149,7 +149,6 @@ angular.module('confRegistrationWebApp')
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {
-            window.scrollTo(0, 0);
             $scope.notify = {
               class: 'alert-danger',
               message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
