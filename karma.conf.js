@@ -20,7 +20,7 @@ module.exports = function(config){
 
       'app/scripts/*.js',
       'app/scripts/**/*.js',
-      'test/spec/controllers/*.js'
+      'test/spec/**/*.js'
     ],
 
     exclude : [
