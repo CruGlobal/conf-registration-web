@@ -143,6 +143,18 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
+          }],
+          currentPermissions: ['$route', '$q', '$http', function ($route, $q, $http) {
+            var q = $q.defer();
+            $http({
+              method: 'GET',
+              url: 'conferences/' + $route.current.params.conferenceId + '/permissions'
+            }).success(function (data) {
+              q.resolve(data);
+            }).error(function () {
+              q.reject([]);
+            });
+            return q.promise;
           }]
         }
       })
