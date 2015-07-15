@@ -29,8 +29,9 @@
     "jQuery": false,
     "moment": false,
     "Hoptoad": false,
-    "confirm": false,
     "ccp": false,
-    "FB": false
+    "FB": false,
+    "beforeEach": false,
+    "describe": false
   }
 }
