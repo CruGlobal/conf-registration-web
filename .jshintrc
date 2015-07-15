@@ -32,6 +32,9 @@
     "ccp": false,
     "FB": false,
     "beforeEach": false,
-    "describe": false
+    "describe": false,
+    "inject": false,
+    "it": false,
+    "expect": false
   }
 }
