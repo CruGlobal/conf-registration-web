@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, currentPermissions, permissions, permissionConstants, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, permissions, permissionConstants, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -16,7 +16,7 @@ angular.module('confRegistrationWebApp')
       $scope.templateUrl = 'views/permissionError.html';
     }
     $scope.conference = conference;
-    $scope.currentPermissions = currentPermissions;
+    $scope.currentPermissions = conferencePermissions;
 
     $scope.updatePermission = function (id) {
       $http({method: 'PUT',
