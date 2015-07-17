@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, permissions, permissionConstants, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -16,18 +16,7 @@ angular.module('confRegistrationWebApp')
       $scope.templateUrl = 'views/permissionError.html';
     }
     $scope.conference = conference;
-
-    var getPermissions = function () {
-      $http({
-          method: 'GET',
-          url: 'conferences/' + conference.id + '/permissions'
-        }).success(function (data) {
-          $scope.currentPermissions = data;
-        }).error(function () {
-
-        });
-    };
-    getPermissions();
+    $scope.currentPermissions = conferencePermissions;
 
     $scope.updatePermission = function (id) {
       $http({method: 'PUT',
@@ -59,8 +48,8 @@ angular.module('confRegistrationWebApp')
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',
         data: postData
-      }).success(function () {
-        getPermissions();
+      }).success(function (data) {
+        $scope.currentPermissions.push(data);
         $scope.$$childHead.addPermissionsEmail = '';
         $scope.$$childHead.addPermissionsLevel = '';
         $scope.notify = {
@@ -84,7 +73,7 @@ angular.module('confRegistrationWebApp')
           method: 'DELETE',
           url: 'permissions/' + id
         }).success(function () {
-          getPermissions();
+          _.remove($scope.currentPermissions, {id: id});
           $scope.notify = {
             class: 'alert-success',
             message: $sce.trustAsHtml('User removed.')
