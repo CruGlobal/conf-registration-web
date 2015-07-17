@@ -108,4 +108,17 @@ angular.module('confRegistrationWebApp')
         }
       });
     };
+
+    this.getPermissions = function (id) {
+      var q = $q.defer();
+      $http({
+        method: 'GET',
+        url: 'conferences/' + id + '/permissions'
+      }).success(function (data) {
+        q.resolve(data);
+      }).error(function () {
+        q.reject([]);
+      });
+      return q.promise;
+    };
   });
