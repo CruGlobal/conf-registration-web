@@ -35,6 +35,7 @@
     "describe": false,
     "inject": false,
     "it": false,
-    "expect": false
+    "expect": false,
+    "jasmine": false
   }
 }
