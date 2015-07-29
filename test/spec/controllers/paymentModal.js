@@ -5,7 +5,7 @@ describe('Controller: paymentModal', function () {
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  beforeEach(angular.mock.inject(function($rootScope, $controller) {
+  beforeEach(angular.mock.inject(function($rootScope, $controller, testData) {
 
     scope = $rootScope.$new();
     modalInstance = {
@@ -19,7 +19,7 @@ describe('Controller: paymentModal', function () {
     controller = $controller('paymentModal', {
       $scope: scope,
       $modalInstance: modalInstance,
-      registration: testRegistration,
+      registration: testData.registration,
       conference: {},
       permissions: {}
     });

@@ -5,13 +5,13 @@ describe('Controller: ReviewRegistrationCtrl', function () {
 
     beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-    beforeEach(angular.mock.inject(function ($rootScope, $controller) {
+    beforeEach(angular.mock.inject(function ($rootScope, $controller, testData) {
 
         scope = $rootScope.$new();
-        scope.answers = testRegistration.registrants[0].answers;
+        scope.answers = testData.registration.registrants[0].answers;
 
         controller = $controller('ReviewRegistrationCtrl', {
-            $scope: scope, registration: testRegistration, conference: testConference
+            $scope: scope, registration: testData.registration, conference: testData.conference
         });
     }));
 
