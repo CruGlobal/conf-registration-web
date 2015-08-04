@@ -24,8 +24,7 @@ module.exports = function(config){
     ],
 
     exclude : [
-      'app/scripts/errorNotify.js',
-      'app/scripts/mockHttpBackend.js'
+      'app/scripts/errorNotify.js'
     ],
 
     //autoWatch : true,

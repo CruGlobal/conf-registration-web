@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-    .service('testData', function testRegistration() {
+    .service('testData', function() {
         this.conference = {
             'id': 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
             'name': 'Big Event 2015',
