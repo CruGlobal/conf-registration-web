@@ -4,7 +4,7 @@ describe('Service: ConfCache', function () {
 
   beforeEach(module('confRegistrationWebApp'));
 
-  var ConfCache, $rootScope, $httpBackend, deferred;
+  var ConfCache, $rootScope, $httpBackend;
   beforeEach(inject(function (_ConfCache_, _$rootScope_, _$httpBackend_) {
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;

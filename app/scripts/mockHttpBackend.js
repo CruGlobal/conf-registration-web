@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp')
   .config(function ($httpProvider) {
       //remove urlInterceptor
       var i = $httpProvider.interceptors.indexOf('httpUrlInterceptor');
-      if(i != -1) {
+      if(i !== -1) {
         $httpProvider.interceptors.splice(i, 1);
       }
   })
@@ -14,9 +14,8 @@ angular.module('confRegistrationWebApp')
     //$httpBackend.whenGET(/views\/.*/).passThrough();
 
     $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
-      console.log(arguments);
       var headers = {};
-      return [200, conferences, headers];
+      return [200, [testData.conference], headers];
     });
     $httpBackend.whenPOST(/^conferences\/?$/).respond(function (verb, url, data) {
       console.log(arguments);
@@ -28,33 +27,20 @@ angular.module('confRegistrationWebApp')
       };
       return [201, conference, headers];
     });
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url) {
-      var conferenceId = url.split('/')[1];
-
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function () {
+      //var conferenceId = url.split('/')[1];
       var conference = testData.conference;
-
       return [200, conference, {}];
     });
     $httpBackend.whenPUT(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function (verb, url, data) {
-      console.log(arguments);
+      //var conferenceId = url.split('/')[1];
 
-      var conferenceId = url.split('/')[1];
-
-      var conference = _.find(conferences, function (conference) {
-        return angular.equals(conference.id, conferenceId);
-      });
-
-      angular.extend(conference, angular.fromJson(data));
-
-      return [200, conference, {}];
+      return [200, data, {}];
     });
 
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
-      console.log(arguments);
-
-      var conferenceId = url.split('/')[1];
-
-      return [200, registrations[conferenceId], {}];
+    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function () {
+      //var conferenceId = url.split('/')[1];
+      return [200, [testData.registration], {}];
     });
     $httpBackend.whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/).respond(function (verb, url) {
       console.log(arguments);
@@ -62,9 +48,7 @@ angular.module('confRegistrationWebApp')
 
       var conferenceId = url.split('/')[1];
 
-      var conference = _.find(conferences, function (conference) {
-        return angular.equals(conference.id, conferenceId);
-      });
+      var conference = testData.conference;
       var blocks = [];
       angular.forEach(conference.pages, function (page) {
         angular.forEach(page.blocks, function (block) {
