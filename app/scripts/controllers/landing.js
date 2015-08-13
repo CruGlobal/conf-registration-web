@@ -34,6 +34,7 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.eventSearch = _.throttle(function(val) {
+      if(!val){ return; }
       if(val.length < 2){
         return;
       }
