@@ -127,7 +127,7 @@
               <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
               <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
             </td>
-            <td>{{payment.description}}</td>
+            <td><span ng-if="payment.scholarship.scholarshipStatus === 'REQUESTED'">{{payment.scholarship.staffApprovalName}}</span> {{payment.description}}</td>
             <td class="text-center">
               <div ng-show="editPayment.id !== payment.id">
                 <button ng-click="openEditPaymentRow(payment)" title="Edit Payment" class="btn btn-xs"><i class="fa fa-edit"></i></button>
