@@ -66,16 +66,6 @@ module.exports = function (grunt) {
           }
         }
       },
-      test: {
-        options: {
-          middleware: function (connect) {
-            return [
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, 'test')
-            ];
-          }
-        }
-      },
       dist: {
         options: {
           middleware: function (connect) {
@@ -221,9 +211,6 @@ module.exports = function (grunt) {
       server: [
         'less'
       ],
-      test: [
-        'less'
-      ],
       dist: [
         'less:dist',
         'imagemin',
@@ -290,18 +277,11 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'connect:test'
-    //'karma'
-  ]);
-
   grunt.registerTask('build', function (target) {
     if (target === 'stage') {
       return grunt.task.run([
         'jshint',
-        'test',
+        'karma',
 
         'clean:dist',
         'useminPrepare',
@@ -319,7 +299,7 @@ module.exports = function (grunt) {
     }else{
       return grunt.task.run([
         'jshint',
-        'test',
+        'karma',
 
         'clean:dist',
         'useminPrepare',
