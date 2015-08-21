@@ -23,7 +23,7 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.searchStaff = function(val) {
-          return $http.get('staffsearch/' + encodeURIComponent(val)).then(function(response){
+          return $http.get('registrations/' + $scope.currentRegistration.id + '/staffsearch?name=' + encodeURIComponent(val)).then(function(response){
             return response.data;
           });
         };
