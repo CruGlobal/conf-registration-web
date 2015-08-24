@@ -84,6 +84,10 @@
           </div>
         </div>
 
+        <div class="checkbox" ng-if="block.type === 'yearInSchoolQuestion'">
+          <label><input type="checkbox" ng-model="block.content.hideGradStudent"> Hide "Graduate Student" option</label>
+        </div>
+
         <div class="checkbox" ng-if="requiredOption">
           <label><input type="checkbox" ng-model="block.required"> Required</label>
         </div>
