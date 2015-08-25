@@ -6,23 +6,38 @@
 <div class="modal-body">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-5">
-        <a class="btn btn-primary btn-sm btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
-          <i class="fa fa-cloud-download"></i> Registrations
-        </a>
+      <div class="col-xs-8">
+        <strong>Registrations</strong><br>
+        Registrations and answers
       </div>
-      <div class="col-xs-7">
-        Download all registrations and answers.
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
+        </a>
       </div>
     </div>
-    <div class="row spacing-above-md">
-      <div class="col-xs-5">
-        <a class="btn btn-primary btn-sm btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
-          <i class="fa fa-cloud-download"></i> Payments
+
+    <div class="row spacing-above-sm">
+      <div class="col-xs-8">
+        <strong>Payments</strong><br>
+        Payment data and history
+      </div>
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
         </a>
       </div>
-      <div class="col-xs-7">
-        Download payment data.
+    </div>
+
+    <div class="row spacing-above-sm">
+      <div class="col-xs-8">
+        <strong>Account Transfers</strong><br>
+        Staff Account Transfer payments
+      </div>
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
+        </a>
       </div>
     </div>
   </div>
