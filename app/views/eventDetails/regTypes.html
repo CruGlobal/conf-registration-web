@@ -11,9 +11,13 @@
               <a href="" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa fa-inset fa-inset-reg-type" ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"></i></a>
               <i class="fa fa-bars fa-inset fa-inset-reg-type" ui-tree-handle></i>
             </div>
-            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
+            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md" ng-if="!type.defaultTypeKey">
               <label>Name <em class="required">*</em></label>
               <input type="text" class="form-control" ng-model="type.name">
+            </div>
+            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md" ng-if="type.defaultTypeKey">
+              <label>Name</label>
+              <p class="form-control-static">{{type.name}}</p>
             </div>
             <div class="col-md-3 col-md-pull-3 stacked-spacing-">
               <label>Cost <em class="required">*</em></label>
