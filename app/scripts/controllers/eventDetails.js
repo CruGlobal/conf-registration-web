@@ -208,4 +208,11 @@ angular.module('confRegistrationWebApp')
         'okString': 'Close'
       });
     };
+
+    $scope.disableField = function(field, defaultTypeKey){
+      var fields = {
+        groupSubRegistrantType: ['SPOUSE', 'CHILD', 'STAFF']
+      };
+      return _.contains(fields[field], defaultTypeKey);
+    };
   });

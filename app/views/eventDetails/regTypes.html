@@ -61,7 +61,7 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.groupSubRegistrantType">
+                  <input type="checkbox" ng-model="type.groupSubRegistrantType" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
                   Family-only Registration Type
                 </label>
                 <i class="question-popover fa fa-question-circle"
