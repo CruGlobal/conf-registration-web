@@ -57,10 +57,8 @@ angular.module('confRegistrationWebApp')
       });
 
       modalInstance.result.then(function(type) {
-        var newType = type;
         type.id = uuid();
         type.earlyRegistrationCutoff = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss');
-
         $scope.conference.registrantTypes.push(type);
       });
 
