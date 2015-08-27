@@ -51,19 +51,17 @@ angular.module('confRegistrationWebApp')
         },
         resolve: {
           registrantTypes: function () {
-            return $http.get('registranttypes/' + ($scope.conference.cruEvent ? 'cru' : 'defaults'), {cache: true});
+            return $http.get('registranttypes', {cache: true});
           }
         }
       });
 
       modalInstance.result.then(function(type) {
-        $scope.conference.registrantTypes.push({
-          id: uuid(),
-          cost: 0,
-          earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss'),
-          name: type.name,
-          defaultTypeKey: type.defaultTypeKey
-        });
+        var newType = type;
+        type.id = uuid();
+        type.earlyRegistrationCutoff = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss');
+
+        $scope.conference.registrantTypes.push(type);
       });
 
       return modalInstance;
