@@ -36,7 +36,7 @@ angular.module('confRegistrationWebApp')
     $scope.conference = angular.copy(conference);
 
     $scope.addRegType = function(){
-      $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'views/modals/addRegistrantType.html',
         controller: function($scope, $modalInstance, registrantTypes){
           $scope.types = registrantTypes.data;
@@ -54,7 +54,9 @@ angular.module('confRegistrationWebApp')
             return $http.get('registranttypes/' + ($scope.conference.cruEvent ? 'cru' : 'defaults'), {cache: true});
           }
         }
-      }).result.then(function(type) {
+      });
+
+      modalInstance.result.then(function(type) {
         $scope.conference.registrantTypes.push({
           id: uuid(),
           cost: 0,
@@ -63,6 +65,8 @@ angular.module('confRegistrationWebApp')
           defaultTypeKey: type.defaultTypeKey
         });
       });
+
+      return modalInstance;
     };
 
     $scope.deleteRegType = function(id){
