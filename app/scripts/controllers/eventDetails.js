@@ -108,15 +108,17 @@ angular.module('confRegistrationWebApp')
 
       //Early bird discount
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if (t.earlyRegistrationDiscount) {
-          t.earlyRegistrationAmount = Number(t.earlyRegistrationAmount);
-          if (t.earlyRegistrationAmount > t.cost) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be less than the cost.');
+        angular.forEach(t.earlyRegistrationDiscounts, function(d, index){
+          if (d.enabled) {
+            d.amountOfDiscount = Number(d.amountOfDiscount);
+            if (d.amountOfDiscount < 0) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must be a positive number.');
+            }
+            if (!d.deadline) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must include a valid date and time.');
+            }
           }
-          if (t.earlyRegistrationAmount < 0) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be a positive number.');
-          }
-        }
+        });
       });
 
       $window.scrollTo(0, 0);
