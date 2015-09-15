@@ -39,8 +39,10 @@ angular.module('confRegistrationWebApp')
       if(!angular.equals(conference, $scope.conference)){
         event.preventDefault();
         modalMessage.confirm({
-          title: 'Warning',
+          title: 'Warning: Unsaved Changes',
           question: 'You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.',
+          yesString: 'Discard changes',
+          noString: 'Stay on this page',
           normalSize: true
         }).then(function(){
           conference = angular.copy($scope.conference);
