@@ -151,7 +151,8 @@ angular.module('confRegistrationWebApp')
     };
 
     var findAnswersToSave = function(){
-      var currentRegistrantOriginalAnswers = _.find(originalCurrentRegistration.registrants, { 'id': $scope.currentRegistrant }).answers;
+      var currentRegistrantOriginal = _.find(originalCurrentRegistration.registrants, { 'id': $scope.currentRegistrant });
+      var currentRegistrantOriginalAnswers = currentRegistrantOriginal ? currentRegistrantOriginal.answers : [];
       var currentRegistrantAnswers = _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }).answers;
       var answersToSave = [];
 
