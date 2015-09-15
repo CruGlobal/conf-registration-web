@@ -122,15 +122,15 @@
                     </label>
                   </div>
                 </div>
-                <div class="col-sm-8 stacked-spacing-col-sm" ng-show="discount.enabled">
+                <div class="col-sm-8 stacked-spacing-col-sm">
                   <label>If registered by</label>
-                  <crs-datetimepicker model="discount.deadline"></crs-datetimepicker>
+                  <crs-datetimepicker model="discount.deadline" ng-disabled="!discount.enabled"></crs-datetimepicker>
                 </div>
-                <div class="col-sm-4" ng-show="discount.enabled">
+                <div class="col-sm-4">
                   <label>Discount</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                    <input type="text" class="form-control" ng-model="discount.amountOfDiscount">
+                    <input type="text" class="form-control" ng-model="discount.amountOfDiscount" ng-disabled="!discount.enabled">
                   </div>
                 </div>
               </div>

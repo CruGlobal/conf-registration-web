@@ -6,7 +6,8 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/datepicker.html',
       restrict: 'E',
       scope: {
-        'localModel': '=model'
+        'localModel': '=model',
+        'ngDisabled': '='
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
