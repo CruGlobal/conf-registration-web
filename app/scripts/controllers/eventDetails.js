@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -34,6 +34,20 @@ angular.module('confRegistrationWebApp')
     ];
 
     $scope.conference = angular.copy(conference);
+
+    $scope.$on('$locationChangeStart', function(event, newLocation) {
+      if(!angular.equals(conference, $scope.conference)){
+        event.preventDefault();
+        modalMessage.confirm({
+          title: 'Warning',
+          question: 'You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.',
+          normalSize: true
+        }).then(function(){
+          conference = angular.copy($scope.conference);
+          $location.url($location.url(newLocation).hash());
+        });
+      }
+    });
 
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
@@ -148,6 +162,7 @@ angular.module('confRegistrationWebApp')
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
+            conference = angular.copy($scope.conference);
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {
