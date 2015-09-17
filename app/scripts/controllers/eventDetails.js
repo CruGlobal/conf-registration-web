@@ -130,7 +130,7 @@ angular.module('confRegistrationWebApp')
         angular.forEach(t.earlyRegistrationDiscounts, function(d, index){
           if (d.enabled) {
             d.amountOfDiscount = Number(d.amountOfDiscount);
-            if (d.amountOfDiscount < 0) {
+            if (d.amountOfDiscount <= 0) {
               validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must be a positive number.');
             }
             if (!d.deadline) {
