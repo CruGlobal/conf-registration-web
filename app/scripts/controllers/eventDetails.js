@@ -71,6 +71,10 @@ angular.module('confRegistrationWebApp')
       }
     };
 
+    $scope.addEarlyRegistrationDiscount = function(type){
+      type.earlyRegistrationDiscounts.push({id: uuid(), enabled: true});
+    };
+
     $scope.saveEvent = function () {
       //validation check
       var validationErrors = [];
