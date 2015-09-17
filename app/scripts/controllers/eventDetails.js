@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -35,11 +35,26 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = angular.copy(conference);
 
+    $scope.$on('$locationChangeStart', function(event, newLocation) {
+      if(!angular.equals(conference, $scope.conference)){
+        event.preventDefault();
+        modalMessage.confirm({
+          title: 'Warning: Unsaved Changes',
+          question: 'You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.',
+          yesString: 'Discard changes',
+          noString: 'Stay on this page',
+          normalSize: true
+        }).then(function(){
+          conference = angular.copy($scope.conference);
+          $location.url($location.url(newLocation).hash());
+        });
+      }
+    });
+
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
         id: uuid(),
-        cost: 0,
-        earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+        cost: 0
       });
     };
 
@@ -53,6 +68,10 @@ angular.module('confRegistrationWebApp')
         };
         $timeout(function() { $scope.notify = {}; }, 3500);
       }
+    };
+
+    $scope.addEarlyRegistrationDiscount = function(type){
+      type.earlyRegistrationDiscounts.push({id: uuid(), enabled: true});
     };
 
     $scope.saveEvent = function () {
@@ -108,15 +127,17 @@ angular.module('confRegistrationWebApp')
 
       //Early bird discount
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if (t.earlyRegistrationDiscount) {
-          t.earlyRegistrationAmount = Number(t.earlyRegistrationAmount);
-          if (t.earlyRegistrationAmount > t.cost) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be less than the cost.');
+        angular.forEach(t.earlyRegistrationDiscounts, function(d, index){
+          if (d.enabled) {
+            d.amountOfDiscount = Number(d.amountOfDiscount);
+            if (d.amountOfDiscount <= 0) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must be a positive number.');
+            }
+            if (!d.deadline) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must include a valid date and time.');
+            }
           }
-          if (t.earlyRegistrationAmount < 0) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be a positive number.');
-          }
-        }
+        });
       });
 
       $window.scrollTo(0, 0);
@@ -146,6 +167,7 @@ angular.module('confRegistrationWebApp')
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
+            conference = angular.copy($scope.conference);
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {

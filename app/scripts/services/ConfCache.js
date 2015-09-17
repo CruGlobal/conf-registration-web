@@ -66,8 +66,7 @@ angular.module('confRegistrationWebApp')
           id: uuid(),
           name: 'Default',
           conferenceId: newConferenceId,
-          cost: 0,
-          earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+          cost: 0
         }],
         registrationPages: [
           {
