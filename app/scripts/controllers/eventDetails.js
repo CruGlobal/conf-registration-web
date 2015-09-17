@@ -54,8 +54,7 @@ angular.module('confRegistrationWebApp')
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
         id: uuid(),
-        cost: 0,
-        earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+        cost: 0
       });
     };
 
