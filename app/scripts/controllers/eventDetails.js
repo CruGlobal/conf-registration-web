@@ -54,7 +54,8 @@ angular.module('confRegistrationWebApp')
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
         id: uuid(),
-        cost: 0
+        cost: 0,
+        earlyRegistrationDiscounts: []
       });
     };
 
