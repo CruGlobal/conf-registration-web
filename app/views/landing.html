@@ -43,7 +43,7 @@
     <p ng-show="!searchResults.length">No events found matching "{{searchComplete}}".</p>
     <p ng-show="searchResults.length && !filteredEvents.length">No events found matching the selected filters.</p>
   <div class="row_masonry">
-    <div class="col_masonry" ng-repeat="e in filteredEvents = (searchResults | filter:{ locationName: eventFilters.locationName } | filter: dateFilter) | orderBy: 'name'">
+    <div class="col_masonry" ng-repeat="e in filteredEvents = (searchResults | filter: locationFilter | filter: dateFilter) | orderBy: 'name'">
       <div class="bs-callout">
         <h3 class="list-group-item-heading">{{e.name}}</h3>
         <p class="spacing-above-md list-group-item-text"><i class="fa fa-calendar fa-fw"></i>
