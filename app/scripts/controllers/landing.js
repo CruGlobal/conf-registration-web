@@ -77,7 +77,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.locationFilter = function(event){
       var locationFilter = $scope.eventFilters.locationName;
-      return !locationFilter || locationFilter == event.locationName;
+      return !locationFilter || locationFilter === event.locationName;
     };
 
     $scope.selectEvent = function(e, route){
