@@ -153,10 +153,10 @@ angular.module('confRegistrationWebApp')
     var findAnswersToSave = function(){
       var currentRegistrantOriginal = _.find(originalCurrentRegistration.registrants, { 'id': $scope.currentRegistrant });
       var currentRegistrantOriginalAnswers = currentRegistrantOriginal ? currentRegistrantOriginal.answers : [];
-      var currentRegistrantAnswers = _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }).answers;
+      var currentRegistrant = _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant });
       var answersToSave = [];
 
-      angular.forEach(currentRegistrantAnswers, function(a){
+      angular.forEach((currentRegistrant ? currentRegistrant.answers : []), function(a){
         var savedAnswer = _.find(currentRegistrantOriginalAnswers, { 'id': a.id });
         if(angular.isUndefined(savedAnswer) || !angular.equals(savedAnswer.value, a.value)){
           answersToSave.push($http.put('answers/' + a.id, a));
