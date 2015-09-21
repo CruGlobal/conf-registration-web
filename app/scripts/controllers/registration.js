@@ -40,6 +40,9 @@ angular.module('confRegistrationWebApp')
     //bool for the show-errors directive that tells it whether the current page has been visited by the current registrant
     var pageAndRegistrantId = $scope.currentRegistrant + '_' + $scope.activePageIndex;
     $scope.currentPageVisited = _.contains($rootScope.visitedPages, pageAndRegistrantId);
+    $scope.visitedPage = function(pageId){
+      return _.contains($rootScope.visitedPages, $scope.currentRegistrant + '_' + _.findIndex($scope.conference.registrationPages, { id: pageId }));
+    };
 
 
     //save answers on route change
@@ -51,6 +54,11 @@ angular.module('confRegistrationWebApp')
 
       $scope.savingAnswers = true;
       $q.all(findAnswersToSave());
+
+      //add current page and registrant combo to the visitedPages array
+      if($scope.currentRegistrant){
+        $rootScope.visitedPages.push(pageAndRegistrantId);
+      }
     });
 
     //auto save answers every 15 seconds
@@ -66,11 +74,6 @@ angular.module('confRegistrationWebApp')
     }, 15000);
 
     $scope.goToNext = function () {
-      //add current page and registrant combo to the visitedPages array
-      if($scope.currentRegistrant){
-        $rootScope.visitedPages.push(pageAndRegistrantId);
-      }
-
       var nextPage = $scope.nextPage();
       if (angular.isDefined(nextPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + nextPage.id);
@@ -124,7 +127,12 @@ angular.module('confRegistrationWebApp')
 
     $scope.registrantIsComplete = function(registrantId) {
       var invalidBlocks = validateRegistrant.validate(conference, _.find(currentRegistration.registrants, { 'id': registrantId }));
-      return (invalidBlocks.length === 0);
+      return !invalidBlocks.length;
+    };
+
+    $scope.pageIsValid = function(pageId) {
+      var invalidBlocks = validateRegistrant.validate(conference, _.find(currentRegistration.registrants, { 'id': $scope.currentRegistrant }), pageId);
+      return !invalidBlocks.length;
     };
 
     $scope.startOver = function(){

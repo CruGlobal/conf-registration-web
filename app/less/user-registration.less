@@ -100,8 +100,40 @@ body.user-registration {
         .darkerblue;
       }
       @media (min-width: 1054px) {
-        position: fixed;
-        margin-left: 605px;
+        float: left;
+        position: absolute;
+        margin-left: 610px;
+        width: 200px;
+      }
+    }
+    .pageBox {
+      display: none;
+      background: white;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      a{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      li:not(.active) a{
+        .darkerblue;
+      }
+      .fa {
+        font-size: 120%;
+      }
+      .fa-check {
+        .green
+      }
+      .fa-times {
+        .red
+      }
+      @media (min-width: 1054px) {
+        display: block;
+        float: left;
+        position: absolute;
+        margin-left: -230px;
         width: 200px;
       }
     }
