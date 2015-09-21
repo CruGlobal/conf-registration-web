@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/adminNav.html',
       restrict: 'A',
       controller: function ($scope, $location, PermissionCache, permissionConstants) {
+        $scope.isActive = function(viewLocation){
+          return viewLocation === $location.path().substr(0, viewLocation.length);
+        };
         $scope.archiveEvent = function (conferenceId) {
           PermissionCache.getForConference(conferenceId).then(function(permissions){
             if(permissions.permissionInt < permissionConstants.FULL){
@@ -13,7 +16,13 @@ angular.module('confRegistrationWebApp')
               return;
             }
 
-            modalMessage.confirm('Archive Event', 'Are you sure you want to archive this event? Events can be unarchived later.', 'Archive', 'Cancel', true).then(function(){
+            modalMessage.confirm({
+              'title': 'Archive Event',
+              'question': 'Are you sure you want to archive this event? Events can be unarchived later.',
+              'yesString': 'Archive',
+              'noString': 'Cancel',
+              'normalSize': true
+            }).then(function(){
               ConfCache.getCallback(conferenceId, function(conference){
                 conference.archived = true;
 
@@ -28,7 +37,7 @@ angular.module('confRegistrationWebApp')
                   //redirect to dashboard
                   $location.path('/eventDashboard');
                 }).error(function (data) {
-                  modalMessage.error('Error: ' + data);
+                  modalMessage.error('Error: ' + data.errorMessage);
                 });
               });
             });

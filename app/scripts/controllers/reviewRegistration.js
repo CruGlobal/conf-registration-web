@@ -5,8 +5,8 @@ angular.module('confRegistrationWebApp')
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
-      bodyClass: 'frontend',
-      title: conference.name,
+      bodyClass: 'user-registration',
+      conference: conference,
       confId: conference.id,
       footer: false
     };
@@ -78,21 +78,23 @@ angular.module('confRegistrationWebApp')
         show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
         can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
         */
-      if ($scope.currentRegistration.totalPaid < $scope.currentRegistration.calculatedMinimumDeposit &&
-          ($scope.currentPayment.amount + $scope.currentRegistration.totalPaid) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('moneyFormat')(registration.calculatedMinimumDeposit) + ' to register for this event.');
+      if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
+        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
       }
 
-      if($scope.currentPayment.amount > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('moneyFormat')(registration.remainingBalance) + ' to register for this event.');
+      if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
+        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
       }
-      if ($scope.currentPayment.amount === 0 || !$scope.anyPaymentMethodAccepted()) {
+      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
         setRegistrationAsCompleted();
         return;
       }
 
       if (!_.isEmpty($scope.currentPayment.errors)) {
-        modalMessage.error($scope.currentPayment.errors, false, 'Please correct the following errors:');
+        modalMessage.error({
+          'title': 'Please correct the following errors:',
+          'message': $scope.currentPayment.errors
+        });
         $scope.submittingRegistration = false;
         return;
       }
@@ -135,7 +137,10 @@ angular.module('confRegistrationWebApp')
         }
       }).error(function () {
         $scope.submittingRegistration = false;
-        modalMessage.error('Your payment was declined, please verify your details or use a different payment method.', true);
+        modalMessage.error({
+          'message': 'Your payment was declined, please verify your details or use a different payment method.',
+          'forceAction': true
+        });
       });
     };
 
@@ -145,10 +150,10 @@ angular.module('confRegistrationWebApp')
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
         RegistrationCache.emptyCache();
         $route.reload();
-      }, function () {
+      }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        modalMessage.error('An error occurred while submitting your registration.');
+        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.errorMessage ? data.data.errorMessage : ''));
       });
     };
 
@@ -157,9 +162,17 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.removeRegistrant = function (id) {
-      modalMessage.confirm('Delete registrant?', 'Are you sure you want to delete this registrant?').then(function(){
+      modalMessage.confirm({
+        'title': 'Delete registrant?',
+        'question': 'Are you sure you want to delete this registrant?'
+      }).then(function(){
         _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
+          $route.reload();
+        }, function(){
+          modalMessage.error({
+            'message': 'An error occurred while removing registrant.'
+          });
           $route.reload();
         });
       });
@@ -187,12 +200,23 @@ angular.module('confRegistrationWebApp')
       return returnVal;
     };
 
-    $scope.blockInRegType = function(block, regTypeId){
-      return !_.contains(block.registrantTypes, regTypeId);
+    $scope.blockVisibleForRegistrant = function(block, registrant){
+      return validateRegistrant.blockVisible(block, registrant);
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    $scope.acceptedPaymentMethods = function(){
+      var regTypesInRegistration = [];
+      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId) {
+        regTypesInRegistration.push($scope.getRegistrantType(registrantTypeId));
+      });
+
+      var paymentMethods = {
+        acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
+        acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
+        acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
+        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships')
+      };
+      return (!_.some(paymentMethods) ? false : paymentMethods);
     };
 
     $scope.registrantDeletable = function(r){

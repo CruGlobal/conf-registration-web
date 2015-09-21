@@ -1,4 +1,4 @@
-<div ng-repeat="choice in ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']" class="radio">
+<div ng-repeat="choice in (block.content.hideGradStudent) ? ['Freshman', 'Sophomore', 'Junior', 'Senior'] : ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']" class="radio">
     <label>
         <input type="radio"
                show-errors

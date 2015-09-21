@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
@@ -12,15 +12,18 @@ angular.module('confRegistrationWebApp')
       $modalInstance.dismiss();
     };
 
-    $scope.blockInRegType = function(block, regTypeId){
-      return block.type !== 'paragraphContent' && !_.contains(block.registrantTypes, regTypeId);
+    $scope.blockIsVisible = function(block, registrant){
+      return block.type !== 'paragraphContent' && validateRegistrant.blockVisible(block, registrant);
     };
 
     $scope.submit = function (setRegistrationAsCompleted) {
       $scope.saving = true;
 
       if(setRegistrationAsCompleted){
-        modalMessage.confirm('Mark as completed?', 'Are you sure you want to mark this registration as completed?').then(function(){
+        modalMessage.confirm({
+          'title': 'Mark as completed?',
+          'question': 'Are you sure you want to mark this registration as completed?'
+        }).then(function(){
           $scope.registration.completed = true;
           saveAllAnswers();
         },

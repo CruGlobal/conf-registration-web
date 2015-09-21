@@ -6,7 +6,8 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/datepicker.html',
       restrict: 'E',
       scope: {
-        'localModel': '=model'
+        'localModel': '=model',
+        'ngDisabled': '='
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
@@ -18,7 +19,7 @@ angular.module('confRegistrationWebApp')
       link: function (scope, element) {
         var datePickerElement = jQuery(element).find('.datepicker');
         datePickerElement.datetimepicker({
-          defaultDate: moment(scope.localModel).format('MM/DD/YYYY hh:mm A')
+          defaultDate: scope.localModel ? moment(scope.localModel).format('MM/DD/YYYY hh:mm A') : null
         }).on('dp.change', function (ev) {
           scope.updateTimeStamp(ev.date);
         });

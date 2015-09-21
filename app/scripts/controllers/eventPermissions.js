@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, permissions, permissionConstants, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, permissions, permissionConstants, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-users',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -16,18 +16,7 @@ angular.module('confRegistrationWebApp')
       $scope.templateUrl = 'views/permissionError.html';
     }
     $scope.conference = conference;
-
-    var getPermissions = function () {
-      $http({
-          method: 'GET',
-          url: 'conferences/' + conference.id + '/permissions'
-        }).success(function (data) {
-          $scope.currentPermissions = data;
-        }).error(function () {
-
-        });
-    };
-    getPermissions();
+    $scope.currentPermissions = conferencePermissions;
 
     $scope.updatePermission = function (id) {
       $http({method: 'PUT',
@@ -44,7 +33,7 @@ angular.module('confRegistrationWebApp')
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data)
+          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
         };
       });
     };
@@ -59,8 +48,8 @@ angular.module('confRegistrationWebApp')
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',
         data: postData
-      }).success(function () {
-        getPermissions();
+      }).success(function (data) {
+        $scope.currentPermissions.push(data);
         $scope.$$childHead.addPermissionsEmail = '';
         $scope.$$childHead.addPermissionsLevel = '';
         $scope.notify = {
@@ -70,18 +59,21 @@ angular.module('confRegistrationWebApp')
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data)
+          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
         };
       });
     };
 
     $scope.deletePermission = function (id) {
-      modalMessage.confirm('Remove User?', 'Are you sure you want to remove this user?', 'Yes', 'No').then(function(){
+      modalMessage.confirm({
+        'title': 'Remove User?',
+        'question': 'Are you sure you want to remove this user?'
+      }).then(function(){
         $http({
           method: 'DELETE',
           url: 'permissions/' + id
         }).success(function () {
-          getPermissions();
+          _.remove($scope.currentPermissions, {id: id});
           $scope.notify = {
             class: 'alert-success',
             message: $sce.trustAsHtml('User removed.')
@@ -89,7 +81,7 @@ angular.module('confRegistrationWebApp')
         }).error(function (data) {
           $scope.notify = {
             class: 'alert-danger',
-            message: $sce.trustAsHtml('Error: ' + data)
+            message: $sce.trustAsHtml('Error: ' + data.errorMessage)
           };
         });
       });

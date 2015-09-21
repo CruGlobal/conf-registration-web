@@ -29,7 +29,13 @@
     "jQuery": false,
     "moment": false,
     "Hoptoad": false,
-    "confirm": false,
-    "ccp": false
+    "ccp": false,
+    "FB": false,
+    "beforeEach": false,
+    "describe": false,
+    "inject": false,
+    "it": false,
+    "expect": false,
+    "jasmine": false
   }
 }

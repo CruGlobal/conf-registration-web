@@ -4,21 +4,30 @@
 </div>
 <div class="modal-body">
   <div ng-show="!selectedEvent">
-    <span class="pull-right" ng-show="loading"><i class="fa fa-spinner fa-spin"></i> Searching...</span>
     <p>Enter the name of the event that you would like to request access to:</p>
-    <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control" auto-focus
-           typeahead="e.name for e in eventSearch($viewValue)"
-           typeahead-loading="loading"
-           typeahead-wait-ms="300"
-           typeahead-input-formatter="null"
-           typeahead-on-select="selectEvent($item, $model, $label)">
+    <div class="form-group has-feedback">
+      <input type="text" ng-model="eventSearchTypeahead" placeholder="" class="form-control" auto-focus
+             typeahead="e.name for e in eventSearch($viewValue)"
+             typeahead-loading="loading"
+             typeahead-wait-ms="300"
+             typeahead-input-formatter="null"
+             typeahead-on-select="selectEvent($item, $model, $label)">
+      <span class="form-control-feedback" title="Searching..." ng-if="loading">
+        <i class="fa fa-spinner fa-spin"></i>
+      </span>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" ng-model="eventSearchHistoric"> Include events from the past year
+      </label>
+    </div>
   </div>
   <div class="well" ng-show="selectedEvent">
     <div class="pull-right">
       <a href="" ng-click="selectedEvent = null">Choose a different event</a>
     </div>
     <p><strong>{{selectedEvent.name}}</strong><br />
-    {{selectedEvent.description}}</p>
+      {{selectedEvent.description}}</p>
     <p><strong>Dates:</strong> {{selectedEvent.eventStartTime | evtDateFormat: selectedEvent.eventTimezone}} - {{selectedEvent.eventEndTime | evtDateFormat: selectedEvent.eventTimezone}}</p>
     <p><strong>Contact:</strong>
       <span ng-if="selectedEvent.contactPersonName">{{selectedEvent.contactPersonName}}</span>
@@ -30,6 +39,7 @@
     <textarea class="form-control" rows="3" ng-model="reasonForRequest"></textarea>
   </div>
 </div>
-<div class="modal-footer" ng-show="selectedEvent">
-  <button data-ng-click="submit(selectedEvent, reasonForRequest)" class="btn btn-light">Request Access</button>
+<div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
+  <button ng-if="selectedEvent" ng-click="submit(selectedEvent, reasonForRequest)" class="btn btn-primary">Request Access</button>
 </div>

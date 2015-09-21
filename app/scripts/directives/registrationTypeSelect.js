@@ -12,7 +12,10 @@ angular.module('confRegistrationWebApp')
         if(angular.isDefined(visibleType)){
           _.remove($scope.visibleRegistrantTypes, function(t) { return t.id !== visibleType; });
         } else {
-          _.remove($scope.visibleRegistrantTypes, function(t) { return t.hidden; });
+          _.remove($scope.visibleRegistrantTypes, function(t) {
+            //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
+            return t.hidden && !_.contains(_.pluck($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
+          });
 
           //remove sub registrant types
           if(_.isEmpty($scope.currentRegistration.registrants)){
@@ -31,7 +34,23 @@ angular.module('confRegistrationWebApp')
           RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function () {
             RegistrationCache.emptyCache();
             $location.path(($rootScope.registerMode || 'register') + '/' + $scope.conference.id + '/page/' + $scope.conference.registrationPages[0].id).search('reg', newId);
+          }, function(){
+            alert('An error occurred while updating your registration.');
           });
+        };
+
+        $scope.registrationTypeFull = function(type){
+          if(!type.useLimit){
+            return false;
+          }
+          if(!type.availableSlots){
+            return true;
+          }
+
+          //subtract registrants from current registration from availableSlots
+          if(type.availableSlots - _.filter($scope.currentRegistration.registrants, { 'registrantTypeId': type.id }).length <= 0){
+            return true;
+          }
         };
       }
     };

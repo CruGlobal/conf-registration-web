@@ -5,7 +5,7 @@
            ng-required="block.required && !atLeastOneChecked"
            ng-model="answer.value[choice.value]"
            ng-model-options="{allowInvalid: true}"> <strong>{{choice.value}}</strong>
-    <span ng-show="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
-    <span ng-show="choice.amount"> - {{choice.amount | moneyFormat}}</span>
+    <span ng-show="choice.desc" class="display-linebreaks"> - {{choice.desc}}</span>
+    <span ng-show="choice.amount"> - {{choice.amount | currency:'$'}}</span>
   </label>
 </div>

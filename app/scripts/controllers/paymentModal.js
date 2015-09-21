@@ -80,7 +80,7 @@ angular.module('confRegistrationWebApp')
         transaction.readyToProcess = true;
       }
 
-      if(transaction.paymentType === 'SCHOLARSHIP') {
+      if(transaction.paymentType === 'SCHOLARSHIP' && angular.isDefined(transaction.scholarship)) {
         transaction.scholarship.scholarshipStatus = 'APPROVED';
       }
 
@@ -108,8 +108,8 @@ angular.module('confRegistrationWebApp')
         }else{
           $scope.activeTab[1] = true;
         }
-      }).error(function () {
-        modalMessage.error('Transaction failed.');
+      }).error(function (data) {
+        modalMessage.error('Transaction failed. ' + data.errorMessage);
         $scope.processing = false;
       });
     };
@@ -177,8 +177,8 @@ angular.module('confRegistrationWebApp')
           $scope.processing = false;
           $scope.refund = null;
         });
-      }).error(function () {
-        modalMessage.error('Refund failed...');
+      }).error(function (data) {
+        modalMessage.error('Refund failed. ' + data.errorMessage);
         $scope.processing = false;
       });
     };
@@ -193,7 +193,10 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      modalMessage.confirm('Delete Expense?', 'Are you sure you want to delete this expense?').then(function(){
+      modalMessage.confirm({
+        'title': 'Delete Expense?',
+        'question': 'Are you sure you want to delete this expense?'
+      }).then(function(){
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
         }).error(function () {
@@ -210,6 +213,8 @@ angular.module('confRegistrationWebApp')
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
+      }).error(function(){
+        modalMessage.error('Payment could not be saved. Please verify all required fields are filled in correctly.');
       });
     };
 
@@ -251,7 +256,10 @@ angular.module('confRegistrationWebApp')
         modalMessage.error(permissionRequiredMsg);
         return;
       }
-      modalMessage.confirm('Delete payment?', 'Are you sure you want to delete this payment?').then(function(){
+      modalMessage.confirm({
+        'title':'Delete payment?',
+        'question': 'Are you sure you want to delete this payment?'
+      }).then(function(){
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
         }).error(function () {
@@ -270,6 +278,27 @@ angular.module('confRegistrationWebApp')
         }
 
         $scope.editExpense = angular.copy(expense);
+      }
+    };
+
+    $scope.allowCreditCardPayments = function () {
+      var allow = false;
+      _.each($scope.registration.registrants, function(registrant) {
+        var registrantType = $scope.getRegistrantType(registrant.registrantTypeId);
+        if(registrantType.acceptCreditCards) {
+          allow = true;
+        }
+      });
+
+      return allow;
+    };
+
+    //auto set new transaction amount
+    $scope.setTransactionAmount = function(){
+      var paymentTypes = ['CREDIT_CARD', 'OFFLINE_CREDIT_CARD', 'SCHOLARSHIP', 'TRANSFER', 'CHECK', 'CASH'];
+
+      if($scope.registration.remainingBalance > 0 && ($scope.newTransaction.amount === 0 || $scope.newTransaction.amount === '' || $scope.newTransaction.amount === '0') && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
+        $scope.newTransaction.amount = $scope.registration.remainingBalance;
       }
     };
   });

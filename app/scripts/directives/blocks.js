@@ -132,7 +132,7 @@ angular.module('confRegistrationWebApp')
         $scope.generateVisibleOption = function(choice){
           var visibleOption = choice.value;
           if(choice.amount){
-            visibleOption += ' - ' + $filter('moneyFormat')(choice.amount);
+            visibleOption += ' - ' + $filter('moneyFormat')(choice.amount, '$');
           }
           return visibleOption;
         };

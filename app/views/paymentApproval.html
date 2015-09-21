@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-xs-12 form-content">
     <article ng-show="payment.scholarship.scholarshipStatus === 'REQUESTED'">
       <h2>Scholarship Approval</h2>
       <p class="text-muted"><i class="fa fa-info-circle"></i> The registrant below has requested a scholarship.  Please use the form below to approve or deny this request.</p>
@@ -15,37 +15,62 @@
         <div class="form-group">
           <label class="col-sm-3 control-label">Amount</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="payment.amount">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+              <input type="text" ng-model="payment.amount" class="form-control marginless">
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">Type</label>
+          <label class="col-sm-3 control-label">Account Type</label>
           <div class="col-sm-9">
-            <select class="form-control" ng-model="payment.scholarship.type">
-              <option>Ministry Account Transfer</option>
-              <option>Staff Account Transfer</option>
+            <select ng-model="payment.scholarship.accountType" class="form-control">
+              <option value="STAFF">Staff</option>
+              <option value="MINISTRY">Ministry</option>
             </select>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" ng-show="payment.scholarship.accountType === 'STAFF'">
           <label class="col-sm-3 control-label">Account Number</label>
           <div class="col-sm-9">
-            <input type="text" class="form-control" ng-model="payment.scholarship.source">
+            <input ng-model="payment.scholarship.accountNumber" type="text" class="form-control">
+          </div>
+        </div>
+
+        <div class="form-group" ng-show="payment.scholarship.accountType === 'MINISTRY'">
+          <div class="col-sm-3 stacked-spacing-col-sm">
+            <label>Business Unit</label>
+            <input ng-model="payment.scholarship.businessUnit" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3 stacked-spacing-col-sm">
+            <label>Operating Unit</label>
+            <input ng-model="payment.scholarship.operatingUnit" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3 stacked-spacing-col-sm">
+            <label>Department</label>
+            <input ng-model="payment.scholarship.department" type="text" class="form-control">
+          </div>
+
+          <div class="col-sm-3">
+            <label>Project Id</label>
+            <input ng-model="payment.scholarship.projectId" type="text" class="form-control">
           </div>
         </div>
       </form>
 
       <div class="row" ng-show="!posting">
-        <div class="col-md-4 col-md-offset-2">
-          <button class="btn btn-success btn-lg full"
+        <div class="col-sm-6 col-sm-push-6 stacked-spacing-col-sm">
+          <button class="btn btn-success btn-lg btn-block"
                   ng-click="updatePayment('APPROVED')"
                   type="submit">Approve
           </button>
         </div>
-        <div class="col-md-4">
-          <button class="btn btn-danger btn-lg full"
+        <div class="col-sm-6 col-sm-pull-6">
+          <button class="btn btn-danger btn-lg btn-block"
                   ng-click="updatePayment('DENIED')"
                   type="submit">Decline
           </button>

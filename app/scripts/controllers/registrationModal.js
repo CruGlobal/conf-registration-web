@@ -18,6 +18,9 @@ angular.module('confRegistrationWebApp')
           id: uuid(),
           registrantTypeId: $scope.form.type,
           registrationId: registrationId,
+          firstName: $scope.form.first,
+          lastName: $scope.form.last,
+          email: $scope.form.email,
           answers: []
         }]
       };
@@ -48,7 +51,7 @@ angular.module('confRegistrationWebApp')
           $route.reload();
         })
         .error(function (data) {
-          console.log('Error: ' + data);
+          console.log('Error: ' + data.errorMessage);
         });
 
       $modalInstance.close();

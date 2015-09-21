@@ -1,12 +1,21 @@
 <div class="row">
-  <div class="col-xs-9">
+  <aside class="col-sm-3 col-sm-push-9 event-stats-section">
+    <div class="well">
+      <div class="stats-heading">Event Stats</div>
+      <div class="eventstat-icon">
+        <i class="fa fa-users green"></i> {{conference.completedRegistrationCount}}
+      </div>
+      <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
+    </div>
+  </aside>
+  <div class="col-sm-9 col-sm-pull-3 event-info-section divider-right-col-sm">
     <div class="row">
-      <div class="col-xs-6">
+      <div class="col-sm-6">
         <section>
-          <a href="#/eventDetails/{{conference.id}}" class="btn pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
-          <h2>Event Information</h2>
+          <a href="#/eventDetails/{{conference.id}}" class="btn btn-link pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
+          <h2 class="page-title border">Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
-          <p ng-bind="conference.description" ng-show="conference.description" class="eventhub-linebreak"></p>
+          <p ng-bind="conference.description" ng-show="conference.description" class="display-linebreaks"></p>
           <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone }} -
             {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
           <p ng-show="conference.locationName">{{conference.locationName}}
@@ -14,9 +23,9 @@
           </p>
         </section>
       </div>
-      <div class="col-xs-6">
+      <div class="col-sm-6">
         <section>
-          <h2>Registration Window</h2>
+          <h2 class="page-title border">Registration Window</h2>
           <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
             {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}}</p>
           <p class="bg-success" style="padding: 6px; font-weight: bold;" ng-show="conference.registrationOpen">Registration is currently open.</p>
@@ -25,13 +34,14 @@
       </div>
     </div>
     <section>
-      <h2>Links</h2>
+      <h2 class="page-title border">Links</h2>
       <div>
         <label>Registration Link</label><br>
         <div class="input-group">
-          <input type="text" id="registrationUrl" class="form-control marginless" ng-model="registrationUrl[0]" select-on-click readonly>
+          <input type="text" id="registrationUrl" class="form-control" ng-model="registrationUrl[0]" select-on-click readonly>
           <span class="input-group-btn">
             <button type="button" class="btn btn-primary" select-on-click="registrationUrl">Select</button>
+            <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[0]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>
       </div>
@@ -39,28 +49,13 @@
         <br>
         <label>'{{type.name}}' Registration Link</label><br>
         <div class="input-group">
-          <input type="text" id="registrationUrl-{{type.id}}" class="form-control marginless" ng-model="registrationUrl[type.id]" select-on-click readonly>
+          <input type="text" id="registrationUrl-{{type.id}}" class="form-control" ng-model="registrationUrl[type.id]" select-on-click readonly>
           <span class="input-group-btn">
             <button type="button" class="btn btn-primary" select-on-click="registrationUrl-{{type.id}}">Select</button>
+            <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[type.id]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>
       </div>
     </section>
   </div>
-
-  <aside class="col-xs-3">
-    <section>
-      <h3>Event Stats</h3>
-      <div class="row eventstat-icon">
-        <div class="col-xs-1"></div>
-        <div class="col-xs-4">
-          <i class="fa fa-users green"></i>
-        </div>
-        <div class="col-xs-4">
-          {{conference.completedRegistrationCount}}
-        </div>
-      </div>
-      <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
-    </section>
-  </aside>
 </div>

@@ -3,24 +3,43 @@
 angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
+    var blockVisibleRuleCheck = function(block, registrant){
+      var returnValue = true;
+      var answers = registrant.answers;
+      angular.forEach(block.rules, function(rule){
+        var answer = _.find(answers, {blockId: rule.parentBlockId});
+        if(angular.isUndefined(answer) || answer.value === ''){
+          returnValue = false;
+        }else{
+          if(rule.operator === '=' && answer.value !== rule.value) {
+            returnValue = false;
+          }else if(rule.operator === '!=' && answer.value === rule.value){
+            returnValue = false;
+          }else if(rule.operator === '>' && answer.value <= rule.value){
+            returnValue = false;
+          }else if(rule.operator === '<' && answer.value >= rule.value){
+            returnValue = false;
+          }
+        }
+      });
+
+      return returnValue;
+    };
+
+    var blockInRegistrantType = function(block, registrant){
+      return !_.contains(block.registrantTypes, registrant.registrantTypeId);
+    };
+
+    this.blockVisible = function(block, registrant){
+      return angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+    };
+
     this.validate = function(conference, registrant) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
 
-      //remove blocks not applicable to registrant type
-      angular.forEach(conference.registrationPages, function(page) {
-        var pageIndex = _.findIndex(conference.registrationPages, { 'id': page.id });
-        angular.forEach(angular.copy(page.blocks), function (block) {
-          if (_.contains(block.registrantTypes, registrant.registrantTypeId)) {
-            _.remove(conference.registrationPages[pageIndex].blocks, function (b) {
-              return b.id === block.id;
-            });
-          }
-        });
-      });
-
       angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function(block){
-        if (!block.required) { return; }
+        if (!block.required || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
         if (angular.isUndefined(answer)) {

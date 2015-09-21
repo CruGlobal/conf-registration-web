@@ -2,7 +2,8 @@
 <html ng-app="confRegistrationWebApp">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=630">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" type="image/png" href="/img/favicon.png"/>
 
   <title ng-bind="generateTitle(globalPage.title)">Event Registration Tool</title>
@@ -14,49 +15,54 @@
   <![endif]>
 
   <!-- jQuery -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <!-- End jQuery -->
 
   <!-- AngularJS -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-route.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular-route.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular-cookies.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.18/angular-sanitize.min.js"></script>
   <!-- End AngularJS -->
-
-  <!-- Bootstrap -->
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-  <!-- End Bootstrap -->
 
   <!-- build:css css/components.css -->
   <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
   <link rel="stylesheet" href="/bower_components/pickadate/lib/compressed/themes/default.css">
   <link rel="stylesheet" href="/bower_components/pickadate/lib/compressed/themes/default.date.css">
   <!-- endbuild -->
+
+  <!-- Compiled Stylesheet (includes Bootstrap CSS) -->
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Font Awesome (Icons) -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <!-- End Font Awesome -->
 
   <!-- build:js scripts/components.js -->
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/bootstrap/js/affix.js"></script>
+  <script src="bower_components/bootstrap/js/collapse.js"></script>
+  <script src="bower_components/bootstrap/js/tooltip.js"></script>
   <script src="bower_components/momentjs/moment.js"></script>
   <script src="bower_components/moment-timezone/builds/moment-timezone-with-data.js"></script>
   <script src="bower_components/lodash/dist/lodash.js"></script>
   <script src="bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
-  <script src="bower_components/angular-ui-sortable/sortable.js"></script>
   <script src="bower_components/pickadate/lib/picker.js"></script>
   <script src="bower_components/pickadate/lib/picker.date.js"></script>
   <script src="bower_components/jsencrypt/bin/jsencrypt.js"></script>
   <script src="bower_components/ccp-js/ccp.js"></script>
+  <script src="bower_components/ng-facebook/ngFacebook.js"></script>
   <script src="components/angular-wysiwyg-custom.js"></script>
+  <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
   <!-- endbuild -->
+
   <!-- build:js scripts/eventApp.js -->
   <script src="scripts/app.js"></script>
 
   <!--Controllers-->
+  <script src="scripts/controllers/angularUiTreeConfig.js"></script>
   <script src="scripts/controllers/accessEvent.js"></script>
   <script src="scripts/controllers/activatePermission.js"></script>
-  <script src="scripts/controllers/confirmModal.js"></script>
   <script src="scripts/controllers/createEvent.js"></script>
   <script src="scripts/controllers/editRegistrationModal.js"></script>
   <script src="scripts/controllers/eventDashboard.js"></script>
@@ -81,7 +87,7 @@
   <script src="scripts/directives/block.js"></script>
   <script src="scripts/directives/blocks.js"></script>
   <script src="scripts/directives/datepicker.js"></script>
-  <script src="scripts/directives/formElements.js"></script>
+  <script src="scripts/directives/questionToolbar.js"></script>
   <script src="scripts/directives/ngEnter.js"></script>
   <script src="scripts/directives/page.js"></script>
   <script src="scripts/directives/payment.js"></script>
@@ -94,13 +100,12 @@
   <!--Filters-->
   <script src="scripts/filters/evtDateFormat.js"></script>
   <script src="scripts/filters/joiner.js"></script>
-  <script src="scripts/filters/moneyFormat.js"></script>
   <script src="scripts/filters/paymentTypeFormat.js"></script>
   <script src="scripts/filters/phoneFormat.js"></script>
   <script src="scripts/filters/toTrustedHtml.js"></script>
+  <script src="scripts/filters/unique.js"></script>
 
   <!--Services-->
-  <script src="scripts/services/AnswerCache.js"></script>
   <script src="scripts/services/apiUrl.js"></script>
   <script src="scripts/services/authorizationInterceptor.js"></script>
   <script src="scripts/services/ConfCache.js"></script>
@@ -127,6 +132,7 @@
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
+
 <div class="rootLoadingMsg" ng-if="loadingMsg">
   <div class="blueMsg">
     <div><i class="fa fa-spinner fa-spin"></i> {{loadingMsg}}...</div>
@@ -134,14 +140,14 @@
 </div>
 
 <div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
-  <div class="alert alert-warning eventhub-growl" ng-show="growlMessage">
+  <div class="alert alert-warning growl-message" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
     <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
   </div>
   <header id="masthead">
     <div class="container">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-sm-8">
           <a class="logo" href="#/" ng-if="globalPage.type === 'landing'">
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
@@ -149,16 +155,23 @@
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>
-        <div class="col-xs-6 usr-greeting" ng-if="globalGreetingName">
-          <div class="btn-group">
+        <div class="col-sm-4 text-right" ng-if="globalGreetingName">
+          <div class="btn-group usr-greeting spacing-below-xs" dropdown>
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
-              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only"></span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li><a href="#/logout/">Logout</a></li>
-              </ul>
+            <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+              <li><a href="#/eventDashboard/"><i class="fa fa-users"></i> My Dashboard</a></li>
+              <li><a href="#/help/"><i class="fa fa-medkit"></i> I Need Help!</a></li>
+              <li><a href="#/logout/"><i class="fa fa-sign-out"></i> Sign out</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-4 text-right" ng-if="!globalGreetingName">
+          <div class="btn-group usr-greeting spacing-below-xs">
+            <a href="#/eventDashboard" class="btn btn-default name-btn">Event Dashboard</a>
           </div>
         </div>
       </div>
@@ -167,15 +180,15 @@
   <section id="pagetitle" ng-if="globalPage.type === 'admin'" ng-class="globalPage.class">
     <div class="container">
       <div class="row">
-        <div ng-class="{'col-xs-3': !globalPage.confId, 'col-xs-4': globalPage.confId}">
+        <div ng-if="!globalPage.confId" class="col-lg-12">
           <h1 ng-bind="globalPage.title"></h1>
         </div>
-        <div ng-class="{'col-xs-6': !globalPage.confId, 'col-xs-5': globalPage.confId}">
-          <nav id="subnav" ng-show="globalPage.confId" admin-nav>
-          </nav>
+        <div ng-if="globalPage.confId" class="col-lg-6">
+          <h1><a ng-href="#/eventOverview/{{globalPage.confId}}" ng-bind="globalPage.title"></a></h1>
         </div>
-        <div class="col-xs-3 right">
-          <a href="#/help/" class="btn btn-primary help-btn" role="button" ng-show="globalPage !== 'dashboard'"><i class="fa fa-medkit"></i> I Need Help!</a>
+        <div class="col-lg-6" ng-if="globalPage.confId">
+          <nav id="subnav" admin-nav>
+          </nav>
         </div>
       </div>
     </div>
@@ -187,17 +200,25 @@
   </header>
   <section id="frontpagetitle">
     <div class="container">
-      <div class="row">
-        <div class="col-xs-10">
-          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/" ng-if="globalPage.confId">
-            <h1 ng-bind="globalPage.title"></h1>
+      <div class="row spacing-above-md">
+        <div class="col-sm-10 col-xs-12 stacked-spacing-col-sm" ng-if="globalPage.confId">
+          <a ng-href="#/{{registerMode || 'register'}}/{{globalPage.confId}}/page/">
+            <h1 ng-bind="globalPage.conference.name"></h1>
           </a>
-          <a href="#/" ng-if="!globalPage.confId">
+          <p class="spacing-above-md"><i class="fa fa-calendar fa-fw"></i>
+            {{globalPage.conference.eventStartTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}} -
+            {{globalPage.conference.eventEndTime | evtDateFormat: globalPage.conference.eventTimezone:'ddd, MMM D, YYYY h:mma'}}
+            <span ng-if="globalPage.conference.locationName"><br><i class="fa fa-map-marker fa-fw"></i>
+            {{globalPage.conference.locationName}}</span>
+          </p>
+        </div>
+        <div class="col-sm-10 col-xs-12 stacked-spacing-col-sm" ng-if="!globalPage.confId">
+          <a href="#/">
             <h1 ng-bind="globalPage.title"></h1>
           </a>
         </div>
-        <div class="col-xs-2 usr-greeting">
-          <a href="#/logout" class="btn btn-primary">Logout</a>
+        <div class="col-sm-2 text-right hidden-xs">
+          <a href="#/logout" class="btn btn-primary btn-important">Sign out</a>
         </div>
       </div>
     </div>
@@ -208,11 +229,11 @@
       Preview Mode
     </div>
     <div class="col-xs-12">
-      <ul class="horizontal">
+      <ul class="list-inline preview-nav">
         <li><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-        <li> | <a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li> | <a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-        <li> | <a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+        <li><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
+        <li><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
+        <li><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
       </ul>
     </div>
   </div>
@@ -223,14 +244,16 @@
 <footer id="pagefooter" ng-if="globalPage.footer">
   <div class="container">
     <div class="row">
-      <div class="col-xs-8">
-        <ul class="horizontal blue">
+      <div class="col-sm-8">
+        <ul class="list-inline">
           <li><a href="#/privacy/">Privacy Policy</a></li>
           <li><a href="#/help/">Help</a></li>
-          <li ng-show="environment === 'staging'"><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <!-- build:remove:dist -->
+          <li><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
+          <!-- /build -->
         </ul>
       </div>
-      <div class="col-xs-4 right">
+      <div class="col-sm-4 text-right">
         <span>&copy; 2014 | <a href="http://www.cru.org" target="_blank">Cru</a></span>
       </div>
     </div>
@@ -248,7 +271,9 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+  <!-- build:remove:stage -->
   ga('create', 'UA-325725-55', 'auto');
+  <!-- /build -->
 </script>
 </body>
 </html>

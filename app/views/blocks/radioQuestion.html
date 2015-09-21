@@ -6,8 +6,8 @@
            ng-model="answer.value"
            ng-value="choice.value">
     <strong>{{choice.value}}</strong>
-    <span ng-if="choice.desc" class="eventhub-linebreak"> - {{choice.desc}}</span>
-    <span ng-if="choice.amount"> - {{choice.amount | moneyFormat}}</span>
+    <span ng-if="choice.desc" class="display-linebreaks"> - {{choice.desc}}</span>
+    <span ng-if="choice.amount"> - {{choice.amount | currency:'$'}}</span>
   </label>
 </div>
 <label ng-if="block.content.otherOption.enabled">

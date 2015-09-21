@@ -30,10 +30,10 @@ module.exports = function (grunt) {
     yeoman: yeomanConfig,
     watch: {
       styles: {
-        files: ['css/*.less'], // which files to watch
-        tasks: ['less'],
+        files: ['<%= yeoman.app %>/less/*.less'], // which files to watch
+        tasks: ['less:dev'],
         options: {
-          nospawn: true
+          spawn: false
         }
       },
       livereload: {
@@ -62,16 +62,6 @@ module.exports = function (grunt) {
               lrSnippet,
               mountFolder(connect, '.tmp'),
               mountFolder(connect, yeomanConfig.app)
-            ];
-          }
-        }
-      },
-      test: {
-        options: {
-          middleware: function (connect) {
-            return [
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, 'test')
             ];
           }
         }
@@ -123,8 +113,14 @@ module.exports = function (grunt) {
         },
         files: {
           // target.css file: source.less file
-          '.tmp/css/style.css': '<%= yeoman.app %>/css/style.less',
-          '<%= yeoman.dist %>/css/style.css': '<%= yeoman.app %>/css/style.less'
+          '.tmp/css/style.css': '<%= yeoman.app %>/less/style.less',
+          '<%= yeoman.dist %>/css/style.css': '<%= yeoman.app %>/less/style.less'
+        }
+      },
+      dev: {
+        files: {
+          // target.css file: source.less file
+          '.tmp/css/style.css': '<%= yeoman.app %>/less/style.less'
         }
       }
     },
@@ -215,9 +211,6 @@ module.exports = function (grunt) {
       server: [
         'less'
       ],
-      test: [
-        'less'
-      ],
       dist: [
         'less:dist',
         'imagemin',
@@ -230,9 +223,22 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    cdnify: {
+    processhtml: {
       dist: {
-        html: ['<%= yeoman.dist %>/*.html']
+        options: {
+          strip: true
+        },
+        files: {
+          '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']
+        }
+      },
+      stage: {
+        options: {
+          strip: true
+        },
+        files: {
+          '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']
+        }
       }
     },
     uglify: {
@@ -271,31 +277,43 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'connect:test'
-    //'karma'
-  ]);
+  grunt.registerTask('build', function (target) {
+    if (target === 'stage') {
+      return grunt.task.run([
+        'jshint',
+        'karma',
 
-  grunt.registerTask('build', [
-    'clean:dist',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'copy',
-    'cdnify',
-    'rev',
-    'usemin',
-    //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
-    'rev',
-    'usemin',
-    'uglify'
-  ]);
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'concat',
+        'copy',
+        'rev',
+        'usemin',
+        //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
+        'rev',
+        'usemin',
+        'processhtml:stage',
+        'uglify'
+      ]);
+    }else{
+      return grunt.task.run([
+        'jshint',
+        'karma',
 
-  grunt.registerTask('default', [
-    'jshint',
-    'test',
-    'build'
-  ]);
+        'clean:dist',
+        'useminPrepare',
+        'concurrent:dist',
+        'concat',
+        'copy',
+        'rev',
+        'usemin',
+        //run rev & usemin twice to make sure any route view rev changes change eventApp.js rev number
+        'rev',
+        'usemin',
+        'processhtml:dist',
+        'uglify'
+      ]);
+    }
+  });
 };

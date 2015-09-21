@@ -5,28 +5,11 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockDirective.html',
       restrict: 'A',
-      controller: function ($scope, $routeParams, $modal, modalMessage, AnswerCache, RegistrationCache, uuid) {
-
-        /////// IF OLD CHECKBOX/RADIO/SELECT FORMAT,  UPDATE ////
-        if(_.contains(['checkboxQuestion', 'radioQuestion', 'selectQuestion'], $scope.block.type) && angular.isDefined($scope.block.content.choices) && $scope.block.content.choices.length){
-          if(angular.isUndefined(_.first($scope.block.content.choices).value)){
-            angular.forEach($scope.block.content.choices, function(c, i){
-              $scope.block.content.choices[i] = {
-                value: c,
-                desc: ''
-              };
-            });
-          }
-        }
-        /////////////////////////////////////////////////
-
+      controller: function ($scope, $routeParams, $modal, modalMessage, RegistrationCache, uuid, validateRegistrant) {
         if (!$scope.wizard) {
           if (angular.isDefined($scope.adminEditRegistrant)) {
             //registration object provided
-            var answerForThisBlock = _.where($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
-            if (answerForThisBlock.length > 0) {
-              $scope.answer = answerForThisBlock[0];
-            }
+            $scope.answer = _.find($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id : uuid(),
@@ -37,33 +20,63 @@ angular.module('confRegistrationWebApp')
               $scope.adminEditRegistrant.answers.push($scope.answer);
             }
           } else {
-            RegistrationCache.getCurrent($scope.conference.id).then(function (currentRegistration) {
-              var registrantId = $routeParams.reg;
-              if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
-                return;
-              }
-              var registrantIndex = _.findIndex(currentRegistration.registrants, { 'id': registrantId });
-              if(registrantIndex === -1){
-                return;
-              }
+            var registrantId = $routeParams.reg;
+            if(angular.isUndefined(registrantId) || angular.isUndefined($scope.block)){
+              return;
+            }
+            var registrantIndex = _.findIndex($scope.currentRegistration.registrants, { 'id': registrantId });
+            if(registrantIndex === -1){
+              return;
+            }
 
-              var answerForThisBlock = _.where(currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
-              if (answerForThisBlock.length > 0) {
-                $scope.answer = answerForThisBlock[0];
-              }
+            if($scope.block.type !== 'paragraphContent'){
+              $scope.answer = _.find($scope.currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
               if (angular.isUndefined($scope.answer)) {
                 $scope.answer = {
                   id : uuid(),
                   registrantId : registrantId,
-                  blockId : $scope.block.id,
-                  value : ($scope.block.type === 'checkboxQuestion') ? {} : ''
+                  blockId : $scope.block.id
                 };
-                currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+                //default value
+                switch ($scope.block.type) {
+                  case 'checkboxQuestion':
+                    $scope.answer.value = {};
+                    break;
+                  case 'nameQuestion':
+                    $scope.answer.value = {
+                      firstName: '',
+                      lastName: ''
+                    };
+                    break;
+                  case 'addressQuestion':
+                    $scope.answer.value = {
+                      address1: '',
+                      address2: '',
+                      city: '',
+                      state: '',
+                      zip: ''
+                    };
+                    break;
+                  default:
+                    $scope.answer.value = '';
+                }
+                $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
               }
-            });
-            AnswerCache.syncBlock($scope, 'answer');
+
+              $scope.$watch('answer', function (answer, oldAnswer) {
+                if(angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)){
+                  return;
+                }
+
+                RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+              }, true);
+            }
           }
         }
+
+        $scope.toggleBlockEdit = function (){
+          $scope.editBlock = !$scope.editBlock;
+        };
 
         $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.block.content.choices)) {
@@ -127,25 +140,22 @@ angular.module('confRegistrationWebApp')
               }
             }
           }).result.then(function (choice) {
-            choice.amount = Number(choice.amount);
-            $scope.block.content.choices[index] = choice;
-          });
+              choice.amount = Number(choice.amount);
+              $scope.block.content.choices[index] = choice;
+            });
         };
 
         if($scope.wizard){
           $scope.activeTab = 'options';
           $scope.visibleRegTypes = {};
+          //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
           angular.forEach($scope.conference.registrantTypes, function(type) {
             $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
           });
           $scope.$watch('visibleRegTypes', function (object) {
             if (angular.isDefined(object)) {
-              $scope.block.registrantTypes = [];
-              angular.forEach(object, function(v, k) {
-                if(!v){
-                  $scope.block.registrantTypes.push(k);
-                }
-              });
+              //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
+              $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; })).sort();
             }
           }, true);
 
@@ -160,9 +170,13 @@ angular.module('confRegistrationWebApp')
           $scope.profileCheck = !_.isNull($scope.block.profileType);
           $scope.profileOption = _.has(typeToProfile, $scope.block.type);
           $scope.requiredOption = !_.contains(['paragraphContent'], $scope.block.type);
-          $scope.canDelete = !_.contains(['NAME', 'EMAIL'], $scope.block.profileType);
-          $scope.canChangeRegTypes = !_.contains(['NAME'], $scope.block.profileType);
           $scope.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type);
+
+          var notName = !_.contains(['NAME'], $scope.block.profileType);
+          var notNameOrEmail = !_.contains(['NAME', 'EMAIL'], $scope.block.profileType);
+          $scope.canDelete = notNameOrEmail;
+          $scope.canHaveRules = notNameOrEmail;
+          $scope.canChangeRegTypes = notName;
         }
 
         $scope.toggleProfileType = function (value) {
@@ -186,6 +200,92 @@ angular.module('confRegistrationWebApp')
               $scope.block.profileType = null;
               $scope.profileCheck = false;
             }
+          }
+        };
+
+        $scope.addRule = function(){
+          var ruleBlocks = $scope.ruleBlocks();
+          if(!ruleBlocks.length){
+            modalMessage.info({
+              title: 'Add Rule',
+              message: 'No valid questions appear before this question in your form. Rule cannot be added.'
+            });
+            return;
+          }
+
+          $scope.block.rules.push({
+            id: uuid(),
+            blockId: $scope.block.id,
+            parentBlockId: ruleBlocks[0].id,
+            operator: '=',
+            value: ''
+          });
+        };
+
+        $scope.ruleBlocks = function(){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          //remove blocks after current block
+          var remove = false;
+          _.remove(blocks, function(b){
+            if(b.id === $scope.block.id){
+              remove = true;
+            }
+            return remove;
+          });
+
+          //keep valid block types that can be used in rules
+          blocks = _.filter(blocks, function(b){
+            return _.contains(['radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'], b.type);
+          });
+
+          return blocks;
+        };
+
+        $scope.ruleValues = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': parentBlockId });
+
+          switch (block.type) {
+            case 'selectQuestion':
+            case 'radioQuestion':
+              return _.pluck(block.content.choices, 'value');
+            case 'genderQuestion':
+              return ['M', 'F'];
+            case 'yearInSchoolQuestion':
+              return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
+            default:
+              return [];
+          }
+        };
+
+        $scope.removeRule = function(id){
+          _.remove($scope.block.rules, {id: id});
+        };
+
+
+        $scope.blockVisible = function(block){
+          if(angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)){
+            return false;
+          }
+          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          return validateRegistrant.blockVisible(block, registrant);
+        };
+
+        $scope.ruleValueInputType = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var parentBlock = _.find(blocks, { 'id': parentBlockId });
+
+          switch (parentBlock.type) {
+            case 'selectQuestion':
+            case 'radioQuestion':
+            case 'yearInSchoolQuestion':
+              return 'select';
+            case 'genderQuestion':
+              return 'gender';
+            case 'dateQuestion':
+              return 'date';
+            case 'numberQuestion':
+              return 'number';
           }
         };
       }

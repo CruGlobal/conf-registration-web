@@ -6,8 +6,8 @@
     {{answer.value.address2}}<br ng-if="answer.value.city || answer.value.state || answer.value.zip">
     {{answer.value.city}}<span ng-if="answer.value.city && (answer.value.state || answer.value.zip)">, </span>{{answer.value.state}} {{answer.value.zip}}
   </span>
-  <span ng-switch-when="textareaQuestion" class="eventhub-linebreak">{{answer.value}}</span>
+  <span ng-switch-when="textareaQuestion" class="display-linebreaks">{{answer.value}}</span>
   <span ng-switch-when="phoneQuestion">{{answer.value | tel}}</span>
   <span ng-switch-default>{{answer.value}}</span>
-  <span ng-show="answer.amount && showAmount"> - {{answer.amount | moneyFormat}}</span>
+  <span ng-show="answer.amount && showAmount"> - {{answer.amount | currency:'$'}}</span>
 </ng-switch>

@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
 
         var pickerOptions = {
           format: 'mmm d, yyyy',
-          selectYears: 60
+          selectYears: 200
         };
 
         if(element.parents('.modal').length){

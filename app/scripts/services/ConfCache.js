@@ -66,8 +66,7 @@ angular.module('confRegistrationWebApp')
           id: uuid(),
           name: 'Default',
           conferenceId: newConferenceId,
-          cost: 0,
-          earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+          cost: 0
         }],
         registrationPages: [
           {
@@ -107,5 +106,18 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
         }
       });
+    };
+
+    this.getPermissions = function (id) {
+      var q = $q.defer();
+      $http({
+        method: 'GET',
+        url: 'conferences/' + id + '/permissions'
+      }).success(function (data) {
+        q.resolve(data);
+      }).error(function () {
+        q.reject([]);
+      });
+      return q.promise;
     };
   });

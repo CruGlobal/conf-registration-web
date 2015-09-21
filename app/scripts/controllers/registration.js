@@ -1,68 +1,32 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $sce, $routeParams, $location, $window, RegistrationCache, conference, currentRegistration, validateRegistrant) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
-      bodyClass: 'frontend',
-      title: conference.name,
+      bodyClass: 'user-registration',
+      conference: conference,
       confId: conference.id,
       footer: false
     };
 
     var pageId = $routeParams.pageId;
-
-    if(angular.isUndefined(pageId) && currentRegistration.completed) {
-      $location.path('reviewRegistration/' + conference.id);
-    }
-
-    $scope.validPages = {};
-    $scope.$on('pageValid', function (event, validity) {
-      event.stopPropagation();
-      $scope.validPages[event.targetScope.page.id] = validity;
-      $scope.registrationComplete = _.filter($scope.validPages).length === $scope.conference.registrationPages.length;
-    });
-
-    $scope.conference = conference;
+    $scope.conference = angular.copy(conference);
+    var originalCurrentRegistration = angular.copy(currentRegistration);
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
-
-    //remove blocks that are not part of registrant type
-    if(angular.isDefined($routeParams.reg)){
-      var reg = _.find(currentRegistration.registrants, { 'id': $routeParams.reg});
-      if(angular.isUndefined(reg)){
-        $location.path($rootScope.registerMode + '/' + $scope.conference.id + '/page/').search('reg', null);
-        return;
-      }
-      angular.forEach(angular.copy(conference.registrationPages), function(page) {
-        var pageIndex = _.findIndex($scope.conference.registrationPages, { 'id': page.id });
-        angular.forEach(angular.copy(page.blocks), function(block) {
-          if (_.contains(block.registrantTypes, reg.registrantTypeId)) {
-            _.remove($scope.conference.registrationPages[pageIndex].blocks, function(b) { return b.id === block.id; });
-          }
-        });
-
-        if($scope.conference.registrationPages[pageIndex].blocks.length === 0) {
-          _.remove($scope.conference.registrationPages, function(p) { return p.id === page.id; });
-        }
-      });
-    }
+    $scope.savingAnswers = false;
 
     $scope.activePageId = pageId || '';
     $scope.page = _.find(conference.registrationPages, { 'id': pageId });
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-
-    function getPageAfterById(pageId) {
-      var pages = $scope.conference.registrationPages;
-      for (var i = 0; i < pages.length; i++) {
-        if (angular.equals(pageId, pages[i].id)) {
-          return pages[i + 1];
-        }
-      }
-    }
-
-    $scope.nextPage = getPageAfterById(pageId);
+    $scope.nextPage = function(){
+      var visiblePageArray = _.filter($scope.conference.registrationPages, function(page) {
+        return $scope.pageIsVisible(page);
+      });
+      return visiblePageArray[_.findIndex(visiblePageArray, { 'id': pageId }) + 1];
+    };
 
     //if current page doesn't exist, go to first page
     if($scope.activePageIndex === -1 && angular.isDefined($scope.page)){
@@ -77,34 +41,75 @@ angular.module('confRegistrationWebApp')
     var pageAndRegistrantId = $scope.currentRegistrant + '_' + $scope.activePageIndex;
     $scope.currentPageVisited = _.contains($rootScope.visitedPages, pageAndRegistrantId);
 
+
+    //save answers on route change
+    $scope.$on('$routeChangeStart', function () {
+      $interval.cancel(saveAnswersInterval);
+      if(angular.isUndefined($scope.currentRegistrant)){
+        return;
+      }
+
+      $scope.savingAnswers = true;
+      $q.all(findAnswersToSave());
+    });
+
+    //auto save answers every 15 seconds
+    var saveAnswersInterval = $interval(function(){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        return;
+      }
+
+      $scope.savingAnswers = true;
+      $q.all(findAnswersToSave()).then(function(){
+        $scope.savingAnswers = false;
+      });
+    }, 15000);
+
     $scope.goToNext = function () {
       //add current page and registrant combo to the visitedPages array
       if($scope.currentRegistrant){
         $rootScope.visitedPages.push(pageAndRegistrantId);
       }
 
-      if (angular.isDefined($scope.nextPage)) {
-        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.nextPage.id);
+      var nextPage = $scope.nextPage();
+      if (angular.isDefined(nextPage)) {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + nextPage.id);
       } else {
-        $location.path('/reviewRegistration/' + conference.id).search('regType', null);
+        $scope.reviewRegistration();
       }
     };
 
     $scope.previousPage = function () {
-      var previousPage = $scope.conference.registrationPages[$scope.activePageIndex - 1];
+      var visiblePageArray = _.filter($scope.conference.registrationPages, function (page) {
+        return $scope.pageIsVisible(page);
+      });
+
+      var previousPage = visiblePageArray[_.findIndex(visiblePageArray, {'id': pageId}) - 1];
       if (angular.isDefined(previousPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + previousPage.id);
-      } else if($scope.currentRegistration.completed) {
+      } else if ($scope.currentRegistration.completed) {
         $location.path('/reviewRegistration/' + conference.id);
       } else {
-        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/');
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/').search('reg', null);
       }
+    };
+
+    $scope.reviewRegistration = function(){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        $location.path('/reviewRegistration/' + conference.id).search('regType', null).search('reg', null);
+        return;
+      }
+
+      $scope.savingAnswers = true;
+      $q.all(findAnswersToSave()).then(function(){
+        $location.path('/reviewRegistration/' + conference.id).search('regType', null).search('reg', null);
+      });
     };
 
     $scope.registrantName = function(r) {
       var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
-      var registrant = _.find(currentRegistration.registrants, { 'id': r.id });
-      var returnStr;
+      var registrant = _.find($scope.currentRegistration.registrants, { 'id': r.id });
+      var returnStr = '';
       nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
 
       if(angular.isDefined((nameBlock))){
@@ -114,7 +119,7 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      return returnStr || _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name;
+      return (returnStr.trim().length ? returnStr : _.find(conference.registrantTypes, { 'id': r.registrantTypeId }).name);
     };
 
     $scope.registrantIsComplete = function(registrantId) {
@@ -122,7 +127,45 @@ angular.module('confRegistrationWebApp')
       return (invalidBlocks.length === 0);
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return conference.acceptCreditCards || conference.acceptChecks || conference.acceptTransfers || conference.acceptScholarships;
+    $scope.startOver = function(){
+      modalMessage.confirm({
+        'title': 'Start Over',
+        'question': 'Are you sure you want to start over? All answers will be erased.',
+        'yesString': 'Start Over',
+        'noString': 'Cancel',
+        'normalSize': true
+      }).then(function(){
+        $scope.currentRegistration.registrants = [];
+        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration);
+      });
+    };
+
+    $scope.pageIsVisible = function(page){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        return false;
+      }
+
+      return _.contains(_.map(page.blocks, function(block){
+        return validateRegistrant.blockVisible(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
+      }), true);
+    };
+
+    var findAnswersToSave = function(){
+      var currentRegistrantOriginal = _.find(originalCurrentRegistration.registrants, { 'id': $scope.currentRegistrant });
+      var currentRegistrantOriginalAnswers = currentRegistrantOriginal ? currentRegistrantOriginal.answers : [];
+      var currentRegistrant = _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant });
+      var answersToSave = [];
+
+      angular.forEach((currentRegistrant ? currentRegistrant.answers : []), function(a){
+        var savedAnswer = _.find(currentRegistrantOriginalAnswers, { 'id': a.id });
+        if(angular.isUndefined(savedAnswer) || !angular.equals(savedAnswer.value, a.value)){
+          answersToSave.push($http.put('answers/' + a.id, a));
+        }
+      });
+
+      //update originalCurrentRegistration
+      originalCurrentRegistration = angular.copy($scope.currentRegistration);
+
+      return answersToSave;
     };
   });

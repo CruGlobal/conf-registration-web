@@ -4,16 +4,44 @@
 </div>
 
 <div class="modal-body">
-  <div>
-    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
-      <i class="fa fa-cloud-download"></i> All Data</a>
-    <span>- Download all answers for all registrants.</span>
-  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-8">
+        <strong>Registrations</strong><br>
+        Registrations and answers
+      </div>
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
+        </a>
+      </div>
+    </div>
 
-  <div ng-if="hasCost">
-    <br>
-    <a class="btn btn-primary btn-sm" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
-      <i class="fa fa-cloud-download"></i> Payments</a>
-    <span>- Download payment data for all registrants.</span>
+    <div class="row spacing-above-sm">
+      <div class="col-xs-8">
+        <strong>Payments</strong><br>
+        Payment data and history
+      </div>
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
+        </a>
+      </div>
+    </div>
+
+    <div class="row spacing-above-sm">
+      <div class="col-xs-8">
+        <strong>Account Transfers</strong><br>
+        Staff Account Transfer payments
+      </div>
+      <div class="col-xs-4">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}" target="_blank">
+          <i class="fa fa-cloud-download"></i> Download
+        </a>
+      </div>
+    </div>
   </div>
+</div>
+<div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
 </div>

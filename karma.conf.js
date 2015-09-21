@@ -3,31 +3,38 @@ module.exports = function(config){
     basePath : '',
 
     files : [
-      'app/bower_components/lodash/dist/lodash.js',
+      //'app/bower_components/jquery/dist/jquery.js',
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/angular-resource/angular-resource.js',
+      'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-cookies/angular-cookies.js',
+      'app/bower_components/angular-sanitize/angular-sanitize.js',
+
+      'app/bower_components/momentjs/moment.js',
+      'app/bower_components/moment-timezone/builds/moment-timezone-with-data.js',
+      'app/bower_components/lodash/dist/lodash.js',
+      'app/bower_components/ng-facebook/ngFacebook.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
+      'app/bower_components/angular-ui-tree/dist/angular-ui-tree.js',
+      'app/components/angular-wysiwyg-custom.js',
+
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'
     ],
 
     exclude : [
-
+      'app/scripts/errorNotify.js'
     ],
 
-    autoWatch : true,
+    //autoWatch : true,
 
     frameworks: ['jasmine'],
 
-    browsers : ['Firefox'],
+    browsers : ['PhantomJS'],
 
     plugins : [
-      //'karma-junit-reporter',
-      //'karma-chrome-launcher',
-      'karma-firefox-launcher',
+      'karma-phantomjs-launcher',
       'karma-jasmine'
     ]
   })}

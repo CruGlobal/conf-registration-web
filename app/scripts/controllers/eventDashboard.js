@@ -1,20 +1,21 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, RegistrationCache, $modal, modalMessage, $location, $http, Model, uuid) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http, Model, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container dashboard',
+      mainClass: 'container event-dashboard',
       bodyClass: '',
       title: 'My Dashboard',
       confId: 0,
       footer: true
     };
 
-    $scope.$on('conferences/', function (event, conferences) {
-      $scope.conferences = conferences;
-    });
-    ConfCache.query();
+    $scope.conferences = conferences;
+    $scope.filterName = '';
+    $scope.resetFilterName = function(){
+      $scope.filterName = '';
+    };
 
     $scope.$watch('showArchivedEvents', function (v) {
       if (v) {
@@ -68,7 +69,7 @@ angular.module('confRegistrationWebApp')
         //Clear cache
         ConfCache.empty();
       }).error(function (data) {
-        modalMessage.error('Error: ' + data);
+        modalMessage.error('Error: ' + data.errorMessage);
         eventData.archived = true;
       });
     };
@@ -96,6 +97,7 @@ angular.module('confRegistrationWebApp')
 
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
+              var blockIdMap = {};
 
               for (var i = 0; i < conference.registrantTypes.length; i++) {
                 var originalRegTypeId = conference.registrantTypes[i].id;
@@ -112,8 +114,17 @@ angular.module('confRegistrationWebApp')
                 conference.registrationPages[i].id = pageUuid;
                 conference.registrationPages[i].conferenceId = conference.id;
                 for (var j = 0; j < conference.registrationPages[i].blocks.length; j++) {
-                  conference.registrationPages[i].blocks[j].id = uuid();
+                  var blockUuid = uuid();
+                  blockIdMap[conference.registrationPages[i].blocks[j].id] = blockUuid;
+                  conference.registrationPages[i].blocks[j].id = blockUuid;
                   conference.registrationPages[i].blocks[j].pageId = pageUuid;
+
+                  //block rules
+                  for (var l = 0; l < conference.registrationPages[i].blocks[j].rules.length; l++) {
+                    conference.registrationPages[i].blocks[j].rules[l].id = uuid();
+                    conference.registrationPages[i].blocks[j].rules[l].blockId = blockUuid;
+                    conference.registrationPages[i].blocks[j].rules[l].parentBlockId = blockIdMap[conference.registrationPages[i].blocks[j].rules[l].parentBlockId];
+                  }
 
                   // take a copy of the registrantTypes for this block
                   var originalRegTypeIds = angular.copy(conference.registrationPages[i].blocks[j].registrantTypes);

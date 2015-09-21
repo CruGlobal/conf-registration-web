@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
-      mainClass: 'container conference-details',
+      mainClass: 'container event-details',
       bodyClass: '',
       title: conference.name,
       confId: conference.id,
@@ -35,11 +35,27 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = angular.copy(conference);
 
+    $scope.$on('$locationChangeStart', function(event, newLocation) {
+      if(!angular.equals(conference, $scope.conference)){
+        event.preventDefault();
+        modalMessage.confirm({
+          title: 'Warning: Unsaved Changes',
+          question: 'You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.',
+          yesString: 'Discard changes',
+          noString: 'Stay on this page',
+          normalSize: true
+        }).then(function(){
+          conference = angular.copy($scope.conference);
+          $location.url($location.url(newLocation).hash());
+        });
+      }
+    });
+
     $scope.addRegType = function(){
       $scope.conference.registrantTypes.push({
         id: uuid(),
         cost: 0,
-        earlyRegistrationCutoff: moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss')
+        earlyRegistrationDiscounts: []
       });
     };
 
@@ -53,6 +69,10 @@ angular.module('confRegistrationWebApp')
         };
         $timeout(function() { $scope.notify = {}; }, 3500);
       }
+    };
+
+    $scope.addEarlyRegistrationDiscount = function(type){
+      type.earlyRegistrationDiscounts.push({id: uuid(), enabled: true});
     };
 
     $scope.saveEvent = function () {
@@ -74,13 +94,6 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('Registration end date/time must be after registration start date/time.');
       }
 
-      //Credit cards
-      if ($scope.conference.acceptCreditCards) {
-        if (_.isEmpty($scope.conference.paymentGatewayId)) {
-          validationErrors.push('Please enter a merchant account ID.');
-        }
-      }
-
       //Registrant Name
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (_.isEmpty(t.name)) {
@@ -96,9 +109,14 @@ angular.module('confRegistrationWebApp')
         }
       });
 
+      //Credit cards
+      if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
+        validationErrors.push('Please enter a credit card Account ID.');
+      }
+
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted() && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
+        if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
           t.minimumDeposit = Number(t.minimumDeposit);
           if (t.minimumDeposit > t.cost) {
             validationErrors.push('The minimum deposit for \'' + t.name + '\' must be less than the cost.');
@@ -106,20 +124,21 @@ angular.module('confRegistrationWebApp')
         } else {
           t.minimumDeposit = null;
         }
-
       });
 
       //Early bird discount
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if (t.earlyRegistrationDiscount) {
-          t.earlyRegistrationAmount = Number(t.earlyRegistrationAmount);
-          if (t.earlyRegistrationAmount > t.cost) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be less than the cost.');
+        angular.forEach(t.earlyRegistrationDiscounts, function(d, index){
+          if (d.enabled) {
+            d.amountOfDiscount = Number(d.amountOfDiscount);
+            if (d.amountOfDiscount <= 0) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must be a positive number.');
+            }
+            if (!d.deadline) {
+              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must include a valid date and time.');
+            }
           }
-          if (t.earlyRegistrationAmount < 0) {
-            validationErrors.push('The early registration discount for \'' + t.name + '\' must be a positive number.');
-          }
-        }
+        });
       });
 
       $window.scrollTo(0, 0);
@@ -149,29 +168,45 @@ angular.module('confRegistrationWebApp')
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
+            conference = angular.copy($scope.conference);
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {
-            window.scrollTo(0, 0);
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error</strong> ' + data)
+              message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
             };
           });
       }
     };
 
-    $scope.anyPaymentMethodAccepted = function(){
-      return $scope.conference.acceptCreditCards || $scope.conference.acceptChecks || $scope.conference.acceptTransfers || conference.acceptScholarships;
+    $scope.anyPaymentMethodAccepted = function(type){
+      return type.acceptCreditCards || type.acceptChecks || type.acceptTransfers || type.acceptScholarships;
+    };
+
+    $scope.acceptedPaymentMethods = function(){
+      var regTypes = $scope.conference.registrantTypes;
+
+      var paymentMethods = {
+        acceptCreditCards: _.some(regTypes, 'acceptCreditCards'),
+        acceptChecks:_.some(regTypes, 'acceptChecks'),
+        acceptTransfers: _.some(regTypes, 'acceptTransfers'),
+        acceptScholarships: _.some(regTypes, 'acceptScholarships')
+      };
+      return paymentMethods;
     };
 
     $scope.previewEmail = function(reg){
-      var cost = $filter('moneyFormat')(reg.cost);
+      var cost = $filter('currency')(reg.cost, '$');
       var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
-      modalMessage.info('<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
-          '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
-          '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
-          reg.customConfirmationEmailText, false, 'Email Preview', 'Close');
+      modalMessage.info({
+        'title': 'Email Preview',
+        'message': '<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
+        '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
+        '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
+        reg.customConfirmationEmailText,
+        'okString': 'Close'
+      });
     };
   });

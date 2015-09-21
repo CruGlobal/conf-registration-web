@@ -3,26 +3,24 @@
   <h3>Options</h3>
 </div>
 <div class="modal-body">
-  <div class="row" ng-show="blockType !== 'selectQuestion'">
-    <div class="form-group col-xs-12">
-      <p>Enter a description to add clarity or more information to registrant.</p>
-      <textarea ng-model="choice.desc" class="form-control" style="height: 120px;"></textarea>
+  <div class="form-group" ng-if="blockType !== 'selectQuestion'">
+    <label>Enter a description to add clarity or more information to registrant.</label>
+    <textarea ng-model="choice.desc" class="form-control" style="height: 120px;"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Additional Cost</label>
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+      <input type="text" class="form-control marginless" ng-model="choice.amount">
     </div>
   </div>
-
   <div class="row">
-    <div class="form-group col-xs-7">
-      <p>Additional Cost</p>
+    <div class="col-xs-12">
       <p class="text-muted"><i class="fa fa-info-circle"></i> If the registrant selects this option, the total cost can be adjusted. Example: A t-shirt could add an additional $5 to the cost.</p>
-    </div>
-    <div class="col-xs-4">
-      <div class="input-group">
-        <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-        <input type="text" class="form-control marginless" ng-model="choice.amount">
-      </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
+  <button ng-click="close()" class="btn btn-default">Cancel</button>
   <button ng-click="save(choice)" class="btn btn-primary">Save</button>
 </div>

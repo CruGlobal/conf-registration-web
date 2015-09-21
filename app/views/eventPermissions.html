@@ -1,194 +1,203 @@
-<div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
-<h2 ng-show="requestedPermissions.length">Pending Users</h2>
-<table class="table table-striped" ng-show="requestedPermissions.length">
-  <thead>
-  <tr>
-    <th>User</th>
-    <th style="width:160px;">Level</th>
-    <th style="width:160px;">Requested</th>
-    <th style="width:85px;">Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="permission in requestedPermissions = (currentPermissions | filter:{ permissionLevel: 'REQUESTED' }) | orderBy: ['lastName', 'firstName', 'emailAddress']">
-      <td>
-        <span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}
-        <span ng-if="permission.reasonForRequest">
-          <br><strong>Reason: </strong>{{permission.reasonForRequest}}
-        </span>
-      </td>
-      <td>
-        <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
-          <option value="FULL">Full</option>
-          <option value="UPDATE">Update</option>
-          <option value="SCHOLARSHIP">Scholarship</option>
-          <option value="VIEW">View</option>
-          <option ng-if="permission.permissionLevel === 'REQUESTED'" value="REQUESTED">Requested</option>
-        </select>
-      </td>
-      <td>{{permission.timestamp | date:'short'}}</td>
-      <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="alert" ng-class="notify.class" ng-bind-html="notify.message" ng-show="notify.class"></div>
+    <h2 class="page-title border" ng-show="requestedPermissions.length">Pending Users</h2>
+    <div class="table-responsive">
+      <table class="table table-striped" ng-show="requestedPermissions.length">
+        <thead>
+        <tr>
+          <th class="col-xs-7">User</th>
+          <th class="col-xs-2">Level</th>
+          <th class="col-xs-2">Requested</th>
+          <th class="col-xs-1">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="permission in requestedPermissions = (currentPermissions | filter:{ permissionLevel: 'REQUESTED' }) | orderBy: ['lastName', 'firstName', 'emailAddress']">
+          <td>
+            <span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}
+            <span ng-if="permission.reasonForRequest">
+              <br><strong>Reason: </strong>{{permission.reasonForRequest}}
+            </span>
+          </td>
+          <td>
+            <select style="width: 128px" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+              <option value="FULL">Full</option>
+              <option value="UPDATE">Update</option>
+              <option value="SCHOLARSHIP">Scholarship</option>
+              <option value="VIEW">View</option>
+              <option ng-if="permission.permissionLevel === 'REQUESTED'" value="REQUESTED">Requested</option>
+            </select>
+          </td>
+          <td>{{permission.timestamp | date:'short'}}</td>
+          <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-<h2>Current Users</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th style="width:160px;">Level</th>
-      <th style="width:160px;">Last Update</th>
-      <th style="width:85px;">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="permission in currentPermissions | filter:{ permissionLevel: '!REQUESTED' } | orderBy: ['lastName', 'firstName', 'emailAddress']">
-      <td><span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}</td>
-      <td>
-        <select ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
-          <option ng-if="permission.permissionLevel === 'CREATOR'" value="CREATOR">Creator</option>
-          <option value="FULL">Full</option>
-          <option value="UPDATE">Update</option>
-          <option value="SCHOLARSHIP">Scholarship</option>
-          <option value="VIEW">View</option>
-        </select>
-      </td>
-      <td>{{permission.timestamp | date:'short'}}</td>
-      <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
-    </tr>
-    <tr>
-      <td>
-        <strong>Add User</strong>
-        <input type="text" class="form-control" placeholder="example@example.com" ng-model="addPermissionsEmail">
-      </td>
-      <td colspan="2">
-        <strong>Permission Level</strong>
-        <select ng-model="addPermissionsLevel" class="form-control">
-          <option value="FULL">Full</option>
-          <option value="UPDATE">Update</option>
-          <option value="SCHOLARSHIP">Scholarship</option>
-          <option value="VIEW">View</option>
-        </select>
-      </td>
-      <td class="text-center">
-        <br>
-        <button type="submit" class="btn btn-success " ng-click="addPermission(addPermissionsEmail, addPermissionsLevel)">Add</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <h2 class="page-title border">Current Users</h2>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th class="col-xs-7">User</th>
+          <th class="col-xs-2">Level</th>
+          <th class="col-xs-2">Last Update</th>
+          <th class="col-xs-1">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="permission in currentPermissions | filter:{ permissionLevel: '!REQUESTED' } | orderBy: ['lastName', 'firstName', 'emailAddress']">
+          <td><span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}</td>
+          <td>
+            <select style="width: 128px" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+              <option ng-if="permission.permissionLevel === 'CREATOR'" value="CREATOR">Creator</option>
+              <option value="FULL">Full</option>
+              <option value="UPDATE">Update</option>
+              <option value="SCHOLARSHIP">Scholarship</option>
+              <option value="VIEW">View</option>
+            </select>
+          </td>
+          <td>{{permission.timestamp | date:'short'}}</td>
+          <td><a href="" ng-click="deletePermission(permission.id)" class="btn btn-danger">Delete</a></td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Add User</strong>
+            <input type="text" class="form-control" placeholder="example@example.com" ng-model="addPermissionsEmail">
+          </td>
+          <td colspan="2">
+            <strong>Permission Level</strong>
+            <select ng-model="addPermissionsLevel" class="form-control">
+              <option value="FULL">Full</option>
+              <option value="UPDATE">Update</option>
+              <option value="SCHOLARSHIP">Scholarship</option>
+              <option value="VIEW">View</option>
+            </select>
+          </td>
+          <td class="text-center">
+            <br>
+            <button type="submit" class="btn btn-success " ng-click="addPermission(addPermissionsEmail, addPermissionsLevel)">Add</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
 
-
-<h3>Permission level comparison</h3>
-<table class="table">
-  <thead>
-    <tr>
-      <th></th>
-      <th style="width:140px;" class="text-center">Requested</th>
-      <th style="width:140px;" class="text-center">View</th>
-      <th style="width:140px;" class="text-center">Scholarship</th>
-      <th style="width:140px;" class="text-center">Update</th>
-      <th style="width:140px;" class="text-center">Full/Creator</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="active">
-      <th colspan="6">Event</th>
-    </tr>
-    <tr>
-      <td>Update/modify event details</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Edit/modify event questions</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Add/modify event users</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Clone event</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Archive/delete event</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr class="active">
-      <th colspan="6">Registrations</th>
-    </tr>
-    <tr>
-      <td>View/export registrations</td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Add/modify/delete registrations</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr class="active">
-      <th colspan="6">Payments and Expenses</th>
-    </tr>
-    <tr>
-      <td>View/export payments</td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Manage/add scholarship payments</td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Manage/add all payments</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-    <tr>
-      <td>Manage/add expenses and discounts</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td class="text-center"><i class="fa fa-check"></i></td>
-    </tr>
-  </tbody>
-</table>
+    <h3>Permission level comparison</h3>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th></th>
+          <th style="width:140px;" class="text-center">Requested</th>
+          <th style="width:140px;" class="text-center">View</th>
+          <th style="width:140px;" class="text-center">Scholarship</th>
+          <th style="width:140px;" class="text-center">Update</th>
+          <th style="width:140px;" class="text-center">Full/Creator</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="active">
+          <th colspan="6">Event</th>
+        </tr>
+        <tr>
+          <td>Update/modify event details</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Edit/modify event questions</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Add/modify event users</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Clone event</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Archive/delete event</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr class="active">
+          <th colspan="6">Registrations</th>
+        </tr>
+        <tr>
+          <td>View/export registrations</td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Add/modify/delete registrations</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr class="active">
+          <th colspan="6">Payments and Expenses</th>
+        </tr>
+        <tr>
+          <td>View/export payments</td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Manage/add scholarship payments</td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Manage/add all payments</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Manage/add expenses and discounts</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

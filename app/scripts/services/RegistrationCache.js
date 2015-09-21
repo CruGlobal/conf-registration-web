@@ -27,20 +27,24 @@ angular.module('confRegistrationWebApp')
     this.update = function (path, registration, cb, errorCallback) {
       if ($rootScope.registerMode === 'preview') {
         $rootScope.previewRegCache = registration;
-        cb();
+        if(cb){
+          cb();
+        }
         return;
       }
-
-      var callback = cb || function () {
-        cache.put(path, angular.copy(registration));
-        $rootScope.broadcast(path, registration);
-      };
 
       var cachedReg = cache.get(path);
       if (angular.equals(registration, cachedReg)) {
         //do nothing
       } else {
-        $http.put(path, registration).then(callback, errorCallback);
+        $http.put(path, registration).then(function(){
+          //update cache
+          cache.put(path, angular.copy(registration));
+
+          if(cb){
+            cb();
+          }
+        }, errorCallback);
       }
     };
 
@@ -80,19 +84,24 @@ angular.module('confRegistrationWebApp')
       return defer.promise;
     };
 
-    this.getAllForConference = function (conferenceId, blocks) {
+    this.updateCurrent = function(conferenceId, currentRegistration){
+      if ($rootScope.registerMode === 'preview') {
+        $rootScope.previewRegCache = currentRegistration;
+        return;
+      }
+      cache.put('conferences/' + conferenceId + '/registrations/current', angular.copy(currentRegistration));
+    };
+
+    this.getAllForConference = function (conferenceId, queryParameters) {
       var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';
 
-      var blocksStr = '';
-      if(!_.isEmpty(blocks)){
-        blocksStr = '?block=' + blocks.join('&block=');
-      }
-      $http.get('conferences/' + conferenceId + '/registrations' + blocksStr).success(function (registrations) {
+      $http.get('conferences/' + conferenceId + '/registrations', {params: queryParameters}).success(function (data) {
         $rootScope.loadingMsg = '';
-        defer.resolve(registrations);
+        defer.resolve(data);
       }).error(function(){
         $rootScope.loadingMsg = '';
+        defer.reject();
       });
 
       return defer.promise;

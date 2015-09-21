@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap', 'ui.sortable', 'wysiwyg.module'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module'])
   .config(function ($routeProvider, $injector) {
     $routeProvider
       .when('/', {
@@ -21,8 +21,16 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
-          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId);
+          currentRegistration: ['$route', '$q', '$location', 'RegistrationCache', function ($route, $q, $location, RegistrationCache) {
+            var q = $q.defer();
+            RegistrationCache.getCurrent($route.current.params.conferenceId).then(function(registration){
+              if(registration.completed && angular.isUndefined($route.current.params.pageId)){
+                $location.path('/reviewRegistration/' + $route.current.params.conferenceId);
+              }else{
+                q.resolve(registration);
+              }
+            });
+            return q.promise;
           }]
         }
       })
@@ -67,7 +75,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         templateUrl: 'views/eventDashboard.html',
         controller: 'eventDashboardCtrl',
         resolve: {
-          enforceAuth: $injector.get('enforceAuth')
+          enforceAuth: $injector.get('enforceAuth'),
+          conferences: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.get('');
+          }]
         }
       })
       .when('/eventOverview/:conferenceId', {
@@ -88,13 +99,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
         controller: 'eventRegistrationsCtrl',
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
-          registrations: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
-            var visibleBlocks = localStorage.getItem('visibleBlocks:' + $route.current.params.conferenceId);
-            if(!_.isNull(visibleBlocks)){
-              visibleBlocks = JSON.parse(visibleBlocks);
-            }
-            return RegistrationCache.getAllForConference($route.current.params.conferenceId, visibleBlocks);
-          }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -139,6 +143,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
+          }],
+          conferencePermissions: ['$route', 'ConfCache', function ($route, ConfCache) {
+            return ConfCache.getPermissions($route.current.params.conferenceId);
           }]
         }
       })
@@ -174,38 +181,32 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
       })
       .when('/logout/', {
         resolve: {
-          redirect: ['$location', '$cookies', '$window', '$http',
-            function ($location, $cookies, $window, $http) {
+          redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
+            function ($location, $cookies, $window, $http, $facebook) {
+              $http.get('auth/logout').success(function() {
+                delete $cookies.crsPreviousToken;
+                delete $cookies.crsToken;
 
-              /* if RELAY log out, delete the cookies first and then redirect.  cookies must be deleted
-               * first b/c the browser is being redirected and will not come back here.  the auth token
-               * is not needed server side before logging out */
-              if ($cookies.crsAuthProviderType  === 'RELAY') {
-                delete $cookies.crsAuthProviderType;
-                delete $cookies.crsPreviousToken;
-                delete $cookies.crsToken;
-                // make sure we come back to home page, not logout page
-                var serviceUrl = $location.absUrl().replace('logout','');
-                $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
-                /* if FACEBOOK log out, issue an async GET to retrieve the log out URL from the API
-                 * the cookies cannot be deleted first b/c the auth token is needed to access the session & identity
-                 * server side so the users access_token can be fetched to build the log out URL.
-                 * after the GET, if successful, then delete the cookies. */
-              } else if ($cookies.crsAuthProviderType === 'FACEBOOK') {
-                $http.get('/auth/facebook/logout').success(function (data, status, headers) {
+                /* if facebook, then use the FB JavaScript SDK to log out user from FB */
+                if ($cookies.crsAuthProviderType === 'FACEBOOK') {
+                  $facebook.logout().then(function () {
+                    delete $cookies.crsAuthProviderType;
+                    $location.url('/');
+                  });
+                /* if relay, then then redirect to the Relay logout URL w/ service to bring user
+                 * back to ERT home page */
+                } else if ($cookies.crsAuthProviderType  === 'RELAY') {
                   delete $cookies.crsAuthProviderType;
-                  delete $cookies.crsPreviousToken;
-                  delete $cookies.crsToken;
-                  $window.location.href = headers('X-Facebook-Logout-URL');
-                }).error(function (data, status) {
-                  alert('Logout failed: ' + status);
-                });
-              } else {
-                delete $cookies.crsAuthProviderType;
-                delete $cookies.crsPreviousToken;
-                delete $cookies.crsToken;
-                $location.url('/#');
-              }
+                  var serviceUrl = $location.absUrl().replace('logout', '');
+                  $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+                /* for no auth logins, nothing further is needed, back to ERT home page */
+                } else {
+                  delete $cookies.crsAuthProviderType;
+                  $location.url('/');
+                }
+              }).error(function (data, status) {
+                alert('Logout failed: ' + status);
+              });
             }
           ]
         }
@@ -255,4 +256,16 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ui.bootstrap'
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
+  })
+  .run(function () {
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = '//connect.facebook.net/en_US/all.js';
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  })
+  .config( function( $facebookProvider ) {
+    $facebookProvider.setAppId('217890171695297');
   });
