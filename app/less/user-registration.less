@@ -56,7 +56,7 @@ body.user-registration {
           .sans-serif-bold;
           font-size: 11px;
           display: inline-block;
-          margin-right: 5px;
+          margin-right: 11px;
           width: 20px;
           height: 20px;
           border-radius: 55px;
@@ -66,12 +66,15 @@ body.user-registration {
         }
       }
     }
-    li.active a span.circle {
-      font-size: 18px;
-      width: 30px;
-      height: 30px;
-      border: 3px solid @white;
-      line-height: 23px;
+    li.active {
+      a span.circle{
+        font-size: 14px;
+        width: 26px;
+        height: 26px;
+        border: 2px solid @white;
+        line-height: 20px;
+        margin-right: 5px;
+      }
     }
   }
   main.front-form {
@@ -117,17 +120,31 @@ body.user-registration {
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      li:not(.active) a{
+      li:not(.active):not(.valid):not(.invalid) a{
         .darkerblue;
+        .circle{
+          border-color: @darkerblue;
+        }
       }
-      .fa {
-        font-size: 120%;
+      li.invalid:not(.active){
+        background-color: #E46363;
+        :hover{
+          background-color: #F0A8A8;
+          .darkerblue;
+          .circle{
+            border-color: @darkerblue;
+          }
+        }
       }
-      .fa-check {
-        .green
-      }
-      .fa-times {
-        .red
+      li.valid:not(.active){
+        background-color: #43B37A;
+        :hover{
+          background-color: #A8DAC0;
+          .darkerblue;
+          .circle{
+            border-color: @darkerblue;
+          }
+        }
       }
       @media (min-width: 1054px) {
         display: block;

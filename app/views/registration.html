@@ -16,11 +16,9 @@
 <div class="row pageBox" ng-if="(conference.registrationOpen || registerMode === 'preview') && activePageId !== ''">
   <div class="col-xs-12">
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
-      <li ng-repeat="page in conference.registrationPages | filter:pageIsVisible" ng-class="{'active': page.id === activePageId}">
+      <li ng-repeat="page in conference.registrationPages | filter:pageIsVisible" ng-class="{'active': page.id === activePageId, 'valid': visitedPage(page.id) && pageIsValid(page.id), 'invalid': visitedPage(page.id) && !pageIsValid(page.id)}">
         <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}">
-          <i class="fa fa-check" ng-show="visitedPage(page.id) && pageIsValid(page.id)"></i>
-          <i class="fa fa-times" ng-show="visitedPage(page.id) && !pageIsValid(page.id)"></i>
-          <span class="circle" ng-show="!visitedPage(page.id)">{{$index+1}}</span>
+          <span class="circle">{{$index+1}}</span>
           <span ng-bind="page.title"></span>
         </a>
       </li>
