@@ -8,34 +8,47 @@
     <div class="row">
       <div class="col-xs-8">
         <strong>Registrations</strong><br>
-        Registrations and answers
+        Registrations and answers<br>
+        <a href="" ng-click="showAdvancedRegistrations = !showAdvancedRegistrations">{{showAdvancedRegistrations ? 'Hide' : 'Show'}} advanced options</a>
+        <div collapse="!showAdvancedRegistrations">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="includeWithdrawnRegistrants"> Include withdrawn registrants
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="includeIncompleteRegistrations"> Include incomplete registrations
+            </label>
+          </div>
+        </div>
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}" target="_blank">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}&includeWithdrawnRegistrants={{includeWithdrawnRegistrants}}&includeIncompleteRegistrations={{includeIncompleteRegistrations}}">
           <i class="fa fa-cloud-download"></i> Download
         </a>
       </div>
     </div>
-
+    <hr>
     <div class="row spacing-above-sm">
       <div class="col-xs-8">
         <strong>Payments</strong><br>
         Payment data and history
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}" target="_blank">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}">
           <i class="fa fa-cloud-download"></i> Download
         </a>
       </div>
     </div>
-
+    <hr>
     <div class="row spacing-above-sm">
       <div class="col-xs-8">
         <strong>Account Transfers</strong><br>
         Staff Account Transfer payments
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}" target="_blank">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}">
           <i class="fa fa-cloud-download"></i> Download
         </a>
       </div>
