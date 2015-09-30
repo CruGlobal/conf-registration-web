@@ -16,7 +16,7 @@
 <div class="row pageBox" ng-if="(conference.registrationOpen || registerMode === 'preview') && activePageId !== ''">
   <div class="col-xs-12">
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
-      <li ng-repeat="page in conference.registrationPages | filter:pageIsVisible" ng-class="{'active': page.id === activePageId, 'valid': visitedPage(page.id) && pageIsValid(page.id), 'invalid': visitedPage(page.id) && !pageIsValid(page.id)}">
+      <li ng-repeat="page in conference.registrationPages | filter:pageIsVisible" ng-class="{'active': page.id === activePageId, 'invalid': visitedPage(page.id) && !pageIsValid(page.id)}">
         <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" title="{{page.title}}">
           <span class="circle">{{$index+1}}</span>
           <span ng-bind="page.title"></span>
@@ -71,8 +71,7 @@
       <registration-type-select ng-if="currentRegistration.registrants.length === 0 || registerMode === 'preview'"></registration-type-select>
       <div class="row spacing-above-md" ng-if="currentRegistration.registrants.length && registerMode !== 'preview'">
         <div class="col-sm-3 col-xs-6">
-          <button class="btn btn-subtle btn-lg btn-block"
-                  ng-click="startOver()">
+          <button class="btn btn-subtle btn-lg btn-block" ng-click="startOver()">
             Start Over
           </button>
         </div>
