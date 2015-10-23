@@ -99,17 +99,23 @@ angular.module('confRegistrationWebApp')
               var registrantTypeIdMap = {};
               var blockIdMap = {};
 
-              for (var i = 0; i < conference.registrantTypes.length; i++) {
+              angular.forEach(conference.registrantTypes, function(v, i){
                 var originalRegTypeId = conference.registrantTypes[i].id;
                 var clonedRegTypeId = uuid();
                 registrantTypeIdMap[originalRegTypeId] = clonedRegTypeId;
                 conference.registrantTypes[i].id = clonedRegTypeId;
                 conference.registrantTypes[i].conferenceId = conference.id;
-              }
+
+                //clone earlyRegistrationDiscounts
+                angular.forEach(conference.registrantTypes[i].earlyRegistrationDiscounts, function(v, k){
+                  conference.registrantTypes[i].earlyRegistrationDiscounts[k].id = uuid();
+                  conference.registrantTypes[i].earlyRegistrationDiscounts[k].registrantTypeId = clonedRegTypeId;
+                });
+              });
 
               //clone conference pages
               conference.registrationPages = result.registrationPages;
-              for (i = 0; i < conference.registrationPages.length; i++) {
+              for (var i = 0; i < conference.registrationPages.length; i++) {
                 var pageUuid = uuid();
                 conference.registrationPages[i].id = pageUuid;
                 conference.registrationPages[i].conferenceId = conference.id;
