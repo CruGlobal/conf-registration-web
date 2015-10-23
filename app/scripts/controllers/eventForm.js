@@ -206,8 +206,8 @@ angular.module('confRegistrationWebApp')
         }).unique().value();
         modalMessage.error({
           'title': gettextCatalog.getString('Error Removing Question'),
-          'message': gettextCatalog.getPlural(questions.length, 'The following question has at least one rule that depends on this question:', 'The following questions have at least one rule that depends on this question:')
-            + '<ul>' + questions.join('') + '</ul>' +
+          'message': gettextCatalog.getPlural(questions.length, 'The following question has at least one rule that depends on this question:', 'The following questions have at least one rule that depends on this question:') +
+          '<ul>' + questions.join('') + '</ul>' +
             gettextCatalog.getString('Please remove the rules that depend on this question and then try deleting it again.')
         });
         return;
