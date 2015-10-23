@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-sm-8 stacked-spacing-col-sm">
           <div class="input-group input-group-lg">
-            <span class="input-group-addon">Page {{$index + 1}}</span>
+            <span class="input-group-addon" translate>Page {{$index + 1}}</span>
             <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
           </div>
         </div>
@@ -21,7 +21,7 @@
     </ul>
     <div class="panel-footer dropNewTarget" ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)">
       <i class="fa fa-plus-circle"></i>
-      <p>Drag form elements here!</p>
+      <p translate>Drag form elements here!</p>
     </div>
   </div>
 </div>
@@ -46,9 +46,9 @@
                   type="submit"
                   ng-disabled="savingAnswers"
                   ng-click="goToNext()">
-            <span ng-show="!savingAnswers && !nextPage()">Continue</span>
-            <span ng-show="!savingAnswers && nextPage()">Next Page</span>
-            <span ng-show="savingAnswers">Saving...</span>
+            <span ng-show="!savingAnswers && !nextPage()" translate>Continue</span>
+            <span ng-show="!savingAnswers && nextPage()" translate>Next Page</span>
+            <span ng-show="savingAnswers" translate>Saving...</span>
           </button>
         </div>
       </div>

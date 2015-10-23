@@ -1,38 +1,38 @@
 <dl class="dl-horizontal">
-  <dt>Payment method</dt>
+  <dt translate>Payment method</dt>
   <dd>
     <label ng-show="paymentMethods().acceptCreditCards">
       <input type="radio"
              ng-model="currentPayment.paymentType"
-             ng-value="'CREDIT_CARD'">
+             ng-value="'CREDIT_CARD'" translate>
       Credit Card
     </label>
 
     <label ng-show="paymentMethods().acceptChecks">
       <input type="radio"
              ng-model="currentPayment.paymentType"
-             ng-value="'CHECK'">
+             ng-value="'CHECK'" translate>
       Check
     </label>
 
     <label ng-show="paymentMethods().acceptTransfers">
       <input type="radio"
              ng-model="currentPayment.paymentType"
-             ng-value="'TRANSFER'">
+             ng-value="'TRANSFER'" translate>
       Cru Staff / Ministry Account Transfer
     </label>
 
     <label ng-show="paymentMethods().acceptScholarships">
       <input type="radio"
              ng-model="currentPayment.paymentType"
-             ng-value="'SCHOLARSHIP'">
+             ng-value="'SCHOLARSHIP'" translate>
       Scholarship
     </label>
   </dd>
 </dl>
 
 <dl class="dl-horizontal">
-  <dt>Amount</dt>
+  <dt translate>Amount</dt>
   <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-usd"></i></span>
@@ -42,7 +42,7 @@
              class="form-control marginless"/>
     </div>
           <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0">
-            <i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | currency:'$'}}
+            <i class="fa fa-info-circle"></i> <span translate>The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | currency:'$'}}</span>
           </span>
   </dd>
   <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">

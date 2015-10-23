@@ -1,10 +1,10 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h3>Welcome to the Event Registration Tool!</h3>
+  <h3 translate>Welcome to the Event Registration Tool!</h3>
 </div>
 <div class="modal-body">
   <div align="center">
-    <p class="lead spacing-below-xs">
+    <p class="lead spacing-below-xs" translate>
       Sign in with one of the following services:
     </p>
     <p>
@@ -12,8 +12,8 @@
       <a class="btn btn-subtle btn-spacing" ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout" title="Relay"><img src="/img/signin-relay.png"></a>
     </p>
     <p>
-      <span class="text-muted">or</span>
-      <a href="" ng-click="close()">go to the Welcome Page</a>
+      <span class="text-muted" translate>or</span>
+      <a href="" ng-click="close()" translate>go to the Welcome Page</a>
     </p>
   </div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -137,10 +137,10 @@ angular.module('confRegistrationWebApp')
 
     $scope.startOver = function(){
       modalMessage.confirm({
-        'title': 'Start Over',
-        'question': 'Are you sure you want to start over? All answers will be erased.',
-        'yesString': 'Start Over',
-        'noString': 'Cancel',
+        'title': gettextCatalog.getString('Start Over'),
+        'question': gettextCatalog.getString('Are you sure you want to start over? All answers will be erased.'),
+        'yesString': gettextCatalog.getString('Start Over'),
+        'noString': gettextCatalog.getString('Cancel'),
         'normalSize': true
       }).then(function(){
         $scope.currentRegistration.registrants = [];

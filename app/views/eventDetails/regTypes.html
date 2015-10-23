@@ -1,5 +1,5 @@
-<h2 class="page-title border">Registration Types</h2>
-<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these registrant types into the order that people registering will see them.</p>
+<h2 class="page-title border" translate>Registration Types</h2>
+<p class="text-muted"><i class="fa fa-info-circle"></i> <span translate>By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these registrant types into the order that people registering will see them.</span></p>
 
 <div ui-tree>
   <div ui-tree-nodes="" ng-model="conference.registrantTypes">
@@ -12,11 +12,11 @@
               <i class="fa fa-bars fa-inset fa-inset-reg-type" ui-tree-handle></i>
             </div>
             <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
-              <label>Name <em class="required">*</em></label>
+              <label translate>Name</label>
               <input type="text" class="form-control" ng-model="type.name">
             </div>
             <div class="col-md-3 col-md-pull-3 stacked-spacing-">
-              <label>Cost <em class="required">*</em></label>
+              <label translate>Cost</label>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
                 <input type="text" class="form-control" ng-model="type.cost">
@@ -25,50 +25,50 @@
           </div>
         </div>
         <div class="panel-body" collapse="!openWell[type.id]">
-          <button class="btn btn-xs btn-danger reg-type-delete" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Registration Type</span></button>
+          <button class="btn btn-xs btn-danger reg-type-delete" ng-click="deleteRegType(type.id)"><i class="fa fa-trash-o"></i> <span translate>Delete</span> <span class="hidden-xs" translate>Registration Type</span></button>
           <div class="row">
             <div class="col-md-6">
-              <h4>Registration Form</h4>
+              <h4 translate>Registration Form</h4>
               <div class="input-group">
-                <label>Description</label>
+                <label translate>Description</label>
                 <textarea class="form-control" ng-model="type.description"></textarea>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.hidden">
+                  <input type="checkbox" ng-model="type.hidden" translate>
                   Hide from Registration Form
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
+                   popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.allowGroupRegistrations">
+                  <input type="checkbox" ng-model="type.allowGroupRegistrations" translate>
                   Allow Family Registrations
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration."
+                   popover="{{'When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.groupSubRegistrantType">
+                  <input type="checkbox" ng-model="type.groupSubRegistrantType" translate>
                   Family-only Registration Type
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
+                   popover="{{'When checked, this registrant type will not become available or visible to registrants until at least one registrant which has \'Allow Family Registrations\' checked has been added to the registration (e.g. \'Staff\' registrant type with \'Allow Family Registrations\' must be registered before the \'Child\' registrant type with \'Family-only Registration Type\' becomes an available option)' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.useLimit">
+                  <input type="checkbox" ng-model="type.useLimit" translate>
                   Limit the number of registrants
                 </label>
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
@@ -76,32 +76,32 @@
             </div>
 
             <div class="col-md-6">
-              <h4>Payment</h4>
+              <h4 translate>Payment</h4>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptCreditCards">
+                  <input type="checkbox" ng-model="type.acceptCreditCards" translate>
                   Accept Credit Cards
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="Enter credit card processing details under the Payment Options tab."
+                   popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
                    popover-trigger="mouseenter">
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptChecks">
+                  <input type="checkbox" ng-model="type.acceptChecks" translate>
                   Accept Checks
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptTransfers">
+                  <input type="checkbox" ng-model="type.acceptTransfers" translate>
                   Accept Account Transfers
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptScholarships">
+                  <input type="checkbox" ng-model="type.acceptScholarships" translate>
                   Accept Scholarships
                 </label>
               </div>
@@ -109,7 +109,7 @@
               <hr>
               <div class="form-group">
                 <div class="col-xs-12">
-                  <h4>Early Registration Discount(s)</h4>
+                  <h4 translate>Early Registration Discount(s)</h4>
                 </div>
               </div>
               <div class="form-group" ng-repeat="discount in type.earlyRegistrationDiscounts">
@@ -117,17 +117,17 @@
                   <button class="btn btn-xs btn-default reg-type-delete" ng-click="type.earlyRegistrationDiscounts.splice($index,1)"><i class="fa fa-trash-o"></i> Remove<span class="hidden-xs"> Discount</span></button>
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" ng-model="discount.enabled">
+                      <input type="checkbox" ng-model="discount.enabled" translate>
                       Enabled
                     </label>
                   </div>
                 </div>
                 <div class="col-sm-8 stacked-spacing-col-sm">
-                  <label>If registered by</label>
+                  <label translate>If registered by</label>
                   <crs-datetimepicker model="discount.deadline" ng-disabled="!discount.enabled"></crs-datetimepicker>
                 </div>
                 <div class="col-sm-4">
-                  <label>Discount</label>
+                  <label translate>Discount</label>
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-usd"></i></span>
                     <input type="text" class="form-control" ng-model="discount.amountOfDiscount" ng-disabled="!discount.enabled">
@@ -137,34 +137,34 @@
               <div class="form-group">
                 <div class="col-xs-12">
                   <a href="" ng-click="addEarlyRegistrationDiscount(type)">
-                    <i class="fa fa-plus"></i> Add Discount
+                    <i class="fa fa-plus"></i> <span translate>Add Discount</span>
                   </a>
                 </div>
               </div>
 
               <hr>
               <div class="input-group" ng-if="conference.requireLogin && anyPaymentMethodAccepted(type)">
-                <label>Minimum Payment to Register</label>
+                <label translate>Minimum Payment to Register</label>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-usd"></i></span>
                   <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
                 </div>
-                <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
+                <p class="text-muted"><i class="fa fa-info-circle"></i> <span translate>If blank, full cost will be required at time of registration.</span></p>
               </div>
 
               <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
-                <label>Minimum Payment to Register</label>
+                <label translate>Minimum Payment to Register</label>
                 <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must be signed in order to accept multiple payments. Require sign in under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
-                <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> You must accept a at least one payment method in order to set a minimum payment.</p>
+                <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> <span translate>You must accept a at least one payment method in order to set a minimum payment.</span></p>
               </div>
             </div>
           </div>
 
           <div class="form-group">
             <div class="col-xs-12">
-              <label>Confirmation Email</label>
+              <label translate>Confirmation Email</label>
               <i class="question-popover fa fa-question-circle"
-                 popover="Your event name, start time and end time will be included in the email by default"
+                 popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
                  popover-trigger="mouseenter">
               </i>
               <wysiwyg textarea-class="form-control" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
@@ -177,5 +177,5 @@
 </div>
 
 <a href="" ng-click="addRegType()">
-  <i class="fa fa-plus"></i> Add Registration Type
+  <i class="fa fa-plus"></i> <span translate>Add Registration Type</span>
 </a>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -79,11 +79,11 @@ angular.module('confRegistrationWebApp')
         can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
         */
       if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
+        $scope.currentPayment.errors.push(gettextCatalog.getString('You are required to pay at least the minimum deposit of {{minDeposit}} to register for this event.', {minDeposit: $filter('currency')(registration.calculatedMinimumDeposit, '$')}));
       }
 
       if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
+        $scope.currentPayment.errors.push(gettextCatalog.getString('You are paying more than the total due of {{remainingBalance}} to register for this event.', {remainingBalance: $filter('currency')(registration.remainingBalance, '$')}));
       }
       if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
         setRegistrationAsCompleted();
@@ -92,7 +92,7 @@ angular.module('confRegistrationWebApp')
 
       if (!_.isEmpty($scope.currentPayment.errors)) {
         modalMessage.error({
-          'title': 'Please correct the following errors:',
+          'title': gettextCatalog.getString('Please correct the following errors:'),
           'message': $scope.currentPayment.errors
         });
         $scope.submittingRegistration = false;
@@ -120,7 +120,7 @@ angular.module('confRegistrationWebApp')
           currentPayment.creditCard.cvvNumber = ccp.encrypt(currentPayment.creditCard.cvvNumber);
           postPayment(currentPayment);
         }).error(function() {
-          modalMessage.error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
+          modalMessage.error(gettextCatalog.getString('An error occurred while requesting the ccp encryption key. Please try your payment again.'));
         });
       }else{
         postPayment(currentPayment);
@@ -138,7 +138,7 @@ angular.module('confRegistrationWebApp')
       }).error(function () {
         $scope.submittingRegistration = false;
         modalMessage.error({
-          'message': 'Your payment was declined, please verify your details or use a different payment method.',
+          'message': gettextCatalog.getString('Your payment was declined, please verify your details or use a different payment method.'),
           'forceAction': true
         });
       });
@@ -153,7 +153,7 @@ angular.module('confRegistrationWebApp')
       }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.errorMessage ? data.data.errorMessage : ''));
+        modalMessage.error(gettextCatalog.getString('An error occurred while submitting your registration.') + ' ' + (data.data.errorMessage ? data.data.errorMessage : ''));
       });
     };
 
@@ -163,15 +163,15 @@ angular.module('confRegistrationWebApp')
 
     $scope.removeRegistrant = function (id) {
       modalMessage.confirm({
-        'title': 'Delete registrant?',
-        'question': 'Are you sure you want to delete this registrant?'
+        'title': gettextCatalog.getString('Delete registrant'),
+        'question': gettextCatalog.getString('Are you sure you want to delete this registrant?')
       }).then(function(){
         _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
         RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
           $route.reload();
         }, function(){
           modalMessage.error({
-            'message': 'An error occurred while removing registrant.'
+            'message': gettextCatalog.getString('An error occurred while removing registrant.')
           });
           $route.reload();
         });

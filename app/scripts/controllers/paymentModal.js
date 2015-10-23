@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants) {
+  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants, gettextCatalog) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.currentYear = new Date().getFullYear();
@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
       amount: 0,
       sendEmailReceipt: false
     };
-    var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
+    var permissionRequiredMsg = gettextCatalog.getString('You do not have permission to perform this action. Please contact an event administrator to request permission.');
 
     $scope.close = function () {
       $modalInstance.close($scope.registration);
@@ -32,17 +32,17 @@ angular.module('confRegistrationWebApp')
 
     $scope.processTransaction = function () {
       if (_.isEmpty($scope.newTransaction.paymentType)) {
-        modalMessage.error('Please select a transaction type.');
+        modalMessage.error(gettextCatalog.getString('Please select a transaction type.'));
         return;
       }
       if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
-        modalMessage.error('Transaction amount must be a positive number.');
+        modalMessage.error(gettextCatalog.getString('Transaction amount must be a positive number.'));
         return;
       }
       if ($scope.newTransaction.paymentType === 'CREDIT_CARD') {
         var validationError = ccp.validateCardNumber($scope.newTransaction.creditCard.number || '');
         if(validationError){
-          modalMessage.error('Please enter a valid card number. The ' + validationError + '.');
+          modalMessage.error(gettextCatalog.getString('Please enter a valid card number.') + ' The ' + validationError + '.');
           return;
         }
       }
@@ -50,7 +50,7 @@ angular.module('confRegistrationWebApp')
       if(permissions.permissionInt < permissionConstants.UPDATE){
         if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
           if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
-            modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
+            modalMessage.error(gettextCatalog.getString('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.'));
             return;
           }
         }else{
@@ -93,7 +93,7 @@ angular.module('confRegistrationWebApp')
           postTransaction(path, transaction);
         }).error(function() {
           $scope.processing = false;
-          modalMessage.error('An error occurred while requesting the ccp encryption key.');
+          modalMessage.error(gettextCatalog.getString('An error occurred while requesting the ccp encryption key.'));
         });
       }else{
         postTransaction(path, transaction);
@@ -194,13 +194,13 @@ angular.module('confRegistrationWebApp')
       }
 
       modalMessage.confirm({
-        'title': 'Delete Expense?',
-        'question': 'Are you sure you want to delete this expense?'
+        'title': gettextCatalog.getString('Delete Expense'),
+        'question': gettextCatalog.getString('Are you sure you want to delete this expense?')
       }).then(function(){
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
         }).error(function () {
-          modalMessage.error('An error occurred while deleting this expense.');
+          modalMessage.error(gettextCatalog.getString('An error occurred while deleting this expense.'));
         });
       });
 
@@ -214,7 +214,7 @@ angular.module('confRegistrationWebApp')
         loadPayments();
         delete $scope.editPayment;
       }).error(function(){
-        modalMessage.error('Payment could not be saved. Please verify all required fields are filled in correctly.');
+        modalMessage.error(gettextCatalog.getString('Payment could not be saved. Please verify all required fields are filled in correctly.'));
       });
     };
 
@@ -257,13 +257,13 @@ angular.module('confRegistrationWebApp')
         return;
       }
       modalMessage.confirm({
-        'title':'Delete payment?',
-        'question': 'Are you sure you want to delete this payment?'
+        'title': gettextCatalog.getString('Delete payment'),
+        'question': gettextCatalog.getString('Are you sure you want to delete this payment?')
       }).then(function(){
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
         }).error(function () {
-          modalMessage.error('An error occurred while deleting this payment.');
+          modalMessage.error(gettextCatalog.getString('An error occurred while deleting this payment.'));
         });
       });
     };

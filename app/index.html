@@ -54,6 +54,7 @@
   <script src="bower_components/ng-facebook/ngFacebook.js"></script>
   <script src="components/angular-wysiwyg-custom.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+  <script src="bower_components/angular-gettext/dist/angular-gettext.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/eventApp.js -->
@@ -141,7 +142,7 @@
 <div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
   <div class="alert alert-warning growl-message" ng-show="growlMessage">
     <button type="button" class="close" ng-click="growlMessage=''">&times;</button>
-    <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link">Undo</a></p>
+    <p>{{growlMessage}} <a href="" ng-click="growlUndo()" class="alert-link" translate>Undo</a></p>
   </div>
   <header id="masthead">
     <div class="container">
@@ -156,21 +157,21 @@
         </div>
         <div class="col-sm-4 text-right" ng-if="globalGreetingName">
           <div class="btn-group usr-greeting spacing-below-xs" dropdown>
-            <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName"></strong></button>
+            <button type="button" class="btn btn-default name-btn"><span translate>Hello</span> <strong ng-bind="globalGreetingName"></strong></button>
             <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
               <span class="caret"></span>
               <span class="sr-only">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right" role="menu">
-              <li><a href="#/eventDashboard/"><i class="fa fa-users"></i> My Dashboard</a></li>
-              <li><a href="#/help/"><i class="fa fa-medkit"></i> I Need Help!</a></li>
-              <li><a href="#/logout/"><i class="fa fa-sign-out"></i> Sign out</a></li>
+              <li><a href="#/eventDashboard/"><i class="fa fa-users"></i> <span translate>My Dashboard</span></a></li>
+              <li><a href="#/help/"><i class="fa fa-medkit"></i> <span translate>I Need Help!</span></a></li>
+              <li><a href="#/logout/"><i class="fa fa-sign-out"></i> <span translate>Sign out</span></a></li>
             </ul>
           </div>
         </div>
         <div class="col-sm-4 text-right" ng-if="!globalGreetingName">
           <div class="btn-group usr-greeting spacing-below-xs">
-            <a href="#/eventDashboard" class="btn btn-default name-btn">Event Dashboard</a>
+            <a href="#/eventDashboard" class="btn btn-default name-btn" translate>Event Dashboard</a>
           </div>
         </div>
       </div>
@@ -217,22 +218,22 @@
           </a>
         </div>
         <div class="col-sm-2 text-right hidden-xs">
-          <a href="#/logout" class="btn btn-primary btn-important">Sign out</a>
+          <a href="#/logout" class="btn btn-primary btn-important" translate>Sign out</a>
         </div>
       </div>
     </div>
   </section>
 
   <div class="row previewRow" ng-show="registerMode === 'preview'">
-    <div class="col-xs-12" style="font-size:24px;">
+    <div class="col-xs-12" style="font-size:24px;" translate>
       Preview Mode
     </div>
     <div class="col-xs-12">
       <ul class="list-inline preview-nav">
-        <li><a ng-href="#/eventOverview/{{globalPage.confId}}">Overview</a></li>
-        <li><a ng-href="#/eventRegistrations/{{globalPage.confId}}">Registrations</a></li>
-        <li><a ng-href="#/eventDetails/{{globalPage.confId}}">Details</a></li>
-        <li><a ng-href="#/eventForm/{{globalPage.confId}}">Questions</a></li>
+        <li><a ng-href="#/eventOverview/{{globalPage.confId}}" translate>Overview</a></li>
+        <li><a ng-href="#/eventRegistrations/{{globalPage.confId}}" translate>Registrations</a></li>
+        <li><a ng-href="#/eventDetails/{{globalPage.confId}}" translate>Details</a></li>
+        <li><a ng-href="#/eventForm/{{globalPage.confId}}" translate>Questions</a></li>
       </ul>
     </div>
   </div>
@@ -245,8 +246,8 @@
     <div class="row">
       <div class="col-sm-8">
         <ul class="list-inline">
-          <li><a href="#/privacy/">Privacy Policy</a></li>
-          <li><a href="#/help/">Help</a></li>
+          <li><a href="#/privacy/" translate>Privacy Policy</a></li>
+          <li><a href="#/help/" translate>Help</a></li>
           <!-- build:remove:dist -->
           <li><a ng-href="http://localhost:9000/#/auth/{{crsToken}}">Local Dev Environment</a></li>
           <!-- /build -->
@@ -261,7 +262,7 @@
 
 <footer id="frontfooter" ng-if="globalPage.type === 'registration'">
   <div class="container">
-    <span>&copy; 2014 | Created with Event Registration Tool, powered by <a href="http://www.cru.org" target="_blank">Cru</a></span>
+    <span>&copy; 2014 | <span translate>Created with Event Registration Tool, powered by</span> <a href="http://www.cru.org" target="_blank">Cru</a></span>
   </div>
 </footer>
 <script>

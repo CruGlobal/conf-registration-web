@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-xs-12">
         <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length}} of {{conferences.length}}</strong> events</p>
-        <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> Loading events...</p>
+        <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> <span translate>Loading events...</span></p>
       </div>
     </div>
     <div class="row spacing-below-sm">
       <div class="col-sm-8">
-        <button ng-click="createEvent()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-plus"></i> Create New Event</button>
-        <button ng-click="requestAccess()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-key"></i> Request Access to Existing Event</button>
+        <button ng-click="createEvent()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-plus"></i> <span translate>Create New Event</span></button>
+        <button ng-click="requestAccess()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-key"></i> <span translate>Request Access to Existing Event</span></button>
       </div>
       <div class="col-sm-4">
         <div class="form-group has-feedback has-clear">
@@ -31,27 +31,27 @@
         </button>
         <h2>{{event.name}}</h2>
         <ul class="list-inline" ng-if="!event.archived">
-          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
-          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
-          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
-          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" translate>Registrations</a></li>
+          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();" translate>Details</a></li>
+          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();" translate>Questions</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();" translate>Clone</a></li>
         </ul>
         <ul class="list-inline" ng-if="event.archived">
-          <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
-          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+          <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();" translate>Restore Event</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();" translate>Clone</a></li>
         </ul>
       </li>
     </ul>
     <!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
 		<a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
     <label>
-      <input type="checkbox" ng-model="showArchivedEvents"> Show archived events
+      <input type="checkbox" ng-model="showArchivedEvents" translate> Show archived events
     </label>
   </div>
   <aside class="col-md-3 welcome hidden-xs hidden-sm divider-left-col-md">
     <section>
-      <h3>Welcome</h3>
-      <p>Welcome to the Event Registration Tool (Beta).</p>
+      <h3 translate>Welcome</h3>
+      <p translate>Welcome to the Event Registration Tool (Beta).</p>
     </section>
   </aside>
 </div>

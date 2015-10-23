@@ -251,6 +251,13 @@ module.exports = function (grunt) {
         src: '*.js',
         dest: '<%= yeoman.dist %>/scripts'
       }
+    },
+    nggettext_extract: {
+      pot: {
+        files: {
+          'languages/ert.pot': ['<%= yeoman.app %>/**/**.html', '<%= yeoman.app %>/scripts/controllers/*.js']
+        }
+      }
     }
   });
 
@@ -315,5 +322,11 @@ module.exports = function (grunt) {
         'uglify'
       ]);
     }
+  });
+
+  grunt.registerTask('gettext', function () {
+    return grunt.task.run([
+      'nggettext_extract'
+    ]);
   });
 };

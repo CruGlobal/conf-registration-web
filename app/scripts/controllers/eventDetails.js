@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -17,11 +17,11 @@ angular.module('confRegistrationWebApp')
     }
 
     $scope.tabs = [
-      {id: 'eventInfo', name: 'Event Information', view: 'views/eventDetails/eventInformation.html'},
-      {id: 'regOptions', name: 'Registration Options', view: 'views/eventDetails/regOptions.html'},
-      {id: 'regTypes', name: 'Registration Types', view: 'views/eventDetails/regTypes.html'},
-      {id: 'paymentOptions', name: 'Payment Options', view: 'views/eventDetails/paymentOptions.html'},
-      {id: 'contactInfo', name: 'Contact Information', view: 'views/eventDetails/contactInfo.html'}
+      {id: 'eventInfo', name: gettextCatalog.getString('Event Information'), view: 'views/eventDetails/eventInformation.html'},
+      {id: 'regOptions', name: gettextCatalog.getString('Registration Options'), view: 'views/eventDetails/regOptions.html'},
+      {id: 'regTypes', name: gettextCatalog.getString('Registration Types'), view: 'views/eventDetails/regTypes.html'},
+      {id: 'paymentOptions', name: gettextCatalog.getString('Payment Options'), view: 'views/eventDetails/paymentOptions.html'},
+      {id: 'contactInfo', name: gettextCatalog.getString('Contact Information'), view: 'views/eventDetails/contactInfo.html'}
     ];
 
     $scope.changeTab = function(tab){
@@ -39,10 +39,10 @@ angular.module('confRegistrationWebApp')
       if(!angular.equals(conference, $scope.conference)){
         event.preventDefault();
         modalMessage.confirm({
-          title: 'Warning: Unsaved Changes',
-          question: 'You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.',
-          yesString: 'Discard changes',
-          noString: 'Stay on this page',
+          title: gettextCatalog.getString('Warning: Unsaved Changes'),
+          question: gettextCatalog.getString('You have some unsaved changes on this page, are you sure you want to leave? Your changes will be lost.'),
+          yesString: gettextCatalog.getString('Discard changes'),
+          noString: gettextCatalog.getString('Stay on this page'),
           normalSize: true
         }).then(function(){
           conference = angular.copy($scope.conference);
@@ -65,7 +65,7 @@ angular.module('confRegistrationWebApp')
       } else {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('You must have at least one registration type per event.')
+          message: gettextCatalog.getString('You must have at least one registration type per event.')
         };
         $timeout(function() { $scope.notify = {}; }, 3500);
       }
@@ -81,23 +81,23 @@ angular.module('confRegistrationWebApp')
 
       //Event Name
       if (_.isEmpty($scope.conference.name)) {
-        validationErrors.push('Please enter an event name.');
+        validationErrors.push(gettextCatalog.getString('Please enter an event name.'));
       }
 
       //Event Dates
       if ($scope.conference.eventStartTime > $scope.conference.eventEndTime) {
-        validationErrors.push('Event end date/time must be after event start date/time.');
+        validationErrors.push(gettextCatalog.getString('Event end date/time must be after event start date/time.'));
       }
 
       //Registration Window
       if ($scope.conference.registrationStartTime > $scope.conference.registrationEndTime) {
-        validationErrors.push('Registration end date/time must be after registration start date/time.');
+        validationErrors.push(gettextCatalog.getString('Registration end date/time must be after registration start date/time.'));
       }
 
       //Registrant Name
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (_.isEmpty(t.name)) {
-          validationErrors.push('Please enter a name for all registration types.');
+          validationErrors.push(gettextCatalog.getString('Please enter a name for all registration types.'));
         }
       });
 
@@ -105,13 +105,13 @@ angular.module('confRegistrationWebApp')
       angular.forEach($scope.conference.registrantTypes, function(t) {
         t.cost = Number(t.cost);
         if ( _.isNaN(t.cost) || t.cost < 0) {
-          validationErrors.push('Event cost for \'' + t.name + '\' must be a positive number.');
+          validationErrors.push(gettextCatalog.getString('Event cost for "{{typeName}}" must be a positive number.', {typeName: t.name}));
         }
       });
 
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
-        validationErrors.push('Please enter a credit card Account ID.');
+        validationErrors.push(gettextCatalog.getString('Please enter a credit card Account ID.'));
       }
 
       //Minimum Deposit
@@ -119,7 +119,7 @@ angular.module('confRegistrationWebApp')
         if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
           t.minimumDeposit = Number(t.minimumDeposit);
           if (t.minimumDeposit > t.cost) {
-            validationErrors.push('The minimum deposit for \'' + t.name + '\' must be less than the cost.');
+            validationErrors.push(gettextCatalog.getString('The minimum deposit for "{{typeName}}" must be less than the cost.', {typeName: t.name}));
           }
         } else {
           t.minimumDeposit = null;
@@ -132,10 +132,10 @@ angular.module('confRegistrationWebApp')
           if (d.enabled) {
             d.amountOfDiscount = Number(d.amountOfDiscount);
             if (d.amountOfDiscount <= 0) {
-              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must be a positive number.');
+              validationErrors.push(gettextCatalog.getString('Early registration discount {{discountIndex}} for "{{typeName}}" must be a positive number.', {typeName: t.name, discountIndex: index + 1}));
             }
             if (!d.deadline) {
-              validationErrors.push('Early registration discount ' + (index + 1) + ' for \'' + t.name + '\' must include a valid date and time.');
+              validationErrors.push(gettextCatalog.getString('Early registration discount {{discountIndex}} for "{{typeName}}" must include a valid date and time.', {typeName: t.name, discountIndex: index + 1}));
             }
           }
         });
@@ -143,19 +143,19 @@ angular.module('confRegistrationWebApp')
 
       $window.scrollTo(0, 0);
       if (validationErrors.length > 0) {
-        var errorMsg = '<strong>Error!</strong> Please fix the following issues:<ul>';
+        var errorMsg = '<strong>' + gettextCatalog.getString('Error!') + '</strong> ' + gettextCatalog.getString('Please fix the following issues:') + '<ul>';
         angular.forEach(validationErrors, function (e) {
           errorMsg = errorMsg + '<li>' + e + '</li>';
         });
         errorMsg = errorMsg + '</ul>';
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml(errorMsg)
+          message: errorMsg
         };
       } else {
         $scope.notify = {
           class: 'alert-warning',
-          message: $sce.trustAsHtml('Saving...')
+          message: gettextCatalog.getString('Saving...')
         };
 
         $http(
@@ -165,7 +165,7 @@ angular.module('confRegistrationWebApp')
         }).success(function () {
             $scope.notify = {
               class: 'alert-success',
-              message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
+              message: gettextCatalog.getString('<strong>Saved!</strong> Your event details have been updated.')
             };
 
             conference = angular.copy($scope.conference);
@@ -174,7 +174,7 @@ angular.module('confRegistrationWebApp')
           }).error(function (data) {
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
+              message: data.errorMessage
             };
           });
       }
@@ -201,12 +201,12 @@ angular.module('confRegistrationWebApp')
       var eventStartTime = moment(conference.eventStartTime).format('dddd, MMMM D YYYY, h:mm a');
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
       modalMessage.info({
-        'title': 'Email Preview',
+        'title': gettextCatalog.getString('Email Preview'),
         'message': '<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
         '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
         '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
         reg.customConfirmationEmailText,
-        'okString': 'Close'
+        'okString': gettextCatalog.getString('Close')
       });
     };
   });

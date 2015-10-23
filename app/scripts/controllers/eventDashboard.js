@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http, Model, uuid) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http, Model, uuid, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-dashboard',
       bodyClass: '',
-      title: 'My Dashboard',
+      title: gettextCatalog.getString('My Dashboard'),
       confId: 0,
       footer: true
     };

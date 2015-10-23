@@ -1,25 +1,25 @@
-<h2 class="page-title border">Payment Options</h2>
+<h2 class="page-title border" translate>Payment Options</h2>
 
 <div class="bs-callout bs-callout-info" ng-show="!acceptedPaymentMethods().acceptCreditCards && !acceptedPaymentMethods().acceptChecks">
-  <h4>No applicable payment methods accepted</h4>
+  <h4 translate>No applicable payment methods accepted</h4>
   <p>You must accept credit cards or checks for at least one <a href ng-click="changeTab(tabs[2])">registration type</a> before payment options can be set.</p>
 </div>
 <div class="panel panel-default" ng-show="acceptedPaymentMethods().acceptCreditCards">
   <div class="panel-heading">
-    <h3 class="panel-title">Credit Card</h3>
+    <h3 class="panel-title" translate>Credit Card</h3>
   </div>
   <div class="panel-body">
-    <p class="text-muted"><i class="fa fa-info-circle"></i> If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor. For information on obtaining a merchant account, please contact <a href="mailto:financial.services@ccci.org">financial.services@ccci.org</a>.</p>
+    <p class="text-muted"><i class="fa fa-info-circle"></i> <span translate>If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor. For information on obtaining a merchant account, please contact</span> <a href="mailto:financial.services@ccci.org">financial.services@ccci.org</a>.</p>
     <div class="form-group">
       <div class="col-sm-6">
-        <label>Payment Gateway:</label>
+        <label translate>Payment Gateway:</label>
         <select class="form-control" ng-model="conference.paymentGatewayType" ng-options="gateway.id as gateway.name for gateway in paymentGateways"></select>
       </div>
       <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
-        <label>Account ID:</label>
+        <label translate>Account ID:</label>
         <p>{{conference.paymentGatewayId}}
           <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
-            <i class="fa fa-pencil"></i> Edit
+            <i class="fa fa-pencil"></i> <span translate>Edit</span>
           </button>
         </p>
       </div>
@@ -27,13 +27,13 @@
     <div ng-show="!conference.paymentGatewayKeySaved">
       <div class="form-group">
         <div class="col-xs-12">
-          <label>Account ID:</label>
+          <label translate>Account ID:</label>
           <input class="form-control" type="text" ng-model="conference.paymentGatewayId" autocomplete="off">
         </div>
       </div>
       <div class="form-group">
         <div class="col-xs-12">
-          <label>Key:</label>
+          <label translate>Key:</label>
           <input class="form-control" type="text" ng-model="conference.paymentGatewayKey" autocomplete="off">
         </div>
       </div>
@@ -43,18 +43,18 @@
 
 <div class="panel panel-default" ng-show="acceptedPaymentMethods().acceptChecks">
   <div class="panel-heading">
-    <h3 class="panel-title">Checks</h3>
+    <h3 class="panel-title" translate>Checks</h3>
   </div>
   <div class="panel-body">
     <div class="form-group">
       <div class="col-xs-12">
-        <label>Make checks payable to:</label>
+        <label translate>Make checks payable to:</label>
         <input class="form-control" type="text" ng-model="conference.checkPayableTo">
       </div>
     </div>
     <div class="form-group">
       <div class="col-xs-12">
-        <label>Mail checks to:</label>
+        <label translate>Mail checks to:</label>
         <input type="text" class="form-control" placeholder="Address" ng-model="conference.checkMailingAddress">
       </div>
     </div>
@@ -127,10 +127,10 @@
 
 <div class="panel panel-default" ng-show="conference.cruEvent">
   <div class="panel-heading">
-    <h3 class="panel-title">Cru Event Chartfield</h3>
+    <h3 class="panel-title" translate>Cru Event Chartfield</h3>
   </div>
   <div class="panel-body">
-    <p>Through which chartfield will you run this event's income and expenses?</p>
+    <p translate>Through which chartfield will you run this event's income and expenses?</p>
     <div class="row form-group">
       <div class="col-sm-3">
         <label>Business Unit</label>
@@ -138,17 +138,17 @@
       </div>
 
       <div class="col-sm-3">
-        <label>Operating Unit</label>
+        <label translate>Operating Unit</label>
         <input ng-model="conference.operatingUnit" type="text" class="form-control">
       </div>
 
       <div class="col-sm-3">
-        <label>Department</label>
+        <label translate>Department</label>
         <input ng-model="conference.department" type="text" class="form-control">
       </div>
 
       <div class="col-sm-3">
-        <label>Project Id</label>
+        <label translate>Project Id</label>
         <input ng-model="conference.projectId" type="text" class="form-control">
       </div>
     </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-questions',
@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
         formSaving = false;
         $scope.notify = {
           class: 'alert-success',
-          message: $sce.trustAsHtml('<strong>Saved!</strong> Your form has been saved.')
+          message: gettextCatalog.getString('<strong>Saved!</strong> Your form has been saved.')
         };
 
         //Update cache
@@ -65,7 +65,7 @@ angular.module('confRegistrationWebApp')
         formSaving = false;
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
+          message: data.errorMessage
         };
       });
     };
@@ -80,8 +80,8 @@ angular.module('confRegistrationWebApp')
 
       if (_.some(page.blocks, 'profileType', ['EMAIL', 'NAME'])) {
         modalMessage.error({
-          'title': 'Error Deleting Page',
-          'message': 'This page contains required profile questions and cannot be deleted.'
+          'title': gettextCatalog.getString('Error Deleting Page'),
+          'message': gettextCatalog.getString('This page contains required profile questions and cannot be deleted.')
         });
         return;
       }
@@ -90,19 +90,24 @@ angular.module('confRegistrationWebApp')
       var blocksNotOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), function(block){ return block.pageId !== page.id; });
       var rulesToBeRemoved = _.where(_.flatten(blocksNotOnPage, 'rules'), function(rule){ return _.contains(_.pluck(blocksOnPage, 'id'), rule.parentBlockId); });
 
-      var confirmMessage = '<p>Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will be deleted.</p>' : '</p>');
+      var confirmMessage = '<p>' + gettextCatalog.getString('Are you sure you want to delete <strong>{{pageTitle}}</strong>?', {pageTitle: page.title}) + (page.blocks.length ? ' ' + gettextCatalog.getString('All questions on this page will be deleted.') : '') + '</p>';
       if(rulesToBeRemoved.length){
-        confirmMessage += '<p>The following rules will also be deleted:</p><ul>';
+        confirmMessage += '<p>' + gettextCatalog.getString('The following rules will also be deleted:') + '</p><ul>';
         angular.forEach(rulesToBeRemoved, function(rule){
           var parentBlock = _.find(blocksOnPage, { 'id': rule.parentBlockId });
           var block = _.find(blocksNotOnPage, { 'id': rule.blockId });
 
-          confirmMessage += '<li><strong>' + $sanitize(parentBlock.title) + '</strong> ' + rule.operator + ' <strong>' + rule.value + '</strong> on <strong>' + $sanitize(block.title) + '</strong>.</li>';
+          confirmMessage += '<li>' + gettextCatalog.getString('<strong>{{parentBlockTitle}}</strong> {{ruleOperator}} <strong>{{ruleValue}}</strong> on <strong>{{blockTitle}}</strong>.', {
+                blockTitle: $sanitize(block.title),
+                parentBlockTitle: $sanitize(parentBlock.title),
+                ruleOperator: rule.operator,
+                ruleValue: rule.value
+              })  + '</li>';
         });
         confirmMessage += '</ul>';
       }
       modalMessage.confirm({
-        'title': 'Delete Page',
+        'title': gettextCatalog.getString('Delete Page'),
         'question': confirmMessage,
         'normalSize': true
       }).then(function(){
@@ -199,13 +204,11 @@ angular.module('confRegistrationWebApp')
           var block = _.find(allBlocks, {'id': rule.blockId});
           return '<li>' + $sanitize(block.title) + '</li>';
         }).unique().value();
-        var pluralize = 'question has';
-        if(questions.length > 1){
-          pluralize = 'questions have';
-        }
         modalMessage.error({
-          'title': 'Error Removing Question',
-          'message': 'The following ' + pluralize + ' at least one rule that depends on this question:<ul>' + questions.join('') + '</ul>Please remove the rules that depend on this question and then try deleting it again.'
+          'title': gettextCatalog.getString('Error Removing Question'),
+          'message': gettextCatalog.getPlural(questions.length, 'The following question has at least one rule that depends on this question:', 'The following questions have at least one rule that depends on this question:')
+            + '<ul>' + questions.join('') + '</ul>' +
+            gettextCatalog.getString('Please remove the rules that depend on this question and then try deleting it again.')
         });
         return;
       }
@@ -213,7 +216,7 @@ angular.module('confRegistrationWebApp')
       if (growl) {
         var t = makePositionArray();
         var block = $scope.conference.registrationPages[t[blockId].page].blocks[t[blockId].block];
-        var message = '"' + block.title + '" has been deleted.';
+        var message = gettextCatalog.getString('"{{blockTitle}}" has been deleted.', {blockTitle: block.title});
         GrowlService.growl($scope, 'conference', $scope.conference, message);
       }
 

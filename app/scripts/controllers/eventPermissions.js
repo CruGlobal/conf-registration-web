@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, permissions, permissionConstants, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, conference, conferencePermissions, permissions, permissionConstants, modalMessage, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         $scope.notify = {
           class: 'alert-success',
-          message: $sce.trustAsHtml('User updated.')
+          message: gettextCatalog.getString('User updated.')
         };
 
         //update timestamp
@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
+          message: data.errorMessage
         };
       });
     };
@@ -54,20 +54,20 @@ angular.module('confRegistrationWebApp')
         $scope.$$childHead.addPermissionsLevel = '';
         $scope.notify = {
           class: 'alert-success',
-          message: $sce.trustAsHtml('User added.')
+          message: gettextCatalog.getString('User added.')
         };
       }).error(function (data) {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
+          message: data.errorMessage
         };
       });
     };
 
     $scope.deletePermission = function (id) {
       modalMessage.confirm({
-        'title': 'Remove User?',
-        'question': 'Are you sure you want to remove this user?'
+        'title': gettextCatalog.getString('Remove User'),
+        'question': gettextCatalog.getString('Are you sure you want to remove this user?')
       }).then(function(){
         $http({
           method: 'DELETE',
@@ -76,12 +76,12 @@ angular.module('confRegistrationWebApp')
           _.remove($scope.currentPermissions, {id: id});
           $scope.notify = {
             class: 'alert-success',
-            message: $sce.trustAsHtml('User removed.')
+            message: gettextCatalog.getString('User removed.')
           };
         }).error(function (data) {
           $scope.notify = {
             class: 'alert-danger',
-            message: $sce.trustAsHtml('Error: ' + data.errorMessage)
+            message: data.errorMessage
           };
         });
       });

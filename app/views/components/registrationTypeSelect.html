@@ -5,20 +5,20 @@
   </div>
   <div class="text-right" ng-class="{'col-sm-5': type.cost>0, 'col-sm-3': type.cost==0}">
     <span class="cost" ng-if="type.cost">{{type.cost | currency:'$'}}</span>
-    <a href="" ng-click="newRegistrant(type.id)" class="btn btn-sm btn-success btn-important" ng-if="!registrationTypeFull(type)">
+    <a href="" ng-click="newRegistrant(type.id)" class="btn btn-sm btn-success btn-important" ng-if="!registrationTypeFull(type)" translate>
       Register
     </a>
-    <a href="" class="btn btn-sm btn-success btn-important btn-full" disabled ng-if="registrationTypeFull(type)">
+    <a href="" class="btn btn-sm btn-success btn-important btn-full" disabled ng-if="registrationTypeFull(type)" translate>
       Full
     </a>
   </div>
 </div>
 <div class="row" ng-if="visibleRegistrantTypes.length === 1">
   <div class="col-xs-12 text-center">
-    <a href ng-click="newRegistrant(visibleRegistrantTypes[0].id)" class="btn btn-success btn-important btn-lg" ng-if="!registrationTypeFull(visibleRegistrantTypes[0])">
+    <a href ng-click="newRegistrant(visibleRegistrantTypes[0].id)" class="btn btn-success btn-important btn-lg" ng-if="!registrationTypeFull(visibleRegistrantTypes[0])" translate>
       Register
     </a>
-    <p ng-if="registrationTypeFull(visibleRegistrantTypes[0])">
+    <p ng-if="registrationTypeFull(visibleRegistrantTypes[0])" translate>
       Sorry, this event is full.
     </p>
   </div>

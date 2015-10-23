@@ -1,11 +1,11 @@
-<h2 class="page-title border">Registration Options</h2>
+<h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
   <div class="col-sm-6 stacked-spacing-col-sm">
-    <label>Registration Starts <em class="required">*</em></label>
+    <label translate>Registration Starts</label>
     <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
   </div>
   <div class="col-sm-6">
-    <label>Registration Ends <em class="required">*</em></label>
+    <label translate>Registration Ends</label>
     <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
   </div>
 </div>
@@ -14,18 +14,18 @@
   <div class="col-xs-12">
     <div class="checkbox">
       <label>
-        <input type="checkbox" ng-model="conference.requireLogin">
+        <input type="checkbox" ng-model="conference.requireLogin" translate>
         Require Relay or Facebook sign in to register
       </label>
     </div>
-    <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
+    <p class="text-muted"><i class="fa fa-info-circle"></i> <span translate>Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</span></p>
   </div>
 </div>
 
 <div class="form-group">
   <div class="col-xs-12">
     <div class="checkbox">
-      <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">
+      <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete" translate>
         Allow registrants to edit their answers after registration is complete
       </label>
     </div>

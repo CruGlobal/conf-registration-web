@@ -1,12 +1,12 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="close()">&times;</button>
-  <h3>Clone Event</h3>
+  <h3 translate>Clone Event</h3>
 </div>
 <div class="modal-body">
-  <p>Please enter a name or title for this event.</p>
-  <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" ng-enter="close()" auto-focus>
+  <p translate>Please enter a name or title for this event.</p>
+  <input type="text" class="form-control" placeholder="{{'Example: Fall Retreat 2017' | translate}}" ng-model="name" ng-enter="close()" auto-focus>
 </div>
 <div class="modal-footer">
-  <button ng-click="close()" class="btn btn-default">Cancel</button>
-  <button ng-click="submit(name)" class="btn btn-primary">Clone</button>
+  <button ng-click="close()" class="btn btn-default" translate>Cancel</button>
+  <button ng-click="submit(name)" class="btn btn-primary" translate>Clone</button>
 </div>

@@ -16,7 +16,8 @@
     "pickadate": "3.5.4",
     "angular-ui-tree": "2.4.0",
     "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip",
-    "ng-facebook": "0.1.6"
+    "ng-facebook": "0.1.6",
+    "angular-gettext": "~2.1.0"
   },
   "devDependencies": {}
 }

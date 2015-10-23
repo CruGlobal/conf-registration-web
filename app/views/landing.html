@@ -2,29 +2,29 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <h1>Search for an event</h1>
+        <h1 translate>Search for an event</h1>
 
         <form class="search-toolbar" ng-submit="eventSearch(searchVal)">
           <div class="row row-no-padding">
             <div class="col-xs-9 col-sm-5">
-              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
+              <input type="text" placeholder="{{'Event name' | translate}}" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
             </div>
             <div class="hidden-xs col-sm-3">
               <select class="form-control" ng-model="eventFilters.locationName">
-                <option value="">-Any Location-</option>
+                <option value="" translate>-Any Location-</option>
                 <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
                 </option>
               </select>
             </div>
             <div class="hidden-xs col-sm-3">
               <select class="form-control" ng-model="eventFilters.date">
-                <option value="">-Any Date-</option>
+                <option value="" translate>-Any Date-</option>
                 <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
                 </option>
               </select>
             </div>
             <div class="col-xs-3 col-sm-1">
-              <button class="btn btn-primary" type="submit">Search</button>
+              <button class="btn btn-primary" type="submit" translate>Search</button>
             </div>
           </div>
         </form>
@@ -33,15 +33,15 @@
   </div>
 </div>
 <div class="container spacing-above-md" ng-if="!searchComplete">
-  <h3>Register for an event</h3>
-  <p>To register for an event, search the event name above.</p>
+  <h3 translate>Register for an event</h3>
+  <p translate>To register for an event, search the event name above.</p>
 
-  <h3>Create or manage an event</h3>
-  <p>To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your <a href="#/eventDashboard">Event Dashboard</a>.</p>
+  <h3 translate>Create or manage an event</h3>
+  <p translate>To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your <a href="#/eventDashboard">Event Dashboard</a>.</p>
 </div>
 <div class="container spacing-above-md" ng-if="searchComplete">
-    <p ng-show="!searchResults.length">No events found matching "{{searchComplete}}".</p>
-    <p ng-show="searchResults.length && !filteredEvents.length">No events found matching the selected filters.</p>
+  <p ng-show="!searchResults.length" translate>No events found matching "{{searchComplete}}".</p>
+  <p ng-show="searchResults.length && !filteredEvents.length" translate>No events found matching the selected filters.</p>
   <div class="row_masonry">
     <div class="col_masonry" ng-repeat="e in filteredEvents = (searchResults | filter: locationFilter | filter: dateFilter) | orderBy: 'name'">
       <div class="bs-callout">
@@ -54,8 +54,8 @@
         </p>
         <p class="spacing-above-md" ng-if="e.description">{{e.description}}</p>
         <div class="text-center">
-          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)">Register</button>
-          <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)">Manage</button>
+          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)" translate>Register</button>
+          <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)" translate>Manage</button>
         </div>
       </div>
     </div>

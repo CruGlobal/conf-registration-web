@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
+  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant, gettextCatalog) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
@@ -21,8 +21,8 @@ angular.module('confRegistrationWebApp')
 
       if(setRegistrationAsCompleted){
         modalMessage.confirm({
-          'title': 'Mark as completed?',
-          'question': 'Are you sure you want to mark this registration as completed?'
+          'title': gettextCatalog.getString('Mark as completed?'),
+          'question': gettextCatalog.getString('Are you sure you want to mark this registration as completed?')
         }).then(function(){
           $scope.registration.completed = true;
           saveAllAnswers();
@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp')
     var saveAllAnswers = function() {
       $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(getRegistrantAndClose).error(function(){
         $scope.saving = false;
-        modalMessage.error('An error occurred while saving this registration.');
+        modalMessage.error(gettextCatalog.getString('An error occurred while saving this registration.'));
       });
     };
 

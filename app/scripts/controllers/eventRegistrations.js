@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants, validateRegistrant) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants, validateRegistrant, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-registrations',
@@ -14,8 +14,8 @@ angular.module('confRegistrationWebApp')
     function hasPermission(){
       if(permissions.permissionInt < permissionConstants.UPDATE){
         modalMessage.error({
-          'title': 'Permissions Error',
-          'message': 'You do not have permission to perform this action. Please contact an event administrator to request permission.'
+          'title': gettextCatalog.getString('Permissions Error'),
+          'message': gettextCatalog.getString('You do not have permission to perform this action. Please contact an event administrator to request permission.')
         });
         return false;
       }else{
@@ -45,7 +45,7 @@ angular.module('confRegistrationWebApp')
     $scope.reversesort = false;
     $scope.visibleFilterRegistrantTypes = _.sortBy(angular.copy(conference.registrantTypes).concat({
       id: '',
-      name: '-Any-'
+      name: gettextCatalog.getString('-Any-')
     }), 'name');
     var expandedRegistrations = {};
 
@@ -205,7 +205,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
         });
       }).error(function(){
-        modalMessage.error('Error: registration data could be be retrieved.');
+        modalMessage.error(gettextCatalog.getString('Error: registration data could be be retrieved.'));
       });
     };
 
@@ -232,7 +232,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          modalMessage.error('Error: registrant data could be be retrieved.');
+          modalMessage.error(gettextCatalog.getString('Error: registrant data could be be retrieved.'));
           delete expandedRegistrations[r];
         });
       }
@@ -275,7 +275,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        modalMessage.error('Error: registrant data could be be retrieved.');
+        modalMessage.error(gettextCatalog.getString('Error: registrant data could be be retrieved.'));
         delete expandedRegistrations[r];
       });
     };
@@ -333,13 +333,13 @@ angular.module('confRegistrationWebApp')
       var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
       $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
 
-      $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
+      $rootScope.loadingMsg = (value ? gettextCatalog.getString('Withdrawing {{name}}', {name: registrant.firstName}) : gettextCatalog.getString('Reinstating {{name}}', {name: registrant.firstName}));
       $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
         $rootScope.loadingMsg = '';
       }).error(function(){
         $rootScope.loadingMsg = '';
         registrant.withdrawn = !value;
-        modalMessage.error('An error occurred while withdrawing this registrant.');
+        modalMessage.error(gettextCatalog.getString('An error occurred while withdrawing this registrant.'));
       });
     };
 
@@ -356,13 +356,13 @@ angular.module('confRegistrationWebApp')
       var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
       $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
 
-      $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
+      $rootScope.loadingMsg = (value ? gettextCatalog.getString('Checking in {{name}}', {name: registrant.firstName}) : gettextCatalog.getString('Removing check-in for {{name}}', {name: registrant.firstName}));
       $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
         $rootScope.loadingMsg = '';
       }).error(function(){
         $rootScope.loadingMsg = '';
         registrant.checkedInTimestamp = originalValue;
-        modalMessage.error('An error occurred while checking in this registrant.');
+        modalMessage.error(gettextCatalog.getString('An error occurred while checking in this registrant.'));
       });
     };
 
@@ -372,10 +372,10 @@ angular.module('confRegistrationWebApp')
       }
 
       modalMessage.confirm({
-        'title': 'Delete Registration',
-        'question': 'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.',
-        'yesString': 'Delete',
-        'noString': 'Cancel',
+        'title': gettextCatalog.getString('Delete Registration'),
+        'question': gettextCatalog.getString('Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.'),
+        'yesString': gettextCatalog.getString('Delete'),
+        'noString': gettextCatalog.getString('Cancel'),
         'normalSize': true
       }).then(function(){
         var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
