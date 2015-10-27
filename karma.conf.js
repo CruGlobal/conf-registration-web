@@ -17,6 +17,7 @@ module.exports = function(config){
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
       'app/bower_components/angular-ui-tree/dist/angular-ui-tree.js',
       'app/components/angular-wysiwyg-custom.js',
+      'app/bower_components/angular-gettext/dist/angular-gettext.js',
 
       'app/scripts/*.js',
       'app/scripts/**/*.js',
