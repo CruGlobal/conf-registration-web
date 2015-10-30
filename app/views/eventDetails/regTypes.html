@@ -115,12 +115,6 @@
               <div class="form-group" ng-repeat="discount in type.earlyRegistrationDiscounts">
                 <div class="col-xs-12">
                   <button class="btn btn-xs btn-default reg-type-delete" ng-click="type.earlyRegistrationDiscounts.splice($index,1)"><i class="fa fa-trash-o"></i> Remove<span class="hidden-xs"> Discount</span></button>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" ng-model="discount.enabled">
-                      Enabled
-                    </label>
-                  </div>
                 </div>
                 <div class="col-sm-8 stacked-spacing-col-sm">
                   <label>If registered by</label>
