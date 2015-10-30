@@ -52,7 +52,7 @@ angular.module('confRegistrationWebApp')
     });
 
     $scope.addRegType = function(){
-      return $modal.open({
+      var modalInstance = $modal.open({
         templateUrl: 'views/modals/addRegistrantType.html',
         controller: function($scope, $modalInstance, registrantTypes){
           $scope.types = registrantTypes.data;
@@ -70,10 +70,14 @@ angular.module('confRegistrationWebApp')
             return $http.get('registranttypes', {cache: true});
           }
         }
-      }).result.then(function(type) {
-          type.id = uuid();
-          $scope.conference.registrantTypes.push(type);
-        });
+      });
+
+      modalInstance.result.then(function(type) {
+        type.id = uuid();
+        $scope.conference.registrantTypes.push(type);
+      });
+
+      return modalInstance;
     };
 
     $scope.deleteRegType = function(id){
