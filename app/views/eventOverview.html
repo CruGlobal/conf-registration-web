@@ -41,6 +41,7 @@
           <input type="text" id="registrationUrl" class="form-control" ng-model="registrationUrl[0]" select-on-click readonly>
           <span class="input-group-btn">
             <button type="button" class="btn btn-primary" select-on-click="registrationUrl">Select</button>
+            <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[0]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>
       </div>
@@ -51,6 +52,7 @@
           <input type="text" id="registrationUrl-{{type.id}}" class="form-control" ng-model="registrationUrl[type.id]" select-on-click readonly>
           <span class="input-group-btn">
             <button type="button" class="btn btn-primary" select-on-click="registrationUrl-{{type.id}}">Select</button>
+            <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[type.id]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>
       </div>

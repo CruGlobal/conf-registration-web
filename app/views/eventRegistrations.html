@@ -10,7 +10,7 @@
   </div>
   <div class="row well well-full spacing-above-xs spacing-below-sm">
     <div class="row">
-      <div ng-class="{'col-md-3 col-sm-8': eventHasCost(), 'col-md-5 col-sm-12': !eventHasCost()}" class="stacked-spacing-col-md">
+      <div class="col-md-4 col-sm-8 stacked-spacing-col-md">
         <div class="form-group has-feedback has-clear">
           <label>Search<small> (visible columns only)</small>:</label>
           <input type="text" class="form-control" ng-model="strFilter">
@@ -19,7 +19,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 stacked-spacing-col-sm" ng-if="eventHasCost()">
+      <div class="col-md-2 col-sm-4 stacked-spacing-col-sm">
         <label>Payment status:</label>
         <select ng-model="queryParameters.filterPayment" class="form-control">
           <option value="">-Any-</option>
@@ -30,11 +30,11 @@
           <option value="over">Overpaid</option>
         </select>
       </div>
-      <div class="col-lg-3 col-md-2 col-sm-6 stacked-spacing-col-sm">
+      <div class="col-md-2 col-sm-7 stacked-spacing-col-sm">
         <label>Registration type:</label>
         <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
       </div>
-      <div class="col-lg-4 col-md-5 col-sm-6 text-right">
+      <div class="col-md-4 col-sm-5 text-right">
         <br>
         <div class="btn-group" role="group" dropdown auto-close="outsideClick">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
@@ -145,7 +145,7 @@
             <i ng-if="queryParameters.orderBy === 'completed_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
 
-          <th ng-if="eventHasCost()" class="text-center" width="70">
+          <th class="text-center" width="70">
             Paid
             <i class="fa fa-question-circle"
                button popover-template="paidPopoverTemplateUrl"
@@ -180,7 +180,7 @@
               -
             </span>
           </td>
-          <td ng-if="eventHasCost()" class="text-center">
+          <td class="text-center">
             <div ng-if="getRegistration(r.registrationId).completed">
                 <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': remainingBalance(r.registrationId)==0, 'btn-default': remainingBalance(r.registrationId)>0, 'btn-danger': remainingBalance(r.registrationId)<0}" title="View/Edit Payments &amp; Expenses">
                 &nbsp;

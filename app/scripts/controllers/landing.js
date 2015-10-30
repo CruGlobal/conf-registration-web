@@ -75,6 +75,11 @@ angular.module('confRegistrationWebApp')
       }
     };
 
+    $scope.locationFilter = function(event){
+      var locationFilter = $scope.eventFilters.locationName;
+      return !locationFilter || locationFilter === event.locationName;
+    };
+
     $scope.selectEvent = function(e, route){
       if(route === 'register') {
         $location.path('/register/' + e.id + '/page/');

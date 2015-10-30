@@ -293,11 +293,6 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.eventHasCost = function () {
-      //check if any registrations shown have a cost
-      return _.max(_.flatten($scope.registrations, 'calculatedTotalDue')) > 0;
-    };
-
     $scope.registerUser = function () {
       if(!hasPermission()){
         return;

@@ -12,7 +12,10 @@ angular.module('confRegistrationWebApp')
         if(angular.isDefined(visibleType)){
           _.remove($scope.visibleRegistrantTypes, function(t) { return t.id !== visibleType; });
         } else {
-          _.remove($scope.visibleRegistrantTypes, function(t) { return t.hidden; });
+          _.remove($scope.visibleRegistrantTypes, function(t) {
+            //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
+            return t.hidden && !_.contains(_.pluck($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
+          });
 
           //remove sub registrant types
           if(_.isEmpty($scope.currentRegistration.registrants)){

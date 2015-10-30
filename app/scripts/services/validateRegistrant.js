@@ -31,14 +31,15 @@ angular.module('confRegistrationWebApp')
     };
 
     this.blockVisible = function(block, registrant){
-      return blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+      return angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
     };
 
-    this.validate = function(conference, registrant) {
+    this.validate = function(conference, registrant, page) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
+      var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
 
-      angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function(block){
+      angular.forEach(blocks, function(block){
         if (!block.required || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
