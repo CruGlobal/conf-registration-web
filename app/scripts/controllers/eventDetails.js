@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, $filter, modalMessage, conference, ConfCache, permissions, permissionConstants, uuid) {
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -53,7 +52,7 @@ angular.module('confRegistrationWebApp')
     });
 
     $scope.addRegType = function(){
-      var modalInstance = $modal.open({
+      return $modal.open({
         templateUrl: 'views/modals/addRegistrantType.html',
         controller: function($scope, $modalInstance, registrantTypes){
           $scope.types = registrantTypes.data;
@@ -71,15 +70,10 @@ angular.module('confRegistrationWebApp')
             return $http.get('registranttypes', {cache: true});
           }
         }
-      });
-
-      modalInstance.result.then(function(type) {
-        type.id = uuid();
-        type.earlyRegistrationCutoff = moment().add(7, 'days').format('YYYY-MM-DD HH:mm:ss');
-        $scope.conference.registrantTypes.push(type);
-      });
-
-      return modalInstance;
+      }).result.then(function(type) {
+          type.id = uuid();
+          $scope.conference.registrantTypes.push(type);
+        });
     };
 
     $scope.deleteRegType = function(id){
