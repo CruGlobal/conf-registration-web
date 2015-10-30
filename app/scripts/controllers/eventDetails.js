@@ -174,7 +174,7 @@ angular.module('confRegistrationWebApp')
           }).error(function (data) {
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
+              message: $sce.trustAsHtml('<strong>Error</strong> ' + (data.errorMessage || data))
             };
           });
       }

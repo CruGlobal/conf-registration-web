@@ -46,32 +46,45 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.allowGroupRegistrations">
-                  Allow Family Registrations
-                </label>
-                <i class="question-popover fa fa-question-circle"
-                   popover="When a user chooses to register as this registrant type, he or she then will be permitted to add any other registrants (e.g. a spouse or child) to the registration."
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
-                </i>
-              </div>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" ng-model="type.groupSubRegistrantType">
-                  Family-only Registration Type
-                </label>
-                <i class="question-popover fa fa-question-circle"
-                   popover="When checked, this registrant type will not become available or visible to registrants until at least one registrant which has 'Allow Family Registrations' checked has been added to the registration (e.g. 'Staff' registrant type with 'Allow Family Registrations' must be registered before the 'Child' registrant type with 'Family-only Registration Type' becomes an available option)"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
-                </i>
-              </div>
-              <div class="checkbox">
-                <label>
                   <input type="checkbox" ng-model="type.useLimit">
                   Limit the number of registrants
                 </label>
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
+              </div>
+
+              <h4>Family Registration</h4>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="type.familyStatus" value="NOT_ENABLED">
+                  Not Allowed
+                </label>
+                <i class="question-popover fa fa-question-circle"
+                   popover="When selected, the user will not be given the option to add more people to the registration. One person per registration."
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="type.familyStatus" value="ENABLED">
+                  Allowed
+                </label>
+                <i class="question-popover fa fa-question-circle"
+                   popover="When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration."
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY">
+                  Required
+                </label>
+                <i class="question-popover fa fa-question-circle"
+                   popover="When selected, this type will not become available or visible until at least one registrant which has 'Family Registrations' set to 'Allowed' has been added to the registration."
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
               </div>
             </div>
 
@@ -106,6 +119,21 @@
                 </label>
               </div>
 
+              <div class="min-payment input-group" ng-if="conference.requireLogin && anyPaymentMethodAccepted(type)">
+                <label>Minimum Payment to Register</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                  <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
+                </div>
+                <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
+              </div>
+
+              <div class="min-payment" ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
+                <label>Minimum Payment to Register</label>
+                <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must be signed in order to accept multiple payments. Require sign in under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
+                <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> You must accept a at least one payment method in order to set a minimum payment.</p>
+              </div>
+
               <hr>
               <div class="form-group">
                 <div class="col-xs-12">
@@ -132,22 +160,6 @@
                     <i class="fa fa-plus"></i> Add Discount
                   </a>
                 </div>
-              </div>
-
-              <hr>
-              <div class="input-group" ng-if="conference.requireLogin && anyPaymentMethodAccepted(type)">
-                <label>Minimum Payment to Register</label>
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                  <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
-                </div>
-                <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
-              </div>
-
-              <div ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
-                <label>Minimum Payment to Register</label>
-                <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must be signed in order to accept multiple payments. Require sign in under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
-                <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> You must accept a at least one payment method in order to set a minimum payment.</p>
               </div>
             </div>
           </div>
