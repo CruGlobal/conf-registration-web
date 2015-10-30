@@ -52,11 +52,11 @@
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
               </div>
 
-              <h4>Family Registration</h4>
+              <h4>Family Membership</h4>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="NOT_ENABLED">
-                  Not Allowed
+                  <input type="radio" ng-model="type.familyStatus" value="DISABLED">
+                  No
                 </label>
                 <i class="question-popover fa fa-question-circle"
                    popover="When selected, the user will not be given the option to add more people to the registration. One person per registration."
@@ -67,7 +67,7 @@
               <div class="radio">
                 <label>
                   <input type="radio" ng-model="type.familyStatus" value="ENABLED">
-                  Allowed
+                  Yes - Primary
                 </label>
                 <i class="question-popover fa fa-question-circle"
                    popover="When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration."
@@ -78,10 +78,10 @@
               <div class="radio">
                 <label>
                   <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY">
-                  Required
+                  Yes - Dependent
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="When selected, this type will not become available or visible until at least one registrant which has 'Family Registrations' set to 'Allowed' has been added to the registration."
+                   popover="When selected, this type will not become available until at least one registrant which has 'Family Registrations' set to 'Allowed' has been added to the registration."
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
