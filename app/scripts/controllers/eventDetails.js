@@ -55,7 +55,8 @@ angular.module('confRegistrationWebApp')
       $scope.conference.registrantTypes.push({
         id: uuid(),
         cost: 0,
-        earlyRegistrationDiscounts: []
+        earlyRegistrationDiscounts: [],
+        familyStatus: 'DISABLED'
       });
     };
 

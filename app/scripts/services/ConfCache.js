@@ -66,7 +66,8 @@ angular.module('confRegistrationWebApp')
           id: uuid(),
           name: 'Default',
           conferenceId: newConferenceId,
-          cost: 0
+          cost: 0,
+          familyStatus: 'DISABLED'
         }],
         registrationPages: [
           {
