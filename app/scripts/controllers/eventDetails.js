@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-      .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -229,7 +229,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.disableField = function(field, defaultTypeKey){
       var fields = {
-        groupSubRegistrantType: ['SPOUSE', 'CHILD', 'STAFF']
+        groupSubRegistrantType: ['SPOUSE', 'CHILD']
       };
       return _.contains(fields[field], defaultTypeKey);
     };
