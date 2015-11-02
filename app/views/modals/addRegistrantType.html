@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <button type="button" class="close" ng-click="close()">&times;</button>
+  <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3>Select Registrant Type</h3>
 </div>
 <div class="modal-body">
@@ -10,6 +10,6 @@
 
   <hr>
   <div class="spacing-above-sm">
-    <button class="btn btn-primary btn-lg btn-block" ng-click="selectType({name:'',defaultTypeKey:''})">Create my own</button>
+    <button class="btn btn-primary btn-lg btn-block" ng-click="selectType({name:'',defaultTypeKey:'',familyStatus:'DISABLED'})">Create my own</button>
   </div>
 </div>

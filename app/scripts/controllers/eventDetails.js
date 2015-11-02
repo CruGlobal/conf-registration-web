@@ -1,9 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-    .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
-
-      .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+      .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -61,10 +59,6 @@ angular.module('confRegistrationWebApp')
 
           $scope.selectType = function (type) {
             $modalInstance.close(type);
-          };
-
-          $scope.close = function () {
-            $modalInstance.dismiss();
           };
         },
         resolve: {

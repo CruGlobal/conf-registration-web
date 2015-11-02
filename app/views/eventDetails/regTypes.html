@@ -59,7 +59,7 @@
               <h4>Family Registration</h4>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="DISABLED">
+                  <input type="radio" ng-model="type.familyStatus" value="DISABLED"  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
                   No
                 </label>
                 <i class="question-popover fa fa-question-circle"
@@ -70,8 +70,8 @@
               </div>
               <div class="radio">
                 <label>
-                  <input type="checkbox" ng-model="type.groupSubRegistrantType">
-                  Family-only Registration Type
+                  <input type="radio" ng-model="type.familyStatus" value="ENABLED" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
+                  Yes - Primary
                 </label>
                 <i class="question-popover fa fa-question-circle"
                    popover="When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration."
@@ -81,7 +81,7 @@
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY">
+                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
                   Yes - Dependent
                 </label>
                 <i class="question-popover fa fa-question-circle"
