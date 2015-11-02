@@ -123,7 +123,7 @@
             <tr ng-repeat="p in currentRegistration.pastPayments">
               <td>
                 <strong>{{p.paymentType | paymentTypeFormat}}</strong>
-                ({{p.transactionDatetime | date: 'shortDate'}})
+                <span ng-if="p.paymentType !== 'TRANSFER'">({{p.transactionDatetime | date: 'shortDate'}})</span>
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
