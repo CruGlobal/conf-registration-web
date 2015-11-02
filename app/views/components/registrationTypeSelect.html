@@ -4,7 +4,7 @@
     <span class="display-linebreaks">{{type.description}}</span>
   </div>
   <div class="text-right" ng-class="{'col-sm-5': type.cost>0, 'col-sm-3': type.cost==0}">
-    <span class="cost" ng-if="type.cost">{{type.cost | currency:'$'}}</span>
+    <span class="cost" ng-if="type.cost">{{type.calculatedCurrentCost | currency:'$'}}</span>
     <a href="" ng-click="newRegistrant(type.id)" class="btn btn-sm btn-success btn-important" ng-if="!registrationTypeFull(type)">
       Register
     </a>
