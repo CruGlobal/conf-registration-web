@@ -5,13 +5,33 @@ describe('Controller: paymentModal', function () {
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  beforeEach(angular.mock.inject(function($rootScope, $controller, testData) {
+  var fakeModal = {
+    result: {
+      then: function(confirmCallback, cancelCallback) {
+        this.confirmCallBack = confirmCallback;
+        this.cancelCallback = cancelCallback;
+      }
+    },
+    close: function( item ) {
+      this.result.confirmCallBack( item );
+    },
+    dismiss: function( type ) {
+      this.result.cancelCallback( type );
+    }
+  };
+
+  beforeEach(inject(function($modal) {
+    spyOn($modal, 'open').and.returnValue(fakeModal);
+  }));
+
+  beforeEach(angular.mock.inject(function($rootScope, $controller, _$modal_, testData) {
 
     scope = $rootScope.$new();
 
     controller = $controller('eventDetailsCtrl', {
       $scope: scope,
       conference: testData.conference,
+      $modal: _$modal_,
       permissions: {}
     });
   }));
@@ -23,7 +43,13 @@ describe('Controller: paymentModal', function () {
 
   it('addRegType should add reg type', function () {
     var totalRegTypes = scope.conference.registrantTypes.length;
-    scope.addRegType();
+
+    var modal = scope.addRegType();
+    modal.close({
+      name: 'Additional Type',
+      defaultTypeKey: ''
+    });
+
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
   });
 

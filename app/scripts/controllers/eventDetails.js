@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -52,12 +52,28 @@ angular.module('confRegistrationWebApp')
     });
 
     $scope.addRegType = function(){
-      $scope.conference.registrantTypes.push({
-        id: uuid(),
-        cost: 0,
-        earlyRegistrationDiscounts: [],
-        familyStatus: 'DISABLED'
+      var modalInstance = $modal.open({
+        templateUrl: 'views/modals/addRegistrantType.html',
+        controller: function($scope, $modalInstance, registrantTypes){
+          $scope.types = registrantTypes.data;
+
+          $scope.selectType = function (type) {
+            $modalInstance.close(type);
+          };
+        },
+        resolve: {
+          registrantTypes: function () {
+            return $http.get('registranttypes', {cache: true});
+          }
+        }
       });
+
+      modalInstance.result.then(function(type) {
+        type.id = uuid();
+        $scope.conference.registrantTypes.push(type);
+      });
+
+      return modalInstance;
     };
 
     $scope.deleteRegType = function(id){
@@ -209,5 +225,12 @@ angular.module('confRegistrationWebApp')
         reg.customConfirmationEmailText,
         'okString': 'Close'
       });
+    };
+
+    $scope.disableField = function(field, defaultTypeKey){
+      var fields = {
+        groupSubRegistrantType: ['SPOUSE', 'CHILD']
+      };
+      return _.contains(fields[field], defaultTypeKey);
     };
   });

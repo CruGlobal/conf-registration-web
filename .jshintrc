@@ -36,6 +36,7 @@
     "inject": false,
     "it": false,
     "expect": false,
-    "jasmine": false
+    "jasmine": false,
+    "spyOn": false
   }
 }
