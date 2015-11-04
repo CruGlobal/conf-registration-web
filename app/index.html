@@ -131,6 +131,18 @@
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
+<!-- build:remove:dist -->
+<div class="row previewRow">
+  <div class="col-xs-12" style="font-size:24px;">
+    Staging Environment
+  </div>
+  <div class="col-xs-12">
+    <ul class="list-inline preview-nav">
+      <li><a href="https://www.eventregistrationtool.com">Go to Production</a></li>
+    </ul>
+  </div>
+</div>
+<!-- /build -->
 
 <div class="rootLoadingMsg" ng-if="loadingMsg">
   <div class="blueMsg">
