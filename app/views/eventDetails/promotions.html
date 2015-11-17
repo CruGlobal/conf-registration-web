@@ -1,0 +1,76 @@
+<h2 class="page-title border">Promotions</h2>
+
+<div ng-repeat="promo in conference.promotions">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-3 col-md-push-9 text-right">
+          <a href="" ng-click="openWell[promo.id] = !openWell[promo.id]"><i class="fa fa-inset fa-inset-reg-type" ng-class="{'fa-chevron-up': openWell[promo.id], 'fa-chevron-down': !openWell[promo.id]}"></i></a>
+        </div>
+        <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
+          <label>Code</label>
+          <input type="text" class="form-control" ng-model="promo.code">
+        </div>
+        <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
+          <label>Discount Amount</label>
+          <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+            <input type="text" class="form-control" ng-model="promo.amount">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body" collapse="!openWell[promo.id]">
+      <button class="btn btn-xs btn-danger reg-type-delete" ng-click="$parent.conference.promotions.splice($index, 1)"><i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Promotion Code</span></button>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="input-group">
+            <label>Description</label>
+            <textarea class="form-control" ng-model="promo.description"></textarea>
+          </div>
+
+          <div class="input-group pt12">
+            <label>Validity Range</label>
+            <div class="row">
+              <div class="col-sm-6 stacked-spacing-col-sm">
+                <crs-datetimepicker model="promo.activationDate"></crs-datetimepicker>
+              </div>
+              <div class="col-sm-6 stacked-spacing-col-sm">
+                <crs-datetimepicker model="promo.deactivationDate"></crs-datetimepicker>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4>Registration Types</h4>
+          <p class="text-muted">The promotion code will be applied to the following registration types:</p>
+          <div class="checkbox" ng-repeat="type in conference.registrantTypes">
+            <label>
+              <input type="checkbox" ng-checked="$parent.promo.registrantTypeIds.indexOf(type.id) != -1" ng-click="promotionRegistrantTypeToggle($parent.promo.registrantTypeIds, type.id)">
+              {{type.name}}
+            </label>
+          </div>
+
+          <div class="input-group pt12">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="promo.applyToAllRegistrants">
+                Apply discount to everyone in registration
+              </label>
+              <i class="question-popover fa fa-question-circle"
+                 popover="Applies discount to all registrants in the registration, if applicable. If unchecked, discount will only be applied once per registration."
+                 popover-trigger="mouseenter"
+                 popover-append-to-body="true">
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="" ng-click="addPromotion()">
+  <i class="fa fa-plus"></i> Add Promotion Code
+</a>

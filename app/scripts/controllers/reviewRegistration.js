@@ -239,4 +239,16 @@ angular.module('confRegistrationWebApp')
       }
       return true;
     };
+
+    $scope.validatePromo = function(inputCode){
+      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+        $route.reload();
+      }).error(function (data, status) {
+        modalMessage.error({
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : data,
+          'title': 'Invalid Code',
+          'forceAction': true
+        });
+      });
+    }
   });

@@ -21,6 +21,7 @@ angular.module('confRegistrationWebApp')
       {id: 'regOptions', name: 'Registration Options', view: 'views/eventDetails/regOptions.html'},
       {id: 'regTypes', name: 'Registration Types', view: 'views/eventDetails/regTypes.html'},
       {id: 'paymentOptions', name: 'Payment Options', view: 'views/eventDetails/paymentOptions.html'},
+      {id: 'promotions', name: 'Promotions', view: 'views/eventDetails/promotions.html'},
       {id: 'contactInfo', name: 'Contact Information', view: 'views/eventDetails/contactInfo.html'}
     ];
 
@@ -50,6 +51,24 @@ angular.module('confRegistrationWebApp')
         });
       }
     });
+
+    $scope.addPromotion = function(){
+      $scope.conference.promotions.push({
+        id: uuid(),
+        applyToAllRegistrants: true,
+        registrantTypeIds: [],
+        activationDate: $scope.conference.registrationStartTime,
+        deactivationDate: $scope.conference.registrationEndTime
+      });
+    };
+
+    $scope.promotionRegistrantTypeToggle = function (registrantTypes, id) {
+      if (registrantTypes.indexOf(id) === -1) {
+        registrantTypes.push(id);
+      } else {
+        registrantTypes.splice(registrantTypes.indexOf(id), 1);
+      }
+    };
 
     $scope.addRegType = function(){
       var modalInstance = $modal.open({
@@ -110,6 +129,17 @@ angular.module('confRegistrationWebApp')
       if ($scope.conference.registrationStartTime > $scope.conference.registrationEndTime) {
         validationErrors.push('Registration end date/time must be after registration start date/time.');
       }
+
+      //Promo codes
+      angular.forEach($scope.conference.promotions, function(p, index) {
+        if (_.isEmpty(p.code)) {
+          validationErrors.push('Please enter a code for promotion ' + (index + 1) + '.');
+        }
+
+        if (!p.amount || Number(p.amount) <= 0) {
+          validationErrors.push('Please enter a discount amount greater than 0 for promotion ' + (index + 1) + '.');
+        }
+      });
 
       //Registrant Name
       angular.forEach($scope.conference.registrantTypes, function(t) {

@@ -139,6 +139,16 @@
               <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
             </tr>
           </table>
+
+          <a href="" ng-click="showPromoInput = true" ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length && !showPromoInput">
+            <i class="fa fa-plus"></i> Add Promotion Code
+          </a>
+          <div class="input-group" ng-show="showPromoInput">
+            <input type="text" class="form-control" ng-model="promoInput">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="validatePromo(promoInput)">Validate</button>
+            </span>
+          </div>
         </div>
       </div>
 
