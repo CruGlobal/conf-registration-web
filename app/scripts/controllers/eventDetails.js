@@ -56,7 +56,7 @@ angular.module('confRegistrationWebApp')
       $scope.conference.promotions.push({
         id: uuid(),
         applyToAllRegistrants: true,
-        registrantTypeIds: [],
+        registrantTypeIds: _.pluck($scope.conference.registrantTypes, 'id'),
         activationDate: $scope.conference.registrationStartTime,
         deactivationDate: $scope.conference.registrationEndTime
       });
@@ -134,6 +134,14 @@ angular.module('confRegistrationWebApp')
       angular.forEach($scope.conference.promotions, function(p, index) {
         if (_.isEmpty(p.code)) {
           validationErrors.push('Please enter a code for promotion ' + (index + 1) + '.');
+        }else{
+          if(p.code.length < 5 || p.code.length > 20){
+            validationErrors.push('Code for promotion ' + (index + 1) + ' must be greater than 5 characters and less than 20.');
+          }
+
+          if(/[^a-zA-Z0-9]/.test(p.code)){
+            validationErrors.push('Code for promotion ' + (index + 1) + ' must only contain letters and/or numbers.');
+          }
         }
 
         if (!p.amount || Number(p.amount) <= 0) {
@@ -234,13 +242,12 @@ angular.module('confRegistrationWebApp')
     $scope.acceptedPaymentMethods = function(){
       var regTypes = $scope.conference.registrantTypes;
 
-      var paymentMethods = {
+      return {
         acceptCreditCards: _.some(regTypes, 'acceptCreditCards'),
         acceptChecks:_.some(regTypes, 'acceptChecks'),
         acceptTransfers: _.some(regTypes, 'acceptTransfers'),
         acceptScholarships: _.some(regTypes, 'acceptScholarships')
       };
-      return paymentMethods;
     };
 
     $scope.previewEmail = function(reg){

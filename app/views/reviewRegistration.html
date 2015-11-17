@@ -105,10 +105,15 @@
             <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
             <td>{{a.amount | currency:'$'}}</td>
           </tr>
-          <tr ng-show="expandRegistrantCost[r.id] && r.calculatedDiscounts">
+          <tr ng-show="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts">
             <td></td>
             <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
-            <td>{{(r.calculatedDiscounts * -1) | currency:'$'}}</td>
+            <td>{{(r.calculatedEarlyRegistrationDiscounts * -1) | currency:'$'}}</td>
+          </tr>
+          <tr ng-show="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts">
+            <td></td>
+            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Promotion Discount</td>
+            <td>{{(r.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
           </tr>
         </tbody>
       </table>
@@ -116,6 +121,10 @@
       <div class="row">
         <div class="col-sm-6 col-sm-offset-6">
           <table class="table pull-right">
+            <tr ng-if="currentRegistration.calculatedPromotionDiscounts">
+              <th>Promotion Discount</th>
+              <td width="90">{{(currentRegistration.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
+            </tr>
             <tr>
               <th>Total</th>
               <td width="90">{{currentRegistration.calculatedTotalDue | currency:'$'}}</td>
@@ -140,13 +149,22 @@
             </tr>
           </table>
 
+          <table class="table">
+            <tr ng-repeat="p in currentRegistration.promotions">
+              <td>{{p.code}} <span class="text-muted" ng-if="p.description">{{p.description}}</span></td>
+              <td class="text-center" width="80">
+                <button ng-click="deletePromotion(p.id)" title="Delete Promotion" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+              </td>
+            </tr>
+          </table>
+
           <a href="" ng-click="showPromoInput = true" ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length && !showPromoInput">
             <i class="fa fa-plus"></i> Add Promotion Code
           </a>
           <div class="input-group" ng-show="showPromoInput">
-            <input type="text" class="form-control" ng-model="promoInput">
+            <input type="text" class="form-control" ng-model="promoInput" ng-enter="validatePromo(promoInput)">
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="validatePromo(promoInput)">Validate</button>
+              <button type="button" class="btn btn-default" ng-click="validatePromo(promoInput)" ng-disabled="addingPromoCode">Validate</button>
             </span>
           </div>
         </div>
