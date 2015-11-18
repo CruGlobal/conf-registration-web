@@ -329,5 +329,5 @@ angular.module('confRegistrationWebApp')
     $scope.filterUsedPromoCodes = function(p){
       var registrationPromoCodes = _.pluck($scope.registration.promotions, 'id');
       return !_.contains(registrationPromoCodes, p.id);
-    }
+    };
   });
