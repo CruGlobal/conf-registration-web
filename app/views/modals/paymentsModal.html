@@ -92,11 +92,11 @@
       </div>
     </tab>
     <tab heading="Promotions">
-      <p ng-if="!conference.promotions.length">This event does not contain any promotion codes.</p>
+      <p ng-if="!conference.promotions.length">This event does not contain any promotions.</p>
       <table class="table" ng-show="registration.promotions.length">
         <thead>
           <tr>
-            <th>Promotion</th>
+            <th>Active Promotions</th>
             <th width="90"></th>
           </tr>
         </thead>
@@ -110,18 +110,22 @@
         </tbody>
       </table>
 
-      <div class="row" ng-if="conference.promotions.length">
-        <div class="col-lg-7 col-md-12">
-          <label>Add Promotion</label>
-          <div class="input-group">
-            <select class="form-control" ng-options="p.code as p.code for p in conference.promotions" ng-model="promotionToAdd">
-            </select>
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button" ng-click="addPromotion(promotionToAdd)" ng-disabled="!promotionToAdd">Add</button>
-            </span>
-          </div>
-        </div>
-      </div>
+      <table class="table" ng-show="filteredPromotions.length">
+        <thead>
+        <tr>
+          <th>Available Promotions</th>
+          <th width="90"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in filteredPromotions = (conference.promotions  | filter: filterUsedPromoCodes)">
+          <td>{{p.code}} <span class="text-muted" ng-if="p.description">{{p.description}}</span></td>
+          <td class="text-center">
+            <button ng-click="addPromotion(p.code)" title="Add Promotion" class="btn btn-xs btn-success"><i class="fa fa-plus"></i></button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </tab>
     <tab heading="Payments" active="activeTab[1]">
       <p ng-show="!registration.pastPayments.length">This registration does not contain any payments.</p>

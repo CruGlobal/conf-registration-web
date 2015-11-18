@@ -319,15 +319,15 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      modalMessage.confirm({
-        'title': 'Delete Promotion',
-        'question': 'Are you sure you want to delete this promotion?'
-      }).then(function(){
-        var regCopy = angular.copy($scope.registration);
-        _.remove(regCopy.promotions, {id: promoId});
-        $http.put('registrations/' + registration.id, regCopy).success(loadPayments).error(function () {
-          modalMessage.error('An error occurred while deleting promotion.');
-        });
+      var regCopy = angular.copy($scope.registration);
+      _.remove(regCopy.promotions, {id: promoId});
+      $http.put('registrations/' + registration.id, regCopy).success(loadPayments).error(function () {
+        modalMessage.error('An error occurred while deleting promotion.');
       });
     };
+
+    $scope.filterUsedPromoCodes = function(p){
+      var registrationPromoCodes = _.pluck($scope.registration.promotions, 'id');
+      return !_.contains(registrationPromoCodes, p.id);
+    }
   });
