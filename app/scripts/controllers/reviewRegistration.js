@@ -99,7 +99,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'CHECK'){
+      if($scope.currentPayment.paymentType === 'CHECK' || $scope.currentPayment.paymentType === 'PAY_ON_SITE'){
         if(!$scope.currentRegistration.completed){
           setRegistrationAsCompleted();
         }else{
@@ -214,7 +214,8 @@ angular.module('confRegistrationWebApp')
         acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
-        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships')
+        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite')
       };
       return (!_.some(paymentMethods) ? false : paymentMethods);
     };

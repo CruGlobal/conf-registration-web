@@ -28,6 +28,13 @@
              ng-value="'SCHOLARSHIP'">
       Scholarship
     </label>
+
+    <label ng-show="paymentMethods().acceptPayOnSite">
+      <input type="radio"
+             ng-model="currentPayment.paymentType"
+             ng-value="'PAY_ON_SITE'">
+      Pay on site
+    </label>
   </dd>
 </dl>
 
@@ -56,3 +63,4 @@
 <ng-include src="paymentMethodsViews.TRANSFER" ng-if="currentPayment.paymentType === 'TRANSFER'"></ng-include>
 <ng-include src="paymentMethodsViews.SCHOLARSHIP" ng-if="currentPayment.paymentType === 'SCHOLARSHIP'"></ng-include>
 <ng-include src="paymentMethodsViews.CHECK" ng-if="currentPayment.paymentType === 'CHECK'"></ng-include>
+<ng-include src="paymentMethodsViews.PAY_ON_SITE" ng-if="currentPayment.paymentType === 'PAY_ON_SITE'"></ng-include>
