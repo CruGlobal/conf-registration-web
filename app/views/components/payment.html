@@ -38,7 +38,7 @@
   </dd>
 </dl>
 
-<dl class="dl-horizontal">
+<dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'">
   <dt>Amount</dt>
   <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
     <div class="input-group">
@@ -46,7 +46,7 @@
       <input type="text"
              ng-model="currentPayment.amount"
              ng-value="currentRegistration.calculatedTotalDue"
-             class="form-control marginless"/>
+             class="form-control marginless">
     </div>
           <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0">
             <i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | currency:'$'}}
@@ -55,7 +55,7 @@
   <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
     <input type="radio"
            ng-model="currentPayment.amount"
-           ng-value="currentRegistration.remainingBalance" /> {{currentRegistration.remainingBalance | currency:'$'}}
+           ng-value="currentRegistration.remainingBalance"> {{currentRegistration.remainingBalance | currency:'$'}}
   </dd>
 </dl>
 
