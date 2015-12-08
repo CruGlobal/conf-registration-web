@@ -166,14 +166,15 @@ angular.module('confRegistrationWebApp')
         'title': 'Delete registrant?',
         'question': 'Are you sure you want to delete this registrant?'
       }).then(function(){
-        _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
-        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
+        $http({
+          method: 'DELETE',
+          url: 'registrants/' + id
+        }).success(function () {
           $route.reload();
-        }, function(){
+        }).error(function(){
           modalMessage.error({
             'message': 'An error occurred while removing registrant.'
           });
-          $route.reload();
         });
       });
     };

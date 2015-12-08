@@ -49,7 +49,7 @@
             <th width="150"></th>
           </tr>
         </thead>
-        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0">
           <tr>
             <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
               <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"></i>
