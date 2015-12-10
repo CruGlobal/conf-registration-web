@@ -62,9 +62,4 @@ describe('Controller: paymentModal', function () {
   it('anyPaymentMethodAccepted should be true', function () {
     expect(scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0])).toBe(true);
   });
-
-  it('acceptedPaymentMethods() should return 4 payments', function () {
-    expect(Object.keys(scope.acceptedPaymentMethods()).length).toBe(4);
-  });
-
 });

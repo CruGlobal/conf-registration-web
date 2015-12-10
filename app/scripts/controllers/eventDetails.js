@@ -166,7 +166,7 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
-        validationErrors.push('Please enter a credit card Account ID.');
+        validationErrors.push('Please enter a credit card Account ID and Key under the "Payment Options" tab.');
       }
 
       //Minimum Deposit
@@ -237,17 +237,6 @@ angular.module('confRegistrationWebApp')
 
     $scope.anyPaymentMethodAccepted = function(type){
       return type.acceptCreditCards || type.acceptChecks || type.acceptTransfers || type.acceptScholarships;
-    };
-
-    $scope.acceptedPaymentMethods = function(){
-      var regTypes = $scope.conference.registrantTypes;
-
-      return {
-        acceptCreditCards: _.some(regTypes, 'acceptCreditCards'),
-        acceptChecks:_.some(regTypes, 'acceptChecks'),
-        acceptTransfers: _.some(regTypes, 'acceptTransfers'),
-        acceptScholarships: _.some(regTypes, 'acceptScholarships')
-      };
     };
 
     $scope.previewEmail = function(reg){

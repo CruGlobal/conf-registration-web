@@ -13,9 +13,12 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined(cachedConferences)) {
         callback(cachedConferences, path);
       } else {
+        $rootScope.loadingMsg = 'Loading Event Details';
         $http.get(path).success(function (conferences) {
           cache.put(path, conferences);
           callback(conferences, path);
+        }).finally(function(){
+          $rootScope.loadingMsg = '';
         });
       }
     };
