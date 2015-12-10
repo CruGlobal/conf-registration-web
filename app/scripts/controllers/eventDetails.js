@@ -115,6 +115,20 @@ angular.module('confRegistrationWebApp')
       //validation check
       var validationErrors = [];
 
+      //contact website
+      var urlPattern = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
+      if(!urlPattern.test($scope.conference.contactWebsite))
+      {
+        validationErrors.push('Please enter an valid website.');
+      } else {
+        var httpPattern = new RegExp(/^(http){1}s{0,1}:\/\//gi);
+        if(!httpPattern.test($scope.conference.contactWebsite)) {
+          $scope.conference.contactWebsite = "http://" + $scope.conference.contactWebsite;
+        }
+      }
+
+
+
       //Event Name
       if (_.isEmpty($scope.conference.name)) {
         validationErrors.push('Please enter an event name.');
