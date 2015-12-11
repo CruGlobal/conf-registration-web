@@ -113,6 +113,18 @@ angular.module('confRegistrationWebApp')
                 });
               });
 
+              //clone promotions
+              angular.forEach(conference.promotions, function(v, i){
+                conference.promotions[i].id = uuid();
+                conference.promotions[i].conferenceId = conference.id;
+
+                var originalRegTypeIds = angular.copy(conference.promotions[i].registrantTypeIds);
+                conference.promotions[i].registrantTypeIds = [];
+                angular.forEach(originalRegTypeIds, function(id){
+                  conference.promotions[i].registrantTypeIds.push(registrantTypeIdMap[id]);
+                });
+              });
+
               //clone conference pages
               conference.registrationPages = result.registrationPages;
               for (var i = 0; i < conference.registrationPages.length; i++) {
