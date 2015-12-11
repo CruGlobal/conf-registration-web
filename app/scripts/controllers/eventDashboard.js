@@ -95,6 +95,10 @@ angular.module('confRegistrationWebApp')
               conference.id = conferenceOrig.id;
               conference.name = conferenceName;
 
+              //remove payment gateway info
+              conference.paymentGatewayType = 'AUTHORIZE_NET';
+              conference.paymentGatewayId = null;
+
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
               var blockIdMap = {};
