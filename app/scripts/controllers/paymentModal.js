@@ -80,8 +80,11 @@ angular.module('confRegistrationWebApp')
         transaction.readyToProcess = true;
       }
 
-      if(transaction.paymentType === 'SCHOLARSHIP' && angular.isDefined(transaction.scholarship)) {
-        transaction.scholarship.scholarshipStatus = 'APPROVED';
+      if(transaction.paymentType === 'SCHOLARSHIP') {
+        transaction.status = 'APPROVED';
+      }
+      if(transaction.paymentType === 'CHECK') {
+        transaction.status = 'RECEIVED';
       }
 
       if(transaction.paymentType === 'CREDIT_CARD'){
@@ -207,8 +210,12 @@ angular.module('confRegistrationWebApp')
 
     $scope.savePaymentEdits = function (payment) {
       if(payment.paymentType === 'SCHOLARSHIP'){
-        payment.scholarship.scholarshipStatus = 'APPROVED';
+        payment.status = 'APPROVED';
       }
+      if(payment.paymentType === 'CHECK'){
+        payment.status = 'RECEIVED';
+      }
+
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;

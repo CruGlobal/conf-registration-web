@@ -99,7 +99,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'CHECK' || $scope.currentPayment.paymentType === 'PAY_ON_SITE'){
+      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
         if(!$scope.currentRegistration.completed){
           setRegistrationAsCompleted();
         }else{

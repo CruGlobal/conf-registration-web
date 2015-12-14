@@ -146,33 +146,43 @@
             <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | currency:'$'}}</td>
             <td>
               <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
-              <span ng-if="payment.paymentType === 'CHECK'">Check #{{payment.check.checkNumber}}</span>
-                  <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
-                    <span ng-if="payment.scholarship.scholarshipStatus === 'APPROVED'">
-                      <span ng-if="payment.scholarship.accountType === 'STAFF'">
-                        Scholarship from staff {{payment.scholarship.accountNumber}}
-                      </span>
-                      <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
-                        Scholarship from {{payment.scholarship.businessUnit}}/{{payment.scholarship.operatingUnit}}/{{payment.scholarship.department}}/{{payment.scholarship.projectId}}
-                      </span>
-                    </span>
-                    <span ng-if="payment.scholarship.scholarshipStatus === 'REQUESTED'" style="font-style: italic;">Scholarship Requested</span>
-                    <span ng-if="payment.scholarship.scholarshipStatus === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
+              <span ng-if="payment.paymentType === 'CHECK'">
+                <span ng-if="payment.status === 'RECEIVED'">
+                  Check #{{payment.check.checkNumber}}
+                </span>
+                <span ng-if="payment.status === 'PENDING'" style="font-style: italic;">
+                  Check (not yet received)
+                </span>
+              </span>
+              <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
+                <span ng-if="payment.status === 'APPROVED'">
+                  <span ng-if="payment.scholarship.accountType === 'STAFF'">
+                    Scholarship from staff {{payment.scholarship.accountNumber}}
                   </span>
-                  <span ng-if="payment.paymentType === 'TRANSFER'">
-                    <span ng-if="payment.transfer.accountType === 'STAFF'">
-                      Staff Transfer from {{payment.transfer.accountNumber}}
-                    </span>
-                    <span ng-if="payment.transfer.accountType === 'MINISTRY'">
-                      Transfer from {{payment.transfer.businessUnit}}/{{payment.transfer.operatingUnit}}/{{payment.transfer.department}}/{{payment.transfer.projectId}}
-                    </span>
+                  <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
+                    Scholarship from {{payment.scholarship.businessUnit}}/{{payment.scholarship.operatingUnit}}/{{payment.scholarship.department}}/{{payment.scholarship.projectId}}
                   </span>
+                </span>
+                <span ng-if="payment.status === 'REQUESTED'" style="font-style: italic;">Scholarship Requested</span>
+                <span ng-if="payment.status === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
+              </span>
+              <span ng-if="payment.paymentType === 'TRANSFER'">
+                <span ng-if="payment.transfer.accountType === 'STAFF'">
+                  Staff Transfer from {{payment.transfer.accountNumber}}
+                </span>
+                <span ng-if="payment.transfer.accountType === 'MINISTRY'">
+                  Transfer from {{payment.transfer.businessUnit}}/{{payment.transfer.operatingUnit}}/{{payment.transfer.department}}/{{payment.transfer.projectId}}
+                </span>
+              </span>
               <span ng-if="payment.paymentType === 'CASH'">Cash</span>
               <span ng-if="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
               <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
               <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
             </td>
-            <td><span ng-if="payment.scholarship.scholarshipStatus === 'REQUESTED'">{{payment.scholarship.staffApprovalName}}</span> {{payment.description}}</td>
+            <td>
+              <span ng-if="payment.paymentType === 'SCHOLARSHIP' && payment.status === 'REQUESTED'">{{payment.scholarship.staffApprovalName}}</span>
+              {{payment.description}}
+            </td>
             <td class="text-center">
               <div ng-show="editPayment.id !== payment.id">
                 <button ng-click="openEditPaymentRow(payment)" title="Edit Payment" class="btn btn-xs"><i class="fa fa-edit"></i></button>
@@ -298,10 +308,16 @@
               </div>
             </td>
           </tr>
-          <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.scholarship.scholarshipStatus !== 'APPROVED'" ng-class="{'active': $even}">
+          <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.status !== 'APPROVED'" ng-class="{'active': $even}">
             <td></td>
             <td colspan="4">
               <p class="text-muted"><strong>Note:</strong> Editing this scholarship will mark it as "Approved".</p>
+            </td>
+          </tr>
+          <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'CHECK' && editPayment.status !== 'RECEIVED'" ng-class="{'active': $even}">
+            <td></td>
+            <td colspan="4">
+              <p class="text-muted"><strong>Note:</strong> Editing this payment will mark it as "Received".</p>
             </td>
           </tr>
           </tbody>
