@@ -95,6 +95,10 @@ angular.module('confRegistrationWebApp')
               conference.id = conferenceOrig.id;
               conference.name = conferenceName;
 
+              //remove payment gateway info
+              conference.paymentGatewayType = 'AUTHORIZE_NET';
+              conference.paymentGatewayId = null;
+
               // map the old id to the new id so that question to registrant type assignments can be cloned.
               var registrantTypeIdMap = {};
               var blockIdMap = {};
@@ -110,6 +114,18 @@ angular.module('confRegistrationWebApp')
                 angular.forEach(conference.registrantTypes[i].earlyRegistrationDiscounts, function(v, k){
                   conference.registrantTypes[i].earlyRegistrationDiscounts[k].id = uuid();
                   conference.registrantTypes[i].earlyRegistrationDiscounts[k].registrantTypeId = clonedRegTypeId;
+                });
+              });
+
+              //clone promotions
+              angular.forEach(conference.promotions, function(v, i){
+                conference.promotions[i].id = uuid();
+                conference.promotions[i].conferenceId = conference.id;
+
+                var originalRegTypeIds = angular.copy(conference.promotions[i].registrantTypeIds);
+                conference.promotions[i].registrantTypeIds = [];
+                angular.forEach(originalRegTypeIds, function(id){
+                  conference.promotions[i].registrantTypeIds.push(registrantTypeIdMap[id]);
                 });
               });
 

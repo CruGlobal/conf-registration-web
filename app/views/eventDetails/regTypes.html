@@ -135,7 +135,7 @@
                 </i>
               </div>
 
-              <div class="min-payment input-group" ng-if="conference.requireLogin && anyPaymentMethodAccepted(type)">
+              <div class="pt12 input-group" ng-if="conference.requireLogin && anyPaymentMethodAccepted(type)">
                 <label>Minimum Payment to Register</label>
                 <div class="input-group">
                   <span class="input-group-addon"><i class="fa fa-usd"></i></span>
@@ -144,7 +144,7 @@
                 <p class="text-muted"><i class="fa fa-info-circle"></i> If blank, full cost will be required at time of registration.</p>
               </div>
 
-              <div class="min-payment" ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
+              <div class="pt12" ng-show="!conference.requireLogin || !anyPaymentMethodAccepted(type)">
                 <label>Minimum Payment to Register</label>
                 <p class="text-muted" ng-show="!conference.requireLogin"><i class="fa fa-info-circle"></i> Registrants must be signed in order to accept multiple payments. Require sign in under the <a href ng-click="changeTab(tabs[1])">Registrant Options</a> tab.</p>
                 <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)"><i class="fa fa-info-circle"></i> You must accept a at least one payment method in order to set a minimum payment.</p>

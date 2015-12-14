@@ -241,4 +241,33 @@ angular.module('confRegistrationWebApp')
       }
       return true;
     };
+
+    $scope.validatePromo = function(inputCode){
+      $scope.addingPromoCode = true;
+      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+        $route.reload();
+      }).error(function (data, status) {
+        $scope.addingPromoCode = false;
+        modalMessage.error({
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : data,
+          'title': 'Invalid Code',
+          'forceAction': true
+        });
+      });
+    };
+
+    $scope.deletePromotion = function (promoId) {
+      modalMessage.confirm({
+        'title': 'Delete Promotion',
+        'question': 'Are you sure you want to delete this promotion?'
+      }).then(function(){
+        var regCopy = angular.copy($scope.currentRegistration);
+        _.remove(regCopy.promotions, {id: promoId});
+        $http.put('registrations/' + registration.id, regCopy).success(function () {
+          $route.reload();
+        }).error(function () {
+          modalMessage.error('An error occurred while deleting promotion.');
+        });
+      });
+    };
   });
