@@ -50,6 +50,12 @@ angular.module('confRegistrationWebApp')
           if(!currentPayment.scholarship){ currentPayment.scholarship = {}; }
           if(!currentPayment.check){ currentPayment.check = {}; }
 
+          //validate SCHOLARSHIP payments as TRANSFER payments when admin
+          if(currentPayment.paymentType === 'SCHOLARSHIP' && $scope.isAdminPayment) {
+            currentPayment.paymentType = 'TRANSFER';
+            currentPayment.transfer = currentPayment.scholarship;
+          }
+
           var paymentErrors = [];
           if(angular.isUndefined(currentPayment.paymentType)) {
             paymentErrors.push('Please select a payment method.');
@@ -84,15 +90,10 @@ angular.module('confRegistrationWebApp')
                 }
                 break;
               case 'SCHOLARSHIP':
-                if(!$scope.isAdminPayment) {
-                  if(!currentPayment.scholarship.staffEmail){
-                    paymentErrors.push('Please select a staff member to approve your scholarship.');
-                  }
-                  break;
-                }else{
-                  //fall-through and validate as transfer payment
-                  currentPayment.transfer = currentPayment.scholarship
+                if(!currentPayment.scholarship.staffEmail){
+                  paymentErrors.push('Please select a staff member to approve your scholarship.');
                 }
+                break;
               case 'TRANSFER':
                 if(!currentPayment.transfer.accountType){
                   paymentErrors.push('Please select an Account Type.');
