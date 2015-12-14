@@ -1,10 +1,10 @@
 <div class="row spacing-below-md">
   <div class="col-xs-12 form-content">
     <section ng-if="currentRegistration.completed">
-        <h1>You are registered!</h1>
-        <p>Keep this information for your records.</p>
-        <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | currency:'$'}}</p>
-        <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
+      <h1>You are registered!</h1>
+      <p>Keep this information for your records.</p>
+      <p ng-if="currentRegistration.remainingBalance > 0">You have a remaining balance of {{currentRegistration.remainingBalance | currency:'$'}}</p>
+      <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">Please enter your payment information below.  Then click Confirm.  That's it!</p>
 
       <div class="well well-creme2">
         <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
@@ -49,7 +49,7 @@
             <th width="150"></th>
           </tr>
         </thead>
-        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
+        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0">
           <tr>
             <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
               <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"></i>
