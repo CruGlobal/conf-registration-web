@@ -203,7 +203,6 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('An error occurred while deleting this expense.');
         });
       });
-
     };
 
     $scope.savePaymentEdits = function (payment) {
@@ -300,5 +299,35 @@ angular.module('confRegistrationWebApp')
       if($scope.registration.remainingBalance > 0 && ($scope.newTransaction.amount === 0 || $scope.newTransaction.amount === '' || $scope.newTransaction.amount === '0') && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
         $scope.newTransaction.amount = $scope.registration.remainingBalance;
       }
+    };
+
+    $scope.addPromotion = function(inputCode){
+      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+        loadPayments();
+      }).error(function (data, status) {
+        modalMessage.error({
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to this registration.' : data,
+          'title': 'Invalid Code',
+          'forceAction': true
+        });
+      });
+    };
+
+    $scope.deletePromotion = function (promoId) {
+      if(permissions.permissionInt < permissionConstants.UPDATE){
+        modalMessage.error(permissionRequiredMsg);
+        return;
+      }
+
+      var regCopy = angular.copy($scope.registration);
+      _.remove(regCopy.promotions, {id: promoId});
+      $http.put('registrations/' + registration.id, regCopy).success(loadPayments).error(function () {
+        modalMessage.error('An error occurred while deleting promotion.');
+      });
+    };
+
+    $scope.filterUsedPromoCodes = function(p){
+      var registrationPromoCodes = _.pluck($scope.registration.promotions, 'id');
+      return !_.contains(registrationPromoCodes, p.id);
     };
   });

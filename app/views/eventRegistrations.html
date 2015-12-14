@@ -173,16 +173,15 @@
             {{r.createdTimestamp | date: 'short'}}
           </td>
           <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
-            <span ng-show="getRegistration(r.registrationId).completed">
-              {{getRegistration(r.registrationId).completedTimestamp | date: 'short'}}
-            </span>
-            <span ng-show="!getRegistration(r.registrationId).completed">
-              -
-            </span>
+            {{getRegistration(r.registrationId).completed ? (getRegistration(r.registrationId).completedTimestamp | date: 'short') : '-'}}
           </td>
           <td class="text-center">
             <div ng-if="getRegistration(r.registrationId).completed">
-                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{'btn-success': remainingBalance(r.registrationId)==0, 'btn-default': remainingBalance(r.registrationId)>0, 'btn-danger': remainingBalance(r.registrationId)<0}" title="View/Edit Payments &amp; Expenses">
+                <button type="button" ng-click="viewPayments(r.registrationId)" class="btn btn-sm" ng-class="{
+                'btn-success': remainingBalance(r.registrationId)==0,
+                'btn-default': remainingBalance(r.registrationId)>0,
+                'btn-danger': remainingBalance(r.registrationId)<0
+                }" title="View/Edit Payments &amp; Expenses">
                 &nbsp;
                 <i class="fa fa-fw fa-usd"></i>
                 &nbsp;

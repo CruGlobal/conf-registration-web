@@ -1,5 +1,6 @@
 var _rollbarConfig = {
   accessToken: '599d1830feff45dbb2f03f366e03eab3',
+  ignoredMessages: ["TypeError: undefined is not an object (evaluating '__gCrWeb.autofill.extractForms')"],
   captureUncaught: true,
   payload: {
     environment: location.hostname

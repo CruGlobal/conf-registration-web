@@ -99,7 +99,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'CHECK'){
+      if($scope.currentPayment.paymentType === 'CHECK' || $scope.currentPayment.paymentType === 'PAY_ON_SITE'){
         if(!$scope.currentRegistration.completed){
           setRegistrationAsCompleted();
         }else{
@@ -166,14 +166,15 @@ angular.module('confRegistrationWebApp')
         'title': 'Delete registrant?',
         'question': 'Are you sure you want to delete this registrant?'
       }).then(function(){
-        _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
-        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
+        $http({
+          method: 'DELETE',
+          url: 'registrants/' + id
+        }).success(function () {
           $route.reload();
-        }, function(){
+        }).error(function(){
           modalMessage.error({
             'message': 'An error occurred while removing registrant.'
           });
-          $route.reload();
         });
       });
     };
@@ -214,7 +215,8 @@ angular.module('confRegistrationWebApp')
         acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
-        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships')
+        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
       };
       return (!_.some(paymentMethods) ? false : paymentMethods);
     };
@@ -238,5 +240,34 @@ angular.module('confRegistrationWebApp')
         return false;
       }
       return true;
+    };
+
+    $scope.validatePromo = function(inputCode){
+      $scope.addingPromoCode = true;
+      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+        $route.reload();
+      }).error(function (data, status) {
+        $scope.addingPromoCode = false;
+        modalMessage.error({
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : data,
+          'title': 'Invalid Code',
+          'forceAction': true
+        });
+      });
+    };
+
+    $scope.deletePromotion = function (promoId) {
+      modalMessage.confirm({
+        'title': 'Delete Promotion',
+        'question': 'Are you sure you want to delete this promotion?'
+      }).then(function(){
+        var regCopy = angular.copy($scope.currentRegistration);
+        _.remove(regCopy.promotions, {id: promoId});
+        $http.put('registrations/' + registration.id, regCopy).success(function () {
+          $route.reload();
+        }).error(function () {
+          modalMessage.error('An error occurred while deleting promotion.');
+        });
+      });
     };
   });

@@ -19,7 +19,8 @@ angular.module('confRegistrationWebApp')
           CREDIT_CARD: 'views/paymentMethods/creditCard.html',
           CHECK: 'views/paymentMethods/check.html',
           TRANSFER: 'views/paymentMethods/transfer.html',
-          SCHOLARSHIP: 'views/paymentMethods/scholarship.html'
+          SCHOLARSHIP: 'views/paymentMethods/scholarship.html',
+          PAY_ON_SITE: 'views/paymentMethods/payOnSite.html'
         };
 
         $scope.searchStaff = function(val) {
