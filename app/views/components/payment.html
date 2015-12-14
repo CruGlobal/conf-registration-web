@@ -1,4 +1,4 @@
-<dl class="dl-horizontal">
+<dl class="dl-horizontal" ng-if="!isAdminPayment">
   <dt>Payment method</dt>
   <dd>
     <label ng-show="paymentMethods().acceptCreditCards">
@@ -38,7 +38,7 @@
   </dd>
 </dl>
 
-<dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'">
+<dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'" ng-if="!isAdminPayment">
   <dt>Amount</dt>
   <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
     <div class="input-group">
@@ -59,8 +59,4 @@
   </dd>
 </dl>
 
-<ng-include src="paymentMethodsViews.CREDIT_CARD" ng-if="currentPayment.paymentType === 'CREDIT_CARD'"></ng-include>
-<ng-include src="paymentMethodsViews.TRANSFER" ng-if="currentPayment.paymentType === 'TRANSFER'"></ng-include>
-<ng-include src="paymentMethodsViews.SCHOLARSHIP" ng-if="currentPayment.paymentType === 'SCHOLARSHIP'"></ng-include>
-<ng-include src="paymentMethodsViews.CHECK" ng-if="currentPayment.paymentType === 'CHECK'"></ng-include>
-<ng-include src="paymentMethodsViews.PAY_ON_SITE" ng-if="currentPayment.paymentType === 'PAY_ON_SITE'"></ng-include>
+<ng-include src="paymentMethodsViews[currentPayment.paymentType]"></ng-include>

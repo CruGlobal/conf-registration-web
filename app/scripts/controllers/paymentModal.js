@@ -36,15 +36,15 @@ angular.module('confRegistrationWebApp')
         return;
       }
       if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
-        modalMessage.error('Transaction amount must be a positive number.');
-        return;
+        $scope.newTransaction.errors.unshift('Transaction amount must be a positive number.');
       }
-      if ($scope.newTransaction.paymentType === 'CREDIT_CARD') {
-        var validationError = ccp.validateCardNumber($scope.newTransaction.creditCard.number || '');
-        if(validationError){
-          modalMessage.error('Please enter a valid card number. The ' + validationError + '.');
-          return;
-        }
+
+      if (!_.isEmpty($scope.newTransaction.errors)) {
+        modalMessage.error({
+          'title': 'Please correct the following errors:',
+          'message': $scope.newTransaction.errors
+        });
+        return;
       }
 
       if(permissions.permissionInt < permissionConstants.UPDATE){
@@ -64,6 +64,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
       var transaction = angular.copy($scope.newTransaction);
+      delete transaction.errors;
       transaction.amount = Number(transaction.amount);
       var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
       delete transaction.sendEmailReceipt;
@@ -80,9 +81,6 @@ angular.module('confRegistrationWebApp')
 
       if(transaction.paymentType === 'SCHOLARSHIP') {
         transaction.status = 'APPROVED';
-      }
-      if(transaction.paymentType === 'CHECK') {
-        transaction.status = 'RECEIVED';
       }
 
       if(transaction.paymentType === 'CREDIT_CARD'){

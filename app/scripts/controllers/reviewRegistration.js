@@ -46,10 +46,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.currentPayment = {
         amount: $scope.currentRegistration.remainingBalance,
-        paymentType: paymentType,
-        creditCard: {},
-        transfer: {},
-        scholarship: {}
+        paymentType: paymentType
       };
     }
 

@@ -1,0 +1,36 @@
+<div class="form-group">
+  <label>Account Type</label>
+  <select ng-model="currentPayment.scholarship.accountType" class="form-control">
+    <option value="STAFF">Staff</option>
+    <option value="MINISTRY">Ministry</option>
+  </select>
+</div>
+
+<div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'STAFF'">
+  <div class="col-sm-12">
+    <label>Account Number</label>
+    <input ng-model="currentPayment.scholarship.accountNumber" type="text" class="form-control">
+  </div>
+</div>
+
+<div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'MINISTRY'">
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Business Unit</label>
+    <input ng-model="currentPayment.scholarship.businessUnit" type="text" class="form-control">
+  </div>
+
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Operating Unit</label>
+    <input ng-model="currentPayment.scholarship.operatingUnit" type="text" class="form-control">
+  </div>
+
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Department</label>
+    <input ng-model="currentPayment.scholarship.department" type="text" class="form-control">
+  </div>
+
+  <div class="col-sm-3">
+    <label>Project Id</label>
+    <input ng-model="currentPayment.scholarship.projectId" type="text" class="form-control">
+  </div>
+</div>
