@@ -216,7 +216,7 @@ angular.module('confRegistrationWebApp')
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
         acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
-        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite')
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
       };
       return (!_.some(paymentMethods) ? false : paymentMethods);
     };
