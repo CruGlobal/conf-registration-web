@@ -48,11 +48,9 @@ angular.module('confRegistrationWebApp')
       }
 
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
-          if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
-            modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
-            return;
-          }
+        if(permissions.permissionInt === permissionConstants.SCHOLARSHIP && $scope.newTransaction.paymentType !== 'SCHOLARSHIP') {
+          modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
+          return;
         }else{
           modalMessage.error(permissionRequiredMsg);
           return;
