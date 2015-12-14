@@ -4,7 +4,6 @@ angular.module('confRegistrationWebApp')
   .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
-    $scope.currentYear = new Date().getFullYear();
     $scope.processing = false;
     $scope.activeTab = {};
     $scope.newTransaction = {
