@@ -17,17 +17,22 @@
         <input type="checkbox" ng-model="conference.requireLogin">
         Require Relay or Facebook sign in to register
       </label>
+      <i class="question-popover fa fa-question-circle"
+         popover="Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below)."
+         popover-trigger="mouseenter"
+         popover-append-to-body="true">
+      </i>
     </div>
-    <p class="text-muted"><i class="fa fa-info-circle"></i> Requiring the registrant to login gives them the option to come back at a later time and finish making payments (if enabled and applicable).</p>
-  </div>
-</div>
 
-<div class="form-group">
-  <div class="col-xs-12">
     <div class="checkbox">
       <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">
-        Allow registrants to edit their answers after registration is complete
+        Allow users to modify their registration after it is complete
       </label>
+      <i class="question-popover fa fa-question-circle"
+         popover="This includes editing answers and adding/removing family members."
+         popover-trigger="mouseenter"
+         popover-append-to-body="true">
+      </i>
     </div>
   </div>
 </div>

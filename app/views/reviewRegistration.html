@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration && !currentRegistration.completed">
+    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)">
       <h2 class="page-title border">Add a Family Member</h2>
       <registration-type-select></registration-type-select>
     </section>
