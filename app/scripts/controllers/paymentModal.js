@@ -61,7 +61,6 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $scope.processing = true;
       var transaction = angular.copy($scope.newTransaction);
       delete transaction.errors;
       transaction.amount = Number(transaction.amount);
@@ -69,6 +68,11 @@ angular.module('confRegistrationWebApp')
       delete transaction.sendEmailReceipt;
 
       if(_.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], transaction.paymentType)) {
+        if(!transaction.description){
+          modalMessage.error('Please enter a description.');
+          return;
+        }
+
         path = 'expenses';
         if(transaction.paymentType === 'DISCOUNT'){
           transaction.amount = Number(transaction.amount) * -1;
@@ -82,6 +86,7 @@ angular.module('confRegistrationWebApp')
         transaction.status = 'APPROVED';
       }
 
+      $scope.processing = true;
       if(transaction.paymentType === 'CREDIT_CARD'){
         $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
           ccp.initialize(ccpClientEncryptionKey);
