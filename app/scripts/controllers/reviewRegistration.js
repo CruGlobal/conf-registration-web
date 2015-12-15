@@ -267,4 +267,8 @@ angular.module('confRegistrationWebApp')
         });
       });
     };
+
+    $scope.hasPendingPayments = function(payments){
+      return _.some(payments, { status: 'REQUESTED' }) || _.some(payments, { status: 'PENDING' });
+    };
   });
