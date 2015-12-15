@@ -222,7 +222,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
-      if(registration.completed){
+      if(registration.completed && !conference.allowEditRegistrationAfterComplete){
         return false;
       }
       var groupRegistrants = 0, noGroupRegistrants = 0;
