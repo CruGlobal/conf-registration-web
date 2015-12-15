@@ -210,6 +210,14 @@
                     </div>
                   </div>
                 </div>
+                <div ng-if="editPayment.paymentType === 'CHECK'">
+                  <div class="form-group">
+                    <label class="col-sm-3 control-label">Check #</label>
+                    <div class="col-sm-9">
+                      <input ng-model="editPayment.check.checkNumber" type="text" class="form-control">
+                    </div>
+                  </div>
+                </div>
                 <div ng-if="editPayment.paymentType === 'TRANSFER'">
                   <div class="form-group">
                     <label class="col-sm-3 control-label">Account Type</label>
