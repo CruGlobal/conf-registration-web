@@ -4,7 +4,6 @@ angular.module('confRegistrationWebApp')
   .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
-    $scope.currentYear = new Date().getFullYear();
     $scope.processing = false;
     $scope.activeTab = {};
     $scope.newTransaction = {
@@ -36,23 +35,21 @@ angular.module('confRegistrationWebApp')
         return;
       }
       if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
-        modalMessage.error('Transaction amount must be a positive number.');
-        return;
+        $scope.newTransaction.errors.unshift('Transaction amount must be a positive number.');
       }
-      if ($scope.newTransaction.paymentType === 'CREDIT_CARD') {
-        var validationError = ccp.validateCardNumber($scope.newTransaction.creditCard.number || '');
-        if(validationError){
-          modalMessage.error('Please enter a valid card number. The ' + validationError + '.');
-          return;
-        }
+
+      if (!_.isEmpty($scope.newTransaction.errors)) {
+        modalMessage.error({
+          'title': 'Please correct the following errors:',
+          'message': $scope.newTransaction.errors
+        });
+        return;
       }
 
       if(permissions.permissionInt < permissionConstants.UPDATE){
-        if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
-          if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
-            modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
-            return;
-          }
+        if(permissions.permissionInt === permissionConstants.SCHOLARSHIP && $scope.newTransaction.paymentType !== 'SCHOLARSHIP') {
+          modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
+          return;
         }else{
           modalMessage.error(permissionRequiredMsg);
           return;
@@ -64,13 +61,18 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $scope.processing = true;
       var transaction = angular.copy($scope.newTransaction);
+      delete transaction.errors;
       transaction.amount = Number(transaction.amount);
       var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
       delete transaction.sendEmailReceipt;
 
       if(_.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], transaction.paymentType)) {
+        if(!transaction.description){
+          modalMessage.error('Please enter a description.');
+          return;
+        }
+
         path = 'expenses';
         if(transaction.paymentType === 'DISCOUNT'){
           transaction.amount = Number(transaction.amount) * -1;
@@ -80,10 +82,11 @@ angular.module('confRegistrationWebApp')
         transaction.readyToProcess = true;
       }
 
-      if(transaction.paymentType === 'SCHOLARSHIP' && angular.isDefined(transaction.scholarship)) {
-        transaction.scholarship.scholarshipStatus = 'APPROVED';
+      if(transaction.paymentType === 'SCHOLARSHIP') {
+        transaction.status = 'APPROVED';
       }
 
+      $scope.processing = true;
       if(transaction.paymentType === 'CREDIT_CARD'){
         $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
           ccp.initialize(ccpClientEncryptionKey);
@@ -207,8 +210,12 @@ angular.module('confRegistrationWebApp')
 
     $scope.savePaymentEdits = function (payment) {
       if(payment.paymentType === 'SCHOLARSHIP'){
-        payment.scholarship.scholarshipStatus = 'APPROVED';
+        payment.status = 'APPROVED';
       }
+      if(payment.paymentType === 'CHECK'){
+        payment.status = 'RECEIVED';
+      }
+
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;

@@ -8,7 +8,8 @@ angular.module('confRegistrationWebApp')
       scope: {
         currentPayment: '=payment',
         currentRegistration: '=registration',
-        paymentMethods: '=paymentMethods'
+        paymentMethods: '=paymentMethods',
+        isAdminPayment: '=adminPayment'
       },
       controller: function ($scope, $http) {
         $scope.conference =  $scope.$parent.conference;
@@ -17,9 +18,10 @@ angular.module('confRegistrationWebApp')
 
         $scope.paymentMethodsViews = {
           CREDIT_CARD: 'views/paymentMethods/creditCard.html',
-          CHECK: 'views/paymentMethods/check.html',
+          OFFLINE_CREDIT_CARD: 'views/paymentMethods/creditCardOffline.html',
+          CHECK: $scope.isAdminPayment ? 'views/paymentMethods/checkAdmin.html' : 'views/paymentMethods/check.html',
           TRANSFER: 'views/paymentMethods/transfer.html',
-          SCHOLARSHIP: 'views/paymentMethods/scholarship.html',
+          SCHOLARSHIP: $scope.isAdminPayment ? 'views/paymentMethods/scholarshipAdmin.html' : 'views/paymentMethods/scholarship.html',
           PAY_ON_SITE: 'views/paymentMethods/payOnSite.html'
         };
 
@@ -41,50 +43,84 @@ angular.module('confRegistrationWebApp')
           if(angular.isUndefined(currentPayment)){
             return;
           }
+          currentPayment = angular.copy(currentPayment);
+          if(!currentPayment.creditCard){ currentPayment.creditCard = {}; }
+          if(!currentPayment.offlineCreditCard){ currentPayment.offlineCreditCard = {}; }
+          if(!currentPayment.transfer){ currentPayment.transfer = {}; }
+          if(!currentPayment.scholarship){ currentPayment.scholarship = {}; }
+          if(!currentPayment.check){ currentPayment.check = {}; }
+
+          //validate SCHOLARSHIP payments as TRANSFER payments when admin
+          if(currentPayment.paymentType === 'SCHOLARSHIP' && $scope.isAdminPayment) {
+            currentPayment.paymentType = 'TRANSFER';
+            currentPayment.transfer = currentPayment.scholarship;
+          }
+
           var paymentErrors = [];
-          if(angular.isUndefined(currentPayment.paymentType)){
+          if(angular.isUndefined(currentPayment.paymentType)) {
             paymentErrors.push('Please select a payment method.');
-          }else if(currentPayment.paymentType === 'CREDIT_CARD'){
-            if(!currentPayment.creditCard.nameOnCard){
-              paymentErrors.push('Please enter the name on your card.');
-            }
-            var validationError = ccp.validateCardNumber(currentPayment.creditCard.number || '');
-            if(validationError){
-              paymentErrors.push('Please enter a valid card number. The ' + validationError + '.');
-            }
-            if(!currentPayment.creditCard.expirationMonth || !currentPayment.creditCard.expirationYear){
-              paymentErrors.push('Please enter your card expiration date.');
-            }
-            validationError = ccp.validateCardSecurityCode(currentPayment.creditCard.cvvNumber || '');
-            if(validationError){
-              paymentErrors.push('Please enter a valid card security code. The ' + validationError + '.');
-            }
-            if(!currentPayment.creditCard.billingAddress || !currentPayment.creditCard.billingCity || !currentPayment.creditCard.billingZip){
-              paymentErrors.push('Please enter your card billing details.');
-            }
-          }else if(currentPayment.paymentType === 'TRANSFER'){
-            if(!currentPayment.transfer.accountType){
-              paymentErrors.push('Please select an Account Type.');
-            }
-            if(currentPayment.transfer.accountType === 'STAFF'){
-              if(!currentPayment.transfer.accountNumber){
-                paymentErrors.push('Please enter a Staff Account Number.');
-              }
-            }else if(currentPayment.transfer.accountType === 'MINISTRY'){
-              if(!currentPayment.transfer.businessUnit || !currentPayment.transfer.operatingUnit || !currentPayment.transfer.department || !currentPayment.transfer.projectId){
-                paymentErrors.push('Please fill in all account transfer fields.');
-              }
-            }
-          }else if(currentPayment.paymentType === 'SCHOLARSHIP'){
-            if(!currentPayment.scholarship.staffEmail){
-              paymentErrors.push('Please select a staff member to approve your scholarship.');
+          } else {
+            switch (currentPayment.paymentType) {
+              case 'CREDIT_CARD':
+                if(!currentPayment.creditCard.nameOnCard){
+                  paymentErrors.push('Please enter the name on your card.');
+                }
+                var validationError = ccp.validateCardNumber(currentPayment.creditCard.number || '');
+                if(validationError){
+                  paymentErrors.push('Please enter a valid card number. The ' + validationError + '.');
+                }
+                if(!currentPayment.creditCard.expirationMonth || !currentPayment.creditCard.expirationYear){
+                  paymentErrors.push('Please enter your card expiration date.');
+                }
+                validationError = ccp.validateCardSecurityCode(currentPayment.creditCard.cvvNumber || '');
+                if(validationError){
+                  paymentErrors.push('Please enter a valid card security code. The ' + validationError + '.');
+                }
+
+                //don't require billing address if admin payment
+                if(!$scope.isAdminPayment){
+                  if(!currentPayment.creditCard.billingAddress || !currentPayment.creditCard.billingCity || !currentPayment.creditCard.billingZip){
+                    paymentErrors.push('Please enter your card billing details.');
+                  }
+                }
+                break;
+              case 'OFFLINE_CREDIT_CARD':
+                if(!currentPayment.offlineCreditCard.transactionId){
+                  paymentErrors.push('Please enter a transaction ID.');
+                }
+                break;
+              case 'SCHOLARSHIP':
+                if(!currentPayment.scholarship.staffEmail){
+                  paymentErrors.push('Please select a staff member to approve your scholarship.');
+                }
+                break;
+              case 'TRANSFER':
+                if(!currentPayment.transfer.accountType){
+                  paymentErrors.push('Please select an Account Type.');
+                }
+                if(currentPayment.transfer.accountType === 'STAFF'){
+                  if(!currentPayment.transfer.accountNumber){
+                    paymentErrors.push('Please enter a Staff Account Number.');
+                  }
+                }else if(currentPayment.transfer.accountType === 'MINISTRY'){
+                  if(!currentPayment.transfer.businessUnit || !currentPayment.transfer.operatingUnit || !currentPayment.transfer.department || !currentPayment.transfer.projectId){
+                    paymentErrors.push('Please fill in all ministry transfer fields.');
+                  }
+                }
+                break;
+              case 'CHECK':
+                if($scope.isAdminPayment) {
+                  if(!currentPayment.status){
+                    paymentErrors.push('Please select a check status.');
+                  }
+                  if(!currentPayment.check.checkNumber){
+                    paymentErrors.push('Please enter a check number.');
+                  }
+                }
+                break;
             }
           }
-          if(_.isEmpty(paymentErrors)){
-            $scope.currentPayment.errors = [];
-          }else{
-            $scope.currentPayment.errors = paymentErrors;
-          }
+          $scope.currentPayment.errors = paymentErrors;
         }, true);
       }
     };

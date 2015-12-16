@@ -46,10 +46,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.currentPayment = {
         amount: $scope.currentRegistration.remainingBalance,
-        paymentType: paymentType,
-        creditCard: {},
-        transfer: {},
-        scholarship: {}
+        paymentType: paymentType
       };
     }
 
@@ -99,7 +96,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'CHECK' || $scope.currentPayment.paymentType === 'PAY_ON_SITE'){
+      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
         if(!$scope.currentRegistration.completed){
           setRegistrationAsCompleted();
         }else{
@@ -269,5 +266,9 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('An error occurred while deleting promotion.');
         });
       });
+    };
+
+    $scope.hasPendingPayments = function(payments){
+      return _.some(payments, { status: 'REQUESTED' }) || _.some(payments, { status: 'PENDING' });
     };
   });

@@ -1,0 +1,13 @@
+<div class="row form-group">
+  <div class="col-sm-4">
+    <label>Check Status</label>
+    <select ng-model="currentPayment.status" class="form-control">
+      <option value="PENDING">Pending</option>
+      <option value="RECEIVED">Received</option>
+    </select>
+  </div>
+  <div class="col-sm-8">
+    <label>Check Number</label>
+    <input ng-model="currentPayment.check.checkNumber" type="text" class="form-control">
+  </div>
+</div>

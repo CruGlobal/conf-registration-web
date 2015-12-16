@@ -133,6 +133,7 @@
               <td>
                 <strong>{{p.paymentType | paymentTypeFormat}}</strong>
                 <span ng-if="p.paymentType !== 'TRANSFER'">({{p.transactionDatetime | date: 'shortDate'}})</span>
+                <span ng-if="p.status === 'PENDING' || p.status === 'REQUESTED'">*</span>
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
@@ -148,6 +149,7 @@
               <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
             </tr>
           </table>
+          <p class="text-muted" ng-if="hasPendingPayments(currentRegistration.pastPayments)">* Pending payments are not reflected in remaining balance. Your remaining balance will be automatically updated once any scholarships are approved or checks have been received.</p>
 
           <table class="table">
             <tr ng-repeat="p in currentRegistration.promotions">
@@ -177,8 +179,8 @@
     </section>
     <section class="text-center spacing-above-md" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
       <p ng-if="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
-    <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
-    <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
+      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+      <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </section>
     <section class="text-center spacing-above-md" ng-if="currentRegistration.completed">
         <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
