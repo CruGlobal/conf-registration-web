@@ -13,8 +13,8 @@
       </div>
       <div class="col-sm-4">
         <div class="form-group has-feedback has-clear">
-          <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName">
-          <span class="form-control-feedback form-control-clear" ng-click="resetFilterName()" title="Clear search" ng-if="filterName">
+          <input type="text" class="form-control" placeholder="Filter Events" ng-model="filterName" ng-init="filterName = ''">
+          <span class="form-control-feedback form-control-clear" ng-click="filterName = ''" title="Clear search" ng-show="filterName">
             <i class="fa fa-times"></i>
           </span>
         </div>
@@ -23,8 +23,27 @@
     <div ng-show="filteredEvents.length === 0" class="alert alert-info">
       <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> or <a href="" ng-click="requestAccess()" class="alert-link">request access to an existing event</a> to get started!</p>
     </div>
-    <ul id="event-list">
-      <li class="event-box" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEventsFilter}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
+
+    <h4 ng-show="recentEvents.length">Recently accessed events</h4>
+    <ul class="event-list">
+      <li class="event-box" ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'}) | orderBy: 'lastAccess':true | limitTo: 3" ng-click="goToEventPage('eventOverview', event.id)">
+        <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">
+          <i class="fa fa-users green"></i>
+          <strong>{{event.completedRegistrationCount}}</strong> Registered
+        </button>
+        <h2>{{event.name}}</h2>
+        <ul class="list-inline" ng-if="!event.archived">
+          <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+          <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+          <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+          <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <h4 ng-show="filteredEvents.length && recentEvents.length">All your events</h4>
+    <ul class="event-list">
+      <li class="event-box" ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEvents ? '' : false}) | orderBy: 'name'" ng-class="{'expired': event.archived}"  ng-click="goToEventPage('eventOverview', event.id)">
         <button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" ng-disabled="event.archived">
           <i class="fa fa-users green"></i>
           <strong>{{event.completedRegistrationCount}}</strong> Registered
