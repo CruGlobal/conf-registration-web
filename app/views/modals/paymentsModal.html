@@ -144,7 +144,8 @@
           <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
           <tr ng-class="{'active': $even}">
             <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | currency:'$'}}</td>
+            <td ng-if="payment.paymentType !== 'REFUND'">{{payment.amount | currency:'$'}}</td>
+            <td ng-if="payment.paymentType === 'REFUND'">{{payment.amount * -1 | currency:'$'}}</td>
             <td>
               <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
               <span ng-if="payment.paymentType === 'CHECK'">
@@ -176,9 +177,13 @@
                 </span>
               </span>
               <span ng-if="payment.paymentType === 'CASH'">Cash</span>
-              <span ng-if="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
-              <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
               <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
+              <span ng-if="payment.paymentType === 'REFUND'">
+                <span ng-if="payment.refundChannel === 'CREDIT_CARD' || payment.refundChannel === 'OFFLINE_CREDIT_CARD'">Credit Card</span>
+                <span ng-if="payment.refundChannel === 'CASH'">Cash</span>
+                <span ng-if="payment.refundChannel === 'CHECK'">Check</span>
+                Refund
+              </span>
             </td>
             <td>
               <span ng-if="payment.paymentType === 'SCHOLARSHIP' && payment.status === 'REQUESTED'">{{payment.scholarship.staffApprovalName}}</span>

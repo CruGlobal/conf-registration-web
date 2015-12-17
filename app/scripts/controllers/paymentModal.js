@@ -128,8 +128,7 @@ angular.module('confRegistrationWebApp')
       }
       var sum = payment.amount;
       _.each($scope.registration.pastPayments, function (prevRefund) {
-        if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
-          prevRefund.refundedPaymentId === payment.id) {
+        if (prevRefund.paymentType === 'REFUND' && prevRefund.refundedPaymentId === payment.id) {
           sum -= prevRefund.amount;
         }
       });
