@@ -16,6 +16,10 @@ angular.module('confRegistrationWebApp')
       return c;
     });
 
+    $scope.filterRecentEvents = function(c){
+      return angular.isUndefined(_.find($scope.recentEvents, {id: c.id}));
+    };
+
     $scope.createEvent = function () {
       $modal.open({
         templateUrl: 'views/modals/createEvent.html',
