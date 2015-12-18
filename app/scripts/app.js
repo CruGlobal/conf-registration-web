@@ -87,7 +87,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
+            return ConfCache.get($route.current.params.conferenceId, true);
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
@@ -100,7 +100,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
+            return ConfCache.get($route.current.params.conferenceId, true);
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
@@ -113,7 +113,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
+            return ConfCache.get($route.current.params.conferenceId, true);
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
@@ -126,7 +126,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
-            return ConfCache.get($route.current.params.conferenceId);
+            return ConfCache.get($route.current.params.conferenceId, true);
           }],
           permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);

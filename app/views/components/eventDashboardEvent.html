@@ -1,0 +1,15 @@
+<button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" ng-disabled="event.archived">
+  <i class="fa fa-users green"></i>
+  <strong>{{event.completedRegistrationCount}}</strong> Registered
+</button>
+<h2>{{event.name}}</h2>
+<ul class="list-inline" ng-if="!event.archived">
+  <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+  <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+  <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+  <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+</ul>
+<ul class="list-inline" ng-if="event.archived">
+  <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
+  <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+</ul>

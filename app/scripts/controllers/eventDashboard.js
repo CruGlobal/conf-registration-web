@@ -11,19 +11,14 @@ angular.module('confRegistrationWebApp')
       footer: true
     };
 
-    $scope.conferences = conferences;
-    $scope.filterName = '';
-    $scope.resetFilterName = function(){
-      $scope.filterName = '';
-    };
-
-    $scope.$watch('showArchivedEvents', function (v) {
-      if (v) {
-        $scope.showArchivedEventsFilter = '';
-      } else {
-        $scope.showArchivedEventsFilter = false;
-      }
+    $scope.conferences = _.map(conferences, function(c){
+      c.lastAccess = localStorage.getItem('lastAccess:' + c.id);
+      return c;
     });
+
+    $scope.filterRecentEvents = function(c){
+      return angular.isUndefined(_.find($scope.recentEvents, {id: c.id}));
+    };
 
     $scope.createEvent = function () {
       $modal.open({
