@@ -154,9 +154,6 @@ module.exports = function (grunt) {
         patterns: {
           js: [
             [/(views\/.*?\.(?:html))/gm, 'Update view paths in JS']
-          ],
-          html: [
-            [/(views\/.*?\.(?:html))/gm, 'Update view paths in HTML']
           ]
         }
       }
