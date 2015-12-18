@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http, Model, uuid) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-dashboard',
@@ -30,11 +30,11 @@ angular.module('confRegistrationWebApp')
           }
         }
       }).result.then(function (conferenceName) {
-          if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
-            ConfCache.create(conferenceName).then(function (conference) {
-              $location.path('/eventDetails/' + conference.id);
-            });
-          }
+          if(!conferenceName){ return; }
+
+          ConfCache.create(conferenceName).then(function (conference) {
+            $location.path('/eventDetails/' + conference.id);
+          });
         });
     };
 
@@ -80,91 +80,18 @@ angular.module('confRegistrationWebApp')
             return conferenceToClone.name + ' (clone)';
           }
         }
-      }).result.then(function (conferenceName) {
-        if (conferenceName !== null && conferenceName !== '' && !angular.isUndefined(conferenceName)) {
-          ConfCache.create(conferenceName).then(function (conference) {
-            var conferenceOrig = conference;
-            $http.get('conferences/' + conferenceToClone.id).success(function (result) {
-              //clone conference details
-              conference = angular.copy(result);
-              conference.id = conferenceOrig.id;
-              conference.name = conferenceName;
+      }).result.then(function (data) {
+        if(!data.name){ return; }
 
-              //remove payment gateway info
-              conference.paymentGatewayType = 'AUTHORIZE_NET';
-              conference.paymentGatewayId = null;
-
-              // map the old id to the new id so that question to registrant type assignments can be cloned.
-              var registrantTypeIdMap = {};
-              var blockIdMap = {};
-
-              angular.forEach(conference.registrantTypes, function(v, i){
-                var originalRegTypeId = conference.registrantTypes[i].id;
-                var clonedRegTypeId = uuid();
-                registrantTypeIdMap[originalRegTypeId] = clonedRegTypeId;
-                conference.registrantTypes[i].id = clonedRegTypeId;
-                conference.registrantTypes[i].conferenceId = conference.id;
-
-                //clone earlyRegistrationDiscounts
-                angular.forEach(conference.registrantTypes[i].earlyRegistrationDiscounts, function(v, k){
-                  conference.registrantTypes[i].earlyRegistrationDiscounts[k].id = uuid();
-                  conference.registrantTypes[i].earlyRegistrationDiscounts[k].registrantTypeId = clonedRegTypeId;
-                });
-              });
-
-              //clone promotions
-              angular.forEach(conference.promotions, function(v, i){
-                conference.promotions[i].id = uuid();
-                conference.promotions[i].conferenceId = conference.id;
-
-                var originalRegTypeIds = angular.copy(conference.promotions[i].registrantTypeIds);
-                conference.promotions[i].registrantTypeIds = [];
-                angular.forEach(originalRegTypeIds, function(id){
-                  conference.promotions[i].registrantTypeIds.push(registrantTypeIdMap[id]);
-                });
-              });
-
-              //clone conference pages
-              conference.registrationPages = result.registrationPages;
-              for (var i = 0; i < conference.registrationPages.length; i++) {
-                var pageUuid = uuid();
-                conference.registrationPages[i].id = pageUuid;
-                conference.registrationPages[i].conferenceId = conference.id;
-                for (var j = 0; j < conference.registrationPages[i].blocks.length; j++) {
-                  var blockUuid = uuid();
-                  blockIdMap[conference.registrationPages[i].blocks[j].id] = blockUuid;
-                  conference.registrationPages[i].blocks[j].id = blockUuid;
-                  conference.registrationPages[i].blocks[j].pageId = pageUuid;
-
-                  //block rules
-                  for (var l = 0; l < conference.registrationPages[i].blocks[j].rules.length; l++) {
-                    conference.registrationPages[i].blocks[j].rules[l].id = uuid();
-                    conference.registrationPages[i].blocks[j].rules[l].blockId = blockUuid;
-                    conference.registrationPages[i].blocks[j].rules[l].parentBlockId = blockIdMap[conference.registrationPages[i].blocks[j].rules[l].parentBlockId];
-                  }
-
-                  // take a copy of the registrantTypes for this block
-                  var originalRegTypeIds = angular.copy(conference.registrationPages[i].blocks[j].registrantTypes);
-
-                  // clear the registrantTypes on the block (a copy was just made)
-                  conference.registrationPages[i].blocks[j].registrantTypes = [];
-
-                  // loop through the registantTypes from the original block
-                  for(var k = 0; k <  originalRegTypeIds.length; k++) {
-                    // take the original block ID, and look up the new on that corresponds to it in the map.
-                    // add that new Id to the registrant types on the block
-                    var id = originalRegTypeIds[k];
-                    conference.registrationPages[i].blocks[j].registrantTypes.push(registrantTypeIdMap[id]);
-                  }
-                }
-              }
-
-              Model.update('conferences/' + conference.id, conference, function () {
-                $location.path('/eventDetails/' + conference.id);
-              });
-            });
-          });
-        }
+        $http.post('conferences/' + conferenceToCloneId + '/clone', null, {params: {
+          name: data.name,
+          includePermissions: data.includePermissions
+        }}).success(function(newEvent){
+          ConfCache.empty();
+          $location.path('/eventDetails/' + newEvent.id);
+        }).error(function(){
+          modalMessage.error('An error has occurred while attempting to clone.');
+        });
       });
     };
   });
