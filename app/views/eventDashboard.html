@@ -28,7 +28,7 @@
     <ul class="event-list">
       <li class="event-box"
           ng-include="'views/components/eventDashboardEvent.html'"
-          ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'}) | orderBy: 'lastAccess':true | limitTo: 3"
+          ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'}) | limitTo:3 | orderBy: 'lastAccess':true"
           ng-click="goToEventPage('eventOverview', event.id)">
       </li>
     </ul>
