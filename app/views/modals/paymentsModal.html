@@ -360,7 +360,7 @@
               <label>Refund Method</label>
               <select ng-model="refund.refundChannel" class="form-control">
                 <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'">Credit Card (automatically via Authorize.net)</option>
-                <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType == 'OFFLINE_CREDIT_CARD'">Credit Card (manually)</option>
+                <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'">Credit Card (manually)</option>
                 <option value="CASH">Cash</option>
                 <option value="CHECK">Check</option>
               </select>
