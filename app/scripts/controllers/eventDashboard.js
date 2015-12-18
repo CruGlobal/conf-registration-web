@@ -22,13 +22,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.createEvent = function () {
       $modal.open({
-        templateUrl: 'views/modals/createEvent.html',
-        controller: 'createEventCtrl',
-        resolve: {
-          defaultValue: function () {
-            return '';
-          }
-        }
+        templateUrl: 'views/modals/createEvent.html'
       }).result.then(function (conferenceName) {
           if(!conferenceName){ return; }
 
@@ -74,11 +68,14 @@ angular.module('confRegistrationWebApp')
 
       $modal.open({
         templateUrl: 'views/modals/cloneEvent.html',
-        controller: 'createEventCtrl',
+        controller: 'cloneEventCtrl',
         resolve: {
           defaultValue: function () {
             return conferenceToClone.name + ' (clone)';
-          }
+          },
+          permissions: ['PermissionCache', function (PermissionCache) {
+            return PermissionCache.getForConference(conferenceToCloneId);
+          }]
         }
       }).result.then(function (data) {
         if(!data.name){ return; }
