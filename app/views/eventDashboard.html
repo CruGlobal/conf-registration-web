@@ -27,7 +27,7 @@
     <h4 ng-show="filteredEvents.length && recentEvents.length">Recently accessed events</h4>
     <ul class="event-list">
       <li class="event-box"
-          ng-include="'views/components/eventDashboardEvent.html'"
+          ng-include="eventBoxView"
           ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'} | limitTo:3) | orderBy: 'lastAccess':true"
           ng-click="goToEventPage('eventOverview', event.id)">
       </li>
@@ -36,7 +36,7 @@
     <h4 ng-show="filteredEvents.length && recentEvents.length">All other events</h4>
     <ul class="event-list">
       <li class="event-box"
-          ng-include="'views/components/eventDashboardEvent.html'"
+          ng-include="eventBoxView"
           ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEvents ? '' : false} | filter:filterRecentEvents) | orderBy: 'name'"
           ng-class="{'expired': event.archived}"
           ng-click="goToEventPage('eventOverview', event.id)">

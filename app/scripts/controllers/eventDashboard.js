@@ -10,6 +10,7 @@ angular.module('confRegistrationWebApp')
       confId: 0,
       footer: true
     };
+    $scope.eventBoxView = 'views/components/eventDashboardEvent.html';
 
     $scope.conferences = _.map(conferences, function(c){
       c.lastAccess = localStorage.getItem('lastAccess:' + c.id);
