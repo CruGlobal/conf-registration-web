@@ -23,14 +23,9 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    this.query = function (id) {
-      checkCache(path(id), function (conferences, path) {
-        $rootScope.$broadcast(path, conferences);
-      });
-    };
-
-    this.get = function (id) {
+    this.get = function (id, logLastAccess) {
       var defer = $q.defer();
+      if(id && logLastAccess){ localStorage.setItem('lastAccess:' + id, Math.round(+new Date()/1000)); }
       checkCache(path(id), function (conferences) {
         defer.resolve(conferences);
       });
