@@ -1,20 +1,23 @@
 <h2 class="page-title border">Event Information</h2>
 <div class="form-group">
-  <div class="col-sm-12">
-    <label>Event Name <em class="required">*</em></label>
+  <div class="col-sm-9">
+    <label>Event Name</label>
     <input type="text" class="form-control" ng-model="conference.name">
+  </div>
+  <div class="col-sm-3">
+    <label>Abbreviation</label>
+    <i class="question-popover fa fa-question-circle"
+       popover="Used in the Account Transfers report"
+       popover-trigger="mouseenter"
+       popover-append-to-body="true">
+    </i>
+    <input type="text" class="form-control" ng-model="conference.abbreviation">
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-12">
     <label>Description</label>
     <textarea type="text" class="form-control" rows="3" ng-model="conference.description"></textarea>
-  </div>
-</div>
-<div class="form-group">
-  <div class="col-sm-12">
-    <label>Abbreviation</label>
-    <input type="text" class="form-control" ng-model="conference.abbreviation">
   </div>
 </div>
 <div class="form-group">

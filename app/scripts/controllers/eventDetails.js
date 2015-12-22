@@ -121,7 +121,7 @@ angular.module('confRegistrationWebApp')
       }
 
       if($scope.conference.abbreviation.length > 10) {
-        validationErrors.push('Abbreviation must not be longer than 10 characters.');
+        validationErrors.push('Event abbreviation must be no longer than 10 characters.');
       }
 
       //Event Dates
