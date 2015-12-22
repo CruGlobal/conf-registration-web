@@ -117,7 +117,7 @@ angular.module('confRegistrationWebApp')
 
       //contact website
       var urlPattern = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
-      if(_.isEmpty($scope.conference.contactWebsite)) {
+      if(!_.isEmpty($scope.conference.contactWebsite)) {
         if (!urlPattern.test($scope.conference.contactWebsite)) {
           validationErrors.push('Please enter an valid website.');
         } else {
