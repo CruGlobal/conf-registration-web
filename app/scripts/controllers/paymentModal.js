@@ -86,7 +86,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
       if(transaction.paymentType === 'CREDIT_CARD'){
-        $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
+        $http.get('payments/ccp-client-encryption-key', {cache: true}).success(function(ccpClientEncryptionKey) {
           ccp.initialize(ccpClientEncryptionKey);
           transaction.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(transaction.creditCard.number);
           transaction.creditCard.number = ccp.encrypt(transaction.creditCard.number);
@@ -97,6 +97,7 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('An error occurred while requesting the ccp encryption key.');
         });
       }else{
+        delete transaction.creditCard;
         postTransaction(path, transaction);
       }
     };
