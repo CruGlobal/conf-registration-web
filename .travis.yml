@@ -34,7 +34,7 @@ before_script:
     - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then export GH_PUBLISH_TO_MODULE='build-stage'; fi
     - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then export GH_PUBLISH_TO_MODULE='gh-pages'; fi
     - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then export GH_COMMIT_MSG='deployable PR ${TRAVIS_PULL_REQUEST} to ${GH_PUBLISH_TO_MODULE}'; fi
-    - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then export GH_COMMIT_MSG='publishing deployable project to ${GH_PUBLISH_TO_MODULE}'; fi
+    - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then export GH_COMMIT_MSG='deployable master to ${GH_PUBLISH_TO_MODULE}'; fi
 script:
     # We want to gate on passing tests and a successful build
     - bower install
