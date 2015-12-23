@@ -48,7 +48,8 @@ after_success:
     - git add -f .
     - git config user.email "ryan.t.carlson@cru.org"
     - git config user.name "ryancarlson"
-    - git commit -am "publishing deployable project to ${GH_PUBLISH_TO_MODULE} [ci skip]"
+    - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then git commit -am "deployable PR ${TRAVIS_PULL_REQUEST} to ${GH_PUBLISH_TO_MODULE}"; fi
+    - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then git commit -am "publishing deployable project to ${GH_PUBLISH_TO_MODULE}"; fi
     - git push git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE}
 before_install:
     - "export DISPLAY=:99.0"
