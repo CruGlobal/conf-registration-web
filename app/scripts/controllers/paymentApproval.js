@@ -26,7 +26,7 @@ angular.module('confRegistrationWebApp')
     $scope.updatePayment = function(status){
       $scope.posting = true;
       var paymentObject = angular.copy($scope.payment);
-      paymentObject.scholarship.scholarshipStatus = status;
+      paymentObject.status = status;
 
       $http.put('payments/scholarship/' + paymentHash, paymentObject).
         success(function() {

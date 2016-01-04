@@ -153,7 +153,7 @@ module.exports = function (grunt) {
         assetsDirs: ['<%= yeoman.dist %>'],
         patterns: {
           js: [
-            [/(views\/.*?\.(?:html))/gm, 'Update the JS to reference our revved images']
+            [/(views\/.*?\.(?:html))/gm, 'Update view paths in JS']
           ]
         }
       }

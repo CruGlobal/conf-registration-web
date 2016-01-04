@@ -1,4 +1,4 @@
-<dl class="dl-horizontal">
+<dl class="dl-horizontal" ng-if="!isAdminPayment">
   <dt>Payment method</dt>
   <dd>
     <label ng-show="paymentMethods().acceptCreditCards">
@@ -28,10 +28,17 @@
              ng-value="'SCHOLARSHIP'">
       Scholarship
     </label>
+
+    <label ng-show="paymentMethods().acceptPayOnSite">
+      <input type="radio"
+             ng-model="currentPayment.paymentType"
+             ng-value="'PAY_ON_SITE'">
+      Pay on site
+    </label>
   </dd>
 </dl>
 
-<dl class="dl-horizontal">
+<dl class="dl-horizontal" ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'" ng-if="!isAdminPayment">
   <dt>Amount</dt>
   <dd ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue">
     <div class="input-group">
@@ -39,7 +46,7 @@
       <input type="text"
              ng-model="currentPayment.amount"
              ng-value="currentRegistration.calculatedTotalDue"
-             class="form-control marginless"/>
+             class="form-control marginless">
     </div>
           <span class="text-muted" ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0">
             <i class="fa fa-info-circle"></i> The minimum deposit required to register for this event is {{currentRegistration.calculatedMinimumDeposit | currency:'$'}}
@@ -48,11 +55,8 @@
   <dd ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue">
     <input type="radio"
            ng-model="currentPayment.amount"
-           ng-value="currentRegistration.remainingBalance" /> {{currentRegistration.remainingBalance | currency:'$'}}
+           ng-value="currentRegistration.remainingBalance"> {{currentRegistration.remainingBalance | currency:'$'}}
   </dd>
 </dl>
 
-<ng-include src="paymentMethodsViews.CREDIT_CARD" ng-if="currentPayment.paymentType === 'CREDIT_CARD'"></ng-include>
-<ng-include src="paymentMethodsViews.TRANSFER" ng-if="currentPayment.paymentType === 'TRANSFER'"></ng-include>
-<ng-include src="paymentMethodsViews.SCHOLARSHIP" ng-if="currentPayment.paymentType === 'SCHOLARSHIP'"></ng-include>
-<ng-include src="paymentMethodsViews.CHECK" ng-if="currentPayment.paymentType === 'CHECK'"></ng-include>
+<ng-include src="paymentMethodsViews[currentPayment.paymentType]"></ng-include>

@@ -46,10 +46,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.currentPayment = {
         amount: $scope.currentRegistration.remainingBalance,
-        paymentType: paymentType,
-        creditCard: {},
-        transfer: {},
-        scholarship: {}
+        paymentType: paymentType
       };
     }
 
@@ -99,7 +96,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if($scope.currentPayment.paymentType === 'CHECK'){
+      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
         if(!$scope.currentRegistration.completed){
           setRegistrationAsCompleted();
         }else{
@@ -166,14 +163,15 @@ angular.module('confRegistrationWebApp')
         'title': 'Delete registrant?',
         'question': 'Are you sure you want to delete this registrant?'
       }).then(function(){
-        _.remove($scope.currentRegistration.registrants, function(r) { return r.id === id; });
-        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration, function() {
+        $http({
+          method: 'DELETE',
+          url: 'registrants/' + id
+        }).success(function () {
           $route.reload();
-        }, function(){
+        }).error(function(){
           modalMessage.error({
             'message': 'An error occurred while removing registrant.'
           });
-          $route.reload();
         });
       });
     };
@@ -214,13 +212,14 @@ angular.module('confRegistrationWebApp')
         acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
-        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships')
+        acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
       };
       return (!_.some(paymentMethods) ? false : paymentMethods);
     };
 
     $scope.registrantDeletable = function(r){
-      if(registration.completed){
+      if(registration.completed && !conference.allowEditRegistrationAfterComplete){
         return false;
       }
       var groupRegistrants = 0, noGroupRegistrants = 0;
@@ -267,5 +266,9 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('An error occurred while deleting promotion.');
         });
       });
+    };
+
+    $scope.hasPendingPayments = function(payments){
+      return _.some(payments, { status: 'REQUESTED' }) || _.some(payments, { status: 'PENDING' });
     };
   });

@@ -6,31 +6,31 @@
   </select>
 </div>
 
-<div class="row">
-  <div class="col-sm-12" ng-show="currentPayment.transfer.accountType === 'STAFF'">
+<div class="row form-group" ng-show="currentPayment.transfer.accountType === 'STAFF'">
+  <div class="col-sm-12">
     <label>Account Number</label>
     <input ng-model="currentPayment.transfer.accountNumber" type="text" class="form-control">
   </div>
+</div>
 
-  <div ng-show="currentPayment.transfer.accountType === 'MINISTRY'">
-    <div class="col-sm-3 stacked-spacing-col-sm">
-      <label>Business Unit</label>
-      <input ng-model="currentPayment.transfer.businessUnit" type="text" class="form-control">
-    </div>
+<div class="row form-group" ng-show="currentPayment.transfer.accountType === 'MINISTRY'">
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Business Unit</label>
+    <input ng-model="currentPayment.transfer.businessUnit" type="text" class="form-control">
+  </div>
 
-    <div class="col-sm-3 stacked-spacing-col-sm">
-      <label>Operating Unit</label>
-      <input ng-model="currentPayment.transfer.operatingUnit" type="text" class="form-control">
-    </div>
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Operating Unit</label>
+    <input ng-model="currentPayment.transfer.operatingUnit" type="text" class="form-control">
+  </div>
 
-    <div class="col-sm-3 stacked-spacing-col-sm">
-      <label>Department</label>
-      <input ng-model="currentPayment.transfer.department" type="text" class="form-control">
-    </div>
+  <div class="col-sm-3 stacked-spacing-col-sm">
+    <label>Department</label>
+    <input ng-model="currentPayment.transfer.department" type="text" class="form-control">
+  </div>
 
-    <div class="col-sm-3">
-      <label>Project Id</label>
-      <input ng-model="currentPayment.transfer.projectId" type="text" class="form-control">
-    </div>
+  <div class="col-sm-3">
+    <label>Project Id</label>
+    <input ng-model="currentPayment.transfer.projectId" type="text" class="form-control">
   </div>
 </div>
