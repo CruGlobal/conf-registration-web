@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <button type="button" class="close" ng-click="close()" aria-hidden="true">&times;</button>
+  <button type="button" class="close" ng-click="$close(registration)" aria-hidden="true">&times;</button>
   <h4>Payments &amp; Expenses
     <small>
       <ng-pluralize count="registration.registrants.length" offset=2
@@ -144,7 +144,8 @@
           <tbody ng-repeat="payment in registration.pastPayments | orderBy:'transactionDatetime'">
           <tr ng-class="{'active': $even}">
             <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="payment.paymentType === 'CREDIT_CARD_REFUND' || payment.paymentType === 'REFUND'">-</span>{{payment.amount | currency:'$'}}</td>
+            <td ng-if="payment.paymentType !== 'REFUND'">{{payment.amount | currency:'$'}}</td>
+            <td ng-if="payment.paymentType === 'REFUND'">{{payment.amount * -1 | currency:'$'}}</td>
             <td>
               <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
               <span ng-if="payment.paymentType === 'CHECK'">
@@ -176,9 +177,13 @@
                 </span>
               </span>
               <span ng-if="payment.paymentType === 'CASH'">Cash</span>
-              <span ng-if="payment.paymentType === 'CREDIT_CARD_REFUND'">Credit Card Refund **{{payment.creditCard.lastFourDigits}}</span>
-              <span ng-if="payment.paymentType === 'REFUND'">Refund</span>
               <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
+              <span ng-if="payment.paymentType === 'REFUND'">
+                <span ng-if="payment.refundChannel === 'CREDIT_CARD' || payment.refundChannel === 'OFFLINE_CREDIT_CARD'">Credit Card</span>
+                <span ng-if="payment.refundChannel === 'CASH'">Cash</span>
+                <span ng-if="payment.refundChannel === 'CHECK'">Check</span>
+                Refund
+              </span>
             </td>
             <td>
               <span ng-if="payment.paymentType === 'SCHOLARSHIP' && payment.status === 'REQUESTED'">{{payment.scholarship.staffApprovalName}}</span>
@@ -343,28 +348,30 @@
           </tr>
           <tr>
             <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
-            <td><span ng-show="paymentToRefund.paymentType === 'CREDIT_CARD_REFUND' || paymentToRefund.paymentType === 'REFUND'">-</span>{{calculateRefundableAmount(paymentToRefund) | currency:'$'}}</td>
+            <td>{{calculateRefundableAmount(paymentToRefund) | currency:'$'}}</td>
             <td>{{paymentToRefund.paymentType}}</td>
           </tr>
           </tbody>
         </table>
-        <p class="text-muted"><i class="fa fa-info-circle"></i> The selected payment can be refunded up to the amount that was originally received less any refunds already processed against it.</p>
-
-        <div class="form-group" ng-show="isCreditCardPayment()">
-          <label>Refund Method</label>
-          <div class="btn-group">
-            <label class="btn btn-default" ng-model="refund.paymentType" btn-radio="'CREDIT_CARD_REFUND'">Automatic</label>
-            <label class="btn btn-default" ng-model="refund.paymentType" btn-radio="'REFUND'">Manual</label>
-          </div>
-        </div>
-        <p class="text-muted" ng-show="isCreditCardPayment() && refund.paymentType === 'CREDIT_CARD_REFUND'"><i class="fa fa-info-circle"></i> The credit card used for this payment will be credited the amount entered below.</p>
-        <p class="text-muted" ng-show="isCreditCardPayment() && refund.paymentType === 'REFUND'"><i class="fa fa-info-circle"></i> It is your responsibility to manually issue a refund for this payment. Please record details in the description field below.</p>
 
         <div class="form-group">
-          <label>Amount</label>
-          <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-            <input type="text" class="form-control marginless" ng-model="refund.amount" />
+          <div class="row">
+            <div class="col-sm-8">
+              <label>Refund Method</label>
+              <select ng-model="refund.refundChannel" class="form-control">
+                <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'">Credit Card (automatically via Authorize.net)</option>
+                <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'">Credit Card (manually)</option>
+                <option value="CASH">Cash</option>
+                <option value="CHECK">Check</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <label>Amount</label>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                <input type="text" class="form-control marginless" ng-model="refund.amount">
+              </div>
+            </div>
           </div>
         </div>
 
@@ -374,9 +381,8 @@
         </div>
 
         <div class="form-group text-right">
-          <button class="btn btn-default" ng-if="!processing" ng-click="cancelRefund()">Cancel</button>
-          <button class="btn btn-success" ng-show="isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
-          <button class="btn btn-success" ng-show="!isCreditCardPayment()" ng-click="processRefund()" ng-show="!processing">Record Refund</button>
+          <button class="btn btn-default" ng-click="cancelRefund()" ng-show="!processing">Cancel</button>
+          <button class="btn btn-success" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
           <span ng-show="processing">Processing...</span>
         </div>
       </div>
