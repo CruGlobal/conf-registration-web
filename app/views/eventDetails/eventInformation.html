@@ -1,8 +1,19 @@
 <h2 class="page-title border">Event Information</h2>
 <div class="form-group">
-  <div class="col-sm-12">
-    <label>Event Name <em class="required">*</em></label>
+  <div class="col-sm-9">
+    <label>Event Name</label>
     <input type="text" class="form-control" ng-model="conference.name">
+  </div>
+  <div class="col-sm-3">
+    <label>Abbreviation</label>
+    <i class="question-popover fa fa-question-circle"
+       popover="10 character or less abbreviation of Event Name.  This will be used as the first part of the
+        Description on the Staff Account Transfers upload report.  Including an abbreviation will help those who pay by
+         transfer know which event the transfer is paying for when they view their staff account expense report."
+       popover-trigger="mouseenter"
+       popover-append-to-body="true">
+    </i>
+    <input type="text" class="form-control" ng-model="conference.abbreviation">
   </div>
 </div>
 <div class="form-group">

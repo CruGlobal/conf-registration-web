@@ -64,6 +64,9 @@
           <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
           <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
           <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+          <li ng-show="conference.contactWebsite">
+            <a ng-href="{{conference.contactWebsite}}">{{conference.contactWebsite}}</a>
+          </li>
         </ul>
       </div>
     </section>

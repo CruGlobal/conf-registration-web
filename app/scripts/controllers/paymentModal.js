@@ -13,10 +13,6 @@ angular.module('confRegistrationWebApp')
     };
     var permissionRequiredMsg = 'You do not have permission to perform this action. Please contact an event administrator to request permission.';
 
-    $scope.close = function () {
-      $modalInstance.close($scope.registration);
-    };
-
     $scope.getRegistrantType = function(id) {
       return _.find(conference.registrantTypes, { 'id': id });
     };
@@ -90,7 +86,7 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
       if(transaction.paymentType === 'CREDIT_CARD'){
-        $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
+        $http.get('payments/ccp-client-encryption-key', {cache: true}).success(function(ccpClientEncryptionKey) {
           ccp.initialize(ccpClientEncryptionKey);
           transaction.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(transaction.creditCard.number);
           transaction.creditCard.number = ccp.encrypt(transaction.creditCard.number);
@@ -101,6 +97,7 @@ angular.module('confRegistrationWebApp')
           modalMessage.error('An error occurred while requesting the ccp encryption key.');
         });
       }else{
+        delete transaction.creditCard;
         postTransaction(path, transaction);
       }
     };
@@ -120,8 +117,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.canBeRefunded = function (payment) {
-      return payment.paymentType !== 'CREDIT_CARD_REFUND' &&
-        payment.paymentType !== 'REFUND' &&
+      return payment.paymentType !== 'REFUND' &&
         payment.paymentType !== 'TRANSFER' &&
         payment.paymentType !== 'SCHOLARSHIP' &&
         $scope.calculateRefundableAmount(payment) > 0;
@@ -133,16 +129,11 @@ angular.module('confRegistrationWebApp')
       }
       var sum = payment.amount;
       _.each($scope.registration.pastPayments, function (prevRefund) {
-        if ((prevRefund.paymentType === 'CREDIT_CARD_REFUND' || prevRefund.paymentType === 'REFUND') &&
-          prevRefund.refundedPaymentId === payment.id) {
+        if (prevRefund.paymentType === 'REFUND' && prevRefund.refundedPaymentId === payment.id) {
           sum -= prevRefund.amount;
         }
       });
       return sum;
-    };
-
-    $scope.isCreditCardPayment = function () {
-      return $scope.paymentToRefund && $scope.paymentToRefund.paymentType === 'CREDIT_CARD';
     };
 
     $scope.startRefund = function (payment) {
@@ -152,38 +143,29 @@ angular.module('confRegistrationWebApp')
       }
       $scope.paymentToRefund = payment;
 
-      if ($scope.isCreditCardPayment()) {
-        $scope.refund = {
-          amount: $scope.calculateRefundableAmount(payment),
-          refundedPaymentId: payment.id,
-          registrationId: payment.registrationId,
-          paymentType: 'CREDIT_CARD_REFUND',
-          creditCard: {
-            lastFourDigits: payment.creditCard.lastFourDigits
-          },
-          readyToProcess: true
-        };
-      } else {
-        $scope.refund = {
-          amount: $scope.calculateRefundableAmount(payment),
-          refundedPaymentId: payment.id,
-          registrationId: payment.registrationId,
-          paymentType: 'REFUND',
-          readyToProcess: true
-        };
-      }
+      $scope.refund = {
+        amount: $scope.calculateRefundableAmount(payment),
+        refundedPaymentId: payment.id,
+        registrationId: payment.registrationId,
+        paymentType: 'REFUND',
+        refundChannel: payment.paymentType,
+        readyToProcess: true
+      };
     };
 
     $scope.processRefund = function () {
+      if(!$scope.refund.refundChannel){
+        modalMessage.error('Please select a refund method.');
+        return;
+      }
+
       $scope.processing = true;
       $http.post('payments/', $scope.refund).success(function () {
-        $http.get('registrations/' + $scope.registration.id).success(function (data) {
-          $scope.registration = data;
-          $scope.processing = false;
-          $scope.refund = null;
-        });
-      }).error(function (data) {
-        modalMessage.error('Refund failed. ' + data.errorMessage);
+        $scope.refund = null;
+        loadPayments();
+      }).error(function () {
+        modalMessage.error('Refund failed.');
+      }).finally(function(){
         $scope.processing = false;
       });
     };
