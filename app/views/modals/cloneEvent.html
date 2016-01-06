@@ -2,10 +2,10 @@
   <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3>Clone Event</h3>
 </div>
-<div class="modal-body" ng-if="!permissionToClone">
+<div class="modal-body" ng-show="!permissionToClone">
   <p>You do not permission to clone this event.</p>
 </div>
-<div class="modal-body" ng-if="permissionToClone">
+<div class="modal-body" ng-show="permissionToClone">
   <p>Please enter a name or title for this event.</p>
   <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" auto-focus>
 
