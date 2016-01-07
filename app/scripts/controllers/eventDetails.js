@@ -135,7 +135,7 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('Please enter an event name.');
       }
 
-      if($scope.conference.abbreviation.length > 10) {
+      if($scope.conference.abbreviation && $scope.conference.abbreviation.length > 10) {
         validationErrors.push('Event abbreviation must be no longer than 10 characters.');
       }
 
