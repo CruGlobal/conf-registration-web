@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
         modalMessage.error('Please select a transaction type.');
         return;
       }
-      if (Number($scope.newTransaction.amount) <= 0 && $scope.newTransaction.paymentType !== 'CASH') {
+      if (Number($scope.newTransaction.amount) <= 0) {
         $scope.newTransaction.errors.unshift('Transaction amount must be a positive number.');
       }
 
