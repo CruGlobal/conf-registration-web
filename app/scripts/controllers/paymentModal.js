@@ -110,8 +110,8 @@ angular.module('confRegistrationWebApp')
         }else{
           $scope.activeTab[1] = true;
         }
-      }).error(function (data) {
-        modalMessage.error('Transaction failed. ' + data.errorMessage);
+      }).error(function (errorMessage) {
+        modalMessage.error('Transaction failed. ' + errorMessage);
         $scope.processing = false;
       });
     };
@@ -241,8 +241,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePayment = function (payment) {
-      if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
-      }else{
+      if(permissions.permissionInt < permissionConstants.UPDATE){
         modalMessage.error(permissionRequiredMsg);
         return;
       }
