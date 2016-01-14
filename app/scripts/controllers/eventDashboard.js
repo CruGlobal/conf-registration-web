@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
     $scope.eventBoxView = 'views/components/eventDashboardEvent.html';
 
-    $scope.conferences = _.map(conferences, function(c){
+    $scope.conferences = _.map(angular.copy(conferences), function(c){
       c.lastAccess = localStorage.getItem('lastAccess:' + c.id);
       return c;
     });
@@ -54,9 +54,10 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.restoreEvent = function (eventId) {
-      var eventData = _.find($scope.conferences, {id: eventId});
+      var eventData = _.find(conferences, {id: eventId});
       eventData.archived = false;
 
+      $rootScope.loadingMsg = 'Restoring Event';
       $http({
         method: 'PUT',
         url: 'conferences/' + eventId,
@@ -64,14 +65,16 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         //Clear cache
         ConfCache.empty();
-      }).error(function (data) {
-        modalMessage.error('Error: ' + data.errorMessage);
-        eventData.archived = true;
+        $location.path('/eventOverview/' + eventData.id);
+      }).error(function () {
+        modalMessage.error('An error occurred while attempting to restore event.');
+      }).finally(function() {
+        $rootScope.loadingMsg = '';
       });
     };
 
     $scope.cloneEvent = function (conferenceToCloneId) {
-      var conferenceToClone = _.find($scope.conferences, {id: conferenceToCloneId});
+      var conferenceToClone = _.find(conferences, {id: conferenceToCloneId});
 
       $modal.open({
         templateUrl: 'views/modals/cloneEvent.html',
