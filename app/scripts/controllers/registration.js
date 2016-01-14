@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $route, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -143,8 +143,17 @@ angular.module('confRegistrationWebApp')
         'noString': 'Cancel',
         'normalSize': true
       }).then(function(){
-        $scope.currentRegistration.registrants = [];
-        RegistrationCache.update('registrations/' + $scope.currentRegistration.id, $scope.currentRegistration);
+        var registrantDeleteRequests = [];
+        angular.forEach($scope.currentRegistration.registrants, function(r){
+          registrantDeleteRequests.push($http({
+            method: 'DELETE',
+            url: 'registrants/' + r.id
+          }));
+        });
+        $q.all(registrantDeleteRequests).then(function(){
+          RegistrationCache.emptyCache();
+          $route.reload();
+        });
       });
     };
 
