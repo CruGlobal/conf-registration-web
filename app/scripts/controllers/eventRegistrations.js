@@ -397,6 +397,11 @@ angular.module('confRegistrationWebApp')
           _.remove(registration.registrants, function (r) {
             return r.id === registrant.id;
           });
+        }).error(function(){
+          modalMessage.error({
+            'title': 'Error',
+            'message': 'An error has occurred while deleting this registration.'
+          });
         });
       });
     };
