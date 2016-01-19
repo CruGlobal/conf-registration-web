@@ -54,22 +54,23 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.restoreEvent = function (eventId) {
-      var eventData = _.find(conferences, {id: eventId});
-      eventData.archived = false;
-
       $rootScope.loadingMsg = 'Restoring Event';
-      $http({
-        method: 'PUT',
-        url: 'conferences/' + eventId,
-        data: eventData
-      }).success(function () {
-        //Clear cache
-        ConfCache.empty();
-        $location.path('/eventOverview/' + eventData.id);
-      }).error(function () {
-        modalMessage.error('An error occurred while attempting to restore event.');
-      }).finally(function() {
-        $rootScope.loadingMsg = '';
+      ConfCache.get(eventId).then(function(eventData){
+        eventData.archived = false;
+
+        $http({
+          method: 'PUT',
+          url: 'conferences/' + eventId,
+          data: eventData
+        }).success(function () {
+          //Clear cache
+          ConfCache.empty();
+          $location.path('/eventOverview/' + eventData.id);
+        }).error(function () {
+          modalMessage.error('An error occurred while attempting to restore event.');
+        }).finally(function() {
+          $rootScope.loadingMsg = '';
+        });
       });
     };
 
