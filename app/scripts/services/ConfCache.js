@@ -8,34 +8,27 @@ angular.module('confRegistrationWebApp')
       return 'conferences/' + (id || '');
     };
 
-    var checkCache = function (path, callback) {
-      var cachedConferences = cache.get(path);
+    this.get = function (id, logLastAccess) {
+      var defer = $q.defer();
+      if(id && logLastAccess){ localStorage.setItem('lastAccess:' + id, Math.round(+new Date()/1000)); }
+
+      var eventUrl = path(id);
+      var cachedConferences = cache.get(eventUrl);
       if (angular.isDefined(cachedConferences)) {
-        callback(cachedConferences, path);
+        defer.resolve(cachedConferences);
       } else {
         $rootScope.loadingMsg = 'Loading Event Details';
-        $http.get(path).success(function (conferences) {
-          cache.put(path, conferences);
-          callback(conferences, path);
+        $http.get(eventUrl).success(function (conferences) {
+          cache.put(eventUrl, conferences);
+          defer.resolve(conferences);
+        }).error(function(){
+          defer.reject();
         }).finally(function(){
           $rootScope.loadingMsg = '';
         });
       }
-    };
 
-    this.get = function (id, logLastAccess) {
-      var defer = $q.defer();
-      if(id && logLastAccess){ localStorage.setItem('lastAccess:' + id, Math.round(+new Date()/1000)); }
-      checkCache(path(id), function (conferences) {
-        defer.resolve(conferences);
-      });
       return defer.promise;
-    };
-
-    this.getCallback = function (id, callback) {
-      checkCache(path(id), function (conferences) {
-        callback(conferences);
-      });
     };
 
     this.update = function (id, conference) {

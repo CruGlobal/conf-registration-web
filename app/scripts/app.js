@@ -1,6 +1,6 @@
 'use strict';
 angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module'])
-  .config(function ($routeProvider, $injector) {
+  .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/landing.html',
@@ -16,8 +16,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/register/:conferenceId/page/:pageId?', {
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
+        authorization: {
+          requireLogin: true,
+          allowNoneAuth: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -37,15 +40,18 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/approvePayment/:paymentHash', {
         templateUrl: 'views/paymentApproval.html',
         controller: 'PaymentApprovalCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth')
+        authorization: {
+          requireLogin: true
         }
       })
       .when('/reviewRegistration/:conferenceId', {
         templateUrl: 'views/reviewRegistration.html',
         controller: 'ReviewRegistrationCtrl',
+        authorization: {
+          requireLogin: true,
+          allowNoneAuth: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
@@ -61,8 +67,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/preview/:conferenceId/page/:pageId?', {
         templateUrl: 'views/registration.html',
         controller: 'RegistrationCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -74,8 +82,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventDashboard', {
         templateUrl: 'views/eventDashboard.html',
         controller: 'eventDashboardCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conferences: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get('');
           }]
@@ -84,8 +94,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventOverview/:conferenceId', {
         templateUrl: 'views/eventOverview.html',
         controller: 'eventOverviewCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           }],
@@ -97,8 +109,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventRegistrations/:conferenceId', {
         templateUrl: 'views/eventRegistrations.html',
         controller: 'eventRegistrationsCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           }],
@@ -110,8 +124,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventForm/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventFormCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           }],
@@ -123,8 +139,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventDetails/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventDetailsCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           }],
@@ -136,8 +154,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/eventUsers/:conferenceId', {
         template: '<ng-include src="templateUrl"></ng-include>',
         controller: 'eventPermissionsCtrl',
+        authorization: {
+          requireLogin: true
+        },
         resolve: {
-          enforceAuth: $injector.get('enforceAuth'),
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -152,8 +172,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       .when('/activatePermission/:permissionAuthCode', {
         template: '{{message}}',
         controller: 'activatePermissionCtrl',
-        resolve: {
-          enforceAuth: $injector.get('enforceAuth')
+        authorization: {
+          requireLogin: true
         }
       })
       .when('/auth/:token', {
@@ -161,9 +181,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
             function ($location, $cookies, $route, $rootScope, ProfileCache) {
               $cookies.crsAuthProviderType = '';
-              if ($cookies.crsToken && ($cookies.crsToken !== $route.current.params.token)) {
-                $cookies.crsPreviousToken = $cookies.crsToken;
-              }
               $cookies.crsToken = $route.current.params.token;
               $rootScope.crsToken = $cookies.crsToken;
               ProfileCache.getCache(function (data) {
@@ -223,7 +240,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         redirectTo: '/'
       });
   })
-  .run(function ($rootScope, $cookies, $location, $window) {
+  .run(function ($rootScope, $cookies, $location, $window, ProfileCache) {
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
@@ -239,6 +256,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
 
       //Google Analytics
       $window.ga('send', 'pageview', {'page': $location.path()});
+
+      if (angular.isUndefined($rootScope.globalGreetingName)) {
+        ProfileCache.getCache(function (data) {
+          $rootScope.globalGreetingName = data.firstName;
+        });
+      }
     });
 
     $rootScope.generateTitle = function (title) {
@@ -254,7 +277,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
     $httpProvider.interceptors.push('httpUrlInterceptor');
     $httpProvider.interceptors.push('authorizationInterceptor');
     $httpProvider.interceptors.push('unauthorizedInterceptor');
-    $httpProvider.interceptors.push('debouncePutsInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
   })
   .run(function () {
