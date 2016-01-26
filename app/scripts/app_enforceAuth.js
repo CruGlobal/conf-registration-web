@@ -5,6 +5,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     var nextRouteRequireLogin = next.authorization ? next.authorization.requireLogin : false;
     var nextRouteAllowsNoneAuth = next.authorization ? next.authorization.allowNoneAuth : false;
     var crsToken = $cookies.crsToken;
+    var crsAuthProviderType = $cookies.crsAuthProviderType;
 
     if (!/^\/auth\/.*/.test($location.url())) {
       $cookies.intendedRoute = $location.path();
@@ -13,7 +14,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
       }
     }
 
-    if(!nextRouteRequireLogin || crsToken){
+    if(!nextRouteRequireLogin || (crsToken && crsAuthProviderType !== 'NONE') || (crsToken && nextRouteAllowsNoneAuth)){
       return;
     }
 
@@ -27,7 +28,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
         }
       });
     } else {
-      loginDialog.show();
+      loginDialog.show(angular.isDefined(crsToken));
     }
   });
 });
