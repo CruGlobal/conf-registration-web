@@ -20,7 +20,12 @@ angular.module('confRegistrationWebApp')
     this.getCache = function (callback) {
       if(!$cookies.crsToken){ return; }
       checkCache(path, function (profileData) {
-        callback(profileData);
+        if(callback){ callback(profileData); }
       });
+    };
+
+    this.globalGreetingName = function(){
+      var cachedObject = cache.get(path);
+      return angular.isDefined(cachedObject) ? cachedObject.firstName : null;
     };
   });

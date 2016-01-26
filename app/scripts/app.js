@@ -256,12 +256,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
 
       //Google Analytics
       $window.ga('send', 'pageview', {'page': $location.path()});
-
-      if (angular.isUndefined($rootScope.globalGreetingName)) {
-        ProfileCache.getCache(function (data) {
-          $rootScope.globalGreetingName = data.firstName;
-        });
-      }
     });
 
     $rootScope.generateTitle = function (title) {
@@ -271,6 +265,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         return 'Event Registration Tool';
       }
     };
+
+    $rootScope.globalGreetingName = function(){
+      return ProfileCache.globalGreetingName();
+    };
+    ProfileCache.getCache();
   })
   .config(function ($httpProvider) {
     $httpProvider.interceptors.push('currentRegistrationInterceptor');
