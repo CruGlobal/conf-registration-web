@@ -264,7 +264,7 @@ angular.module('confRegistrationWebApp')
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
       modalMessage.info({
         'title': 'Email Preview',
-        'message': '<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
+        'message': '<p>Hello ' + $rootScope.globalGreetingName() + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
         '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
         '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
         reg.customConfirmationEmailText,
