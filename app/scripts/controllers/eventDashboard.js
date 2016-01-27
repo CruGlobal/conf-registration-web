@@ -46,9 +46,13 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    $scope.eventDisabled = function(eventData){
+      return eventData.archived || eventData.loggedInUserPermissionLevel === 'REQUESTED';
+    };
+
     $scope.goToEventPage = function (page, eventId) {
       var eventData = _.find($scope.conferences, {id: eventId});
-      if (!eventData.archived) {
+      if (!$scope.eventDisabled(eventData)) {
         $location.path('/' + page + '/' + eventId);
       }
     };
