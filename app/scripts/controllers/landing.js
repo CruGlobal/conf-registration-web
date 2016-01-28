@@ -25,14 +25,6 @@ angular.module('confRegistrationWebApp')
     ];
     $scope.jumboImg = jumboImgs[_.random(0, jumboImgs.length - 1)];
 
-    var userIsLoggedIn = angular.isDefined($cookies.crsToken) && $cookies.crsAuthProviderType !== 'NONE';
-    var loggedInUserEvents = [];
-    if(userIsLoggedIn){
-      ConfCache.get('').then(function(response){
-        loggedInUserEvents = _.pluck(response, 'id');
-      });
-    }
-
     $scope.eventSearch = _.throttle(function(val) {
       if(!val){ return; }
       if(val.length < 2){
@@ -86,9 +78,5 @@ angular.module('confRegistrationWebApp')
       }else{
         $location.path('/' + route + '/' + e.id);
       }
-    };
-
-    $scope.userAdminForEvent = function(eventId){
-      return _.contains(loggedInUserEvents, eventId);
     };
   });
