@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location, ConfCache) {
+  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'dashboard',

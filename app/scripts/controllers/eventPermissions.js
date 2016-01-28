@@ -45,8 +45,8 @@ angular.module('confRegistrationWebApp')
         data: postData
       }).success(function (data) {
         $scope.currentPermissions.push(data);
-        $scope.$$childHead.addPermissionsEmail = '';
-        $scope.$$childHead.addPermissionsLevel = '';
+        $scope.addPermissionsEmail = '';
+        $scope.addPermissionsLevel = '';
         $scope.notify = {
           class: 'alert-success',
           message: $sce.trustAsHtml('User added.')

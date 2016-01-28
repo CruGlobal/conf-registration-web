@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
 
     this.getForConferenceCache = function(conferenceId){
       return cache.get(path(conferenceId));
-    }
+    };
   });
 
 
