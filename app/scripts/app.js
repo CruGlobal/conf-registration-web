@@ -100,9 +100,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
@@ -110,7 +107,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         templateUrl: 'views/eventRegistrations.html',
         controller: 'eventRegistrationsCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW'
         },
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
@@ -122,47 +120,41 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         }
       })
       .when('/eventForm/:conferenceId', {
-        template: '<ng-include src="templateUrl"></ng-include>',
+        templateUrl: 'views/eventForm.html',
         controller: 'eventFormCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
+          eventAdminPermissionLevel: 'UPDATE'
         },
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
       .when('/eventDetails/:conferenceId', {
-        template: '<ng-include src="templateUrl"></ng-include>',
+        templateUrl: 'views/eventDetails.html',
         controller: 'eventDetailsCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
+          eventAdminPermissionLevel: 'UPDATE'
         },
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
           }]
         }
       })
       .when('/eventUsers/:conferenceId', {
-        template: '<ng-include src="templateUrl"></ng-include>',
+        templateUrl: 'views/eventPermissions.html',
         controller: 'eventPermissionsCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
+          eventAdminPermissionLevel: 'FULL'
         },
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
           }],
           conferencePermissions: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.getPermissions($route.current.params.conferenceId);
@@ -228,11 +220,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           ]
         }
       })
-      .when('/help/', {
+      .when('/help', {
         templateUrl: 'views/help.html',
         controller: 'helpCtrl'
       })
-      .when('/privacy/', {
+      .when('/privacy', {
         templateUrl: 'views/privacy.html',
         controller: 'helpCtrl'
       })
