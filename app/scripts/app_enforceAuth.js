@@ -7,15 +7,15 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     var crsToken = $cookies.crsToken;
     var crsAuthProviderType = $cookies.crsAuthProviderType;
 
+    if(!nextRouteRequireLogin || (crsToken && crsAuthProviderType !== 'NONE') || (crsToken && nextRouteAllowsNoneAuth)){
+      return;
+    }
+
     if (!/^\/auth\/.*/.test($location.url())) {
       $cookies.intendedRoute = $location.path();
       if(angular.isDefined(next.params.regType)){
         $cookies.regType = next.params.regType;
       }
-    }
-
-    if(!nextRouteRequireLogin || (crsToken && crsAuthProviderType !== 'NONE') || (crsToken && nextRouteAllowsNoneAuth)){
-      return;
     }
 
     event.preventDefault();
