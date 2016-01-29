@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(_.isEmpty(registration.registrants)) {
+    if(_.isEmpty(registration.registrants) && !registration.completed) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
@@ -270,5 +270,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.hasPendingPayments = function(payments){
       return _.some(payments, { status: 'REQUESTED' }) || _.some(payments, { status: 'PENDING' });
+    };
+
+    $scope.hasPendingCheckPayment = function(payments){
+      return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
     };
   });

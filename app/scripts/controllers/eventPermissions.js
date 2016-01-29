@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, permissions, permissionConstants, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -10,11 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-    if (permissions.permissionInt >= permissionConstants.FULL) {
-      $scope.templateUrl = 'views/eventPermissions.html';
-    } else {
-      $scope.templateUrl = 'views/permissionError.html';
-    }
     $scope.conference = conference;
     $scope.currentPermissions = conferencePermissions;
 
@@ -50,8 +45,8 @@ angular.module('confRegistrationWebApp')
         data: postData
       }).success(function (data) {
         $scope.currentPermissions.push(data);
-        $scope.$$childHead.addPermissionsEmail = '';
-        $scope.$$childHead.addPermissionsLevel = '';
+        $scope.addPermissionsEmail = '';
+        $scope.addPermissionsLevel = '';
         $scope.notify = {
           class: 'alert-success',
           message: $sce.trustAsHtml('User added.')

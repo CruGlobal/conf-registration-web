@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('PermissionCache', function ($cacheFactory, $rootScope, $http, $q, permissionConstants) {
+  .service('PermissionCache', function ($cacheFactory, $http, $q, permissionConstants) {
     var cache = $cacheFactory('permission');
 
     var path = function (conferenceId) {
@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
 
     var update = function (path, object) {
       cache.put(path, object);
-      $rootScope.$broadcast(path, object);
     };
 
     var checkCache = function (path, callback) {
@@ -30,6 +29,10 @@ angular.module('confRegistrationWebApp')
       var defer = $q.defer();
       checkCache(path(conferenceId), defer.resolve);
       return defer.promise;
+    };
+
+    this.getForConferenceCache = function(conferenceId){
+      return cache.get(path(conferenceId));
     };
   });
 

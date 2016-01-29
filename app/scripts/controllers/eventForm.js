@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid, permissions, permissionConstants) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-questions',
@@ -10,11 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-    if (permissions.permissionInt >= permissionConstants.UPDATE) {
-      $scope.templateUrl = 'views/eventForm.html';
-    } else {
-      $scope.templateUrl = 'views/permissionError.html';
-    }
 
     $scope.conference = conference;
     $scope.$watch('conference', function (newObject, oldObject) {
