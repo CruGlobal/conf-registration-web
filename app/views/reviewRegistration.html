@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)">
+    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)" class="hidden-print">
       <h2 class="page-title border">Add a Family Member</h2>
       <registration-type-select></registration-type-select>
     </section>
@@ -172,18 +172,31 @@
         </div>
       </div>
 
-    <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0">
+      <div ng-if="hasPendingCheckPayment(currentRegistration.pastPayments)" class="spacing-below-md">
+        <h2 class="page-title border">Check Instructions</h2>
+        <ol>
+          <li>Print this page.</li>
+          <li>Make your check payable to "{{conference.checkPayableTo}}".</li>
+          <li>Mail this page and your check to:<br><br>
+            {{conference.checkMailingAddress}}<br>
+            {{conference.checkMailingCity}}, {{conference.checkMailingState}} {{conference.checkMailingZip}}
+          </li>
+        </ol>
+      </div>
+
+      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" class="hidden-print">
         <h2 class="page-title border">Payment</h2>
-      <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
-    </div>
+        <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
+      </div>
     </section>
-    <section class="text-center spacing-above-md" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
+
+    <section class="text-center spacing-above-md hidden-print" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
       <p ng-if="!allRegistrantsValid()" style="color:red;">Please fill in all required fields in red before submitting.</p>
       <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
       <span ng-show="registerMode === 'preview'">&laquo; Disabled in preview mode</span>
     </section>
-    <section class="text-center spacing-above-md" ng-if="currentRegistration.completed">
-        <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
+    <section class="text-center spacing-above-md hidden-print" ng-if="currentRegistration.completed">
+      <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
     </section>
   </div>
 </div>
