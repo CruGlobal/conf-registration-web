@@ -193,7 +193,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
             function ($location, $cookies, $window, $http, $facebook) {
               $http.get('auth/logout').success(function() {
-                delete $cookies.crsPreviousToken;
                 delete $cookies.crsToken;
 
                 /* if facebook, then use the FB JavaScript SDK to log out user from FB */

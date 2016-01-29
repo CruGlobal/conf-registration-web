@@ -271,4 +271,8 @@ angular.module('confRegistrationWebApp')
     $scope.hasPendingPayments = function(payments){
       return _.some(payments, { status: 'REQUESTED' }) || _.some(payments, { status: 'PENDING' });
     };
+
+    $scope.hasPendingCheckPayment = function(payments){
+      return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
+    };
   });
