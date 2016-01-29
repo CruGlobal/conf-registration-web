@@ -95,7 +95,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         templateUrl: 'views/eventOverview.html',
         controller: 'eventOverviewCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW'
         },
         resolve: {
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
