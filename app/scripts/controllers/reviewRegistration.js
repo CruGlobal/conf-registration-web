@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(_.isEmpty(registration.registrants)) {
+    if(_.isEmpty(registration.registrants) && !registration.completed) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
