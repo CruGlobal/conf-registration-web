@@ -9,13 +9,13 @@
   </button>
   <h2>{{event.name}}</h2>
   <ul class="list-inline" ng-if="!event.archived">
-    <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();"><i class="fa fa-users"></i> Registrations</a></li>
-    <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();"><i class="fa fa-info"></i> Details</a></li>
-    <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();"><i class="fa fa-question"></i> Questions</a></li>
-    <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();"><i class="fa fa-clone"></i> Clone</a></li>
+    <li><i class="fa fa-users"></i> <a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+    <li><i class="fa fa-info"></i> <a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+    <li><i class="fa fa-question"></i> <a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+    <li><i class="fa fa-clone"></i> <a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
   </ul>
   <ul class="list-inline" ng-if="event.archived">
-    <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();"><i class="fa fa-undo"></i> Restore Event</a></li>
-    <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();"><i class="fa fa-clone"></i> Clone</a></li>
+    <li><i class="fa fa-undo"></i> <a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
+    <li><i class="fa fa-clone"></i> <a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
   </ul>
 </span>
