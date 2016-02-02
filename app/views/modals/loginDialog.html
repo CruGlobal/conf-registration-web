@@ -11,11 +11,17 @@
     <p class="spacing-below-xs" ng-class="{'lead': !status401}">
       Please sign in with one of the following services:
     </p>
-    <p>
-      <a class="btn btn-subtle btn-spacing" ng-href="{{apiUrl}}auth/facebook/authorization" title="Facebook"><img src="/img/signin-facebook.png"></a>
-      <a class="btn btn-subtle btn-spacing" ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout" title="Relay"><img src="/img/signin-relay.png"></a>
-    </p>
-    <p>
+    <div class="row">
+      <div class="col-sm-5 col-sm-offset-1">
+        <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/facebook/authorization" title="Facebook"><img src="/img/signin-facebook.png"></a>
+        <a href="https://www.facebook.com/r.php" target="_blank">Create a Facebook account</a>
+      </div>
+      <div class="col-sm-5">
+        <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout" title="Relay"><img src="/img/signin-relay.png"></a>
+        <a href="https://signin.cru.org/sso/selfservice/ssoSignup" target="_blank">Create a Relay account</a>
+      </div>
+    </div>
+    <p class="spacing-above-sm">
       <span class="text-muted">or</span>
       <a ng-if="!status401" href="" ng-click="gotoRoute('/')">go to the Welcome Page</a>
       <a ng-if="status401" href="" ng-click="gotoRoute('/eventDashboard')">go to Event Dashboard</a>
