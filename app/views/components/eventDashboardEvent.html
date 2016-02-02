@@ -1,15 +1,21 @@
-<button class="btn btn-sm btn-reg-count pull-right" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" ng-disabled="event.archived">
-  <i class="fa fa-users green"></i>
-  <strong>{{event.completedRegistrationCount}}</strong> Registered
-</button>
-<h2>{{event.name}}</h2>
-<ul class="list-inline" ng-if="!event.archived">
-  <li><a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
-  <li><a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
-  <li><a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
-  <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-</ul>
-<ul class="list-inline" ng-if="event.archived">
-  <li><a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
-  <li><a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
-</ul>
+<span ng-if="event.loggedInUserPermissionLevel === 'REQUESTED'">
+  <span class="btn-sm btn-warning pull-right text-center">Access pending</span>
+  <h2>{{event.name}}</h2>
+</span>
+<span ng-if="event.loggedInUserPermissionLevel !== 'REQUESTED'">
+  <button class="btn btn-sm btn-reg-count pull-right hidden-xs" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();" ng-disabled="event.archived">
+    <i class="fa fa-users green"></i>
+    <strong>{{event.completedRegistrationCount}}</strong> Registered
+  </button>
+  <h2>{{event.name}}</h2>
+  <ul class="list-inline" ng-if="!event.archived">
+    <li><i class="fa fa-users"></i> <a href="" ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();">Registrations</a></li>
+    <li><i class="fa fa-info"></i> <a href="" ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();">Details</a></li>
+    <li><i class="fa fa-question"></i> <a href="" ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();">Questions</a></li>
+    <li><i class="fa fa-clone"></i> <a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+  </ul>
+  <ul class="list-inline" ng-if="event.archived">
+    <li><i class="fa fa-undo"></i> <a href="" ng-click="restoreEvent(event.id); $event.stopPropagation();">Restore Event</a></li>
+    <li><i class="fa fa-clone"></i> <a href="" ng-click="cloneEvent(event.id); $event.stopPropagation();">Clone</a></li>
+  </ul>
+</span>
