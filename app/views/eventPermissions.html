@@ -21,7 +21,7 @@
             </span>
           </td>
           <td>
-            <select style="width: 128px" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+            <select style="min-width:128px;" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
               <option value="FULL">Full</option>
               <option value="UPDATE">Update</option>
               <option value="SCHOLARSHIP">Scholarship</option>
@@ -48,10 +48,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="permission in currentPermissions | filter:{ permissionLevel: '!REQUESTED' } | orderBy: ['lastName', 'firstName', 'emailAddress']">
-          <td><span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}</td>
+        <tr ng-repeat="permission in currentPermissions | filter:{ permissionLevel: '!REQUESTED' } | orderBy: ['lastName', 'firstName', 'emailAddress']" ng-class="{'bg-warning': !permission.userId}">
           <td>
-            <select style="width: 128px" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
+            <span ng-if="permission.firstName || permission.lastName">{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span>{{permission.emailAddress}}
+            <span ng-if="!permission.userId" class="text-muted"><br>Pending acceptance</span>
+          </td>
+          <td>
+            <select style="min-width:128px;" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
               <option ng-if="permission.permissionLevel === 'CREATOR'" value="CREATOR">Creator</option>
               <option value="FULL">Full</option>
               <option value="UPDATE">Update</option>
