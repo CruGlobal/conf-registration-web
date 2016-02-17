@@ -23,7 +23,7 @@ angular.module('confRegistrationWebApp')
               'noString': 'Cancel',
               'normalSize': true
             }).then(function(){
-              ConfCache.getCallback(conferenceId, function(conference){
+              ConfCache.get(conferenceId).then(function(conference){
                 conference.archived = true;
 
                 $http({

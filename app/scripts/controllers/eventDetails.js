@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, permissions, permissionConstants, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -10,11 +10,6 @@ angular.module('confRegistrationWebApp')
       confId: conference.id,
       footer: true
     };
-    if (permissions.permissionInt >= permissionConstants.UPDATE) {
-      $scope.templateUrl = 'views/eventDetails.html';
-    } else {
-      $scope.templateUrl = 'views/permissionError.html';
-    }
 
     $scope.tabs = [
       {id: 'eventInfo', name: 'Event Information', view: 'views/eventDetails/eventInformation.html'},
@@ -135,7 +130,7 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('Please enter an event name.');
       }
 
-      if($scope.conference.abbreviation.length > 10) {
+      if($scope.conference.abbreviation && $scope.conference.abbreviation.length > 10) {
         validationErrors.push('Event abbreviation must be no longer than 10 characters.');
       }
 
@@ -264,7 +259,7 @@ angular.module('confRegistrationWebApp')
       var eventEndTime = moment(conference.eventEndTime).format('dddd, MMMM D YYYY, h:mm a');
       modalMessage.info({
         'title': 'Email Preview',
-        'message': '<p>Hello ' + $rootScope.globalGreetingName + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
+        'message': '<p>Hello ' + $rootScope.globalGreetingName() + '!</p><p>You are registered for ' + $scope.conference.name + '.</p>' +
         '<p><strong>Start Time:</strong> ' + eventStartTime + '<br><strong>End Time:</strong> ' + eventEndTime + '</p>' +
         '<p><strong>Total Cost:</strong> ' + cost + '<br><strong>Total Amount Paid:</strong> ' + cost + '<br><strong>Remaining Balance:</strong> $0.00</p>' +
         reg.customConfirmationEmailText,

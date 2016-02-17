@@ -54,8 +54,7 @@
         </p>
         <p class="spacing-above-md" ng-if="e.description">{{e.description}}</p>
         <div class="text-center">
-          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" ng-if="!userAdminForEvent(e.id)">Register</button>
-          <button ng-click="selectEvent(e, 'eventOverview')" class="btn btn-success spacing-above-xs" ng-if="userAdminForEvent(e.id)">Manage</button>
+          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs">Register</button>
         </div>
       </div>
     </div>

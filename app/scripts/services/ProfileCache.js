@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('ProfileCache', function ProfileCache($cacheFactory, $rootScope, $http, $q) {
+  .service('ProfileCache', function ProfileCache($cacheFactory, $cookies, $http) {
     var cache = $cacheFactory('profile');
     var path = 'profile';
 
@@ -17,17 +17,15 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    this.get = function () {
-      var defer = $q.defer();
+    this.getCache = function (callback) {
+      if(!$cookies.crsToken){ return; }
       checkCache(path, function (profileData) {
-        defer.resolve(profileData);
+        if(callback){ callback(profileData); }
       });
-      return defer.promise;
     };
 
-    this.getCache = function (callback) {
-      checkCache(path, function (profileData) {
-        callback(profileData);
-      });
+    this.globalGreetingName = function(){
+      var cachedObject = cache.get(path);
+      return angular.isDefined(cachedObject) ? cachedObject.firstName : null;
     };
   });

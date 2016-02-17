@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <div class="panel-body" collapse="!openWell[promo.id]">
+    <div class="panel-body" ng-if="openWell[promo.id]">
       <button class="btn btn-xs btn-danger reg-type-delete" ng-click="$parent.conference.promotions.splice($index, 1)" type="button">
         <i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Promotion Code</span>
       </button>

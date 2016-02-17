@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-sm-12 col-md-9">
+  <div class="col-sm-12">
     <div class="row">
       <div class="col-xs-12">
         <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length + recentEvents.length}} of {{conferences.length}}</strong> events</p>
@@ -28,7 +28,8 @@
     <ul class="event-list">
       <li class="event-box"
           ng-include="eventBoxView"
-          ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'} | limitTo:3) | orderBy: 'lastAccess':true"
+          ng-repeat="event in recentEvents = (conferences | filter:{ name: filterName, archived: false, lastAccess: '!!'} | orderBy: 'lastAccess':true | limitTo:3)"
+          ng-class="{'expired': eventDisabled(event)}"
           ng-click="goToEventPage('eventOverview', event.id)">
       </li>
     </ul>
@@ -38,7 +39,7 @@
       <li class="event-box"
           ng-include="eventBoxView"
           ng-repeat="event in filteredEvents = (conferences | filter:{ name: filterName, archived: showArchivedEvents ? '' : false} | filter:filterRecentEvents) | orderBy: 'name'"
-          ng-class="{'expired': event.archived}"
+          ng-class="{'expired': eventDisabled(event)}"
           ng-click="goToEventPage('eventOverview', event.id)">
       </li>
     </ul>
@@ -48,10 +49,4 @@
       <input type="checkbox" ng-model="showArchivedEvents"> Show archived events
     </label>
   </div>
-  <aside class="col-md-3 welcome hidden-xs hidden-sm divider-left-col-md">
-    <section>
-      <h3>Welcome</h3>
-      <p>Welcome to the Event Registration Tool (Beta).</p>
-    </section>
-  </aside>
 </div>
