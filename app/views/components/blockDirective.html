@@ -88,7 +88,7 @@
           <label><input type="checkbox" ng-model="block.content.hideGradStudent"> Hide "Graduate Student" option</label>
         </div>
 
-        <div class="checkbox" ng-if="requiredOption">
+        <div class="checkbox" ng-if="requiredOption && !block.adminOnly">
           <label><input type="checkbox" ng-model="block.required"> Required</label>
         </div>
         <div class="checkbox" ng-if="profileOption || block.profileType">
@@ -107,10 +107,18 @@
         <div class="form-group">
           <label>Show this question for the following registration types:</label>
           <div ng-if="canChangeRegTypes">
-            <div ng-repeat="type in conference.registrantTypes" class="checkbox">
+            <div class="checkbox" ng-if="block.type !== 'paragraphContent'">
               <label>
-                <input type="checkbox"
-                       ng-model="$parent.visibleRegTypes[type.id]">
+                <input type="checkbox" ng-model="block.adminOnly">
+                Admin only
+              </label>
+              <i popover="This question will be visible to admins only and will not be seen by any registrants"
+                 popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+            </div>
+
+            <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="$parent.visibleRegTypes[type.id]">
                 {{type.name}}
               </label>
             </div>

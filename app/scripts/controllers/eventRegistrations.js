@@ -120,7 +120,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.blockIsVisible = function(block, registrant){
-      return validateRegistrant.blockVisible(block, registrant);
+      return validateRegistrant.blockVisible(block, registrant, true);
     };
 
     var findAnswer = function (registration, blockId) {
