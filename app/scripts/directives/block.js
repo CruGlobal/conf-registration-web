@@ -74,8 +74,14 @@ angular.module('confRegistrationWebApp')
           }
         }
 
-        $scope.toggleBlockEdit = function (){
-          $scope.editBlock = !$scope.editBlock;
+        $scope.toggleBlockEdit = function (selectTab){
+          $scope.activeTab = {};
+          if(selectTab){
+            $scope.editBlock = true;
+            $scope.activeTab[selectTab] = true;
+          }else{
+            $scope.editBlock = !$scope.editBlock;
+          }
         };
 
         $scope.editBlockAddOption = function (newOption) {
@@ -156,6 +162,7 @@ angular.module('confRegistrationWebApp')
             if (angular.isDefined(object)) {
               //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
               $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; })).sort();
+              $scope.visibleRegTypesArray = _.keys(_.omit(object, function(value){ return !value; }));
             }
           }, true);
 
@@ -287,6 +294,11 @@ angular.module('confRegistrationWebApp')
             case 'numberQuestion':
               return 'number';
           }
+        };
+
+        $scope.registrationTypeName = function(id){
+          if(!id){ return; }
+          return _.find($scope.conference.registrantTypes, { 'id': id }).name;
         };
       }
     };

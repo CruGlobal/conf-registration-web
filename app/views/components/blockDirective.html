@@ -22,6 +22,19 @@
 
 <div class="edit-box-name crsQuestion" ng-if="wizard">
   <div class="btn-group btn-group-xs pull-right" role="group">
+    <button class="btn btn-warning btn-disabled" ng-if="block.adminOnly" ng-click="toggleBlockEdit('advanced')">
+      <i class="fa fa-lock"></i> Admin only
+    </button>
+    <button class="btn btn-default" ng-click="toggleBlockEdit('advanced')" ng-if="!block.adminOnly && visibleRegTypesArray.length < conference.registrantTypes.length">
+      <i class="fa fa-eye"></i>
+      <ng-pluralize count="visibleRegTypesArray.length" offset=2
+          when="{'0': 'None',
+           '1': '{{registrationTypeName(visibleRegTypesArray[0])}}',
+           '2': '{{registrationTypeName(visibleRegTypesArray[0])}} & {{registrationTypeName(visibleRegTypesArray[1])}}',
+           'one': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & one more',
+           'other': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & {} more'}">
+      </ng-pluralize>
+    </button>
     <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
     <button class="btn btn-default" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
@@ -52,7 +65,7 @@
       <tab heading="Options">
         <div class="form-group">
           <label class="inline-label">Title</label>
-          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
+          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
         </div>
 
         <div class="form-group" ng-show="block.type === 'paragraphContent'">
@@ -95,7 +108,7 @@
           <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> Cru Profile</label>
         </div>
       </tab>
-      <tab heading="Advanced">
+      <tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label">Export Title</label>
           <i popover="Enter a value here to replace the question title in a registration export."
