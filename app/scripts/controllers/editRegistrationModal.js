@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.blockIsVisible = function(block, registrant){
-      return block.type !== 'paragraphContent' && validateRegistrant.blockVisible(block, registrant);
+      return block.type !== 'paragraphContent' && validateRegistrant.blockVisible(block, registrant, true);
     };
 
     $scope.submit = function (setRegistrationAsCompleted) {

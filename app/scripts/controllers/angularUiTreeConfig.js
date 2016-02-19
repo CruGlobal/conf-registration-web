@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
           return;
         }
 
-        var conference = $scope.$parent.$parent.conference;
+        var conference = $scope.$parent.conference;
         var positionArray = [];
         conference.registrationPages.forEach(function (page, pageIndex) {
           page.blocks.forEach(function (block, blockIndex) {
