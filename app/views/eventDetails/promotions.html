@@ -26,12 +26,12 @@
       </button>
       <div class="row">
         <div class="col-md-6">
-          <div class="input-group">
+          <div>
             <label>Description</label>
             <textarea class="form-control" ng-model="promo.description"></textarea>
           </div>
 
-          <div class="input-group pt12">
+          <div class="pt12">
             <label>Validity Range</label>
             <div class="row">
               <div class="col-sm-6 stacked-spacing-col-sm">
@@ -40,6 +40,17 @@
               <div class="col-sm-6 stacked-spacing-col-sm">
                 <crs-datetimepicker model="promo.deactivationDate"></crs-datetimepicker>
               </div>
+            </div>
+          </div>
+
+          <div class="pt12">
+            <label>Usage limit</label>
+            <button type="button" class="btn btn-default btn-block" ng-if="!promo.numberLimit" ng-click="promo.numberLimit = 10">Enable Limit</button>
+            <div class="input-group" ng-if="promo.numberLimit">
+              <input type="number" ng-model="promo.numberLimit" class="form-control" min="0">
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="promo.numberLimit = 0">Disable Limit</button>
+              </span>
             </div>
           </div>
         </div>
