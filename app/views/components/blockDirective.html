@@ -22,6 +22,19 @@
 
 <div class="edit-box-name crsQuestion" ng-if="wizard">
   <div class="btn-group btn-group-xs pull-right" role="group">
+    <button class="btn btn-warning btn-disabled" ng-if="block.adminOnly" ng-click="toggleBlockEdit('advanced')">
+      <i class="fa fa-lock"></i> Admin only
+    </button>
+    <button class="btn btn-default" ng-click="toggleBlockEdit('advanced')" ng-if="!block.adminOnly && visibleRegTypesArray.length < conference.registrantTypes.length">
+      <i class="fa fa-eye"></i>
+      <ng-pluralize count="visibleRegTypesArray.length" offset=2
+          when="{'0': 'None',
+           '1': '{{registrationTypeName(visibleRegTypesArray[0])}}',
+           '2': '{{registrationTypeName(visibleRegTypesArray[0])}} & {{registrationTypeName(visibleRegTypesArray[1])}}',
+           'one': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & one more',
+           'other': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & {} more'}">
+      </ng-pluralize>
+    </button>
     <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> Edit</button>
     <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> Close</button>
     <button class="btn btn-default" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> Copy</button>
@@ -52,7 +65,7 @@
       <tab heading="Options">
         <div class="form-group">
           <label class="inline-label">Title</label>
-          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title" />
+          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
         </div>
 
         <div class="form-group" ng-show="block.type === 'paragraphContent'">
@@ -88,14 +101,14 @@
           <label><input type="checkbox" ng-model="block.content.hideGradStudent"> Hide "Graduate Student" option</label>
         </div>
 
-        <div class="checkbox" ng-if="requiredOption">
+        <div class="checkbox" ng-if="requiredOption && !block.adminOnly">
           <label><input type="checkbox" ng-model="block.required"> Required</label>
         </div>
         <div class="checkbox" ng-if="profileOption || block.profileType">
           <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> Cru Profile</label>
         </div>
       </tab>
-      <tab heading="Advanced">
+      <tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label">Export Title</label>
           <i popover="Enter a value here to replace the question title in a registration export."
@@ -107,10 +120,18 @@
         <div class="form-group">
           <label>Show this question for the following registration types:</label>
           <div ng-if="canChangeRegTypes">
-            <div ng-repeat="type in conference.registrantTypes" class="checkbox">
+            <div class="checkbox" ng-if="block.type !== 'paragraphContent'">
               <label>
-                <input type="checkbox"
-                       ng-model="$parent.visibleRegTypes[type.id]">
+                <input type="checkbox" ng-model="block.adminOnly">
+                Admin only
+              </label>
+              <i popover="This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments."
+                 popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+            </div>
+
+            <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="$parent.visibleRegTypes[type.id]">
                 {{type.name}}
               </label>
             </div>

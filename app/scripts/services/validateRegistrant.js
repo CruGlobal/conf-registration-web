@@ -30,8 +30,9 @@ angular.module('confRegistrationWebApp')
       return !_.contains(block.registrantTypes, registrant.registrantTypeId);
     };
 
-    this.blockVisible = function(block, registrant){
-      return angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+    this.blockVisible = function(block, registrant, isAdmin){
+      var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+      return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
     this.validate = function(conference, registrant, page) {
@@ -40,7 +41,7 @@ angular.module('confRegistrationWebApp')
       var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
 
       angular.forEach(blocks, function(block){
-        if (!block.required || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
+        if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
         if (angular.isUndefined(answer)) {

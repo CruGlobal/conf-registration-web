@@ -144,6 +144,11 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('Registration end date/time must be after registration start date/time.');
       }
 
+      //allowEditRegistrationAfterComplete
+      if ($scope.conference.allowEditRegistrationAfterComplete && !$scope.conference.requireLogin) {
+        validationErrors.push('You must require sign in if allowing users to edit their registration after it\'s complete.');
+      }
+
       //Promo codes
       angular.forEach($scope.conference.promotions, function(p, index) {
         if (_.isEmpty(p.code)) {

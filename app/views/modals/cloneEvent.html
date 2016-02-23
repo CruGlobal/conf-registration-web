@@ -1,12 +1,21 @@
 <div class="modal-header">
-  <button type="button" class="close" ng-click="close()">&times;</button>
+  <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3>Clone Event</h3>
 </div>
-<div class="modal-body">
-  <p>Please enter a name or title for this event.</p>
-  <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" ng-enter="close()" auto-focus>
+<div class="modal-body" ng-show="!permissionToClone">
+  <p>You do not permission to clone this event.</p>
 </div>
-<div class="modal-footer">
-  <button ng-click="close()" class="btn btn-default">Cancel</button>
-  <button ng-click="submit(name)" class="btn btn-primary">Clone</button>
+<div class="modal-body" ng-show="permissionToClone">
+  <p>Please enter a name or title for this event.</p>
+  <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" auto-focus>
+
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" ng-model="includePermissions" ng-init="includePermissions = true"> Copy users and permission to new event
+    </label>
+  </div>
+</div>
+<div class="modal-footer" ng-if="permissionToClone">
+  <button ng-click="$dismiss()" class="btn btn-default">Cancel</button>
+  <button ng-click="$close({name: name, includePermissions: includePermissions})" class="btn btn-primary">Clone</button>
 </div>
