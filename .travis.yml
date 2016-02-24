@@ -22,6 +22,7 @@ env:
         # travis encrypt GH_OAUTH_TOKEN=XXXXXXXXXXXXXXX
         #
         # User specific env variables
+        - secure: "nH1/eONF+2NYv4ReM55XWsrsWOTjJjaJy+EIy0R4QiVqwMpT6WGwzihb/7fqWH3tnmnqsQECv76Fe0hHghsvRCw600WMTR8rAmsjwCJVsa3T9v+puHN/dXkRmuDaB0aoD8aE4kWAj2HjIMt5bQtzN8qs3W2y49/NkLLnebMgo8E="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
@@ -39,17 +40,16 @@ script:
     - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then grunt build:stage; fi
     - if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then grunt build:dist; fi
 after_success:
-    - git submodule add -b ${GH_PUBLISH_TO_MODULE} git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} site
+    - git submodule add -b ${GH_PUBLISH_TO_MODULE} https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} site > /dev/null 2>&1
     - cd site
     - if git checkout ${GH_PUBLISH_TO_MODULE}; then git checkout -b ${GH_PUBLISH_TO_MODULE}; fi
     - git rm -r .
     - cp -R ../dist/* .
     - cp ../dist/.* .
     - git add -f .
-    - git config user.email "ryan.t.carlson@cru.org"
-    - git config user.name "ryancarlson"
+    - git config user.name "adammeyer"
     - git commit -am "${GH_COMMIT_MSG}"
-    - git push git@github.com:${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE}
+    - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE} > /dev/null 2>&1
 before_install:
     - "export DISPLAY=:99.0"
     - "sh -e /etc/init.d/xvfb start"
