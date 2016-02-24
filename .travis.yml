@@ -22,7 +22,7 @@ env:
         # travis encrypt GH_OAUTH_TOKEN=XXXXXXXXXXXXXXX
         #
         # User specific env variables
-        - secure: "FwA4flx3SAV0men0Uz1Ae4bSpptx3gfekYzmdAgpta5F9vRHONbpjNWUWiLfuEe5b44pQ+fHjNNkdOhYd+aHkOEyquv9PSD47YdHxKQ+e9NIitVHUcdwYPSC7Tenh9Qso21ailCaDzgCZY4+2Hu/kTkP3sBapYG4Kdz/4gcxpV8="
+        - secure: "nH1/eONF+2NYv4ReM55XWsrsWOTjJjaJy+EIy0R4QiVqwMpT6WGwzihb/7fqWH3tnmnqsQECv76Fe0hHghsvRCw600WMTR8rAmsjwCJVsa3T9v+puHN/dXkRmuDaB0aoD8aE4kWAj2HjIMt5bQtzN8qs3W2y49/NkLLnebMgo8E="
         - GH_OWNER: CruGlobal
         - GH_PROJECT_NAME: conf-registration-web
         # This .travis.yml file instructs travis-ci.org to build your master branch using `yeoman build`
@@ -47,8 +47,7 @@ after_success:
     - cp -R ../dist/* .
     - cp ../dist/.* .
     - git add -f .
-    - git config user.email "ryan.t.carlson@cru.org"
-    - git config user.name "ryancarlson"
+    - git config user.name "adammeyer"
     - git commit -am "${GH_COMMIT_MSG}"
     - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE} > /dev/null 2>&1
 before_install:
