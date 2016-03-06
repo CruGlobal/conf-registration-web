@@ -31,9 +31,8 @@ angular.module('confRegistrationWebApp')
       $http.put('payments/scholarship/' + paymentHash, paymentObject).
         success(function() {
           $scope.payment = paymentObject;
-        }).
-        error(function() {
-          modalMessage.error('An error occurred while saving the payment.');
+        }).error(function(data) {
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while saving the payment.');
           $scope.posting = false;
         });
     };

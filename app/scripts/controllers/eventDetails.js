@@ -248,7 +248,7 @@ angular.module('confRegistrationWebApp')
           }).error(function (data) {
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error</strong> ' + (data.errorMessage || data))
+              message: $sce.trustAsHtml('<strong>Error:</strong> ' + (data.error ? data.error.message : 'Details could not be saved.'))
             };
           });
       }

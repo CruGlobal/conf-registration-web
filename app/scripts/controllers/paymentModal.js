@@ -163,8 +163,8 @@ angular.module('confRegistrationWebApp')
       $http.post('payments/', $scope.refund).success(function () {
         $scope.refund = null;
         loadPayments();
-      }).error(function () {
-        modalMessage.error('Refund failed.');
+      }).error(function (data) {
+        modalMessage.error(data.error ? data.error.message : 'Refund failed.');
       }).finally(function(){
         $scope.processing = false;
       });
@@ -186,8 +186,8 @@ angular.module('confRegistrationWebApp')
       }).then(function(){
         $http.delete('expenses/' + expense.id).success(function () {
           loadPayments();
-        }).error(function () {
-          modalMessage.error('An error occurred while deleting this expense.');
+        }).error(function (data) {
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting this expense.');
         });
       });
     };
@@ -203,8 +203,8 @@ angular.module('confRegistrationWebApp')
       $http.put('payments/' + payment.id, payment).success(function() {
         loadPayments();
         delete $scope.editPayment;
-      }).error(function(){
-        modalMessage.error('Payment could not be saved. Please verify all required fields are filled in correctly.');
+      }).error(function(data){
+        modalMessage.error(data.error ? data.error.message : 'Payment could not be saved.');
       });
     };
 
@@ -251,8 +251,8 @@ angular.module('confRegistrationWebApp')
       }).then(function(){
         $http.delete('payments/' + payment.id, payment).success(function () {
           loadPayments();
-        }).error(function () {
-          modalMessage.error('An error occurred while deleting this payment.');
+        }).error(function (data) {
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting this payment.');
         });
       });
     };
@@ -295,8 +295,9 @@ angular.module('confRegistrationWebApp')
       $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
         loadPayments();
       }).error(function (data, status) {
+        var msg = data.error ? data.error.message : 'Promo code could not be added.';
         modalMessage.error({
-          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to this registration.' : data,
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to this registration.' : msg,
           'title': 'Invalid Code',
           'forceAction': true
         });
@@ -311,8 +312,8 @@ angular.module('confRegistrationWebApp')
 
       var regCopy = angular.copy($scope.registration);
       _.remove(regCopy.promotions, {id: promoId});
-      $http.put('registrations/' + registration.id, regCopy).success(loadPayments).error(function () {
-        modalMessage.error('An error occurred while deleting promotion.');
+      $http.put('registrations/' + registration.id, regCopy).success(loadPayments).error(function (data) {
+        modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting promotion.');
       });
     };
 

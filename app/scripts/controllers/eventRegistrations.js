@@ -336,10 +336,10 @@ angular.module('confRegistrationWebApp')
       $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
       $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
         $rootScope.loadingMsg = '';
-      }).error(function(){
+      }).error(function(data){
         $rootScope.loadingMsg = '';
         registrant.withdrawn = !value;
-        modalMessage.error('An error occurred while withdrawing this registrant.');
+        modalMessage.error(data.error ? data.error.message : 'An error occurred while withdrawing this registrant.');
       });
     };
 
@@ -359,10 +359,10 @@ angular.module('confRegistrationWebApp')
       $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
       $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
         $rootScope.loadingMsg = '';
-      }).error(function(){
+      }).error(function(data){
         $rootScope.loadingMsg = '';
         registrant.checkedInTimestamp = originalValue;
-        modalMessage.error('An error occurred while checking in this registrant.');
+        modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
       });
     };
 
@@ -397,10 +397,9 @@ angular.module('confRegistrationWebApp')
           _.remove(registration.registrants, function (r) {
             return r.id === registrant.id;
           });
-        }).error(function(){
+        }).error(function(data){
           modalMessage.error({
-            'title': 'Error',
-            'message': 'An error has occurred while deleting this registration.'
+            'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
           });
         });
       });

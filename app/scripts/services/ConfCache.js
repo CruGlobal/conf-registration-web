@@ -95,7 +95,7 @@ angular.module('confRegistrationWebApp')
           cache.removeAll();
           return conference;
         } else {
-          modalMessage.error('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
+          modalMessage.error(response.data.error ? response.data.error.message : 'Error creating conference.');
         }
       });
     };
