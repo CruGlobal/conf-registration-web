@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('registrationModal', function ($scope, $modalInstance, $http, $route, conference, uuid, RegistrationCache) {
+  .controller('registrationModal', function ($scope, $modalInstance, $http, $route, conference, uuid, RegistrationCache, modalMessage) {
     $scope.conference = conference;
     $scope.form = {
       type: _.first(conference.registrantTypes).id
@@ -51,13 +51,8 @@ angular.module('confRegistrationWebApp')
           $route.reload();
         })
         .error(function (data) {
-          console.log('Error: ' + data.errorMessage);
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while creating registration.');
         });
-
-      $modalInstance.close();
-    };
-
-    $scope.close = function () {
-      $modalInstance.close();
+      $modalInstance.dismiss();
     };
   });

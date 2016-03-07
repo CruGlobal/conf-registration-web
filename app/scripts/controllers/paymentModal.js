@@ -270,18 +270,6 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    $scope.allowCreditCardPayments = function () {
-      var allow = false;
-      _.each($scope.registration.registrants, function(registrant) {
-        var registrantType = $scope.getRegistrantType(registrant.registrantTypeId);
-        if(registrantType.acceptCreditCards) {
-          allow = true;
-        }
-      });
-
-      return allow;
-    };
-
     //auto set new transaction amount
     $scope.setTransactionAmount = function(){
       var paymentTypes = ['CREDIT_CARD', 'OFFLINE_CREDIT_CARD', 'SCHOLARSHIP', 'TRANSFER', 'CHECK', 'CASH'];
