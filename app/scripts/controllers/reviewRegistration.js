@@ -132,10 +132,10 @@ angular.module('confRegistrationWebApp')
         } else {
           $route.reload();
         }
-      }).error(function () {
+      }).error(function (data) {
         $scope.submittingRegistration = false;
         modalMessage.error({
-          'message': 'Your payment was declined, please verify your details or use a different payment method.',
+          'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
           'forceAction': true
         });
       });
