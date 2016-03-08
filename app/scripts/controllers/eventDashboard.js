@@ -27,7 +27,7 @@ angular.module('confRegistrationWebApp')
       }).result.then(function (conferenceName) {
           if(!conferenceName){ return; }
 
-          ConfCache.create(conferenceName).then(function (conference) {
+          ConfCache.create(conferenceName).success(function (conference) {
             $location.path('/eventDetails/' + conference.id);
           });
         });
