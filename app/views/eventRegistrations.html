@@ -38,7 +38,7 @@
         <br>
         <div class="btn-group" role="group" dropdown auto-close="outsideClick">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
-            Filters
+            More Filters
             <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
             <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
           </button>
@@ -60,7 +60,7 @@
       </div>
     </div>
     <div class="row spacing-above-sm well-border-above" collapse="!showMoreFilters">
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label>Incomplete registrations</label>
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'yes'">Show</label>
@@ -68,7 +68,7 @@
           <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'only'">Only</label>
         </div>
       </div>
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label>Checked-in registrations</label>
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'yes'">Show</label>
@@ -76,13 +76,20 @@
           <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'only'">Only</label>
         </div>
       </div>
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label>Withdrawn registrations</label>
         <div class="btn-group btn-group-justified">
           <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'yes'">Show</label>
           <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'no'">Hide</label>
           <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'only'">Only</label>
         </div>
+      </div>
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label>Promotion code:</label>
+        <select ng-model="queryParameters.filterPromotionCodes" class="form-control">
+          <option value="">-Any/None-</option>
+          <option value="{{p.code}}" ng-repeat="p in conference.promotions">{{p.code}}</option>
+        </select>
       </div>
     </div>
   </div>
