@@ -27,7 +27,7 @@ angular.module('confRegistrationWebApp')
       }).result.then(function (conferenceName) {
           if(!conferenceName){ return; }
 
-          ConfCache.create(conferenceName).then(function (conference) {
+          ConfCache.create(conferenceName).success(function (conference) {
             $location.path('/eventDetails/' + conference.id);
           });
         });
@@ -64,8 +64,8 @@ angular.module('confRegistrationWebApp')
           //Clear cache
           ConfCache.empty();
           $location.path('/eventOverview/' + eventData.id);
-        }).error(function () {
-          modalMessage.error('An error occurred while attempting to restore event.');
+        }).error(function (data) {
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while attempting to restore event.');
         }).finally(function() {
           $rootScope.loadingMsg = '';
         });
@@ -95,8 +95,8 @@ angular.module('confRegistrationWebApp')
         }}).success(function(newEvent){
           ConfCache.empty();
           $location.path('/eventDetails/' + newEvent.id);
-        }).error(function(){
-          modalMessage.error('An error has occurred while attempting to clone.');
+        }).error(function(data){
+          modalMessage.error(data.error ? data.error.message : 'An error has occurred while attempting to clone.');
         });
       });
     };

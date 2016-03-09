@@ -89,14 +89,10 @@ angular.module('confRegistrationWebApp')
           }
         ]
       };
-      return $http.post(path(), data).then(function (response) {
-        if (response.status === 201) {
-          var conference = response.data;
-          cache.removeAll();
-          return conference;
-        } else {
-          modalMessage.error('Error creating conference. ' + response.data.errorMessage + ': ' + response.data.customErrorMessage);
-        }
+      return $http.post(path(), data).success(function () {
+        cache.removeAll();
+      }).error(function(data){
+        modalMessage.error(data.error ? data.error.message : 'Error creating conference.');
       });
     };
 

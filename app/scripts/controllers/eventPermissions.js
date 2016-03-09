@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $sce, conference, conferencePermissions, modalMessage) {
+  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $route, conference, conferencePermissions, modalMessage) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
@@ -20,16 +20,14 @@ angular.module('confRegistrationWebApp')
       }).success(function () {
         $scope.notify = {
           class: 'alert-success',
-          message: $sce.trustAsHtml('User updated.')
+          message: 'User updated.'
         };
 
         //update timestamp
         _.find($scope.currentPermissions, { 'id': id }).timestamp = new Date();
       }).error(function (data) {
-        $scope.notify = {
-          class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
-        };
+        modalMessage.error(data.error ? data.error.message : 'User could not be updated.');
+        $route.reload();
       });
     };
 
@@ -49,13 +47,10 @@ angular.module('confRegistrationWebApp')
         $scope.addPermissionsLevel = '';
         $scope.notify = {
           class: 'alert-success',
-          message: $sce.trustAsHtml('User added.')
+          message: 'Email invite sent.'
         };
       }).error(function (data) {
-        $scope.notify = {
-          class: 'alert-danger',
-          message: $sce.trustAsHtml('Error: ' + data.errorMessage)
-        };
+        modalMessage.error(data.error ? data.error.message : 'User could not be added.');
       });
     };
 
@@ -71,14 +66,21 @@ angular.module('confRegistrationWebApp')
           _.remove($scope.currentPermissions, {id: id});
           $scope.notify = {
             class: 'alert-success',
-            message: $sce.trustAsHtml('User removed.')
+            message: 'User removed.'
           };
         }).error(function (data) {
-          $scope.notify = {
-            class: 'alert-danger',
-            message: $sce.trustAsHtml('Error: ' + data.errorMessage)
-          };
+          modalMessage.error(data.error ? data.error.message : 'User could not be removed.');
         });
+      });
+    };
+
+    $scope.resendEmail = function(permission){
+      $http({
+        method: 'DELETE',
+        url: 'permissions/' + permission.id
+      }).success(function () {
+        _.remove($scope.currentPermissions, {id: permission.id});
+        $scope.addPermission(permission.emailAddress, permission.permissionLevel);
       });
     };
   });

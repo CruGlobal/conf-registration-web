@@ -132,10 +132,10 @@ angular.module('confRegistrationWebApp')
         } else {
           $route.reload();
         }
-      }).error(function () {
+      }).error(function (data) {
         $scope.submittingRegistration = false;
         modalMessage.error({
-          'message': 'Your payment was declined, please verify your details or use a different payment method.',
+          'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
           'forceAction': true
         });
       });
@@ -150,7 +150,7 @@ angular.module('confRegistrationWebApp')
       }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
-        modalMessage.error('An error occurred while submitting your registration. ' + (data.data.errorMessage ? data.data.errorMessage : ''));
+        modalMessage.error(data.error ? data.error.message : 'An error occurred while submitting your registration.');
       });
     };
 
@@ -168,9 +168,9 @@ angular.module('confRegistrationWebApp')
           url: 'registrants/' + id
         }).success(function () {
           $route.reload();
-        }).error(function(){
+        }).error(function(data){
           modalMessage.error({
-            'message': 'An error occurred while removing registrant.'
+            'message': data.error ? data.error.message : 'An error occurred while removing registrant.'
           });
         });
       });
@@ -245,8 +245,9 @@ angular.module('confRegistrationWebApp')
         $route.reload();
       }).error(function (data, status) {
         $scope.addingPromoCode = false;
+        var msg = data.error ? data.error.message : 'An error has occurred.';
         modalMessage.error({
-          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : data,
+          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : msg,
           'title': 'Invalid Code',
           'forceAction': true
         });
@@ -262,8 +263,8 @@ angular.module('confRegistrationWebApp')
         _.remove(regCopy.promotions, {id: promoId});
         $http.put('registrations/' + registration.id, regCopy).success(function () {
           $route.reload();
-        }).error(function () {
-          modalMessage.error('An error occurred while deleting promotion.');
+        }).error(function (data) {
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting promotion.');
         });
       });
     };
