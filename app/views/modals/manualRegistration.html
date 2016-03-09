@@ -1,6 +1,6 @@
-<form class="crs-form" name="simpleRegistrationForm">
+<form class="crs-form" name="simpleRegistrationForm" ng-submit="register()">
   <div class="modal-header">
-    <button type="button" class="close" ng-click="close()">&times;</button>
+    <button type="button" class="close" ng-click="$dismiss()">&times;</button>
     <h4 class="modal-title">Add Registration</h4>
   </div>
   <div class="modal-body">
@@ -23,7 +23,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="close()">Close</button>
-    <button type="button" class="btn btn-success" ng-disabled="!simpleRegistrationForm.$valid" ng-click="register()">Add Registration</button>
+    <button type="button" class="btn btn-default" ng-click="$dismiss()">Close</button>
+    <button type="submit" class="btn btn-success" ng-disabled="!simpleRegistrationForm.$valid">Add Registration</button>
   </div>
 </form>
