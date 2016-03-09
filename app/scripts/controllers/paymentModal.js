@@ -110,8 +110,8 @@ angular.module('confRegistrationWebApp')
         }else{
           $scope.activeTab[1] = true;
         }
-      }).error(function (errorMessage) {
-        modalMessage.error('Transaction failed. ' + errorMessage);
+      }).error(function (data) {
+        modalMessage.error(data.error ? data.error.message : 'Transaction failed.');
         $scope.processing = false;
       });
     };
