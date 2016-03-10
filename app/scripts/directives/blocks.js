@@ -68,13 +68,9 @@ angular.module('confRegistrationWebApp')
             }
           }
         });
-        if($scope.wizard){
-          $scope.answer = {
-            value: ''
-          };
-        }
 
         $scope.selectOtherAnswer = function(){
+          if(!$scope.answer){ return; }
           $scope.answer.value = $scope.otherAnswer;
         };
       }
