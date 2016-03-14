@@ -39,9 +39,10 @@ angular.module('confRegistrationWebApp')
 
 angular.module('confRegistrationWebApp')
   .constant('permissionConstants', {
-    'CREATOR': 5,
-    'FULL': 4,
-    'UPDATE': 3,
+    'CREATOR': 6,
+    'FULL': 5,
+    'UPDATE': 4,
+    'CHECK_IN': 3,
     'SCHOLARSHIP': 2,
     'VIEW': 1,
     'REQUESTED': 0,
