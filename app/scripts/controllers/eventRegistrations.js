@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
 
     function hasPermission(){
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error({
           'title': 'Permissions Error',
           'message': 'You do not have permission to perform this action. Please contact an event administrator to request permission.'
