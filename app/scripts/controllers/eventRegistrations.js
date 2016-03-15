@@ -351,18 +351,21 @@ angular.module('confRegistrationWebApp')
       var originalValue = angular.copy(registrant.checkedInTimestamp);
       registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
-      //update registration
-      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
-      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
-      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
-
       $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
-      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
-        $rootScope.loadingMsg = '';
-      }).error(function(data){
-        $rootScope.loadingMsg = '';
-        registrant.checkedInTimestamp = originalValue;
-        modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
+
+      //get registration
+      $http.get('registrations/' + registrant.registrationId).success(function(registration){
+        //update registration
+        var registrantIndex = _.findIndex(registration.registrants, { 'id': registrant.id });
+        registration.registrants[registrantIndex] = registrant;
+
+        $http.put('registrations/' + registrant.registrationId, registration).success(function(){
+          $rootScope.loadingMsg = '';
+        }).error(function(data){
+          $rootScope.loadingMsg = '';
+          registrant.checkedInTimestamp = originalValue;
+          modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
+        });
       });
     };
 
