@@ -25,6 +25,7 @@
             <select style="min-width:128px;" ng-model="permission.permissionLevel" ng-change="updatePermission(permission.id)" class="form-control">
               <option value="FULL">Full</option>
               <option value="UPDATE">Update</option>
+              <option value="CHECK_IN">Check in</option>
               <option value="SCHOLARSHIP">Scholarship</option>
               <option value="VIEW">View</option>
               <option ng-if="permission.permissionLevel === 'REQUESTED'" value="REQUESTED">Requested</option>
@@ -77,6 +78,7 @@
         <select ng-model="addPermissionsLevel" class="form-control">
           <option value="FULL">Full</option>
           <option value="UPDATE">Update</option>
+          <option value="CHECK_IN">Check in</option>
           <option value="SCHOLARSHIP">Scholarship</option>
           <option value="VIEW">View</option>
         </select>
@@ -109,6 +111,7 @@
               <option ng-if="permission.permissionLevel === 'CREATOR'" value="CREATOR">Creator</option>
               <option value="FULL">Full</option>
               <option value="UPDATE">Update</option>
+              <option value="CHECK_IN">Check in</option>
               <option value="SCHOLARSHIP">Scholarship</option>
               <option value="VIEW">View</option>
             </select>
@@ -129,16 +132,18 @@
           <th style="width:140px;" class="text-center">Requested</th>
           <th style="width:140px;" class="text-center">View</th>
           <th style="width:140px;" class="text-center">Scholarship</th>
+          <th style="width:140px;" class="text-center">Check in</th>
           <th style="width:140px;" class="text-center">Update</th>
           <th style="width:140px;" class="text-center">Full/Creator</th>
         </tr>
         </thead>
         <tbody>
         <tr class="active">
-          <th colspan="6">Event</th>
+          <th colspan="7">Event</th>
         </tr>
         <tr>
           <td>Update/modify event details</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -147,6 +152,7 @@
         </tr>
         <tr>
           <td>Edit/modify event questions</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -159,10 +165,12 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
           <td>Clone event</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -175,10 +183,11 @@
           <td></td>
           <td></td>
           <td></td>
+          <td></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
         </tr>
         <tr class="active">
-          <th colspan="6">Registrations</th>
+          <th colspan="7">Registrations</th>
         </tr>
         <tr>
           <td>View/export registrations</td>
@@ -187,9 +196,20 @@
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-          <td>Add/modify/delete registrations</td>
+          <td>Add/modify registrations</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Delete registrations</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -197,11 +217,12 @@
           <td class="text-center"><i class="fa fa-check"></i></td>
         </tr>
         <tr class="active">
-          <th colspan="6">Payments and Expenses</th>
+          <th colspan="7">Payments and Expenses</th>
         </tr>
         <tr>
           <td>View/export payments</td>
           <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
@@ -214,9 +235,20 @@
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
           <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
         </tr>
         <tr>
-          <td>Manage/add all payments</td>
+          <td>Edit/add all payments</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+          <td class="text-center"><i class="fa fa-check"></i></td>
+        </tr>
+        <tr>
+          <td>Delete all payments</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
@@ -225,6 +257,7 @@
         </tr>
         <tr>
           <td>Manage/add expenses and discounts</td>
+          <td></td>
           <td></td>
           <td></td>
           <td></td>
