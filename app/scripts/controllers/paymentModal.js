@@ -241,7 +241,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePayment = function (payment) {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error(permissionRequiredMsg);
         return;
       }
