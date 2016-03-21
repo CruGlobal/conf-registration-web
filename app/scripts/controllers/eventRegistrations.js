@@ -232,7 +232,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          modalMessage.error('Error: registrant data could be be retrieved.');
+          modalMessage.error('Error: registrant data could not be retrieved.');
           delete expandedRegistrations[r];
         });
       }
@@ -275,7 +275,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        modalMessage.error('Error: registrant data could be be retrieved.');
+        modalMessage.error('Error: registrant data could not be retrieved.');
         delete expandedRegistrations[r];
       });
     };
