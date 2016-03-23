@@ -366,28 +366,25 @@ angular.module('confRegistrationWebApp')
         'noString': 'Cancel',
         'normalSize': true
       }).then(function(){
-        var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
-        var url = 'registrations/' + registration.id;
+        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+          var url = 'registrations/' + registration.id;
 
-        if(registration.registrants.length > 1){
-          //Delete Registrant
-          url = 'registrants/' + registrant.id;
-        }
+          if(registration.registrants.length > 1){
+            //Delete Registrant
+            url = 'registrants/' + registrant.id;
+          }
 
-        $http({
-          method: 'DELETE',
-          url: url
-        }).success(function () {
-          _.remove($scope.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-
-          _.remove(registration.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-        }).error(function(data){
-          modalMessage.error({
-            'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+          $http({
+            method: 'DELETE',
+            url: url
+          }).success(function () {
+            _.remove($scope.registrants, function (r) {
+              return r.id === registrant.id;
+            });
+          }).error(function(data){
+            modalMessage.error({
+              'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+            });
           });
         });
       });
