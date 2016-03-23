@@ -328,18 +328,12 @@ angular.module('confRegistrationWebApp')
         registrant.withdrawnTimestamp = new Date();
       }
 
-      //update registration
-      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
-      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
-      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
-
       $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
-      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
-        $rootScope.loadingMsg = '';
-      }).error(function(data){
-        $rootScope.loadingMsg = '';
+      $http.put('registrants/' + registrant.id, registrant).error(function(data){
         registrant.withdrawn = !value;
         modalMessage.error(data.error ? data.error.message : 'An error occurred while withdrawing this registrant.');
+      }).finally(function(){
+        $rootScope.loadingMsg = '';
       });
     };
 
@@ -352,20 +346,11 @@ angular.module('confRegistrationWebApp')
       registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
       $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
-
-      //get registration
-      $http.get('registrations/' + registrant.registrationId).success(function(registration){
-        //update registration
-        var registrantIndex = _.findIndex(registration.registrants, { 'id': registrant.id });
-        registration.registrants[registrantIndex] = registrant;
-
-        $http.put('registrations/' + registrant.registrationId, registration).success(function(){
-          $rootScope.loadingMsg = '';
-        }).error(function(data){
-          $rootScope.loadingMsg = '';
-          registrant.checkedInTimestamp = originalValue;
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
-        });
+      $http.put('registrants/' + registrant.id, registrant).error(function(data){
+        registrant.checkedInTimestamp = originalValue;
+        modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
+      }).finally(function(){
+        $rootScope.loadingMsg = '';
       });
     };
 
@@ -381,28 +366,25 @@ angular.module('confRegistrationWebApp')
         'noString': 'Cancel',
         'normalSize': true
       }).then(function(){
-        var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
-        var url = 'registrations/' + registration.id;
+        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+          var url = 'registrations/' + registration.id;
 
-        if(registration.registrants.length > 1){
-          //Delete Registrant
-          url = 'registrants/' + registrant.id;
-        }
+          if(registration.registrants.length > 1){
+            //Delete Registrant
+            url = 'registrants/' + registrant.id;
+          }
 
-        $http({
-          method: 'DELETE',
-          url: url
-        }).success(function () {
-          _.remove($scope.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-
-          _.remove(registration.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-        }).error(function(data){
-          modalMessage.error({
-            'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+          $http({
+            method: 'DELETE',
+            url: url
+          }).success(function () {
+            _.remove($scope.registrants, function (r) {
+              return r.id === registrant.id;
+            });
+          }).error(function(data){
+            modalMessage.error({
+              'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+            });
           });
         });
       });
