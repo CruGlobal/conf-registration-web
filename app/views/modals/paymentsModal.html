@@ -158,7 +158,7 @@
               </span>
               <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
                 <span ng-if="payment.status === 'APPROVED'">
-                  <span ng-if="payment.scholarship.accountType === 'STAFF'">
+                  <span ng-if="payment.scholarship.accountType === 'STAFF' || payment.scholarship.accountType === 'NON_US_STAFF'">
                     Scholarship from staff {{payment.scholarship.accountNumber}}
                   </span>
                   <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
@@ -169,7 +169,7 @@
                 <span ng-if="payment.status === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
               </span>
               <span ng-if="payment.paymentType === 'TRANSFER'">
-                <span ng-if="payment.transfer.accountType === 'STAFF'">
+                <span ng-if="payment.transfer.accountType === 'STAFF' || payment.scholarship.accountType === 'NON_US_STAFF'">
                   Staff Transfer from {{payment.transfer.accountNumber}}
                 </span>
                 <span ng-if="payment.transfer.accountType === 'MINISTRY'">
@@ -231,6 +231,7 @@
                       <select ng-model="editPayment.transfer.accountType" class="form-control">
                         <option value="STAFF">Staff</option>
                         <option value="MINISTRY">Ministry</option>
+                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
@@ -273,6 +274,7 @@
                       <select ng-model="editPayment.scholarship.accountType" class="form-control">
                         <option value="STAFF">Staff</option>
                         <option value="MINISTRY">Ministry</option>
+                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
