@@ -34,22 +34,22 @@
           <td ng-class="{'strike-through':r.withdrawn}">{{r.firstName}} {{r.lastName}}</td>
           <td ng-show="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | currency:'$'}}</td>
         </tr>
-        <tr ng-show="expandRegistrantCost[r.id]">
+        <tr ng-if="expandRegistrantCost[r.id]">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
           <td>{{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}</td>
         </tr>
-        <tr ng-show="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts">
+        <tr ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
           <td>{{r.calculatedEarlyRegistrationDiscounts * -1 | currency:'$'}}</td>
         </tr>
-        <tr ng-show="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts">
+        <tr ng-if="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Promotion Discount</td>
           <td>{{r.calculatedPromotionDiscounts * -1 | currency:'$'}}</td>
         </tr>
-        <tr ng-repeat="a in r.answers" ng-if="a.amount > 0" ng-show="expandRegistrantCost[r.id]">
+        <tr ng-repeat="a in r.answers" ng-if="a.amount !== 0 && expandRegistrantCost[r.id]">
           <td></td>
           <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
           <td>{{a.amount | currency:'$'}}</td>
