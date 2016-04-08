@@ -7,7 +7,7 @@
   </select>
 </div>
 
-<div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'STAFF'">
+<div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'STAFF' || currentPayment.scholarship.accountType === 'NON_US_STAFF'">
   <div class="col-sm-12">
     <label>Account Number</label>
     <input ng-model="currentPayment.scholarship.accountNumber" type="text" class="form-control">
