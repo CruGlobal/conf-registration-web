@@ -158,7 +158,7 @@
               </span>
               <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
                 <span ng-if="payment.status === 'APPROVED'">
-                  <span ng-if="payment.scholarship.accountType === 'STAFF'">
+                  <span ng-if="payment.scholarship.accountType === 'STAFF' || payment.scholarship.accountType === 'NON_US_STAFF'">
                     Scholarship from staff {{payment.scholarship.accountNumber}}
                   </span>
                   <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
@@ -169,7 +169,7 @@
                 <span ng-if="payment.status === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
               </span>
               <span ng-if="payment.paymentType === 'TRANSFER'">
-                <span ng-if="payment.transfer.accountType === 'STAFF'">
+                <span ng-if="payment.transfer.accountType === 'STAFF' || payment.transfer.accountType === 'NON_US_STAFF'">
                   Staff Transfer from {{payment.transfer.accountNumber}}
                 </span>
                 <span ng-if="payment.transfer.accountType === 'MINISTRY'">
@@ -231,12 +231,13 @@
                       <select ng-model="editPayment.transfer.accountType" class="form-control">
                         <option value="STAFF">Staff</option>
                         <option value="MINISTRY">Ministry</option>
+                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="row form-group">
-                    <div ng-show="editPayment.transfer.accountType === 'STAFF'">
+                    <div ng-show="editPayment.transfer.accountType === 'STAFF' || editPayment.transfer.accountType === 'NON_US_STAFF'">
                       <label class="col-sm-3 control-label">Account Number</label>
                       <div class="col-sm-9">
                         <input ng-model="editPayment.transfer.accountNumber" type="text" class="form-control">
@@ -273,12 +274,13 @@
                       <select ng-model="editPayment.scholarship.accountType" class="form-control">
                         <option value="STAFF">Staff</option>
                         <option value="MINISTRY">Ministry</option>
+                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="row form-group">
-                    <div ng-show="editPayment.scholarship.accountType === 'STAFF'">
+                    <div ng-show="editPayment.scholarship.accountType === 'STAFF' || editPayment.scholarship.accountType === 'NON_US_STAFF'">
                       <label class="col-sm-3 control-label">Account Number</label>
                       <div class="col-sm-9">
                         <input ng-model="editPayment.scholarship.accountNumber" type="text" class="form-control">
