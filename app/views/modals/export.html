@@ -44,11 +44,34 @@
     <hr>
     <div class="row spacing-above-sm">
       <div class="col-xs-8">
-        <strong>Account Transfers</strong><br>
-        Staff Account Transfer payments
+        <strong>Account Transfers</strong><br/>
+        Staff Account Transfer payments<br />
+        <a href="" ng-click="showExpenseTypes = !showExpenseTypes">{{showExpenseTypes ? 'Hide' : 'Show'}} Expense Types</a>
+        <div collapse="!showExpenseTypes">
+          <div class="radio">
+            <label>
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="REGISTRATION"> Registration
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="CHILDCARE"> Child Care
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="STAFF_TAXABLE_ITEM"> Staff Taxable
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="MISCELLANEOUS"> Miscellaneous
+            </label>
+          </div>
+        </div>
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}">
+        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}&expenseType={{expenseType}}">
           <i class="fa fa-cloud-download"></i> Download
         </a>
       </div>
