@@ -46,11 +46,10 @@
       <div class="col-xs-8">
         <strong>Account Transfers</strong><br/>
         Staff Account Transfer payments<br />
-        <a href="" ng-click="showExpenseTypes = !showExpenseTypes">{{showExpenseTypes ? 'Hide' : 'Show'}} Expense Types</a>
-        <div collapse="!showExpenseTypes">
+        <div class="panel">
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="REGISTRATION"> Registration
+              <input type="radio" ng-model="expenseType" ng-checked="true" value="REGISTRATION"> Registration
             </label>
           </div>
           <div class="radio">
@@ -60,12 +59,12 @@
           </div>
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="STAFF_TAXABLE_ITEM"> Staff Taxable
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="STAFF_TAXABLE_ITEM"> Staff Taxable Item(s)
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="MISCELLANEOUS"> Miscellaneous
+              <input type="radio" ng-model="expenseType" ng-checked="false" value="MISCELLANEOUS_ITEM"> Miscellaneous(s)
             </label>
           </div>
         </div>
