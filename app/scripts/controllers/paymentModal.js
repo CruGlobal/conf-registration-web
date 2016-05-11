@@ -224,6 +224,8 @@ angular.module('confRegistrationWebApp')
       $http.put('expenses/' + expense.id, expense).success(function() {
         loadPayments();
         delete $scope.editExpense;
+      }).error(function(data){
+        modalMessage.error(data.error ? data.error.message : 'Expense could not be saved.');
       });
     };
 
@@ -261,7 +263,7 @@ angular.module('confRegistrationWebApp')
       if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
         delete $scope.editExpense;
       } else {
-        if(permissions.permissionInt < permissionConstants.UPDATE){
+        if(permissions.permissionInt < permissionConstants.FULL){
           modalMessage.error(permissionRequiredMsg);
           return;
         }

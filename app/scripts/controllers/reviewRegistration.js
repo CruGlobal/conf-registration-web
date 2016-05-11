@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -142,11 +142,16 @@ angular.module('confRegistrationWebApp')
     };
 
     var setRegistrationAsCompleted = function() {
+      registration = angular.copy(registration);
       registration.completed = true;
 
       RegistrationCache.update('registrations/' + registration.id, registration, function () {
         RegistrationCache.emptyCache();
-        $route.reload();
+        if(conference.registrationCompleteRedirect){
+          $window.location.href = conference.registrationCompleteRedirect;
+        }else{
+          $route.reload();
+        }
       }, function (data) {
         $scope.currentRegistration.completed = false;
         $scope.submittingRegistration = false;
