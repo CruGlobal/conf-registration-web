@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
 
     function hasPermission(){
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error({
           'title': 'Permissions Error',
           'message': 'You do not have permission to perform this action. Please contact an event administrator to request permission.'
@@ -232,7 +232,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          modalMessage.error('Error: registrant data could be be retrieved.');
+          modalMessage.error('Error: registrant data could not be retrieved.');
           delete expandedRegistrations[r];
         });
       }
@@ -275,7 +275,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        modalMessage.error('Error: registrant data could be be retrieved.');
+        modalMessage.error('Error: registrant data could not be retrieved.');
         delete expandedRegistrations[r];
       });
     };
