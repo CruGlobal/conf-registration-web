@@ -360,7 +360,7 @@
           <div class="row">
             <div class="col-sm-8">
               <label>Refund Method</label>
-              <select ng-model="refund.refundChannel" class="form-control">
+              <select ng-model="refund.refundChannel" class="form-control" ng-change="refreshRefund(refund)">
                 <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'">Credit Card (automatically via Authorize.net)</option>
                 <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'">Credit Card (manually)</option>
                 <option value="CASH">Cash</option>
@@ -369,6 +369,9 @@
             </div>
             <div class="col-sm-4">
               <label>Amount</label>
+              <i class="fa fa-exclamation-triangle" popover="Partial credit card refunds cannot be issued within 24 hours of payment."
+                 popover-trigger="mouseenter" popover-append-to-body="true" ng-if="onlyFullRefund">
+              </i>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
                 <input type="text" class="form-control marginless" ng-model="refund.amount" ng-disabled="onlyFullRefund">
