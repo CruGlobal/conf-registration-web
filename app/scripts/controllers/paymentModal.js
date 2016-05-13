@@ -143,16 +143,18 @@ angular.module('confRegistrationWebApp')
 
       var diff = new Date().getTime() - new Date(payment.transactionDatetime).getTime();
 
-      var lengthToSettle = 1000 * 60 * 60 * 24; /*milliseconds in 24 hours.  takes 24 for hours for a payment to
-      settle on authorize.net*/
+      var lengthToSettle = 1000 * 60 * 60 * 24; /*milliseconds in 24 hours.  takes 24 for hours for a credit
+      card payment to settle on authorize.net*/
       var refundAmount;
 
-      if(diff < lengthToSettle) {
+      if(payment.paymentType === 'CREDIT_CARD' && diff < lengthToSettle) {
         /*if a refund is issued before the payment settles, authorize.net will do a full refund regardless of amount*/
         refundAmount = payment.amount;
+        $scope.onlyFullRefund = true;
       }
       else {
         refundAmount = $scope.calculateRefundableAmount(payment);
+        $scope.onlyFullRefund = false;
       }
 
       $scope.refund = {
