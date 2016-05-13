@@ -143,8 +143,22 @@ angular.module('confRegistrationWebApp')
       }
       $scope.paymentToRefund = payment;
 
+      var diff = new Date().getTime() - new Date(payment.transactionDatetime).getTime();
+
+      var lengthToSettle = 1000 * 60 * 60 * 24; /*milliseconds in 24 hours.  takes 24 for hours for a payment to
+      settle on authorize.net*/
+      var refundAmount;
+
+      if(diff < lengthToSettle) {
+        /*if a refund is issued before the payment settles, authorize.net will do a full refund regardless of amount*/
+        refundAmount = payment.amount;
+      }
+      else {
+        refundAmount = $scope.calculateRefundableAmount(payment);
+      }
+
       $scope.refund = {
-        amount: $scope.calculateRefundableAmount(payment),
+        amount: refundAmount,
         refundedPaymentId: payment.id,
         registrationId: payment.registrationId,
         paymentType: 'REFUND',
