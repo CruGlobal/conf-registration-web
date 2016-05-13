@@ -76,8 +76,6 @@ angular.module('confRegistrationWebApp')
           transaction.amount = Number(transaction.amount) * -1;
         }
         delete transaction.paymentType;
-      } else {
-        transaction.readyToProcess = true;
       }
 
       if(transaction.paymentType === 'SCHOLARSHIP') {
@@ -162,8 +160,7 @@ angular.module('confRegistrationWebApp')
         refundedPaymentId: payment.id,
         registrationId: payment.registrationId,
         paymentType: 'REFUND',
-        refundChannel: payment.paymentType,
-        readyToProcess: true
+        refundChannel: payment.paymentType
       };
     };
 

@@ -256,7 +256,6 @@ angular.module('confRegistrationWebApp')
                     'transactionDatetime': '2015-05-21T13:13:55.401Z',
                     'paymentType': 'CHECK',
                     'refundedPaymentId': null,
-                    'readyToProcess': false,
                     'description': null,
                     'creditCard': null,
                     'offlineCreditCard': null,
