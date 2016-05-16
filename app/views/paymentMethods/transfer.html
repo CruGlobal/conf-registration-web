@@ -3,10 +3,12 @@
   <select ng-model="currentPayment.transfer.accountType" class="form-control">
     <option value="STAFF">Staff</option>
     <option value="MINISTRY">Ministry</option>
+    <option value="NON_US_STAFF">Non-U.S. Staff</option>
   </select>
 </div>
 
-<div class="row form-group" ng-show="currentPayment.transfer.accountType === 'STAFF'">
+<div class="row form-group"
+     ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'">
   <div class="col-sm-12">
     <label>Account Number</label>
     <input ng-model="currentPayment.transfer.accountNumber" type="text" class="form-control">

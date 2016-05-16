@@ -43,7 +43,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         if(permissions.permissionInt === permissionConstants.SCHOLARSHIP) {
           if($scope.newTransaction.paymentType !== 'SCHOLARSHIP'){
             modalMessage.error('Your permission level only allows scholarship payments to be added. Please contact an event administrator to request permission.');
@@ -138,7 +138,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.startRefund = function (payment) {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error(permissionRequiredMsg);
         return;
       }
@@ -213,7 +213,7 @@ angular.module('confRegistrationWebApp')
       if(angular.isDefined($scope.editPayment) && $scope.editPayment.id === payment.id) {
         delete $scope.editPayment;
       } else {
-        if(permissions.permissionInt >= permissionConstants.UPDATE || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
+        if(permissions.permissionInt >= permissionConstants.CHECK_IN || (permissions.permissionInt === permissionConstants.SCHOLARSHIP && payment.paymentType === 'SCHOLARSHIP')){
           $scope.editPayment = angular.copy(payment);
         }else{
           modalMessage.error(permissionRequiredMsg);
@@ -225,6 +225,8 @@ angular.module('confRegistrationWebApp')
       $http.put('expenses/' + expense.id, expense).success(function() {
         loadPayments();
         delete $scope.editExpense;
+      }).error(function(data){
+        modalMessage.error(data.error ? data.error.message : 'Expense could not be saved.');
       });
     };
 
@@ -242,7 +244,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.deletePayment = function (payment) {
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error(permissionRequiredMsg);
         return;
       }
@@ -262,7 +264,7 @@ angular.module('confRegistrationWebApp')
       if(angular.isDefined($scope.editExpense) && $scope.editExpense.id === expense.id) {
         delete $scope.editExpense;
       } else {
-        if(permissions.permissionInt < permissionConstants.UPDATE){
+        if(permissions.permissionInt < permissionConstants.FULL){
           modalMessage.error(permissionRequiredMsg);
           return;
         }

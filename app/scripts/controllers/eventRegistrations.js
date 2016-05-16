@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp')
     };
 
     function hasPermission(){
-      if(permissions.permissionInt < permissionConstants.UPDATE){
+      if(permissions.permissionInt < permissionConstants.CHECK_IN){
         modalMessage.error({
           'title': 'Permissions Error',
           'message': 'You do not have permission to perform this action. Please contact an event administrator to request permission.'
@@ -232,7 +232,7 @@ angular.module('confRegistrationWebApp')
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
         }).error(function(){
-          modalMessage.error('Error: registrant data could be be retrieved.');
+          modalMessage.error('Error: registrant data could not be retrieved.');
           delete expandedRegistrations[r];
         });
       }
@@ -275,7 +275,7 @@ angular.module('confRegistrationWebApp')
           $scope.registrants[index] = r;
         });
       }).error(function(){
-        modalMessage.error('Error: registrant data could be be retrieved.');
+        modalMessage.error('Error: registrant data could not be retrieved.');
         delete expandedRegistrations[r];
       });
     };
@@ -328,18 +328,12 @@ angular.module('confRegistrationWebApp')
         registrant.withdrawnTimestamp = new Date();
       }
 
-      //update registration
-      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
-      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
-      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
-
       $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
-      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
-        $rootScope.loadingMsg = '';
-      }).error(function(data){
-        $rootScope.loadingMsg = '';
+      $http.put('registrants/' + registrant.id, registrant).error(function(data){
         registrant.withdrawn = !value;
         modalMessage.error(data.error ? data.error.message : 'An error occurred while withdrawing this registrant.');
+      }).finally(function(){
+        $rootScope.loadingMsg = '';
       });
     };
 
@@ -351,18 +345,12 @@ angular.module('confRegistrationWebApp')
       var originalValue = angular.copy(registrant.checkedInTimestamp);
       registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
-      //update registration
-      var registrationIndex = _.findIndex($scope.registrations, { 'id': registrant.registrationId });
-      var registrantIndex = _.findIndex($scope.registrations[registrationIndex].registrants, { 'id': registrant.id });
-      $scope.registrations[registrationIndex].registrants[registrantIndex] = registrant;
-
       $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
-      $http.put('registrations/' + registrant.registrationId, $scope.registrations[registrationIndex]).success(function(){
-        $rootScope.loadingMsg = '';
-      }).error(function(data){
-        $rootScope.loadingMsg = '';
+      $http.put('registrants/' + registrant.id, registrant).error(function(data){
         registrant.checkedInTimestamp = originalValue;
         modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
+      }).finally(function(){
+        $rootScope.loadingMsg = '';
       });
     };
 
@@ -378,28 +366,25 @@ angular.module('confRegistrationWebApp')
         'noString': 'Cancel',
         'normalSize': true
       }).then(function(){
-        var registration = _.find($scope.registrations, { 'id': registrant.registrationId });
-        var url = 'registrations/' + registration.id;
+        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+          var url = 'registrations/' + registration.id;
 
-        if(registration.registrants.length > 1){
-          //Delete Registrant
-          url = 'registrants/' + registrant.id;
-        }
+          if(registration.registrants.length > 1){
+            //Delete Registrant
+            url = 'registrants/' + registrant.id;
+          }
 
-        $http({
-          method: 'DELETE',
-          url: url
-        }).success(function () {
-          _.remove($scope.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-
-          _.remove(registration.registrants, function (r) {
-            return r.id === registrant.id;
-          });
-        }).error(function(data){
-          modalMessage.error({
-            'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+          $http({
+            method: 'DELETE',
+            url: url
+          }).success(function () {
+            _.remove($scope.registrants, function (r) {
+              return r.id === registrant.id;
+            });
+          }).error(function(data){
+            modalMessage.error({
+              'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
+            });
           });
         });
       });
