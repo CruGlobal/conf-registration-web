@@ -31,11 +31,6 @@ angular.module('confRegistrationWebApp')
       $timeout.cancel(formSavingTimeout);
 
       formSaving = true;
-      /*$scope.notify = {
-       class: 'alert-warning',
-       message: $sce.trustAsHtml('Saving...')
-       };*/
-
       $http({
         method: 'PUT',
         url: 'conferences/' + conference.id,
@@ -60,7 +55,7 @@ angular.module('confRegistrationWebApp')
         formSaving = false;
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('<strong>Error</strong> ' + data.errorMessage)
+          message: $sce.trustAsHtml('<strong>Error</strong> ' + (data.error ? data.error.message : 'Update failed.'))
         };
       });
     };
