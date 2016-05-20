@@ -37,7 +37,7 @@ angular.module('confRegistrationWebApp')
       filterRegType: '',
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
-      includeIncomplete: 'no'
+      includeIncomplete: 'yes'
     };
     $scope.meta = {
       totalPages: 0
