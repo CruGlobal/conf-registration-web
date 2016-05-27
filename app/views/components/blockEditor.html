@@ -1,26 +1,4 @@
-<div ng-if="!wizard" class="form-group">
-  <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
-
-  <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
-    <text-question block="block" ng-switch-when="textQuestion"></text-question>
-    <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
-    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
-    <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
-    <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
-    <name-question block="block" ng-switch-when="nameQuestion"></name-question>
-    <address-question block="block" ng-switch-when="addressQuestion"></address-question>
-    <number-question block="block" ng-switch-when="numberQuestion"></number-question>
-    <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
-    <date-question block="block" ng-switch-when="dateQuestion"></date-question>
-    <year-in-school-question block="block" ng-switch-when="yearInSchoolQuestion"></year-in-school-question>
-  </ng-switch>
-</div>
-
-
-<div class="edit-box-name crsQuestion" ng-if="wizard">
+<div class="edit-box-name crsQuestion">
   <div class="btn-group btn-group-xs pull-right" role="group">
     <button class="btn btn-warning btn-disabled" ng-if="block.adminOnly" ng-click="toggleBlockEdit('advanced')">
       <i class="fa fa-lock"></i> Admin only
@@ -68,10 +46,10 @@
           <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
         </div>
 
-        <div class="form-group" ng-show="block.type === 'paragraphContent'">
+        <div class="form-group" ng-if="block.type === 'paragraphContent'">
           <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
         </div>
-        <div class="form-group" ng-show="hasOptions">
+        <div class="form-group" ng-if="hasOptions">
           <label>Possible Answers</label>
           <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
             <div class="input-group">
@@ -137,6 +115,10 @@
             </div>
           </div>
           <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> This question must be shown for all registration types.</p>
+        </div>
+        <div class="form-group" ng-if="hasOptions">
+          <label class="inline-label">Expense Type</label>
+          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants"></select>
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
