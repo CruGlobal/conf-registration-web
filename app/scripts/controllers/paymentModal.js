@@ -145,11 +145,9 @@ angular.module('confRegistrationWebApp')
 
       if($scope.isPartialRefundAvailable(payment, payment.paymentType)) {
         refundAmount = $scope.calculateRefundableAmount(payment);
-        $scope.onlyFullRefund = false;
       }
       else {
         refundAmount = payment.amount;
-        $scope.onlyFullRefund = true;
       }
 
       $scope.refund = {
@@ -172,11 +170,9 @@ angular.module('confRegistrationWebApp')
 
       if($scope.isPartialRefundAvailable(paymentToRefund, refund.refundChannel)) {
         refund.amount = $scope.calculateRefundableAmount(paymentToRefund);
-        $scope.onlyFullRefund = false;
       }
       else {
         refund.amount = paymentToRefund.amount;
-        $scope.onlyFullRefund = true;
       }
     };
 

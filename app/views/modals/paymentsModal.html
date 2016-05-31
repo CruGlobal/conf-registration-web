@@ -339,7 +339,7 @@
           </tbody>
         </table>
       </div>
-      <div ng-show="refund">
+      <div ng-if="refund">
         <h4>Refund Payment</h4>
         <table class="table table-striped">
           <tbody>
@@ -370,11 +370,11 @@
             <div class="col-sm-4">
               <label>Amount</label>
               <i class="fa fa-exclamation-triangle" popover="Partial credit card refunds cannot be issued within 24 hours of payment."
-                 popover-trigger="mouseenter" popover-append-to-body="true" ng-if="onlyFullRefund">
+                 popover-trigger="mouseenter" popover-append-to-body="true" ng-if="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
               </i>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control marginless" ng-model="refund.amount" ng-disabled="onlyFullRefund">
+                <input type="text" class="form-control marginless" ng-model="refund.amount" ng-disabled="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
               </div>
             </div>
           </div>
