@@ -159,15 +159,7 @@ angular.module('confRegistrationWebApp')
       };
     };
 
-    $scope.refreshRefund = function (refund) {
-      var paymentToRefund;
-
-      _.forEach($scope.registration.pastPayments, function(value) {
-        if(value.id === refund.refundedPaymentId) {
-          paymentToRefund = value;
-        }
-      });
-
+    $scope.refreshRefund = function (paymentToRefund, refund) {
       if($scope.isPartialRefundAvailable(paymentToRefund, refund.refundChannel)) {
         refund.amount = $scope.calculateRefundableAmount(paymentToRefund);
       }
