@@ -11,8 +11,9 @@ angular.module('confRegistrationWebApp')
         paymentMethods: '=paymentMethods',
         isAdminPayment: '=adminPayment'
       },
-      controller: function ($scope, $http) {
+      controller: function ($scope, $http, expenseTypesConstants) {
         $scope.conference =  $scope.$parent.conference;
+        $scope.expenseTypesConstants = expenseTypesConstants;
         $scope.currentYear = new Date().getFullYear();
         $scope.creditCardCountry = 'US';
 
@@ -22,7 +23,8 @@ angular.module('confRegistrationWebApp')
           CHECK: $scope.isAdminPayment ? 'views/paymentMethods/checkAdmin.html' : 'views/paymentMethods/check.html',
           TRANSFER: 'views/paymentMethods/transfer.html',
           SCHOLARSHIP: $scope.isAdminPayment ? 'views/paymentMethods/scholarshipAdmin.html' : 'views/paymentMethods/scholarship.html',
-          PAY_ON_SITE: 'views/paymentMethods/payOnSite.html'
+          PAY_ON_SITE: 'views/paymentMethods/payOnSite.html',
+          ADDITIONAL_EXPENSE: 'views/paymentMethods/additionalExpense.html'
         };
 
         $scope.searchStaff = function(val) {
