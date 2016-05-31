@@ -124,7 +124,9 @@
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label">Expense Type</label>
-          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants"></select>
+          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
+            <option value="">None</option>
+          </select>
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
