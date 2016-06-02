@@ -56,8 +56,8 @@
         </div>
 
         <div class="col-md-6">
-          <h4>Registration Types</h4>
-          <p class="text-muted">The promotion code will be applied to the following registration types:</p>
+          <h4>Registrant Types</h4>
+          <p class="text-muted">The promotion code will be applied to the following registrant types:</p>
           <div class="checkbox" ng-repeat="type in conference.registrantTypes">
             <label>
               <input type="checkbox" ng-checked="$parent.promo.registrantTypeIds.indexOf(type.id) != -1" ng-click="promotionRegistrantTypeToggle($parent.promo.registrantTypeIds, type.id)">
