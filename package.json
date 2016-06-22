@@ -18,12 +18,16 @@
     "grunt-contrib-watch": "~0.4.0",
     "grunt-karma": "~0.12.0",
     "grunt-open": "~0.2.0",
+    "grunt-processhtml": "latest",
     "grunt-rev": "~0.1.0",
     "grunt-usemin": "~2.2.0",
-    "grunt-processhtml": "latest",
-    "karma-phantomjs-launcher": "latest",
     "karma-jasmine": "^0.3.6",
-    "matchdep": "~0.1.2"
+    "karma-phantomjs-launcher": "latest",
+    "matchdep": "~0.1.2",
+    "phantomjs-prebuilt": "^2.1.7"
+  },
+  "peerDependencies": {
+    "grunt-cli": "^1.2.0"
   },
   "engines": {
     "node": ">=0.8.0"

@@ -1,5 +1,5 @@
-<h2 class="page-title border">Registration Types</h2>
-<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registration types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these registrant types into the order that people registering will see them.</p>
+<h2 class="page-title border">Registrant Types</h2>
+<p class="text-muted"><i class="fa fa-info-circle"></i> By setting up multiple registrant types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these types into the order that people registering will see them.</p>
 
 <div ui-tree>
   <div ui-tree-nodes="" ng-model="conference.registrantTypes">
@@ -30,7 +30,7 @@
         </div>
         <div class="panel-body" ng-if="openWell[type.id]">
           <button class="btn btn-xs btn-danger reg-type-delete" ng-click="deleteRegType(type.id)" type="button">
-            <i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Registration Type</span>
+            <i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Registrant Type</span>
           </button>
           <div class="row">
             <div class="col-md-6">
@@ -197,5 +197,5 @@
 </div>
 
 <a href="" ng-click="addRegType()">
-  <i class="fa fa-plus"></i> Add Registration Type
+  <i class="fa fa-plus"></i> Add Registrant Type
 </a>

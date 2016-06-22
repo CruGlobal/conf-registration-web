@@ -31,7 +31,7 @@
         </select>
       </div>
       <div class="col-md-2 col-sm-7 stacked-spacing-col-sm">
-        <label>Registration type:</label>
+        <label>Registrant type:</label>
         <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
       </div>
       <div class="col-md-4 col-sm-5 text-right">
@@ -102,7 +102,7 @@
   </div>
   <div class="row spacing-below-xs" ng-if="registrants.length > 0">
     <div class="col-sm-12">
-      Showing {{registrants.length || 0}}<ng-pluralize count="meta.totalRegistrantsFilter" when="{'1': ' of {} registration', 'other': ' of {} registrations'}"></ng-pluralize>
+      Showing {{registrants.length || 0}}<ng-pluralize count="meta.totalRegistrantsFilter" when="{'1': ' of {} registrant', 'other': ' of {} registrants'}"></ng-pluralize>
       <ng-pluralize count="meta.totalPages" when="{'0': '', '1': '', 'other': ' on {} pages'}"></ng-pluralize>
     </div>
   </div>
@@ -198,7 +198,7 @@
           </td>
           <td class="text-center">
             <div class="btn-group btn-group-sm registration-option-buttons" role="group" aria-label="Options">
-              <button type="button" class="btn btn-default" ng-click="editRegistrant(r)" title="Edit Registration">
+              <button type="button" class="btn btn-default" ng-click="editRegistrant(r)" title="Edit Registrant">
                 <i class="fa fa-edit"></i>
               </button>
               <button type="button" class="btn btn-default" ng-click="withdrawRegistrant(r, !r.withdrawn)" ng-attr-title="{{!r.withdrawn ? 'Withdraw Registration' : 'Reinstate Registration'}}">
