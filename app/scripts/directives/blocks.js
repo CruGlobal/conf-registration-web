@@ -22,19 +22,10 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        if ($scope.wizard) {
-          $scope.answer = {value: {}};
-        } else {
-          $scope.$watch('answer.value', function () {
-            if (angular.isDefined($scope.answer)) {
-              if (angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }))) {
-                $scope.atLeastOneChecked = true;
-              } else {
-                $scope.atLeastOneChecked = false;
-              }
-            }
-          }, true);
-        }
+        $scope.atLeastOneChecked = function(){
+          if(!$scope.answer){ return false; }
+          return angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }));
+        };
       }
     };
   });
@@ -77,13 +68,9 @@ angular.module('confRegistrationWebApp')
             }
           }
         });
-        if($scope.wizard){
-          $scope.answer = {
-            value: ''
-          };
-        }
 
         $scope.selectOtherAnswer = function(){
+          if(!$scope.answer){ return; }
           $scope.answer.value = $scope.otherAnswer;
         };
       }
