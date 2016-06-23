@@ -258,6 +258,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       }
     };
 
+     $rootScope.ertDate = new Date();
+
     $rootScope.globalGreetingName = function(){
       return ProfileCache.globalGreetingName();
     };
