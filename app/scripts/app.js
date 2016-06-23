@@ -250,6 +250,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       $window.ga('send', 'pageview', {'page': $location.path()});
     });
 
+    $rootScope.ertDate = new Date();
+
     $rootScope.generateTitle = function (title) {
       if (title) {
         return title + ' | Event Registration Tool';
