@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants) {
+  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants, expenseTypesConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
+    $scope.expenseTypesConstants = expenseTypesConstants;
     $scope.processing = false;
     $scope.activeTab = {};
     $scope.newTransaction = {

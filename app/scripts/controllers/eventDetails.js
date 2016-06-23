@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
     $scope.tabs = [
       {id: 'eventInfo', name: 'Event Information', view: 'views/eventDetails/eventInformation.html'},
       {id: 'regOptions', name: 'Registration Options', view: 'views/eventDetails/regOptions.html'},
-      {id: 'regTypes', name: 'Registration Types', view: 'views/eventDetails/regTypes.html'},
+      {id: 'regTypes', name: 'Registrant Types', view: 'views/eventDetails/regTypes.html'},
       {id: 'paymentOptions', name: 'Payment Options', view: 'views/eventDetails/paymentOptions.html'},
       {id: 'promotions', name: 'Promotions', view: 'views/eventDetails/promotions.html'},
       {id: 'contactInfo', name: 'Contact Information', view: 'views/eventDetails/contactInfo.html'}
@@ -96,7 +96,7 @@ angular.module('confRegistrationWebApp')
       } else {
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('You must have at least one registration type per event.')
+          message: $sce.trustAsHtml('You must have at least one registrant type per event.')
         };
         $timeout(function() { $scope.notify = {}; }, 3500);
       }
@@ -180,7 +180,7 @@ angular.module('confRegistrationWebApp')
       //Registrant Name
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (_.isEmpty(t.name)) {
-          validationErrors.push('Please enter a name for all registration types.');
+          validationErrors.push('Please enter a name for all Registrant types.');
         }
       });
 
