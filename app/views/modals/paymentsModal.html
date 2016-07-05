@@ -58,11 +58,7 @@
         <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
         <tr>
           <td></td>
-          <td>
-            <span ng-if="expense.amount > 0">Additional Expense:</span>
-            <span ng-if="expense.amount < 0">Discount:</span>
-            {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})
-          </td>
+          <td>{{expense.description}}</td>
           <td>{{expense.amount | currency:'$'}}</td>
         </tr>
         </tbody>
@@ -392,7 +388,7 @@
         </div>
       </div>
     </tab>
-    <tab heading="Expenses" active="activeTab[2]">
+    <tab heading="Discounts &amp; Expenses" active="activeTab[2]">
       <p ng-show="!registration.expenses.length">This registration does not contain any additional expenses.</p>
       <div class="table-responsive">
         <table class="table table-striped" ng-show="registration.expenses.length">
@@ -400,6 +396,7 @@
           <tr>
             <th style="width:180px;">Date</th>
             <th style="width:120px;">Amount</th>
+            <th style="width:190px;">Type</th>
             <th>Description</th>
             <th style="width:73px;"></th>
           </tr>
@@ -410,6 +407,11 @@
             <td>
               <span ng-if="editExpense.id !== expense.id">{{expense.amount | currency:'$'}}</span>
               <input ng-if="editExpense.id === expense.id" type="number" ng-model="editExpense.amount" class="form-control" step="1">
+            </td>
+            <td>
+              <span ng-if="editExpense.id !== expense.id">{{expenseTypesConstants[expense.expenseType]}}</span>
+              <select class="form-control" ng-if="editExpense.id === expense.id" ng-model="editExpense.expenseType"
+                      ng-options="key as value for (key , value) in expenseTypesConstants"></select>
             </td>
             <td>
               <span ng-if="editExpense.id !== expense.id">{{expense.description}}</span>
