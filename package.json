@@ -21,7 +21,7 @@
     "grunt-processhtml": "latest",
     "grunt-rev": "~0.1.0",
     "grunt-usemin": "~2.2.0",
-    "grunt-angular-gettext": "latest"
+    "grunt-angular-gettext": "latest",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "latest",
     "matchdep": "~0.1.2",
