@@ -10,7 +10,7 @@
   </div>
   <div class="row well well-full spacing-above-xs spacing-below-sm">
     <div class="row">
-      <div class="col-md-4 col-sm-8 stacked-spacing-col-md">
+      <div class="col-md-3 col-sm-8">
         <div class="form-group has-feedback has-clear">
           <label>Search<small> (visible columns only)</small>:</label>
           <input type="text" class="form-control" ng-model="strFilter">
@@ -19,7 +19,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4 stacked-spacing-col-sm">
+      <div class="col-md-2 col-sm-4">
         <label>Payment status:</label>
         <select ng-model="queryParameters.filterPayment" class="form-control">
           <option value="">-Any-</option>
@@ -30,11 +30,11 @@
           <option value="over">Overpaid</option>
         </select>
       </div>
-      <div class="col-md-2 col-sm-7 stacked-spacing-col-sm">
+      <div class="col-md-2 col-sm-6">
         <label>Registrant type:</label>
         <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
       </div>
-      <div class="col-md-4 col-sm-5 text-right">
+      <div class="col-md-5 col-sm-6 text-right">
         <br>
         <div class="btn-group" role="group" dropdown auto-close="outsideClick">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
@@ -42,17 +42,37 @@
             <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
             <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
           </button>
-          <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i> Refresh</button>
+          <button class="btn btn-primary" ng-click="refreshRegistrations()">
+            <i class="fa fa-refresh"></i>
+            Refresh
+          </button>
           <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
-            Columns
+            <span class="hidden-xs">Display</span> Columns
             <i class="fa fa-caret-down"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown">
+            <li>
+              <a href="" ng-click="toggleBuiltInColumn('Email')">
+                <i ng-class="builtInColumnsVisible.Email ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
+                Email
+              </a>
+            </li>
             <li ng-repeat="block in blocks" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'">
               <a href="" ng-click="toggleColumn($index)">
-                <i class="fa fa-check-square" ng-show="block.visible"></i>
-                <i class="fa fa-square-o" ng-show="!block.visible"></i>
+                <i ng-class="block.visible ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
                 {{block.exportFieldTitle || block.title}}
+              </a>
+            </li>
+            <li>
+              <a href="" ng-click="toggleBuiltInColumn('Started')">
+                <i ng-class="builtInColumnsVisible.Started ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
+                Started
+              </a>
+            </li>
+            <li>
+              <a href="" ng-click="toggleBuiltInColumn('Completed')">
+                <i ng-class="builtInColumnsVisible.Completed ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
+                Completed
               </a>
             </li>
           </ul>
@@ -124,7 +144,7 @@
           <th>
             <a href="" ng-click="setOrder('last_name')">Last Name</a>
             <i ng-if="queryParameters.orderBy === 'last_name'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i></th>
-          <th>
+          <th ng-if="builtInColumnsVisible.Email">
             <a href="" ng-click="setOrder('email')">Email</a>
             <i ng-if="queryParameters.orderBy === 'email'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
@@ -136,11 +156,11 @@
             <a href="" ng-click="setOrder('registrant_type_id')">Type</a>
             <i ng-if="queryParameters.orderBy === 'registrant_type_id'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
-          <th class="text-center" width="160">
+          <th class="text-center" width="160" ng-if="builtInColumnsVisible.Started">
             <a href="" ng-click="setOrder('created_timestamp')">Started</a>
             <i ng-if="queryParameters.orderBy === 'created_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
-          <th class="text-center" width="160">
+          <th class="text-center" width="160" ng-if="builtInColumnsVisible.Completed">
             <a href="" ng-click="setOrder('completed_timestamp')">Completed</a>
             <i ng-if="queryParameters.orderBy === 'completed_timestamp'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
@@ -164,15 +184,15 @@
         <tr ng-repeat-start="r in registrants | orderBy:answerSort:reversesort" ng-class="{'active': $even}" class="noselect">
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
-          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.email}}</td>
+          <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Email">{{r.email}}</td>
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
             <show-answer block="block" registrant="r" ng-if="blockIsVisible(block, r)"></show-answer>
           </td>
           <td class="text-center" ng-show="conference.registrantTypes.length > 1" ng-class="{'strike-through':r.withdrawn}" ng-bind="getRegistrantType(r.registrantTypeId).name"></td>
-          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Started">
             {{r.createdTimestamp | date: 'short'}}
           </td>
-          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
+          <td class="text-center" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Completed">
             {{getRegistration(r.registrationId).completed ? (getRegistration(r.registrationId).completedTimestamp | date: 'short') : '-'}}
           </td>
           <td class="text-center">
