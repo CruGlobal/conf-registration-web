@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
         angular.forEach(block.rules, function(rule){
           var parentBlockLocation = positionArray[rule.parentBlockId];
           if(parentBlockLocation.page > destPageIndex || (parentBlockLocation.page === destPageIndex && parentBlockLocation.block >= event.dest.index)){
-            rulesViolated.push(gettextCatalog.getString('<strong>{{block}}</strong> must be below <strong>{{parentBlock}}</strong>.', { block: $sanitize(block.title), parentBlock: $sanitize(parentBlockLocation.title) }));
+            rulesViolated.push('<strong>' + $sanitize(block.title) + '</strong> ' + gettextCatalog.getString('must be below') + ' <strong>' + $sanitize(parentBlockLocation.title) + '</strong>.');
           }
         });
 
@@ -63,7 +63,7 @@ angular.module('confRegistrationWebApp')
               (childBlockLocation.page === destPageIndex && childBlockLocation.block < event.dest.index) ||
               (childBlockLocation.page === destPageIndex && sourcePageIndex === destPageIndex && childBlockLocation.block === event.dest.index)
           ){
-            rulesViolated.push(gettextCatalog.getString('<strong>{{childBlock}}</strong> must be below <strong>{{block}}</strong>.', { block: $sanitize(block.title), childBlock: $sanitize(childBlockLocation.title) }));
+            rulesViolated.push('<strong>' + $sanitize(childBlockLocation.title) + '</strong> ' + gettextCatalog.getString('must be below') + ' <strong>' + $sanitize(block.title) + '</strong>.');
           }
         });
 

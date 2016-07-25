@@ -1,11 +1,11 @@
-<h2 class="page-title border">Registration Options</h2>
+<h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
   <div class="col-sm-6 stacked-spacing-col-sm">
-    <label>Registration Starts <em class="required">*</em></label>
+    <label><translate>Registration Starts</translate> <em class="required">*</em></label>
     <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
   </div>
   <div class="col-sm-6">
-    <label>Registration Ends <em class="required">*</em></label>
+    <label><translate>Registration Ends</translate> <em class="required">*</em></label>
     <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
   </div>
 </div>
@@ -15,10 +15,10 @@
     <div class="checkbox">
       <label>
         <input type="checkbox" ng-model="conference.requireLogin">
-        Require Relay or Facebook sign in to register
+        <translate>Require Relay or Facebook sign in to register</translate>
       </label>
       <i class="question-popover fa fa-question-circle"
-         popover="Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below)."
+         popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
          popover-trigger="mouseenter"
          popover-append-to-body="true">
       </i>
@@ -26,10 +26,10 @@
 
     <div class="checkbox">
       <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">
-        Allow users to modify their registration after it is complete
+        <translate>Allow users to modify their registration after it is complete</translate>
       </label>
       <i class="question-popover fa fa-question-circle"
-         popover="This includes editing answers and adding family members."
+         popover="{{'This includes editing answers and adding family members.' | translate}}"
          popover-trigger="mouseenter"
          popover-append-to-body="true">
       </i>
@@ -39,9 +39,9 @@
 
 <div class="form-group">
   <div class="col-sm-12">
-    <label>Registration completion redirect</label>
+    <label translate>Registration completion redirect</label>
     <i class="question-popover fa fa-question-circle"
-       popover="Users will be redirected to the page below upon completion of their registration."
+       popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
        popover-trigger="mouseenter"
        popover-append-to-body="true">
     </i>
