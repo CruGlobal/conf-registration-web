@@ -1,4 +1,4 @@
-<h2 class="page-title border">Promotions</h2>
+<h2 class="page-title border" translate>Promotions</h2>
 
 <div ng-repeat="promo in conference.promotions">
   <div class="panel panel-default">
@@ -8,11 +8,11 @@
           <a href="" ng-click="openWell[promo.id] = !openWell[promo.id]"><i class="fa fa-inset fa-inset-reg-type" ng-class="{'fa-chevron-up': openWell[promo.id], 'fa-chevron-down': !openWell[promo.id]}"></i></a>
         </div>
         <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
-          <label>Code</label>
+          <label translate>Code</label>
           <input type="text" class="form-control" ng-model="promo.code">
         </div>
         <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
-          <label>Discount Amount</label>
+          <label translate>Discount Amount</label>
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-usd"></i></span>
             <input type="text" class="form-control" ng-model="promo.amount">
@@ -22,17 +22,17 @@
     </div>
     <div class="panel-body" ng-if="openWell[promo.id]">
       <button class="btn btn-xs btn-danger reg-type-delete" ng-click="$parent.conference.promotions.splice($index, 1)" type="button">
-        <i class="fa fa-trash-o"></i> Delete<span class="hidden-xs"> Promotion Code</span>
+        <i class="fa fa-trash-o"></i> <translate>Delete</translate><span class="hidden-xs"> <translate>Promotion Code</translate></span>
       </button>
       <div class="row">
         <div class="col-md-6">
           <div>
-            <label>Description</label>
+            <label translate>Description</label>
             <textarea class="form-control" ng-model="promo.description"></textarea>
           </div>
 
           <div class="pt12">
-            <label>Validity Range</label>
+            <label translate>Validity Range</label>
             <div class="row">
               <div class="col-sm-6 stacked-spacing-col-sm">
                 <crs-datetimepicker model="promo.activationDate"></crs-datetimepicker>
@@ -44,20 +44,20 @@
           </div>
 
           <div class="pt12">
-            <label>Usage limit</label>
-            <button type="button" class="btn btn-default btn-block" ng-if="!promo.numberLimit" ng-click="promo.numberLimit = 10">Enable Limit</button>
+            <label translate>Usage limit</label>
+            <button type="button" class="btn btn-default btn-block" ng-if="!promo.numberLimit" ng-click="promo.numberLimit = 10" translate>Enable Limit</button>
             <div class="input-group" ng-if="promo.numberLimit">
               <input type="number" ng-model="promo.numberLimit" class="form-control" min="0">
               <span class="input-group-btn">
-                <button type="button" class="btn btn-default" ng-click="promo.numberLimit = 0">Disable Limit</button>
+                <button type="button" class="btn btn-default" ng-click="promo.numberLimit = 0" translate>Disable Limit</button>
               </span>
             </div>
           </div>
         </div>
 
         <div class="col-md-6">
-          <h4>Registrant Types</h4>
-          <p class="text-muted">The promotion code will be applied to the following registrant types:</p>
+          <h4 translate>Registrant Types</h4>
+          <p class="text-muted" translate>The promotion code will be applied to the following registrant types:</p>
           <div class="checkbox" ng-repeat="type in conference.registrantTypes">
             <label>
               <input type="checkbox" ng-checked="$parent.promo.registrantTypeIds.indexOf(type.id) != -1" ng-click="promotionRegistrantTypeToggle($parent.promo.registrantTypeIds, type.id)">
@@ -69,10 +69,10 @@
             <div class="checkbox">
               <label>
                 <input type="checkbox" ng-model="promo.applyToAllRegistrants">
-                Apply discount to everyone in registration
+                <translate>Apply discount to everyone in registration</translate>
               </label>
               <i class="question-popover fa fa-question-circle"
-                 popover="Applies discount to all registrants in the registration, if applicable. If unchecked, discount will only be applied once per registration."
+                 popover="{{'Applies discount to all registrants in the registration, if applicable. If unchecked, discount will only be applied once per registration.' | translate}}"
                  popover-trigger="mouseenter"
                  popover-append-to-body="true">
               </i>
@@ -85,5 +85,5 @@
 </div>
 
 <a href="" ng-click="addPromotion()">
-  <i class="fa fa-plus"></i> Add Promotion Code
+  <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
 </a>

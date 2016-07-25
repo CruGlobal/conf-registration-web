@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AngularUiTreeConfig', function ($scope, modalMessage, $sanitize) {
+  .controller('AngularUiTreeConfig', function ($scope, modalMessage, $sanitize, gettextCatalog) {
     $scope.toolbarTreeConfig = {
       accept: function(sourceNodeScope, destNodesScope) {
         return sourceNodeScope.$treeScope === destNodesScope.$treeScope;
@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
         angular.forEach(block.rules, function(rule){
           var parentBlockLocation = positionArray[rule.parentBlockId];
           if(parentBlockLocation.page > destPageIndex || (parentBlockLocation.page === destPageIndex && parentBlockLocation.block >= event.dest.index)){
-            rulesViolated.push('<strong>' + $sanitize(block.title) + '</strong> must be below <strong>' + $sanitize(parentBlockLocation.title) + '</strong>.');
+            rulesViolated.push('<strong>' + $sanitize(block.title) + '</strong> ' + gettextCatalog.getString('must be below') + ' <strong>' + $sanitize(parentBlockLocation.title) + '</strong>.');
           }
         });
 
@@ -63,15 +63,15 @@ angular.module('confRegistrationWebApp')
               (childBlockLocation.page === destPageIndex && childBlockLocation.block < event.dest.index) ||
               (childBlockLocation.page === destPageIndex && sourcePageIndex === destPageIndex && childBlockLocation.block === event.dest.index)
           ){
-            rulesViolated.push('<strong>' + $sanitize(childBlockLocation.title) + '</strong> must be below <strong>' + $sanitize(block.title) + '</strong>.');
+            rulesViolated.push('<strong>' + $sanitize(childBlockLocation.title) + '</strong> ' + gettextCatalog.getString('must be below') + ' <strong>' + $sanitize(block.title) + '</strong>.');
           }
         });
 
         if(rulesViolated.length){
           event.source.nodeScope.$$apply = false; //cancel regular drop action
           modalMessage.error({
-            'title': 'Error Moving Question',
-            'message': '<p><strong>Rule violations:</strong></p><ul><li>' + rulesViolated.join('</li><li>') + '</li></ul>'
+            'title': gettextCatalog.getString('Error Moving Question'),
+            'message': '<p><strong>' + gettextCatalog.getString('Rule violations:') + '</strong></p><ul><li>' + rulesViolated.join('</li><li>') + '</li></ul>'
           });
         }
       }

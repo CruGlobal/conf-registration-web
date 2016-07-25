@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -247,7 +247,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       $window.scrollTo(0, 0);
 
       //Google Analytics
-      $window.ga('send', 'pageview', {'page': $location.path()});
+      if($window.ga){
+        $window.ga('send', 'pageview', {'page': $location.path()});
+      }
     });
 
     $rootScope.generateTitle = function (title) {

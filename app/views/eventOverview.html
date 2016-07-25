@@ -1,11 +1,11 @@
 <div class="row">
   <aside class="col-sm-3 col-sm-push-9 event-stats-section">
     <div class="well">
-      <div class="stats-heading">Event Stats</div>
+      <div class="stats-heading" translate>Event Stats</div>
       <div class="eventstat-icon">
         <i class="fa fa-users green"></i> {{conference.completedRegistrationCount}}
       </div>
-      <a class="link" href="#/eventRegistrations/{{conference.id}}">Registrations <i class="fa fa-chevron-right"></i></a>
+      <a class="link" href="#/eventRegistrations/{{conference.id}}"><span translate>Registrations</span> <i class="fa fa-chevron-right"></i></a>
     </div>
   </aside>
   <div class="col-sm-9 col-sm-pull-3 event-info-section divider-right-col-sm">
@@ -13,7 +13,7 @@
       <div class="col-sm-6">
         <section>
           <a href="#/eventDetails/{{conference.id}}" class="btn btn-link pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
-          <h2 class="page-title border">Event Information</h2>
+          <h2 class="page-title border" translate>Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
           <p ng-bind="conference.description" ng-show="conference.description" class="display-linebreaks"></p>
           <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone }} -
@@ -25,7 +25,7 @@
       </div>
       <div class="col-sm-6">
         <section>
-          <h2 class="page-title border">Registration Window</h2>
+          <h2 class="page-title border" translate>Registration Window</h2>
           <p>{{conference.registrationStartTime | evtDateFormat: conference.eventTimezone}} -
             {{conference.registrationEndTime | evtDateFormat: conference.eventTimezone}}</p>
           <p class="bg-success" style="padding: 6px; font-weight: bold;" ng-show="conference.registrationOpen">Registration is currently open.</p>
@@ -34,24 +34,24 @@
       </div>
     </div>
     <section>
-      <h2 class="page-title border">Links</h2>
+      <h2 class="page-title border" translate>Links</h2>
       <div>
-        <label>Registration Link</label><br>
+        <label translate>Registration Link</label><br>
         <div class="input-group">
           <input type="text" id="registrationUrl" class="form-control" ng-model="registrationUrl[0]" select-on-click readonly>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" select-on-click="registrationUrl">Select</button>
+            <button type="button" class="btn btn-primary" select-on-click="registrationUrl" translate>Select</button>
             <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[0]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>
       </div>
       <div ng-repeat="type in conference.registrantTypes | filter:{ groupSubRegistrantType: false }" ng-if="conference.registrantTypes.length > 1">
         <br>
-        <label>'{{type.name}}' Registration Link</label><br>
+        <label>'{{type.name}}' <span translate>Registration Link</span></label><br>
         <div class="input-group">
           <input type="text" id="registrationUrl-{{type.id}}" class="form-control" ng-model="registrationUrl[type.id]" select-on-click readonly>
           <span class="input-group-btn">
-            <button type="button" class="btn btn-primary" select-on-click="registrationUrl-{{type.id}}">Select</button>
+            <button type="button" class="btn btn-primary" select-on-click="registrationUrl-{{type.id}}" translate>Select</button>
             <a class="btn btn-default" title="Launch registration in new tab" ng-href="{{registrationUrl[type.id]}}" target="_blank"><i class="fa fa-external-link"></i></a>
           </span>
         </div>

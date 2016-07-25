@@ -1,22 +1,25 @@
-<h2 class="page-title border">Payment Options</h2>
+<h2 class="page-title border" translate>Payment Options</h2>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Credit Card</h3>
+    <h3 class="panel-title" translate>Credit Card</h3>
   </div>
   <div class="panel-body">
-    <p class="text-muted"><i class="fa fa-info-circle"></i> If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor.
-      For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</p>
+    <p class="text-muted">
+      <i class="fa fa-info-circle"></i>
+      <translate>If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor.</translate>
+      <translate>For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</translate>
+    </p>
     <div class="form-group">
       <div class="col-sm-6">
-        <label>Payment Gateway:</label>
+        <label translate>Payment Gateway:</label>
         <select class="form-control" ng-model="conference.paymentGatewayType" ng-options="gateway.id as gateway.name for gateway in paymentGateways"></select>
       </div>
       <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
-        <label>Account:</label>
+        <label translate>Account:</label>
         <p>{{conference.paymentGatewayId}}
           <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
-            <i class="fa fa-pencil"></i> Edit
+            <i class="fa fa-pencil"></i> <translate>Edit</translate>
           </button>
         </p>
       </div>
@@ -24,13 +27,13 @@
     <div ng-show="!conference.paymentGatewayKeySaved">
       <div class="form-group">
         <div class="col-xs-12">
-          <label>Account ID:</label>
+          <label translate>Account ID:</label>
           <input class="form-control" type="text" ng-model="conference.paymentGatewayId" autocomplete="off">
         </div>
       </div>
       <div class="form-group">
         <div class="col-xs-12">
-          <label>Key:</label>
+          <label translate>Key:</label>
           <input class="form-control" type="text" ng-model="conference.paymentGatewayKey" autocomplete="off">
         </div>
       </div>
@@ -40,24 +43,24 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Checks</h3>
+    <h3 class="panel-title" translate>Checks</h3>
   </div>
   <div class="panel-body">
     <div class="form-group">
       <div class="col-xs-12">
-        <label>Make checks payable to:</label>
+        <label translate>Make checks payable to:</label>
         <input class="form-control" type="text" ng-model="conference.checkPayableTo">
       </div>
     </div>
     <div class="form-group">
       <div class="col-xs-12">
-        <label>Mail checks to:</label>
-        <input type="text" class="form-control" placeholder="Address" ng-model="conference.checkMailingAddress">
+        <label translate>Mail checks to:</label>
+        <input type="text" class="form-control" placeholder="{{'Address' | translate}}" ng-model="conference.checkMailingAddress">
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-6 stacked-spacing-col-sm">
-        <input type="text" class="form-control" placeholder="City" ng-model="conference.checkMailingCity">
+        <input type="text" class="form-control" placeholder="{{'City' | translate}}" ng-model="conference.checkMailingCity">
       </div>
       <div class="col-sm-3 stacked-spacing-col-sm">
         <select class="form-control" ng-model="conference.checkMailingState">
@@ -115,7 +118,7 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <input type="text" class="form-control" placeholder="Postal Code" ng-model="conference.checkMailingZip">
+        <input type="text" class="form-control" placeholder="{{'Postal Code' | translate}}" ng-model="conference.checkMailingZip">
       </div>
     </div>
   </div>
@@ -124,28 +127,28 @@
 
 <div class="panel panel-default" ng-show="conference.cruEvent">
   <div class="panel-heading">
-    <h3 class="panel-title">Cru Event Chartfield</h3>
+    <h3 class="panel-title" translate>Cru Event Chartfield</h3>
   </div>
   <div class="panel-body">
-    <p>Through which chartfield will you run this event's income and expenses?</p>
+    <p translate>Through which chartfield will you run this event's income and expenses?</p>
     <div class="row form-group">
       <div class="col-sm-3">
-        <label>Business Unit</label>
+        <label translate>Business Unit</label>
         <input ng-model="conference.businessUnit" type="text" class="form-control">
       </div>
 
       <div class="col-sm-3">
-        <label>Operating Unit</label>
+        <label translate>Operating Unit</label>
         <input ng-model="conference.operatingUnit" type="text" class="form-control">
       </div>
 
       <div class="col-sm-3">
-        <label>Department</label>
+        <label translate>Department</label>
         <input ng-model="conference.department" type="text" class="form-control">
       </div>
 
       <div class="col-sm-3">
-        <label>Project Id</label>
+        <label translate>Project Id</label>
         <input ng-model="conference.projectId" type="text" class="form-control">
       </div>
     </div>
