@@ -19,7 +19,7 @@
           </span>
         </div>
       </div>
-      <div class="col-md-2 col-sm-4">
+      <div class="col-md-2 col-sm-4 stacked-spacing-col-sm">
         <label>Payment status:</label>
         <select ng-model="queryParameters.filterPayment" class="form-control">
           <option value="">-Any-</option>
@@ -30,11 +30,11 @@
           <option value="over">Overpaid</option>
         </select>
       </div>
-      <div class="col-md-2 col-sm-6">
+      <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
         <label>Registrant type:</label>
         <select ng-model="queryParameters.filterRegType" ng-options="t.id as t.name for t in visibleFilterRegistrantTypes" class="form-control"></select>
       </div>
-      <div class="col-md-5 col-sm-6 text-right">
+      <div class="col-md-5 col-sm-6 text-right stacked-spacing-col-sm">
         <br>
         <div class="btn-group" role="group" dropdown auto-close="outsideClick">
           <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
