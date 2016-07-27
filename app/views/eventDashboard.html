@@ -2,14 +2,14 @@
   <div class="col-sm-12">
     <div class="row">
       <div class="col-xs-12">
-        <p ng-hide="!filteredEvents">Showing <strong>{{filteredEvents.length + recentEvents.length}} of {{conferences.length}}</strong> events</p>
-        <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> Loading events...</p>
+        <p ng-hide="!filteredEvents"><translate>Showing</translate> <strong>{{filteredEvents.length + recentEvents.length}} <translate>of</translate> {{conferences.length}}</strong> <translate>events</translate></p>
+        <p ng-show="!filteredEvents"><i class="fa fa-circle-o-notch fa-spin"></i> <translate>Loading events</translate>...</p>
       </div>
     </div>
     <div class="row spacing-below-sm">
       <div class="col-sm-8">
-        <button ng-click="createEvent()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-plus"></i> Create New Event</button>
-        <button ng-click="requestAccess()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-key"></i> Request Access to Existing Event</button>
+        <button ng-click="createEvent()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-plus"></i> <translate>Create New Event</translate></button>
+        <button ng-click="requestAccess()" class="btn btn-success btn-spacing-below" role="button"><i class="fa fa-key"></i> <translate>Request Access to Existing Event</translate></button>
       </div>
       <div class="col-sm-4">
         <div class="form-group has-feedback has-clear">
@@ -21,10 +21,15 @@
       </div>
     </div>
     <div ng-show="!filteredEvents.length && !recentEvents.length" class="alert alert-info">
-      <p>No events found. <a href="" ng-click="createEvent()" class="alert-link">Create a new event</a> or <a href="" ng-click="requestAccess()" class="alert-link">request access to an existing event</a> to get started!</p>
+      <p>
+        <translate>No events found.</translate>
+        <a href="" ng-click="createEvent()" class="alert-link" translate>Create a new event</a>
+        <translate>or</translate>
+        <a href="" ng-click="requestAccess()" class="alert-link" translate>request access to an existing event</a> <translate>to get started!</translate>
+      </p>
     </div>
 
-    <h4 ng-show="filteredEvents.length && recentEvents.length">Recently accessed events</h4>
+    <h4 ng-show="filteredEvents.length && recentEvents.length" translate>Recently accessed events</h4>
     <ul class="event-list">
       <li class="event-box"
           ng-include="eventBoxView"
@@ -34,7 +39,7 @@
       </li>
     </ul>
 
-    <h4 ng-show="filteredEvents.length && recentEvents.length">All other events</h4>
+    <h4 ng-show="filteredEvents.length && recentEvents.length" translate>All other events</h4>
     <ul class="event-list">
       <li class="event-box"
           ng-include="eventBoxView"
@@ -46,7 +51,7 @@
     <!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
 		<a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
     <label>
-      <input type="checkbox" ng-model="showArchivedEvents"> Show archived events
+      <input type="checkbox" ng-model="showArchivedEvents"> <translate>Show archived events</translate>
     </label>
   </div>
 </div>

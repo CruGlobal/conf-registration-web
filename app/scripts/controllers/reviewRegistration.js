@@ -106,7 +106,6 @@ angular.module('confRegistrationWebApp')
       }
 
       var currentPayment = angular.copy($scope.currentPayment);
-      currentPayment.readyToProcess = true;
       currentPayment.registrationId =  registration.id;
       delete currentPayment.errors;
       if(currentPayment.paymentType === 'CREDIT_CARD'){

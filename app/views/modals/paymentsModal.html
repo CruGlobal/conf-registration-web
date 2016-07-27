@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" ng-click="$close(registration)" aria-hidden="true">&times;</button>
-  <h4>Payments &amp; Expenses
+  <h4><translate>Payments &amp; Expenses</translate>
     <small>
       <ng-pluralize count="registration.registrants.length" offset=2
                     when="{'0': '',
@@ -19,8 +19,8 @@
         <thead>
         <tr>
           <th width="10"></th>
-          <th>Registrant</th>
-          <th width="90">Cost</th>
+          <th translate>Registrant</th>
+          <th width="90" translate>Cost</th>
         </tr>
         </thead>
         <tbody ng-repeat="r in registration.registrants">
@@ -36,17 +36,17 @@
         </tr>
         <tr ng-if="expandRegistrantCost[r.id]">
           <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Registration</td>
+          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Registration</translate></td>
           <td>{{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}</td>
         </tr>
         <tr ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts">
           <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Early Registration Discount</td>
+          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Early Registration Discount</translate></td>
           <td>{{r.calculatedEarlyRegistrationDiscounts * -1 | currency:'$'}}</td>
         </tr>
         <tr ng-if="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts">
           <td></td>
-          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> Promotion Discount</td>
+          <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Promotion Discount</translate></td>
           <td>{{r.calculatedPromotionDiscounts * -1 | currency:'$'}}</td>
         </tr>
         <tr ng-repeat="a in r.answers" ng-if="a.amount !== 0 && expandRegistrantCost[r.id]">
@@ -58,11 +58,7 @@
         <tbody ng-repeat="expense in registration.expenses | orderBy:'createdTimestamp'">
         <tr>
           <td></td>
-          <td>
-            <span ng-if="expense.amount > 0">Additional Expense:</span>
-            <span ng-if="expense.amount < 0">Discount:</span>
-            {{expense.description}} (entered: {{expense.createdTimestamp | date:'MMM d, y h:mm a'}})
-          </td>
+          <td>{{expense.description}}</td>
           <td>{{expense.amount | currency:'$'}}</td>
         </tr>
         </tbody>
@@ -72,32 +68,32 @@
         <div class="col-lg-12">
           <table class="table pull-right" style="width:260px;">
             <tr ng-if="registration.calculatedPromotionDiscounts">
-              <th>Promotion Discount</th>
+              <th translate>Promotion Discount</th>
               <td width="90">{{(registration.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
             </tr>
             <tr>
-              <th>Total Cost</th>
+              <th translate>Total Cost</th>
               <td width="90">{{registration.calculatedTotalDue | currency:'$'}}</td>
             </tr>
             <tr>
-              <th>Total Paid</th>
+              <th translate>Total Paid</th>
               <td>{{registration.totalPaid | currency:'$'}}</td>
             </tr>
             <tr>
-              <th>Total Due</th>
+              <th translate>Total Due</th>
               <td>{{registration.remainingBalance | currency:'$'}}</td>
             </tr>
           </table>
         </div>
       </div>
-      <p class="text-muted">* Requested scholarships and pending checks are not reflected in total due.</p>
+      <p class="text-muted">* <translate>Requested scholarships and pending checks are not reflected in total due.</translate></p>
     </tab>
     <tab heading="Promotions">
-      <p ng-if="!conference.promotions.length">This event does not contain any promotions.</p>
+      <p ng-if="!conference.promotions.length" translate>This event does not contain any promotions.</p>
       <table class="table" ng-show="registration.promotions.length">
         <thead>
           <tr>
-            <th>Active Promotions</th>
+            <th translate>Active Promotions</th>
             <th width="90"></th>
           </tr>
         </thead>
@@ -114,7 +110,7 @@
       <table class="table" ng-show="filteredPromotions.length">
         <thead>
         <tr>
-          <th>Available Promotions</th>
+          <th translate>Available Promotions</th>
           <th width="90"></th>
         </tr>
         </thead>
@@ -129,15 +125,15 @@
       </table>
     </tab>
     <tab heading="Payments" active="activeTab[1]">
-      <p ng-show="!registration.pastPayments.length">This registration does not contain any payments.</p>
+      <p ng-show="!registration.pastPayments.length" translate>This registration does not contain any payments.</p>
       <div  class="table-responsive">
         <table class="table" ng-show="registration.pastPayments.length">
           <thead>
           <tr>
-            <th style="width:190px;">Date</th>
-            <th style="width:120px;">Amount</th>
-            <th>Type</th>
-            <th style="width:240px;">Description</th>
+            <th style="width:190px;" translate>Date</th>
+            <th style="width:120px;" translate>Amount</th>
+            <th translate>Type</th>
+            <th style="width:240px;" translate>Description</th>
             <th style="width:100px"></th>
           </tr>
           </thead>
@@ -150,38 +146,38 @@
               <span ng-if="payment.paymentType === 'CREDIT_CARD'">Credit Card **{{payment.creditCard.lastFourDigits}}</span>
               <span ng-if="payment.paymentType === 'CHECK'">
                 <span ng-if="payment.status === 'RECEIVED'">
-                  Check #{{payment.check.checkNumber}}
+                  <translate>Check</translate> #{{payment.check.checkNumber}}
                 </span>
-                <span ng-if="payment.status === 'PENDING'" style="font-style: italic;">
+                <span ng-if="payment.status === 'PENDING'" style="font-style: italic;" translate>
                   Check (not yet received)
                 </span>
               </span>
               <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
                 <span ng-if="payment.status === 'APPROVED'">
                   <span ng-if="payment.scholarship.accountType === 'STAFF' || payment.scholarship.accountType === 'NON_US_STAFF'">
-                    Scholarship from staff {{payment.scholarship.accountNumber}}
+                    <translate>Scholarship from staff</translate> {{payment.scholarship.accountNumber}}
                   </span>
                   <span ng-if="payment.scholarship.accountType === 'MINISTRY'">
-                    Scholarship from {{payment.scholarship.businessUnit}}/{{payment.scholarship.operatingUnit}}/{{payment.scholarship.department}}/{{payment.scholarship.projectId}}
+                    <translate>Scholarship from</translate> {{payment.scholarship.businessUnit}}/{{payment.scholarship.operatingUnit}}/{{payment.scholarship.department}}/{{payment.scholarship.projectId}}
                   </span>
                 </span>
-                <span ng-if="payment.status === 'REQUESTED'" style="font-style: italic;">Scholarship Requested</span>
-                <span ng-if="payment.status === 'DENIED'" style="font-style: italic;">Scholarship Denied</span>
+                <span ng-if="payment.status === 'REQUESTED'" style="font-style: italic;" translate>Scholarship Requested</span>
+                <span ng-if="payment.status === 'DENIED'" style="font-style: italic;" translate>Scholarship Denied</span>
               </span>
               <span ng-if="payment.paymentType === 'TRANSFER'">
                 <span ng-if="payment.transfer.accountType === 'STAFF' || payment.transfer.accountType === 'NON_US_STAFF'">
-                  Staff Transfer from {{payment.transfer.accountNumber}}
+                  <translate>Staff Transfer from</translate> {{payment.transfer.accountNumber}}
                 </span>
                 <span ng-if="payment.transfer.accountType === 'MINISTRY'">
-                  Transfer from {{payment.transfer.businessUnit}}/{{payment.transfer.operatingUnit}}/{{payment.transfer.department}}/{{payment.transfer.projectId}}
+                  <translate>Transfer from</translate> {{payment.transfer.businessUnit}}/{{payment.transfer.operatingUnit}}/{{payment.transfer.department}}/{{payment.transfer.projectId}}
                 </span>
               </span>
-              <span ng-if="payment.paymentType === 'CASH'">Cash</span>
-              <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'">Offline Credit Card</span>
+              <span ng-if="payment.paymentType === 'CASH'" translate>Cash</span>
+              <span ng-if="payment.paymentType === 'OFFLINE_CREDIT_CARD'" translate>Offline Credit Card</span>
               <span ng-if="payment.paymentType === 'REFUND'">
-                <span ng-if="payment.refundChannel === 'CREDIT_CARD' || payment.refundChannel === 'OFFLINE_CREDIT_CARD'">Credit Card</span>
-                <span ng-if="payment.refundChannel === 'CASH'">Cash</span>
-                <span ng-if="payment.refundChannel === 'CHECK'">Check</span>
+                <span ng-if="payment.refundChannel === 'CREDIT_CARD' || payment.refundChannel === 'OFFLINE_CREDIT_CARD'" translate>Credit Card</span>
+                <span ng-if="payment.refundChannel === 'CASH'" translate>Cash</span>
+                <span ng-if="payment.refundChannel === 'CHECK'" translate>Check</span>
                 Refund
               </span>
             </td>
@@ -196,14 +192,14 @@
                 <button ng-click="deletePayment(payment)" ng-if="payment.paymentType !== 'CREDIT_CARD' && payment.refundChannel !== 'CREDIT_CARD'" title="Delete Payment" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
               </div>
 
-              <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id" class="btn btn-xs"><i class="fa fa-times"></i> Close</button>
+              <button ng-click="openEditPaymentRow(payment)" ng-show="editPayment.id === payment.id" class="btn btn-xs"><i class="fa fa-times"></i> <translate>Close</translate></button>
             </td>
           </tr>
           <tr ng-if="editPayment.id === payment.id" ng-class="{'active': $even}">
             <td colspan="5">
               <div class="form-horizontal col-xs-12">
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Amount</label>
+                  <label class="col-sm-3 control-label" translate>Amount</label>
                   <div class="col-sm-9">
                     <div ng-if="editPayment.paymentType !== 'CREDIT_CARD' && editPayment.refundChannel !== 'CREDIT_CARD'">
                       <div class="input-group">
@@ -218,7 +214,7 @@
                 </div>
                 <div ng-if="editPayment.paymentType === 'CHECK'">
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Check #</label>
+                    <label class="col-sm-3 control-label" translate>Check #</label>
                     <div class="col-sm-9">
                       <input ng-model="editPayment.check.checkNumber" type="text" class="form-control">
                     </div>
@@ -226,19 +222,19 @@
                 </div>
                 <div ng-if="editPayment.paymentType === 'TRANSFER'">
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Account Type</label>
+                    <label class="col-sm-3 control-label" translate>Account Type</label>
                     <div class="col-sm-9">
                       <select ng-model="editPayment.transfer.accountType" class="form-control">
-                        <option value="STAFF">Staff</option>
-                        <option value="MINISTRY">Ministry</option>
-                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
+                        <option value="STAFF" translate>Staff</option>
+                        <option value="MINISTRY" translate>Ministry</option>
+                        <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="row form-group">
                     <div ng-show="editPayment.transfer.accountType === 'STAFF' || editPayment.transfer.accountType === 'NON_US_STAFF'">
-                      <label class="col-sm-3 control-label">Account Number</label>
+                      <label class="col-sm-3 control-label" translate>Account Number</label>
                       <div class="col-sm-9">
                         <input ng-model="editPayment.transfer.accountNumber" type="text" class="form-control">
                       </div>
@@ -246,22 +242,22 @@
 
                     <div ng-show="editPayment.transfer.accountType === 'MINISTRY'">
                       <div class="col-sm-3">
-                        <label>Business Unit</label>
+                        <label translate>Business Unit</label>
                         <input ng-model="editPayment.transfer.businessUnit" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Operating Unit</label>
+                        <label translate>Operating Unit</label>
                         <input ng-model="editPayment.transfer.operatingUnit" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Department</label>
+                        <label translate>Department</label>
                         <input ng-model="editPayment.transfer.department" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Project Id</label>
+                        <label translate>Project Id</label>
                         <input ng-model="editPayment.transfer.projectId" type="text" class="form-control">
                       </div>
                     </div>
@@ -269,19 +265,19 @@
                 </div>
                 <div ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
                   <div class="form-group">
-                    <label class="col-sm-3 control-label">Account Type</label>
+                    <label class="col-sm-3 control-label" translate>Account Type</label>
                     <div class="col-sm-9">
                       <select ng-model="editPayment.scholarship.accountType" class="form-control">
-                        <option value="STAFF">Staff</option>
-                        <option value="MINISTRY">Ministry</option>
-                        <option value="NON_US_STAFF">Non-U.S. Staff</option>
+                        <option value="STAFF" translate>Staff</option>
+                        <option value="MINISTRY" translate>Ministry</option>
+                        <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
                       </select>
                     </div>
                   </div>
 
                   <div class="row form-group">
                     <div ng-show="editPayment.scholarship.accountType === 'STAFF' || editPayment.scholarship.accountType === 'NON_US_STAFF'">
-                      <label class="col-sm-3 control-label">Account Number</label>
+                      <label class="col-sm-3 control-label" translate>Account Number</label>
                       <div class="col-sm-9">
                         <input ng-model="editPayment.scholarship.accountNumber" type="text" class="form-control">
                       </div>
@@ -289,36 +285,36 @@
 
                     <div ng-show="editPayment.scholarship.accountType === 'MINISTRY'">
                       <div class="col-sm-3">
-                        <label>Business Unit</label>
+                        <label translate>Business Unit</label>
                         <input ng-model="editPayment.scholarship.businessUnit" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Operating Unit</label>
+                        <label translate>Operating Unit</label>
                         <input ng-model="editPayment.scholarship.operatingUnit" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Department</label>
+                        <label translate>Department</label>
                         <input ng-model="editPayment.scholarship.department" type="text" class="form-control">
                       </div>
 
                       <div class="col-sm-3">
-                        <label>Project Id</label>
+                        <label translate>Project Id</label>
                         <input ng-model="editPayment.scholarship.projectId" type="text" class="form-control">
                       </div>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-3 control-label">Description</label>
+                  <label class="col-sm-3 control-label" translate>Description</label>
                   <div class="col-sm-9">
                     <input type="text" ng-model="editPayment.description" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-sm-offset-3 col-sm-9">
-                    <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)">Save</button>
+                    <button class="btn btn-success" ng-click="savePaymentEdits(editPayment)" translate>Save</button>
                   </div>
                 </div>
               </div>
@@ -327,26 +323,26 @@
           <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'SCHOLARSHIP' && editPayment.status !== 'APPROVED'" ng-class="{'active': $even}">
             <td></td>
             <td colspan="4">
-              <p class="text-muted"><strong>Note:</strong> Editing this scholarship will mark it as "Approved".</p>
+              <p class="text-muted"><strong translate>Note:</strong> <translate>Editing this scholarship will mark it as "Approved".</translate></p>
             </td>
           </tr>
           <tr ng-if="editPayment.id === payment.id && editPayment.paymentType === 'CHECK' && editPayment.status !== 'RECEIVED'" ng-class="{'active': $even}">
             <td></td>
             <td colspan="4">
-              <p class="text-muted"><strong>Note:</strong> Editing this payment will mark it as "Received".</p>
+              <p class="text-muted"><strong translate>Note:</strong> <translate>Editing this payment will mark it as "Received".</translate></p>
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-      <div ng-show="refund">
-        <h4>Refund Payment</h4>
+      <div ng-if="refund">
+        <h4 translate>Refund Payment</h4>
         <table class="table table-striped">
           <tbody>
           <tr>
-            <th>Date</th>
-            <th>Refundable Amount</th>
-            <th>Type</th>
+            <th translate>Date</th>
+            <th translate>Refundable Amount</th>
+            <th translate>Type</th>
           </tr>
           <tr>
             <td>{{paymentToRefund.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
@@ -359,45 +355,49 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-8">
-              <label>Refund Method</label>
-              <select ng-model="refund.refundChannel" class="form-control">
-                <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'">Credit Card (automatically via Authorize.net)</option>
-                <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'">Credit Card (manually)</option>
-                <option value="CASH">Cash</option>
-                <option value="CHECK">Check</option>
+              <label translate>Refund Method</label>
+              <select ng-model="refund.refundChannel" class="form-control" ng-change="refreshRefund(paymentToRefund, refund)">
+                <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'" translate>Credit Card (automatically via Authorize.net)</option>
+                <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'" translate>Credit Card (manually)</option>
+                <option value="CASH" translate>Cash</option>
+                <option value="CHECK" translate>Check</option>
               </select>
             </div>
             <div class="col-sm-4">
-              <label>Amount</label>
+              <label translate>Amount</label>
+              <i class="fa fa-exclamation-triangle" popover="{{'Partial credit card refunds cannot be issued within 24 hours of payment.' | translate}}"
+                 popover-trigger="mouseenter" popover-append-to-body="true" ng-if="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
+              </i>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control marginless" ng-model="refund.amount">
+                <input type="text" class="form-control marginless" ng-model="refund.amount" ng-disabled="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
               </div>
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Description</label>
+          <label translate>Description</label>
           <input type="text" class="form-control marginless" ng-model="refund.description">
         </div>
 
         <div class="form-group text-right">
-          <button class="btn btn-default" ng-click="cancelRefund()" ng-show="!processing">Cancel</button>
-          <button class="btn btn-success" ng-click="processRefund()" ng-show="!processing">Process Refund</button>
-          <span ng-show="processing">Processing...</span>
+          <button class="btn btn-default" ng-click="cancelRefund()" ng-show="!processing" translate>Cancel</button>
+          <button class="btn btn-success" ng-click="processRefund()" ng-show="!processing" translate>Process Refund</button>
+          <span ng-show="processing" translate>Processing...</span>
         </div>
       </div>
     </tab>
-    <tab heading="Expenses" active="activeTab[2]">
-      <p ng-show="!registration.expenses.length">This registration does not contain any additional expenses.</p>
+    <tab heading="Discounts &amp; Expenses" active="activeTab[2]">
+      <p ng-show="!registration.expenses.length" translate>This registration does not contain any additional expenses.</p>
       <div class="table-responsive">
         <table class="table table-striped" ng-show="registration.expenses.length">
           <thead>
           <tr>
-            <th style="width:180px;">Date</th>
-            <th style="width:120px;">Amount</th>
-            <th>Description</th>
+            <th style="width:180px;" translate>Date</th>
+            <th style="width:120px;" translate>Amount</th>
+            <th style="width:190px;" translate>Type</th>
+            <th translate>Description</th>
             <th style="width:73px;"></th>
           </tr>
           </thead>
@@ -407,6 +407,11 @@
             <td>
               <span ng-if="editExpense.id !== expense.id">{{expense.amount | currency:'$'}}</span>
               <input ng-if="editExpense.id === expense.id" type="number" ng-model="editExpense.amount" class="form-control" step="1">
+            </td>
+            <td>
+              <span ng-if="editExpense.id !== expense.id">{{expenseTypesConstants[expense.expenseType]}}</span>
+              <select class="form-control" ng-if="editExpense.id === expense.id" ng-model="editExpense.expenseType"
+                      ng-options="key as value for (key , value) in expenseTypesConstants"></select>
             </td>
             <td>
               <span ng-if="editExpense.id !== expense.id">{{expense.description}}</span>
@@ -430,26 +435,26 @@
     <tab heading="Add">
       <div class="row form-group">
         <div class="col-sm-7 stacked-spacing-col-sm">
-          <label>Type</label>
+          <label translate>Type</label>
           <select ng-model="newTransaction.paymentType" class="form-control" ng-change="setTransactionAmount()">
-            <option value="" disabled selected>Choose one...</option>
+            <option value="" disabled selected translate>Choose one...</option>
             <optgroup label="Payment">
-              <option value="CREDIT_CARD" ng-if="conference.paymentGatewayKeySaved">Credit Card</option>
-              <option value="OFFLINE_CREDIT_CARD">Offline Credit Card</option>
-              <option value="SCHOLARSHIP">Scholarship</option>
-              <option value="TRANSFER">Account Transfer</option>
-              <option value="CHECK">Check</option>
-              <option value="CASH">Cash</option>
+              <option value="CREDIT_CARD" ng-if="conference.paymentGatewayKeySaved" translate>Credit Card</option>
+              <option value="OFFLINE_CREDIT_CARD" translate>Offline Credit Card</option>
+              <option value="SCHOLARSHIP" translate>Scholarship</option>
+              <option value="TRANSFER" translate>Account Transfer</option>
+              <option value="CHECK" translate>Check</option>
+              <option value="CASH" translate>Cash</option>
             </optgroup>
             <optgroup label="Other">
-              <option value="DISCOUNT">Discount</option>
-              <option value="ADDITIONAL_EXPENSE">Additional Expense</option>
+              <option value="DISCOUNT" translate>Discount</option>
+              <option value="ADDITIONAL_EXPENSE" translate>Additional Expense</option>
             </optgroup>
           </select>
         </div>
 
         <div class="col-sm-5">
-          <label>Amount</label>
+          <label translate>Amount</label>
           <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-usd"></i></span>
             <input type="text" class="form-control marginless" ng-model="newTransaction.amount">
@@ -459,7 +464,7 @@
       <div ert-payment payment="newTransaction" registration="registration" admin-payment="true"></div>
 
       <div class="form-group">
-        <label>Description</label>
+        <label translate>Description</label>
         <input ng-model="newTransaction.description" type="text" class="form-control" />
       </div>
 
@@ -469,8 +474,8 @@
             </label>
           </div>-->
       <div class="form-group text-right">
-        <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing">Process</button>
-        <span ng-show="processing">Processing...</span>
+        <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing" translate>Process</button>
+        <span ng-show="processing" translate>Processing...</span>
       </div>
     </tab>
   </tabset>

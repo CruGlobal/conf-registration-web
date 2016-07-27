@@ -1,0 +1,25 @@
+<a id="page{{$index + 1}}"></a>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-sm-8 stacked-spacing-col-sm">
+        <div class="input-group input-group-lg">
+          <span class="input-group-addon"><translate>Page</translate> {{$index + 1}}</span>
+          <input class="form-control" type="text" placeholder="Page Title" ng-model="page.title">
+        </div>
+      </div>
+      <div class="col-sm-4 text-right">
+        <a href="" ng-click="deletePage(page.id, true)"><i class="fa fa-trash-o fa-inset"></i></a>
+        <a href="" ng-click="togglePage(page.id)"><i class="fa fa-inset" ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"></i></a>
+        <i class="fa fa-bars fa-inset" ui-tree-handle></i>
+      </div>
+    </div>
+  </div>
+  <ul ui-tree-nodes ng-model="page.blocks" class="list-group" id="{{page.id}}" ng-if="!isPageHidden(page.id)" drop-type="block">
+    <li ui-tree-node class="list-group-item" ng-repeat="block in page.blocks" block="block" block-editor></li>
+  </ul>
+  <div class="panel-footer dropNewTarget" ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)">
+    <i class="fa fa-plus-circle"></i>
+    <p translate>Drag form elements here!</p>
+  </div>
+</div>

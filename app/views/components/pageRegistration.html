@@ -1,0 +1,27 @@
+<article>
+  <h2 class="page-title border" ng-bind="page.title"></h2>
+
+  <form novalidate>
+    <div ng-repeat="block in page.blocks" block="block" block-registration ng-show="blockVisible(block)"></div>
+    <div class="row spacing-above-md">
+      <div class="col-sm-3 col-xs-5">
+        <button class="btn btn-subtle btn-lg btn-block"
+                type="button"
+                ng-disabled="savingAnswers"
+                ng-click="previousPage()" translate>
+          Go Back
+        </button>
+      </div>
+      <div class="col-sm-9 col-xs-7">
+        <button class="btn btn-success btn-important btn-lg btn-block"
+                type="submit"
+                ng-disabled="savingAnswers"
+                ng-click="goToNext()">
+          <span ng-show="!savingAnswers && !nextPage()" translate>Continue</span>
+          <span ng-show="!savingAnswers && nextPage()" translate>Next Page</span>
+          <span ng-show="savingAnswers" translate>Saving...</span>
+        </button>
+      </div>
+    </div>
+  </form>
+</article>
