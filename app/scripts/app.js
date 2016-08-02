@@ -283,4 +283,5 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
   })
   .config( function( $facebookProvider ) {
     $facebookProvider.setAppId('217890171695297');
+    $facebookProvider.setVersion('v2.3');
   });
