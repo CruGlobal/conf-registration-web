@@ -8,7 +8,7 @@
         <button class="btn btn-subtle btn-lg btn-block"
                 type="button"
                 ng-disabled="savingAnswers"
-                ng-click="previousPage()">
+                ng-click="previousPage()" translate>
           Go Back
         </button>
       </div>
@@ -17,9 +17,9 @@
                 type="submit"
                 ng-disabled="savingAnswers"
                 ng-click="goToNext()">
-          <span ng-show="!savingAnswers && !nextPage()">Continue</span>
-          <span ng-show="!savingAnswers && nextPage()">Next Page</span>
-          <span ng-show="savingAnswers">Saving...</span>
+          <span ng-show="!savingAnswers && !nextPage()" translate>Continue</span>
+          <span ng-show="!savingAnswers && nextPage()" translate>Next Page</span>
+          <span ng-show="savingAnswers" translate>Saving...</span>
         </button>
       </div>
     </div>

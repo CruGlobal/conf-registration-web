@@ -1,37 +1,37 @@
 <div class="form-group">
-  <label>Account Type</label>
+  <label translate>Account Type</label>
   <select ng-model="currentPayment.scholarship.accountType" class="form-control">
-    <option value="STAFF">Staff</option>
-    <option value="MINISTRY">Ministry</option>
-    <option value="NON_US_STAFF">Non-U.S. Staff</option>
+    <option value="STAFF" translate>Staff</option>
+    <option value="MINISTRY" translate>Ministry</option>
+    <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
   </select>
 </div>
 
 <div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'STAFF' || currentPayment.scholarship.accountType === 'NON_US_STAFF'">
   <div class="col-sm-12">
-    <label>Account Number</label>
+    <label translate>Account Number</label>
     <input ng-model="currentPayment.scholarship.accountNumber" type="text" class="form-control">
   </div>
 </div>
 
 <div class="row form-group" ng-show="currentPayment.scholarship.accountType === 'MINISTRY'">
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label>Business Unit</label>
+    <label translate>Business Unit</label>
     <input ng-model="currentPayment.scholarship.businessUnit" type="text" class="form-control">
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label>Operating Unit</label>
+    <label translate>Operating Unit</label>
     <input ng-model="currentPayment.scholarship.operatingUnit" type="text" class="form-control">
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label>Department</label>
+    <label translate>Department</label>
     <input ng-model="currentPayment.scholarship.department" type="text" class="form-control">
   </div>
 
   <div class="col-sm-3">
-    <label>Project Id</label>
+    <label translate>Project Id</label>
     <input ng-model="currentPayment.scholarship.projectId" type="text" class="form-control">
   </div>
 </div>
