@@ -110,12 +110,12 @@ angular.module('confRegistrationWebApp')
       //validation check
       var validationErrors = [];
       var urlPattern = new RegExp(/[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi);
-      var httpPattern = new RegExp(/^(http){1}s{0,1}:\/\//gi);
+      var httpPattern = new RegExp(/^https?:\/\//gi);
 
       //contact website
       if(!_.isEmpty($scope.conference.contactWebsite)) {
         if (!urlPattern.test($scope.conference.contactWebsite)) {
-          validationErrors.push('Please enter an valid website.');
+          validationErrors.push('Please enter a valid contact website.');
         } else {
           if (!httpPattern.test($scope.conference.contactWebsite)) {
             $scope.conference.contactWebsite = 'http://' + $scope.conference.contactWebsite;
@@ -147,10 +147,12 @@ angular.module('confRegistrationWebApp')
         validationErrors.push('You must require sign in if allowing users to edit their registration after it\'s complete.');
       }
 
-      //contact website
+      //registration complete redirect website
       if(!_.isEmpty($scope.conference.registrationCompleteRedirect)) {
+        urlPattern.lastIndex = 0;
+        httpPattern.lastIndex = 0;
         if (!urlPattern.test($scope.conference.registrationCompleteRedirect)) {
-          validationErrors.push('Please enter an valid completion redirect website.');
+          validationErrors.push('Please enter a valid completion redirect website.');
         } else {
           if (!httpPattern.test($scope.conference.registrationCompleteRedirect)) {
             $scope.conference.registrationCompleteRedirect = 'http://' + $scope.conference.registrationCompleteRedirect;
