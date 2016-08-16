@@ -47,7 +47,8 @@ after_success:
     - cp -R ../dist/* .
     - cp ../dist/.* .
     - git add -f .
-    - git config user.name "adammeyer"
+    - git config user.name "Travis CI"
+    - git config user.email "$COMMIT_AUTHOR_EMAIL"
     - git commit -am "${GH_COMMIT_MSG}"
     - git push https://${GH_OAUTH_TOKEN}@github.com/${GH_OWNER}/${GH_PROJECT_NAME} HEAD:${GH_PUBLISH_TO_MODULE} > /dev/null 2>&1
 before_install:
