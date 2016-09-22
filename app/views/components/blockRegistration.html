@@ -1,5 +1,5 @@
 <div class="form-group">
-  <label class="control-label">{{block.title}} <em class="required" ng-if="block.required">*</em></label>
+  <label class="control-label" ng-bind-html="block.title"><em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
