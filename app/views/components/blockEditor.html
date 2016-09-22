@@ -128,9 +128,21 @@
           <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
 
         <div class="form-horizontal">
-          <div class="form-group">
-            <div class="col-md-12">
+           <div class="form-group">
+            <div class="col-md-2">
               <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
+            </div>
+            <div class="col-md-8 rule-message-alignment">
+              <span class="pull-left">Select Rule Operand</span>
+              <div ng-repeat="choice in ['AND','OR']" class="pull-left col-xs-offset-1">
+                <label>
+                <input type="radio"
+                       show-errors
+                       name="{{block.id}}"                    
+                       ng-model="block.content.ruleoperand"
+                       ng-value="choice">
+                <strong>{{choice}}</strong></label>
+              </div>
             </div>
           </div>
 
