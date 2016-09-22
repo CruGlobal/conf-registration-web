@@ -8,6 +8,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+		$scope.showClearBtn = true;
 		
 		//initializing default value in block object 
         if(angular.isUndefined($scope.block.content) || $scope.block.content == null || $scope.block.content == ""){
