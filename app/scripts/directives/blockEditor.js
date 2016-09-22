@@ -196,6 +196,18 @@ angular.module('confRegistrationWebApp')
               return [];
           }
         };
+		
+		$scope.getRangeValues = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': parentBlockId });
+
+          switch (block.type) {           
+            case 'dateQuestion':
+              return block.content.range;            
+            default:
+              return {};
+          }
+        };
 
         $scope.removeRule = function(id){
           _.remove($scope.block.rules, {id: id});

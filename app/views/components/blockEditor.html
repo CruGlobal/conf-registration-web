@@ -163,7 +163,7 @@
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>
               </select>
-              <pick-a-date ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'date'"></pick-a-date>
+              <pick-a-date ng-model="rule.value" ng-if="ruleValueInputType(rule.parentBlockId) === 'date'" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">
