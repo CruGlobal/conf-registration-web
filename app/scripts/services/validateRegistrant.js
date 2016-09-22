@@ -4,26 +4,53 @@ angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
     var blockVisibleRuleCheck = function(block, registrant){
-      var returnValue = true;
+      var returnValueAND = true;
+      var returnValueOR = false;
       var answers = registrant.answers;
-      angular.forEach(block.rules, function(rule){
-        var answer = _.find(answers, {blockId: rule.parentBlockId});
-        if(angular.isUndefined(answer) || answer.value === ''){
-          returnValue = false;
-        }else{
-          if(rule.operator === '=' && answer.value !== rule.value) {
-            returnValue = false;
-          }else if(rule.operator === '!=' && answer.value === rule.value){
-            returnValue = false;
-          }else if(rule.operator === '>' && answer.value <= rule.value){
-            returnValue = false;
-          }else if(rule.operator === '<' && answer.value >= rule.value){
-            returnValue = false;
-          }
-        }
-      });
+      var ruleOperand = block.content && block.content != "" && !angular.isUndefined(block.content.ruleoperand) ? block.content.ruleoperand : "AND";
 
-      return returnValue;
+      if (ruleOperand === "AND") {
+        angular.forEach(block.rules, function (rule) {
+          var answer = _.find(answers, { blockId: rule.parentBlockId });
+          if (angular.isUndefined(answer) || answer.value === '') {
+            returnValueAND = false;
+          } else {
+            if (rule.operator === '=' && answer.value !== rule.value) {
+              returnValueAND = false;
+            } else if (rule.operator === '!=' && answer.value === rule.value) {
+              returnValueAND = false;
+            } else if (rule.operator === '>' && answer.value <= rule.value) {
+              returnValueAND = false;
+            } else if (rule.operator === '<' && answer.value >= rule.value) {
+              returnValueAND = false;
+            }
+          }
+        });
+        return returnValueAND;
+      } else {
+        var ruleCounter = 0;
+
+        angular.forEach(block.rules, function (rule) {
+          ruleCounter++;
+          var answer = _.find(answers, { blockId: rule.parentBlockId });
+
+          if (angular.isUndefined(answer) || answer.value === '') {
+            returnValueOR = false;
+          } else {
+
+            if (rule.operator === '=' && answer.value === rule.value) {
+              returnValueOR = true;
+            } else if (rule.operator === '!=' && answer.value !== rule.value) {
+              returnValueOR = true;
+            } else if (rule.operator === '>' && answer.value >= rule.value) {
+              returnValueOR = true;
+            } else if (rule.operator === '<' && answer.value <= rule.value) {
+              returnValueOR = true;
+            }
+          }
+        });
+        return ruleCounter == 0 ? true : returnValueOR;
+      }
     };
 
     var blockInRegistrantType = function(block, registrant){
