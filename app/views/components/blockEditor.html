@@ -105,8 +105,19 @@
               </label>
               <i popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
                  popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
-            </div>
-
+            </div>		
+			<div class="row form-group" ng-if="block.type === 'numberQuestion'">
+			  <label class="inline-label range-title-alignment pull-left" translate>Min Number</label>
+			  <div class="col-md-3 stacked-spacing-col-sm">
+				<input type="number" class="form-control field-label" ng-model="block.content.range.min" ng-model-options="{debounce: 1000}"
+				  ng-max="block.content.range.max" limit-to-range limit-current-value="block.content.range.min"></br>
+			  </div>
+			  <label class="inline-label range-title-alignment pull-left col-md-offset-1" translate>Max Number</label>
+			  <div class="col-md-3">
+				<input type="number" class="form-control field-label" ng-model="block.content.range.max" ng-model-options="{debounce: 1000}"
+				  ng-min="block.content.range.min" limit-to-range limit-current-value="block.content.range.max">
+			  </div>
+			</div>
             <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
               <label>
                 <input type="checkbox" ng-model="$parent.visibleRegTypes[type.id]">
@@ -147,7 +158,9 @@
               </select>
             </div>
             <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
-              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
+			  <input type="number" ng-model="rule.value" string-to-number ng-if="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control"
+                ng-model-options="{debounce: 600}" min="{{getRangeValues(rule.parentBlockId).min}}" max="{{getRangeValues(rule.parentBlockId).max}}" limit-to-range limit-current-value="rule.value">
+              <span ng-if="ruleValueInputType(rule.parentBlockId) === 'number'">Valid Range: Min- {{getRangeValues(rule.parentBlockId).min}} Max- {{getRangeValues(rule.parentBlockId).max}}</span>
               <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
               <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
                 <option value="M" translate>Male</option>

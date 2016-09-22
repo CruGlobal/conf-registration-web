@@ -42,7 +42,34 @@ angular.module('confRegistrationWebApp')
   .directive('numberQuestion', function () {
     return {
       templateUrl: 'views/blocks/numberQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      controller: function ($scope) {
+        $scope.$watch('answer.value', function (newVal, oldVal) {
+          $scope.onValueChange();
+        });
+
+        $scope.onValueChange = function () {
+          if ($scope.answer && $scope.answer.value && $scope.answer.value != null
+            && ($scope.block.content.range.min && (Number($scope.answer.value) < Number($scope.block.content.range.min))
+              || ($scope.block.content.range.max && Number($scope.answer.value) > Number($scope.block.content.range.max)))) {
+            if (angular.isUndefined($scope.answer)){
+				$scope.answer = {
+					value : ""
+				}
+			} else {
+				$scope.answer.value = "";
+			}
+          } else if (angular.isUndefined($scope.answer) || angular.isUndefined($scope.answer.value) || $scope.answer.value == null) {
+            if (angular.isUndefined($scope.answer)){
+				$scope.answer = {
+					value : ""
+				}
+			} else {
+				$scope.answer.value = "";
+			}			
+          }
+        }
+      }
     };
   });
 
