@@ -95,6 +95,16 @@
                  class="form-control field-label"
                  ng-model="block.exportFieldTitle" />
         </div>
+		<div class="row form-group" ng-if="block.type === 'dateQuestion'">
+          <label class="inline-label date-alignment pull-left" translate>Min Date</label>
+          <div class="col-md-3 stacked-spacing-col-sm">
+            <pick-a-date show-errors ng-model="block.content.range.min" ng-required="block.required" picker-max-date="block.content.range.max"></pick-a-date>
+          </div>
+          <label class="inline-label date-alignment pull-left col-md-offset-1" translate>Max Date</label>
+          <div class="col-md-3">
+            <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
+          </div>
+        </div>
         <div class="form-group">
           <label translate>Show this question for the following registrant types:</label>
           <div ng-if="canChangeRegTypes">
@@ -153,7 +163,7 @@
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>
               </select>
-              <pick-a-date ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'date'"></pick-a-date>
+              <pick-a-date ng-model="rule.value" ng-if="ruleValueInputType(rule.parentBlockId) === 'date'" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">
