@@ -8,6 +8,26 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+		
+		//initializing default value in block object 
+        if(angular.isUndefined($scope.block.content) || $scope.block.content == null || $scope.block.content == ""){
+          $scope.block.content = {
+              default:""
+          };         
+        }
+		
+		 //mapping default value to answer model for showing in front end
+        $scope.answer = {
+          value:$scope.block.content.default
+        };  
+		
+		$scope.$watch('answer', function (answer, oldAnswer) {
+          if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+            return;
+          }               
+          $scope.block.content.default = $scope.answer.value;
+        }, true);
+		
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
