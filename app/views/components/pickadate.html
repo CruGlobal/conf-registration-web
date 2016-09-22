@@ -4,3 +4,8 @@
   </span>
   <input type="text" placeholder="Select a date..." class="form-control" ng-disabled="disabled">
 </div>
+<div ng-if="(minDate || maxDate) && (minDate != '' || maxDate != '')" class="help-block" translate>
+   Valid Range:
+   <span class="p-x-2" ng-if="minDate && minDate!=''">Min Date- {{minDate | dateRangeFormat}} </span>   
+   <span class="p-x-2" ng-if="maxDate && maxDate !=''"> Max Date- {{maxDate | dateRangeFormat}}</span>   
+</div>
