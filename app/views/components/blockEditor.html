@@ -19,7 +19,7 @@
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> <translate>Delete</translate></button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> <translate>Move</translate></span>
   </div>
-  <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
+  <label ng-bind-html="block.title"><em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
