@@ -1,0 +1,1 @@
+<div ng-repeat="choice in (block.content.hideGradStudent) ? ['Freshman', 'Sophomore', 'Junior', 'Senior'] : ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']" class="radio"> <label> <input type="radio" show-errors name="{{block.id}}" ng-required="block.required" ng-model="answer.value" ng-value="choice"> <strong>{{choice}}</strong></label> </div>
