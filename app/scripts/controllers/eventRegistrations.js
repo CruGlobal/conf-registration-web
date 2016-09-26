@@ -72,6 +72,7 @@ angular.module('confRegistrationWebApp')
         }
       });
     });
+
     //turn on visible blocks
     var visibleBlocks = localStorage.getItem('visibleBlocks:' + conference.id);
     if(!_.isNull(visibleBlocks)){
@@ -85,12 +86,32 @@ angular.module('confRegistrationWebApp')
       });
     }
 
-    // toggle (show/hide) column(s)
-    $scope.toggleColumn = function (block) {
+    //toggle (show/hide) columns
+    $scope.toggleColumn = function(block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
       visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
       localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
       $scope.queryParameters.block = visibleBlocks;
+    };
+
+    //turn on visible built in columns
+    var builtInColumnsVisibleInStorage = localStorage.getItem('builtInColumnsVisibleStorage');
+    if(typeof builtInColumnsVisibleInStorage === 'undefined' || builtInColumnsVisibleInStorage === null){
+      //Initally display (true) or not display (false) built in columns
+      $scope.builtInColumnsVisible = {
+        Email: true,
+        Started: true,
+        Completed: true
+      };
+    }
+    else {
+        $scope.builtInColumnsVisible = JSON.parse(builtInColumnsVisibleInStorage);
+    }
+
+    //toggle (show/hide) built in columns
+    $scope.toggleBuiltInColumn = function(columnName) {
+      $scope.builtInColumnsVisible[columnName] = !$scope.builtInColumnsVisible[columnName];
+      localStorage.setItem('builtInColumnsVisibleStorage', JSON.stringify($scope.builtInColumnsVisible));
     };
 
     var throttleFilter = _.debounce(function(){
