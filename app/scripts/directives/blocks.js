@@ -22,8 +22,8 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.atLeastOneChecked = function(){
-          if(!$scope.answer){ return false; }
+        $scope.atLeastOneChecked = function () {
+          if (!$scope.answer) { return false; }
           return angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }));
         };
       }
@@ -42,7 +42,29 @@ angular.module('confRegistrationWebApp')
   .directive('numberQuestion', function () {
     return {
       templateUrl: 'views/blocks/numberQuestion.html',
-      restrict: 'E'
+      restrict: 'E',     
+      controller: function ($scope) {
+        $scope.$watch('answer.value', function () {
+          //$scope.onValueChange();
+        });
+
+        $scope.onValueChange = function () {
+          if (angular.isUndefined($scope.answer) || angular.isUndefined($scope.answer.value) ||
+            $scope.answer.value === null || isNaN($scope.answer.value)) {
+            if (angular.isUndefined($scope.answer)) {
+              $scope.answer = {
+                value: ''
+              };
+            } else {
+              $scope.answer.value = '';
+            }
+          } else if ($scope.answer.value !== '' && (($scope.block.content.range.min &&
+            (Number($scope.answer.value) < Number($scope.block.content.range.min))) ||
+            ($scope.block.content.range.max && Number($scope.answer.value) > Number($scope.block.content.range.max)))) {
+            $scope.answer.value = '';
+          }
+        };
+      }
     };
   });
 
@@ -61,16 +83,16 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       controller: function ($scope) {
         $scope.$watch('answer.value', function () {
-          if(angular.isDefined($scope.answer)){
+          if (angular.isDefined($scope.answer)) {
             //check if answer is not in current choices
-            if(!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)){
+            if (!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)) {
               $scope.otherAnswer = $scope.answer.value;
             }
           }
         });
 
-        $scope.selectOtherAnswer = function(){
-          if(!$scope.answer){ return; }
+        $scope.selectOtherAnswer = function () {
+          if (!$scope.answer) { return; }
           $scope.answer.value = $scope.otherAnswer;
         };
       }
@@ -82,12 +104,12 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/blocks/selectQuestion.html',
       restrict: 'E',
-      controller: function($scope, $filter){
-        $scope.$watch('block', function() {
+      controller: function ($scope, $filter) {
+        $scope.$watch('block', function () {
           $scope.visibleValues = [];
-          angular.forEach($scope.block.content.choices, function(c){
+          angular.forEach($scope.block.content.choices, function (c) {
             var visibleValue = c.value;
-            if(c.amount){
+            if (c.amount) {
               visibleValue = visibleValue + ' - ' + $filter('currency')(c.amount, '$');
             }
             $scope.visibleValues.push(visibleValue);
@@ -130,9 +152,9 @@ angular.module('confRegistrationWebApp')
   });
 
 angular.module('confRegistrationWebApp')
-    .directive('textareaQuestion', function () {
-      return {
-        templateUrl: 'views/blocks/textareaQuestion.html',
-        restrict: 'E'
-      };
-    });
+  .directive('textareaQuestion', function () {
+    return {
+      templateUrl: 'views/blocks/textareaQuestion.html',
+      restrict: 'E'
+    };
+  });
