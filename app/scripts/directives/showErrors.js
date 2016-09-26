@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       restrict: 'A',
       require: 'ngModel',
-      link: function (scope, element, attrs, ngModelCtrl) {
+      link: function (scope, element, attrs, ngModelCtrl) {        
         //Logic to handle groups of inputs in one block
         if(attrs.showErrors === 'group'){
           if(!scope.inputs){
