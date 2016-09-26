@@ -1,5 +1,6 @@
 'use strict';
 
+
 angular.module('confRegistrationWebApp')
   .factory('apiUrl', function apiUrl($location) {
     var host = $location.$$host;
