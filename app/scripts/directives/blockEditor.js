@@ -319,13 +319,12 @@ angular.module('confRegistrationWebApp')
             //rule.value = '';
             element.parent('.form-group').toggleClass('has-error', true);
           } else if (isNaN(currentValue) || currentValue === '') {
-            ule.value = '';
+            rule.value = '';
           } else {
             rule.value = currentValue;
             element.parent('.form-group').toggleClass('has-error', false);
           }
-
-        }
+        };
 
         $scope.removeRule = function (id) {
           _.remove($scope.block.rules, { id: id });
