@@ -42,15 +42,15 @@ angular.module('confRegistrationWebApp')
   .directive('numberQuestion', function () {
     return {
       templateUrl: 'views/blocks/numberQuestion.html',
-      restrict: 'E',     
+      restrict: 'E',
       controller: function ($scope) {
         $scope.$watch('answer.value', function () {
-          //$scope.onValueChange();
+          $scope.onValueChange();
         });
 
         $scope.onValueChange = function () {
           if (angular.isUndefined($scope.answer) || angular.isUndefined($scope.answer.value) ||
-            $scope.answer.value === null || isNaN($scope.answer.value)) {
+            $scope.answer.value === null) {
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 value: ''

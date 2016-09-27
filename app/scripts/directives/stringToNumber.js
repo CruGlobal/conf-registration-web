@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp').directive('stringToNumber', function() 
     require: 'ngModel',
     link: function(scope, element, attrs, ngModel) {
       ngModel.$parsers.push(function(value) {
-        return Number('' + value);
+        return '' + value;
       });
       ngModel.$formatters.push(function(value) {
         return parseFloat(value);

@@ -1,5 +1,5 @@
-<input id="{{block.id}}" show-errors type="number" ng-model="answer.value" ng-model-options="{debounce:600}" min="{{block.content.range.min}}"
-        max="{{block.content.range.max}}" ng-required="block.required" class="form-control" ng-disabled="false" string-to-number/>
+<input show-errors type="number" ng-model="answer.value" ng-required="block.required" class="form-control" ng-disabled="editBlock"
+        ng-model-options="{debounce: 600}" min="{{block.content.range.min}}" max="{{block.content.range.max}}" />
 <span class="help-block help-block-hidden" translate>Please enter a valid number</span>
 <div ng-if="block.content.range && (block.content.range.min || block.content.range.max)" class="help-block row" translate>
         <label class="valid-range-msg">Valid Range:</label>
