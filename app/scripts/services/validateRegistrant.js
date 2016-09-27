@@ -3,13 +3,13 @@
 angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
-    var blockVisibleRuleCheck = function(block, registrant){
+    var blockVisibleRuleCheck = function (block, registrant) {
       var returnValueAND = true;
       var returnValueOR = false;
       var answers = registrant.answers;
-      var ruleOperand = block.content && block.content != "" && !angular.isUndefined(block.content.ruleoperand) ? block.content.ruleoperand : "AND";
+      var ruleOperand = block.content && block.content !== '' && !angular.isUndefined(block.content.ruleoperand) ? block.content.ruleoperand : 'AND';
 
-      if (ruleOperand === "AND") {
+      if (ruleOperand === 'AND') {
         angular.forEach(block.rules, function (rule) {
           var answer = _.find(answers, { blockId: rule.parentBlockId });
           if (angular.isUndefined(answer) || answer.value === '') {
@@ -49,25 +49,25 @@ angular.module('confRegistrationWebApp')
             }
           }
         });
-        return ruleCounter == 0 ? true : returnValueOR;
+        return ruleCounter === 0 ? true : returnValueOR;
       }
     };
 
-    var blockInRegistrantType = function(block, registrant){
+    var blockInRegistrantType = function (block, registrant) {
       return !_.contains(block.registrantTypes, registrant.registrantTypeId);
     };
 
-    this.blockVisible = function(block, registrant, isAdmin){
+    this.blockVisible = function (block, registrant, isAdmin) {
       var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
-    this.validate = function(conference, registrant, page) {
+    this.validate = function (conference, registrant, page) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
-      var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
+      var blocks = page ? _.find(conference.registrationPages, { id: page }).blocks : _.flatten(conference.registrationPages, 'blocks');
 
-      angular.forEach(blocks, function(block){
+      angular.forEach(blocks, function (block) {
         if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
@@ -103,7 +103,7 @@ angular.module('confRegistrationWebApp')
             }
             break;
           default:
-            if(_.isEmpty(answer)){
+            if (_.isEmpty(answer)) {
               invalidBlocks.push(block.id);
               return;
             }
