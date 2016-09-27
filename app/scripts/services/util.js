@@ -9,6 +9,6 @@ angular.module('confRegistrationWebApp')
             isNumber: function (val) {
                 return val !== '' && !isNaN(val);
             }
-        }
+        };
         return service;
     });

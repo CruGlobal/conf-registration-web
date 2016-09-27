@@ -9,9 +9,10 @@ angular.module('confRegistrationWebApp')
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
         $scope.showClearBtn = true;
+        $scope.isAdmin = true;
 
         //initializing default value in block object 
-        if (angular.isUndefined($scope.block.content) || $scope.block.content == null || $scope.block.content == '') {
+        if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
             default: ''
           };
@@ -28,7 +29,6 @@ angular.module('confRegistrationWebApp')
           }
           $scope.block.content.default = $scope.answer.value;
         }, true);
-
 
         $scope.numberRange = {
           min: '',
@@ -75,26 +75,43 @@ angular.module('confRegistrationWebApp')
 
         $scope.toggleBlockEdit = function (selectTab) {
           if ($scope.block.type === 'numberQuestion' && $scope.editBlock) {
-            $scope.initializeRangeObject();
             if (!util.isUndefinedOrNull($scope.numberRange.min) && !util.isUndefinedOrNull($scope.numberRange.max) &&
               util.isNumber($scope.numberRange.min) && util.isNumber($scope.numberRange.max)) {
               if ($scope.numberRange.min <= $scope.numberRange.max) {
-                $scope.block.content.range.min = $scope.numberRange.min;
-                $scope.block.content.range.max = $scope.numberRange.max;
                 $scope.numberRange.error = false;
+                if (angular.isUndefined($scope.block.content.default) ||
+                  ($scope.numberRange.min > $scope.block.content.default ||
+                    $scope.numberRange.max < $scope.block.content.default)) {
+                  return;
+                } else {
+                  $scope.initializeRangeObject();
+                  $scope.block.content.range.min = $scope.numberRange.min;
+                  $scope.block.content.range.max = $scope.numberRange.max;
+                }
               } else {
                 $scope.numberRange.error = true;
                 return;
               }
             } else if (!util.isUndefinedOrNull($scope.numberRange.min) && util.isNumber($scope.numberRange.min)) {
-              $scope.block.content.range.min = $scope.numberRange.min;
-              $scope.block.content.range.max = '';
-              $scope.numberRange.error = false;
+              if (angular.isUndefined($scope.block.content.default) || ($scope.numberRange.min > $scope.block.content.default)) {
+                return;
+              } else {
+                $scope.initializeRangeObject();
+                $scope.block.content.range.min = $scope.numberRange.min;
+                $scope.block.content.range.max = '';
+                $scope.numberRange.error = false;
+              }
             } else if (!util.isUndefinedOrNull($scope.numberRange.max) && util.isNumber($scope.numberRange.max)) {
-              $scope.block.content.range.max = $scope.numberRange.max;
-              $scope.block.content.range.min = '';
-              $scope.numberRange.error = false;
+              if (angular.isUndefined($scope.block.content.default) || ($scope.numberRange.max < $scope.block.content.default)) {
+                return;
+              } else {
+                $scope.initializeRangeObject();
+                $scope.block.content.range.max = $scope.numberRange.max;
+                $scope.block.content.range.min = '';
+                $scope.numberRange.error = false;
+              }
             } else {
+              $scope.initializeRangeObject();
               $scope.block.content.range.max = '';
               $scope.block.content.range.min = '';
               $scope.numberRange.error = false;
