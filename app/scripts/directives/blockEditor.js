@@ -301,6 +301,32 @@ angular.module('confRegistrationWebApp')
           }
         };
 
+        $scope.onNumberValueChange = function (currentValue, rule, $event) {
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': rule.parentBlockId });
+          var element = $($event.currentTarget);
+
+          if (!element.parent().hasClass('form-group')) {
+            element.parent().addClass('form-group');
+          }
+
+          if (block.content.range && angular.isDefined(currentValue) &&
+            ((block.content.range.min && Number(block.content.range.min) > Number(currentValue)) ||
+              (block.content.range.max && Number(block.content.range.max) < Number(currentValue)))) {
+            element.parent('.form-group').toggleClass('has-error', true);
+            //rule.value = '';
+          } else if (angular.isUndefined(currentValue)) {
+            //rule.value = '';
+            element.parent('.form-group').toggleClass('has-error', true);
+          } else if (isNaN(currentValue) || currentValue === '') {
+            ule.value = '';
+          } else {
+            rule.value = currentValue;
+            element.parent('.form-group').toggleClass('has-error', false);
+          }
+
+        }
+
         $scope.removeRule = function (id) {
           _.remove($scope.block.rules, { id: id });
         };
