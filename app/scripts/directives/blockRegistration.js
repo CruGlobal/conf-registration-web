@@ -8,7 +8,7 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         if (angular.isDefined($scope.adminEditRegistrant)) {
           //registration object provided
-          $scope.answer = _.find($scope.adminEditRegistrant.answers, {'blockId': $scope.block.id});
+          $scope.answer = _.find($scope.adminEditRegistrant.answers, { 'blockId': $scope.block.id });
           if (angular.isUndefined($scope.answer)) {
             $scope.answer = {
               id: uuid(),
@@ -23,13 +23,13 @@ angular.module('confRegistrationWebApp')
           if (angular.isUndefined(registrantId) || angular.isUndefined($scope.block)) {
             return;
           }
-          var registrantIndex = _.findIndex($scope.currentRegistration.registrants, {'id': registrantId});
+          var registrantIndex = _.findIndex($scope.currentRegistration.registrants, { 'id': registrantId });
           if (registrantIndex === -1) {
             return;
           }
 
           if ($scope.block.type !== 'paragraphContent') {
-            $scope.answer = _.find($scope.currentRegistration.registrants[registrantIndex].answers, {'blockId': $scope.block.id});
+            $scope.answer = _.find($scope.currentRegistration.registrants[registrantIndex].answers, { 'blockId': $scope.block.id });
             if (angular.isUndefined($scope.answer)) {
               $scope.answer = {
                 id: uuid(),
@@ -59,12 +59,12 @@ angular.module('confRegistrationWebApp')
                 default:
                   $scope.answer.value = '';
               }
-			  
-			   //setting default value 
+
+              //setting default value 
               if (!angular.isUndefined($scope.block.content) && !angular.isUndefined($scope.block.content.default)) {
                 $scope.answer.value = $scope.block.content.default;
               }
-			  
+
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
             }
 
@@ -82,7 +82,7 @@ angular.module('confRegistrationWebApp')
           if (angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
             return false;
           }
-          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          var registrant = _.find($scope.currentRegistration.registrants, { id: $scope.currentRegistrant });
           return validateRegistrant.blockVisible(block, registrant);
         };
       }
