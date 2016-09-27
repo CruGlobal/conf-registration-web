@@ -250,7 +250,7 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-		$scope.getRangeValues = function(parentBlockId){
+        $scope.getRangeValues = function (parentBlockId) {
           var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
           var block = _.find(blocks, { 'id': parentBlockId });
 
@@ -261,9 +261,9 @@ angular.module('confRegistrationWebApp')
               return {};
           }
         };
-		
-        $scope.removeRule = function(id){
-          _.remove($scope.block.rules, {id: id});
+
+        $scope.removeRule = function (id) {
+          _.remove($scope.block.rules, { id: id });
         };
 
         $scope.ruleValueInputType = function (parentBlockId) {
