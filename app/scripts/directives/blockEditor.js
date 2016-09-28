@@ -10,11 +10,13 @@ angular.module('confRegistrationWebApp')
         $scope.visibleRegTypes = {};
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
+        $scope.showForceSelection = true;
 
         //initializing default value in block object 
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
-            default: ''
+            default: '',
+            forceSelections: {}
           };
         }
 
@@ -176,7 +178,7 @@ angular.module('confRegistrationWebApp')
             desc: ''
           });
         };
-
+               
         $scope.editBlockOptionMoveUp = function (index) {
           if (index > 0 && index < $scope.block.content.choices.length) {
             var temp = $scope.block.content.choices[index];
