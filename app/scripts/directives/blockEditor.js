@@ -41,8 +41,8 @@ angular.module('confRegistrationWebApp')
           $scope.numberRange.max = $scope.block.content.range.max;
         }
 
-        $scope.visibleRegTypes = {};		
-		
+        $scope.visibleRegTypes = {};
+
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function (type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
@@ -76,6 +76,7 @@ angular.module('confRegistrationWebApp')
         $scope.expenseTypesConstants = expenseTypesConstants;
 
         $scope.toggleBlockEdit = function (selectTab) {
+          //validation for number question on close button click
           if ($scope.block.type === 'numberQuestion' && $scope.editBlock) {
             if (!util.isUndefinedOrNull($scope.numberRange.min) && !util.isUndefinedOrNull($scope.numberRange.max) &&
               util.isNumber($scope.numberRange.min) && util.isNumber($scope.numberRange.max)) {
@@ -142,6 +143,14 @@ angular.module('confRegistrationWebApp')
               min: '',
               max: ''
             };
+          }
+        };
+
+        //function to clear the field when value is not a number
+        $scope.validateNumber = function (value, $event) {
+          if (angular.isUndefined(value) || isNaN(value) || value === '') {
+            value = '';
+            $event.currentTarget.value = '';
           }
         };
 
@@ -290,7 +299,7 @@ angular.module('confRegistrationWebApp')
               return [];
           }
         };
-		
+
         $scope.getRangeValues = function (parentBlockId) {
           var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
           var block = _.find(blocks, { 'id': parentBlockId });

@@ -74,13 +74,16 @@ angular.module('confRegistrationWebApp')
             element.parent().addClass('form-group');
           }
 
-          if (val !== '' && ((min && (Number(val) < Number(min))) ||
+          if (!isNaN(val) && val !== '' && ((min && (Number(val) < Number(min))) ||
             (max && Number(val) > Number(max)))) {
             element.parent().parent().children(':nth-child(2)').addClass('invalid-range-label');
             element.parents('.form-group').toggleClass('has-error', true);
           } else {
             if (scope.editBlock && scope.editBlock === true) {
               scope.block.content.default = Number(val);
+            }
+            if (angular.isUndefined(scope.editBlock) && (isNaN(val) || val === '')) {
+              scope.answer.value = '';
             }
             element.parent().parent().children(':nth-child(2)').removeClass('invalid-range-label');
             element.parents('.form-group').toggleClass('has-error', false);
