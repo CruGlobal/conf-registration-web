@@ -53,7 +53,7 @@
           <label translate>Possible Answers</label>
           <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
             <div class="input-group">
-              <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
+              <input ng-model="block.content.choices[$index].value" type="text" class="form-control" ng-keyup="onChoiceOptionChange()">
               <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
               <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>

@@ -28,6 +28,7 @@ angular.module('confRegistrationWebApp')
             return;
           }
           $scope.block.content.default = $scope.answer.value;
+          $scope.onChoiceOptionChange();
         }, true);
 
         $scope.numberRange = {
@@ -153,6 +154,18 @@ angular.module('confRegistrationWebApp')
             $event.currentTarget.value = '';
           }
         };
+
+        $scope.onChoiceOptionChange = function () {
+          if ($scope.block.type === 'checkboxQuestion' && !angular.isUndefined($scope.block.content.default)) {
+            for (var keyName in $scope.block.content.default) {
+              var key = keyName;
+              if (_.where($scope.block.content.choices, { 'value': keyName }).length === 0) {
+                $scope.block.content.default[key] = undefined;
+              }
+            }
+          }
+        };
+
 
         $scope.editBlockAddOption = function (newOption) {
           if (angular.isUndefined($scope.block.content.choices)) {
