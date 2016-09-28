@@ -7,7 +7,9 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       require: 'ngModel',
       scope: {
-        'disabled': '=pickerDisabled'
+        'disabled': '=pickerDisabled',
+        'minDate':'=?pickerMinDate',
+        'maxDate':'=?pickerMaxDate'
       },
       link: function (scope, element, attr, ngModelController) {
         //load date value from model into datepicker
@@ -34,12 +36,56 @@ angular.module('confRegistrationWebApp')
         //initialize datepicker
         scope.picker = $(element).find('input').first().pickadate(pickerOptions).pickadate('picker');
 
+        //function to set min date
+        scope.setMinDate = function(){
+          if(!angular.isUndefined(scope.minDate) && scope.minDate !== ''){
+            var dateArray = scope.minDate.split('-');
+            dateArray[1] = dateArray[1] - 1;
+            scope.picker.set('min',dateArray);
+          }
+        };
+        
+        //function to set max date
+        scope.setMaxDate = function(){
+          if(!angular.isUndefined(scope.maxDate) && scope.maxDate !== ''){
+            var dateArray = scope.maxDate.split('-');
+            dateArray[1] = dateArray[1] - 1;
+            scope.picker.set('max',dateArray);
+          }
+        };
+		
+        //set min and max date
+        scope.setMinDate();
+        scope.setMaxDate();
+
+        scope.$watch('minDate', function (newMinDate, oldMinDate) {
+          if (angular.isUndefined(newMinDate) || newMinDate === '' || angular.equals(newMinDate, oldMinDate)) {
+             scope.picker.set('min',false);
+            return;
+          }        
+          
+          var dateArray = newMinDate.split('-');
+          dateArray[1] = dateArray[1] - 1;
+          scope.picker.set('min',dateArray);         
+        }, true);
+
+        scope.$watch('maxDate', function (newMaxDate, oldMaxDate) {
+          if (angular.isUndefined(newMaxDate) || newMaxDate === '' || angular.equals(newMaxDate, oldMaxDate)) {
+             scope.picker.set('max',false);
+            return;
+          }
+          
+          var dateArray = newMaxDate.split('-');          
+          dateArray[1] = dateArray[1] - 1;         
+          scope.picker.set('max',dateArray); 
+        }, true);
+
         //when date is chosen, update model
-        var onSet = function(){
-          scope.$apply(function(){
+        var onSet = function(){          
+          //scope.$apply(function(){
             ngModelController.$setViewValue(scope.picker.get('select', 'yyyy-mm-dd'));
             ngModelController.$setTouched();
-          });
+          //});
         };
         scope.picker.on('set', onSet);
 
@@ -53,6 +99,9 @@ angular.module('confRegistrationWebApp')
             }else{
               scope.picker.start();
               scope.picker.on('set', onSet);
+              
+              scope.setMinDate();
+              scope.setMaxDate();              
             }
           });
 
@@ -61,6 +110,6 @@ angular.module('confRegistrationWebApp')
           scope.picker.open();
           event.stopPropagation();
         };
-      }
+      }         
     };
   });

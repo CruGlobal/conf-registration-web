@@ -41,6 +41,8 @@ angular.module('confRegistrationWebApp')
           $scope.numberRange.max = $scope.block.content.range.max;
         }
 
+        $scope.visibleRegTypes = {};		
+		
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function (type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
@@ -288,12 +290,13 @@ angular.module('confRegistrationWebApp')
               return [];
           }
         };
-
+		
         $scope.getRangeValues = function (parentBlockId) {
           var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
           var block = _.find(blocks, { 'id': parentBlockId });
 
           switch (block.type) {
+            case 'dateQuestion':
             case 'numberQuestion':
               return block.content.range;
             default:
