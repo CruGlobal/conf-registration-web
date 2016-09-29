@@ -22,8 +22,8 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/blocks/checkboxQuestion.html',
       restrict: 'E',
       controller: function ($scope) {
-        $scope.atLeastOneChecked = function(){
-          if(!$scope.answer){ return false; }
+        $scope.atLeastOneChecked = function () {
+          if (!$scope.answer) { return false; }
           return angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }));
         };
       }
@@ -39,10 +39,46 @@ angular.module('confRegistrationWebApp')
   });
 
 angular.module('confRegistrationWebApp')
-  .directive('numberQuestion', function () {
+  .directive('numberQuestion', function (util) {
     return {
       templateUrl: 'views/blocks/numberQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      link: function (scope, element) {
+        scope.onValueChange = function () {
+          var min = '';
+          var max = '';
+          var val = element.children(':first-child')[0].value;
+
+          if (scope.editBlock && scope.editBlock === true) {
+            min = scope.numberRange.min;
+            max = scope.numberRange.max;
+            element.children(':first-child')[0].min = min;
+            element.children(':first-child')[0].max = max;
+          } else {
+            if (util.isUndefinedOrNull(scope.block.content.range)) {
+              return;
+            }
+            min = scope.block.content.range.min;
+            max = scope.block.content.range.max;
+          }
+
+          if (!element.parent().hasClass('form-group')) {
+            element.parent().addClass('form-group');
+          }
+
+          if (!isNaN(val) && val !== '' && ((min && (Number(val) < Number(min))) ||
+            (max && Number(val) > Number(max)))) {
+            element.parent().parent().children(':nth-child(2)').addClass('invalid-range-label');
+            element.parents('.form-group').toggleClass('has-error', true);
+          } else {            
+            if (angular.isUndefined(scope.editBlock) && (isNaN(val) || val === '')) {
+              scope.answer.value = '';
+            }
+            element.parent().parent().children(':nth-child(2)').removeClass('invalid-range-label');
+            element.parents('.form-group').toggleClass('has-error', false);
+          }
+        };
+      }
     };
   });
 
@@ -61,16 +97,16 @@ angular.module('confRegistrationWebApp')
       restrict: 'E',
       controller: function ($scope) {
         $scope.$watch('answer.value', function () {
-          if(angular.isDefined($scope.answer)){
+          if (angular.isDefined($scope.answer)) {
             //check if answer is not in current choices
-            if(!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)){
+            if (!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)) {
               $scope.otherAnswer = $scope.answer.value;
             }
           }
         });
 
-        $scope.selectOtherAnswer = function(){
-          if(!$scope.answer){ return; }
+        $scope.selectOtherAnswer = function () {
+          if (!$scope.answer) { return; }
           $scope.answer.value = $scope.otherAnswer;
         };
       }
@@ -82,12 +118,12 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/blocks/selectQuestion.html',
       restrict: 'E',
-      controller: function($scope, $filter){
-        $scope.$watch('block', function() {
+      controller: function ($scope, $filter) {
+        $scope.$watch('block', function () {
           $scope.visibleValues = [];
-          angular.forEach($scope.block.content.choices, function(c){
+          angular.forEach($scope.block.content.choices, function (c) {
             var visibleValue = c.value;
-            if(c.amount){
+            if (c.amount) {
               visibleValue = visibleValue + ' - ' + $filter('currency')(c.amount, '$');
             }
             $scope.visibleValues.push(visibleValue);
@@ -130,9 +166,9 @@ angular.module('confRegistrationWebApp')
   });
 
 angular.module('confRegistrationWebApp')
-    .directive('textareaQuestion', function () {
-      return {
-        templateUrl: 'views/blocks/textareaQuestion.html',
-        restrict: 'E'
-      };
-    });
+  .directive('textareaQuestion', function () {
+    return {
+      templateUrl: 'views/blocks/textareaQuestion.html',
+      restrict: 'E'
+    };
+  });

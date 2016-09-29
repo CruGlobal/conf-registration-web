@@ -73,7 +73,11 @@ angular.module('confRegistrationWebApp')
       });
     }, 15000);
 
-    $scope.goToNext = function () {
+    $scope.goToNext = function (registrationPageForm) {
+      if(!registrationPageForm.$valid && (registrationPageForm.$error.max || registrationPageForm.$error.min)){
+        return;
+      }
+
       var nextPage = $scope.nextPage();
       if (angular.isDefined(nextPage)) {
         $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + nextPage.id);
