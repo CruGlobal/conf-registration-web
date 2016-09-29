@@ -30,14 +30,6 @@ angular.module('confRegistrationWebApp')
       return !_.contains(block.registrantTypes, registrant.registrantTypeId);
     };
 
-    var needNumberRangeChecking = function (block, answer) {
-      if (!util.isUndefinedOrNull(block.content.range) && !util.isUndefinedOrNull(answer.value) && util.isNumber(answer.value)) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
     this.blockVisible = function (block, registrant, isAdmin) {
       var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
@@ -52,9 +44,7 @@ angular.module('confRegistrationWebApp')
         var answer = _.find(registrant.answers, { 'blockId': block.id });
 
         if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) {
-          if (!needNumberRangeChecking(block, answer)) {
-            return;
-          }
+            return;          
         }
 
         if (angular.isUndefined(answer)) {
@@ -78,11 +68,6 @@ angular.module('confRegistrationWebApp')
             break;
           case 'numberQuestion':
             if (!util.isNumber((answer))) {
-              invalidBlocks.push(block.id);
-              return;
-            } else if (util.isNumber(answer) && !util.isUndefinedOrNull(block.content.range) &&
-              (util.isNumber(block.content.range.min) && block.content.range.min > answer) ||
-              (util.isNumber(block.content.range.max) && block.content.range.max < answer)) {
               invalidBlocks.push(block.id);
               return;
             }
