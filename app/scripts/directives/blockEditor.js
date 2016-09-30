@@ -5,9 +5,21 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockEditor.html',
       restrict: 'A',
-      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
+      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants, util) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+        $scope.isAdmin = true;
+        $scope.numberRange = {
+          min: '',
+          max: '',
+          error: false
+        };
+
+        if (!util.isUndefinedOrNull($scope.block.content.range)) {
+          $scope.numberRange.min = $scope.block.content.range.min;
+          $scope.numberRange.max = $scope.block.content.range.max;
+        }
+
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
@@ -40,13 +52,68 @@ angular.module('confRegistrationWebApp')
         $scope.canChangeRegTypes = notName;
         $scope.expenseTypesConstants = expenseTypesConstants;
 
-        $scope.toggleBlockEdit = function (selectTab){
+        $scope.toggleBlockEdit = function (selectTab) {
+           //validation for number question on close button click
+          if ($scope.block.type === 'numberQuestion' && $scope.editBlock) {
+            if (!util.isUndefinedOrNull($scope.numberRange.min) && !util.isUndefinedOrNull($scope.numberRange.max) &&
+              util.isNumber($scope.numberRange.min) && util.isNumber($scope.numberRange.max)) {
+              if ($scope.numberRange.min <= $scope.numberRange.max) {
+                  $scope.numberRange.error = false;                
+                  $scope.initializeRangeObject();
+                  $scope.block.content.range.min = $scope.numberRange.min;
+                  $scope.block.content.range.max = $scope.numberRange.max;                
+              } else {
+                $scope.numberRange.error = true;
+                return;
+              }
+            } else if (!util.isUndefinedOrNull($scope.numberRange.min) && util.isNumber($scope.numberRange.min)) {              
+                $scope.initializeRangeObject();
+                $scope.block.content.range.min = $scope.numberRange.min;
+                $scope.block.content.range.max = '';
+                $scope.numberRange.error = false;              
+            } else if (!util.isUndefinedOrNull($scope.numberRange.max) && util.isNumber($scope.numberRange.max)) {             
+                $scope.initializeRangeObject();
+                $scope.block.content.range.max = $scope.numberRange.max;
+                $scope.block.content.range.min = '';
+                $scope.numberRange.error = false;              
+            } else {
+              $scope.initializeRangeObject();
+              $scope.block.content.range.max = '';
+              $scope.block.content.range.min = '';
+              $scope.numberRange.error = false;
+            }
+          }
+
           $scope.activeTab = {};
-          if(selectTab){
+          if (selectTab) {
             $scope.editBlock = true;
             $scope.activeTab[selectTab] = true;
-          }else{
+          } else {
             $scope.editBlock = !$scope.editBlock;
+          }
+        };
+
+        $scope.initializeRangeObject = function () {
+          if ($scope.block.content === '' || util.isUndefinedOrNull($scope.block.content)) {
+            $scope.block.content = {
+              range: {
+                min: '',
+                max: ''
+              }
+            };
+          } else if (util.isUndefinedOrNull($scope.block.content.range) || $scope.block.content.range === '') {
+            $scope.block.content.range = {
+              min: '',
+              max: ''
+            };
+          }
+        };
+
+        //function to clear the field when value is not a number
+        $scope.validateNumber = function (value, $event) {
+          if (angular.isUndefined(value) || isNaN(value) || value === '') {
+            value = '';
+            $event.currentTarget.value = '';
           }
         };
 
@@ -193,6 +260,43 @@ angular.module('confRegistrationWebApp')
               return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
             default:
               return [];
+          }
+        };
+
+        $scope.getRangeValues = function (parentBlockId) {
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': parentBlockId });
+
+          switch (block.type) {
+            case 'numberQuestion':
+              return block.content.range;
+            default:
+              return {};
+          }
+        };
+
+        $scope.onNumberValueChange = function (currentValue, rule, $event) {
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': rule.parentBlockId });
+          var element = $($event.currentTarget);
+
+          if (!element.parent().hasClass('form-group')) {
+            element.parent().addClass('form-group');
+          }
+
+          if (block.content.range && angular.isDefined(currentValue) &&
+            ((block.content.range.min && Number(block.content.range.min) > Number(currentValue)) ||
+              (block.content.range.max && Number(block.content.range.max) < Number(currentValue)))) {
+            element.parent('.form-group').toggleClass('has-error', true);
+            //rule.value = '';
+          } else if (angular.isUndefined(currentValue)) {
+            //rule.value = '';
+            element.parent('.form-group').toggleClass('has-error', true);
+          } else if (isNaN(currentValue) || currentValue === '') {
+            rule.value = '';
+          } else {
+            rule.value = currentValue;
+            element.parent('.form-group').toggleClass('has-error', false);
           }
         };
 

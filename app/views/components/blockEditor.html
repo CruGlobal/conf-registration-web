@@ -95,6 +95,20 @@
                  class="form-control field-label"
                  ng-model="block.exportFieldTitle" />
         </div>
+        <div class="row form-group error" ng-if="block.type === 'numberQuestion'">
+          <label ng-class="{'invalid-range-label':numberRange.error}" class="inline-label range-title-alignment pull-left" translate>Min Number</label>
+          <div class="col-md-2 stacked-spacing-col-sm">
+            <input ng-class="{'invalid-range-input':numberRange.error}" type="number" class="form-control field-label" ng-model="numberRange.min"
+              ng-keyup="validateNumber(numberRange.min,$event)"></br>
+          </div>
+          <label ng-class="{'invalid-range-label':numberRange.error}" class="inline-label range-title-alignment pull-left col-md-offset-1"
+            translate>Max Number</label>
+          <div class="col-md-2">
+            <input type="number" ng-class="{'invalid-range-input':numberRange.error}" class="form-control field-label" ng-model="numberRange.max"
+              ng-keyup="validateNumber(numberRange.max,$event)">
+          </div>
+          <label ng-if="numberRange.error" class="invalid-range-label range-title-alignment">Invalid range</label>
+        </div>
         <div class="form-group">
           <label translate>Show this question for the following registrant types:</label>
           <div ng-if="canChangeRegTypes">
@@ -115,7 +129,7 @@
             </div>
           </div>
           <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> <translate>This question must be shown for all registrant types.</translate></p>
-        </div>
+        </div>        
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
              <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
@@ -147,7 +161,16 @@
               </select>
             </div>
             <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
-              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
+              <div ng-if="ruleValueInputType(rule.parentBlockId) === 'number'">
+                <input type="number" ng-model="currentRuleValue" string-to-number ng-if="ruleValueInputType(rule.parentBlockId) === 'number'"
+                  class="form-control" min="{{getRangeValues(rule.parentBlockId).min}}" max="{{getRangeValues(rule.parentBlockId).max}}"
+                  ng-init="currentRuleValue=rule.value" ng-keyup="onNumberValueChange(currentRuleValue,rule,$event)">
+                <div ng-if="ruleValueInputType(rule.parentBlockId) === 'number'" class="help-block row" translate>
+                  <label ng-if="getRangeValues(rule.parentBlockId).min && getRangeValues(rule.parentBlockId).max" class="valid-range-msg">Valid Range:</label>
+                  <span class="margin-left-10" ng-if="getRangeValues(rule.parentBlockId).min && getRangeValues(rule.parentBlockId).min!=''">Min - {{getRangeValues(rule.parentBlockId).min}} </span>
+                  <span class="margin-left-10" ng-if="getRangeValues(rule.parentBlockId).max && getRangeValues(rule.parentBlockId).max !=''"> Max - {{getRangeValues(rule.parentBlockId).max}}</span>
+                </div>
+              </div>    
               <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
               <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
                 <option value="M" translate>Male</option>

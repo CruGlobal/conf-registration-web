@@ -2,6 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
+    $scope.editRegistration = {};
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
@@ -17,6 +18,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.submit = function (setRegistrationAsCompleted) {
+      if (!$scope.editRegistration.form.$valid && ($scope.editRegistration.form.$error.max || $scope.editRegistration.form.$error.min)) { return; }
       $scope.saving = true;
 
       if(setRegistrationAsCompleted){
