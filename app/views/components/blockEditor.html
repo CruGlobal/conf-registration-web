@@ -97,11 +97,11 @@
         </div>
 		<div class="row form-group" ng-if="block.type === 'dateQuestion'">
           <label class="inline-label date-alignment pull-left" translate>Min Date</label>
-          <div class="col-md-3 stacked-spacing-col-sm">
+          <div class="col-md-4 col-lg-3">
             <pick-a-date show-errors ng-model="block.content.range.min" ng-required="block.required" picker-max-date="block.content.range.max"></pick-a-date>
           </div>
           <label class="inline-label date-alignment pull-left col-md-offset-1" translate>Max Date</label>
-          <div class="col-md-3">
+          <div class="col-md-4 col-lg-3">
             <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
           </div>
         </div>

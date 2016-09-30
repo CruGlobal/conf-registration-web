@@ -58,8 +58,8 @@ angular.module('confRegistrationWebApp')
         scope.setMinDate();
         scope.setMaxDate();
 
-        scope.$watch('minDate', function (newMinDate, oldMinDate) {
-          if (angular.isUndefined(newMinDate) || newMinDate === '' || angular.equals(newMinDate, oldMinDate)) {
+        scope.$watch('minDate', function (newMinDate) {
+          if (angular.isUndefined(newMinDate) || newMinDate === '') {
              scope.picker.set('min',false);
             return;
           }        
@@ -69,8 +69,8 @@ angular.module('confRegistrationWebApp')
           scope.picker.set('min',dateArray);         
         }, true);
 
-        scope.$watch('maxDate', function (newMaxDate, oldMaxDate) {
-          if (angular.isUndefined(newMaxDate) || newMaxDate === '' || angular.equals(newMaxDate, oldMaxDate)) {
+        scope.$watch('maxDate', function (newMaxDate) {
+          if (angular.isUndefined(newMaxDate) || newMaxDate === '') {
              scope.picker.set('max',false);
             return;
           }
@@ -81,11 +81,9 @@ angular.module('confRegistrationWebApp')
         }, true);
 
         //when date is chosen, update model
-        var onSet = function(){          
-          //scope.$apply(function(){
+        var onSet = function(){
             ngModelController.$setViewValue(scope.picker.get('select', 'yyyy-mm-dd'));
             ngModelController.$setTouched();
-          //});
         };
         scope.picker.on('set', onSet);
 
