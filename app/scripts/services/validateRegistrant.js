@@ -4,52 +4,36 @@ angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
     var blockVisibleRuleCheck = function (block, registrant) {
-      var returnValueAND = true;
-      var returnValueOR = false;
       var answers = registrant.answers;
-      var ruleOperand = block.content && block.content !== '' && !angular.isUndefined(block.content.ruleoperand) ? block.content.ruleoperand : 'AND';
+      var ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
+      var ruleArray = [];
 
-      if (ruleOperand === 'AND') {
-        angular.forEach(block.rules, function (rule) {
-          var answer = _.find(answers, { blockId: rule.parentBlockId });
-          if (angular.isUndefined(answer) || answer.value === '') {
-            returnValueAND = false;
-          } else {
-            if (rule.operator === '=' && answer.value !== rule.value) {
-              returnValueAND = false;
-            } else if (rule.operator === '!=' && answer.value === rule.value) {
-              returnValueAND = false;
-            } else if (rule.operator === '>' && answer.value <= rule.value) {
-              returnValueAND = false;
-            } else if (rule.operator === '<' && answer.value >= rule.value) {
-              returnValueAND = false;
-            }
+      for (var i = 0; i < block.rules.length; i++) {
+        var rule = block.rules[i];
+        var answer = _.find(answers, { blockId: rule.parentBlockId });
+
+        if (angular.isDefined(answer) && answer.value !== '') {
+          if (rule.operator === '=' && answer.value === rule.value) {
+            ruleArray.push(rule);
+          } else if (rule.operator === '!=' && answer.value !== rule.value) {
+            ruleArray.push(rule);
+          } else if (rule.operator === '>' && answer.value > rule.value) {
+            ruleArray.push(rule);
+          } else if (rule.operator === '<' && answer.value < rule.value) {
+            ruleArray.push(rule);
           }
-        });
-        return returnValueAND;
+        }
+
+        if (ruleOperand === 'OR' && ruleArray.length > 0) {
+          break;
+        }
+      }
+
+      if ((ruleOperand === 'OR' && ruleArray.length > 0) ||
+        (ruleOperand === 'AND' && ruleArray.length === block.rules.length)) {
+        return true;
       } else {
-        var ruleCounter = 0;
-
-        angular.forEach(block.rules, function (rule) {
-          ruleCounter++;
-          var answer = _.find(answers, { blockId: rule.parentBlockId });
-
-          if (angular.isUndefined(answer) || answer.value === '') {
-            returnValueOR = false;
-          } else {
-
-            if (rule.operator === '=' && answer.value === rule.value) {
-              returnValueOR = true;
-            } else if (rule.operator === '!=' && answer.value !== rule.value) {
-              returnValueOR = true;
-            } else if (rule.operator === '>' && answer.value >= rule.value) {
-              returnValueOR = true;
-            } else if (rule.operator === '<' && answer.value <= rule.value) {
-              returnValueOR = true;
-            }
-          }
-        });
-        return ruleCounter === 0 ? true : returnValueOR;
+        return false;
       }
     };
 

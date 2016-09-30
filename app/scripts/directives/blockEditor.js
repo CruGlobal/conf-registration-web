@@ -12,12 +12,12 @@ angular.module('confRegistrationWebApp')
         //initializing rule operand value in block object 
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
-            ruleoperand: 'OR'
+            ruleoperand: 'AND'
           };
         }
 
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
-          $scope.block.content.ruleoperand = 'OR';
+          $scope.block.content.ruleoperand = 'AND';
         }
 
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
@@ -63,8 +63,10 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.editBlockAddOption = function (newOption) {
-          if (angular.isUndefined($scope.block.content.choices)) {
+          if (angular.isUndefined($scope.block.content)) {
             $scope.block.content = { 'choices': [] };
+          }else if(angular.isUndefined($scope.block.content.choices)){
+            $scope.block.content.choices = [];
           }
           $scope.block.content.choices.push({
             value: newOption,
