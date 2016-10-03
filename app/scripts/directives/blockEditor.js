@@ -20,6 +20,8 @@ angular.module('confRegistrationWebApp')
           $scope.numberRange.max = $scope.block.content.range.max;
         }
 
+        console.log(_.isEmpty(55));
+
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);

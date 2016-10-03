@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
                 return angular.isUndefined(obj) || obj === null || obj === 'null';
             },
             isNumber: function (val) {
-                return val !== '' && !isNaN(val);
+                return val !== '' && !_.isNaN(val);
             }
         };
         return service;
