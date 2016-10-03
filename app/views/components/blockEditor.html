@@ -21,7 +21,7 @@
   </div>
   <label ng-bind-html="block.title"><em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-bind-html="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
