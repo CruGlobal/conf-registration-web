@@ -6,31 +6,30 @@ angular.module('confRegistrationWebApp')
     var blockVisibleRuleCheck = function (block, registrant) {
       var answers = registrant.answers;
       var ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
-      var ruleArray = [];
+      var validRuleCount = 0;
 
       for (var i = 0; i < block.rules.length; i++) {
         var rule = block.rules[i];
         var answer = _.find(answers, { blockId: rule.parentBlockId });
-
         if (angular.isDefined(answer) && answer.value !== '') {
           if (rule.operator === '=' && answer.value === rule.value) {
-            ruleArray.push(rule);
+            validRuleCount++;
           } else if (rule.operator === '!=' && answer.value !== rule.value) {
-            ruleArray.push(rule);
+            validRuleCount++;
           } else if (rule.operator === '>' && answer.value > rule.value) {
-            ruleArray.push(rule);
+            validRuleCount++;
           } else if (rule.operator === '<' && answer.value < rule.value) {
-            ruleArray.push(rule);
+            validRuleCount++;
           }
         }
-
-        if (ruleOperand === 'OR' && ruleArray.length > 0) {
+        if (ruleOperand === 'OR' && validRuleCount > 0) {
           break;
         }
       }
 
-      if ((ruleOperand === 'OR' && ruleArray.length > 0) ||
-        (ruleOperand === 'AND' && ruleArray.length === block.rules.length)) {
+      if (block.rules.length === 0 || // If no rules are set
+        (ruleOperand === 'OR' && validRuleCount > 0) ||
+        (ruleOperand === 'AND' && validRuleCount === block.rules.length)) {
         return true;
       } else {
         return false;
