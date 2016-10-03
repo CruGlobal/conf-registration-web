@@ -5,10 +5,12 @@
   <input type="text" placeholder="Select a date..." class="form-control" ng-disabled="disabled">
 </div>
 <div ng-if="minDate || maxDate" class="help-block row">
-   <label class="valid-range-msg" translate>Valid Range:</label>
-   <span ng-if="minDate" translate>{{minDate | dateRangeFormat}}</span>  
-   <span ng-if="minDate && maxDate">-</span> 
-   <span ng-if="maxDate" translate>{{maxDate | dateRangeFormat}}</span>
-   <span ng-if="!maxDate" translate>or later</span>
-   <span ng-if="!minDate" translate>or before</span>    
+  <div class="col-sm-12">
+    <translate>Valid Range:</translate>
+    <span ng-if="minDate" translate>{{minDate | dateRangeFormat}}</span>
+    <span ng-if="minDate && maxDate">-</span>
+    <span ng-if="maxDate" translate>{{maxDate | dateRangeFormat}}</span>
+    <span ng-if="!maxDate" translate>or later</span>
+    <span ng-if="!minDate" translate>or before</span>
+  </div>
 </div>
