@@ -9,6 +9,16 @@ angular.module('confRegistrationWebApp')
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
 
+        if ($scope.block.type === 'paragraphContent' &&
+          angular.isDefined($scope.block.content) &&
+          _.isString($scope.block.content)) {
+          var prevValue = $scope.block.content;
+          $scope.block.content = {
+            paragraph: prevValue,
+            ruleoperand: 'AND'
+          };
+        }
+
         //initializing rule operand value in block object 
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
