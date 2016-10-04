@@ -22,7 +22,7 @@ angular.module('confRegistrationWebApp')
             validRuleCount++;
           }
         }
-        if (ruleOperand === 'OR' && validRuleCount > 0) {
+        if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
           break;
         }
       }
