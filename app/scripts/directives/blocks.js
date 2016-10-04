@@ -39,10 +39,46 @@ angular.module('confRegistrationWebApp')
   });
 
 angular.module('confRegistrationWebApp')
-  .directive('numberQuestion', function () {
+  .directive('numberQuestion', function (util) {
     return {
       templateUrl: 'views/blocks/numberQuestion.html',
-      restrict: 'E'
+      restrict: 'E',
+      link: function (scope, element) {
+        scope.onValueChange = function () {
+          var min = '';
+          var max = '';
+          var val = element.children(':first-child')[0].value;
+
+          if (scope.editBlock && scope.editBlock === true) {
+            min = scope.numberRange.min;
+            max = scope.numberRange.max;
+            element.children(':first-child')[0].min = min;
+            element.children(':first-child')[0].max = max;
+          } else {
+            if (util.isUndefinedOrNull(scope.block.content.range)) {
+              return;
+            }
+            min = scope.block.content.range.min;
+            max = scope.block.content.range.max;
+          }
+
+          if (!element.parent().hasClass('form-group')) {
+            element.parent().addClass('form-group');
+          }
+
+          if (!isNaN(val) && val !== '' && ((min && (Number(val) < Number(min))) ||
+            (max && Number(val) > Number(max)))) {
+            element.parent().parent().children(':nth-child(2)').addClass('invalid-range-label');
+            element.parents('.form-group').toggleClass('has-error', true);
+          } else {            
+            if (angular.isUndefined(scope.editBlock) && (isNaN(val) || val === '')) {
+              scope.answer.value = '';
+            }
+            element.parent().parent().children(':nth-child(2)').removeClass('invalid-range-label');
+            element.parents('.form-group').toggleClass('has-error', false);
+          }
+        };
+      }
     };
   });
 

@@ -7,10 +7,11 @@
     <label class="control-label" translate>Registrant Type</label>
     <select class="form-control" ng-model="adminEditRegistrant.registrantTypeId" ng-options="t.id as t.name for t in conference.registrantTypes"></select>
   </div>
-
-  <div ng-repeat="page in conference.registrationPages">
-    <div ng-repeat="block in page.blocks" ng-show="blockIsVisible(block, adminEditRegistrant)" block="block" answer="findAnswer(block.id)" block-registration></div>
-  </div>
+  <form name='editRegistration.form'>
+    <div ng-repeat="page in conference.registrationPages">
+      <div ng-repeat="block in page.blocks" ng-show="blockIsVisible(block, adminEditRegistrant)" block="block" answer="findAnswer(block.id)" block-registration></div>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
   <h4 ng-show="saving"><i class="fa fa-circle-o-notch fa-spin"></i> <translate>Saving</translate>...</h4>

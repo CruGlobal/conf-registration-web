@@ -1,2 +1,19 @@
-<input show-errors type="number" ng-model="answer.value" ng-required="block.required" class="form-control" ng-disabled="editBlock" />
-<span class="help-block help-block-hidden" translate>Please enter a number</span>
+<input id="{{block.id}}" show-errors type="number" ng-model="answer.value" min="{{block.content.range.min}}" max="{{block.content.range.max}}"
+        ng-required="block.required" class="form-control" ng-disabled="editBlock" string-to-number ng-keyup="onValueChange()" />
+<span class="help-block help-block-hidden" translate>Please enter a valid number</span>
+<div ng-if="!isAdmin && block.content.range && (block.content.range.min || block.content.range.max)" class="help-block row">
+        <label class="valid-range-msg" translate>Valid Range:</label>
+        <span ng-if="block.content.range.min" translate>{{block.content.range.min}} </span>
+        <span ng-if="block.content.range.min && block.content.range.max">-</span>
+        <span ng-if="block.content.range.max" translate>{{block.content.range.max}}</span>
+        <span ng-if="block.content.range.min && !block.content.range.max" translate>or higher</span>
+        <span ng-if="block.content.range.max && !block.content.range.min" translate>or lower</span>
+</div>
+<div ng-if="isAdmin && numberRange && (numberRange.min || numberRange.max)" class="help-block row">
+        <label class="valid-range-msg" translate>Valid Range:</label>
+        <span ng-if="numberRange.min" translate>{{numberRange.min}}</span>
+        <span ng-if="numberRange.min && numberRange.max">-</span>
+        <span ng-if="numberRange.max" translate>{{numberRange.max}}</span>
+        <span ng-if="numberRange.min && !numberRange.max" translate>or higher</span>
+        <span ng-if="numberRange.max && !numberRange.min" translate>or lower</span>
+</div>
