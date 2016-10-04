@@ -53,21 +53,23 @@
           <label translate>Possible Answers</label>
           <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
             <div class="input-group">
-              <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
-                      <span class="input-group-btn">
+              <input ng-model="block.content.choices[$index].value" type="text" class="form-control" ng-keyup="onChoiceOptionChange()">
+              <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> <translate>Options</translate></span></button>
-                        <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> <translate>Delete</translate></span></button>
-                      </span>
+              <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
+              <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> <translate>Options</translate></span></button>
+              <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> <translate>Delete</translate></span></button>
+              </span>
             </div>
           </div>
 
           <div class="input-group spacing-above-md">
             <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
-                  </span>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span>
+            <translate>Add</translate>
+            </button>
+            </span>
           </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
@@ -89,11 +91,18 @@
       <tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label" translate>Export Title</label>
-          <i popover="Enter a value here to replace the question title in a registration export."
-             popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
-          <input type="text"
-                 class="form-control field-label"
-                 ng-model="block.exportFieldTitle" />
+          <i popover="Enter a value here to replace the question title in a registration export." popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+          <input type="text" class="form-control field-label" ng-model="block.exportFieldTitle" />
+        </div>
+        <div class="row form-group" ng-if="block.type === 'dateQuestion'">
+          <label class="inline-label date-alignment pull-left" translate>Min Date</label>
+          <div class="col-md-3 stacked-spacing-col-sm">
+            <pick-a-date show-errors ng-model="block.content.range.min" ng-required="block.required" picker-max-date="block.content.range.max"></pick-a-date>
+          </div>
+          <label class="inline-label date-alignment pull-left col-md-offset-1" translate>Max Date</label>
+          <div class="col-md-3">
+            <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
+          </div>
         </div>
         <div class="form-group">
           <label translate>Show this question for the following registrant types:</label>
@@ -104,9 +113,22 @@
                 <translate>Admin only</translate>
               </label>
               <i popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
-                 popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+                popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
             </div>
-
+            <div class="row form-group error" ng-if="block.type === 'numberQuestion'">
+              <label ng-class="{'invalid-range-label':numberRange.error}" class="inline-label range-title-alignment pull-left" translate>Min Number</label>
+              <div class="col-md-2 stacked-spacing-col-sm">
+                <input ng-class="{'invalid-range-input':numberRange.error}" type="number" class="form-control field-label" ng-model="numberRange.min"
+                  ng-keyup="validateNumber(numberRange.min,$event)"></br>
+              </div>
+              <label ng-class="{'invalid-range-label':numberRange.error}" class="inline-label range-title-alignment pull-left col-md-offset-1"
+                translate>Max Number</label>
+              <div class="col-md-2">
+                <input type="number" ng-class="{'invalid-range-input':numberRange.error}" class="form-control field-label" ng-model="numberRange.max"
+                  ng-keyup="validateNumber(numberRange.max,$event)">
+              </div>
+              <label ng-if="numberRange.error" class="invalid-range-label range-title-alignment">Invalid range</label>
+            </div>
             <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
               <label>
                 <input type="checkbox" ng-model="$parent.visibleRegTypes[type.id]">
@@ -114,18 +136,25 @@
               </label>
             </div>
           </div>
-          <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> <translate>This question must be shown for all registrant types.</translate></p>
+          <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i>
+            <translate>This question must be shown for all registrant types.</translate>
+          </p>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
-             <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
+          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
               <option value="" translate>None</option>
              </select>
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created must be met before the question is displayed.</translate>
-          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
+        <p class="text-muted"><i class="fa fa-info-circle"></i>
+          <translate>Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created
+            must be met before the question is displayed.</translate>
+          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}"
+            translate>these types</a>
+          <translate>that are above this question.</translate>
+        </p>
 
         <div class="form-horizontal">
           <div class="form-group">
@@ -147,13 +176,24 @@
               </select>
             </div>
             <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
-              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
-              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
+              <div ng-if="ruleValueInputType(rule.parentBlockId) === 'number'">
+                <input type="number" ng-model="currentRuleValue" string-to-number ng-if="ruleValueInputType(rule.parentBlockId) === 'number'"
+                  class="form-control" min="{{getRangeValues(rule.parentBlockId).min}}" max="{{getRangeValues(rule.parentBlockId).max}}"
+                  ng-init="currentRuleValue=rule.value" ng-keyup="onNumberValueChange(currentRuleValue,rule,$event)">
+                <div ng-if="ruleValueInputType(rule.parentBlockId) === 'number'" class="help-block row" translate>
+                  <label ng-if="getRangeValues(rule.parentBlockId).min && getRangeValues(rule.parentBlockId).max" class="valid-range-msg">Valid Range:</label>
+                  <span class="margin-left-10" ng-if="getRangeValues(rule.parentBlockId).min && getRangeValues(rule.parentBlockId).min!=''">Min - {{getRangeValues(rule.parentBlockId).min}} </span>
+                  <span class="margin-left-10" ng-if="getRangeValues(rule.parentBlockId).max && getRangeValues(rule.parentBlockId).max !=''"> Max - {{getRangeValues(rule.parentBlockId).max}}</span>
+                </div>
+              </div>
+              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'"
+                class="form-control"></select>
               <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>
               </select>
-              <pick-a-date ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'date'"></pick-a-date>
+              <pick-a-date ng-model="rule.value" ng-if="ruleValueInputType(rule.parentBlockId) === 'date'" picker-min-date="getRangeValues(rule.parentBlockId).min"
+                picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">
