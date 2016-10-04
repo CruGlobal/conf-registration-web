@@ -21,7 +21,7 @@
   </div>
   <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-bind="block.content.paragraph" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
@@ -47,27 +47,29 @@
         </div>
 
         <div class="form-group" ng-if="block.type === 'paragraphContent'">
-          <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
+          <textarea ng-model="block.content.paragraph" class="form-control" style="height:400px;"></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label translate>Possible Answers</label>
           <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
             <div class="input-group">
               <input ng-model="block.content.choices[$index].value" type="text" class="form-control">
-                      <span class="input-group-btn">
+              <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> <translate>Options</translate></span></button>
-                        <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> <translate>Delete</translate></span></button>
-                      </span>
+              <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
+              <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> <translate>Options</translate></span></button>
+              <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> <translate>Delete</translate></span></button>
+              </span>
             </div>
           </div>
 
           <div class="input-group spacing-above-md">
             <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
-                  </span>
+            <span class="input-group-btn">
+                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span>
+            <translate>Add</translate>
+            </button>
+            </span>
           </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
@@ -89,11 +91,8 @@
       <tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label" translate>Export Title</label>
-          <i popover="Enter a value here to replace the question title in a registration export."
-             popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
-          <input type="text"
-                 class="form-control field-label"
-                 ng-model="block.exportFieldTitle" />
+          <i popover="Enter a value here to replace the question title in a registration export." popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+          <input type="text" class="form-control field-label" ng-model="block.exportFieldTitle" />
         </div>
         <div class="form-group">
           <label translate>Show this question for the following registrant types:</label>
@@ -104,7 +103,7 @@
                 <translate>Admin only</translate>
               </label>
               <i popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
-                 popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+                popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
             </div>
 
             <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
@@ -114,23 +113,40 @@
               </label>
             </div>
           </div>
-          <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> <translate>This question must be shown for all registrant types.</translate></p>
+          <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i>
+            <translate>This question must be shown for all registrant types.</translate>
+          </p>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
-             <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
+          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
               <option value="" translate>None</option>
              </select>
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created must be met before the question is displayed.</translate>
-          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
+        <p class="text-muted"><i class="fa fa-info-circle"></i>
+          <translate>Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created
+            must be met before the question is displayed.</translate>
+          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}"
+            translate>these types</a>
+          <translate>that are above this question.</translate>
+        </p>
 
         <div class="form-horizontal">
           <div class="form-group">
-            <div class="col-md-12">
+            <div class="col-md-2">
               <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
+            </div>
+            <div class="col-md-8 rule-message-alignment">
+              <span class="pull-left" translate>Show question if:</span>
+              <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio padding-top-0">
+                <label> 
+                  <input type="radio" show-errors ng-model="block.content.ruleoperand" ng-value="choice">
+                  <strong ng-if="choice==='AND'" translate>All rules are met</strong>
+                  <strong ng-if="choice==='OR'" translate>Any rules are met</strong>
+                </label>
+              </div>
             </div>
           </div>
 
@@ -148,7 +164,8 @@
             </div>
             <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
               <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
-              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
+              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'"
+                class="form-control"></select>
               <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>

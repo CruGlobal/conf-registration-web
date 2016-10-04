@@ -3,44 +3,54 @@
 angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant() {
 
-    var blockVisibleRuleCheck = function(block, registrant){
-      var returnValue = true;
+    var blockVisibleRuleCheck = function (block, registrant) {
       var answers = registrant.answers;
-      angular.forEach(block.rules, function(rule){
-        var answer = _.find(answers, {blockId: rule.parentBlockId});
-        if(angular.isUndefined(answer) || answer.value === ''){
-          returnValue = false;
-        }else{
-          if(rule.operator === '=' && answer.value !== rule.value) {
-            returnValue = false;
-          }else if(rule.operator === '!=' && answer.value === rule.value){
-            returnValue = false;
-          }else if(rule.operator === '>' && answer.value <= rule.value){
-            returnValue = false;
-          }else if(rule.operator === '<' && answer.value >= rule.value){
-            returnValue = false;
+      var ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
+      var validRuleCount = 0;
+
+      for (var i = 0; i < block.rules.length; i++) {
+        var rule = block.rules[i];
+        var answer = _.find(answers, { blockId: rule.parentBlockId });
+        if (angular.isDefined(answer) && answer.value !== '') {
+          if (rule.operator === '=' && answer.value === rule.value) {
+            validRuleCount++;
+          } else if (rule.operator === '!=' && answer.value !== rule.value) {
+            validRuleCount++;
+          } else if (rule.operator === '>' && answer.value > rule.value) {
+            validRuleCount++;
+          } else if (rule.operator === '<' && answer.value < rule.value) {
+            validRuleCount++;
           }
         }
-      });
+        if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
+          break;
+        }
+      }
 
-      return returnValue;
+      if (block.rules.length === 0 || // If no rules are set
+        (ruleOperand === 'OR' && validRuleCount > 0) ||
+        (ruleOperand === 'AND' && validRuleCount === block.rules.length)) {
+        return true;
+      } else {
+        return false;
+      }
     };
 
-    var blockInRegistrantType = function(block, registrant){
+    var blockInRegistrantType = function (block, registrant) {
       return !_.contains(block.registrantTypes, registrant.registrantTypeId);
     };
 
-    this.blockVisible = function(block, registrant, isAdmin){
+    this.blockVisible = function (block, registrant, isAdmin) {
       var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
-    this.validate = function(conference, registrant, page) {
+    this.validate = function (conference, registrant, page) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
-      var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
+      var blocks = page ? _.find(conference.registrationPages, { id: page }).blocks : _.flatten(conference.registrationPages, 'blocks');
 
-      angular.forEach(blocks, function(block){
+      angular.forEach(blocks, function (block) {
         if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
@@ -76,7 +86,7 @@ angular.module('confRegistrationWebApp')
             }
             break;
           default:
-            if(_.isEmpty(answer)){
+            if (_.isEmpty(answer)) {
               invalidBlocks.push(block.id);
               return;
             }
