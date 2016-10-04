@@ -24,7 +24,8 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.$watch('answer', function (answer, oldAnswer) {
-          if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+          if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
+           !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
             return;
           }
           $scope.block.content.default = $scope.answer.value;
