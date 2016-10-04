@@ -1,5 +1,5 @@
 <input id="{{block.id}}" show-errors type="number" ng-model="answer.value" min="{{block.content.range.min}}" max="{{block.content.range.max}}"
-        ng-required="block.required" class="form-control" ng-disabled="false" string-to-number ng-keyup="onValueChange()" tooltip="{{'Selecting an answer displays it as preselected on the registration form' | translate}}"
+        ng-required="block.required" class="form-control" ng-disabled="false" string-to-number ng-keyup="onValueChange()" tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
     tooltip-enable="{{isAdmin}}"/>
 <span class="help-block help-block-hidden" translate>Please enter a valid number</span>
 <div ng-if="!isAdmin && block.content.range && (block.content.range.min || block.content.range.max)" class="help-block row"

@@ -1,5 +1,5 @@
 <select show-errors ng-required="block.required" ng-model="answer.value" class="form-control" 
-    tooltip="{{'Selecting an answer displays it as preselected on the registration form' | translate}}"
+    tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
     tooltip-enable="{{isAdmin}}">
   <option value="" translate>Choose one...</option>
   <option value="{{choice.value}}" ng-repeat="choice in block.content.choices" ng-selected="{{choice.value === answer.value}}">
