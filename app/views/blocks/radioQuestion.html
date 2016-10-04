@@ -1,5 +1,6 @@
 <div class="radio" ng-repeat="choice in block.content.choices">
-  <label>
+  <label tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
+    tooltip-enable="{{isAdmin}}">
     <input type="radio"
            show-errors
            name="{{block.id}}"
@@ -11,6 +12,11 @@
     <span ng-show="choice.amount"> - {{choice.amount | currency:'$'}}</span>
   </label>
 </div>
+<label ng-if="showClearBtn && block.content.choices.length > 0 && answer.value != ''">
+    <button type="reset" class="btn  btn-info btn-sm" ng-click="answer.value=''" translate="">
+    <span class="ng-scope">Clear</span>
+  </button>
+</label>
 <label ng-show="block.content.otherOption.enabled">
   <input type="radio" ng-checked="answer.value === otherAnswer && answer.value !== ''" ng-click="selectOtherAnswer()">
   <input type="text" class="form-control" ng-model="otherAnswer" ng-change="selectOtherAnswer()" style="display:inline;width:auto;">

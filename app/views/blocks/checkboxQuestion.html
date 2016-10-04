@@ -1,5 +1,6 @@
 <div ng-repeat="choice in block.content.choices" class="checkbox">
-  <label>
+  <label tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}" 
+  tooltip-enable="{{isAdmin}}">
     <input type="checkbox"
            show-errors
            ng-required="block.required && !atLeastOneChecked()"
