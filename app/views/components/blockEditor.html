@@ -19,7 +19,7 @@
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> <translate>Delete</translate></button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> <translate>Move</translate></span>
   </div>
-  <label ng-bind-html="block.title"><em class="required" ng-show="block.required">*</em></label>
+  <label ng-bind-html="block.title" tooltip="{{'Supports hyperlink html format.' | translate}}"><em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind-html="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="form-group" ng-if="block.type === 'paragraphContent'">
-          <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
+          <textarea ng-model="block.content" class="form-control" style="height:400px;" tooltip="{{'Supports hyperlink html format.' | translate}}"></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label translate>Possible Answers</label>
