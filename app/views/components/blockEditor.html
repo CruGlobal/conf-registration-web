@@ -19,7 +19,7 @@
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> <translate>Delete</translate></button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> <translate>Move</translate></span>
   </div>
-  <label ng-bind-html="block.title" tooltip="{{'Supports hyperlink html format.' | translate}}"><em class="required" ng-show="block.required">*</em></label>
+  <label ng-bind-html="block.title"><em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
     <p ng-switch-when="paragraphContent" ng-bind-html="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
@@ -41,13 +41,24 @@
     <!-- Tab panes -->
     <tabset>
       <tab heading="Options">
-        <div class="form-group">
+        <div class="form-group popup-custom-width">
           <label class="inline-label" translate>Title</label>
+          <i popover-template="popup.titleTemplateUrl" 
+             popover-trigger="mouseenter" 
+             popover-placement="right"
+             class="fa fa-question-circle question-popover">
+          </i>
           <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
         </div>
 
-        <div class="form-group" ng-if="block.type === 'paragraphContent'">
-          <textarea ng-model="block.content" class="form-control" style="height:400px;" tooltip="{{'Supports hyperlink html format.' | translate}}"></textarea>
+        <div class="form-group popup-custom-width" ng-if="block.type === 'paragraphContent'">
+          <label class="inline-label" translate>Description</label>
+          <i popover-template="popup.titleTemplateUrl" 
+             popover-trigger="mouseenter" 
+             popover-placement="right"
+             class="fa fa-question-circle question-popover">
+          </i>
+          <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label translate>Possible Answers</label>
