@@ -14,7 +14,8 @@ angular.module('confRegistrationWebApp')
          //initializing default value in block object 
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
-            default: ''
+            default: '',
+            forceSelections: {}
           };
         }
 
