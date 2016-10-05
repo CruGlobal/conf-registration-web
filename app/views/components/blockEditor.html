@@ -31,7 +31,7 @@
     <select-question block="block" ng-switch-when="selectQuestion"></select-question>
     <name-question block="block" ng-switch-when="nameQuestion"></name-question>
     <address-question block="block" ng-switch-when="addressQuestion"></address-question>
-    <number-question block="block" ng-switch-when="numberQuestion"></number-question>
+    <number-question block="block" ng-switch-when="numberQuestion" class="form-group"></number-question>
     <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
     <date-question block="block" ng-switch-when="dateQuestion"></date-question>
     <year-in-school-question block="block" ng-switch-when="yearInSchoolQuestion"></year-in-school-question>
@@ -116,6 +116,18 @@
             <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
           </div>
         </div>
+        <div class="row" ng-if="block.type === 'numberQuestion'">
+          <div class="form-group col-sm-6 stacked-spacing-col-sm">
+            <label class="control-label" translate>Min Number</label>
+            <input show-errors type="number" class="form-control field-label" ng-model="block.content.range.min" ng-max="block.content.range.max">
+            <span class="help-block help-block-hidden" translate>Number is larger than the max value of {{block.content.range.max}}</span>
+          </div>
+          <div class="form-group col-sm-6 stacked-spacing-col-sm">
+            <label class="control-label" translate>Max Number</label>
+            <input show-errors type="number" class="form-control field-label" ng-model="block.content.range.max" ng-min="block.content.range.min">
+            <span class="help-block help-block-hidden" translate>Number is smaller than the min value of {{block.content.range.min}}</span>
+          </div>
+        </div>
         <div class="form-group">
           <label translate>Show this question for the following registrant types:</label>
           <div ng-if="canChangeRegTypes">
@@ -139,9 +151,9 @@
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
-             <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
-              <option value="" translate>None</option>
-             </select>
+          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
+            <option value="" translate>None</option>
+          </select>
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
@@ -165,11 +177,11 @@
             </div>
           </div>
 
-          <div ng-repeat="rule in block.rules" class="form-group">
-            <div class="col-md-4 stacked-spacing-col-md">
+          <div ng-repeat="rule in block.rules" style="overflow: auto">
+            <div class="col-md-4 stacked-spacing-col-md form-group">
               <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
             </div>
-            <div class="col-md-2 col-sm-5 stacked-spacing-col-md">
+            <div class="col-md-2 col-sm-5 stacked-spacing-col-md form-group">
               <select class="form-control" ng-model="rule.operator">
                 <option value="=" translate>equals</option>
                 <option value="!=" translate>does not equal</option>
@@ -177,14 +189,26 @@
                 <option value="<" ng-if="!ruleValues(rule.parentBlockId).length" translate>is less than</option>
               </select>
             </div>
-            <div class="col-md-5 col-sm-7 stacked-spacing-col-md">
-              <input type="text" ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'number'" class="form-control">
-              <select ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" ng-show="ruleValueInputType(rule.parentBlockId) === 'select'" class="form-control"></select>
-              <select ng-model="rule.value" ng-show="ruleValueInputType(rule.parentBlockId) === 'gender'" class="form-control">
+            <div class="col-md-5 col-sm-7 stacked-spacing-col-md form-group" ng-switch="ruleValueInputType(rule.parentBlockId)">
+              <div ng-switch-when="number">
+                <input type="number"
+                       class="form-control"
+                       show-errors
+                       string-to-number
+                       ng-model="rule.value"
+                       ng-model-options="{ allowInvalid: true }"
+                       ng-min="{{ruleValues(rule.parentBlockId).min}}"
+                       ng-max="{{ruleValues(rule.parentBlockId).max}}" />
+                <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number between {{ruleValues(rule.parentBlockId).min}} and {{ruleValues(rule.parentBlockId).max}}</span>
+                <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && !ruleValues(rule.parentBlockId).max" translate>Please enter a number greater than or equal to {{ruleValues(rule.parentBlockId).min}}</span>
+                <span class="help-block help-block-hidden" ng-if="!ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number less than or equal to {{ruleValues(rule.parentBlockId).max}}</span>
+              </div>
+              <select ng-switch-when="select" ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
+              <select ng-switch-when="gender" ng-model="rule.value" class="form-control">
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>
               </select>
-              <pick-a-date ng-model="rule.value" ng-if="ruleValueInputType(rule.parentBlockId) === 'date'" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
+              <pick-a-date ng-switch-when="date" ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">

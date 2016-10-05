@@ -1,2 +1,11 @@
-<input show-errors type="number" ng-model="answer.value" ng-required="block.required" class="form-control" ng-disabled="editBlock" />
-<span class="help-block help-block-hidden" translate>Please enter a number</span>
+<input show-errors
+       type="number"
+       class="form-control"
+       ng-model="answer.value"
+       ng-disabled="editBlock"
+       ng-required="block.required"
+       ng-min="block.content.range.min"
+       ng-max="block.content.range.max" />
+<span class="help-block help-block-hidden" ng-if="block.content.range.min && block.content.range.max" translate>Please enter a number between {{block.content.range.min}} and {{block.content.range.max}}</span>
+<span class="help-block help-block-hidden" ng-if="block.content.range.min && !block.content.range.max" translate>Please enter a number greater than or equal to {{block.content.range.min}}</span>
+<span class="help-block help-block-hidden" ng-if="!block.content.range.min && block.content.range.max" translate>Please enter a number less than or equal to {{block.content.range.max}}</span>

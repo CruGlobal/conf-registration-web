@@ -218,6 +218,8 @@ angular.module('confRegistrationWebApp')
               return ['M', 'F'];
             case 'yearInSchoolQuestion':
               return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
+            case 'numberQuestion':
+              return block.content.range;
             default:
               return [];
           }
