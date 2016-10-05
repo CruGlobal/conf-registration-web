@@ -59,6 +59,10 @@ angular.module('confRegistrationWebApp')
                 default:
                   $scope.answer.value = '';
               }
+               //setting default value 
+              if (!angular.isUndefined($scope.block.content) && !angular.isUndefined($scope.block.content.default)) {
+                $scope.answer.value = $scope.block.content.default;
+              }
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
             }
 

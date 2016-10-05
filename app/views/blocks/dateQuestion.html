@@ -1,1 +1,7 @@
-<pick-a-date show-errors ng-model="answer.value" ng-required="block.required" picker-disabled="editBlock"></pick-a-date>
+<pick-a-date show-errors 
+             ng-model="answer.value"
+             ng-required="block.required" 
+             picker-disabled="false"
+             tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}" 
+             tooltip-enable="{{isAdmin}}">
+</pick-a-date>
