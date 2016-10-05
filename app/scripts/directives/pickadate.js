@@ -53,6 +53,26 @@ angular.module('confRegistrationWebApp')
             scope.picker.set('max',dateArray);
           }
         };
+
+         //function to correct current selected date if min and max date changed
+        scope.checkDateRange = function () {
+          if (angular.isUndefined(scope.picker.get('select', 'yyyy-mm-dd')) ||
+            scope.picker.get('select', 'yyyy-mm-dd') === '' || ((angular.isUndefined(scope.maxDate) ||
+              scope.maxDate === '') && (angular.isUndefined(scope.minDate) || scope.minDate === ''))) {
+            return;
+          }
+
+          var date = moment(scope.picker.$node[0].value, 'MMM DD, YYYY');
+          var startDate = moment(scope.minDate, 'YYYY-MM-DD');
+          var endDate = moment(scope.maxDate, 'YYYY-MM-DD');
+          if ((!angular.isUndefined(scope.minDate) && scope.minDate !== '' &&
+            date.isBefore(startDate)) || (!angular.isUndefined(scope.maxDate) &&
+              scope.maxDate !== '' && date.isAfter(endDate))) {
+            scope.picker.clear();
+          } else {
+            scope.picker.$node[0].value = scope.picker.get('select', 'mmm d, yyyy');
+          }
+        };
 		
         //set min and max date
         scope.setMinDate();
@@ -66,7 +86,8 @@ angular.module('confRegistrationWebApp')
           
           var dateArray = newMinDate.split('-');
           dateArray[1] = dateArray[1] - 1;
-          scope.picker.set('min',dateArray);         
+          scope.picker.set('min',dateArray);        
+          scope.checkDateRange(); 
         }, true);
 
         scope.$watch('maxDate', function (newMaxDate) {
@@ -78,6 +99,7 @@ angular.module('confRegistrationWebApp')
           var dateArray = newMaxDate.split('-');          
           dateArray[1] = dateArray[1] - 1;         
           scope.picker.set('max',dateArray); 
+          scope.checkDateRange();
         }, true);
 
         //when date is chosen, update model
