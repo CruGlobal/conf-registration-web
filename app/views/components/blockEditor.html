@@ -21,7 +21,7 @@
   </div>
   <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-bind="block.content.paragraph" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="form-group" ng-if="block.type === 'paragraphContent'">
-          <textarea ng-model="block.content" class="form-control" style="height:400px;"></textarea>
+          <textarea ng-model="block.content.paragraph" class="form-control" style="height:400px;"></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label translate>Possible Answers</label>
@@ -139,8 +139,18 @@
 
         <div class="form-horizontal">
           <div class="form-group">
-            <div class="col-md-12">
+            <div class="col-md-2">
               <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
+            </div>
+            <div class="col-md-8 rule-message-alignment">
+              <span class="pull-left" translate>Show question if:</span>
+              <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio padding-top-0">
+                <label>
+                  <input type="radio" show-errors ng-model="block.content.ruleoperand" ng-value="choice">
+                  <strong ng-if="choice==='AND'" translate>All rules are met</strong>
+                  <strong ng-if="choice==='OR'" translate>Any rules are met</strong>
+                </label>
+              </div>
             </div>
           </div>
 
