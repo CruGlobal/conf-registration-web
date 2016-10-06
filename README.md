@@ -1,4 +1,5 @@
 conf-registration-web
+
 =====================
 [![Build Status](https://magnum.travis-ci.com/CruGlobal/conf-registration-web.svg?token=PvqerGdca9sUAJycadyP&branch=master)](https://magnum.travis-ci.com/CruGlobal/conf-registration-web)
 
