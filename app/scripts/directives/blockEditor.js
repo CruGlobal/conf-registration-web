@@ -8,6 +8,9 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+        $scope.popup = {
+          titleTemplateUrl:'views/popupHyperlinkInformation.html'
+        };
 
         if ($scope.block.type === 'paragraphContent' &&
           angular.isDefined($scope.block.content) &&

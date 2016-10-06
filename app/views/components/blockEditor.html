@@ -19,9 +19,9 @@
     <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> <translate>Delete</translate></button>
     <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> <translate>Move</translate></span>
   </div>
-  <label>{{block.title}} <em class="required" ng-show="block.required">*</em></label>
+  <label><span ng-bind-html="block.title"></span><em class="required" ng-show="block.required">*</em></label>
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind="block.content.paragraph" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-bind-html="block.content.paragraph" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
@@ -41,12 +41,23 @@
     <!-- Tab panes -->
     <tabset>
       <tab heading="Options">
-        <div class="form-group">
+        <div class="form-group popup-custom-width">
           <label class="inline-label" translate>Title</label>
+          <i popover-template="popup.titleTemplateUrl"
+             popover-trigger="mouseenter"
+             popover-placement="right"
+             class="fa fa-question-circle question-popover">
+          </i>
           <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
         </div>
 
-        <div class="form-group" ng-if="block.type === 'paragraphContent'">
+        <div class="form-group popup-custom-width" ng-if="block.type === 'paragraphContent'">
+          <label class="inline-label" translate>Description</label>
+          <i popover-template="popup.titleTemplateUrl"
+             popover-trigger="mouseenter"
+             popover-placement="right"
+             class="fa fa-question-circle question-popover">
+          </i>
           <textarea ng-model="block.content.paragraph" class="form-control" style="height:400px;"></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">

@@ -66,7 +66,7 @@
           </tr>
           <tr ng-repeat="block in blocks" ng-if="blockVisibleForRegistrant(block, r)" ng-show="expandRegistrant[r.id]">
             <td></td>
-            <td style="font-weight:bold;" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}">{{block.title}}</td>
+            <td style="font-weight:bold;" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-bind-html="block.title"></td>
             <td colspan="2"><show-answer block="block" registrant="r" show-amount="true"></show-answer></td>
           </tr>
         </tbody>
