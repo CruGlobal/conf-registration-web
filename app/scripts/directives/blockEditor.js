@@ -8,6 +8,9 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+        $scope.popup ={
+          titleTemplateUrl:'views/popupHyperlinkInformation.html'
+        };        
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
