@@ -7,7 +7,8 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
-        $scope.visibleRegTypes = {};
+        $scope.visibleRegTypes = {};		
+		
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
@@ -193,6 +194,18 @@ angular.module('confRegistrationWebApp')
               return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
             default:
               return [];
+          }
+        };
+		
+		$scope.getRangeValues = function(parentBlockId){
+          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+          var block = _.find(blocks, { 'id': parentBlockId });
+
+          switch (block.type) {           
+            case 'dateQuestion':
+              return block.content.range;            
+            default:
+              return {};
           }
         };
 
