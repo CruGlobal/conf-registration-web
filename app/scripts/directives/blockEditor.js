@@ -7,8 +7,29 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
-        $scope.visibleRegTypes = {};		
-		
+        $scope.visibleRegTypes = {};
+
+        if ($scope.block.type === 'paragraphContent' &&
+          angular.isDefined($scope.block.content) &&
+          _.isString($scope.block.content)) {
+          var prevValue = $scope.block.content;
+          $scope.block.content = {
+            paragraph: prevValue,
+            ruleoperand: 'AND'
+          };
+        }
+
+        //initializing rule operand value in block object
+        if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
+          $scope.block.content = {
+            ruleoperand: 'AND'
+          };
+        }
+
+        if (angular.isUndefined($scope.block.content.ruleoperand)) {
+          $scope.block.content.ruleoperand = 'AND';
+        }
+
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
@@ -52,8 +73,10 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.editBlockAddOption = function (newOption) {
-          if (angular.isUndefined($scope.block.content.choices)) {
-            $scope.block.content = {'choices': [] };
+          if (angular.isUndefined($scope.block.content)) {
+            $scope.block.content = { 'choices': [] };
+          } else if(angular.isUndefined($scope.block.content.choices)){
+            $scope.block.content.choices = [];
           }
           $scope.block.content.choices.push({
             value: newOption,
@@ -196,14 +219,14 @@ angular.module('confRegistrationWebApp')
               return [];
           }
         };
-		
+
 		$scope.getRangeValues = function(parentBlockId){
           var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
           var block = _.find(blocks, { 'id': parentBlockId });
 
-          switch (block.type) {           
+          switch (block.type) {
             case 'dateQuestion':
-              return block.content.range;            
+              return block.content.range;
             default:
               return {};
           }
