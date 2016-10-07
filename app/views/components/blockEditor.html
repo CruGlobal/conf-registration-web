@@ -204,12 +204,12 @@
                 <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && !ruleValues(rule.parentBlockId).max" translate>Please enter a number greater than or equal to {{ruleValues(rule.parentBlockId).min}}</span>
                 <span class="help-block help-block-hidden" ng-if="!ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number less than or equal to {{ruleValues(rule.parentBlockId).max}}</span>
               </div>
-              <select ng-switch-when="select" ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
-              <select ng-switch-when="gender" ng-model="rule.value" class="form-control">
+              <select ng-switch-when="select" show-errors ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
+              <select ng-switch-when="gender" show-errors ng-model="rule.value" class="form-control">
                 <option value="M" translate>Male</option>
                 <option value="F" translate>Female</option>
               </select>
-              <pick-a-date ng-switch-when="date" ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
+              <pick-a-date ng-switch-when="date" show-errors ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
             </div>
             <div class="clearfix visible-sm-block"></div>
             <div class="col-md-1 text-right">
