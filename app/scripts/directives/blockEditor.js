@@ -22,7 +22,8 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 			      default: '',
             paragraph: prevValue,
-            ruleoperand: 'AND'
+            ruleoperand: 'AND',
+            forceSelectionRuleOperand: 'AND'
           };
         }
 
@@ -31,7 +32,8 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 		        default: '',
             ruleoperand: 'AND',
-            forceSelections: {}
+            forceSelections: {},
+            forceSelectionRuleOperand: 'AND'
           };
         }
 
@@ -46,14 +48,14 @@ angular.module('confRegistrationWebApp')
 
         $scope.$watch('answer', function (answer, oldAnswer) {
           if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
-           !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+            !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
             return;
           }
           $scope.block.content.default = $scope.answer.value;
           $scope.onChoiceOptionChange();
         }, true);
 
-        //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
+         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
           $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
         });
@@ -179,9 +181,9 @@ angular.module('confRegistrationWebApp')
             });
             if (profileCount > 1) {
               modalMessage.error('Only one ' +
-                  $scope.block.profileType.charAt(0).toUpperCase() +
-                  $scope.block.profileType.slice(1).toLowerCase() +
-                  ' profile block can be used per form.');
+                $scope.block.profileType.charAt(0).toUpperCase() +
+                $scope.block.profileType.slice(1).toLowerCase() +
+                ' profile block can be used per form.');
               $scope.block.profileType = null;
               $scope.profileCheck = false;
             }
@@ -279,7 +281,7 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $scope.registrationTypeName = function(id){
+       $scope.registrationTypeName = function(id){
           if(!id){ return; }
           return _.find($scope.conference.registrantTypes, { 'id': id }).name;
         };
@@ -293,7 +295,43 @@ angular.module('confRegistrationWebApp')
               }
             }
           }
-        };       
+        };
+
+        $scope.addForceRule = function () {
+          var ruleBlocks = $scope.ruleBlocks();
+          if (!ruleBlocks.length) {
+            modalMessage.info({
+              title: 'Add Rule',
+              message: 'No valid questions appear before this question in your form. Rule cannot be added.'
+            });
+            return;
+          }
+
+          if (angular.isUndefined($scope.block.additionalRules)) {
+            $scope.block.additionalRules = [];
+          }
+
+          $scope.block.additionalRules.push({
+            id: uuid(),
+            blockId: $scope.block.id,
+            parentBlockId: ruleBlocks[0].id,
+            operator: '=',
+            value: ''
+          });
+        };
+
+        $scope.removeForceRule = function (id) {
+          _.remove($scope.block.additionalRules, { id: id });
+        };
+
+        $scope.disableForceSelectionRule = function(){
+          if($scope.block.content.forceSelections === {} || !_.contains(_.values($scope.block.content.forceSelections),true)){
+            $scope.block.additionalRules = [];
+            return true;
+          }else{           
+            return false;
+          }
+        };
       }
     };
   });
