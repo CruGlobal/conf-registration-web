@@ -8,6 +8,9 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+        $scope.showClearBtn = true;
+        $scope.isAdmin = true;
+
         $scope.popup = {
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
         };
@@ -17,6 +20,7 @@ angular.module('confRegistrationWebApp')
           _.isString($scope.block.content)) {
           var prevValue = $scope.block.content;
           $scope.block.content = {
+			      default: '',
             paragraph: prevValue,
             ruleoperand: 'AND'
           };
@@ -25,13 +29,28 @@ angular.module('confRegistrationWebApp')
         //initializing rule operand value in block object
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
+		        default: '',
             ruleoperand: 'AND'
           };
         }
 
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
           $scope.block.content.ruleoperand = 'AND';
-        }
+        }      
+
+        //mapping default value to answer model for showing in front end
+        $scope.answer = {
+          value: $scope.block.content.default
+        };
+
+        $scope.$watch('answer', function (answer, oldAnswer) {
+          if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
+           !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+            return;
+          }
+          $scope.block.content.default = $scope.answer.value;
+          $scope.onChoiceOptionChange();
+        }, true);
 
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
@@ -263,6 +282,17 @@ angular.module('confRegistrationWebApp')
           if(!id){ return; }
           return _.find($scope.conference.registrantTypes, { 'id': id }).name;
         };
+
+        $scope.onChoiceOptionChange = function () {
+          if ($scope.block.type === 'checkboxQuestion' && !angular.isUndefined($scope.block.content.default)) {
+            for (var keyName in $scope.block.content.default) {
+              var key = keyName;
+              if (_.where($scope.block.content.choices, { 'value': keyName }).length === 0) {
+                $scope.block.content.default[key] = undefined;
+              }
+            }
+          }
+        };       
       }
     };
   });
