@@ -17,3 +17,4 @@ https://stage.eventregistrationtool.com
 ## To run against an ERT API server running on your localhost
 1. Edit https://github.com/CruGlobal/conf-registration-web/blob/master/app/scripts/services/apiUrl.js,
   replacing https://api.stage.eventregistrationtool.com with http://localhost:8080
+
