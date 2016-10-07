@@ -30,7 +30,8 @@ angular.module('confRegistrationWebApp')
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
 		        default: '',
-            ruleoperand: 'AND'
+            ruleoperand: 'AND',
+            forceSelections: {}
           };
         }
 
