@@ -12,13 +12,16 @@ angular.module('confRegistrationWebApp')
         var rule = block.rules[i];
         var answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
-          if (rule.operator === '=' && answer.value === rule.value) {
+          //If string is a number, parse it as a float for numerical comparison
+          var answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
+          var ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
+          if (rule.operator === '=' && answerValue === ruleValue) {
             validRuleCount++;
-          } else if (rule.operator === '!=' && answer.value !== rule.value) {
+          } else if (rule.operator === '!=' && answerValue !== ruleValue) {
             validRuleCount++;
-          } else if (rule.operator === '>' && answer.value > rule.value) {
+          } else if (rule.operator === '>' && answerValue > ruleValue) {
             validRuleCount++;
-          } else if (rule.operator === '<' && answer.value < rule.value) {
+          } else if (rule.operator === '<' && answerValue < ruleValue) {
             validRuleCount++;
           }
         }
@@ -27,13 +30,9 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      if (block.rules.length === 0 || // If no rules are set
+      return block.rules.length === 0 || // If no rules are set
         (ruleOperand === 'OR' && validRuleCount > 0) ||
-        (ruleOperand === 'AND' && validRuleCount === block.rules.length)) {
-        return true;
-      } else {
-        return false;
-      }
+        (ruleOperand === 'AND' && validRuleCount === block.rules.length);
     };
 
     var blockInRegistrantType = function(block, registrant){
