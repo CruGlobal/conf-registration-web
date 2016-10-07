@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
         $scope.atLeastOneChecked = function(){
           if(!$scope.answer){ return false; }
           return angular.isDefined(_.findKey($scope.answer.value, function (v) { return v === true; }));
-        };
+        };       
       }
     };
   });

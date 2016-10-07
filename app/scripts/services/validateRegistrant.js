@@ -95,4 +95,36 @@ angular.module('confRegistrationWebApp')
 
       return invalidBlocks;
     };
+
+    this.checkboxVisibleRuleCheck = function(block, registrant){
+      var answers = registrant.answers;
+      var ruleOperand = block.content && block.content.forceSelectionRuleOperand ? block.content.forceSelectionRuleOperand : 'AND';
+      var validRuleCount = 0;
+
+      for (var i = 0; i < block.additionalRules.length; i++) {
+        var rule = block.additionalRules[i];
+        var answer = _.find(answers, { blockId: rule.parentBlockId });
+        if (angular.isDefined(answer) && answer.value !== '') {
+          //If string is a number, parse it as a float for numerical comparison
+          var answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
+          var ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
+          if (rule.operator === '=' && answerValue === ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '!=' && answerValue !== ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '>' && answerValue > ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '<' && answerValue < ruleValue) {
+            validRuleCount++;
+          }
+        }
+        if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
+          break;
+        }
+      }
+
+      return block.additionalRules.length === 0 || // If no rules are set
+        (ruleOperand === 'OR' && validRuleCount > 0) ||
+        (ruleOperand === 'AND' && validRuleCount === block.additionalRules.length);
+    };    
   });
