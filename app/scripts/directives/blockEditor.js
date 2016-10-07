@@ -8,6 +8,9 @@ angular.module('confRegistrationWebApp')
       controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
+        $scope.showClearBtn = true;
+        $scope.isAdmin = true;
+
         $scope.popup = {
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
         };
@@ -17,7 +20,7 @@ angular.module('confRegistrationWebApp')
           _.isString($scope.block.content)) {
           var prevValue = $scope.block.content;
           $scope.block.content = {
-			default: '',
+			      default: '',
             paragraph: prevValue,
             ruleoperand: 'AND'
           };
@@ -26,17 +29,14 @@ angular.module('confRegistrationWebApp')
         //initializing rule operand value in block object
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
-		    default: '',
+		        default: '',
             ruleoperand: 'AND'
           };
         }
 
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
           $scope.block.content.ruleoperand = 'AND';
-        }
-
-        $scope.showClearBtn = true;
-        $scope.isAdmin = true;
+        }      
 
         //mapping default value to answer model for showing in front end
         $scope.answer = {
