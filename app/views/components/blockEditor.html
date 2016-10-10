@@ -218,9 +218,9 @@
           </div>
         </div>
 
-        <div ng-if="block.type === 'checkboxQuestion'">
+        <div ng-if="block.type === 'checkboxQuestion' && disableForceSelectionRule() === false">
           <p class="text-muted"><i class="fa fa-info-circle"></i>
-            <translate>This new Rules section will make the Force Selection conditional upon the rules being satisfied.</translate>
+            <translate>This Rules section allows for conditional enforcement of any answer marked 'Force Selection'.</translate>
             <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}"
               translate>these types</a>
             <translate>that are above this question.</translate>
@@ -228,13 +228,13 @@
           <div class="form-horizontal">
             <div class="form-group">
               <div class="col-md-2">
-                <button class="btn btn-success" ng-click="addForceRule()" ng-disabled="disableForceSelectionRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
+                <button class="btn btn-success" ng-click="addForceRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
               </div>
               <div class="col-md-8 rule-message-alignment">
                 <span class="pull-left" translate>Show question if:</span>
                 <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio padding-top-0">
                   <label> 
-                    <input type="radio" show-errors ng-model="block.content.forceSelectionRuleOperand" ng-value="choice" ng-disabled="disableForceSelectionRule()">
+                    <input type="radio" show-errors ng-model="block.content.forceSelectionRuleOperand" ng-value="choice">
                     <strong ng-if="choice==='AND'" translate>All rules are met</strong>
                     <strong ng-if="choice==='OR'" translate>Any rules are met</strong>
                   </label>
@@ -269,12 +269,12 @@
                     <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && !ruleValues(rule.parentBlockId).max" translate>Please enter a number greater than or equal to {{ruleValues(rule.parentBlockId).min}}</span>
                     <span class="help-block help-block-hidden" ng-if="!ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number less than or equal to {{ruleValues(rule.parentBlockId).max}}</span>
                   </div>
-                  <select ng-switch-when="select" ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
-                  <select ng-switch-when="gender" ng-model="rule.value" class="form-control">
+                  <select ng-switch-when="select" show-errors ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
+                  <select ng-switch-when="gender" show-errors ng-model="rule.value" class="form-control">
                     <option value="M" translate>Male</option>
                     <option value="F" translate>Female</option>
                   </select>
-                  <pick-a-date ng-switch-when="date" ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
+                  <pick-a-date ng-switch-when="date" show-errors ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
                 </div>
                 <div class="clearfix visible-sm-block"></div>
                 <div class="col-md-1 text-right">
