@@ -157,66 +157,10 @@
         </div>
       </tab>
       <tab heading="Rules" ng-if="canHaveRules">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created must be met before the question is displayed.</translate>
-          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
-
-        <div class="form-horizontal">
-          <div class="form-group">
-            <div class="col-md-2">
-              <button class="btn btn-success" ng-click="addRule()"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
-            </div>
-            <div class="col-md-8 rule-message-alignment">
-              <span class="pull-left" translate>Show question if:</span>
-              <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio padding-top-0">
-                <label>
-                  <input type="radio" show-errors ng-model="block.content.ruleoperand" ng-value="choice">
-                  <strong ng-if="choice==='AND'" translate>All rules are met</strong>
-                  <strong ng-if="choice==='OR'" translate>Any rules are met</strong>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <div ng-repeat="rule in block.rules" style="overflow: auto">
-            <div class="col-md-4 stacked-spacing-col-md form-group">
-              <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
-            </div>
-            <div class="col-md-2 col-sm-5 stacked-spacing-col-md form-group">
-              <select class="form-control" ng-model="rule.operator">
-                <option value="=" translate>equals</option>
-                <option value="!=" translate>does not equal</option>
-                <option value=">" ng-if="!ruleValues(rule.parentBlockId).length" translate>is greater than</option>
-                <option value="<" ng-if="!ruleValues(rule.parentBlockId).length" translate>is less than</option>
-              </select>
-            </div>
-            <div class="col-md-5 col-sm-7 stacked-spacing-col-md form-group" ng-switch="ruleValueInputType(rule.parentBlockId)">
-              <div ng-switch-when="number">
-                <input type="number"
-                       class="form-control"
-                       show-errors
-                       show-errors-instant="true"
-                       string-to-number
-                       ng-model="rule.value"
-                       ng-model-options="{ allowInvalid: true }"
-                       ng-min="{{ruleValues(rule.parentBlockId).min}}"
-                       ng-max="{{ruleValues(rule.parentBlockId).max}}" />
-                <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number between {{ruleValues(rule.parentBlockId).min}} and {{ruleValues(rule.parentBlockId).max}}</span>
-                <span class="help-block help-block-hidden" ng-if="ruleValues(rule.parentBlockId).min && !ruleValues(rule.parentBlockId).max" translate>Please enter a number greater than or equal to {{ruleValues(rule.parentBlockId).min}}</span>
-                <span class="help-block help-block-hidden" ng-if="!ruleValues(rule.parentBlockId).min && ruleValues(rule.parentBlockId).max" translate>Please enter a number less than or equal to {{ruleValues(rule.parentBlockId).max}}</span>
-              </div>
-              <select ng-switch-when="select" show-errors ng-model="rule.value" ng-options="v for v in ruleValues(rule.parentBlockId)" class="form-control"></select>
-              <select ng-switch-when="gender" show-errors ng-model="rule.value" class="form-control">
-                <option value="M" translate>Male</option>
-                <option value="F" translate>Female</option>
-              </select>
-              <pick-a-date ng-switch-when="date" show-errors ng-model="rule.value" picker-min-date="getRangeValues(rule.parentBlockId).min" picker-max-date="getRangeValues(rule.parentBlockId).max"></pick-a-date>
-            </div>
-            <div class="clearfix visible-sm-block"></div>
-            <div class="col-md-1 text-right">
-              <button class="btn btn-danger" ng-click="removeRule(rule.id)" title="Delete Rule"><i class="fa fa-trash-o"></i></button>
-            </div>
-          </div>
-        </div>
+        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
+          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>        
+          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="Show Question Rules" rule-operand-message="Show question if:" conference="conference" block="block"></rule>
+          <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="Force Selection Rules" rule-operand-message="Force selections if:" conference="conference" block="block"></rule>
       </tab>
     </tabset>
   </div>

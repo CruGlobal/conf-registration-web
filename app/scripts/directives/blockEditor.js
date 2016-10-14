@@ -5,12 +5,13 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockEditor.html',
       restrict: 'A',
-      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
+      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants, ruleTypeConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
-
+        $scope.ruleTypeConstants = ruleTypeConstants;
+        
         $scope.popup = {
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
         };
@@ -22,7 +23,8 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 			      default: '',
             paragraph: prevValue,
-            ruleoperand: 'AND'
+            ruleoperand: 'AND',
+            forceSelectionRuleOperand: 'AND'            
           };
         }
 
@@ -31,13 +33,18 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 		        default: '',
             ruleoperand: 'AND',
-            forceSelections: {}
+            forceSelections: {},
+            forceSelectionRuleOperand: 'AND'
           };
         }
 
+        if ($scope.block.type === 'checkboxQuestion' && angular.isUndefined($scope.block.content.forceSelectionRuleOperand)) {
+          $scope.block.content.forceSelectionRuleOperand = 'AND';
+        }    
+
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
           $scope.block.content.ruleoperand = 'AND';
-        }      
+        }   
 
         //mapping default value to answer model for showing in front end
         $scope.answer = {
@@ -188,97 +195,6 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $scope.addRule = function(){
-          var ruleBlocks = $scope.ruleBlocks();
-          if(!ruleBlocks.length){
-            modalMessage.info({
-              title: 'Add Rule',
-              message: 'No valid questions appear before this question in your form. Rule cannot be added.'
-            });
-            return;
-          }
-
-          $scope.block.rules.push({
-            id: uuid(),
-            blockId: $scope.block.id,
-            parentBlockId: ruleBlocks[0].id,
-            operator: '=',
-            value: ''
-          });
-        };
-
-        $scope.ruleBlocks = function(){
-          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
-          //remove blocks after current block
-          var remove = false;
-          _.remove(blocks, function(b){
-            if(b.id === $scope.block.id){
-              remove = true;
-            }
-            return remove;
-          });
-
-          //keep valid block types that can be used in rules
-          blocks = _.filter(blocks, function(b){
-            return _.contains(['radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'], b.type);
-          });
-
-          return blocks;
-        };
-
-        $scope.ruleValues = function(parentBlockId){
-          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
-          var block = _.find(blocks, { 'id': parentBlockId });
-
-          switch (block.type) {
-            case 'selectQuestion':
-            case 'radioQuestion':
-              return _.pluck(block.content.choices, 'value');
-            case 'genderQuestion':
-              return ['M', 'F'];
-            case 'yearInSchoolQuestion':
-              return ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student'];
-            case 'numberQuestion':
-              return block.content.range;
-            default:
-              return [];
-          }
-        };
-
-		$scope.getRangeValues = function(parentBlockId){
-          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
-          var block = _.find(blocks, { 'id': parentBlockId });
-
-          switch (block.type) {
-            case 'dateQuestion':
-              return block.content.range;
-            default:
-              return {};
-          }
-        };
-
-        $scope.removeRule = function(id){
-          _.remove($scope.block.rules, {id: id});
-        };
-
-        $scope.ruleValueInputType = function(parentBlockId){
-          var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
-          var parentBlock = _.find(blocks, { 'id': parentBlockId });
-
-          switch (parentBlock.type) {
-            case 'selectQuestion':
-            case 'radioQuestion':
-            case 'yearInSchoolQuestion':
-              return 'select';
-            case 'genderQuestion':
-              return 'gender';
-            case 'dateQuestion':
-              return 'date';
-            case 'numberQuestion':
-              return 'number';
-          }
-        };
-
         $scope.registrationTypeName = function(id){
           if(!id){ return; }
           return _.find($scope.conference.registrantTypes, { 'id': id }).name;
@@ -293,7 +209,18 @@ angular.module('confRegistrationWebApp')
               }
             }
           }
-        };       
+        };  
+
+        $scope.disableForceSelectionRule = function () {
+          if ($scope.block.content.forceSelections === {} || !_.contains(_.values($scope.block.content.forceSelections), true)) {
+            //$scope.block.additionalRules = [];
+            _.remove($scope.block.rules, { ruleType: ruleTypeConstants.FORCE_SELECTION });
+            return true;
+          } else {
+            return false;
+          }
+        };
+
       }
     };
   });

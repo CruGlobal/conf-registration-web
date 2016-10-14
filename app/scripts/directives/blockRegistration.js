@@ -84,6 +84,29 @@ angular.module('confRegistrationWebApp')
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           return validateRegistrant.blockVisible(block, registrant);
         };
+
+        //Check if the checkbox matches force selection rules
+        $scope.checkForceRule = function(block){
+          if($scope.isAdmin){
+            return true;
+          }else{      
+            var registrant;
+            if (angular.isDefined($scope.adminEditRegistrant)) {
+              registrant = $scope.adminEditRegistrant;
+            }else{
+              registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+            }           
+            var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);            
+            if(ruleStatus){//making all checkbox with force selection to true
+              for(var i in block.content.forceSelections){
+                if(block.content.forceSelections[i] === true){
+                  $scope.answer.value[i] = block.content.forceSelections[i];
+                }              
+              }
+            }
+            return ruleStatus;
+          }           
+        };
       }
     };
   });
