@@ -2,7 +2,8 @@
   <label class="control-label"><span ng-bind-html="block.title"></span><em class="required" ng-if="block.required">*</em></label>
 
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind-html="block.content.paragraph" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-if="block.content.paragraph" ng-bind-html="block.content.paragraph" class="display-linebreaks"></p>
+    <p ng-switch-when="paragraphContent" ng-if="block.content.paragraph === undefined" ng-bind-html="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
     <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>

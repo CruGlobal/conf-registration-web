@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      return block.rules.length === 0 || // If no rules are set
+      return !block.rules || block.rules.length === 0 || // If no rules are set
         (ruleOperand === 'OR' && validRuleCount > 0) ||
         (ruleOperand === 'AND' && validRuleCount === block.rules.length);
     };
