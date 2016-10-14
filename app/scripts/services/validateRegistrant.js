@@ -1,15 +1,26 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('validateRegistrant', function validateRegistrant() {
+  .service('validateRegistrant', function validateRegistrant(ruleTypeConstants,$filter) {
 
-    var blockVisibleRuleCheck = function(block, registrant){
+    var blockVisibleRuleCheck = function(block, registrant, ruleType){
       var answers = registrant.answers;
-      var ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
+      var ruleOperand = '';
       var validRuleCount = 0;
+      var blockTypeSpecificRules = [];
 
-      for (var i = 0; i < block.rules.length; i++) {
-        var rule = block.rules[i];
+      if (ruleType === ruleTypeConstants.SHOW_QUESTION) {
+        blockTypeSpecificRules = $filter('showQuestionFilter')(block.rules);
+        ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
+      } else if (ruleType === ruleTypeConstants.FORCE_SELECTION) {
+        blockTypeSpecificRules = _.filter(block.rules, { 'ruleType': ruleType });
+        ruleOperand = block.content && block.content.forceSelectionRuleOperand ? block.content.forceSelectionRuleOperand : 'AND';
+      } else {
+        ruleOperand = 'AND';
+      }
+
+      for (var i = 0; i < blockTypeSpecificRules.length; i++) {
+        var rule = blockTypeSpecificRules[i];
         var answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
           //If string is a number, parse it as a float for numerical comparison
@@ -30,9 +41,9 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      return block.rules.length === 0 || // If no rules are set
+      return blockTypeSpecificRules.length === 0 || // If no rules are set
         (ruleOperand === 'OR' && validRuleCount > 0) ||
-        (ruleOperand === 'AND' && validRuleCount === block.rules.length);
+        (ruleOperand === 'AND' && validRuleCount === blockTypeSpecificRules.length);
     };
 
     var blockInRegistrantType = function(block, registrant){
@@ -40,8 +51,12 @@ angular.module('confRegistrationWebApp')
     };
 
     this.blockVisible = function(block, registrant, isAdmin){
-      var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant) && blockInRegistrantType(block, registrant);
+      var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) && blockInRegistrantType(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
+    };
+
+    this.checkboxDisable = function(block, registrant){     
+      return blockVisibleRuleCheck(block, registrant, ruleTypeConstants.FORCE_SELECTION);
     };
 
     this.validate = function(conference, registrant, page) {

@@ -5,11 +5,12 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: 'views/components/blockEditor.html',
       restrict: 'A',
-      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants) {
+      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants, ruleTypeConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
+        $scope.ruleTypeConstants = ruleTypeConstants;
 
         $scope.popup = {
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
@@ -22,7 +23,8 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 			      default: '',
             paragraph: prevValue,
-            ruleoperand: 'AND'
+            ruleoperand: 'AND',
+            forceSelectionRuleOperand: 'AND'            
           };
         }
 
@@ -31,13 +33,18 @@ angular.module('confRegistrationWebApp')
           $scope.block.content = {
 		        default: '',
             ruleoperand: 'AND',
-            forceSelections: {}
+            forceSelections: {},
+            forceSelectionRuleOperand: 'AND'
           };
         }
 
+        if ($scope.block.type === 'checkboxQuestion' && angular.isUndefined($scope.block.content.forceSelectionRuleOperand)) {
+          $scope.block.content.forceSelectionRuleOperand = 'AND';
+        }    
+
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
           $scope.block.content.ruleoperand = 'AND';
-        }      
+        }   
 
         //mapping default value to answer model for showing in front end
         $scope.answer = {
@@ -188,7 +195,7 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $scope.addRule = function(){
+        $scope.addRule = function(ruleType){
           var ruleBlocks = $scope.ruleBlocks();
           if(!ruleBlocks.length){
             modalMessage.info({
@@ -203,7 +210,8 @@ angular.module('confRegistrationWebApp')
             blockId: $scope.block.id,
             parentBlockId: ruleBlocks[0].id,
             operator: '=',
-            value: ''
+            value: '',
+            ruleType: ruleType
           });
         };
 
@@ -293,7 +301,18 @@ angular.module('confRegistrationWebApp')
               }
             }
           }
-        };       
+        };  
+
+        $scope.disableForceSelectionRule = function () {
+          if ($scope.block.content.forceSelections === {} || !_.contains(_.values($scope.block.content.forceSelections), true)) {
+            //$scope.block.additionalRules = [];
+            _.remove($scope.block.rules, { ruleType: ruleTypeConstants.FORCE_SELECTION });
+            return true;
+          } else {
+            return false;
+          }
+        };
+
       }
     };
   });
