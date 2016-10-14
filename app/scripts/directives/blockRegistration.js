@@ -6,6 +6,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: 'views/components/blockRegistration.html',
       restrict: 'A',
       controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
+        $scope.isString = _.isString;
         if (angular.isDefined($scope.adminEditRegistrant)) {
           //registration object provided
           $scope.answer = _.find($scope.adminEditRegistrant.answers, {'blockId': $scope.block.id});
