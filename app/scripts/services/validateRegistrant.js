@@ -1,15 +1,18 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('validateRegistrant', function validateRegistrant() {
+  .service('validateRegistrant', function validateRegistrant($window) {
 
     var blockVisibleRuleCheck = function(block, registrant){
       var answers = registrant.answers;
       var ruleOperand = block.content && block.content.ruleoperand ? block.content.ruleoperand : 'AND';
       var validRuleCount = 0;
 
-      for (var i = 0; i < block.rules.length; i++) {
-        var rule = block.rules[i];
+      if($window.Rollbar && !_.isArray(block.rules)){
+        $window.Rollbar.info('Block rules value in blockVisibleRuleCheck, typeof: ' + typeof(block.rules) + ', JSON.stringify: ' + JSON.stringify(block.rules));
+      }
+
+      _.forEach(block.rules, function(rule, i){
         var answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
           //If string is a number, parse it as a float for numerical comparison
@@ -26,9 +29,9 @@ angular.module('confRegistrationWebApp')
           }
         }
         if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
-          break;
+          return false; // Exit lodash foreach as we found a case which determines the whole outcome of this function
         }
-      }
+      });
 
       return !block.rules || block.rules.length === 0 || // If no rules are set
         (ruleOperand === 'OR' && validRuleCount > 0) ||
