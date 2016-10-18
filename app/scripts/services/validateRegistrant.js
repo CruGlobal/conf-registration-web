@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .service('validateRegistrant', function validateRegistrant(ruleTypeConstants,$filter) {
+  .service('validateRegistrant', function validateRegistrant($window, ruleTypeConstants, $filter) {
 
     var blockVisibleRuleCheck = function(block, registrant, ruleType){
       var answers = registrant.answers;
@@ -19,8 +19,11 @@ angular.module('confRegistrationWebApp')
         ruleOperand = 'AND';
       }
 
-      for (var i = 0; i < blockTypeSpecificRules.length; i++) {
-        var rule = blockTypeSpecificRules[i];
+      if($window.Rollbar && !_.isArray(blockTypeSpecificRules)) {
+        $window.Rollbar.info('Block rules value in blockVisibleRuleCheck, ruleType: ' + ruleType + ', typeof: ' + typeof(blockTypeSpecificRules) + ', JSON.stringify: ' + JSON.stringify(blockTypeSpecificRules));
+      }
+
+      _.forEach(blockTypeSpecificRules, function(rule, i){
         var answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
           //If string is a number, parse it as a float for numerical comparison
@@ -37,9 +40,9 @@ angular.module('confRegistrationWebApp')
           }
         }
         if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
-          break;
+          return false; // Exit lodash foreach as we found a case which determines the whole outcome of this function
         }
-      }
+      });
 
       return !blockTypeSpecificRules || blockTypeSpecificRules.length === 0 || // If no rules are set
         (ruleOperand === 'OR' && validRuleCount > 0) ||
@@ -55,7 +58,7 @@ angular.module('confRegistrationWebApp')
       return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
-    this.checkboxDisable = function(block, registrant){     
+    this.checkboxDisable = function(block, registrant){
       return blockVisibleRuleCheck(block, registrant, ruleTypeConstants.FORCE_SELECTION);
     };
 
