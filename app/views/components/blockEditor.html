@@ -159,8 +159,8 @@
       <tab heading="Rules" ng-if="canHaveRules">
         <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
           <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>        
-          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="Show Question Rules" rule-operand-message="Show question if:" conference="conference" block="block"></rule>
-          <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="Force Selection Rules" rule-operand-message="Force selections if:" conference="conference" block="block"></rule>
+          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" rule-operand-message="{{'Show question if:' | translate}}" conference="conference" block="block"></rule>
+          <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
       </tab>
     </tabset>
   </div>
