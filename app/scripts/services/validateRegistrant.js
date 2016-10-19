@@ -16,6 +16,9 @@ angular.module('confRegistrationWebApp')
         blockTypeSpecificRules = _.filter(block.rules, { 'ruleType': ruleType });
         ruleOperand = block.content && block.content.forceSelectionRuleOperand ? block.content.forceSelectionRuleOperand : 'AND';
       } else {
+        if($window.Rollbar){
+          $window.Rollbar.error('blockVisibleRuleCheck was called with an unknown rule type: ', ruleType);
+        }
         ruleOperand = 'AND';
       }
 
@@ -68,7 +71,7 @@ angular.module('confRegistrationWebApp')
       var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
 
       angular.forEach(blocks, function(block){
-        if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant) || !blockInRegistrantType(block, registrant)) { return; }
+        if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) || !blockInRegistrantType(block, registrant)) { return; }
 
         var answer = _.find(registrant.answers, { 'blockId': block.id });
         if (angular.isUndefined(answer)) {
