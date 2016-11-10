@@ -26,12 +26,20 @@ angular.module('confRegistrationWebApp')
         $window.Rollbar.info('Block rules value in blockVisibleRuleCheck, ruleType: ' + ruleType + ', typeof: ' + typeof(blockTypeSpecificRules) + ', JSON.stringify: ' + JSON.stringify(blockTypeSpecificRules));
       }
 
-      _.forEach(blockTypeSpecificRules, function(rule, i){
+      _.forEach(blockTypeSpecificRules, function (rule, i) {
         var answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
-          //If string is a number, parse it as a float for numerical comparison
-          var answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
-          var ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
+          var answerValue;
+          var ruleValue;
+          if (angular.isObject(answer.value)) {//answer of checkboxquestion will be an object                       
+            answerValue = angular.isDefined(answer.value[rule.value]) ? answer.value[rule.value] : false;
+            ruleValue = true;
+          } else {
+            //If string is a number, parse it as a float for numerical comparison
+            answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
+            ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
+          }        
+
           if (rule.operator === '=' && answerValue === ruleValue) {
             validRuleCount++;
           } else if (rule.operator === '!=' && answerValue !== ruleValue) {

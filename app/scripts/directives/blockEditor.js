@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
-        
+
         $scope.popup = {
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
         };
@@ -21,30 +21,32 @@ angular.module('confRegistrationWebApp')
           _.isString($scope.block.content)) {
           var prevValue = $scope.block.content;
           $scope.block.content = {
-			      default: '',
+            default: '',
             paragraph: prevValue,
             ruleoperand: 'AND',
-            forceSelectionRuleOperand: 'AND'            
+            forceSelectionRuleOperand: 'AND'
           };
+          if ($scope.block.type === 'checkboxQuestion') { $scope.block.content.default = {}; }
         }
 
         //initializing rule operand value in block object
         if (angular.isUndefined($scope.block.content) || $scope.block.content === null || $scope.block.content === '') {
           $scope.block.content = {
-		        default: '',
+            default: '',
             ruleoperand: 'AND',
             forceSelections: {},
             forceSelectionRuleOperand: 'AND'
           };
+          if ($scope.block.type === 'checkboxQuestion') { $scope.block.content.default = {}; }
         }
 
         if ($scope.block.type === 'checkboxQuestion' && angular.isUndefined($scope.block.content.forceSelectionRuleOperand)) {
           $scope.block.content.forceSelectionRuleOperand = 'AND';
-        }    
+        }
 
         if (angular.isUndefined($scope.block.content.ruleoperand)) {
           $scope.block.content.ruleoperand = 'AND';
-        }   
+        }
 
         //mapping default value to answer model for showing in front end
         $scope.answer = {
@@ -53,7 +55,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.$watch('answer', function (answer, oldAnswer) {
           if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
-           !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+            !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
             return;
           }
           $scope.block.content.default = $scope.answer.value;
@@ -186,9 +188,9 @@ angular.module('confRegistrationWebApp')
             });
             if (profileCount > 1) {
               modalMessage.error('Only one ' +
-                  $scope.block.profileType.charAt(0).toUpperCase() +
-                  $scope.block.profileType.slice(1).toLowerCase() +
-                  ' profile block can be used per form.');
+                $scope.block.profileType.charAt(0).toUpperCase() +
+                $scope.block.profileType.slice(1).toLowerCase() +
+                ' profile block can be used per form.');
               $scope.block.profileType = null;
               $scope.profileCheck = false;
             }
@@ -209,7 +211,7 @@ angular.module('confRegistrationWebApp')
               }
             }
           }
-        };  
+        };
 
         $scope.disableForceSelectionRule = function () {
           if ($scope.block.content.forceSelections === {} || !_.contains(_.values($scope.block.content.forceSelections), true)) {
