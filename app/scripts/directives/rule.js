@@ -74,9 +74,11 @@ angular.module('confRegistrationWebApp')
                         return remove;
                     });
 
+                    var questionTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];                    
+
                     //keep valid block types that can be used in rules
                     blocks = _.filter(blocks, function (b) {
-                        return _.contains(['radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'], b.type);
+                        return _.contains(questionTypes, b.type);
                     });
 
                     return blocks;
@@ -87,6 +89,7 @@ angular.module('confRegistrationWebApp')
                     var block = _.find(blocks, { 'id': parentBlockId });
 
                     switch (block.type) {
+                        case 'checkboxQuestion':
                         case 'selectQuestion':
                         case 'radioQuestion':
                             return _.pluck(block.content.choices, 'value');
@@ -122,6 +125,7 @@ angular.module('confRegistrationWebApp')
                     var parentBlock = _.find(blocks, { 'id': parentBlockId });
 
                     switch (parentBlock.type) {
+                        case 'checkboxQuestion':
                         case 'selectQuestion':
                         case 'radioQuestion':
                         case 'yearInSchoolQuestion':
