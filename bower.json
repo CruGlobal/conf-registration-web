@@ -12,7 +12,7 @@
     "moment-timezone": "~0.2.2",
     "bootstrap": "~3.3.4",
     "angular-bootstrap": "0.13.0",
-    "eonasdan-bootstrap-datetimepicker": "3.1.2",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43",
     "pickadate": "3.5.4",
     "angular-ui-tree": "2.4.0",
     "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip",
