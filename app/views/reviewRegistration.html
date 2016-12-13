@@ -58,7 +58,7 @@
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
               <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
             </td>
-            <td class="text-right">
+            <td class="text-right" ng-if="!mergedRegistration">
               <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="editRegistrant(r.id)" value="Edit"
                      ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
               <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
@@ -72,7 +72,7 @@
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)" class="hidden-print">
+    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete) && !mergedRegistration" class="hidden-print">
       <h2 class="page-title border" translate>Add a Family Member</h2>
       <registration-type-select></registration-type-select>
     </section>
@@ -188,7 +188,7 @@
         </ol>
       </div>
 
-      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" class="hidden-print">
+      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0 && !mergedRegistration" class="hidden-print">
         <h2 class="page-title border" translate>Payment</h2>
         <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
       </div>
@@ -200,7 +200,7 @@
       <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="spouseRegistration">
+    <section class="text-center spacing-above-md hidden-print" ng-if="spouseRegistration && !mergedRegistration">
       <h2 class="page-title border text-left" translate>Spouse Registration</h2>
       <div class="hidden-print">
         <p ng-if="alreadyRegistered" translate>

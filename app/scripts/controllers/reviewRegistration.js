@@ -371,8 +371,6 @@ angular.module('confRegistrationWebApp')
       //Add new registration
       createRegistration(newSpouseRegistration)
         .then(function () {
-          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrants);
-
           //Add registrants to new registration
           // Advance to the next step after all the registrations have been created
           return $q.all(newRegistrants.map(createRegistrant));
@@ -380,7 +378,15 @@ angular.module('confRegistrationWebApp')
           //Delete existing registration
           return deleteRegistration($scope.currentRegistration);
         }).then(function () {
+          // Append the new registrants to the spouse registration
+          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrants);
+
+          // Update the UI to show the spouse registration because it includes all of the registrants
           $scope.currentRegistration = $scope.spouseRegistration;
+
+          // Hide certain elements and sections in the UI because the current user is not able make changes to their
+          // spouses registration, even though they are now a registrant on that registration
+          $scope.mergedRegistration = true;
         }).catch(function (response) {
           console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
           alert('An error occurred while adding new spouse registration.');
