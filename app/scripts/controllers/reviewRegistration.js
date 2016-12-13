@@ -332,20 +332,9 @@ angular.module('confRegistrationWebApp')
       //Generate new local UUID used for registrantId
       var newRegistrantId = uuid();
 
-      // When creating a new registration, only a few registrant attributes are required
-      // Generate an array of "sparse" registrants that only include those required attributes
-      var newRegistrantsSparse = $scope.currentRegistration.registrants.map(function (registrant) {
-        return {
-          id: uuid(),
-          registrationId: $scope.spouseRegistration.id,
-          registrantTypeId: registrant.registrantTypeId,
-          answers: []
-        }
-      });
-
       // Generate an array of new registrants that include all attributes
-      var newRegistrantsFull = $scope.currentRegistration.registrants.map(function (registrant, index) {
-        var newRegistrantId = newRegistrantsSparse[index].id;
+      var newRegistrants = $scope.currentRegistration.registrants.map(function (registrant) {
+        var newRegistrantId = uuid();
 
         // Make a copy of the answers, but overwrite the id and registrantId attributes
         var answers = registrant.answers.map(function(answer) {
@@ -370,17 +359,23 @@ angular.module('confRegistrationWebApp')
       var newSpouseRegistration = {
         id: $scope.spouseRegistration.id,
         conferenceId: $scope.currentRegistration.conferenceId,
-        registrants: newRegistrantsSparse
+        registrants: newRegistrants.map(function (registrant) {
+          // When creating a new registration, only a few registrant attributes are required, so only keep a few of the
+          // registrant attributes
+          var sparseRegistrant = _.pick(registrant, ['id', 'registrationId', 'registrantTypeId']);
+          sparseRegistrant.answers = [];
+          return sparseRegistrant;
+        })
       };
 
       //Add new registration
       createRegistration(newSpouseRegistration)
         .then(function () {
-          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrantsFull);
+          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrants);
 
           //Add registrants to new registration
           // Advance to the next step after all the registrations have been created
-          return $q.all(newRegistrantsFull.map(createRegistrant));
+          return $q.all(newRegistrants.map(createRegistrant));
         }).then(function () {
           //Delete existing registration
           return deleteRegistration($scope.currentRegistration);
