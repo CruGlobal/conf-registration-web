@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, RegistrationCache, validateRegistrant, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, spouse, RegistrationCache, validateRegistrant, $filter, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -282,33 +282,16 @@ angular.module('confRegistrationWebApp')
     };
 
     ////// START EVENT-433 //////
+    spouse.getSpouseRegistration(conference.id).then(function (spouseRegistration) {
+      // The spouse is registered
+      $scope.spouseRegistration = spouseRegistration;
 
-    // Get spouse registration
-    // End point:  getSpouseRegistration = /conferences/conferenceId/registrations/spouse
-    ///// TEST DATA change end point url below to: /conferences/conferenceId/registrations/current /////
-    $http.get('conferences/' + conference.id + '/registrations/current')
-      .then(function(response) {
-        if (response.status === 200) {
-          // The spouse is registered
-          $scope.spouseRegistration = response.data;
-
-          // Check whether the current user is registered on their spouse's registration
-          $scope.alreadyRegistered = !_.isEmpty(_.intersection(
-            _.map($scope.currentRegistration.registrants, 'email'),
-            _.map($scope.spouseRegistration.registrants, 'email')
-          ));
-        }
-        else {
-          // The spouse is not registered
-          // Reject the promise and call the catch() handler
-          throw response;
-        }
-      }).catch(function(response) {
-        $scope.spouseRegistration = null;
-        $scope.alreadyRegistered = false;
-        console.log('No current and/or spouse registration found for user with ID. Status = ' + response.status);
-        console.log(response.data);
-      });
+      // Check whether the current user is registered on their spouse's registration
+      $scope.alreadyRegistered = $scope.spouseRegistration && !_.isEmpty(_.intersection(
+        _.map($scope.currentRegistration.registrants, 'email'),
+        _.map($scope.spouseRegistration.registrants, 'email')
+      ));
+    });
 
     // Create a new registration on the server
     // Returns a promise the resolves when the registration has been created
