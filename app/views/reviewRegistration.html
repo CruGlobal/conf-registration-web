@@ -194,23 +194,26 @@
       </div>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="!spouseSectionVisible && (!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0))">
+    <section class="text-center spacing-above-md hidden-print" ng-if="(!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)) && !spouseRegistration">
       <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
       <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
       <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="spouseSectionVisible">
+    <section class="text-center spacing-above-md hidden-print" ng-if="spouseRegistration">
       <h2 class="page-title border text-left" translate>Spouse Registration</h2>
       <div class="hidden-print">
-        <p translate>
-          Your spouse has already registered for this conference, but you have not.<br/>
-          Would you like to add your registration to your spouse's existing registration?<br/><br/>
-          (note: registered means registration has been totally completed.)
+        <p ng-if="alreadyRegistered" translate>
+          Your spouse has already registered both themselves and you for this conference.<br/>
+          Are you sure you want to register anyway?
+        </p>
+        <p ng-if="!alreadyRegistered" translate>
+          Your spouse has already registered for this conference.<br/>
+          Would you like to add your registration to your spouse's existing registration?
         </p>
         <div class="text-center spacing-above-md hidden-print">
-          <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="includeSpouseInRegistration()" value="Register with Spouse" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
-          <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Register Separately" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+          <input type="button" class="btn btn-lg btn-important merge-registrations" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="mergeWithSpouse()" value="Register Together" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+          <input type="button" class="btn btn-lg btn-important confirm-registration" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }"  ng-click="confirmRegistration()" value="Register Separately" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
         </div>
       </div>
     </section>

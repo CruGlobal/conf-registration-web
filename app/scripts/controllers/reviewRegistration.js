@@ -289,27 +289,8 @@ angular.module('confRegistrationWebApp')
     $http.get('conferences/' + conference.id + '/registrations/current')
       .then(function(response) {
         if (response.status === 200) {
+          // The spouse is registered
           $scope.spouseRegistration = response.data;
-          $scope.spouseSectionVisible = true;
-
-          //Check if spouse is registered and display 'Spouse Registration' section if needed.
-          var _spouseSectionVisible = sessionStorage.getItem('spouseSectionVisible');
-          $scope.spouseIncludedOnCurrentRegistration = !_.isEmpty(_.intersection(_.map($scope.currentRegistration.registrants, 'email'), _.map($scope.spouseRegistration.registrants, 'email')));
-
-          // 2. If the registrant does have a spouse who has already registered, then
-          if ($scope.spouseRegistration !== null) {
-            // A. If spouse is not included in that registration, then show another separate panel on the confirmation page,
-            //    indicating that their spouse has already registered and would they like to add their registration to their spouses?
-            //    . Call endpoint to copy registrant from one registration to another
-            //    . (possibly) Call updateRegistration
-            if ($scope.spouseIncludedOnCurrentRegistration && !_spouseSectionVisible) {
-              $scope.spouseSectionVisible = true;
-            }
-            // B. Otherwise, indicate that they have already been included on their spouses registration. And possibly let them register anyway if they must.
-            else {
-              $scope.spouseSectionVisible = false;
-            }
-          }
 
           ///// TEST DATA START /////
 
@@ -357,20 +338,22 @@ angular.module('confRegistrationWebApp')
           });
 
           ///// TEST DATA END ////
-
+          // Check whether the current user is registered on their spouse's registration
+          $scope.alreadyRegistered = !_.isEmpty(_.intersection(
+            _.map($scope.currentRegistration.registrants, 'email'),
+            _.map($scope.spouseRegistration.registrants, 'email')
+          ));
         }
         else {
-          $scope.spouseRegistration = null;
-          $scope.spouseSectionVisible = false;
-          $scope.spouseIncludedOnCurrentRegistration = false;
-          console.log('No current and/or spouse registration found for user with ID.');
+          // The spouse is not registered
+          // Reject the promise and call the catch() handler
+          throw response;
         }
       }).catch(function(response) {
-      $scope.spouseRegistration = null;
-      $scope.spouseSectionVisible = false;
-      $scope.spouseIncludedOnCurrentRegistration = false;
-      console.log('No current and/or spouse registration found for user with ID. Status = ' + response.status);
-      console.log(response.data);
+        $scope.spouseRegistration = null;
+        $scope.alreadyRegistered = false;
+        console.log('No current and/or spouse registration found for user with ID. Status = ' + response.status);
+        console.log(response.data);
       });
 
     // Create a new registration on the server
@@ -390,8 +373,8 @@ angular.module('confRegistrationWebApp')
       return $http.put('/registrants/' + registrant.id, registrant);
     }
 
-    //Click event for 'Include Spouse' button
-    $scope.includeSpouseInRegistration = function () {
+    // Take the current registration and merge it into the spouse's registration
+    $scope.mergeWithSpouse = function () {
       //Generate new local UUID used for registrantId
       var newRegistrantId = uuid();
 
