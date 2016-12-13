@@ -375,43 +375,6 @@ angular.module('confRegistrationWebApp')
 
     //Click event for 'Include Spouse' button
     $scope.includeSpouseInRegistration = function () {
-
-      $scope.submittingRegistration = true;
-
-      /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
-       show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
-       can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
-       */
-      if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
-      }
-
-      if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
-      }
-      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
-        setRegistrationAsCompleted();
-        return;
-      }
-
-      if (!_.isEmpty($scope.currentPayment.errors)) {
-        modalMessage.error({
-          'title': 'Please correct the following errors:',
-          'message': $scope.currentPayment.errors
-        });
-        $scope.submittingRegistration = false;
-        return;
-      }
-
-      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
-        if(!$scope.currentRegistration.completed){
-          setRegistrationAsCompleted();
-        }else{
-          $scope.submittingRegistration = false;
-        }
-        return;
-      }
-
       //Generate new local UUID used for registrantId
       var _newRegistrantId = uuid();
 
@@ -464,55 +427,6 @@ angular.module('confRegistrationWebApp')
         $scope.currentRegistration = $scope.spouseRegistration;
 
         $scope.currentRegistration.completed = true;
-        registration = angular.copy($scope.currentRegistration);
-
-        var _currentPayment = angular.copy($scope.currentPayment);
-        _currentPayment.registrationId =  registration.id;
-        delete _currentPayment.errors;
-        if(_currentPayment.paymentType === 'CREDIT_CARD') {
-          $http.get('payments/ccp-client-encryption-key')
-            .then(function(ccpClientEncryptionKey) {
-            ccp.initialize(ccpClientEncryptionKey);
-            _currentPayment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(_currentPayment.creditCard.number);
-            _currentPayment.creditCard.number = ccp.encrypt(_currentPayment.creditCard.number);
-            _currentPayment.creditCard.cvvNumber = ccp.encrypt(_currentPayment.creditCard.cvvNumber);
-            $http.post('payments/', _currentPayment)
-              .then(function () {
-                registration = angular.copy(registration);
-                registration.completed = true;
-                RegistrationCache.update('registrations/' + registration.id, registration, function () {
-                  RegistrationCache.emptyCache();
-                }, function(){
-                  alert('An error occurred while updating your registration.');
-                });
-              }).catch(function (data) {
-                $scope.submittingRegistration = false;
-                modalMessage.error({
-                  'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
-                  'forceAction': true
-                });
-              });
-          }).catch(function() {
-            modalMessage.error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
-          });
-        } else {
-          $http.post('payments/', _currentPayment)
-            .then(function () {
-              registration = angular.copy(registration);
-              registration.completed = true;
-              RegistrationCache.update('registrations/' + registration.id, registration, function () {
-                RegistrationCache.emptyCache();
-              }, function(){
-                alert('An error occurred while updating your registration.');
-              });
-            }).catch(function (data) {
-              $scope.submittingRegistration = false;
-              modalMessage.error({
-                'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
-                'forceAction': true
-              });
-            });
-        }
       }).catch(function (response) {
         console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
         alert('An error occurred while adding new spouse registration.');
