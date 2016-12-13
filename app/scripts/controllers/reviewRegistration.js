@@ -292,52 +292,6 @@ angular.module('confRegistrationWebApp')
           // The spouse is registered
           $scope.spouseRegistration = response.data;
 
-          ///// TEST DATA START /////
-
-          $scope.spouseRegistration.completed = true;
-          $scope.spouseRegistration.registrants[0].email = 'janeworner3@hotmail.com';
-          $scope.spouseRegistration.registrants[0].firstName = 'Jane';
-          $scope.spouseRegistration.registrants[0].lastName = 'Worner3';
-
-          var queryParameters = {
-            block: [],
-            //page: 1,
-            //limit: 20,
-            orderBy: 'last_name',
-            order: 'ASC',
-            filter: '',
-            filterPayment: '',
-            filterRegType: '',
-            includeCheckedin: 'yes',
-            includeWithdrawn: 'yes',
-            includeIncomplete: 'yes'
-          };
-
-          $http.get('conferences/' + conference.id + '/registrations', {params: queryParameters})
-            .then(function (response) {
-              var _spouseNull = {};
-              _.forEach(response.data.registrations, function(value, key) {
-                if (value.registrants[0].email === $scope.spouseRegistration.registrants[0].email) {
-                  $scope.spouseRegistration = response.data.registrations[key];
-                  $scope.spouseSectionVisible = true;
-                  $scope.spouseIncludedOnCurrentRegistration = true;
-                  _spouseNull = $scope.spouseRegistration;
-                }
-                else {
-                  _spouseNull = null;
-                  $scope.spouseSectionVisible = false;
-                  $scope.spouseIncludedOnCurrentRegistration = false;
-                }
-              });
-              $scope.spouseRegistration = _spouseNull;
-            }).catch(function(response){
-            $scope.spouseRegistration = null;
-            $scope.spouseSectionVisible = false;
-            $scope.spouseIncludedOnCurrentRegistration = false;
-            console.log('Failed to get all registered users for current conference. Status = ' + response.status);
-          });
-
-          ///// TEST DATA END ////
           // Check whether the current user is registered on their spouse's registration
           $scope.alreadyRegistered = !_.isEmpty(_.intersection(
             _.map($scope.currentRegistration.registrants, 'email'),
