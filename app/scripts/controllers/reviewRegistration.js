@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, RegistrationCache, validateRegistrant, $filter, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -373,64 +373,86 @@ angular.module('confRegistrationWebApp')
       console.log(response.data);
       });
 
+    // Create a new registration on the server
+    // Returns a promise the resolves when the registration has been created
+    function createRegistration (registration) {
+      return $http.put('/registrations/' + registration.id, registration);
+    }
+
+    // Delete a registration on the server
+    function deleteRegistration (registration) {
+      return $http.delete('/registrations/' + registration.id);
+    }
+
+    // Create a new registrant on the server
+    // Returns a promise the resolves when the registrant has been created
+    function createRegistrant (registrant) {
+      return $http.put('/registrants/' + registrant.id, registrant);
+    }
+
     //Click event for 'Include Spouse' button
     $scope.includeSpouseInRegistration = function () {
       //Generate new local UUID used for registrantId
-      var _newRegistrantId = uuid();
+      var newRegistrantId = uuid();
+
+      // When creating a new registration, only a few registrant attributes are required
+      // Generate an array of "sparse" registrants that only include those required attributes
+      var newRegistrantsSparse = $scope.currentRegistration.registrants.map(function (registrant) {
+        return {
+          id: uuid(),
+          registrationId: $scope.spouseRegistration.id,
+          registrantTypeId: registrant.registrantTypeId,
+          answers: []
+        }
+      });
+
+      // Generate an array of new registrants that include all attributes
+      var newRegistrantsFull = $scope.currentRegistration.registrants.map(function (registrant, index) {
+        var newRegistrantId = newRegistrantsSparse[index].id;
+
+        // Make a copy of the answers, but overwrite the id and registrantId attributes
+        var answers = registrant.answers.map(function(answer) {
+          return _.assign({}, answer, {
+            id: uuid(),
+            registrantId: newRegistrantId
+          });
+        });
+
+        return {
+          id: newRegistrantId,
+          registrationId: $scope.spouseRegistration.id,
+          registrantTypeId: registrant.registrantTypeId,
+          answers: answers,
+          firstName: registrant.firstName,
+          lastName: registrant.lastName,
+          email: registrant.email
+        };
+      });
 
       //Payload for new spouse registration
-      var _newSpouseRegistration =
-        {
-          id: $scope.spouseRegistration.id,
-          conferenceId: $scope.currentRegistration.conferenceId,
-          registrants: [{
-            id: _newRegistrantId,
-            registrationId: $scope.spouseRegistration.id,
-            registrantTypeId: $scope.currentRegistration.registrants[0].registrantTypeId,
-            answers: []
-          }]
-        };
-
-      //Get all answers
-      var _answers = $scope.currentRegistration.registrants[0].answers.map(function(answer) {
-        return _.assign({}, answer, {
-          id: uuid(),
-          registrantId: _newRegistrantId
-        });
-      });
-
-      //Payload to add new registrants
-      var _newRegistrants =
-        {
-          id: _newRegistrantId,
-          registrationId: $scope.spouseRegistration.id,
-          registrantTypeId: $scope.currentRegistration.registrants[0].registrantTypeId,
-          answers: _answers,
-          firstName: $scope.currentRegistration.registrants[0].firstName,
-          lastName: $scope.currentRegistration.registrants[0].lastName,
-          email: $scope.currentRegistration.registrants[0].email
-        };
+      var newSpouseRegistration = {
+        id: $scope.spouseRegistration.id,
+        conferenceId: $scope.currentRegistration.conferenceId,
+        registrants: newRegistrantsSparse
+      };
 
       //Add new registration
-      //@Path("/registrations/{registrationId}")
-      $http.put('/registrations/' + $scope.spouseRegistration.id, _newSpouseRegistration)
+      createRegistration(newSpouseRegistration)
         .then(function () {
-          $scope.spouseRegistration.registrants.push(_newRegistrants);
-          //Add registrants to new registration
-          //@Path("/registrants/{registrantId}")
-          return $http.put('/registrants/' + _newRegistrantId, _newRegistrants);
-        }).then(function () {
-        //Delete existing registration
-        //@Path("/registrations/{registrationId}")
-        return $http.delete('/registrations/' + $scope.currentRegistration.id);
-      }).then(function () {
-        $scope.currentRegistration = $scope.spouseRegistration;
+          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrantsFull);
 
-        $scope.currentRegistration.completed = true;
-      }).catch(function (response) {
-        console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
-        alert('An error occurred while adding new spouse registration.');
-      });
+          //Add registrants to new registration
+          // Advance to the next step after all the registrations have been created
+          return $q.all(newRegistrantsFull.map(createRegistrant));
+        }).then(function () {
+          //Delete existing registration
+          return deleteRegistration($scope.currentRegistration);
+        }).then(function () {
+          $scope.currentRegistration = $scope.spouseRegistration;
+        }).catch(function (response) {
+          console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
+          alert('An error occurred while adding new spouse registration.');
+        });
     };
 
     ////// END EVENT-433 //////
