@@ -2,7 +2,7 @@
 
 angular.module('confRegistrationWebApp')
   .factory('spouse', function ($http, $cacheFactory) {
-    var spouseRegistrationCache = $cacheFactory('spouseRegistration')
+    var spouseRegistrationCache = $cacheFactory('spouseRegistration');
 
     var spouse = {
       // Preload a spouse registration so that calling getSpouseRegistration for that conference will complete sooner
@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp')
 
           // The spouse registration was not found
           return null;
-        }).catch(function (res) {
+        }).catch(function () {
           // The spouse registration was not found
           return null;
         });

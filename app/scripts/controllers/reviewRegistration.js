@@ -312,9 +312,6 @@ angular.module('confRegistrationWebApp')
 
     // Take the current registration and merge it into the spouse's registration
     $scope.mergeWithSpouse = function () {
-      //Generate new local UUID used for registrantId
-      var newRegistrantId = uuid();
-
       // Generate an array of new registrants that include all attributes
       var newRegistrants = $scope.currentRegistration.registrants.map(function (registrant) {
         var newRegistrantId = uuid();
