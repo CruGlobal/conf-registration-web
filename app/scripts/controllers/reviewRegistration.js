@@ -293,6 +293,14 @@ angular.module('confRegistrationWebApp')
       ));
     });
 
+    // Load a registration from the server
+    // Returns a promise the resolves to the registration once it has been loaded
+    function loadRegistration (registrationId) {
+      return $http.get('/registrations/' + registrationId).then(function (res) {
+        return res.data;
+      });
+    }
+
     // Create a new registration on the server
     // Returns a promise the resolves when the registration has been created
     function createRegistration (registration) {
@@ -358,11 +366,11 @@ angular.module('confRegistrationWebApp')
           //Delete existing registration
           return deleteRegistration($scope.currentRegistration);
         }).then(function () {
-          // Append the new registrants to the spouse registration
-          $scope.spouseRegistration.registrants = $scope.spouseRegistration.registrants.concat(newRegistrants);
-
-          // Update the UI to show the spouse registration because it includes all of the registrants
-          $scope.currentRegistration = $scope.spouseRegistration;
+          // Reload the merged spouse registration
+          return loadRegistration($scope.spouseRegistration.id);
+        }).then(function (mergedRegistration) {
+          // Update the UI to show the merged registration because it includes all of the registrants
+          $scope.currentRegistration = mergedRegistration;
 
           // Hide certain elements and sections in the UI because the current user is not able make changes to their
           // spouses registration, even though they are now a registrant on that registration
