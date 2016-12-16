@@ -3,6 +3,12 @@
     <section ng-if="currentRegistration.completed">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
+      <p ng-if="mergedRegistration" translate>
+        Because of technical limitations, now that you have registered with your spouse, you will no longer be able to
+        access your registration. Only your spouse will be able to view or make changes to your combined registration.
+        Your combined registration is shown here, but you will not be able to access this information again once you
+        naviagate away from this page.
+      </p>
       <p ng-if="currentRegistration.remainingBalance > 0"><translate>You have a remaining balance of</translate> {{currentRegistration.remainingBalance | currency:'$'}}</p>
       <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click Confirm. That's it!</p>
 
