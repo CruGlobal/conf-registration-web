@@ -68,13 +68,8 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.blocks, {id: blockId});
     };
 
-    $scope.confirmRegistration = function () {
-      $scope.submittingRegistration = true;
-
-      /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
-       show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
-       can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
-       */
+    // Validate the current payment and return a boolean indicating whether or not it is valid
+    function validatePayment () {
       if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
         $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
       }
@@ -82,84 +77,110 @@ angular.module('confRegistrationWebApp')
       if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
         $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
       }
-      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
-        return setRegistrationAsCompleted();
+
+      // The payment is valid if it has no errors
+      return _.isEmpty($scope.currentPayment.errors);
+    }
+
+    // Modify a credit card payment to use a tokenized credit card instead of real credit card data
+    function tokenizeCreditCardPayment (payment) {
+      return $http.get('payments/ccp-client-encryption-key').then(function (res) {
+        var ccpClientEncryptionKey = res.data;
+        ccp.initialize(ccpClientEncryptionKey);
+        payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
+        payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
+        payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
+      }).catch(function () {
+        throw new Error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
+      });
+    }
+
+    // Submit payment for the current registration
+    function payPayment () {
+      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods() ||
+          $scope.currentPayment.paymentType === 'PAY_ON_SITE') {
+        // No payment is necessary, so no work needs to be done here
+        return $q.when();
       }
 
-      if (!_.isEmpty($scope.currentPayment.errors)) {
+      // Prepare the payment object
+      var currentPayment = angular.copy($scope.currentPayment);
+      currentPayment.registrationId = registration.id;
+      delete currentPayment.errors;
+
+      return $q.when().then(function () {
+        if (currentPayment.paymentType === 'CREDIT_CARD') {
+          // Credit card payments must be tokenized first
+          return tokenizeCreditCardPayment(currentPayment);
+        }
+      }).then(function () {
+        // Submit the payment
+        return $http.post('payments/', currentPayment);
+      }).catch(function () {
+        throw new Error('An error occurred while attempting to process your payment.');
+      });
+    }
+
+    // Mark the current registration as completed
+    function completeRegistration () {
+      return $q(function (resolve, reject) {
+        var registration = angular.copy($scope.currentRegistration);
+
+        if (registration.completed) {
+          // The registration is already completed, so nothing needs to be done
+          resolve();
+          return;
+        }
+
+        registration.completed = true;
+        RegistrationCache.update('registrations/' + registration.id, registration, function () {
+          RegistrationCache.emptyCache();
+          resolve();
+        }, function (data) {
+          $scope.currentRegistration.completed = false;
+          reject(data.error || new Error('An error occurred while submitting your registration.'));
+        });
+      });
+    }
+
+    // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
+    function confirmRegistration () {
+      if (!validatePayment()) {
         modalMessage.error({
           'title': 'Please correct the following errors:',
           'message': $scope.currentPayment.errors
         });
-        $scope.submittingRegistration = false;
         return $q.reject();
       }
 
-      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
-        if(!$scope.currentRegistration.completed){
-          return setRegistrationAsCompleted();
-        }else{
-          $scope.submittingRegistration = false;
-          return $q.resolve();
-        }
-      }
-
-      var currentPayment = angular.copy($scope.currentPayment);
-      currentPayment.registrationId =  registration.id;
-      delete currentPayment.errors;
-      if(currentPayment.paymentType === 'CREDIT_CARD'){
-        return $http.get('payments/ccp-client-encryption-key').then(function(res) {
-          var ccpClientEncryptionKey = res.data;
-          ccp.initialize(ccpClientEncryptionKey);
-          currentPayment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(currentPayment.creditCard.number);
-          currentPayment.creditCard.number = ccp.encrypt(currentPayment.creditCard.number);
-          currentPayment.creditCard.cvvNumber = ccp.encrypt(currentPayment.creditCard.cvvNumber);
-          return postPayment(currentPayment);
-        }).catch(function(err) {
-          modalMessage.error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
-          throw err;
-        });
-      }else{
-        return postPayment(currentPayment);
-      }
-    };
-
-    var postPayment = function(currentPayment){ // jshint ignore:line
-      return $http.post('payments/', currentPayment).then(function () {
-        delete $scope.currentPayment;
-        if(!$scope.currentRegistration.completed) {
-          return setRegistrationAsCompleted();
-        } else {
-          $route.reload();
-        }
-      }).catch(function (data) {
-        $scope.submittingRegistration = false;
+      return payPayment().then(function () {
+        return completeRegistration();
+      }).catch(function (error) {
         modalMessage.error({
-          'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
+          'message': error.message || 'An error occurred while attempting to complete your registration.',
           'forceAction': true
         });
-        throw data;
+        throw error;
       });
-    };
+    }
 
-    var setRegistrationAsCompleted = function() { // jshint ignore:line
-      return $q(function (resolve, reject) {
-        registration = angular.copy(registration);
-        registration.completed = true;
-        RegistrationCache.update('registrations/' + registration.id, registration, function () {
-          RegistrationCache.emptyCache();
-          if(conference.registrationCompleteRedirect){
-            $window.location.href = conference.registrationCompleteRedirect;
-          }else{
-            $route.reload();
-          }
-          resolve();
-        }, function (data) {
-          $scope.currentRegistration.completed = false;
-          $scope.submittingRegistration = false;
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while submitting your registration.');
-          reject(data);
-        });
+    // Navigate to the correct page after completing a registration
+    function navigateToPostNavigationPage () {
+      if (conference.registrationCompleteRedirect) {
+        $window.location.href = conference.registrationCompleteRedirect;
+      } else {
+        $route.reload();
+      }
+    }
+
+    // Called when the user clicks the confirm button
+    $scope.confirmRegistration = function () {
+      $scope.submittingRegistration = true;
+      confirmRegistration().then(function () {
+        navigateToPostNavigationPage();
+        $scope.submittingRegistration = false;
+      }).catch(function () {
+        $scope.submittingRegistration = false;
       });
     };
 
