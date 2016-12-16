@@ -188,7 +188,7 @@ angular.module('confRegistrationWebApp')
     }
 
     // Navigate to the correct page after completing a registration
-    function navigateToPostNavigationPage () {
+    function navigateToPostRegistrationPage () {
       if (conference.registrationCompleteRedirect) {
         $window.location.href = conference.registrationCompleteRedirect;
       } else {
@@ -200,7 +200,7 @@ angular.module('confRegistrationWebApp')
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
       confirmRegistration().catch(handleRegistrationError).then(function () {
-        navigateToPostNavigationPage();
+        navigateToPostRegistrationPage();
         $scope.submittingRegistration = false;
       }).catch(function () {
         $scope.submittingRegistration = false;
