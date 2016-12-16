@@ -345,7 +345,7 @@ angular.module('confRegistrationWebApp')
     }
 
     // Take the current registration and merge it into the spouse's registration
-    $scope.mergeWithSpouse = function () {
+    function mergeWithSpouse () {
       // Generate an array of new registrants that include all attributes
       var newRegistrants = $scope.currentRegistration.registrants.map(function (registrant) {
         var newRegistrantId = uuid();
@@ -405,6 +405,19 @@ angular.module('confRegistrationWebApp')
           console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
           alert('An error occurred while adding new spouse registration.');
         });
+    }
+
+    // Called when the user clicks the register together button
+    $scope.mergeAndConfirmRegistration = function () {
+      // Complete the current registration before merging it with the spouse
+      $scope.submittingRegistration = true;
+      confirmRegistration().then(function () {
+        return mergeWithSpouse();
+      }).then(function() {
+        $scope.submittingRegistration = false;
+      }).catch(function () {
+        $scope.submittingRegistration = false;
+      });
     };
 
     ////// END EVENT-433 //////
