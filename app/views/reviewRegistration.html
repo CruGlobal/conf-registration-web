@@ -206,7 +206,7 @@
       <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="spouseRegistration && !mergedRegistration">
+    <section class="text-center spacing-above-md hidden-print" ng-if="!currentRegistration.completed && spouseRegistration && !mergedRegistration">
       <h2 class="page-title border text-left" translate>Spouse Registration</h2>
       <div class="hidden-print">
         <p ng-if="alreadyRegistered" translate>
