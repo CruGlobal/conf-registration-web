@@ -68,6 +68,14 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.blocks, {id: blockId});
     };
 
+    $scope.getConfirmButtonName = function () {
+      if ($scope.currentRegistration.completed || !$scope.spouseRegistration) {
+        return 'Confirm';
+      } else {
+        return 'one of the Register buttons';
+      }
+    };
+
     // Validate the current payment and return a boolean indicating whether or not it is valid
     function validatePayment () {
       if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {

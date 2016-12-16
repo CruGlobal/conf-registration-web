@@ -10,7 +10,7 @@
         naviagate away from this page.
       </p>
       <p ng-if="currentRegistration.remainingBalance > 0"><translate>You have a remaining balance of</translate> {{currentRegistration.remainingBalance | currency:'$'}}</p>
-      <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click Confirm. That's it!</p>
+      <p ng-if="!mergedRegistration && acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click {{getConfirmButtonName()}}. That's it!</p>
 
       <div class="well well-creme2">
         <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
@@ -36,8 +36,8 @@
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />
-      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
-      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0" translate>Almost done. Please review your registration details and enter your payment information below. Then click Confirm. That's it!</p>
+      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click {{getConfirmButtonName()}} if correct. That's it!</p>
+      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0" translate>Almost done. Please review your registration details and enter your payment information below. Then click {{getConfirmButtonName()}}. That's it!</p>
     </section>
   </div>
 </div>
