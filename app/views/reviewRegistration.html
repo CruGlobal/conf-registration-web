@@ -217,6 +217,7 @@
           Your spouse has already registered for this conference.<br/>
           Would you like to add your registration to your spouse's existing registration?
         </p>
+        <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
         <div class="text-center spacing-above-md hidden-print">
           <input type="button" class="btn btn-lg btn-important merge-registrations" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="mergeAndConfirmRegistration()" value="Register Together" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
           <input type="button" class="btn btn-lg btn-important confirm-registration" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }"  ng-click="confirmRegistration()" value="Register Separately" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
