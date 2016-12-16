@@ -76,6 +76,17 @@ angular.module('confRegistrationWebApp')
       }
     };
 
+    // Generate a promise catch handler that generates an Error object from an HTTP response object
+    function errorFromResponse (defaultErrorMessage) {
+      return function (res) {
+        // Extract the error from the payload
+        var error = res.data && res.data.error;
+
+        // Use the error message if present or the provided default message otherwise
+        throw new Error(error ? error.message : defaultErrorMessage);
+      };
+    }
+
     // Validate the current payment and return a boolean indicating whether or not it is valid
     function validatePayment () {
       if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
@@ -98,9 +109,7 @@ angular.module('confRegistrationWebApp')
         payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
         payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
         payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
-      }).catch(function () {
-        throw new Error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
-      });
+      }).catch(errorFromResponse('An error occurred while requesting the ccp encryption key. Please try your payment again.'));
     }
 
     // Submit payment for the current registration
@@ -124,9 +133,7 @@ angular.module('confRegistrationWebApp')
       }).then(function () {
         // Submit the payment
         return $http.post('payments/', currentPayment);
-      }).catch(function () {
-        throw new Error('An error occurred while attempting to process your payment.');
-      });
+      }).catch(errorFromResponse('An error occurred while attempting to process your payment.'));
     }
 
     // Mark the current registration as completed
@@ -146,9 +153,18 @@ angular.module('confRegistrationWebApp')
           resolve();
         }, function (data) {
           $scope.currentRegistration.completed = false;
-          reject(data.error || new Error('An error occurred while submitting your registration.'));
+          reject(data);
         });
+      }).catch(errorFromResponse('An error occurred while submitting your registration.'));
+    }
+
+    // Display an error that occurred during registration completion
+    function handleRegistrationError (error) {
+      modalMessage.error({
+        'message': error.message || 'An error occurred while attempting to complete your registration.',
+        'forceAction': true
       });
+      throw error;
     }
 
     // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
@@ -163,12 +179,6 @@ angular.module('confRegistrationWebApp')
 
       return payPayment().then(function () {
         return completeRegistration();
-      }).catch(function (error) {
-        modalMessage.error({
-          'message': error.message || 'An error occurred while attempting to complete your registration.',
-          'forceAction': true
-        });
-        throw error;
       });
     }
 
@@ -184,7 +194,7 @@ angular.module('confRegistrationWebApp')
     // Called when the user clicks the confirm button
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      confirmRegistration().then(function () {
+      confirmRegistration().catch(handleRegistrationError).then(function () {
         navigateToPostNavigationPage();
         $scope.submittingRegistration = false;
       }).catch(function () {
@@ -409,10 +419,7 @@ angular.module('confRegistrationWebApp')
           // Hide certain elements and sections in the UI because the current user is not able make changes to their
           // spouses registration, even though they are now a registrant on that registration
           $scope.mergedRegistration = true;
-        }).catch(function (response) {
-          console.log('Add registration failed.  Status = ' + response.status + '.  Error Message = ' + response.data.error.message);
-          alert('An error occurred while adding new spouse registration.');
-        });
+        }).catch(errorFromResponse('An error occurred while merging spouse registrations.'));
     }
 
     // Called when the user clicks the register together button
@@ -421,7 +428,7 @@ angular.module('confRegistrationWebApp')
       $scope.submittingRegistration = true;
       confirmRegistration().then(function () {
         return mergeWithSpouse();
-      }).then(function() {
+      }).catch(handleRegistrationError).then(function() {
         $scope.submittingRegistration = false;
       }).catch(function () {
         $scope.submittingRegistration = false;
