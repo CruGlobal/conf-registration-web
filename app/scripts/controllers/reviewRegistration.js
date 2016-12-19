@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, spouse, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, error, spouse, payment, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -81,72 +81,6 @@ angular.module('confRegistrationWebApp')
       return $scope.registerMode === 'preview' || !$scope.allRegistrantsValid() || $scope.submittingRegistration;
     };
 
-    // Generate a promise catch handler that generates an Error object from an HTTP response object
-    function errorFromResponse (defaultErrorMessage) {
-      return function (res) {
-        // Extract the error from the payload
-        var error = res.data && res.data.error;
-
-        // Use the error message if present or the provided default message otherwise
-        throw new Error(error ? error.message : defaultErrorMessage);
-      };
-    }
-
-    // Validate the current payment and return a boolean indicating whether or not it is valid
-    function validatePayment () {
-      /*
-      If the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
-      show and error message. The first payment must be at least the minimum deposit amount. Subsequent payments can be
-      less than the amount. This is confirmed by making sure the total previously paid is above the min deposit amount.
-      */
-
-      if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
-      }
-
-      if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
-      }
-
-      // The payment is valid if it has no errors
-      return _.isEmpty($scope.currentPayment.errors);
-    }
-
-    // Modify a credit card payment to use a tokenized credit card instead of real credit card data
-    function tokenizeCreditCardPayment (payment) {
-      return $http.get('payments/ccp-client-encryption-key').then(function (res) {
-        var ccpClientEncryptionKey = res.data;
-        ccp.initialize(ccpClientEncryptionKey);
-        payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
-        payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
-        payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
-      }).catch(errorFromResponse('An error occurred while requesting the ccp encryption key. Please try your payment again.'));
-    }
-
-    // Submit payment for the current registration
-    function payPayment () {
-      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods() ||
-          $scope.currentPayment.paymentType === 'PAY_ON_SITE') {
-        // No payment is necessary, so no work needs to be done here
-        return $q.when();
-      }
-
-      // Prepare the payment object
-      var currentPayment = angular.copy($scope.currentPayment);
-      currentPayment.registrationId = registration.id;
-      delete currentPayment.errors;
-
-      return $q.when().then(function () {
-        if (currentPayment.paymentType === 'CREDIT_CARD') {
-          // Credit card payments must be tokenized first
-          return tokenizeCreditCardPayment(currentPayment);
-        }
-      }).then(function () {
-        // Submit the payment
-        return $http.post('payments/', currentPayment);
-      }).catch(errorFromResponse('An error occurred while attempting to process your payment.'));
-    }
-
     // Mark the current registration as completed
     function completeRegistration () {
       return $q(function (resolve, reject) {
@@ -166,7 +100,7 @@ angular.module('confRegistrationWebApp')
           $scope.currentRegistration.completed = false;
           reject(data);
         });
-      }).catch(errorFromResponse('An error occurred while submitting your registration.'));
+      }).catch(error.errorFromResponse('An error occurred while submitting your registration.'));
     }
 
     // Display an error that occurred during registration completion
@@ -180,7 +114,7 @@ angular.module('confRegistrationWebApp')
 
     // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
     function confirmRegistration () {
-      if (!validatePayment()) {
+      if (!payment.validate($scope.currentPayment, $scope.currentRegistration)) {
         modalMessage.error({
           'title': 'Please correct the following errors:',
           'message': $scope.currentPayment.errors
@@ -188,7 +122,7 @@ angular.module('confRegistrationWebApp')
         return $q.reject();
       }
 
-      return payPayment().then(function () {
+      return payment.pay($scope.currentPayment, $scope.currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
         return completeRegistration();
       });
     }
@@ -262,9 +196,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.acceptedPaymentMethods = function(){
-      var regTypesInRegistration = [];
-      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId) {
-        regTypesInRegistration.push($scope.getRegistrantType(registrantTypeId));
+      var regTypesInRegistration =  _.uniq(_.pluck(registration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
+        return $scope.getRegistrantType(registrantTypeId);
       });
 
       var paymentMethods = {
@@ -274,7 +207,7 @@ angular.module('confRegistrationWebApp')
         acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
         acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
       };
-      return (!_.some(paymentMethods) ? false : paymentMethods);
+      return !_.some(paymentMethods) ? false : paymentMethods;
     };
 
     $scope.registrantDeletable = function(r){
@@ -430,7 +363,7 @@ angular.module('confRegistrationWebApp')
           // Hide certain elements and sections in the UI because the current user is not able make changes to their
           // spouses registration, even though they are now a registrant on that registration
           $scope.mergedRegistration = true;
-        }).catch(errorFromResponse('An error occurred while merging spouse registrations.'));
+        }).catch(error.errorFromResponse('An error occurred while merging spouse registrations.'));
     }
 
     // Called when the user clicks the register together button
