@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, currentRegistration, conference, error, spouse, payment, registration, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, currentRegistration, conference, error, spouse, registration, validateRegistrant, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -81,28 +81,6 @@ angular.module('confRegistrationWebApp')
       return $scope.registerMode === 'preview' || !$scope.allRegistrantsValid() || $scope.submittingRegistration;
     };
 
-    // Mark the current registration as completed
-    function completeRegistration () {
-      return $q(function (resolve, reject) {
-        var registration = angular.copy(currentRegistration);
-
-        if (registration.completed) {
-          // The registration is already completed, so nothing needs to be done
-          resolve();
-          return;
-        }
-
-        registration.completed = true;
-        RegistrationCache.update('registrations/' + registration.id, registration, function () {
-          RegistrationCache.emptyCache();
-          resolve();
-        }, function (data) {
-          currentRegistration.completed = false;
-          reject(data);
-        });
-      }).catch(error.errorFromResponse('An error occurred while submitting your registration.'));
-    }
-
     // Display an error that occurred during registration completion
     function handleRegistrationError (error) {
       modalMessage.error({
@@ -110,21 +88,6 @@ angular.module('confRegistrationWebApp')
         'forceAction': true
       });
       throw error;
-    }
-
-    // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
-    function confirmRegistration () {
-      if (!payment.validate($scope.currentPayment, currentRegistration)) {
-        modalMessage.error({
-          'title': 'Please correct the following errors:',
-          'message': $scope.currentPayment.errors
-        });
-        return $q.reject();
-      }
-
-      return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
-        return completeRegistration();
-      });
     }
 
     // Navigate to the correct page after completing a registration
@@ -139,7 +102,7 @@ angular.module('confRegistrationWebApp')
     // Called when the user clicks the confirm button
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      confirmRegistration().catch(handleRegistrationError).then(function () {
+      registration.confirmRegistration($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).catch(handleRegistrationError).then(function () {
         navigateToPostRegistrationPage();
         $scope.submittingRegistration = false;
       }).catch(function () {
@@ -269,7 +232,6 @@ angular.module('confRegistrationWebApp')
       return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
     };
 
-    ////// START EVENT-433 //////
     spouse.getSpouseRegistration(conference.id).then(function (spouseRegistration) {
       // The spouse is registered
       $scope.spouseRegistration = spouseRegistration;
@@ -281,104 +243,28 @@ angular.module('confRegistrationWebApp')
       ));
     });
 
-    // Load a registration from the server
-    // Returns a promise the resolves to the registration once it has been loaded
-    function loadRegistration (registrationId) {
-      return $http.get('/registrations/' + registrationId).then(function (res) {
-        return res.data;
-      });
-    }
-
-    // Create a new registration on the server
-    // Returns a promise the resolves when the registration has been created
-    function createRegistration (registration) {
-      return $http.put('/registrations/' + registration.id, registration);
-    }
-
-    // Delete a registration on the server
-    function deleteRegistration (registration) {
-      return $http.delete('/registrations/' + registration.id);
-    }
-
-    // Create a new registrant on the server
-    // Returns a promise the resolves when the registrant has been created
-    function createRegistrant (registrant) {
-      return $http.put('/registrants/' + registrant.id, registrant);
-    }
-
-    // Take the current registration and merge it into the spouse's registration
-    function mergeWithSpouse () {
-      // Generate an array of new registrants that include all attributes
-      var newRegistrants = currentRegistration.registrants.map(function (registrant) {
-        var newRegistrantId = uuid();
-
-        // Make a copy of the answers, but overwrite the id and registrantId attributes
-        var answers = registrant.answers.map(function(answer) {
-          return _.assign({}, answer, {
-            id: uuid(),
-            registrantId: newRegistrantId
-          });
-        });
-
-        return {
-          id: newRegistrantId,
-          registrationId: $scope.spouseRegistration.id,
-          registrantTypeId: registrant.registrantTypeId,
-          answers: answers,
-          firstName: registrant.firstName,
-          lastName: registrant.lastName,
-          email: registrant.email
-        };
-      });
-
-      //Payload for new spouse registration
-      var newSpouseRegistration = {
-        id: $scope.spouseRegistration.id,
-        conferenceId: currentRegistration.conferenceId,
-        registrants: newRegistrants.map(function (registrant) {
-          // When creating a new registration, only a few registrant attributes are required, so only keep a few of the
-          // registrant attributes
-          var sparseRegistrant = _.pick(registrant, ['id', 'registrationId', 'registrantTypeId']);
-          sparseRegistrant.answers = [];
-          return sparseRegistrant;
-        })
-      };
-
-      //Add new registration
-      return createRegistration(newSpouseRegistration)
-        .then(function () {
-          //Add registrants to new registration
-          // Advance to the next step after all the registrations have been created
-          return $q.all(newRegistrants.map(createRegistrant));
-        }).then(function () {
-          //Delete existing registration
-          return deleteRegistration(currentRegistration);
-        }).then(function () {
-          // Reload the merged spouse registration
-          return loadRegistration($scope.spouseRegistration.id);
-        }).then(function (mergedRegistration) {
-          // Update the UI to show the merged registration because it includes all of the registrants
-          $scope.currentRegistration = currentRegistration = mergedRegistration;
-
-          // Hide certain elements and sections in the UI because the current user is not able make changes to their
-          // spouses registration, even though they are now a registrant on that registration
-          $scope.mergedRegistration = true;
-        }).catch(error.errorFromResponse('An error occurred while merging spouse registrations.'));
-    }
-
     // Called when the user clicks the register together button
     $scope.mergeAndConfirmRegistration = function () {
       // Complete the current registration before merging it with the spouse
       $scope.submittingRegistration = true;
-      confirmRegistration().then(function () {
-        return mergeWithSpouse();
-      }).catch(handleRegistrationError).then(function() {
+      registration.confirmRegistration($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
+        return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
+      }).then(function () {
+        // Reload the merged spouse registration
+        return registration.load($scope.spouseRegistration.id);
+      }).then(function (mergedRegistration) {
+        // Update the UI to show the merged registration because it includes all of the registrants
+        $scope.currentRegistration = currentRegistration = mergedRegistration;
+
+        // Hide certain elements and sections in the UI because the current user is not able make changes to their
+        // spouses registration, even though they are now a registrant on that registration
+        $scope.mergedRegistration = true;
+
         $scope.submittingRegistration = false;
-      }).catch(function () {
+      }).catch(function (error) {
+        handleRegistrationError(error);
+
         $scope.submittingRegistration = false;
       });
     };
-
-    ////// END EVENT-433 //////
-
   });
