@@ -102,10 +102,15 @@ angular.module('confRegistrationWebApp')
     // Called when the user clicks the confirm button
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      registration.confirmRegistration($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).catch(handleRegistrationError).then(function () {
+      registration.submitPayment($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function() {
+        return registration.completeRegistration(currentRegistration);
+      }).then(function () {
         navigateToPostRegistrationPage();
+
         $scope.submittingRegistration = false;
-      }).catch(function () {
+      }).catch(function (error) {
+        handleRegistrationError(error);
+
         $scope.submittingRegistration = false;
       });
     };
@@ -244,7 +249,7 @@ angular.module('confRegistrationWebApp')
     $scope.mergeAndConfirmRegistration = function () {
       // Complete the current registration before merging it with the spouse
       $scope.submittingRegistration = true;
-      registration.confirmRegistration($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
+      registration.submitPayment($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
         return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
       }).then(function () {
         // Reload the merged spouse registration

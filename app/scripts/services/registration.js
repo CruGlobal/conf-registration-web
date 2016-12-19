@@ -19,28 +19,6 @@ angular.module('confRegistrationWebApp')
       return $http.put('registrants/' + registrant.id, registrant);
     }
 
-    // Mark the current registration as completed
-    function completeRegistration (currentRegistration) {
-      return $q(function (resolve, reject) {
-        var registration = angular.copy(currentRegistration);
-
-        if (registration.completed) {
-          // The registration is already completed, so nothing needs to be done
-          resolve();
-          return;
-        }
-
-        registration.completed = true;
-        RegistrationCache.update('registrations/' + registration.id, registration, function () {
-          RegistrationCache.emptyCache();
-          resolve();
-        }, function (data) {
-          currentRegistration.completed = false;
-          reject(data);
-        });
-      }).catch(error.errorFromResponse('An error occurred while submitting your registration.'));
-    }
-
     return {
       // Return a boolean indicating whether two registrations contain any of the same registrants
       overlapsRegistration: function (registration1, registration2) {
@@ -58,8 +36,8 @@ angular.module('confRegistrationWebApp')
         });
       },
 
-      // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
-      confirmRegistration: function (currentPayment, currentRegistration, acceptedPaymentMethods) {
+      // Submit payment information for a registration
+      submitPayment: function (currentPayment, currentRegistration, acceptedPaymentMethods) {
         if (!payment.validate(currentPayment, currentRegistration)) {
           modalMessage.error({
             'title': 'Please correct the following errors:',
@@ -68,9 +46,29 @@ angular.module('confRegistrationWebApp')
           return $q.reject();
         }
 
-        return payment.pay(currentPayment, currentRegistration, acceptedPaymentMethods).then(function () {
-          return completeRegistration(currentRegistration);
-        });
+        return payment.pay(currentPayment, currentRegistration, acceptedPaymentMethods);
+      },
+
+      // Mark a current registration as completed
+      completeRegistration: function (currentRegistration) {
+        return $q(function (resolve, reject) {
+          var registration = angular.copy(currentRegistration);
+
+          if (registration.completed) {
+            // The registration is already completed, so nothing needs to be done
+            resolve();
+            return;
+          }
+
+          registration.completed = true;
+          RegistrationCache.update('registrations/' + registration.id, registration, function () {
+            RegistrationCache.emptyCache();
+            resolve();
+          }, function (data) {
+            currentRegistration.completed = false;
+            reject(data);
+          });
+        }).catch(error.errorFromResponse('An error occurred while completing your registration.'));
       },
 
       // Take the current registration and merge it into the spouse's registration
