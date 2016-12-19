@@ -202,7 +202,7 @@
 
     <section class="text-center spacing-above-md hidden-print" ng-if="(!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)) && !spouseRegistration">
       <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
-      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerDisabled()">
       <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
     </section>
 
@@ -219,8 +219,9 @@
         </p>
         <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
         <div class="text-center spacing-above-md hidden-print">
-          <button class="btn btn-lg btn-important merge-registrations" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="mergeAndConfirmRegistration()" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration" translate>Register Together</button>
-          <button class="btn btn-lg btn-important confirm-registration" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="confirmRegistration()" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration" translate>Register Separately</button>
+          <button class="btn btn-lg btn-important btn-success merge-registrations" ng-click="mergeAndConfirmRegistration()" ng-disabled="registerDisabled()" ng-if="!alreadyRegistered" translate>Register Together</button>
+          <button class="btn btn-lg btn-important btn-success confirm-registration" ng-click="confirmRegistration()" ng-disabled="registerDisabled()" ng-if="!alreadyRegistered" translate>Register Separately</button>
+          <button class="btn btn-lg btn-important btn-warning confirm-registration" ng-click="confirmRegistration()" ng-disabled="registerDisabled()" ng-if="alreadyRegistered" translate>Register Again</button>
         </div>
       </div>
     </section>

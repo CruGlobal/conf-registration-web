@@ -76,6 +76,11 @@ angular.module('confRegistrationWebApp')
       }
     };
 
+    // Return a boolean indicating whether the register button(s) should be disabled
+    $scope.registerDisabled = function () {
+      return $scope.registerMode === 'preview' || !$scope.allRegistrantsValid() || $scope.submittingRegistration;
+    };
+
     // Generate a promise catch handler that generates an Error object from an HTTP response object
     function errorFromResponse (defaultErrorMessage) {
       return function (res) {
