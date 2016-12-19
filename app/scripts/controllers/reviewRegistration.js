@@ -247,9 +247,9 @@ angular.module('confRegistrationWebApp')
 
     // Called when the user clicks the register together button
     $scope.mergeAndConfirmRegistration = function () {
-      // Complete the current registration before merging it with the spouse
+      // Pay for the spouse's registration before merging it with the spouse
       $scope.submittingRegistration = true;
-      registration.submitPayment($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
+      registration.submitPayment($scope.currentPayment, $scope.spouseRegistration, $scope.acceptedPaymentMethods()).then(function () {
         return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
       }).then(function () {
         // Reload the merged spouse registration
@@ -259,7 +259,7 @@ angular.module('confRegistrationWebApp')
         $scope.currentRegistration = currentRegistration = mergedRegistration;
 
         // Hide certain elements and sections in the UI because the current user is not able make changes to their
-        // spouses registration, even though they are now a registrant on that registration
+        // spouse's registration, even though they are now a registrant on that registration
         $scope.mergedRegistration = true;
 
         $scope.submittingRegistration = false;
