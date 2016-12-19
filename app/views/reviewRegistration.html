@@ -1,6 +1,6 @@
 <div class="row spacing-below-md">
   <div class="col-xs-12 form-content">
-    <section ng-if="currentRegistration.completed">
+    <section ng-if="currentRegistration.completed || mergedRegistration">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
       <p ng-if="mergedRegistration" translate>
@@ -33,7 +33,7 @@
         </ul>
       </div>
     </section>
-    <section class="reg-not-complete" ng-if="!currentRegistration.completed">
+    <section class="reg-not-complete" ng-if="!currentRegistration.completed && !mergedRegistration">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />
       <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click {{getConfirmButtonName()}} if correct. That's it!</p>
