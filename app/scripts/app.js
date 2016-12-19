@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           spouseRegistration: ['$route', 'spouse', function ($route, spouse) {
             spouse.preloadSpouseRegistration($route.current.params.conferenceId);
           }],
-          registration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {

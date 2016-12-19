@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, error, spouse, payment, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, currentRegistration, conference, error, spouse, payment, registration, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -11,19 +11,19 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(_.isEmpty(registration.registrants) && !registration.completed) {
+    if(_.isEmpty(currentRegistration.registrants) && !currentRegistration.completed) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
     $scope.conference = conference;
-    $scope.currentRegistration = registration;
+    $scope.currentRegistration = currentRegistration;
     $scope.blocks = [];
     $scope.regValidate = [];
 
     //check if group registration is allowed based on registrants already in registration
-    if(!_.isEmpty(registration.registrants)){
+    if(!_.isEmpty(currentRegistration.registrants)){
       $scope.allowGroupRegistration = false;
-      angular.forEach(registration.registrants, function(r){
+      angular.forEach(currentRegistration.registrants, function(r){
         if($scope.allowGroupRegistration){
           return;
         }
@@ -45,7 +45,7 @@ angular.module('confRegistrationWebApp')
       }
 
       $scope.currentPayment = {
-        amount: $scope.currentRegistration.remainingBalance,
+        amount: currentRegistration.remainingBalance,
         paymentType: paymentType
       };
     }
@@ -56,7 +56,7 @@ angular.module('confRegistrationWebApp')
       }
     });
 
-    angular.forEach(registration.registrants, function (r) {
+    angular.forEach(currentRegistration.registrants, function (r) {
       $scope.regValidate[r.id] = validateRegistrant.validate(conference, r);
     });
 
@@ -69,7 +69,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.getConfirmButtonName = function () {
-      if ($scope.currentRegistration.completed || !$scope.spouseRegistration) {
+      if (currentRegistration.completed || !$scope.spouseRegistration) {
         return gettextCatalog.getString('Confirm');
       } else {
         return gettextCatalog.getString('one of the Register buttons');
@@ -84,7 +84,7 @@ angular.module('confRegistrationWebApp')
     // Mark the current registration as completed
     function completeRegistration () {
       return $q(function (resolve, reject) {
-        var registration = angular.copy($scope.currentRegistration);
+        var registration = angular.copy(currentRegistration);
 
         if (registration.completed) {
           // The registration is already completed, so nothing needs to be done
@@ -97,7 +97,7 @@ angular.module('confRegistrationWebApp')
           RegistrationCache.emptyCache();
           resolve();
         }, function (data) {
-          $scope.currentRegistration.completed = false;
+          currentRegistration.completed = false;
           reject(data);
         });
       }).catch(error.errorFromResponse('An error occurred while submitting your registration.'));
@@ -114,7 +114,7 @@ angular.module('confRegistrationWebApp')
 
     // Finalize the current registration, which includes submitting payment if necessary and marking it as completed
     function confirmRegistration () {
-      if (!payment.validate($scope.currentPayment, $scope.currentRegistration)) {
+      if (!payment.validate($scope.currentPayment, currentRegistration)) {
         modalMessage.error({
           'title': 'Please correct the following errors:',
           'message': $scope.currentPayment.errors
@@ -122,7 +122,7 @@ angular.module('confRegistrationWebApp')
         return $q.reject();
       }
 
-      return payment.pay($scope.currentPayment, $scope.currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
+      return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function () {
         return completeRegistration();
       });
     }
@@ -179,7 +179,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.allRegistrantsValid = function(){
       var returnVal = true;
-      angular.forEach(registration.registrants, function (r) {
+      angular.forEach(currentRegistration.registrants, function (r) {
         if (angular.isUndefined($scope.regValidate[r.id])) {
           returnVal = false;
         }else{
@@ -211,11 +211,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
-      if(registration.completed){
+      if(currentRegistration.completed){
         return false;
       }
       var groupRegistrants = 0, noGroupRegistrants = 0;
-      angular.forEach(registration.registrants, function(r){
+      angular.forEach(currentRegistration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
         if(regType.allowGroupRegistrations){
           groupRegistrants++;
@@ -233,7 +233,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.validatePromo = function(inputCode){
       $scope.addingPromoCode = true;
-      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+      $http.post('registrations/' + currentRegistration.id + '/promotions', {code: inputCode}).success(function () {
         $route.reload();
       }).error(function (data, status) {
         $scope.addingPromoCode = false;
@@ -251,9 +251,9 @@ angular.module('confRegistrationWebApp')
         'title': 'Delete Promotion',
         'question': 'Are you sure you want to delete this promotion?'
       }).then(function(){
-        var regCopy = angular.copy($scope.currentRegistration);
+        var regCopy = angular.copy(currentRegistration);
         _.remove(regCopy.promotions, {id: promoId});
-        $http.put('registrations/' + registration.id, regCopy).success(function () {
+        $http.put('registrations/' + currentRegistration.id, regCopy).success(function () {
           $route.reload();
         }).error(function (data) {
           modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting promotion.');
@@ -276,7 +276,7 @@ angular.module('confRegistrationWebApp')
 
       // Check whether the current user is registered on their spouse's registration
       $scope.alreadyRegistered = $scope.spouseRegistration && !_.isEmpty(_.intersection(
-        _.map($scope.currentRegistration.registrants, 'email'),
+        _.map(currentRegistration.registrants, 'email'),
         _.map($scope.spouseRegistration.registrants, 'email')
       ));
     });
@@ -309,7 +309,7 @@ angular.module('confRegistrationWebApp')
     // Take the current registration and merge it into the spouse's registration
     function mergeWithSpouse () {
       // Generate an array of new registrants that include all attributes
-      var newRegistrants = $scope.currentRegistration.registrants.map(function (registrant) {
+      var newRegistrants = currentRegistration.registrants.map(function (registrant) {
         var newRegistrantId = uuid();
 
         // Make a copy of the answers, but overwrite the id and registrantId attributes
@@ -334,7 +334,7 @@ angular.module('confRegistrationWebApp')
       //Payload for new spouse registration
       var newSpouseRegistration = {
         id: $scope.spouseRegistration.id,
-        conferenceId: $scope.currentRegistration.conferenceId,
+        conferenceId: currentRegistration.conferenceId,
         registrants: newRegistrants.map(function (registrant) {
           // When creating a new registration, only a few registrant attributes are required, so only keep a few of the
           // registrant attributes
@@ -352,13 +352,13 @@ angular.module('confRegistrationWebApp')
           return $q.all(newRegistrants.map(createRegistrant));
         }).then(function () {
           //Delete existing registration
-          return deleteRegistration($scope.currentRegistration);
+          return deleteRegistration(currentRegistration);
         }).then(function () {
           // Reload the merged spouse registration
           return loadRegistration($scope.spouseRegistration.id);
         }).then(function (mergedRegistration) {
           // Update the UI to show the merged registration because it includes all of the registrants
-          $scope.currentRegistration = mergedRegistration;
+          $scope.currentRegistration = currentRegistration = mergedRegistration;
 
           // Hide certain elements and sections in the UI because the current user is not able make changes to their
           // spouses registration, even though they are now a registrant on that registration
