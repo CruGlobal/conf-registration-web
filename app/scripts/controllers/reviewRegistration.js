@@ -159,7 +159,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.acceptedPaymentMethods = function(){
-      var regTypesInRegistration =  _.uniq(_.pluck(registration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
+      var regTypesInRegistration =  _.uniq(_.pluck(currentRegistration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
         return $scope.getRegistrantType(registrantTypeId);
       });
 
@@ -168,7 +168,7 @@ angular.module('confRegistrationWebApp')
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
         acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
-        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !currentRegistration.completed
       };
       return !_.some(paymentMethods) ? false : paymentMethods;
     };
