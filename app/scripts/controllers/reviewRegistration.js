@@ -237,10 +237,7 @@ angular.module('confRegistrationWebApp')
       $scope.spouseRegistration = spouseRegistration;
 
       // Check whether the current user is registered on their spouse's registration
-      $scope.alreadyRegistered = $scope.spouseRegistration && !_.isEmpty(_.intersection(
-        _.map(currentRegistration.registrants, 'email'),
-        _.map($scope.spouseRegistration.registrants, 'email')
-      ));
+      $scope.alreadyRegistered = spouseRegistration ? registration.overlapsRegistration(currentRegistration, spouseRegistration) : false;
     });
 
     // Called when the user clicks the register together button

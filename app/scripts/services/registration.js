@@ -42,6 +42,14 @@ angular.module('confRegistrationWebApp')
     }
 
     return {
+      // Return a boolean indicating whether two registrations contain any of the same registrants
+      overlapsRegistration: function (registration1, registration2) {
+        return !_.isEmpty(_.intersection(
+          _.map(registration1.registrants, 'email'),
+          _.map(registration2.registrants, 'email')
+        ));
+      },
+
       // Load a registration from the server
       // Returns a promise the resolves to the registration once it has been loaded
       load: function (registrationId) {
