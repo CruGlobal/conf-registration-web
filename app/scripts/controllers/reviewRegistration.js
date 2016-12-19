@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, spouse, RegistrationCache, validateRegistrant, $filter, uuid) {
+  .controller('ReviewRegistrationCtrl', function ($cacheFactory, $scope, $rootScope, $location, $route, $window, modalMessage, $q, $http, registration, conference, spouse, RegistrationCache, validateRegistrant, gettextCatalog, $filter, uuid) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -70,9 +70,9 @@ angular.module('confRegistrationWebApp')
 
     $scope.getConfirmButtonName = function () {
       if ($scope.currentRegistration.completed || !$scope.spouseRegistration) {
-        return 'Confirm';
+        return gettextCatalog.getString('Confirm');
       } else {
-        return 'one of the Register buttons';
+        return gettextCatalog.getString('one of the Register buttons');
       }
     };
 
