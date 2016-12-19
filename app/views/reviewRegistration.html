@@ -219,8 +219,8 @@
         </p>
         <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
         <div class="text-center spacing-above-md hidden-print">
-          <input type="button" class="btn btn-lg btn-important merge-registrations" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="mergeAndConfirmRegistration()" value="Register Together" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
-          <input type="button" class="btn btn-lg btn-important confirm-registration" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }"  ng-click="confirmRegistration()" value="Register Separately" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration">
+          <button class="btn btn-lg btn-important merge-registrations" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="mergeAndConfirmRegistration()" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration" translate>Register Together</button>
+          <button class="btn btn-lg btn-important confirm-registration" ng-class="{ 'btn-warning': alreadyRegistered, 'btn-success': !alreadyRegistered }" ng-click="confirmRegistration()" ng-disabled="registerMode === 'preview' || !allRegistrantsValid() || submittingRegistration" translate>Register Separately</button>
         </div>
       </div>
     </section>
