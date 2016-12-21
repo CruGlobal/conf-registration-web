@@ -249,8 +249,13 @@ angular.module('confRegistrationWebApp')
     $scope.mergeAndConfirmRegistration = function () {
       // Pay for the spouse's registration before merging it with the spouse
       $scope.submittingRegistration = true;
-      registration.submitPayment($scope.currentPayment, $scope.spouseRegistration, $scope.acceptedPaymentMethods()).then(function () {
-        return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
+
+      // merge registration prior to submitting payment to ensure payment can be validated in the context of the merge
+      registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration).then(function () {
+        // Reload the merged spouse registration
+        return registration.load($scope.spouseRegistration.id);
+      }).then(function (mergedRegistration) {
+        return registration.submitPayment($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods());
       }).then(function () {
         // Reload the merged spouse registration
         return registration.load($scope.spouseRegistration.id);
