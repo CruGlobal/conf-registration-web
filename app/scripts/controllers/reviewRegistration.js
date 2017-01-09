@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, currentRegistration, conference, error, spouse, registration, validateRegistrant, gettext) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, spouse, registration, payment, validateRegistrant, gettext) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -105,7 +105,13 @@ angular.module('confRegistrationWebApp')
     // Called when the user clicks the confirm button
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
-      registration.submitPayment($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods()).then(function() {
+
+      $q.when().then(function () {
+        // Validate the payment client-side first to catch any errors as soon as possible
+        return registration.validatePayment($scope.currentPayment, currentRegistration);
+      }).then(function() {
+        return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods());
+      }).then(function() {
         return registration.completeRegistration(currentRegistration);
       }).then(function () {
         navigateToPostRegistrationPage();
@@ -261,12 +267,19 @@ angular.module('confRegistrationWebApp')
       // Pay for the spouse's registration before merging it with the spouse
       $scope.submittingRegistration = true;
 
-      // merge registration prior to submitting payment to ensure payment can be validated in the context of the merge
-      registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration).then(function () {
-        // Reload the merged spouse registration
+      $q.when().then(function () {
+        // Validate the payment client-side first to catch any errors as soon as possible
+        return registration.validatePayment($scope.currentPayment, currentRegistration);
+      }).then(function () {
+        // Merge registration before submitting payment
+        // The payment cannot be submitted first because if the husband had already paid for their registration, the
+        // system will not let the wife pay for her registration because that would be an overpayment.
+        return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
+      }).then(function () {
+        // Reload the merged spouse registration to update the registration cost values before submitting payment
         return registration.load($scope.spouseRegistration.id);
       }).then(function (mergedRegistration) {
-        return registration.submitPayment($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods());
+        return payment.pay($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods());
       }).then(function () {
         // Reload the merged spouse registration
         return registration.load($scope.spouseRegistration.id);

@@ -43,17 +43,17 @@ angular.module('confRegistrationWebApp')
         });
       },
 
-      // Submit payment information for a registration
-      submitPayment: function (currentPayment, currentRegistration, acceptedPaymentMethods) {
-        if (!payment.validate(currentPayment, currentRegistration)) {
+      // Validate payment information for a registration
+      validatePayment: function (currentPayment, currentRegistration) {
+        if (payment.validate(currentPayment, currentRegistration)) {
+          return $q.when();
+        } else {
           modalMessage.error({
             'title': 'Please correct the following errors:',
             'message': currentPayment.errors
           });
           return $q.reject();
         }
-
-        return payment.pay(currentPayment, currentRegistration, acceptedPaymentMethods);
       },
 
       // Mark a current registration as completed
