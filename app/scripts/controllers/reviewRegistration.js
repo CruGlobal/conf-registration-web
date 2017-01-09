@@ -83,11 +83,14 @@ angular.module('confRegistrationWebApp')
 
     // Display an error that occurred during registration completion
     function handleRegistrationError (error) {
+      if (!error) {
+        return;
+      }
+
       modalMessage.error({
         'message': error.message || 'An error occurred while attempting to complete your registration.',
         'forceAction': true
       });
-      throw error;
     }
 
     // Navigate to the correct page after completing a registration
