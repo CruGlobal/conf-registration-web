@@ -210,11 +210,11 @@
       <h2 class="page-title border text-left" translate>Spouse Registration</h2>
       <div class="hidden-print">
         <p ng-if="alreadyRegistered" translate>
-          Your spouse has already registered both themselves and you for this conference.<br/>
+          Your spouse <strong>{{spouseName}}</strong> has already registered both themselves and you for this conference.<br/>
           Are you sure you want to register again?
         </p>
         <p ng-if="!alreadyRegistered" translate>
-          Your spouse has already registered for this conference.<br/>
+          Your spouse <strong>{{spouseName}}</strong> has already registered for this conference.<br/>
           Would you like to add your registration to your spouse's existing registration?
         </p>
         <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>

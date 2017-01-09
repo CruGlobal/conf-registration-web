@@ -28,6 +28,13 @@ angular.module('confRegistrationWebApp')
         ));
       },
 
+      // Return the primary registrant of a registration
+      getPrimaryRegistrant: function (registration) {
+        // The primary registrant is the registrant with the earliest createdTimestamp
+        // Because the timezone is in ISO format, it can be sorted lexicographically
+        return _.sortBy(registration.registrants, 'createdTimestamp')[0];
+      },
+
       // Load a registration from the server
       // Returns a promise the resolves to the registration once it has been loaded
       load: function (registrationId) {
