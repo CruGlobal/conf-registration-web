@@ -9,6 +9,7 @@
         Your combined registration is shown here, but you will not be able to access this information again once you
         naviagate away from this page.
       </p>
+      <p class="alert alert-danger" ng-if="mergedRegistration && mergeError" translate>{{mergeError}}</p>
       <p ng-if="currentRegistration.remainingBalance > 0"><translate>You have a remaining balance of</translate> {{currentRegistration.remainingBalance | currency:'$'}}</p>
       <p ng-if="!mergedRegistration && acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click {{getConfirmButtonName()}}. That's it!</p>
 
