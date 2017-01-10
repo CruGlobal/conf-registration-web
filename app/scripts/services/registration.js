@@ -107,13 +107,7 @@ angular.module('confRegistrationWebApp')
         var newSpouseRegistration = {
           id: spouseRegistration.id,
           conferenceId: currentRegistration.conferenceId,
-          registrants: newRegistrants.map(function (registrant) {
-            // When creating a new registration, only a few registrant attributes are required, so only keep a few of the
-            // registrant attributes
-            var sparseRegistrant = _.pick(registrant, ['id', 'registrationId', 'registrantTypeId']);
-            sparseRegistrant.answers = [];
-            return sparseRegistrant;
-          })
+          registrants: newRegistrants
         };
 
         // Add new registration
