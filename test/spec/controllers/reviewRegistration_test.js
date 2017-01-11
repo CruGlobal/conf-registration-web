@@ -11,7 +11,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         scope.answers = testData.registration.registrants[0].answers;
 
         controller = $controller('ReviewRegistrationCtrl', {
-            $scope: scope, registration: testData.registration, conference: testData.conference
+            $scope: scope, currentRegistration: testData.registration, conference: testData.conference
         });
     }));
 

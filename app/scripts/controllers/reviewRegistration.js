@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, registration, conference, RegistrationCache, validateRegistrant, $filter) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, spouse, registration, payment, validateRegistrant, gettext) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -11,19 +11,19 @@ angular.module('confRegistrationWebApp')
       footer: false
     };
 
-    if(_.isEmpty(registration.registrants) && !registration.completed) {
+    if(_.isEmpty(currentRegistration.registrants) && !currentRegistration.completed) {
       $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/');
     }
 
     $scope.conference = conference;
-    $scope.currentRegistration = registration;
+    $scope.currentRegistration = currentRegistration;
     $scope.blocks = [];
     $scope.regValidate = [];
 
     //check if group registration is allowed based on registrants already in registration
-    if(!_.isEmpty(registration.registrants)){
+    if(!_.isEmpty(currentRegistration.registrants)){
       $scope.allowGroupRegistration = false;
-      angular.forEach(registration.registrants, function(r){
+      angular.forEach(currentRegistration.registrants, function(r){
         if($scope.allowGroupRegistration){
           return;
         }
@@ -45,7 +45,7 @@ angular.module('confRegistrationWebApp')
       }
 
       $scope.currentPayment = {
-        amount: $scope.currentRegistration.remainingBalance,
+        amount: currentRegistration.remainingBalance,
         paymentType: paymentType
       };
     }
@@ -56,7 +56,7 @@ angular.module('confRegistrationWebApp')
       }
     });
 
-    angular.forEach(registration.registrants, function (r) {
+    angular.forEach(currentRegistration.registrants, function (r) {
       $scope.regValidate[r.id] = validateRegistrant.validate(conference, r);
     });
 
@@ -68,98 +68,64 @@ angular.module('confRegistrationWebApp')
       return _.find($scope.blocks, {id: blockId});
     };
 
+    $scope.getConfirmButtonName = function () {
+      if (currentRegistration.completed || !$scope.spouseRegistration) {
+        return gettext('Confirm');
+      } else {
+        return gettext('one of the Register buttons');
+      }
+    };
+
+    // Return a boolean indicating whether the register button(s) should be disabled
+    $scope.registerDisabled = function () {
+      return $scope.registerMode === 'preview' || !$scope.allRegistrantsValid() || $scope.submittingRegistration;
+    };
+
+    // Display an error that occurred during registration completion
+    function handleRegistrationError (error) {
+      if (!error) {
+        return;
+      }
+
+      modalMessage.error({
+        'message': error.message || 'An error occurred while attempting to complete your registration.',
+        'forceAction': true
+      });
+    }
+
+    // Navigate to the correct page after completing a registration
+    function navigateToPostRegistrationPage () {
+      if (conference.registrationCompleteRedirect) {
+        $window.location.href = conference.registrationCompleteRedirect;
+      } else {
+        $route.reload();
+      }
+    }
+
+    // Called when the user clicks the confirm button
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
 
-      /*if the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
-        show and error message. the first payment must be at least the minimum deposit amount.  subsequent payments
-        can be less than the amount.  this is confirmed by making sure the total previously paid is above the min deposit amount.
-        */
-      if ($scope.currentRegistration.pastPayments.length === 0 && Number($scope.currentPayment.amount) < $scope.currentRegistration.calculatedMinimumDeposit) {
-        $scope.currentPayment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
-      }
+      $q.when().then(function () {
+        // Validate the payment client-side first to catch any errors as soon as possible
+        return registration.validatePayment($scope.currentPayment, currentRegistration);
+      }).then(function() {
+        return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods());
+      }).then(function() {
+        return registration.completeRegistration(currentRegistration);
+      }).then(function () {
+        navigateToPostRegistrationPage();
 
-      if(Number($scope.currentPayment.amount) > $scope.currentRegistration.remainingBalance) {
-        $scope.currentPayment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
-      }
-      if (Number($scope.currentPayment.amount) === 0 || !$scope.acceptedPaymentMethods()) {
-        setRegistrationAsCompleted();
-        return;
-      }
-
-      if (!_.isEmpty($scope.currentPayment.errors)) {
-        modalMessage.error({
-          'title': 'Please correct the following errors:',
-          'message': $scope.currentPayment.errors
-        });
         $scope.submittingRegistration = false;
-        return;
-      }
+      }).catch(function (error) {
+        handleRegistrationError(error);
 
-      if($scope.currentPayment.paymentType === 'PAY_ON_SITE'){
-        if(!$scope.currentRegistration.completed){
-          setRegistrationAsCompleted();
-        }else{
-          $scope.submittingRegistration = false;
-        }
-        return;
-      }
-
-      var currentPayment = angular.copy($scope.currentPayment);
-      currentPayment.registrationId =  registration.id;
-      delete currentPayment.errors;
-      if(currentPayment.paymentType === 'CREDIT_CARD'){
-        $http.get('payments/ccp-client-encryption-key').success(function(ccpClientEncryptionKey) {
-          ccp.initialize(ccpClientEncryptionKey);
-          currentPayment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(currentPayment.creditCard.number);
-          currentPayment.creditCard.number = ccp.encrypt(currentPayment.creditCard.number);
-          currentPayment.creditCard.cvvNumber = ccp.encrypt(currentPayment.creditCard.cvvNumber);
-          postPayment(currentPayment);
-        }).error(function() {
-          modalMessage.error('An error occurred while requesting the ccp encryption key. Please try your payment again.');
-        });
-      }else{
-        postPayment(currentPayment);
-      }
-    };
-
-    var postPayment = function(currentPayment){
-      $http.post('payments/', currentPayment).success(function () {
-        delete $scope.currentPayment;
-        if(!$scope.currentRegistration.completed) {
-          setRegistrationAsCompleted();
-        } else {
-          $route.reload();
-        }
-      }).error(function (data) {
         $scope.submittingRegistration = false;
-        modalMessage.error({
-          'message': data.error ? data.error.message : 'An error occurred while attempting to process your payment.',
-          'forceAction': true
-        });
-      });
-    };
-
-    var setRegistrationAsCompleted = function() {
-      registration = angular.copy(registration);
-      registration.completed = true;
-
-      RegistrationCache.update('registrations/' + registration.id, registration, function () {
-        RegistrationCache.emptyCache();
-        if(conference.registrationCompleteRedirect){
-          $window.location.href = conference.registrationCompleteRedirect;
-        }else{
-          $route.reload();
-        }
-      }, function (data) {
-        $scope.currentRegistration.completed = false;
-        $scope.submittingRegistration = false;
-        modalMessage.error(data.error ? data.error.message : 'An error occurred while submitting your registration.');
       });
     };
 
     $scope.editRegistrant = function (id) {
-        $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
+      $location.path('/' + ($rootScope.registerMode || 'register') + '/' + conference.id + '/page/' + conference.registrationPages[0].id).search('reg', id);
     };
 
     $scope.removeRegistrant = function (id) {
@@ -190,7 +156,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.allRegistrantsValid = function(){
       var returnVal = true;
-      angular.forEach(registration.registrants, function (r) {
+      angular.forEach(currentRegistration.registrants, function (r) {
         if (angular.isUndefined($scope.regValidate[r.id])) {
           returnVal = false;
         }else{
@@ -207,9 +173,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.acceptedPaymentMethods = function(){
-      var regTypesInRegistration = [];
-      angular.forEach(_.uniq(_.pluck(registration.registrants, 'registrantTypeId')), function(registrantTypeId) {
-        regTypesInRegistration.push($scope.getRegistrantType(registrantTypeId));
+      var regTypesInRegistration =  _.uniq(_.pluck(currentRegistration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
+        return $scope.getRegistrantType(registrantTypeId);
       });
 
       var paymentMethods = {
@@ -217,17 +182,17 @@ angular.module('confRegistrationWebApp')
         acceptChecks:_.some(regTypesInRegistration, 'acceptChecks'),
         acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
         acceptScholarships: _.some(regTypesInRegistration, 'acceptScholarships'),
-        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !registration.completed
+        acceptPayOnSite: _.some(regTypesInRegistration, 'acceptPayOnSite') && !currentRegistration.completed
       };
-      return (!_.some(paymentMethods) ? false : paymentMethods);
+      return !_.some(paymentMethods) ? false : paymentMethods;
     };
 
     $scope.registrantDeletable = function(r){
-      if(registration.completed){
+      if(currentRegistration.completed){
         return false;
       }
       var groupRegistrants = 0, noGroupRegistrants = 0;
-      angular.forEach(registration.registrants, function(r){
+      angular.forEach(currentRegistration.registrants, function(r){
         var regType = _.find(conference.registrantTypes, { 'id': r.registrantTypeId });
         if(regType.allowGroupRegistrations){
           groupRegistrants++;
@@ -245,7 +210,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.validatePromo = function(inputCode){
       $scope.addingPromoCode = true;
-      $http.post('registrations/' + registration.id + '/promotions', {code: inputCode}).success(function () {
+      $http.post('registrations/' + currentRegistration.id + '/promotions', {code: inputCode}).success(function () {
         $route.reload();
       }).error(function (data, status) {
         $scope.addingPromoCode = false;
@@ -263,9 +228,9 @@ angular.module('confRegistrationWebApp')
         'title': 'Delete Promotion',
         'question': 'Are you sure you want to delete this promotion?'
       }).then(function(){
-        var regCopy = angular.copy($scope.currentRegistration);
+        var regCopy = angular.copy(currentRegistration);
         _.remove(regCopy.promotions, {id: promoId});
-        $http.put('registrations/' + registration.id, regCopy).success(function () {
+        $http.put('registrations/' + currentRegistration.id, regCopy).success(function () {
           $route.reload();
         }).error(function (data) {
           modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting promotion.');
@@ -279,5 +244,61 @@ angular.module('confRegistrationWebApp')
 
     $scope.hasPendingCheckPayment = function(payments){
       return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
+    };
+
+    spouse.getSpouseRegistration(conference.id).then(function (spouseRegistration) {
+      // The spouse is registered
+      $scope.spouseRegistration = spouseRegistration;
+
+      if (spouseRegistration) {
+        // Check whether the current user is registered on their spouse's registration
+        $scope.alreadyRegistered = registration.overlapsRegistration(currentRegistration, spouseRegistration);
+
+        var spouse = registration.getPrimaryRegistrant(spouseRegistration);
+        $scope.spouseName = spouse.firstName + ' ' + spouse.lastName;
+      } else {
+        $scope.alreadyRegistered = false;
+        $scope.spouseName = null;
+      }
+    });
+
+    // Called when the user clicks the register together button
+    $scope.mergeAndConfirmRegistration = function () {
+      // Pay for the spouse's registration before merging it with the spouse
+      $scope.submittingRegistration = true;
+
+      $q.when().then(function () {
+        // Validate the payment client-side first to catch any errors as soon as possible
+        return registration.validatePayment($scope.currentPayment, currentRegistration);
+      }).then(function () {
+        // Merge registration before submitting payment
+        // The payment cannot be submitted first because if the husband had already paid for their registration, the
+        // system will not let the wife pay for her registration because that would be an overpayment.
+        return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
+      }).then(function () {
+        // Reload the merged spouse registration to update the registration cost values before submitting payment
+        return registration.load($scope.spouseRegistration.id);
+      }).then(function (mergedRegistration) {
+        return payment.pay($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods()).catch(function () {
+          // Payment errors do not stop the promise chain so that the page will still be updated with the merged registration
+          $scope.paymentError = true;
+        });
+      }).then(function () {
+        // Reload the merged spouse registration
+        return registration.load($scope.spouseRegistration.id);
+      }).then(function (mergedRegistration) {
+        // Update the UI to show the merged registration because it includes all of the registrants
+        $scope.currentRegistration = currentRegistration = mergedRegistration;
+
+        // Hide certain elements and sections in the UI because the current user is not able make changes to their
+        // spouse's registration, even though they are now a registrant on that registration
+        $scope.mergedRegistration = true;
+
+        $scope.submittingRegistration = false;
+      }).catch(function (error) {
+        handleRegistrationError(error);
+
+        $scope.submittingRegistration = false;
+      });
     };
   });
