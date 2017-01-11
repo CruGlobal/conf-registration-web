@@ -281,9 +281,7 @@ angular.module('confRegistrationWebApp')
       }).then(function (mergedRegistration) {
         return payment.pay($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods()).catch(function () {
           // Payment errors do not stop the promise chain so that the page will still be updated with the merged registration
-          $scope.mergeError = 'An error occurred while processing your payment. ' +
-              'Because your registration has already been combined with your spouse\'s registration, ' +
-              'your spouse will have to complete payment for your combined registration.';
+          $scope.paymentError = true;
         });
       }).then(function () {
         // Reload the merged spouse registration
