@@ -10,7 +10,7 @@ module.exports = function(config){
       'app/bower_components/angular-cookies/angular-cookies.js',
       'app/bower_components/angular-sanitize/angular-sanitize.js',
 
-      'app/bower_components/momentjs/moment.js',
+      'app/bower_components/moment/moment.js',
       'app/bower_components/moment-timezone/builds/moment-timezone-with-data.js',
       'app/bower_components/lodash/dist/lodash.js',
       'app/bower_components/ng-facebook/ngFacebook.js',

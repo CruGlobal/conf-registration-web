@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp')
             };
           };
           // smartresize
-          jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+          jQuery.fn[sr] = function(fn){  return fn ? this.on('resize', debounce(fn)) : this.trigger(sr); };
 
         })(jQuery,'smartresize');
 
@@ -51,7 +51,7 @@ angular.module('confRegistrationWebApp')
           $timeout(setQuestionToolbarSize, 0);
         };
 
-        $document.ready(function () {
+        $(function () {
           $('.questions-toolbar').affix({
             offset: {
               top: function () {
