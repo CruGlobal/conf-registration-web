@@ -25,9 +25,21 @@ angular.module('confRegistrationWebApp')
     };
     $scope.changeTab($scope.tabs[0]);
 
-    $scope.paymentGateways = [
-      {id: 'AUTHORIZE_NET', name: 'Authorize.Net'}
-    ];
+    $scope.paymentGateways = {
+      AUTHORIZE_NET: {
+        name: 'Authorize.Net',
+        fields: {
+          paymentGatewayId: { title: 'Account ID' },
+          paymentGatewayKey: { title: 'Key' }
+        }
+      },
+      TSYS: {
+        name: 'TSYS',
+        fields: {
+          paymentGatewayId: { title: 'Merchant Device' }
+        }
+      }
+    };
 
     $scope.conference = angular.copy(conference);
 

@@ -212,7 +212,7 @@ angular.module('confRegistrationWebApp')
             'requireLogin': true,
             'archived': false,
             'earlyRegistrationOpen': false,
-            'paymentGatewayType': 'AUTHORIZE_NET',
+            'paymentGatewayType': 'TSYS',
             'paymentGatewayId': '9H59j8uV7sdgsdg343434',
             'paymentGatewayKey': null,
             'paymentGatewayKeySaved': true,
