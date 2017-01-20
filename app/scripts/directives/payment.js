@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
         paymentMethods: '=paymentMethods',
         isAdminPayment: '=adminPayment'
       },
-      controller: function ($scope, $http, cruPayments, expenseTypesConstants) {
+      controller: function ($scope, $http, cruPayments, expenseTypesConstants, gettext) {
         $scope.conference =  $scope.$parent.conference;
         $scope.expenseTypesConstants = expenseTypesConstants;
         $scope.currentYear = new Date().getFullYear();
@@ -141,7 +141,7 @@ angular.module('confRegistrationWebApp')
                   // Validate this field
                   validators.forEach(function (validator) {
                     if (!validator.validate(currentPayment.creditCard[field])) {
-                      paymentErrors.push(validator.errorMessage);
+                      paymentErrors.push(gettext(validator.errorMessage));
                     }
                   })
                 });
