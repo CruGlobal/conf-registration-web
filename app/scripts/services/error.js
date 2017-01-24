@@ -6,6 +6,8 @@ angular.module('confRegistrationWebApp')
       // Generate a promise catch handler that generates an Error object from an HTTP response object
       errorFromResponse: function (defaultErrorMessage) {
         return function (res) {
+          console.error(res);
+
           // Extract the error from the payload
           var error = res.data && res.data.error;
 
