@@ -52,7 +52,7 @@ angular.module('confRegistrationWebApp')
         eventStartTime: moment().add(14, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventEndTime: moment().add(20, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventTimezone: 'America/New_York',
-        paymentGatewayType: 'AUTHORIZE_NET',
+        paymentGatewayType: 'TSYS',
         registrantTypes: [{
           id: uuid(),
           name: 'Default',

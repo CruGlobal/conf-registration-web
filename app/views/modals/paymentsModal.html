@@ -357,7 +357,7 @@
             <div class="col-sm-8">
               <label translate>Refund Method</label>
               <select ng-model="refund.refundChannel" class="form-control" ng-change="refreshRefund(paymentToRefund, refund)">
-                <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'" translate>Credit Card (automatically via Authorize.net)</option>
+                <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'" translate>Credit Card (automatically)</option>
                 <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'" translate>Credit Card (manually)</option>
                 <option value="CASH" translate>Cash</option>
                 <option value="CHECK" translate>Check</option>
