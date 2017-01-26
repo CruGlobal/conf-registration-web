@@ -208,7 +208,9 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
-        validationErrors.push('Please enter a credit card Account ID and Key under the "Payment Options" tab.');
+        var paymentGateway = $scope.paymentGateways[$scope.conference.paymentGatewayType];
+        var fields = paymentGateway ? _.map(paymentGateway.fields, 'title').join(' and ') : 'fields';
+        validationErrors.push('Please enter the credit card ' + fields + ' under the "Payment Options" tab.');
       }
 
       //Minimum Deposit
