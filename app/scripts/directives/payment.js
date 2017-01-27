@@ -138,12 +138,13 @@ angular.module('confRegistrationWebApp')
 
                 // Run all of the validations
                 _.forEach(validations, function (validators, field) {
-                  // Validate this field
-                  validators.forEach(function (validator) {
-                    if (!validator.validate(currentPayment.creditCard[field])) {
-                      paymentErrors.push(gettext(validator.errorMessage));
-                    }
-                  })
+                  // Validate this field, stopping on the first failed validator
+                  var failedValidator = _.find(validators, function (validator) {
+                    return !validator.validate(currentPayment.creditCard[field]);
+                  });
+                  if (failedValidator) {
+                    paymentErrors.push(gettext(failedValidator.errorMessage));
+                  }
                 });
 
                 //don't require billing address if admin payment
