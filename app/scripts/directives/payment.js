@@ -11,7 +11,7 @@ angular.module('confRegistrationWebApp')
         paymentMethods: '=paymentMethods',
         isAdminPayment: '=adminPayment'
       },
-      controller: function ($scope, $http, cruPayments, expenseTypesConstants, gettext) {
+      controller: function ($scope, $http, cruPayments, expenseTypesConstants, gettextCatalog) {
         $scope.conference =  $scope.$parent.conference;
         $scope.expenseTypesConstants = expenseTypesConstants;
         $scope.currentYear = new Date().getFullYear();
@@ -78,60 +78,60 @@ angular.module('confRegistrationWebApp')
                   number: [
                     {
                       validate: required,
-                      errorMessage: 'You must enter a card number.'
+                      errorMessage: gettextCatalog.getString('You must enter a card number.')
                     }, {
                       validate: cruPayments.card.validate.minLength,
-                      errorMessage: 'This card number must contain at least 13 digits.'
+                      errorMessage: gettextCatalog.getString('This card number must contain at least 13 digits.')
                     }, {
                       validate: cruPayments.card.validate.maxLength,
-                      errorMessage: 'This card number cannot contain more than 16 digits.'
+                      errorMessage: gettextCatalog.getString('This card number cannot contain more than 16 digits.')
                     }, {
                       validate: cruPayments.card.validate.knownType,
-                      errorMessage: 'This card type is not recognized.'
+                      errorMessage: gettextCatalog.getString('This card type is not recognized.')
                     }, {
                       validate: cruPayments.card.validate.typeLength,
                       get errorMessage() {
                         var cardNumber = currentPayment.creditCard.number;
                         var cardType = cruPayments.card.info.type(cardNumber);
                         var expectedLength = cruPayments.card.info.expectedLengthForType(cardNumber) || [];
-                        return 'This is an invalid ' + cardType + ' number. ' +
-                               'It should have ' + expectedLength.join(' or ') + ' digits.';
+                        var expectedDigits = expectedLength.join(gettextCatalog.getString(' or '));
+                        return gettextCatalog.getString('This is an invalid {{cardType}} number. It should have {{expectedDigits}} digits.', { cardType: cardType, expectedDigits: expectedDigits });
                       }
                     }, {
                       validate: cruPayments.card.validate.checksum,
-                      errorMessage: 'This card number is invalid. At least one digit was entered incorrectly.'
+                      errorMessage: gettextCatalog.getString('This card number is invalid. At least one digit was entered incorrectly.')
                     }
                   ],
                   cvvNumber: [
                     {
                       validate: required,
-                      errorMessage: 'You must enter the security code.'
+                      errorMessage: gettextCatalog.getString('You must enter the security code.')
                     }, {
                       validate: cruPayments.cvv.validate.minLength,
-                      errorMessage: 'The security code must be at least 3 digits.'
+                      errorMessage: gettextCatalog.getString('The security code must be at least 3 digits.')
                     }, {
                       validate: cruPayments.cvv.validate.maxLength,
-                      errorMessage: 'The security code cannot be more than 4 digits.'
+                      errorMessage: gettextCatalog.getString('The security code cannot be more than 4 digits.')
                     }
                   ],
                   expirationMonth: [
                     {
                       validate: required,
-                      errorMessage: 'You must choose an expiration month.'
+                      errorMessage: gettextCatalog.getString('You must choose an expiration month.')
                     }, {
                       validate: function (expirationMonth) {
                         return cruPayments.expiryDate.validate.month(expirationMonth, currentPayment.creditCard.expirationYear);
                       },
-                      errorMessage: 'Your credit card is expired or you selected the wrong month or year.'
+                      errorMessage: gettextCatalog.getString('Your credit card is expired or you selected the wrong month or year.')
                     }
                   ],
                   expirationYear: [
                     {
                       validate: required,
-                      errorMessage: 'You must choose an expiration year.'
+                      errorMessage: gettextCatalog.getString('You must choose an expiration year.')
                     }, {
                       validate: cruPayments.expiryDate.validate.year,
-                      errorMessage: 'Your credit card is expired or you selected the wrong year.'
+                      errorMessage: gettextCatalog.getString('Your credit card is expired or you selected the wrong year.')
                     }
                   ]
                 };
@@ -143,7 +143,7 @@ angular.module('confRegistrationWebApp')
                     return !validator.validate(currentPayment.creditCard[field]);
                   });
                   if (failedValidator) {
-                    paymentErrors.push(gettext(failedValidator.errorMessage));
+                    paymentErrors.push(failedValidator.errorMessage);
                   }
                 });
 
