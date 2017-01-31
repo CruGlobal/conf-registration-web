@@ -22,6 +22,6 @@ angular.module('confRegistrationWebApp').factory('analytics', function ($window,
       };
       $window._satellite.pageBottom();
     },
-    track: $window._satellite.track
+    track: angular.isDefined($window._satellite) && $window._satellite.track
   };
 });
