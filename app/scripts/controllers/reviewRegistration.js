@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, spouse, registration, payment, validateRegistrant, gettext) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, spouse, registration, payment, validateRegistrant, gettext, analytics) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -295,6 +295,11 @@ angular.module('confRegistrationWebApp')
         $scope.mergedRegistration = true;
 
         $scope.submittingRegistration = false;
+
+        //send analytics event
+        analytics.digitalData.eventID = conference.id;
+        analytics.digitalData.registeredEventName = conference.name;
+        analytics.track('registration');
       }).catch(function (error) {
         handleRegistrationError(error);
 

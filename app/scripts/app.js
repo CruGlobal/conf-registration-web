@@ -240,7 +240,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         redirectTo: '/'
       });
   })
-  .run(function ($rootScope, $cookies, $location, $window, ProfileCache) {
+  .run(function ($rootScope, $cookies, $location, $window, $timeout, ProfileCache, analytics) {
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
@@ -254,9 +254,12 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       //scroll to top of page when new page is loaded
       $window.scrollTo(0, 0);
 
-      //Google Analytics
+      //Analytics
       if($window.ga){
         $window.ga('send', 'pageview', {'page': $location.path()});
+      }
+      if(analytics.available){
+        $timeout(analytics.pageLoad);
       }
     });
 

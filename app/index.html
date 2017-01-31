@@ -14,14 +14,6 @@
     </script>
   <![endif]>
 
-  <!-- Adobe DTM -->
-  <!-- build:remove:dist -->
-  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e-staging.js"></script>
-  <!-- /build -->
-  <!-- build:remove:stage -->
-  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
-  <!-- /build -->
-
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
@@ -105,6 +97,9 @@
   <script src="scripts/directives/showErrors.js"></script>
   <script src="scripts/directives/stringToNumber.js"></script>
   <script src="scripts/directives/rule.js"></script>
+
+  <!--Factories-->
+  <script src="scripts/factories/analytics.js"></script>
 
   <!--Filters-->
   <script src="scripts/filters/evtDateFormat.js"></script>
@@ -301,6 +296,15 @@
   </script>
   <!-- /build -->
 
-  <script type="text/javascript">_satellite.pageBottom();</script>
+  <!-- Adobe DTM -->
+  <script>
+    window.digitalData = {};
+  </script>
+  <!-- build:remove:dist -->
+  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e-staging.js"></script>
+  <!-- /build -->
+  <!-- build:remove:stage -->
+  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
+  <!-- /build -->
 </body>
 </html>

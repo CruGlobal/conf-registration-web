@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location) {
+  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location, analytics) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'dashboard',
@@ -41,6 +41,11 @@ angular.module('confRegistrationWebApp')
         };
         $scope.searchComplete = val;
         $scope.searchResults = response.data;
+
+        analytics.digitalData.searchFilter = '';
+        analytics.digitalData.searchTeam = val;
+        analytics.digitalData.numberOfResults = response.data.length;
+        analytics.track('search');
       });
     }, 500, {leading: false});
 
