@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('confRegistrationWebApp').factory('analytics', function ($window, $rootScope, ProfileCache) {
   return {
     available: angular.isDefined($window._satellite),
@@ -5,7 +7,7 @@ angular.module('confRegistrationWebApp').factory('analytics', function ($window,
     pageLoad: function(){
       //logged in status
       $window.digitalData.loggedInStatus = 'Logged Out';
-      ProfileCache.getCache(function(profile){
+      ProfileCache.getCache(function(){
         $window.digitalData.loggedInStatus = 'Logged In';
         //TODO: add GR id once exposed by API
         //$window.digitalData.GUID = '';
