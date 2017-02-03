@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -279,6 +279,29 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
     $httpProvider.interceptors.push('authorizationInterceptor');
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
+  })
+  .config(function (envServiceProvider) {
+    envServiceProvider.config({
+      domains: {
+        development: ['localhost'],
+        staging: ['stage.eventregistrationtool.com'],
+        production: ['stage.eventregistrationtool.com']
+      },
+      vars: {
+        development: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging'
+        },
+        staging: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging'
+        },
+        production: {
+          apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production'
+        }
+      }
+    });
   })
   .run(function () {
     (function(d, s, id){

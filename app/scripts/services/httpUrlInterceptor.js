@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('httpUrlInterceptor', function (apiUrl) {
+  .factory('httpUrlInterceptor', function (envService) {
     return {
       request: function (config) {
         var passthroughRegexs = [
@@ -15,7 +15,7 @@ angular.module('confRegistrationWebApp')
         };
 
         if (!_.any(passthroughRegexs, match)) {
-          config.url = apiUrl + config.url;
+          config.url = envService.read('apiUrl') + config.url;
         }
 
         return config;

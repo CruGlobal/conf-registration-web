@@ -16,6 +16,7 @@ module.exports = function(config){
       'app/bower_components/ng-facebook/ngFacebook.js',
       'app/bower_components/angular-bootstrap/ui-bootstrap.js',
       'app/bower_components/angular-ui-tree/dist/angular-ui-tree.js',
+      'app/bower_components/angular-environment/dist/angular-environment.js',
       'app/components/angular-wysiwyg-custom.js',
       'app/bower_components/angular-gettext/dist/angular-gettext.js',
 

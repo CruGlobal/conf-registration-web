@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('payment', function ($q, $http, $filter, cruPayments, error) {
+  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error) {
     // Load the TSYS manifest
     // Returns a promise that resolves to the manifest value
     function loadTsysManifest (conference, payment) {
@@ -31,7 +31,7 @@ angular.module('confRegistrationWebApp')
           return loadTsysManifest(conference, payment);
         })
         .then(function (manifest) {
-          cruPayments.init('staging', conference.paymentGatewayId, manifest);
+          cruPayments.init(envService.read('tsysEnvironment'), conference.paymentGatewayId, manifest);
           return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
                                      payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
         })
