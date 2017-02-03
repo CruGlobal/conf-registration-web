@@ -290,14 +290,17 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       vars: {
         development: {
           apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysDeviceId: '88812128320102',
           tsysEnvironment: 'staging'
         },
         staging: {
           apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysDeviceId: '88812128320102',
           tsysEnvironment: 'staging'
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+          tsysDeviceId: '8487000661973802',
           tsysEnvironment: 'production'
         }
       }

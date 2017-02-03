@@ -31,7 +31,7 @@ angular.module('confRegistrationWebApp')
           return loadTsysManifest(conference, payment);
         })
         .then(function (manifest) {
-          cruPayments.init(envService.read('tsysEnvironment'), conference.paymentGatewayId, manifest);
+          cruPayments.init(envService.read('tsysEnvironment'), envService.read('tsysDeviceId'), manifest);
           return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
                                      payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
         })
