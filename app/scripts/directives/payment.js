@@ -58,16 +58,16 @@ angular.module('confRegistrationWebApp')
             currentPayment.transfer = currentPayment.scholarship;
           }
 
+          function required (value) {
+            return Boolean(value);
+          }
+
           var paymentErrors = [];
           if(angular.isUndefined(currentPayment.paymentType)) {
             paymentErrors.push('Please select a payment method.');
           } else {
             switch (currentPayment.paymentType) {
               case 'CREDIT_CARD':
-                function required (value) {
-                  return Boolean(value);
-                }
-
                 var validations = {
                   nameOnCard: [
                     {
