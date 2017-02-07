@@ -1,20 +1,10 @@
 <div class="row spacing-below-md">
   <div class="col-xs-12 form-content">
-    <section ng-if="currentRegistration.completed || mergedRegistration">
+    <section ng-if="currentRegistration.completed">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
-      <p ng-if="mergedRegistration" translate>
-        Because of technical limitations, now that you have registered with your spouse, you will no longer be able to
-        access your registration. Only your spouse will be able to view or make changes to your combined registration.
-        Your combined registration is shown here, but you will not be able to access this information again once you
-        naviagate away from this page.
-      </p>
-      <p class="alert alert-danger" ng-if="mergedRegistration && paymentError" translate>
-        An error occurred while processing your payment. Because your registration has already been combined with your
-        spouse's registration, your spouse will have to complete payment for your combined registration.
-      </p>
       <p ng-if="currentRegistration.remainingBalance > 0"><translate>You have a remaining balance of</translate> {{currentRegistration.remainingBalance | currency:'$'}}</p>
-      <p ng-if="!mergedRegistration && acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click {{getConfirmButtonName()}}. That's it!</p>
+      <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click Confirm. That's it!</p>
 
       <div class="well well-creme2">
         <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
@@ -37,11 +27,11 @@
         </ul>
       </div>
     </section>
-    <section class="reg-not-complete" ng-if="!currentRegistration.completed && !mergedRegistration">
+    <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />
-      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click {{getConfirmButtonName()}} if correct. That's it!</p>
-      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0" translate>Almost done. Please review your registration details and enter your payment information below. Then click {{getConfirmButtonName()}}. That's it!</p>
+      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
+      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0" translate>Almost done. Please review your registration details and enter your payment information below. Then click Confirm. That's it!</p>
     </section>
   </div>
 </div>
@@ -68,7 +58,7 @@
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
               <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
             </td>
-            <td class="text-right" ng-if="!mergedRegistration">
+            <td class="text-right">
               <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="editRegistrant(r.id)" value="Edit"
                      ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
               <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
@@ -82,7 +72,7 @@
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete) && !mergedRegistration" class="hidden-print">
+    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)" class="hidden-print">
       <h2 class="page-title border" translate>Add a Family Member</h2>
       <registration-type-select></registration-type-select>
     </section>
@@ -198,45 +188,19 @@
         </ol>
       </div>
 
-      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0 && !mergedRegistration" class="hidden-print">
+      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" class="hidden-print">
         <h2 class="page-title border" translate>Payment</h2>
         <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
       </div>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="(!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)) && !spouseRegistration">
+    <section class="text-center spacing-above-md hidden-print" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
       <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
       <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerDisabled()">
       <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
     </section>
-
-    <section class="text-center spacing-above-md hidden-print" ng-if="!currentRegistration.completed && spouseRegistration && !mergedRegistration">
-      <h2 class="page-title border text-left" translate>Spouse Registration</h2>
-      <div class="hidden-print">
-        <p ng-if="alreadyRegistered" translate>
-          Your spouse <strong>{{spouseName}}</strong> has already registered both themselves and you for this conference.<br/>
-          Are you sure you want to register again?
-        </p>
-        <p ng-if="!alreadyRegistered" translate>
-          Your spouse <strong>{{spouseName}}</strong> has already registered for this conference.<br/>
-          Would you like to add your registration to your spouse's existing registration?
-        </p>
-        <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
-        <div class="text-center spacing-above-md hidden-print">
-          <button class="btn btn-lg btn-important btn-success merge-registrations" ng-click="mergeAndConfirmRegistration()" ng-disabled="registerDisabled()" ng-if="!alreadyRegistered" translate>Register Together</button>
-          <button class="btn btn-lg btn-important btn-success confirm-registration" ng-click="confirmRegistration()" ng-disabled="registerDisabled()" ng-if="!alreadyRegistered" translate>Register Separately</button>
-          <button class="btn btn-lg btn-important btn-warning confirm-registration" ng-click="confirmRegistration()" ng-disabled="registerDisabled()" ng-if="alreadyRegistered" translate>Register Again</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="text-center hidden-print" ng-if="currentRegistration.completed">
-      <div class="spacing-above-md" ng-if="mergedRegistration && conference.registrationCompleteRedirect">
-        <a ng-href="{{conference.registrationCompleteRedirect}}" class="btn btn-success">Go to conference page</a>
-      </div>
-      <div class="spacing-above-md">
-        <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
-      </div>
+    <section class="text-center spacing-above-md hidden-print" ng-if="currentRegistration.completed">
+      <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
     </section>
   </div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, spouse, registration, payment, validateRegistrant, gettext) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant, gettext) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -66,14 +66,6 @@ angular.module('confRegistrationWebApp')
 
     $scope.getBlock = function (blockId) {
       return _.find($scope.blocks, {id: blockId});
-    };
-
-    $scope.getConfirmButtonName = function () {
-      if (currentRegistration.completed || !$scope.spouseRegistration) {
-        return gettext('Confirm');
-      } else {
-        return gettext('one of the Register buttons');
-      }
     };
 
     // Return a boolean indicating whether the register button(s) should be disabled
@@ -244,61 +236,5 @@ angular.module('confRegistrationWebApp')
 
     $scope.hasPendingCheckPayment = function(payments){
       return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
-    };
-
-    spouse.getSpouseRegistration(conference.id).then(function (spouseRegistration) {
-      // The spouse is registered
-      $scope.spouseRegistration = spouseRegistration;
-
-      if (spouseRegistration) {
-        // Check whether the current user is registered on their spouse's registration
-        $scope.alreadyRegistered = registration.overlapsRegistration(currentRegistration, spouseRegistration);
-
-        var spouse = registration.getPrimaryRegistrant(spouseRegistration);
-        $scope.spouseName = spouse.firstName + ' ' + spouse.lastName;
-      } else {
-        $scope.alreadyRegistered = false;
-        $scope.spouseName = null;
-      }
-    });
-
-    // Called when the user clicks the register together button
-    $scope.mergeAndConfirmRegistration = function () {
-      // Pay for the spouse's registration before merging it with the spouse
-      $scope.submittingRegistration = true;
-
-      $q.when().then(function () {
-        // Validate the payment client-side first to catch any errors as soon as possible
-        return registration.validatePayment($scope.currentPayment, currentRegistration);
-      }).then(function () {
-        // Merge registration before submitting payment
-        // The payment cannot be submitted first because if the husband had already paid for their registration, the
-        // system will not let the wife pay for her registration because that would be an overpayment.
-        return registration.mergeWithSpouse(currentRegistration, $scope.spouseRegistration);
-      }).then(function () {
-        // Reload the merged spouse registration to update the registration cost values before submitting payment
-        return registration.load($scope.spouseRegistration.id);
-      }).then(function (mergedRegistration) {
-        return payment.pay($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods()).catch(function () {
-          // Payment errors do not stop the promise chain so that the page will still be updated with the merged registration
-          $scope.paymentError = true;
-        });
-      }).then(function () {
-        // Reload the merged spouse registration
-        return registration.load($scope.spouseRegistration.id);
-      }).then(function (mergedRegistration) {
-        // Update the UI to show the merged registration because it includes all of the registrants
-        $scope.currentRegistration = currentRegistration = mergedRegistration;
-
-        // Hide certain elements and sections in the UI because the current user is not able make changes to their
-        // spouse's registration, even though they are now a registrant on that registration
-        $scope.mergedRegistration = true;
-
-        $scope.submittingRegistration = false;
-      }).catch(function (error) {
-        handleRegistrationError(error);
-
-        $scope.submittingRegistration = false;
-      });
     };
   });

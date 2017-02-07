@@ -21,10 +21,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           allowNoneAuth: true
         },
         resolve: {
-          spouseRegistration: ['$route', 'spouse', function ($route, spouse) {
-            // Preload the spouse registration so that it will be ready by the time it is actually needed
-            spouse.getSpouseRegistration($route.current.params.conferenceId);
-          }],
           conference: ['$route', 'ConfCache', function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           }],
@@ -56,10 +52,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
           allowNoneAuth: true
         },
         resolve: {
-          spouseRegistration: ['$route', 'spouse', function ($route, spouse) {
-            // Preload the spouse registration so that it will be ready by the time it is actually needed
-            spouse.getSpouseRegistration($route.current.params.conferenceId);
-          }],
           currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
             RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
