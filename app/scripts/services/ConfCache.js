@@ -47,6 +47,7 @@ angular.module('confRegistrationWebApp')
         id: newConferenceId,
         name: name,
         allowEditRegistrationAfterComplete: true,
+        getSpouseRegistration: false,
         registrationStartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         registrationEndTime: moment().add(14, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventStartTime: moment().add(14, 'days').format('YYYY-MM-DD HH:mm:ss'),

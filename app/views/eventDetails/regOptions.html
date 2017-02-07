@@ -34,6 +34,17 @@
          popover-append-to-body="true">
       </i>
     </div>
+
+    <div class="checkbox">
+      <label><input type="checkbox" ng-model="conference.getSpouseRegistration">
+        <translate>Combine spouse registrations</translate>
+      </label>
+      <i class="question-popover fa fa-question-circle"
+         popover="{{'Combining spouse registrations will force a husband and wife to be on the same registration instead of on two separate registrations.' | translate}}"
+         popover-trigger="mouseenter"
+         popover-append-to-body="true">
+      </i>
+    </div>
   </div>
 </div>
 
