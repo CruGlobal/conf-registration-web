@@ -285,7 +285,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       domains: {
         development: ['localhost'],
         staging: ['stage.eventregistrationtool.com'],
-        production: ['stage.eventregistrationtool.com']
+        production: ['www.eventregistrationtool.com']
       },
       vars: {
         development: {
