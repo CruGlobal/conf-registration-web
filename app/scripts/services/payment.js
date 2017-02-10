@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('payment', function ($q, $http, $filter, cruPayments, error) {
+  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error) {
     // Load the TSYS manifest
     // Returns a promise that resolves to the manifest value
-    function loadTsysManifest (conference, payment) {
-      var url = 'payments/manifest/' + conference.id;
+    function loadTsysManifest (payment) {
+      var url = 'payments/manifest/' + envService.read('tsysDeviceId');
       return $http.get(url, { data: payment }).then(function (res) {
         return res.data;
       });
@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
 
     // Modify a credit card payment to use a tokenized credit card instead of real credit card data
     // Tokenize the credit card via Authorize.NET
-    function tokenizeCreditCardPaymentAuthorizeNet (conference, payment) {
+    function tokenizeCreditCardPaymentAuthorizeNet (payment) {
       return $http.get('payments/ccp-client-encryption-key').then(function (res) {
         var ccpClientEncryptionKey = res.data;
         ccp.initialize(ccpClientEncryptionKey);
@@ -25,13 +25,13 @@ angular.module('confRegistrationWebApp')
 
     // Modify a credit card payment to use a tokenized credit card instead of real credit card data
     // Tokenize the credit card via TSYS
-    function tokenizeCreditCardPaymentTsys (conference, payment) {
+    function tokenizeCreditCardPaymentTsys (payment) {
       return $q.when()
         .then(function () {
-          return loadTsysManifest(conference, payment);
+          return loadTsysManifest(payment);
         })
         .then(function (manifest) {
-          cruPayments.init('staging', conference.paymentGatewayId, manifest);
+          cruPayments.init(envService.read('tsysEnvironment'), envService.read('tsysDeviceId'), manifest);
           return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
                                      payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
         })
@@ -80,9 +80,9 @@ angular.module('confRegistrationWebApp')
           if (currentPayment.paymentType === 'CREDIT_CARD') {
             // Credit card payments must be tokenized first
             if (conference.paymentGatewayType === 'TSYS') {
-              return tokenizeCreditCardPaymentTsys(conference, currentPayment);
+              return tokenizeCreditCardPaymentTsys(currentPayment);
             } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
-              return tokenizeCreditCardPaymentAuthorizeNet(conference, currentPayment);
+              return tokenizeCreditCardPaymentAuthorizeNet(currentPayment);
             } else {
               throw new Error('Unrecognized payment gateway.');
             }

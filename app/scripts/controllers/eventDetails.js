@@ -36,7 +36,7 @@ angular.module('confRegistrationWebApp')
       TSYS: {
         name: 'TSYS',
         fields: {
-          paymentGatewayId: { title: 'ERT Device ID' }
+          paymentGatewayId: { title: 'Merchant Account ID' }
         }
       }
     };
