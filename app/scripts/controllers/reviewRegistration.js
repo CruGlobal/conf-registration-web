@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant, gettext) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
