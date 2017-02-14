@@ -3,9 +3,9 @@
 angular.module('confRegistrationWebApp')
   .factory('payment', function ($q, $http, $filter, cruPayments, envService, error) {
     // Load the TSYS manifest
-    // Returns a promise that resolves to the manifest value
+    // Returns a promise that resolves to an object containing the manifest and device id
     function loadTsysManifest (payment) {
-      var url = 'payments/manifest/' + envService.read('tsysDeviceId');
+      var url = 'payments/appManifest';
       return $http.get(url, { data: payment }).then(function (res) {
         return res.data;
       });
@@ -30,15 +30,14 @@ angular.module('confRegistrationWebApp')
         .then(function () {
           return loadTsysManifest(payment);
         })
-        .then(function (manifest) {
-          cruPayments.init(envService.read('tsysEnvironment'), envService.read('tsysDeviceId'), manifest);
+        .then(function (appManifest) {
+          cruPayments.init(envService.read('tsysEnvironment'), appManifest.deviceId, appManifest.manifest);
           return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
                                      payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
         })
         .then(function (tokenizedCard) {
           payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
           payment.creditCard.number = tokenizedCard.tsepToken;
-          payment.creditCard.cvvNumber = tokenizedCard.cvv2;
         })
         .catch(error.errorFromResponse('An error occurred while requesting the TSYS token. Please try your payment again.'));
     }
