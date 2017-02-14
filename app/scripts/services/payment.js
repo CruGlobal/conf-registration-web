@@ -38,7 +38,6 @@ angular.module('confRegistrationWebApp')
         .then(function (tokenizedCard) {
           payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
           payment.creditCard.number = tokenizedCard.tsepToken;
-          payment.creditCard.cvvNumber = tokenizedCard.cvv2;
         })
         .catch(error.errorFromResponse('An error occurred while requesting the TSYS token. Please try your payment again.'));
     }
