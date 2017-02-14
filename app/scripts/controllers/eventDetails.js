@@ -25,9 +25,21 @@ angular.module('confRegistrationWebApp')
     };
     $scope.changeTab($scope.tabs[0]);
 
-    $scope.paymentGateways = [
-      {id: 'AUTHORIZE_NET', name: 'Authorize.Net'}
-    ];
+    $scope.paymentGateways = {
+      AUTHORIZE_NET: {
+        name: 'Authorize.Net',
+        fields: {
+          paymentGatewayId: { title: 'Account ID' },
+          paymentGatewayKey: { title: 'Key' }
+        }
+      },
+      TSYS: {
+        name: 'TSYS',
+        fields: {
+          paymentGatewayId: { title: 'Merchant Account ID' }
+        }
+      }
+    };
 
     $scope.conference = angular.copy(conference);
 
@@ -196,7 +208,9 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
-        validationErrors.push('Please enter a credit card Account ID and Key under the "Payment Options" tab.');
+        var paymentGateway = $scope.paymentGateways[$scope.conference.paymentGatewayType];
+        var fields = paymentGateway ? _.map(paymentGateway.fields, 'title').join(' and ') : 'fields';
+        validationErrors.push('Please enter the credit card ' + fields + ' under the "Payment Options" tab.');
       }
 
       //Minimum Deposit

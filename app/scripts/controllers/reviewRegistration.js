@@ -110,7 +110,7 @@ angular.module('confRegistrationWebApp')
         // Validate the payment client-side first to catch any errors as soon as possible
         return registration.validatePayment($scope.currentPayment, currentRegistration);
       }).then(function() {
-        return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods());
+        return payment.pay($scope.currentPayment, conference, currentRegistration, $scope.acceptedPaymentMethods());
       }).then(function() {
         return registration.completeRegistration(currentRegistration);
       }).then(function () {
@@ -279,7 +279,7 @@ angular.module('confRegistrationWebApp')
         // Reload the merged spouse registration to update the registration cost values before submitting payment
         return registration.load($scope.spouseRegistration.id);
       }).then(function (mergedRegistration) {
-        return payment.pay($scope.currentPayment, mergedRegistration, $scope.acceptedPaymentMethods()).catch(function () {
+        return payment.pay($scope.currentPayment, conference, mergedRegistration, $scope.acceptedPaymentMethods()).catch(function () {
           // Payment errors do not stop the promise chain so that the page will still be updated with the merged registration
           $scope.paymentError = true;
         });
