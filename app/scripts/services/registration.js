@@ -1,48 +1,8 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('registration', function ($http, $q, RegistrationCache, modalMessage, payment, error, uuid) {
-    // Create a new registration on the server
-    // Returns a promise the resolves when the registration has been created
-    function createRegistration (registration) {
-      return $http.put('registrations/' + registration.id, registration);
-    }
-
-    // Delete a registration on the server
-    function deleteRegistration (registration) {
-      return $http.delete('registrations/' + registration.id);
-    }
-
-    // Create a new registrant on the server
-    // Returns a promise the resolves when the registrant has been created
-    function createRegistrant (registrant) {
-      return $http.put('registrants/' + registrant.id, registrant);
-    }
-
+  .factory('registration', function ($q, RegistrationCache, modalMessage, payment, error) {
     return {
-      // Return a boolean indicating whether two registrations contain any of the same registrants
-      overlapsRegistration: function (registration1, registration2) {
-        return !_.isEmpty(_.intersection(
-          _.map(registration1.registrants, 'email'),
-          _.map(registration2.registrants, 'email')
-        ));
-      },
-
-      // Return the primary registrant of a registration
-      getPrimaryRegistrant: function (registration) {
-        // The primary registrant is the registrant with the earliest createdTimestamp
-        // Because the timezone is in ISO format, it can be sorted lexicographically
-        return _.sortBy(registration.registrants, 'createdTimestamp')[0];
-      },
-
-      // Load a registration from the server
-      // Returns a promise the resolves to the registration once it has been loaded
-      load: function (registrationId) {
-        return $http.get('registrations/' + registrationId).then(function (res) {
-          return res.data;
-        });
-      },
-
       // Validate payment information for a registration
       validatePayment: function (currentPayment, currentRegistration) {
         if (payment.validate(currentPayment, currentRegistration)) {
@@ -76,50 +36,6 @@ angular.module('confRegistrationWebApp')
             reject(data);
           });
         }).catch(error.errorFromResponse('An error occurred while completing your registration.'));
-      },
-
-      // Take the current registration and merge it into the spouse's registration
-      mergeWithSpouse: function (currentRegistration, spouseRegistration) {
-        // Generate an array of new registrants that include all attributes
-        var newRegistrants = currentRegistration.registrants.map(function (registrant) {
-          var newRegistrantId = uuid();
-
-          // Make a copy of the answers, but overwrite the id and registrantId attributes
-          var answers = registrant.answers.map(function(answer) {
-            return _.assign({}, answer, {
-              id: uuid(),
-              registrantId: newRegistrantId
-            });
-          });
-
-          return {
-            id: newRegistrantId,
-            registrationId: spouseRegistration.id,
-            registrantTypeId: registrant.registrantTypeId,
-            answers: answers,
-            firstName: registrant.firstName,
-            lastName: registrant.lastName,
-            email: registrant.email
-          };
-        });
-
-        // Payload for new spouse registration
-        var newSpouseRegistration = {
-          id: spouseRegistration.id,
-          conferenceId: currentRegistration.conferenceId,
-          registrants: newRegistrants
-        };
-
-        // Add new registration
-        return createRegistration(newSpouseRegistration)
-          .then(function () {
-            // Add registrants to new registration
-            // Advance to the next step after all the registrations have been created
-            return $q.all(newRegistrants.map(createRegistrant));
-          }).then(function () {
-            // Delete existing registration
-            return deleteRegistration(currentRegistration);
-          }).catch(error.errorFromResponse('An error occurred while merging spouse registrations.'));
       }
     };
   });
