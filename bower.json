@@ -10,7 +10,7 @@
     "angular-environment": "^1.0.4",
     "lodash": "~2.4.1",
     "moment": "~2.10.5",
-    "moment-timezone": "~0.2.2",
+    "moment-timezone": "~0.5.11",
     "bootstrap": "~3.3.4",
     "angular-bootstrap": "0.13.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
