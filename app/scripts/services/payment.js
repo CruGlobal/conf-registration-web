@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error) {
+  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error, gettextCatalog) {
     // Load the TSYS manifest
     // Returns a promise that resolves to an object containing the manifest and device id
     function loadTsysManifest (payment) {
@@ -20,7 +20,7 @@ angular.module('confRegistrationWebApp')
         payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
         payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
         payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
-      }).catch(error.errorFromResponse('An error occurred while requesting the Authorize.NET token. Please try your payment again.'));
+      }).catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the Authorize.NET token. Please try your payment again.')));
     }
 
     // Modify a credit card payment to use a tokenized credit card instead of real credit card data
@@ -39,7 +39,7 @@ angular.module('confRegistrationWebApp')
           payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
           payment.creditCard.number = tokenizedCard.tsepToken;
         })
-        .catch(error.errorFromResponse('An error occurred while requesting the TSYS token. Please try your payment again.'));
+        .catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the TSYS token. Please try your payment again.')));
     }
 
     return {
@@ -52,11 +52,13 @@ angular.module('confRegistrationWebApp')
         */
 
         if (registration.pastPayments.length === 0 && Number(payment.amount) < registration.calculatedMinimumDeposit) {
-          payment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
+          var minimumDeposit = $filter('currency')(registration.calculatedMinimumDeposit, '$');
+          payment.errors.push(gettextCatalog.getString('You are required to pay at least the minimum deposit of {{minimumDeposit}} to register for this event.', { minimumDeposit: minimumDeposit }));
         }
 
         if (Number(payment.amount) > registration.remainingBalance) {
-          payment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
+          var remainingBalance = $filter('currency')(registration.remainingBalance, '$');
+          payment.errors.push(gettextCatalog.getString('You are paying more than the total due of {{remainingBalance}} to register for this event.', { remainingBalance: remainingBalance }));
         }
 
         // The payment is valid if it has no errors
@@ -83,13 +85,13 @@ angular.module('confRegistrationWebApp')
             } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
               return tokenizeCreditCardPaymentAuthorizeNet(currentPayment);
             } else {
-              throw new Error('Unrecognized payment gateway.');
+              throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
             }
           }
         }).then(function () {
           // Submit the payment
           return $http.post('payments/', currentPayment);
-        }).catch(error.errorFromResponse('An error occurred while attempting to process your payment.'));
+        }).catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while attempting to process your payment.')));
       }
     };
   });

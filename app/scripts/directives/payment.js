@@ -64,7 +64,7 @@ angular.module('confRegistrationWebApp')
 
           var paymentErrors = [];
           if(angular.isUndefined(currentPayment.paymentType)) {
-            paymentErrors.push('Please select a payment method.');
+            paymentErrors.push(gettextCatalog.getString('Please select a payment method.'));
           } else {
             switch (currentPayment.paymentType) {
               case 'CREDIT_CARD':
@@ -72,7 +72,7 @@ angular.module('confRegistrationWebApp')
                   nameOnCard: [
                     {
                       validate: required,
-                      errorMessage: 'You must enter the name on the card.'
+                      errorMessage: gettextCatalog.getString('You must enter the name on the card.')
                     }
                   ],
                   number: [

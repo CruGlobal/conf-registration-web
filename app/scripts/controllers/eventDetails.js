@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -27,16 +27,16 @@ angular.module('confRegistrationWebApp')
 
     $scope.paymentGateways = {
       AUTHORIZE_NET: {
-        name: 'Authorize.Net',
+        name: gettextCatalog.getString('Authorize.Net'),
         fields: {
-          paymentGatewayId: { title: 'Account ID' },
-          paymentGatewayKey: { title: 'Key' }
+          paymentGatewayId: { title: gettextCatalog.getString('Account ID') },
+          paymentGatewayKey: { title: gettextCatalog.getString('Key') }
         }
       },
       TSYS: {
-        name: 'TSYS',
+        name: gettextCatalog.getString('TSYS'),
         fields: {
-          paymentGatewayId: { title: 'Merchant Account ID' }
+          paymentGatewayId: { title: gettextCatalog.getString('Merchant Account ID') }
         }
       }
     };
@@ -209,8 +209,8 @@ angular.module('confRegistrationWebApp')
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
         var paymentGateway = $scope.paymentGateways[$scope.conference.paymentGatewayType];
-        var fields = paymentGateway ? _.map(paymentGateway.fields, 'title').join(' and ') : 'fields';
-        validationErrors.push('Please enter the credit card ' + fields + ' under the "Payment Options" tab.');
+        var fields = paymentGateway ? _.map(paymentGateway.fields, 'title').join(gettextCatalog.getString(' and ')) : gettextCatalog.getString('fields');
+        validationErrors.push(gettextCatalog.getString('Please enter the credit card {{fields}} under the "Payment Options" tab.', { fields: fields }));
       }
 
       //Minimum Deposit
