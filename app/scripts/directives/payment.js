@@ -112,6 +112,13 @@ angular.module('confRegistrationWebApp')
                     }, {
                       validate: cruPayments.cvv.validate.maxLength,
                       errorMessage: gettextCatalog.getString('The security code cannot be more than 4 digits.')
+                    }, {
+                      validate: function (cvv) {
+                        var cardNumber = currentPayment.creditCard.number;
+                        var cardType = cruPayments.card.info.type(cardNumber);
+                        return cruPayments.cvv.validate.cardTypeLength(cvv, cardType);
+                      },
+                      errorMessage: gettextCatalog.getString('The security code has an invalid length.')
                     }
                   ],
                   expirationMonth: [
