@@ -286,7 +286,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         },
         staging: {
           apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'staging'
+          tsysEnvironment: 'production'
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
