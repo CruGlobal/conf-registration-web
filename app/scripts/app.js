@@ -294,6 +294,9 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         }
       }
     });
+
+    // Determine which environment we are running in
+    envServiceProvider.check();
   })
   .run(function () {
     (function(d, s, id){
