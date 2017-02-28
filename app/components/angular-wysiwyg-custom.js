@@ -18,7 +18,7 @@ Requires:
 */
 
 angular.module('wysiwyg.module', [])
-    .directive('wysiwyg', function($timeout, wysiwgGui, $compile) {
+    .directive('wysiwyg', function($timeout, wysiwgGui, $compile, jQuery) {
         return {
             template: '<div></div>',
             restrict: 'E',
@@ -124,7 +124,7 @@ angular.module('wysiwyg.module', [])
                 function getHiliteColor() {
                     var selection = window.getSelection().getRangeAt(0);
                     if (selection) {
-                        var style = $(selection.startContainer.parentNode).attr('style');
+                        var style = jQuery(selection.startContainer.parentNode).attr('style');
 
                         if (!angular.isDefined(style))
                             return false;

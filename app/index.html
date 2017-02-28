@@ -141,6 +141,12 @@
   <!-- build:js scripts/errorNotify.js -->
   <script src="scripts/errorNotify.js"></script>
   <!-- endbuild -->
+
+  <script>
+    // Allow jQuery to be dependency injected. Our application should use the DI jQuery, not the jQuery from the global
+    // scope in order to keep us more isolated from out environment.
+    angular.module('confRegistrationWebApp').value('jQuery', $);
+  </script>
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
