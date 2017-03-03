@@ -43,6 +43,13 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = angular.copy(conference);
 
+    // The UI will be distorted if conference.paymentGatewayType is not a key of $scope.paymentGateways, so default it
+    // to TSYS if it is not a valid payment gateway type. Not that this modification will not be persisted on the unless
+    // the user makes other changes and saves them.
+    if (!_.contains(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
+      $scope.conference.paymentGatewayType = 'TSYS';
+    }
+
     $scope.$on('$locationChangeStart', function(event, newLocation) {
       if(!angular.equals(conference, $scope.conference)){
         event.preventDefault();
