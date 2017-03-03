@@ -42,6 +42,17 @@ angular.module('confRegistrationWebApp')
         .catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the TSYS token. Please try your payment again.')));
     }
 
+    // Modify a credit card payment for a particular conference to use a tokenized credit card instead of real credit card data
+    function tokenizeCreditCardPayment (conference, payment) {
+      if (conference.paymentGatewayType === 'TSYS') {
+        return tokenizeCreditCardPaymentTsys(payment);
+      } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
+        return tokenizeCreditCardPaymentAuthorizeNet(payment);
+      } else {
+        throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
+      }
+    }
+
     return {
       // Validate a payment and return a boolean indicating whether or not it is valid
       validate: function (payment, registration) {
@@ -65,6 +76,8 @@ angular.module('confRegistrationWebApp')
         return _.isEmpty(payment.errors);
       },
 
+      tokenizeCreditCardPayment: tokenizeCreditCardPayment,
+
       // Submit payment for a current registration
       pay: function (payment, conference, registration, acceptedPaymentMethods) {
         if (Number(payment.amount) === 0 || !acceptedPaymentMethods || payment.paymentType === 'PAY_ON_SITE') {
@@ -80,13 +93,7 @@ angular.module('confRegistrationWebApp')
         return $q.when().then(function () {
           if (currentPayment.paymentType === 'CREDIT_CARD') {
             // Credit card payments must be tokenized first
-            if (conference.paymentGatewayType === 'TSYS') {
-              return tokenizeCreditCardPaymentTsys(currentPayment);
-            } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
-              return tokenizeCreditCardPaymentAuthorizeNet(currentPayment);
-            } else {
-              throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
-            }
+            return tokenizeCreditCardPayment(conference, currentPayment);
           }
         }).then(function () {
           // Submit the payment
