@@ -102,7 +102,7 @@ angular.module('confRegistrationWebApp')
         // Validate the payment client-side first to catch any errors as soon as possible
         return registration.validatePayment($scope.currentPayment, currentRegistration);
       }).then(function() {
-        return payment.pay($scope.currentPayment, currentRegistration, $scope.acceptedPaymentMethods());
+        return payment.pay($scope.currentPayment, conference, currentRegistration, $scope.acceptedPaymentMethods());
       }).then(function() {
         return registration.completeRegistration(currentRegistration);
       }).then(function () {

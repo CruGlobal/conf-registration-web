@@ -7,16 +7,19 @@
   <div class="panel-body">
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
-      <translate>If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor.</translate>
-      <translate>For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</translate>
+      <span ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
+        <translate>If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor.</translate>
+        <translate>For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</translate>
+      </span>
+      <span ng-if="conference.paymentGatewayType === 'TSYS'">
+        <translate>If accepting credit card payments for your event, you will need a merchant account from a credit card processing vendor.</translate>
+        <translate>For details about an existing merchant account, contact your team's finance/operations leader.</translate>
+        <translate>For a new merchant account, email merchant.account@cru.org with your request.</translate>
+      </span>
     </p>
     <div class="form-group">
-      <div class="col-sm-6">
-        <label translate>Payment Gateway:</label>
-        <select class="form-control" ng-model="conference.paymentGatewayType" ng-options="gateway.id as gateway.name for gateway in paymentGateways"></select>
-      </div>
       <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
-        <label translate>Account:</label>
+        <label translate>{{paymentGateways[conference.paymentGatewayType].fields.paymentGatewayId.title}}:</label>
         <p>{{conference.paymentGatewayId}}
           <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
             <i class="fa fa-pencil"></i> <translate>Edit</translate>
@@ -25,16 +28,10 @@
       </div>
     </div>
     <div ng-show="!conference.paymentGatewayKeySaved">
-      <div class="form-group">
+      <div class="form-group" ng-repeat="(fieldName, field) in paymentGateways[conference.paymentGatewayType].fields">
         <div class="col-xs-12">
-          <label translate>Account ID:</label>
-          <input class="form-control" type="text" ng-model="conference.paymentGatewayId" autocomplete="off">
-        </div>
-      </div>
-      <div class="form-group">
-        <div class="col-xs-12">
-          <label translate>Key:</label>
-          <input class="form-control" type="text" ng-model="conference.paymentGatewayKey" autocomplete="off">
+          <label translate>{{field.title}}:</label>
+          <input class="form-control" type="text" ng-model="conference[fieldName]" autocomplete="off">
         </div>
       </div>
     </div>
@@ -154,4 +151,3 @@
     </div>
   </div>
 </div>
-

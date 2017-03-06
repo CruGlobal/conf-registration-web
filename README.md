@@ -15,5 +15,6 @@ https://stage.eventregistrationtool.com
 6. Run `grunt server`. That command should open a browser and now you can code!
 
 ## To run against an ERT API server running on your localhost
-1. Edit https://github.com/CruGlobal/conf-registration-web/blob/master/app/scripts/services/apiUrl.js,
-  replacing https://api.stage.eventregistrationtool.com with http://localhost:8080
+1. Edit https://github.com/CruGlobal/conf-registration-web/blob/master/app/scripts/app.js,
+  replacing https://api.stage.eventregistrationtool.com with http://localhost:8080 in the `vars.development.apiUrl`
+  property of the object passed to `envServiceProvider.config`.

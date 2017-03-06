@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, apiUrl, ConfCache, PermissionCache, permissionConstants, modalMessage) {
+angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, envService, ConfCache, PermissionCache, permissionConstants, modalMessage) {
   $rootScope.$on('$routeChangeStart', function (event, next) {
     var nextRouteRequireLogin = next.authorization ? next.authorization.requireLogin : false;
     var nextRouteAllowsNoneAuth = next.authorization ? next.authorization.allowNoneAuth : false;
@@ -55,7 +55,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
         if (conference.requireLogin) {
           loginDialog.show();
         } else {
-          $window.location.href = apiUrl + 'auth/none/login';
+          $window.location.href = envService.read('apiUrl') + 'auth/none/login';
         }
       });
     } else {

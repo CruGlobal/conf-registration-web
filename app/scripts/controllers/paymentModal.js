@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, permissions, permissionConstants, expenseTypesConstants) {
+  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, payment, permissions, permissionConstants, expenseTypesConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.expenseTypesConstants = expenseTypesConstants;
@@ -85,15 +85,11 @@ angular.module('confRegistrationWebApp')
 
       $scope.processing = true;
       if(transaction.paymentType === 'CREDIT_CARD'){
-        $http.get('payments/ccp-client-encryption-key', {cache: true}).success(function(ccpClientEncryptionKey) {
-          ccp.initialize(ccpClientEncryptionKey);
-          transaction.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(transaction.creditCard.number);
-          transaction.creditCard.number = ccp.encrypt(transaction.creditCard.number);
-          transaction.creditCard.cvvNumber = ccp.encrypt(transaction.creditCard.cvvNumber);
+        payment.tokenizeCreditCardPayment(conference, transaction).then(function () {
           postTransaction(path, transaction);
-        }).error(function() {
+        }).catch(function () {
           $scope.processing = false;
-          modalMessage.error('An error occurred while requesting the ccp encryption key.');
+          modalMessage.error('An error occurred while requesting the encryption key.');
         });
       }else{
         delete transaction.creditCard;

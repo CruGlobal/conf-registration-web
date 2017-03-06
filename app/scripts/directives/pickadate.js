@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('pickADate', function() {
+  .directive('pickADate', function(jQuery) {
     return {
       templateUrl: 'views/components/pickadate.html',
       restrict: 'E',
@@ -34,7 +34,7 @@ angular.module('confRegistrationWebApp')
         }
 
         //initialize datepicker
-        scope.picker = $(element).find('input').first().pickadate(pickerOptions).pickadate('picker');
+        scope.picker = jQuery(element).find('input').first().pickadate(pickerOptions).pickadate('picker');
 
         //function to set min date
         scope.setMinDate = function(){

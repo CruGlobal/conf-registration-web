@@ -1,5 +1,5 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -272,6 +272,32 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
   })
+  .config(function (envServiceProvider) {
+    envServiceProvider.config({
+      domains: {
+        development: ['localhost'],
+        staging: ['stage.eventregistrationtool.com'],
+        production: ['www.eventregistrationtool.com']
+      },
+      vars: {
+        development: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging'
+        },
+        staging: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production'
+        },
+        production: {
+          apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production'
+        }
+      }
+    });
+
+    // Determine which environment we are running in
+    envServiceProvider.check();
+  })
   .run(function () {
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -283,4 +309,5 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
   })
   .config( function( $facebookProvider ) {
     $facebookProvider.setAppId('217890171695297');
-  });
+  })
+  .constant('cruPayments', window.cruPayments);
