@@ -12,7 +12,7 @@
     <script type="text/javascript">
       window.location = '/browserUnsupported.html';
     </script>
-  <![endif]>
+  <![endif]-->
 
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
@@ -46,8 +46,10 @@
   <script src="bower_components/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"></script>
   <script src="bower_components/pickadate/lib/picker.js"></script>
   <script src="bower_components/pickadate/lib/picker.date.js"></script>
+  <script src="bower_components/angular-environment/dist/angular-environment.js"></script>
   <script src="bower_components/jsencrypt/bin/jsencrypt.js"></script>
   <script src="bower_components/ccp-js/ccp.js"></script>
+  <script src="bower_components/cru-payments/dist/cru-payments-cc.js"></script>
   <script src="bower_components/ng-facebook/ngFacebook.js"></script>
   <script src="components/angular-wysiwyg-custom.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
@@ -55,6 +57,7 @@
   <!-- endbuild -->
 
   <!-- build:js scripts/eventApp.js -->
+  <script src="scripts/clientSideRedirection.js"></script>
   <script src="scripts/app.js"></script>
   <script src="scripts/app_enforceAuth.js"></script>
 
@@ -112,7 +115,6 @@
   <script src="scripts/filters/showQuestionFilter.js"></script>
 
   <!--Services-->
-  <script src="scripts/services/apiUrl.js"></script>
   <script src="scripts/services/authorizationInterceptor.js"></script>
   <script src="scripts/services/ConfCache.js"></script>
   <script src="scripts/services/constants.js"></script>
@@ -128,7 +130,6 @@
   <script src="scripts/services/ProfileCache.js"></script>
   <script src="scripts/services/registration.js"></script>
   <script src="scripts/services/RegistrationCache.js"></script>
-  <script src="scripts/services/spouse.js"></script>
   <script src="scripts/services/unauthorizedInterceptor.js"></script>
   <script src="scripts/services/uuid.js"></script>
   <script src="scripts/services/validateRegistrant.js"></script>
@@ -136,6 +137,12 @@
   <!-- build:js scripts/errorNotify.js -->
   <script src="scripts/errorNotify.js"></script>
   <!-- endbuild -->
+
+  <script>
+    // Allow jQuery to be dependency injected. Our application should use the DI jQuery, not the jQuery from the global
+    // scope in order to keep us more isolated from out environment.
+    angular.module('confRegistrationWebApp').value('jQuery', $);
+  </script>
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>

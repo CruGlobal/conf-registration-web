@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('crsDatetimepicker', function () {
+  .directive('crsDatetimepicker', function (jQuery) {
     return {
       templateUrl: 'views/components/datepicker.html',
       restrict: 'E',

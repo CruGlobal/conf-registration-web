@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -25,11 +25,30 @@ angular.module('confRegistrationWebApp')
     };
     $scope.changeTab($scope.tabs[0]);
 
-    $scope.paymentGateways = [
-      {id: 'AUTHORIZE_NET', name: 'Authorize.Net'}
-    ];
+    $scope.paymentGateways = {
+      AUTHORIZE_NET: {
+        name: gettextCatalog.getString('Authorize.Net'),
+        fields: {
+          paymentGatewayId: { title: gettextCatalog.getString('Account ID') },
+          paymentGatewayKey: { title: gettextCatalog.getString('Key') }
+        }
+      },
+      TSYS: {
+        name: gettextCatalog.getString('TSYS'),
+        fields: {
+          paymentGatewayId: { title: gettextCatalog.getString('Merchant Account ID') }
+        }
+      }
+    };
 
     $scope.conference = angular.copy(conference);
+
+    // The UI will be distorted if conference.paymentGatewayType is not a key of $scope.paymentGateways, so default it
+    // to TSYS if it is not a valid payment gateway type. Not that this modification will not be persisted on the unless
+    // the user makes other changes and saves them.
+    if (!_.contains(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
+      $scope.conference.paymentGatewayType = 'TSYS';
+    }
 
     $scope.$on('$locationChangeStart', function(event, newLocation) {
       if(!angular.equals(conference, $scope.conference)){
@@ -196,7 +215,9 @@ angular.module('confRegistrationWebApp')
 
       //Credit cards
       if (_.isEmpty($scope.conference.paymentGatewayId) && _.some($scope.conference.registrantTypes, 'acceptCreditCards')) {
-        validationErrors.push('Please enter a credit card Account ID and Key under the "Payment Options" tab.');
+        var paymentGateway = $scope.paymentGateways[$scope.conference.paymentGatewayType];
+        var fields = paymentGateway ? _.map(paymentGateway.fields, 'title').join(gettextCatalog.getString(' and ')) : gettextCatalog.getString('fields');
+        validationErrors.push(gettextCatalog.getString('Please enter the credit card {{fields}} under the "Payment Options" tab.', { fields: fields }));
       }
 
       //Minimum Deposit

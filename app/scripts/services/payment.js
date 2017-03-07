@@ -1,16 +1,56 @@
 'use strict';
 
 angular.module('confRegistrationWebApp')
-  .factory('payment', function ($q, $http, $filter, error) {
+  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error, gettextCatalog) {
+    // Load the TSYS manifest
+    // Returns a promise that resolves to an object containing the manifest and device id
+    function loadTsysManifest (payment) {
+      var url = 'payments/appManifest';
+      return $http.get(url, { data: payment }).then(function (res) {
+        return res.data;
+      });
+    }
+
     // Modify a credit card payment to use a tokenized credit card instead of real credit card data
-    function tokenizeCreditCardPayment (payment) {
+    // Tokenize the credit card via Authorize.NET
+    function tokenizeCreditCardPaymentAuthorizeNet (payment) {
       return $http.get('payments/ccp-client-encryption-key').then(function (res) {
         var ccpClientEncryptionKey = res.data;
         ccp.initialize(ccpClientEncryptionKey);
         payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
         payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
         payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
-      }).catch(error.errorFromResponse('An error occurred while requesting the ccp encryption key. Please try your payment again.'));
+      }).catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the Authorize.NET token. Please try your payment again.')));
+    }
+
+    // Modify a credit card payment to use a tokenized credit card instead of real credit card data
+    // Tokenize the credit card via TSYS
+    function tokenizeCreditCardPaymentTsys (payment) {
+      return $q.when()
+        .then(function () {
+          return loadTsysManifest(payment);
+        })
+        .then(function (appManifest) {
+          cruPayments.init(envService.read('tsysEnvironment'), appManifest.deviceId, appManifest.manifest);
+          return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
+                                     payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
+        })
+        .then(function (tokenizedCard) {
+          payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
+          payment.creditCard.number = tokenizedCard.tsepToken;
+        })
+        .catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the TSYS token. Please try your payment again.')));
+    }
+
+    // Modify a credit card payment for a particular conference to use a tokenized credit card instead of real credit card data
+    function tokenizeCreditCardPayment (conference, payment) {
+      if (conference.paymentGatewayType === 'TSYS') {
+        return tokenizeCreditCardPaymentTsys(payment);
+      } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
+        return tokenizeCreditCardPaymentAuthorizeNet(payment);
+      } else {
+        throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
+      }
     }
 
     return {
@@ -23,19 +63,23 @@ angular.module('confRegistrationWebApp')
         */
 
         if (registration.pastPayments.length === 0 && Number(payment.amount) < registration.calculatedMinimumDeposit) {
-          payment.errors.push('You are required to pay at least the minimum deposit of ' + $filter('currency')(registration.calculatedMinimumDeposit, '$') + ' to register for this event.');
+          var minimumDeposit = $filter('currency')(registration.calculatedMinimumDeposit, '$');
+          payment.errors.push(gettextCatalog.getString('You are required to pay at least the minimum deposit of {{minimumDeposit}} to register for this event.', { minimumDeposit: minimumDeposit }));
         }
 
         if (Number(payment.amount) > registration.remainingBalance) {
-          payment.errors.push('You are paying more than the total due of ' + $filter('currency')(registration.remainingBalance, '$') + ' to register for this event.');
+          var remainingBalance = $filter('currency')(registration.remainingBalance, '$');
+          payment.errors.push(gettextCatalog.getString('You are paying more than the total due of {{remainingBalance}} to register for this event.', { remainingBalance: remainingBalance }));
         }
 
         // The payment is valid if it has no errors
         return _.isEmpty(payment.errors);
       },
 
+      tokenizeCreditCardPayment: tokenizeCreditCardPayment,
+
       // Submit payment for a current registration
-      pay: function (payment, registration, acceptedPaymentMethods) {
+      pay: function (payment, conference, registration, acceptedPaymentMethods) {
         if (Number(payment.amount) === 0 || !acceptedPaymentMethods || payment.paymentType === 'PAY_ON_SITE') {
           // No payment is necessary, so no work needs to be done here
           return $q.when();
@@ -49,12 +93,12 @@ angular.module('confRegistrationWebApp')
         return $q.when().then(function () {
           if (currentPayment.paymentType === 'CREDIT_CARD') {
             // Credit card payments must be tokenized first
-            return tokenizeCreditCardPayment(currentPayment);
+            return tokenizeCreditCardPayment(conference, currentPayment);
           }
         }).then(function () {
           // Submit the payment
           return $http.post('payments/', currentPayment);
-        }).catch(error.errorFromResponse('An error occurred while attempting to process your payment.'));
+        }).catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while attempting to process your payment.')));
       }
     };
   });
