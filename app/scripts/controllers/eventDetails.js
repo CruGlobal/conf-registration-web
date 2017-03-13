@@ -29,8 +29,8 @@ angular.module('confRegistrationWebApp')
       AUTHORIZE_NET: {
         name: gettextCatalog.getString('Authorize.Net'),
         fields: {
-          paymentGatewayId: { title: gettextCatalog.getString('Account ID') },
-          paymentGatewayKey: { title: gettextCatalog.getString('Key') }
+          paymentGatewayId: { title: gettextCatalog.getString('Authorize.NET Account ID') },
+          paymentGatewayKey: { title: gettextCatalog.getString('Authorize.NET Key') }
         }
       },
       TSYS: {
