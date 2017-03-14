@@ -11,7 +11,6 @@
         <select class="form-control" ng-options="key as value.name for (key, value) in paymentGateways" ng-model="conference.paymentGatewayType"></select>
       </div>
     </div>
-    <p>{{conference.paymentGatewayType}}</p>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
       <span ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
