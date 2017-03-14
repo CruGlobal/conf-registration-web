@@ -8,12 +8,10 @@
     <div class="form-group">
       <div class="col-sm-12 stacked-spacing-col-sm" ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
         <label translate>Select A Payment Gateway Type:</label>
-        <select class="form-control" ng-model="conference.paymentGatewayType">
-          <option value="TSYS" translate>TSYS Merchant ID</option>
-          <option value="AUTHORIZE_NET" translate>Authorize.NET</option>
-        </select>
+        <select class="form-control" ng-options="key as value.name for (key, value) in paymentGateways" ng-model="conference.paymentGatewayType"></select>
       </div>
     </div>
+    <p>{{conference.paymentGatewayType}}</p>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
       <span ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
@@ -44,7 +42,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -131,7 +128,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="panel panel-default" ng-show="conference.cruEvent">
   <div class="panel-heading">
