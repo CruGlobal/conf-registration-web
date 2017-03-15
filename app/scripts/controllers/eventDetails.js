@@ -41,6 +41,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
+    $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
 
     // The UI will be distorted if conference.paymentGatewayType is not a key of $scope.paymentGateways, so default it
@@ -274,7 +275,7 @@ angular.module('confRegistrationWebApp')
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
-            conference = angular.copy($scope.conference);
+            $scope.originalConference = conference = angular.copy($scope.conference);
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {
