@@ -43,6 +43,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.conference = angular.copy(conference);
 
+    $scope.paymentGatewayTypeCopy = angular.copy(conference.paymentGatewayType);
+
     // The UI will be distorted if conference.paymentGatewayType is not a key of $scope.paymentGateways, so default it
     // to TSYS if it is not a valid payment gateway type. Not that this modification will not be persisted on the unless
     // the user makes other changes and saves them.
@@ -273,6 +275,7 @@ angular.module('confRegistrationWebApp')
               class: 'alert-success',
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
+            $scope.savedSuccessfully = true;
 
             conference = angular.copy($scope.conference);
             //Clear cache

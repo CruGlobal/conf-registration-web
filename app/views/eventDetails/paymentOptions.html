@@ -6,12 +6,11 @@
   </div>
   <div class="panel-body">
     <div class="form-group">
-      <div class="col-sm-12 stacked-spacing-col-sm" ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
+      <div class="col-sm-12 stacked-spacing-col-sm" ng-if="paymentGatewayTypeCopy === 'AUTHORIZE_NET' && !savedSuccessfully">
         <label translate>Select A Payment Gateway Type:</label>
         <select class="form-control" ng-options="key as value.name for (key, value) in paymentGateways" ng-model="conference.paymentGatewayType"></select>
       </div>
     </div>
-    <p>{{conference.paymentGatewayType}}</p>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
       <span ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
