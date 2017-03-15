@@ -6,7 +6,7 @@
   </div>
   <div class="panel-body">
     <div class="form-group">
-      <div class="col-sm-12 stacked-spacing-col-sm" ng-if="paymentGatewayTypeCopy === 'AUTHORIZE_NET' && !savedSuccessfully">
+      <div class="col-sm-12 stacked-spacing-col-sm" ng-if="originalConference.paymentGatewayType === 'AUTHORIZE_NET'">
         <label translate>Select A Payment Gateway Type:</label>
         <select class="form-control" ng-options="key as value.name for (key, value) in paymentGateways" ng-model="conference.paymentGatewayType"></select>
       </div>
