@@ -44,12 +44,16 @@ angular.module('confRegistrationWebApp')
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
 
-    // The UI will be distorted if conference.paymentGatewayType is not a key of $scope.paymentGateways, so default it
-    // to TSYS if it is not a valid payment gateway type. Not that this modification will not be persisted on the unless
-    // the user makes other changes and saves them.
-    if (!_.contains(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
-      $scope.conference.paymentGatewayType = 'TSYS';
-    }
+    // Get the payment gateway type for this conference
+    $scope.getPaymentGatewayType = function () {
+      // The UI will be distorted if the payment gateway type is not a key of $scope.paymentGateways, so treat it as
+      // TSYS if it is not a valid payment gateway type.
+      if (!_.contains(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
+        return 'TSYS';
+      }
+
+      return $scope.conference.paymentGatewayType;
+    };
 
     $scope.$on('$locationChangeStart', function(event, newLocation) {
       if(!angular.equals(conference, $scope.conference)){
@@ -265,17 +269,24 @@ angular.module('confRegistrationWebApp')
           message: $sce.trustAsHtml('Saving...')
         };
 
+        var payload = angular.copy($scope.conference);
+
+        // If the conference does not have a gateway type, set it to the default (TSYS) if an id is provided
+        if (!payload.paymentGatewayType && payload.paymentGatewayId) {
+          payload.paymentGatewayType = 'TSYS';
+        }
+
         $http(
           {method: 'PUT',
             url: 'conferences/' + conference.id,
-            data: $scope.conference
+            data: payload
         }).success(function () {
             $scope.notify = {
               class: 'alert-success',
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
             };
 
-            $scope.originalConference = conference = angular.copy($scope.conference);
+            $scope.originalConference = conference = angular.copy(payload);
             //Clear cache
             ConfCache.empty();
           }).error(function (data) {

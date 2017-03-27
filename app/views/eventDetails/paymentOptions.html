@@ -13,11 +13,11 @@
     </div>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
-      <span ng-if="conference.paymentGatewayType === 'AUTHORIZE_NET'">
+      <span ng-if="getPaymentGatewayType() === 'AUTHORIZE_NET'">
         <translate>If you will be accepting credit card payments for your event, you must have an Authorize.NET merchant account from a credit card processing vendor.</translate>
         <translate>For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</translate>
       </span>
-      <span ng-if="conference.paymentGatewayType === 'TSYS'">
+      <span ng-if="getPaymentGatewayType() === 'TSYS'">
         <translate>If accepting credit card payments for your event, you will need a merchant account from a credit card processing vendor.</translate>
         <translate>For details about an existing merchant account, contact your team's finance/operations leader.</translate>
         <translate>For a new merchant account, email merchant.account@cru.org with your request.</translate>
@@ -25,7 +25,7 @@
     </p>
     <div class="form-group">
       <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
-        <label translate>{{paymentGateways[conference.paymentGatewayType].fields.paymentGatewayId.title}}:</label>
+        <label translate>{{paymentGateways[getPaymentGatewayType()].fields.paymentGatewayId.title}}:</label>
         <p>{{conference.paymentGatewayId}}
           <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
             <i class="fa fa-pencil"></i> <translate>Edit</translate>
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div ng-show="!conference.paymentGatewayKeySaved">
-      <div class="form-group" ng-repeat="(fieldName, field) in paymentGateways[conference.paymentGatewayType].fields">
+      <div class="form-group" ng-repeat="(fieldName, field) in paymentGateways[getPaymentGatewayType()].fields">
         <div class="col-xs-12">
           <label translate>{{field.title}}:</label>
           <input class="form-control" type="text" ng-model="conference[fieldName]" autocomplete="off">
