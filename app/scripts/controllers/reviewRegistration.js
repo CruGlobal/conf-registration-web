@@ -109,8 +109,8 @@ angular.module('confRegistrationWebApp')
         navigateToPostRegistrationPage();
 
         $scope.submittingRegistration = false;
-      }).catch(function (error) {
-        handleRegistrationError(error);
+      }).catch(function (response) {
+        handleRegistrationError(response.data);
 
         $scope.submittingRegistration = false;
       });
@@ -130,9 +130,9 @@ angular.module('confRegistrationWebApp')
           url: 'registrants/' + id
         }).then(function () {
           $route.reload();
-        }).catch(function(data){
+        }).catch(function(response){
           modalMessage.error({
-            'message': data.error ? data.error.message : 'An error occurred while removing registrant.'
+            'message': response.data && response.data.error ? response.data.error.message : 'An error occurred while removing registrant.'
           });
         });
       });

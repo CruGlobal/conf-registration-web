@@ -45,9 +45,9 @@ angular.module('confRegistrationWebApp')
     };
 
     function saveAllAnswers() {
-      $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).then(getRegistrantAndClose).catch(function(data){
+      $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).then(getRegistrantAndClose).catch(function(response){
         $scope.saving = false;
-        modalMessage.error(data.error ? data.error.message : 'An error occurred while saving this registration.');
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while saving this registration.');
       });
     }
 

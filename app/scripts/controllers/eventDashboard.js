@@ -64,8 +64,8 @@ angular.module('confRegistrationWebApp')
           //Clear cache
           ConfCache.empty();
           $location.path('/eventOverview/' + eventData.id);
-        }).catch(function (data) {
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while attempting to restore event.');
+        }).catch(function (response) {
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while attempting to restore event.');
         }).finally(function() {
           $rootScope.loadingMsg = '';
         });
