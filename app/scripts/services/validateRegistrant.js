@@ -31,14 +31,14 @@ angular.module('confRegistrationWebApp')
         if (angular.isDefined(answer) && answer.value !== '') {
           var answerValue;
           var ruleValue;
-          if (angular.isObject(answer.value)) {//answer of checkboxquestion will be an object                       
+          if (angular.isObject(answer.value)) {//answer of checkboxquestion will be an object
             answerValue = angular.isDefined(answer.value[rule.value]) ? answer.value[rule.value] : false;
             ruleValue = true;
           } else {
             //If string is a number, parse it as a float for numerical comparison
             answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
             ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
-          }        
+          }
 
           if (rule.operator === '=' && answerValue === ruleValue) {
             validRuleCount++;

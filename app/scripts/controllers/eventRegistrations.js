@@ -202,7 +202,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.viewPayments = function (registrationId) {
-      $http.get('registrations/' + registrationId).success(function (registration) {
+      $http.get('registrations/' + registrationId).then(function (response) {
         var paymentModalOptions = {
           templateUrl: 'views/modals/paymentsModal.html',
           controller: 'paymentModal',
@@ -210,7 +210,7 @@ angular.module('confRegistrationWebApp')
           backdrop: 'static',
           resolve: {
             registration: function () {
-              return registration;
+              return response.data;
             },
             conference: function () {
               return conference;
@@ -225,7 +225,7 @@ angular.module('confRegistrationWebApp')
           var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
           $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
         });
-      }).error(function(){
+      }).catch(function(){
         modalMessage.error('Error: registration data could be be retrieved.');
       });
     };
@@ -241,7 +241,8 @@ angular.module('confRegistrationWebApp')
       } else {
         expandedRegistrations[r] = 'loading';
 
-        $http.get('registrants/' + r).success(function (registrantData) {
+        $http.get('registrants/' + r).then(function (response) {
+          var registrantData = response.data
           expandedRegistrations[r] = 'open';
 
           //update registrant
@@ -252,7 +253,7 @@ angular.module('confRegistrationWebApp')
           index = _.findIndex($scope.registrations, { 'id': registrantData.registrationId });
           var registrantIndex = _.findIndex($scope.registrations[index].registrants, { 'id': registrantData.id });
           $scope.registrations[index].registrants[registrantIndex] = registrantData;
-        }).error(function(){
+        }).catch(function(){
           modalMessage.error('Error: registrant data could not be retrieved.');
           delete expandedRegistrations[r];
         });
@@ -268,7 +269,7 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $http.get('registrations/' + r.registrationId).success(function (registration) {
+      $http.get('registrations/' + r.registrationId).then(function (response) {
         var editRegistrationDialogOptions = {
           templateUrl: 'views/modals/editRegistration.html',
           controller: 'editRegistrationModalCtrl',
@@ -277,7 +278,7 @@ angular.module('confRegistrationWebApp')
               return r.id;
             },
             registration: function () {
-              return registration;
+              return response.data;
             },
             conference: function () {
               return conference;
@@ -295,7 +296,7 @@ angular.module('confRegistrationWebApp')
           index = _.findIndex($scope.registrants, { 'id': r.id });
           $scope.registrants[index] = r;
         });
-      }).error(function(){
+      }).catch(function(){
         modalMessage.error('Error: registrant data could not be retrieved.');
         delete expandedRegistrations[r];
       });
@@ -350,9 +351,9 @@ angular.module('confRegistrationWebApp')
       }
 
       $rootScope.loadingMsg = (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
-      $http.put('registrants/' + registrant.id, registrant).error(function(data){
+      $http.put('registrants/' + registrant.id, registrant).catch(function(response){
         registrant.withdrawn = !value;
-        modalMessage.error(data.error ? data.error.message : 'An error occurred while withdrawing this registrant.');
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while withdrawing this registrant.');
       }).finally(function(){
         $rootScope.loadingMsg = '';
       });
@@ -367,9 +368,9 @@ angular.module('confRegistrationWebApp')
       registrant.checkedInTimestamp = (value ? new Date().toJSON() : null);
 
       $rootScope.loadingMsg = (value ? 'Checking in ' : 'Removing check-in for ') + registrant.firstName;
-      $http.put('registrants/' + registrant.id, registrant).error(function(data){
+      $http.put('registrants/' + registrant.id, registrant).catch(function(response){
         registrant.checkedInTimestamp = originalValue;
-        modalMessage.error(data.error ? data.error.message : 'An error occurred while checking in this registrant.');
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while checking in this registrant.');
       }).finally(function(){
         $rootScope.loadingMsg = '';
       });
@@ -387,7 +388,8 @@ angular.module('confRegistrationWebApp')
         'noString': 'Cancel',
         'normalSize': true
       }).then(function(){
-        $http.get('registrations/' + registrant.registrationId).success(function(registration){
+        $http.get('registrations/' + registrant.registrationId).then(function(response){
+          var registration = response.data;
           var url = 'registrations/' + registration.id;
 
           if(registration.registrants.length > 1){
@@ -398,11 +400,11 @@ angular.module('confRegistrationWebApp')
           $http({
             method: 'DELETE',
             url: url
-          }).success(function () {
+          }).then(function () {
             _.remove($scope.registrants, function (r) {
               return r.id === registrant.id;
             });
-          }).error(function(data){
+          }).catch(function(data){
             modalMessage.error({
               'message': data.error ? data.error.message : 'An error has occurred while deleting this registration.'
             });

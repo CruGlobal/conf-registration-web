@@ -18,10 +18,11 @@ angular.module('confRegistrationWebApp')
         defer.resolve(cachedConferences);
       } else {
         $rootScope.loadingMsg = 'Loading Event Details';
-        $http.get(eventUrl).success(function (conferences) {
+        $http.get(eventUrl).then(function (response) {
+          var conferences = response.data;
           cache.put(eventUrl, conferences);
           defer.resolve(conferences);
-        }).error(function(){
+        }).catch(function(){
           defer.reject();
         }).finally(function(){
           $rootScope.loadingMsg = '';
@@ -89,10 +90,10 @@ angular.module('confRegistrationWebApp')
           }
         ]
       };
-      return $http.post(path(), data).success(function () {
+      return $http.post(path(), data).then(function () {
         cache.removeAll();
-      }).error(function(data){
-        modalMessage.error(data.error ? data.error.message : 'Error creating conference.');
+      }).catch(function(response){
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'Error creating conference.');
       });
     };
 
@@ -101,9 +102,9 @@ angular.module('confRegistrationWebApp')
       $http({
         method: 'GET',
         url: 'conferences/' + id + '/permissions'
-      }).success(function (data) {
+      }).then(function (data) {
         q.resolve(data);
-      }).error(function () {
+      }).catch(function () {
         q.reject([]);
       });
       return q.promise;

@@ -1,6 +1,7 @@
 'use strict';
 angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
-  .config(function ($routeProvider) {
+  .config(function ($locationProvider, $routeProvider) {
+    $locationProvider.hashPrefix('');
     $routeProvider
       .when('/', {
         templateUrl: 'views/landing.html',
@@ -193,7 +194,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
             function ($location, $cookies, $window, $http, $facebook) {
-              $http.get('auth/logout').success(function() {
+              $http.get('auth/logout').then(function() {
                 delete $cookies.crsToken;
 
                 /* if facebook, then use the FB JavaScript SDK to log out user from FB */
@@ -213,8 +214,8 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
                   delete $cookies.crsAuthProviderType;
                   $location.url('/');
                 }
-              }).error(function (data, status) {
-                alert('Logout failed: ' + status);
+              }).catch(function () {
+                alert('Logout failed');
               });
             }
           ]

@@ -8,10 +8,10 @@ angular.module('confRegistrationWebApp')
 
     $http({method: 'PUT',
       url: 'permissions/' + permissionAuthCode + '/accept'
-    }).success(function () {
+    }).then(function () {
         $scope.message = gettextCatalog.getString('Success! Permission has been granted. Redirecting now...');
         $timeout(function () { $location.path('/eventDashboard'); }, 2000);
-      }).error(function (data, status) {
+      }).catch(function (data, status) {
         if (status === 404) {
           $scope.message = gettextCatalog.getString('Error: Permission auth code was not found.');
         } else if (status === 403) {

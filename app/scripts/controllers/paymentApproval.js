@@ -15,11 +15,11 @@ angular.module('confRegistrationWebApp')
     var paymentHash = $routeParams.paymentHash;
 
     //retrieve payment
-    $http.get('payments/scholarship/' + paymentHash).
-      success(function(data) {
-        $scope.payment = data;
-      }).
-      error(function() {
+    $http.get('payments/scholarship/' + paymentHash)
+      .then(function(response) {
+        $scope.payment = response.data;
+      })
+      .catch(function() {
         $scope.payment = null;
       });
 
@@ -28,11 +28,11 @@ angular.module('confRegistrationWebApp')
       var paymentObject = angular.copy($scope.payment);
       paymentObject.status = status;
 
-      $http.put('payments/scholarship/' + paymentHash, paymentObject).
-        success(function() {
+      $http.put('payments/scholarship/' + paymentHash, paymentObject)
+        .then(function() {
           $scope.payment = paymentObject;
-        }).error(function(data) {
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while saving the payment.');
+        }).catch(function(response) {
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while saving the payment.');
           $scope.posting = false;
         });
     };

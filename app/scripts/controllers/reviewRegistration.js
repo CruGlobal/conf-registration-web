@@ -128,9 +128,9 @@ angular.module('confRegistrationWebApp')
         $http({
           method: 'DELETE',
           url: 'registrants/' + id
-        }).success(function () {
+        }).then(function () {
           $route.reload();
-        }).error(function(data){
+        }).catch(function(data){
           modalMessage.error({
             'message': data.error ? data.error.message : 'An error occurred while removing registrant.'
           });
@@ -202,13 +202,13 @@ angular.module('confRegistrationWebApp')
 
     $scope.validatePromo = function(inputCode){
       $scope.addingPromoCode = true;
-      $http.post('registrations/' + currentRegistration.id + '/promotions', {code: inputCode}).success(function () {
+      $http.post('registrations/' + currentRegistration.id + '/promotions', {code: inputCode}).then(function () {
         $route.reload();
-      }).error(function (data, status) {
+      }).catch(function (response) {
         $scope.addingPromoCode = false;
-        var msg = data.error ? data.error.message : 'An error has occurred.';
+        var msg = response.data && response.data.error ? response.data.error.message : 'An error has occurred.';
         modalMessage.error({
-          'message': status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : msg,
+          'message': response.status === 404 ? 'The promo code you have entered is invalid or does not apply to your registration.' : msg,
           'title': 'Invalid Code',
           'forceAction': true
         });
@@ -222,10 +222,10 @@ angular.module('confRegistrationWebApp')
       }).then(function(){
         var regCopy = angular.copy(currentRegistration);
         _.remove(regCopy.promotions, {id: promoId});
-        $http.put('registrations/' + currentRegistration.id, regCopy).success(function () {
+        $http.put('registrations/' + currentRegistration.id, regCopy).then(function () {
           $route.reload();
-        }).error(function (data) {
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while deleting promotion.');
+        }).catch(function (response) {
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while deleting promotion.');
         });
       });
     };

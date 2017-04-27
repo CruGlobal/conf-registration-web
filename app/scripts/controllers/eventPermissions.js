@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
       $http({method: 'PUT',
         url: 'permissions/' + id,
         data: _.find($scope.currentPermissions, { 'id': id })
-      }).success(function () {
+      }).then(function () {
         $scope.notify = {
           class: 'alert-success',
           message: 'User updated.'
@@ -25,7 +25,7 @@ angular.module('confRegistrationWebApp')
 
         //update timestamp
         _.find($scope.currentPermissions, { 'id': id }).timestamp = new Date();
-      }).error(function (data) {
+      }).catch(function (data) {
         modalMessage.error(data.error ? data.error.message : 'User could not be updated.');
         $route.reload();
       });
@@ -41,7 +41,7 @@ angular.module('confRegistrationWebApp')
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',
         data: postData
-      }).success(function (data) {
+      }).then(function (data) {
         $scope.currentPermissions.push(data);
         $scope.addPermissionsEmail = '';
         $scope.addPermissionsLevel = '';
@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
           class: 'alert-success',
           message: 'Email invite sent.'
         };
-      }).error(function (data) {
+      }).catch(function (data) {
         modalMessage.error(data.error ? data.error.message : 'User could not be added.');
       });
     };
@@ -62,13 +62,13 @@ angular.module('confRegistrationWebApp')
         $http({
           method: 'DELETE',
           url: 'permissions/' + id
-        }).success(function () {
+        }).then(function () {
           _.remove($scope.currentPermissions, {id: id});
           $scope.notify = {
             class: 'alert-success',
             message: 'User removed.'
           };
-        }).error(function (data) {
+        }).catch(function (data) {
           modalMessage.error(data.error ? data.error.message : 'User could not be removed.');
         });
       });
@@ -78,7 +78,7 @@ angular.module('confRegistrationWebApp')
       $http({
         method: 'DELETE',
         url: 'permissions/' + permission.id
-      }).success(function () {
+      }).then(function () {
         _.remove($scope.currentPermissions, {id: permission.id});
         $scope.addPermission(permission.emailAddress, permission.permissionLevel);
       });

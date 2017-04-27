@@ -17,7 +17,8 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined(cachedObject)) {
         callback(cachedObject, path);
       } else {
-        $http.get(path).success(function (data) {
+        $http.get(path).then(function (response) {
+          var data = response.data;
           update(path, data);
           callback(data, path);
         });
@@ -96,10 +97,10 @@ angular.module('confRegistrationWebApp')
       var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';
 
-      $http.get('conferences/' + conferenceId + '/registrations', {params: queryParameters}).success(function (data) {
+      $http.get('conferences/' + conferenceId + '/registrations', {params: queryParameters}).then(function (response) {
         $rootScope.loadingMsg = '';
-        defer.resolve(data);
-      }).error(function(){
+        defer.resolve(response.data);
+      }).catch(function(){
         $rootScope.loadingMsg = '';
         defer.reject();
       });

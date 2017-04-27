@@ -27,7 +27,7 @@ angular.module('confRegistrationWebApp')
       }).result.then(function (conferenceName) {
           if(!conferenceName){ return; }
 
-          ConfCache.create(conferenceName).success(function (conference) {
+          ConfCache.create(conferenceName).then(function (conference) {
             $location.path('/eventDetails/' + conference.id);
           });
         });
@@ -60,11 +60,11 @@ angular.module('confRegistrationWebApp')
           method: 'PUT',
           url: 'conferences/' + eventId,
           data: eventData
-        }).success(function () {
+        }).then(function () {
           //Clear cache
           ConfCache.empty();
           $location.path('/eventOverview/' + eventData.id);
-        }).error(function (data) {
+        }).catch(function (data) {
           modalMessage.error(data.error ? data.error.message : 'An error occurred while attempting to restore event.');
         }).finally(function() {
           $rootScope.loadingMsg = '';
@@ -92,11 +92,11 @@ angular.module('confRegistrationWebApp')
         $http.post('conferences/' + conferenceToCloneId + '/clone', null, {params: {
           name: data.name,
           includePermissions: data.includePermissions
-        }}).success(function(newEvent){
+        }}).then(function(response){
           ConfCache.empty();
-          $location.path('/eventDetails/' + newEvent.id);
-        }).error(function(data){
-          modalMessage.error(data.error ? data.error.message : 'An error has occurred while attempting to clone.');
+          $location.path('/eventDetails/' + response.data.id);
+        }).catch(function(response){
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error has occurred while attempting to clone.');
         });
       });
     };

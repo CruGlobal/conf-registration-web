@@ -30,13 +30,13 @@ angular.module('confRegistrationWebApp')
                   method: 'PUT',
                   url: 'conferences/' + conferenceId,
                   data: conference
-                }).success(function () {
+                }).then(function () {
                   //Clear cache
                   ConfCache.empty();
 
                   //redirect to dashboard
                   $location.path('/eventDashboard');
-                }).error(function (data) {
+                }).catch(function (data) {
                   modalMessage.error(data.error ? data.error.message : 'An error has occurred.');
                 });
               });

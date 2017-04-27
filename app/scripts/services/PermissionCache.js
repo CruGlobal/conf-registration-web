@@ -17,7 +17,8 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined(cachedObject)) {
         callback(cachedObject, path);
       } else {
-        $http.get(path).success(function (data) {
+        $http.get(path).then(function (response) {
+          var data = response.data;
           data.permissionInt = permissionConstants[data.permissionLevel];
           update(path, data);
           callback(data, path);
