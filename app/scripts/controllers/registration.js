@@ -45,6 +45,18 @@ angular.module('confRegistrationWebApp')
     };
 
 
+    //auto save answers every 15 seconds
+    var saveAnswersInterval = $interval(function(){
+      if(angular.isUndefined($scope.currentRegistrant)){
+        return;
+      }
+
+      $scope.savingAnswers = true;
+      $q.all(findAnswersToSave()).then(function(){
+        $scope.savingAnswers = false;
+      });
+    }, 15000);
+
     //save answers on route change
     $scope.$on('$routeChangeStart', function () {
       $interval.cancel(saveAnswersInterval);
@@ -60,18 +72,6 @@ angular.module('confRegistrationWebApp')
         $rootScope.visitedPages.push(pageAndRegistrantId);
       }
     });
-
-    //auto save answers every 15 seconds
-    var saveAnswersInterval = $interval(function(){
-      if(angular.isUndefined($scope.currentRegistrant)){
-        return;
-      }
-
-      $scope.savingAnswers = true;
-      $q.all(findAnswersToSave()).then(function(){
-        $scope.savingAnswers = false;
-      });
-    }, 15000);
 
     $scope.goToNext = function () {
       var nextPage = $scope.nextPage();
@@ -167,7 +167,7 @@ angular.module('confRegistrationWebApp')
       }), true);
     };
 
-    var findAnswersToSave = function(){
+    function findAnswersToSave(){
       var currentRegistrantOriginal = _.find(originalCurrentRegistration.registrants, { 'id': $scope.currentRegistrant });
       var currentRegistrantOriginalAnswers = currentRegistrantOriginal ? currentRegistrantOriginal.answers : [];
       var currentRegistrant = _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant });
@@ -184,5 +184,5 @@ angular.module('confRegistrationWebApp')
       originalCurrentRegistration = angular.copy($scope.currentRegistration);
 
       return answersToSave;
-    };
+    }
   });

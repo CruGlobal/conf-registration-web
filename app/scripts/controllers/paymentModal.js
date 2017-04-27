@@ -97,7 +97,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    var postTransaction = function(path, transaction){
+    function postTransaction(path, transaction){
       $http.post(path, transaction).then(function () {
         loadPayments();
         if(path === 'expenses'){
@@ -109,7 +109,7 @@ angular.module('confRegistrationWebApp')
         modalMessage.error(response.data && response.data.error ? response.data.error.message : 'Transaction failed.');
         $scope.processing = false;
       });
-    };
+    }
 
     $scope.canBeRefunded = function (payment) {
       return payment.paymentType !== 'REFUND' &&
@@ -241,7 +241,7 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    var loadPayments = function() {
+    function loadPayments() {
       $http.get('registrations/' + $scope.registration.id).then(function (response) {
         $scope.registration = response.data;
         $scope.processing = false;
@@ -252,7 +252,7 @@ angular.module('confRegistrationWebApp')
           sendEmailReceipt: false
         };
       });
-    };
+    }
 
     $scope.deletePayment = function (payment) {
       if(permissions.permissionInt < permissionConstants.CHECK_IN){
