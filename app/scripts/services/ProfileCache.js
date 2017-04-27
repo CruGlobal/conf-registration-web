@@ -10,7 +10,8 @@ angular.module('confRegistrationWebApp')
       if (angular.isDefined(cachedObject)) {
         callback(cachedObject, path);
       } else {
-        $http.get(path).success(function (profileData) {
+        $http.get(path).then(function (response) {
+          var profileData = response.data;
           cache.put(path, profileData);
           callback(profileData, path);
         });

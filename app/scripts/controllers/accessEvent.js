@@ -18,7 +18,7 @@ angular.module('confRegistrationWebApp')
           reasonForRequest: reasonForRequest,
           permissionLevel: 'REQUESTED'
         }
-      }).success(function () {
+      }).then(function () {
         $modalInstance.close();
       }).error(function (data) {
         modalMessage.error(data.error ? data.error.message : 'An error has occurred');

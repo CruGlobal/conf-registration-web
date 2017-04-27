@@ -280,7 +280,7 @@ angular.module('confRegistrationWebApp')
           {method: 'PUT',
             url: 'conferences/' + conference.id,
             data: payload
-        }).success(function () {
+        }).then(function () {
             $scope.notify = {
               class: 'alert-success',
               message: $sce.trustAsHtml('<strong>Saved!</strong> Your event details have been updated.')
@@ -289,7 +289,7 @@ angular.module('confRegistrationWebApp')
             $scope.originalConference = conference = angular.copy(payload);
             //Clear cache
             ConfCache.empty();
-          }).error(function (data) {
+          }).catch(function (data) {
             $scope.notify = {
               class: 'alert-danger',
               message: $sce.trustAsHtml('<strong>Error:</strong> ' + (data.error ? data.error.message : 'Details could not be saved.'))

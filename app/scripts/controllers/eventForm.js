@@ -35,7 +35,7 @@ angular.module('confRegistrationWebApp')
         method: 'PUT',
         url: 'conferences/' + conference.id,
         data: $scope.conference
-      }).success(function () {
+      }).then(function () {
         formSaving = false;
         $scope.notify = {
           class: 'alert-success',
@@ -51,7 +51,7 @@ angular.module('confRegistrationWebApp')
         formSavingNotifyTimeout = $timeout(function () {
           $scope.notify = {};
         }, 2000);
-      }).error(function (data) {
+      }).catch(function (data) {
         formSaving = false;
         $scope.notify = {
           class: 'alert-danger',

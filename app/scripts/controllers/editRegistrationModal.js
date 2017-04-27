@@ -45,14 +45,15 @@ angular.module('confRegistrationWebApp')
     };
 
     var saveAllAnswers = function() {
-      $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).success(getRegistrantAndClose).error(function(data){
+      $http.put('registrations/' + originalRegistrantObject.registrationId, $scope.registration).then(getRegistrantAndClose).catch(function(data){
         $scope.saving = false;
         modalMessage.error(data.error ? data.error.message : 'An error occurred while saving this registration.');
       });
     };
 
     var getRegistrantAndClose = function(){
-      $http.get('registrations/' + originalRegistrantObject.registrationId).success(function (registration) {
+      $http.get('registrations/' + originalRegistrantObject.registrationId).then(function (response) {
+        var registration = response.data;
         $modalInstance.close(registration);
       });
     };

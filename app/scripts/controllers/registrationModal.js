@@ -45,13 +45,13 @@ angular.module('confRegistrationWebApp')
       });
 
       $http.post('conferences/' + conference.id + '/registrations', registration, {headers: {'Registration-Type': 'on-behalf-of'}})
-        .success(function () {
+        .then(function () {
           // empty cache and reload in order to recognize the newly created registration
           RegistrationCache.emptyCache();
           $route.reload();
         })
-        .error(function (data) {
-          modalMessage.error(data.error ? data.error.message : 'An error occurred while creating registration.');
+        .catch(function (response) {
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while creating registration.');
         });
       $modalInstance.dismiss();
     };

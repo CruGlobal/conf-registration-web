@@ -31,9 +31,9 @@ angular.module('confRegistrationWebApp')
           RegistrationCache.update('registrations/' + registration.id, registration, function () {
             RegistrationCache.emptyCache();
             resolve();
-          }, function (data) {
+          }, function (response) {
             currentRegistration.completed = false;
-            reject(data);
+            reject(response.data);
           });
         }).catch(error.errorFromResponse('An error occurred while completing your registration.'));
       }
