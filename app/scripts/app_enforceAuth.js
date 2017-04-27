@@ -6,8 +6,8 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     var nextRouteAllowsNoneAuth = next.authorization ? next.authorization.allowNoneAuth : false;
     var nextRouteEventAdminPermissionLevel = next.authorization ? next.authorization.eventAdminPermissionLevel : null;
     var nextRouteEventId = next.params.conferenceId;
-    var crsToken = $cookies.crsToken;
-    var crsAuthProviderType = $cookies.crsAuthProviderType;
+    var crsToken = $cookies.get('crsToken');
+    var crsAuthProviderType = $cookies.get('crsAuthProviderType');
 
     if(!nextRouteRequireLogin || (crsToken && nextRouteAllowsNoneAuth)){
       return;
@@ -43,9 +43,9 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     }
 
     if (!/^\/auth\/.*/.test($location.url())) {
-      $cookies.intendedRoute = $location.path();
+      $cookies.put('intendedRoute', $location.path());
       if(angular.isDefined(next.params.regType)){
-        $cookies.regType = next.params.regType;
+        $cookies.put('regType', next.params.regType);
       }
     }
 

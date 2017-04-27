@@ -174,48 +174,49 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
             function ($location, $cookies, $route, $rootScope, ProfileCache) {
-              $cookies.crsAuthProviderType = '';
-              $cookies.crsToken = $route.current.params.token;
-              $rootScope.crsToken = $cookies.crsToken;
+              $cookies.put('crsAuthProviderType', '');
+              $cookies.put('crsToken', $route.current.params.token);
+              $rootScope.crsToken = $cookies.get('crsToken');
               ProfileCache.getCache(function (data) {
-                $cookies.crsAuthProviderType = data.authProviderType;
-                if(angular.isDefined($cookies.regType)) {
-                  $location.path($cookies.intendedRoute || '/').search('regType', $cookies.regType).replace();
-                  delete $cookies.regType;
+                $cookies.put('crsAuthProviderType', data.authProviderType);
+                if(angular.isDefined($cookies.get('regType'))) {
+                  $location.path($cookies.get('intendedRoute') || '/').search('regType', $cookies.get('regType')).replace();
+                  $cookies.remove('regType');
                 } else {
-                  $location.path($cookies.intendedRoute || '/').replace();
+                  $location.path($cookies.get('intendedRoute') || '/').replace();
                 }
               });
             }
           ]
         }
       })
-      .when('/logout/', {
+      .when('/logout', {
         resolve: {
           redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
             function ($location, $cookies, $window, $http, $facebook) {
               $http.get('auth/logout').then(function() {
-                delete $cookies.crsToken;
+                $cookies.remove('crsToken');
 
                 /* if facebook, then use the FB JavaScript SDK to log out user from FB */
-                if ($cookies.crsAuthProviderType === 'FACEBOOK') {
+                if ($cookies.get('crsAuthProviderType') === 'FACEBOOK') {
                   $facebook.logout().then(function () {
-                    delete $cookies.crsAuthProviderType;
+                    $cookies.remove('crsAuthProviderType');
                     $location.url('/');
                   });
                 /* if relay, then then redirect to the Relay logout URL w/ service to bring user
                  * back to ERT home page */
-                } else if ($cookies.crsAuthProviderType  === 'RELAY') {
-                  delete $cookies.crsAuthProviderType;
+                } else if ($cookies.get('crsAuthProviderType') === 'RELAY') {
+                  $cookies.remove('crsAuthProviderType');
                   var serviceUrl = $location.absUrl().replace('logout', '');
                   $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
                 /* for no auth logins, nothing further is needed, back to ERT home page */
                 } else {
-                  delete $cookies.crsAuthProviderType;
+                  $cookies.remove('crsAuthProviderType');
                   $location.url('/');
                 }
               }).catch(function () {
                 alert('Logout failed');
+                $location.url('/');
               });
             }
           ]

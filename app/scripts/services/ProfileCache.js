@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.getCache = function (callback) {
-      if(!$cookies.crsToken){ return; }
+      if(!$cookies.get('crsToken')){ return; }
       checkCache(path, function (profileData) {
         if(callback){ callback(profileData); }
       });
