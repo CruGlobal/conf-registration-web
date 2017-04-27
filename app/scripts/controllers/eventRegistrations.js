@@ -242,7 +242,7 @@ angular.module('confRegistrationWebApp')
         expandedRegistrations[r] = 'loading';
 
         $http.get('registrants/' + r).then(function (response) {
-          var registrantData = response.data
+          var registrantData = response.data;
           expandedRegistrations[r] = 'open';
 
           //update registrant

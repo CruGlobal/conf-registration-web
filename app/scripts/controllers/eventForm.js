@@ -22,7 +22,7 @@ angular.module('confRegistrationWebApp')
     var formSavingTimeout;
     var formSavingNotifyTimeout;
 
-    var saveForm = function () {
+    function saveForm() {
       if (formSaving) {
         $timeout.cancel(formSavingTimeout);
         formSavingTimeout = $timeout(function() { saveForm(); }, 600);
@@ -58,7 +58,7 @@ angular.module('confRegistrationWebApp')
           message: $sce.trustAsHtml('<strong>Error</strong> ' + (data.error ? data.error.message : 'Update failed.'))
         };
       });
-    };
+    }
 
     $scope.previewForm = function () {
       $location.path('/preview/' + conference.id + '/page/');
