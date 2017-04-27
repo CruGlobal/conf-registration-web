@@ -36,8 +36,8 @@ angular.module('confRegistrationWebApp')
 
                   //redirect to dashboard
                   $location.path('/eventDashboard');
-                }).catch(function (data) {
-                  modalMessage.error(data.error ? data.error.message : 'An error has occurred.');
+                }).catch(function (response) {
+                  modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error has occurred.');
                 });
               });
             });

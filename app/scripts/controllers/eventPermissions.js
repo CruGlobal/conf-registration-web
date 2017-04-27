@@ -25,8 +25,8 @@ angular.module('confRegistrationWebApp')
 
         //update timestamp
         _.find($scope.currentPermissions, { 'id': id }).timestamp = new Date();
-      }).catch(function (data) {
-        modalMessage.error(data.error ? data.error.message : 'User could not be updated.');
+      }).catch(function (response) {
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be updated.');
         $route.reload();
       });
     };
@@ -49,8 +49,8 @@ angular.module('confRegistrationWebApp')
           class: 'alert-success',
           message: 'Email invite sent.'
         };
-      }).catch(function (data) {
-        modalMessage.error(data.error ? data.error.message : 'User could not be added.');
+      }).catch(function (response) {
+        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be added.');
       });
     };
 
@@ -68,8 +68,8 @@ angular.module('confRegistrationWebApp')
             class: 'alert-success',
             message: 'User removed.'
           };
-        }).catch(function (data) {
-          modalMessage.error(data.error ? data.error.message : 'User could not be removed.');
+        }).catch(function (response) {
+          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be removed.');
         });
       });
     };

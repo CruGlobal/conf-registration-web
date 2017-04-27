@@ -51,11 +51,11 @@ angular.module('confRegistrationWebApp')
         formSavingNotifyTimeout = $timeout(function () {
           $scope.notify = {};
         }, 2000);
-      }).catch(function (data) {
+      }).catch(function (response) {
         formSaving = false;
         $scope.notify = {
           class: 'alert-danger',
-          message: $sce.trustAsHtml('<strong>Error</strong> ' + (data.error ? data.error.message : 'Update failed.'))
+          message: $sce.trustAsHtml('<strong>Error</strong> ' + (response.data && response.data.error ? response.data.error.message : 'Update failed.'))
         };
       });
     }

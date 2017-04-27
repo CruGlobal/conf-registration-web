@@ -289,10 +289,10 @@ angular.module('confRegistrationWebApp')
             $scope.originalConference = conference = angular.copy(payload);
             //Clear cache
             ConfCache.empty();
-          }).catch(function (data) {
+          }).catch(function (response) {
             $scope.notify = {
               class: 'alert-danger',
-              message: $sce.trustAsHtml('<strong>Error:</strong> ' + (data.error ? data.error.message : 'Details could not be saved.'))
+              message: $sce.trustAsHtml('<strong>Error:</strong> ' + (response.data && response.data.error ? response.data.error.message : 'Details could not be saved.'))
             };
           });
       }

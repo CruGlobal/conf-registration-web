@@ -11,13 +11,13 @@ angular.module('confRegistrationWebApp')
     }).then(function () {
         $scope.message = gettextCatalog.getString('Success! Permission has been granted. Redirecting now...');
         $timeout(function () { $location.path('/eventDashboard'); }, 2000);
-      }).catch(function (data, status) {
-        if (status === 404) {
+      }).catch(function (response) {
+        if (response.status === 404) {
           $scope.message = gettextCatalog.getString('Error: Permission auth code was not found.');
-        } else if (status === 403) {
+        } else if (response.status === 403) {
           $scope.message = gettextCatalog.getString('Error: Permission auth code has already been used or is more than 2 months old.');
         } else {
-          $scope.message = 'An error has occurred while attempting to accept this auth code. ' + data;
+          $scope.message = 'An error has occurred while attempting to accept this auth code. ' + response.data;
         }
       });
   });
