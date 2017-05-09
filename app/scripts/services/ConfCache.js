@@ -90,8 +90,9 @@ angular.module('confRegistrationWebApp')
           }
         ]
       };
-      return $http.post(path(), data).then(function () {
+      return $http.post(path(), data).then(function (response) {
         cache.removeAll();
+        return response.data;
       }).catch(function(response){
         modalMessage.error(response.data && response.data.error ? response.data.error.message : 'Error creating conference.');
       });
