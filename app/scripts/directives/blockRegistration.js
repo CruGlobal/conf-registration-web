@@ -60,8 +60,10 @@ angular.module('confRegistrationWebApp')
                 default:
                   $scope.answer.value = '';
               }
-               //setting default value 
-              if (!angular.isUndefined($scope.block.content) && !angular.isUndefined($scope.block.content.default)) {
+              //setting default value
+              if (_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type) &&
+                !angular.isUndefined($scope.block.content) &&
+                !angular.isUndefined($scope.block.content.default)) {
                 $scope.answer.value = $scope.block.content.default;
               }
               $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
@@ -89,23 +91,23 @@ angular.module('confRegistrationWebApp')
         $scope.checkForceRule = function(block){
           if($scope.isAdmin){
             return true;
-          }else{      
+          }else{
             var registrant;
             if (angular.isDefined($scope.adminEditRegistrant)) {
               registrant = $scope.adminEditRegistrant;
             }else{
               registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
-            }           
-            var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);            
+            }
+            var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);
             if(ruleStatus){//making all checkbox with force selection to true
               for(var i in block.content.forceSelections){
                 if(block.content.forceSelections[i] === true){
                   $scope.answer.value[i] = block.content.forceSelections[i];
-                }              
+                }
               }
             }
             return ruleStatus;
-          }           
+          }
         };
       }
     };

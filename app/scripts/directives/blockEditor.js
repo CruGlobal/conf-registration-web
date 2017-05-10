@@ -16,6 +16,7 @@ angular.module('confRegistrationWebApp')
           titleTemplateUrl:'views/popupHyperlinkInformation.html'
         };
 
+        // Migrate old paragraph content objects
         if ($scope.block.type === 'paragraphContent' &&
           angular.isDefined($scope.block.content) &&
           _.isString($scope.block.content)) {
@@ -26,7 +27,6 @@ angular.module('confRegistrationWebApp')
             ruleoperand: 'AND',
             forceSelectionRuleOperand: 'AND'
           };
-          if ($scope.block.type === 'checkboxQuestion') { $scope.block.content.default = {}; }
         }
 
         //initializing rule operand value in block object
@@ -49,9 +49,11 @@ angular.module('confRegistrationWebApp')
         }
 
         //mapping default value to answer model for showing in front end
-        $scope.answer = {
-          value: $scope.block.content.default
-        };
+        if(_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+          $scope.answer = {
+            value: $scope.block.content.default
+          };
+        }
 
         $scope.$watch('answer', function (answer, oldAnswer) {
           if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
