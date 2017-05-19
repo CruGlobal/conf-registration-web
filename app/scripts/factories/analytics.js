@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('confRegistrationWebApp').factory('analytics', function ($window, $rootScope, ProfileCache, ADOBE_ANALYTICS_STAGING, ADOBE_ANALYTICS_PROD) {
+angular.module('confRegistrationWebApp').factory('analytics', function ($window, $rootScope, ProfileCache, jQuery, ADOBE_ANALYTICS_STAGING, ADOBE_ANALYTICS_PROD) {
   $window.digitalData = {};
 
   //load analytics JS
