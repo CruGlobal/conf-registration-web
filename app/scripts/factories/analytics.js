@@ -17,10 +17,12 @@ angular.module('confRegistrationWebApp').factory('analytics', function ($window,
       var pageTitle = $rootScope.globalPage ? $rootScope.globalPage.title : null;
       $window.digitalData.page = {
         pageInfo: {
-          pageName: 'Event Registration Tool | ' + (pageTitle ? pageTitle : 'no PageName found')
+          pageName: 'Event Registration Tool | ' + (pageTitle || 'no PageName found')
         }
       };
-      $window._satellite.pageBottom();
+      if($window._satellite){
+        $window._satellite.pageBottom();
+      }
     },
     track: angular.isDefined($window._satellite) && $window._satellite.track
   };
