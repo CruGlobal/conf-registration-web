@@ -33,7 +33,7 @@ angular.module('confRegistrationWebApp')
         .then(function (appManifest) {
           cruPayments.init(envService.read('tsysEnvironment'), appManifest.deviceId, appManifest.manifest);
           return cruPayments.encrypt(payment.creditCard.number, payment.creditCard.cvvNumber,
-                                     payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise();
+                                     payment.creditCard.expirationMonth, payment.creditCard.expirationYear).toPromise($q);
         })
         .then(function (tokenizedCard) {
           payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;

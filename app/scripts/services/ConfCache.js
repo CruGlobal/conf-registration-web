@@ -46,13 +46,13 @@ angular.module('confRegistrationWebApp')
       var data = {
         id: newConferenceId,
         name: name,
-        allowEditRegistrationAfterComplete: true,
+        allowEditRegistrationAfterComplete: false,
+        combineSpouseRegistrations: false,
         registrationStartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
         registrationEndTime: moment().add(14, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventStartTime: moment().add(14, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventEndTime: moment().add(20, 'days').format('YYYY-MM-DD HH:mm:ss'),
         eventTimezone: 'America/New_York',
-        paymentGatewayType: 'TSYS',
         registrantTypes: [{
           id: uuid(),
           name: 'Default',
