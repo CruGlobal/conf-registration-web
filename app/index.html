@@ -14,6 +14,10 @@
     </script>
   <![endif]-->
 
+  <!-- Adobe DTM -->
+  <!-- build:include:dist includes/analyticsProd.html --><!-- /build -->
+  <!-- build:include:stage includes/analyticsStage.html --><!-- /build -->
+
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
@@ -300,12 +304,6 @@
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
     ga('create', 'UA-325725-55', 'auto');
-  </script>
-  <!-- /build -->
-
-  <!-- build:remove:dist -->
-  <script>
-    window.isStaging = true;
   </script>
   <!-- /build -->
 </body>
