@@ -43,7 +43,7 @@ angular.module('confRegistrationWebApp')
         $scope.searchResults = response.data;
 
         analytics.digitalData.searchFilter = '';
-        analytics.digitalData.searchTeam = val;
+        analytics.digitalData.searchTerm = val;
         analytics.digitalData.numberOfResults = response.data.length;
         analytics.track('search');
       });
