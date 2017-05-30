@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp')
         } else if (response.status === 403) {
           $scope.message = gettextCatalog.getString('Error: Permission auth code has already been used or is more than 2 months old.');
         } else {
-          $scope.message = 'An error has occurred while attempting to accept this auth code. ' + response.data;
+          $scope.message = 'An error has occurred while attempting to accept this auth code. ' + (response.data && response.data.error && response.data.error.message || '');
         }
       });
   });

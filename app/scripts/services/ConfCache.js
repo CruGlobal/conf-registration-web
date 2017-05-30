@@ -99,15 +99,13 @@ angular.module('confRegistrationWebApp')
     };
 
     this.getPermissions = function (id) {
-      var q = $q.defer();
-      $http({
+      return $http({
         method: 'GET',
         url: 'conferences/' + id + '/permissions'
-      }).then(function (data) {
-        q.resolve(data);
-      }).catch(function () {
-        q.reject([]);
+      }).then(function (response) {
+        return response.data;
+      }).catch(function (){
+        return [];
       });
-      return q.promise;
     };
   });
