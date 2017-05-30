@@ -41,8 +41,8 @@ angular.module('confRegistrationWebApp')
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',
         data: postData
-      }).then(function (data) {
-        $scope.currentPermissions.push(data);
+      }).then(function (response) {
+        $scope.currentPermissions.push(response.data);
         $scope.addPermissionsEmail = '';
         $scope.addPermissionsLevel = '';
         $scope.notify = {
