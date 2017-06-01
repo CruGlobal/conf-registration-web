@@ -58,6 +58,9 @@
   <script src="components/angular-wysiwyg-custom.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
   <script src="bower_components/angular-gettext/dist/angular-gettext.js"></script>
+  <script src="bower_components/angulartics/src/angulartics.js"></script>
+  <script src="bower_components/angulartics-adobe-analytics/lib/angulartics-adobe-analytics.js"></script>
+  <script src="bower_components/angulartics-google-analytics/lib/angulartics-ga.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/eventApp.js -->
@@ -307,6 +310,6 @@
   </script>
   <!-- /build -->
 
-  <script>if(_satellite){ _satellite.pageBottom(); }</script>
+  <script type="text/javascript">window._satellite && window._satellite.pageBottom();</script>
 </body>
 </html>

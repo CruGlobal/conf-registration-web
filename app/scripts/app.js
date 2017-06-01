@@ -1,5 +1,6 @@
 'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
+angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext',
+  'angulartics', 'angulartics.adobe.analytics', 'angulartics.google.analytics'])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
@@ -232,7 +233,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         redirectTo: '/'
       });
   })
-  .run(function ($rootScope, $cookies, $location, $window, $timeout, ProfileCache, analytics) {
+  .run(function ($rootScope, $cookies, $location, $window, ProfileCache) {
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
       if (_.contains($location.path(), '/preview/')) {
@@ -245,14 +246,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
     $rootScope.$on('$routeChangeSuccess', function () {
       //scroll to top of page when new page is loaded
       $window.scrollTo(0, 0);
-
-      //Analytics
-      if($window.ga){
-        $window.ga('send', 'pageview', {'page': $location.path()});
-      }
-      if(analytics.available){
-        $timeout(analytics.pageLoad);
-      }
     });
 
     $rootScope.generateTitle = function (title) {
