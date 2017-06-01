@@ -19,6 +19,9 @@ module.exports = function(config){
       'app/bower_components/angular-environment/dist/angular-environment.js',
       'app/components/angular-wysiwyg-custom.js',
       'app/bower_components/angular-gettext/dist/angular-gettext.js',
+      'app/bower_components/angulartics/src/angulartics.js',
+      'app/bower_components/angulartics-adobe-analytics/lib/angulartics-adobe-analytics.js',
+      'app/bower_components/angulartics-google-analytics/lib/angulartics-ga.js',
 
       'app/scripts/*.js',
       'app/scripts/**/*.js',
