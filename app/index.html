@@ -15,12 +15,8 @@
   <![endif]-->
 
   <!-- Adobe DTM -->
-  <!-- build:remove:dist -->
-  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e-staging.js"></script>
-  <!-- /build -->
-  <!-- build:remove:stage -->
-  <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
-  <!-- /build -->
+  <!-- build:include:dist includes/analyticsProd.html --><!-- /build -->
+  <!-- build:include:stage includes/analyticsStage.html --><!-- /build -->
 
   <!-- jQuery -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
@@ -62,6 +58,9 @@
   <script src="components/angular-wysiwyg-custom.js"></script>
   <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
   <script src="bower_components/angular-gettext/dist/angular-gettext.js"></script>
+  <script src="bower_components/angulartics/src/angulartics.js"></script>
+  <script src="bower_components/angulartics-adobe-analytics/lib/angulartics-adobe-analytics.js"></script>
+  <script src="bower_components/angulartics-google-analytics/lib/angulartics-ga.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/eventApp.js -->
@@ -108,6 +107,9 @@
   <script src="scripts/directives/showErrors.js"></script>
   <script src="scripts/directives/stringToNumber.js"></script>
   <script src="scripts/directives/rule.js"></script>
+
+  <!--Factories-->
+  <script src="scripts/factories/analytics.js"></script>
 
   <!--Filters-->
   <script src="scripts/filters/evtDateFormat.js"></script>
@@ -308,6 +310,6 @@
   </script>
   <!-- /build -->
 
-  <script type="text/javascript">_satellite.pageBottom();</script>
+  <script type="text/javascript">window._satellite && window._satellite.pageBottom();</script>
 </body>
 </html>

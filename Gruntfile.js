@@ -226,7 +226,8 @@ module.exports = function (grunt) {
     processhtml: {
       dist: {
         options: {
-          strip: true
+          strip: true,
+          includeBase: '<%= yeoman.app %>'
         },
         files: {
           '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']
@@ -234,7 +235,8 @@ module.exports = function (grunt) {
       },
       stage: {
         options: {
-          strip: true
+          strip: true,
+          includeBase: '<%= yeoman.app %>'
         },
         files: {
           '<%= yeoman.dist %>/index.html': ['<%= yeoman.dist %>/index.html']

@@ -19,7 +19,9 @@
     "ccp-js": "https://ccp.ccci.org/js/ccp-js.zip",
     "cru-payments": "https://registry.npmjs.org/cru-payments/-/cru-payments-1.2.2.tgz",
     "ng-facebook": "0.1.6",
-    "angular-gettext": "~2.3.0"
+    "angular-gettext": "~2.3.0",
+    "angulartics-adobe-analytics": "^1.0.3",
+    "angulartics-google-analytics": "^0.3.0"
   },
   "devDependencies": {}
 }
