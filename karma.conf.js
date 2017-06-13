@@ -1,42 +1,42 @@
-module.exports = function(config){
+const path = require('path');
+const webpackConfig = require('./webpack.config.js')({ test: true });
+
+delete webpackConfig.entry;
+delete webpackConfig.devServer;
+webpackConfig.devtool = 'inline-source-map';
+webpackConfig.module.rules.push({
+  test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
+  include: path.resolve('app/'),
+  loader: 'istanbul-instrumenter-loader',
+  query: {
+    esModules: true
+  }
+});
+
+module.exports = function(config) {
   config.set({
-    basePath : '',
 
-    files : [
-      //'app/bower_components/jquery/dist/jquery.js',
-      'app/bower_components/angular/angular.js',
-      'app/bower_components/angular-mocks/angular-mocks.js',
-      'app/bower_components/angular-route/angular-route.js',
-      'app/bower_components/angular-cookies/angular-cookies.js',
-      'app/bower_components/angular-sanitize/angular-sanitize.js',
-
-      'app/bower_components/moment/moment.js',
-      'app/bower_components/moment-timezone/builds/moment-timezone-with-data.js',
-      'app/bower_components/lodash/dist/lodash.js',
-      'app/bower_components/ng-facebook/ngFacebook.js',
-      'app/bower_components/angular-bootstrap/ui-bootstrap.js',
-      'app/bower_components/angular-ui-tree/dist/angular-ui-tree.js',
-      'app/bower_components/angular-environment/dist/angular-environment.js',
-      'app/components/angular-wysiwyg-custom.js',
-      'app/bower_components/angular-gettext/dist/angular-gettext.js',
-
-      'app/scripts/*.js',
-      'app/scripts/**/*.js',
-      'test/spec/**/*.js'
-    ],
-
-    exclude : [
-      'app/scripts/errorNotify.js'
-    ],
-
-    //autoWatch : true,
+    singleRun: true,
 
     frameworks: ['jasmine'],
 
-    browsers : ['PhantomJS'],
+    browsers: ['PhantomJS'],
 
-    plugins : [
-      'karma-phantomjs-launcher',
-      'karma-jasmine'
-    ]
-  })}
+    reporters: ['mocha', 'coverage-istanbul'],
+
+    files: [
+      'test/all-tests.spec.js'
+    ],
+
+    preprocessors: {
+      'test/all-tests.spec.js': ['webpack', 'sourcemap']
+    },
+
+    webpack: webpackConfig,
+
+    coverageIstanbulReporter: {
+      reports: [ 'lcov'],
+      fixWebpackSourcePaths: true
+    },
+  });
+};

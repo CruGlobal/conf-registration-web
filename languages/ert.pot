@@ -4,1960 +4,2398 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: app/views/reviewRegistration.html:156
+#: ./app/views/reviewRegistration.html:156
 msgid "* Pending payments are not reflected in remaining balance. Your remaining balance will be automatically updated once any scholarships are approved or checks have been received."
 msgstr ""
 
-#: app/views/landing.html:21
+#: ./app/views/landing.html:21
 msgid "-Any Date-"
 msgstr ""
 
-#: app/views/landing.html:14
+#: ./app/views/landing.html:14
 msgid "-Any Location-"
 msgstr ""
 
-#: app/views/eventRegistrations.html:25
+#: ./app/views/eventRegistrations.html:25
 msgid "-Any-"
 msgstr ""
 
-#: app/views/reviewRegistration.html:82
+#: ./app/views/blocks/radioQuestion.html:16
+msgid "<span class=\"ng-scope\">Clear</span>"
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:82
 msgid "A breakdown of the costs"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:8
+#: ./app/views/eventDetails/eventInformation.html:8
 msgid "Abbreviation"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:133
+#: ./app/views/eventDetails/regTypes.html:133
 msgid "Accept 'Pay on Site'"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:121
+#: ./app/views/eventDetails/regTypes.html:121
 msgid "Accept Account Transfers"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:115
+#: ./app/views/eventDetails/regTypes.html:115
 msgid "Accept Checks"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:105
+#: ./app/views/eventDetails/regTypes.html:105
 msgid "Accept Credit Cards"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:127
+#: ./app/views/eventDetails/regTypes.html:127
 msgid "Accept Scholarships"
 msgstr ""
 
-#: app/views/components/eventDashboardEvent.html:2
+#: ./app/views/components/eventDashboardEvent.html:2
 msgid "Access pending"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:30
-msgid "Account ID:"
-msgstr ""
-
-#: app/views/modals/paymentsModal.html:237
-#: app/views/modals/paymentsModal.html:280
-#: app/views/paymentApproval.html:36
-#: app/views/paymentMethods/scholarshipAdmin.html:12
-#: app/views/paymentMethods/transfer.html:13
+#: ./app/views/modals/paymentsModal.html:237
+#: ./app/views/modals/paymentsModal.html:280
+#: ./app/views/paymentApproval.html:36
+#: ./app/views/paymentMethods/scholarshipAdmin.html:12
+#: ./app/views/paymentMethods/transfer.html:13
 msgid "Account Number"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:445
+#: ./app/views/modals/paymentsModal.html:445
 msgid "Account Transfer"
 msgstr ""
 
-#: app/views/modals/export.html:47
+#: ./app/views/modals/export.html:47
 msgid "Account Transfers"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:225
-#: app/views/modals/paymentsModal.html:268
-#: app/views/paymentApproval.html:26
-#: app/views/paymentMethods/scholarshipAdmin.html:2
-#: app/views/paymentMethods/transfer.html:2
+#: ./app/views/modals/paymentsModal.html:225
+#: ./app/views/modals/paymentsModal.html:268
+#: ./app/views/paymentApproval.html:26
+#: ./app/views/paymentMethods/scholarshipAdmin.html:2
+#: ./app/views/paymentMethods/transfer.html:2
 msgid "Account Type"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:19
-msgid "Account:"
-msgstr ""
-
-#: app/views/eventPermissions.html:100
-#: app/views/eventPermissions.html:13
-#: app/views/eventPermissions.html:49
+#: ./app/views/eventPermissions.html:100
+#: ./app/views/eventPermissions.html:13
+#: ./app/views/eventPermissions.html:49
 msgid "Actions"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:96
+#: ./app/views/modals/paymentsModal.html:96
 msgid "Active Promotions"
 msgstr ""
 
-#: app/views/components/blockEditor.html:69
+#: ./app/views/components/blockEditor.html:80
 msgid "Add"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:188
+#: ./app/views/eventDetails/regTypes.html:188
 msgid "Add Discount"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:88
-#: app/views/reviewRegistration.html:168
+#: ./app/views/eventDetails/promotions.html:88
+#: ./app/views/reviewRegistration.html:168
 msgid "Add Promotion Code"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:212
+#: ./app/views/eventDetails/regTypes.html:225
 msgid "Add Registrant Type"
 msgstr ""
 
-#: app/views/eventRegistrations.html:7
-#: app/views/modals/manualRegistration.html:27
-#: app/views/modals/manualRegistration.html:4
+#: ./app/views/eventRegistrations.html:7
+#: ./app/views/modals/manualRegistration.html:27
+#: ./app/views/modals/manualRegistration.html:4
 msgid "Add Registration"
 msgstr ""
 
-#: app/views/components/blockEditor.html:133
+#: ./app/views/components/rule.html:14
 msgid "Add Rule"
 msgstr ""
 
-#: app/views/eventPermissions.html:70
+#: ./app/views/eventPermissions.html:70
 msgid "Add User"
 msgstr ""
 
-#: app/views/reviewRegistration.html:76
+#: ./app/views/reviewRegistration.html:76
 msgid "Add a Family Member"
 msgstr ""
 
-#: app/views/modals/addRegistrantType.html:6
+#: ./app/views/modals/addRegistrantType.html:6
 msgid "Add a registrant type from the list below, or choose \"Create my own\" if you don't see one that fits."
 msgstr ""
 
-#: app/views/eventPermissions.html:163
+#: ./app/views/eventPermissions.html:163
 msgid "Add/modify event users"
 msgstr ""
 
-#: app/views/eventPermissions.html:202
+#: ./app/views/eventPermissions.html:202
 msgid "Add/modify registrations"
 msgstr ""
 
-#: app/views/modals/choiceOptions.html:11
+#: ./app/views/modals/choiceOptions.html:11
 msgid "Additional Cost"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:451
+#: ./app/views/modals/paymentsModal.html:451
 msgid "Additional Expense"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:81
-#: app/views/eventDetails/paymentOptions.html:58
-#: app/views/paymentMethods/creditCard.html:52
+#: ./app/views/eventDetails/eventInformation.html:81
+#: ./app/views/eventDetails/paymentOptions.html:61
+#: ./app/views/paymentMethods/creditCard.html:52
 msgid "Address"
 msgstr ""
 
-#: app/views/blocks/addressQuestion.html:3
+#: ./app/views/blocks/addressQuestion.html:3
 msgid "Address Line 1"
 msgstr ""
 
-#: app/views/blocks/addressQuestion.html:6
+#: ./app/views/blocks/addressQuestion.html:6
 msgid "Address Line 2"
 msgstr ""
 
-#: app/views/components/blockEditor.html:104
-#: app/views/components/blockEditor.html:4
+#: ./app/views/components/blockEditor.html:137
+#: ./app/views/components/blockEditor.html:4
 msgid "Admin only"
 msgstr ""
 
-#: app/views/eventDashboard.html:42
+#: ./app/views/eventDetails/paymentOptions.html:70
+msgid "Alabama"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:71
+msgid "Alaska"
+msgstr ""
+
+#: ./app/views/eventDashboard.html:42
 msgid "All other events"
 msgstr ""
 
-#: app/views/components/blockEditor.html:74
+#: ./app/views/components/rule.html:9
+msgid "All rules are met"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:85
 msgid "Allow custom \"other\" option"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:29
+#: ./app/views/eventDetails/regOptions.html:29
 msgid "Allow users to modify their registration after it is complete"
 msgstr ""
 
-#: app/views/reviewRegistration.html:34
+#: ./app/views/reviewRegistration.html:34
 msgid "Almost done. Please review your registration details and enter your payment information below. Then click Confirm. That's it!"
 msgstr ""
 
-#: app/views/reviewRegistration.html:33
+#: ./app/views/reviewRegistration.html:33
 msgid "Almost done. Please review your registration details below and click Confirm if correct. That's it!"
 msgstr ""
 
-#: app/views/components/payment.html:42
-#: app/views/modals/paymentsModal.html:134
-#: app/views/modals/paymentsModal.html:202
-#: app/views/modals/paymentsModal.html:367
-#: app/views/modals/paymentsModal.html:398
-#: app/views/modals/paymentsModal.html:457
-#: app/views/paymentApproval.html:16
+#: ./app/views/components/payment.html:42
+#: ./app/views/modals/paymentsModal.html:134
+#: ./app/views/modals/paymentsModal.html:202
+#: ./app/views/modals/paymentsModal.html:367
+#: ./app/views/modals/paymentsModal.html:398
+#: ./app/views/modals/paymentsModal.html:457
+#: ./app/views/paymentApproval.html:16
 msgid "Amount"
 msgstr ""
 
-#: app/views/paymentMethods/scholarship.html:26
+#: ./app/views/paymentMethods/scholarship.html:26
 msgid "An email will be sent to"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:75
+#: ./app/scripts/services/payment.js:102
+msgid "An error occurred while attempting to process your payment."
+msgstr ""
+
+#: ./app/scripts/services/payment.js:24
+msgid "An error occurred while requesting the Authorize.NET token. Please try your payment again."
+msgstr ""
+
+#: ./app/scripts/services/payment.js:43
+msgid "An error occurred while requesting the TSYS token. Please try your payment again."
+msgstr ""
+
+#: ./app/views/components/rule.html:10
+msgid "Any rules are met"
+msgstr ""
+
+#: ./app/views/eventDetails/promotions.html:75
 msgid "Applies discount to all registrants in the registration, if applicable. If unchecked, discount will only be applied once per registration."
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:72
+#: ./app/views/eventDetails/promotions.html:72
 msgid "Apply discount to everyone in registration"
 msgstr ""
 
-#: app/views/paymentApproval.html:67
+#: ./app/views/paymentApproval.html:67
 msgid "Approve"
 msgstr ""
 
-#: app/views/components/adminNav.html:13
+#: ./app/views/components/adminNav.html:13
 msgid "Archive Event"
 msgstr ""
 
-#: app/views/eventPermissions.html:181
+#: ./app/views/eventPermissions.html:181
 msgid "Archive/delete event"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:4
+#: ./app/views/eventDetails/paymentOptions.html:72
+msgid "Arizona"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:73
+msgid "Arkansas"
+msgstr ""
+
+#: ./app/views/modals/loginDialog.html:4
 msgid "Authorization Required"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:113
+#: ./app/scripts/controllers/eventDetails.js:39
+msgid "Authorize.NET Account ID"
+msgstr ""
+
+#: ./app/scripts/controllers/eventDetails.js:40
+msgid "Authorize.NET Key"
+msgstr ""
+
+#: ./app/scripts/controllers/eventDetails.js:37
+msgid "Authorize.Net"
+msgstr ""
+
+#: ./app/views/modals/paymentsModal.html:113
 msgid "Available Promotions"
 msgstr ""
 
-#: app/views/components/registrationsPaidPopover.html:2
+#: ./app/views/components/registrationsPaidPopover.html:2
 msgid "Balance Due"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:48
+#: ./app/views/paymentMethods/creditCard.html:48
 msgid "Billing Address"
 msgstr ""
 
-#: app/views/paymentMethods/payOnSite.html:2
+#: ./app/views/paymentMethods/payOnSite.html:2
 msgid "Bring your payment of"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:136
-#: app/views/modals/paymentsModal.html:245
-#: app/views/modals/paymentsModal.html:288
-#: app/views/paymentApproval.html:44
-#: app/views/paymentMethods/scholarshipAdmin.html:19
-#: app/views/paymentMethods/transfer.html:20
+#: ./app/views/eventDetails/paymentOptions.html:139
+#: ./app/views/modals/paymentsModal.html:245
+#: ./app/views/modals/paymentsModal.html:288
+#: ./app/views/paymentApproval.html:44
+#: ./app/views/paymentMethods/scholarshipAdmin.html:19
+#: ./app/views/paymentMethods/transfer.html:20
 msgid "Business Unit"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:4
+#: ./app/views/eventDetails/regTypes.html:4
 msgid "By setting up multiple registrant types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these types into the order that people registering will see them."
 msgstr ""
 
-#: app/views/modals/accessEvent.html:43
-#: app/views/modals/choiceOptions.html:24
-#: app/views/modals/cloneEvent.html:19
-#: app/views/modals/createEvent.html:13
-#: app/views/modals/editRegistration.html:18
-#: app/views/modals/export.html:81
-#: app/views/modals/paymentsModal.html:385
+#: ./app/views/eventDetails/paymentOptions.html:74
+msgid "California"
+msgstr ""
+
+#: ./app/views/modals/accessEvent.html:43
+#: ./app/views/modals/choiceOptions.html:24
+#: ./app/views/modals/cloneEvent.html:19
+#: ./app/views/modals/createEvent.html:13
+#: ./app/views/modals/editRegistration.html:18
+#: ./app/views/modals/export.html:81
+#: ./app/views/modals/paymentsModal.html:385
 msgid "Cancel"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:10
+#: ./app/views/paymentMethods/creditCard.html:10
 msgid "Card Number"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:14
+#: ./app/views/paymentMethods/creditCard.html:14
 msgid "Card Security Code"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:175
-#: app/views/modals/paymentsModal.html:179
-#: app/views/modals/paymentsModal.html:362
-#: app/views/modals/paymentsModal.html:447
+#: ./app/views/modals/paymentsModal.html:175
+#: ./app/views/modals/paymentsModal.html:179
+#: ./app/views/modals/paymentsModal.html:362
+#: ./app/views/modals/paymentsModal.html:447
 msgid "Cash"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:149
-#: app/views/modals/paymentsModal.html:180
-#: app/views/modals/paymentsModal.html:363
-#: app/views/modals/paymentsModal.html:446
+#: ./app/views/modals/paymentsModal.html:149
+#: ./app/views/modals/paymentsModal.html:180
+#: ./app/views/modals/paymentsModal.html:363
+#: ./app/views/modals/paymentsModal.html:446
 msgid "Check"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:217
+#: ./app/views/modals/paymentsModal.html:217
 msgid "Check #"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:151
+#: ./app/views/modals/paymentsModal.html:151
 msgid "Check (not yet received)"
 msgstr ""
 
-#: app/views/paymentMethods/check.html:1
-#: app/views/reviewRegistration.html:180
+#: ./app/views/paymentMethods/check.html:1
+#: ./app/views/reviewRegistration.html:180
 msgid "Check Instructions"
 msgstr ""
 
-#: app/views/paymentMethods/checkAdmin.html:10
+#: ./app/views/paymentMethods/checkAdmin.html:10
 msgid "Check Number"
 msgstr ""
 
-#: app/views/paymentMethods/checkAdmin.html:3
+#: ./app/views/paymentMethods/checkAdmin.html:3
 msgid "Check Status"
 msgstr ""
 
-#: app/views/eventPermissions.html:114
-#: app/views/eventPermissions.html:135
-#: app/views/eventPermissions.html:28
-#: app/views/eventPermissions.html:81
+#: ./app/views/eventPermissions.html:114
+#: ./app/views/eventPermissions.html:135
+#: ./app/views/eventPermissions.html:28
+#: ./app/views/eventPermissions.html:81
 msgid "Check in"
 msgstr ""
 
-#: app/views/eventRegistrations.html:237
+#: ./app/views/eventRegistrations.html:257
 msgid "Checked in at"
 msgstr ""
 
-#: app/views/eventRegistrations.html:158
+#: ./app/views/eventRegistrations.html:178
 msgid "Checked-in"
 msgstr ""
 
-#: app/views/eventRegistrations.html:72
+#: ./app/views/eventRegistrations.html:92
 msgid "Checked-in registrations"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:46
+#: ./app/views/eventDetails/paymentOptions.html:49
 msgid "Checks"
 msgstr ""
 
-#: app/views/modals/export.html:62
-msgid "Child Care"
+#: ./app/views/modals/export.html:62
+msgid "Childcare"
 msgstr ""
 
-#: app/views/modals/accessEvent.html:27
+#: ./app/views/modals/accessEvent.html:27
 msgid "Choose a different event"
 msgstr ""
 
-#: app/views/paymentMethods/scholarship.html:22
+#: ./app/views/paymentMethods/scholarship.html:22
 msgid "Choose different staff member"
 msgstr ""
 
-#: app/views/blocks/selectQuestion.html:2
-#: app/views/modals/paymentsModal.html:440
+#: ./app/views/blocks/selectQuestion.html:7
+#: ./app/views/modals/paymentsModal.html:440
 msgid "Choose one..."
 msgstr ""
 
-#: app/views/blocks/addressQuestion.html:9
-#: app/views/eventDetails/eventInformation.html:86
-#: app/views/eventDetails/paymentOptions.html:63
-#: app/views/paymentMethods/creditCard.html:305
+#: ./app/views/blocks/addressQuestion.html:9
+#: ./app/views/eventDetails/eventInformation.html:86
+#: ./app/views/eventDetails/paymentOptions.html:66
+#: ./app/views/paymentMethods/creditCard.html:305
 msgid "City"
 msgstr ""
 
-#: app/views/components/eventDashboardEvent.html:15
-#: app/views/components/eventDashboardEvent.html:19
-#: app/views/modals/cloneEvent.html:20
+#: ./app/views/components/eventDashboardEvent.html:15
+#: ./app/views/components/eventDashboardEvent.html:19
+#: ./app/views/modals/cloneEvent.html:20
 msgid "Clone"
 msgstr ""
 
-#: app/views/modals/cloneEvent.html:3
+#: ./app/views/modals/cloneEvent.html:3
 msgid "Clone Event"
 msgstr ""
 
-#: app/views/eventPermissions.html:172
+#: ./app/views/eventPermissions.html:172
 msgid "Clone event"
 msgstr ""
 
-#: app/views/components/blockEditor.html:17
-#: app/views/modals/manualRegistration.html:26
-#: app/views/modals/paymentsModal.html:195
+#: ./app/views/components/blockEditor.html:17
+#: ./app/views/modals/manualRegistration.html:26
+#: ./app/views/modals/paymentsModal.html:195
 msgid "Close"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:11
+#: ./app/views/eventDetails/promotions.html:11
 msgid "Code"
 msgstr ""
 
-#: app/views/eventRegistrations.html:47
+#: ./app/views/eventDetails/paymentOptions.html:75
+msgid "Colorado"
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:50
 msgid "Columns"
 msgstr ""
 
-#: app/views/eventRegistrations.html:144
+#: ./app/views/eventDetails/regOptions.html:40
+msgid "Combine spouse registrations"
+msgstr ""
+
+#: ./app/views/eventDetails/regOptions.html:43
+msgid "Combining spouse registrations will force a husband and wife to be on the same family registration instead of on two separate registrations. Note that the first spouse must register as a registrant type that allows family members for this option to have any effect."
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:164
+#: ./app/views/eventRegistrations.html:75
 msgid "Completed"
 msgstr ""
 
-#: app/views/eventRegistrations.html:229
+#: ./app/views/eventRegistrations.html:249
 msgid "Completed on"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:197
+#: ./app/views/eventDetails/regTypes.html:197
 msgid "Confirmation Email"
 msgstr ""
 
-#: app/views/registration.html:62
-#: app/views/reviewRegistration.html:22
+#: ./app/views/eventDetails/paymentOptions.html:76
+msgid "Connecticut"
+msgstr ""
+
+#: ./app/views/registration.html:62
+#: ./app/views/reviewRegistration.html:22
 msgid "Contact Info"
 msgstr ""
 
-#: app/views/eventDetails/contactInfo.html:1
+#: ./app/views/eventDetails/contactInfo.html:1
 msgid "Contact Information"
 msgstr ""
 
-#: app/views/modals/accessEvent.html:32
+#: ./app/views/modals/accessEvent.html:32
 msgid "Contact:"
 msgstr ""
 
-#: app/views/components/pageRegistration.html:20
-#: app/views/registration.html:82
+#: ./app/views/components/pageRegistration.html:20
+#: ./app/views/registration.html:82
 msgid "Continue"
 msgstr ""
 
-#: app/views/components/blockEditor.html:18
+#: ./app/views/components/blockEditor.html:18
 msgid "Copy"
 msgstr ""
 
-#: app/views/modals/cloneEvent.html:14
+#: ./app/views/modals/cloneEvent.html:14
 msgid "Copy users and permission to new event"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:26
-#: app/views/modals/paymentsModal.html:23
-#: app/views/reviewRegistration.html:91
+#: ./app/views/eventDetails/regTypes.html:26
+#: ./app/views/modals/paymentsModal.html:23
+#: ./app/views/reviewRegistration.html:91
 msgid "Cost"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:59
+#: ./app/views/paymentMethods/creditCard.html:59
 msgid "Country"
 msgstr ""
 
-#: app/views/modals/createEvent.html:14
+#: ./app/views/modals/createEvent.html:14
 msgid "Create"
 msgstr ""
 
-#: app/views/modals/createEvent.html:3
+#: ./app/views/modals/createEvent.html:3
 msgid "Create Event"
 msgstr ""
 
-#: app/views/eventDashboard.html:11
+#: ./app/views/eventDashboard.html:11
 msgid "Create New Event"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:17
+#: ./app/views/modals/loginDialog.html:17
 msgid "Create a Facebook account"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:21
+#: ./app/views/modals/loginDialog.html:21
 msgid "Create a Relay account"
 msgstr ""
 
-#: app/views/eventDashboard.html:26
+#: ./app/views/eventDashboard.html:26
 msgid "Create a new event"
 msgstr ""
 
-#: app/views/modals/addRegistrantType.html:13
+#: ./app/views/modals/addRegistrantType.html:13
 msgid "Create my own"
 msgstr ""
 
-#: app/views/landing.html:39
+#: ./app/views/landing.html:39
 msgid "Create or manage an event"
 msgstr ""
 
-#: app/index.html:273
-msgid "Created with Event Registration Tool, powered by"
-msgstr ""
-
-#: app/views/eventPermissions.html:111
+#: ./app/views/eventPermissions.html:111
 msgid "Creator"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:5
-#: app/views/modals/paymentsModal.html:178
-#: app/views/modals/paymentsModal.html:442
+#: ./app/views/eventDetails/paymentOptions.html:5
+#: ./app/views/modals/paymentsModal.html:178
+#: ./app/views/modals/paymentsModal.html:442
 msgid "Credit Card"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:360
-msgid "Credit Card (automatically via Authorize.net)"
+#: ./app/views/modals/paymentsModal.html:360
+msgid "Credit Card (automatically)"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:361
+#: ./app/views/modals/paymentsModal.html:361
 msgid "Credit Card (manually)"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:149
+#: ./app/views/eventDetails/eventInformation.html:149
 msgid "Cru Event"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:130
+#: ./app/views/eventDetails/paymentOptions.html:133
 msgid "Cru Event Chartfield"
 msgstr ""
 
-#: app/views/components/blockEditor.html:86
+#: ./app/views/components/blockEditor.html:97
 msgid "Cru Profile"
 msgstr ""
 
-#: app/views/eventPermissions.html:92
+#: ./app/views/eventPermissions.html:92
 msgid "Current Users"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:133
-#: app/views/modals/paymentsModal.html:343
-#: app/views/modals/paymentsModal.html:397
+#: ./app/views/modals/paymentsModal.html:133
+#: ./app/views/modals/paymentsModal.html:343
+#: ./app/views/modals/paymentsModal.html:397
 msgid "Date"
 msgstr ""
 
-#: app/views/modals/accessEvent.html:31
+#: ./app/views/modals/accessEvent.html:31
 msgid "Dates:"
 msgstr ""
 
-#: app/views/paymentApproval.html:73
+#: ./app/views/paymentApproval.html:73
 msgid "Decline"
 msgstr ""
 
-#: app/views/components/blockEditor.html:19
-#: app/views/components/blockEditor.html:61
-#: app/views/eventDetails/promotions.html:25
-#: app/views/eventDetails/regTypes.html:36
-#: app/views/eventPermissions.html:120
-#: app/views/eventPermissions.html:35
-#: app/views/eventPermissions.html:63
+#: ./app/views/eventDetails/paymentOptions.html:77
+msgid "Delaware"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:19
+#: ./app/views/components/blockEditor.html:72
+#: ./app/views/eventDetails/promotions.html:25
+#: ./app/views/eventDetails/regTypes.html:36
+#: ./app/views/eventPermissions.html:120
+#: ./app/views/eventPermissions.html:35
+#: ./app/views/eventPermissions.html:63
 msgid "Delete"
 msgstr ""
 
-#: app/views/eventPermissions.html:250
+#: ./app/views/eventPermissions.html:250
 msgid "Delete all payments"
 msgstr ""
 
-#: app/views/eventPermissions.html:211
+#: ./app/views/eventPermissions.html:211
 msgid "Delete registrations"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:146
-#: app/views/modals/paymentsModal.html:255
-#: app/views/modals/paymentsModal.html:298
-#: app/views/paymentApproval.html:54
-#: app/views/paymentMethods/scholarshipAdmin.html:29
-#: app/views/paymentMethods/transfer.html:30
+#: ./app/views/eventDetails/paymentOptions.html:149
+#: ./app/views/modals/paymentsModal.html:255
+#: ./app/views/modals/paymentsModal.html:298
+#: ./app/views/paymentApproval.html:54
+#: ./app/views/paymentMethods/scholarshipAdmin.html:29
+#: ./app/views/paymentMethods/transfer.html:30
 msgid "Department"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:21
-#: app/views/eventDetails/promotions.html:30
-#: app/views/eventDetails/regTypes.html:42
-#: app/views/modals/paymentsModal.html:136
-#: app/views/modals/paymentsModal.html:310
-#: app/views/modals/paymentsModal.html:380
-#: app/views/modals/paymentsModal.html:400
-#: app/views/modals/paymentsModal.html:467
+#: ./app/views/components/blockEditor.html:55
+#: ./app/views/eventDetails/eventInformation.html:21
+#: ./app/views/eventDetails/promotions.html:30
+#: ./app/views/eventDetails/regTypes.html:42
+#: ./app/views/modals/paymentsModal.html:136
+#: ./app/views/modals/paymentsModal.html:310
+#: ./app/views/modals/paymentsModal.html:380
+#: ./app/views/modals/paymentsModal.html:400
+#: ./app/views/modals/paymentsModal.html:467
 msgid "Description"
 msgstr ""
 
-#: app/index.html:243
-#: app/views/components/adminNav.html:4
-#: app/views/components/eventDashboardEvent.html:13
+#: ./app/views/components/adminNav.html:4
+#: ./app/views/components/eventDashboardEvent.html:13
 msgid "Details"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:52
+#: ./app/views/eventDetails/promotions.html:52
 msgid "Disable Limit"
 msgstr ""
 
-#: app/views/reviewRegistration.html:200
+#: ./app/views/reviewRegistration.html:200
 msgid "Disabled in preview mode"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:171
-#: app/views/eventDetails/regTypes.html:178
-#: app/views/modals/paymentsModal.html:450
+#: ./app/views/eventDetails/regTypes.html:171
+#: ./app/views/eventDetails/regTypes.html:178
+#: ./app/views/modals/paymentsModal.html:450
 msgid "Discount"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:15
+#: ./app/views/eventDetails/promotions.html:15
 msgid "Discount Amount"
 msgstr ""
 
-#: app/views/modals/export.html:28
-#: app/views/modals/export.html:40
-#: app/views/modals/export.html:74
+#: ./app/views/eventRegistrations.html:50
+msgid "Display"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:78
+msgid "District Of Columbia"
+msgstr ""
+
+#: ./app/views/modals/export.html:28
+#: ./app/views/modals/export.html:40
+#: ./app/views/modals/export.html:74
 msgid "Download"
 msgstr ""
 
-#: app/views/components/pageEditor.html:23
+#: ./app/views/components/pageEditor.html:23
 msgid "Drag form elements here!"
 msgstr ""
 
-#: app/views/eventForm.html:36
+#: ./app/views/eventForm.html:36
 msgid "Drag questions from above and edit pages"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:44
-#: app/views/reviewRegistration.html:114
+#: ./app/views/modals/paymentsModal.html:44
+#: ./app/views/reviewRegistration.html:114
 msgid "Early Registration Discount"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:166
+#: ./app/views/eventDetails/regTypes.html:166
 msgid "Early Registration Discount(s)"
 msgstr ""
 
-#: app/views/components/blockEditor.html:16
-#: app/views/eventDetails/paymentOptions.html:22
+#: ./app/views/components/blockEditor.html:16
+#: ./app/views/eventDetails/paymentOptions.html:31
 msgid "Edit"
 msgstr ""
 
-#: app/views/modals/editRegistration.html:3
+#: ./app/views/modals/editRegistration.html:3
 msgid "Edit Registrant"
 msgstr ""
 
-#: app/views/eventPermissions.html:241
+#: ./app/views/eventPermissions.html:241
 msgid "Edit/add all payments"
 msgstr ""
 
-#: app/views/eventPermissions.html:154
+#: ./app/views/eventPermissions.html:154
 msgid "Edit/modify event questions"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:332
+#: ./app/views/modals/paymentsModal.html:332
 msgid "Editing this payment will mark it as \"Received\"."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:326
+#: ./app/views/modals/paymentsModal.html:326
 msgid "Editing this scholarship will mark it as \"Approved\"."
 msgstr ""
 
-#: app/views/eventDetails/contactInfo.html:10
-#: app/views/eventPermissions.html:73
-#: app/views/eventRegistrations.html:128
-#: app/views/modals/manualRegistration.html:20
+#: ./app/views/eventDetails/contactInfo.html:10
+#: ./app/views/eventPermissions.html:73
+#: ./app/views/eventRegistrations.html:148
+#: ./app/views/eventRegistrations.html:57
+#: ./app/views/modals/manualRegistration.html:20
 msgid "Email"
 msgstr ""
 
-#: app/views/eventPermissions.html:48
+#: ./app/views/eventPermissions.html:48
 msgid "Email Sent"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:48
+#: ./app/views/eventDetails/promotions.html:48
 msgid "Enable Limit"
 msgstr ""
 
-#: app/views/modals/choiceOptions.html:7
+#: ./app/views/modals/choiceOptions.html:7
 msgid "Enter a description to add clarity or more information to registrant."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:108
+#: ./app/views/eventDetails/regTypes.html:108
 msgid "Enter credit card processing details under the Payment Options tab."
 msgstr ""
 
-#: app/views/modals/accessEvent.html:7
+#: ./app/views/modals/accessEvent.html:7
 msgid "Enter the name of the event that you would like to request access to:"
 msgstr ""
 
-#: app/scripts/controllers/angularUiTreeConfig.js:73
+#: ./app/scripts/controllers/angularUiTreeConfig.js:71
 msgid "Error Moving Question"
 msgstr ""
 
-#: app/scripts/controllers/activatePermission.js:18
+#: ./app/scripts/controllers/activatePermission.js:17
 msgid "Error: Permission auth code has already been used or is more than 2 months old."
 msgstr ""
 
-#: app/scripts/controllers/activatePermission.js:16
+#: ./app/scripts/controllers/activatePermission.js:15
 msgid "Error: Permission auth code was not found."
 msgstr ""
 
-#: app/views/eventPermissions.html:142
+#: ./app/views/eventPermissions.html:142
 msgid "Event"
 msgstr ""
 
-#: app/views/landing.html:40
+#: ./app/views/landing.html:40
 msgid "Event Dashboard"
 msgstr ""
 
-#: app/views/registration.html:46
-#: app/views/reviewRegistration.html:13
+#: ./app/views/registration.html:46
+#: ./app/views/reviewRegistration.html:13
 msgid "Event Dates"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:31
+#: ./app/views/eventDetails/eventInformation.html:31
 msgid "Event Ends"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:1
-#: app/views/eventOverview.html:16
+#: ./app/views/eventDetails/eventInformation.html:1
+#: ./app/views/eventOverview.html:16
 msgid "Event Information"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:74
-#: app/views/registration.html:51
-#: app/views/reviewRegistration.html:17
+#: ./app/views/eventDetails/eventInformation.html:74
+#: ./app/views/registration.html:51
+#: ./app/views/reviewRegistration.html:17
 msgid "Event Location"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:80
+#: ./app/views/eventDetails/eventInformation.html:80
 msgid "Event Location Address"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:4
+#: ./app/views/eventDetails/eventInformation.html:4
 msgid "Event Name"
 msgstr ""
 
-#: app/views/privacy.html:1
+#: ./app/views/privacy.html:1
 msgid "Event Registration Tool Privacy Policy"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:27
+#: ./app/views/eventDetails/eventInformation.html:27
 msgid "Event Starts"
 msgstr ""
 
-#: app/views/eventOverview.html:4
+#: ./app/views/eventOverview.html:4
 msgid "Event Stats"
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:35
+#: ./app/views/eventDetails/eventInformation.html:35
 msgid "Event Timezone"
 msgstr ""
 
-#: app/views/components/blockEditor.html:120
-#: app/views/paymentMethods/additionalExpense.html:3
+#: ./app/views/components/blockEditor.html:153
+#: ./app/views/paymentMethods/additionalExpense.html:3
 msgid "Expense Type"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:20
+#: ./app/views/paymentMethods/creditCard.html:20
 msgid "Expiration Month"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:38
+#: ./app/views/paymentMethods/creditCard.html:38
 msgid "Expiration Year"
 msgstr ""
 
-#: app/views/eventRegistrations.html:8
-#: app/views/modals/export.html:3
+#: ./app/views/eventRegistrations.html:8
+#: ./app/views/modals/export.html:3
 msgid "Export"
 msgstr ""
 
-#: app/views/components/blockEditor.html:91
+#: ./app/views/components/blockEditor.html:102
 msgid "Export Title"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:64
+#: ./app/views/eventDetails/regTypes.html:64
 msgid "Family Registration"
 msgstr ""
 
-#: app/views/components/blockEditor.html:154
+#: ./app/views/components/rule.html:47
 msgid "Female"
 msgstr ""
 
-#: app/views/eventRegistrations.html:41
+#: ./app/views/eventRegistrations.html:41
 msgid "Filters"
 msgstr ""
 
-#: app/views/paymentMethods/scholarship.html:2
+#: ./app/views/paymentMethods/scholarship.html:2
 msgid "Find the Cru staff that authorized this scholarship by searching below and choosing his or her name from the results list."
 msgstr ""
 
-#: app/views/blocks/nameQuestion.html:3
-#: app/views/eventRegistrations.html:121
-#: app/views/modals/manualRegistration.html:12
+#: ./app/views/blocks/nameQuestion.html:3
+#: ./app/views/eventRegistrations.html:141
+#: ./app/views/modals/manualRegistration.html:12
 msgid "First Name"
 msgstr ""
 
-#: app/views/modals/createEvent.html:7
+#: ./app/views/modals/createEvent.html:7
 msgid "First things, first."
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:11
+#: ./app/views/eventDetails/paymentOptions.html:79
+msgid "Florida"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:23
+msgid "For a new merchant account, email merchant.account@cru.org with your request."
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:22
+msgid "For details about an existing merchant account, contact your team's finance/operations leader."
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:18
 msgid "For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director."
 msgstr ""
 
-#: app/views/help.html:2
+#: ./app/views/help.html:2
 msgid "For questions/suggestions regarding the Event Registration Tool, please email"
 msgstr ""
 
-#: app/views/components/registrationTypeSelect.html:11
-#: app/views/eventPermissions.html:112
-#: app/views/eventPermissions.html:26
-#: app/views/eventPermissions.html:79
+#: ./app/views/components/blockEditor.html:163
+msgid "Force Selection Rules"
+msgstr ""
+
+#: ./app/views/blocks/checkboxQuestion.html:20
+msgid "Force selection"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:163
+msgid "Force selections if:"
+msgstr ""
+
+#: ./app/views/blocks/checkboxQuestion.html:17
+msgid "Forcing a preselected answer prevents the user from deselecting it."
+msgstr ""
+
+#: ./app/views/components/registrationTypeSelect.html:11
+#: ./app/views/eventPermissions.html:112
+#: ./app/views/eventPermissions.html:26
+#: ./app/views/eventPermissions.html:79
 msgid "Full"
 msgstr ""
 
-#: app/views/eventPermissions.html:137
+#: ./app/views/eventPermissions.html:137
 msgid "Full/Creator"
 msgstr ""
 
-#: app/views/eventRegistrations.html:26
+#: ./app/views/eventRegistrations.html:26
 msgid "Full/Overpaid"
 msgstr ""
 
-#: app/views/eventRegistrations.html:28
+#: ./app/views/eventRegistrations.html:28
 msgid "Full/Partial"
 msgstr ""
 
-#: app/views/components/pageRegistration.html:8
+#: ./app/views/eventDetails/paymentOptions.html:80
+msgid "Georgia"
+msgstr ""
+
+#: ./app/views/components/pageRegistration.html:8
 msgid "Go Back"
 msgstr ""
 
-#: app/index.html:258
-#: app/views/help.html:1
+#: ./app/views/eventDetails/paymentOptions.html:81
+msgid "Hawaii"
+msgstr ""
+
+#: ./app/views/help.html:1
 msgid "Help"
 msgstr ""
 
-#: app/views/eventRegistrations.html:67
-#: app/views/eventRegistrations.html:75
-#: app/views/eventRegistrations.html:83
+#: ./app/views/eventRegistrations.html:103
+#: ./app/views/eventRegistrations.html:87
+#: ./app/views/eventRegistrations.html:95
 msgid "Hide"
 msgstr ""
 
-#: app/views/components/blockEditor.html:79
+#: ./app/views/components/blockEditor.html:90
 msgid "Hide \"Graduate Student\" option"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:48
+#: ./app/views/eventDetails/regTypes.html:48
 msgid "Hide from Registration Form"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:51
+#: ./app/views/eventDetails/regTypes.html:51
 msgid "Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page."
 msgstr ""
 
-#: app/index.html:175
-msgid "I Need Help!"
+#: ./app/views/eventDetails/paymentOptions.html:82
+msgid "Idaho"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:147
+#: ./app/views/eventDetails/paymentOptions.html:21
+msgid "If accepting credit card payments for your event, you will need a merchant account from a credit card processing vendor."
+msgstr ""
+
+#: ./app/views/eventDetails/regTypes.html:147
 msgid "If blank, full cost will be required at time of registration."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:174
+#: ./app/views/eventDetails/regTypes.html:174
 msgid "If registered by"
 msgstr ""
 
-#: app/views/modals/choiceOptions.html:19
+#: ./app/views/modals/choiceOptions.html:19
 msgid "If the registrant selects this option, the total cost can be adjusted. Example: A t-shirt could add an additional $5 to the cost."
 msgstr ""
 
-#: app/views/registration.html:36
+#: ./app/views/registration.html:36
 msgid "If you are looking for another event, search for it on the"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:10
-msgid "If you will be accepting credit card payments for your event, you must have a merchant account from a credit card processing vendor."
+#: ./app/views/eventDetails/paymentOptions.html:17
+msgid "If you will be accepting credit card payments for your event, you must have an Authorize.NET merchant account from a credit card processing vendor."
 msgstr ""
 
-#: app/views/modals/accessEvent.html:21
+#: ./app/views/eventDetails/paymentOptions.html:83
+msgid "Illinois"
+msgstr ""
+
+#: ./app/views/modals/accessEvent.html:21
 msgid "Include events from the past year"
 msgstr ""
 
-#: app/views/modals/export.html:21
+#: ./app/views/modals/export.html:21
 msgid "Include incomplete registrations"
 msgstr ""
 
-#: app/views/modals/export.html:16
+#: ./app/views/modals/export.html:16
 msgid "Include withdrawn registrants"
 msgstr ""
 
-#: app/views/eventRegistrations.html:64
+#: ./app/views/eventRegistrations.html:84
 msgid "Incomplete registrations"
 msgstr ""
 
-#: app/views/paymentMethods/payOnSite.html:1
+#: ./app/views/eventDetails/paymentOptions.html:84
+msgid "Indiana"
+msgstr ""
+
+#: ./app/views/paymentMethods/payOnSite.html:1
 msgid "Instructions"
 msgstr ""
 
-#: app/views/reviewRegistration.html:5
+#: ./app/views/eventDetails/paymentOptions.html:85
+msgid "Iowa"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:86
+msgid "Kansas"
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:5
 msgid "Keep this information for your records."
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:36
-msgid "Key:"
+#: ./app/views/eventDetails/paymentOptions.html:87
+msgid "Kentucky"
 msgstr ""
 
-#: app/views/blocks/nameQuestion.html:6
-#: app/views/eventRegistrations.html:125
-#: app/views/modals/manualRegistration.html:16
+#: ./app/views/blocks/nameQuestion.html:6
+#: ./app/views/eventRegistrations.html:145
+#: ./app/views/modals/manualRegistration.html:16
 msgid "Last Name"
 msgstr ""
 
-#: app/views/eventPermissions.html:99
+#: ./app/views/eventPermissions.html:99
 msgid "Last Update"
 msgstr ""
 
-#: app/views/modals/createEvent.html:8
+#: ./app/views/modals/createEvent.html:8
 msgid "Let's give this event a name:"
 msgstr ""
 
-#: app/views/eventPermissions.html:11
-#: app/views/eventPermissions.html:47
-#: app/views/eventPermissions.html:98
+#: ./app/views/eventPermissions.html:11
+#: ./app/views/eventPermissions.html:47
+#: ./app/views/eventPermissions.html:98
 msgid "Level"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:59
+#: ./app/views/eventDetails/regTypes.html:59
 msgid "Limit the number of registrants"
 msgstr ""
 
-#: app/views/eventOverview.html:37
+#: ./app/views/eventOverview.html:37
 msgid "Links"
 msgstr ""
 
-#: app/views/eventDashboard.html:6
+#: ./app/views/eventDashboard.html:6
 msgid "Loading events"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:57
+#: ./app/views/eventDetails/paymentOptions.html:88
+msgid "Louisiana"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:60
 msgid "Mail checks to:"
 msgstr ""
 
-#: app/views/paymentMethods/check.html:5
-#: app/views/reviewRegistration.html:184
+#: ./app/views/paymentMethods/check.html:5
+#: ./app/views/reviewRegistration.html:184
 msgid "Mail this page and your check to:"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:51
+#: ./app/views/eventDetails/paymentOptions.html:89
+msgid "Maine"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:54
 msgid "Make checks payable to:"
 msgstr ""
 
-#: app/views/paymentMethods/check.html:4
-#: app/views/reviewRegistration.html:183
+#: ./app/views/paymentMethods/check.html:4
+#: ./app/views/reviewRegistration.html:183
 msgid "Make your check payable to"
 msgstr ""
 
-#: app/views/components/blockEditor.html:153
+#: ./app/views/components/rule.html:46
 msgid "Male"
 msgstr ""
 
-#: app/views/eventPermissions.html:259
+#: ./app/views/eventPermissions.html:259
 msgid "Manage/add expenses and discounts"
 msgstr ""
 
-#: app/views/eventPermissions.html:232
+#: ./app/views/eventPermissions.html:232
 msgid "Manage/add scholarship payments"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:142
-#: app/views/eventDetails/regTypes.html:151
+#: ./app/views/eventDetails/paymentOptions.html:90
+msgid "Maryland"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:91
+msgid "Massachusetts"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:114
+msgid "Max Date"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:126
+msgid "Max Number"
+msgstr ""
+
+#: ./app/scripts/controllers/eventDetails.js:46
+msgid "Merchant Account ID"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:92
+msgid "Michigan"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:110
+msgid "Min Date"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:121
+msgid "Min Number"
+msgstr ""
+
+#: ./app/views/eventDetails/regTypes.html:142
+#: ./app/views/eventDetails/regTypes.html:151
 msgid "Minimum Payment to Register"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:229
-#: app/views/modals/paymentsModal.html:272
-#: app/views/paymentApproval.html:30
-#: app/views/paymentMethods/scholarshipAdmin.html:5
-#: app/views/paymentMethods/transfer.html:5
+#: ./app/views/modals/paymentsModal.html:229
+#: ./app/views/modals/paymentsModal.html:272
+#: ./app/views/paymentApproval.html:30
+#: ./app/views/paymentMethods/scholarshipAdmin.html:5
+#: ./app/views/paymentMethods/transfer.html:5
 msgid "Ministry"
 msgstr ""
 
-#: app/views/modals/export.html:57
-msgid "Miscellaneous"
+#: ./app/views/eventDetails/paymentOptions.html:93
+msgid "Minnesota"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:22
+#: ./app/views/modals/export.html:57
+msgid "Misc. Item"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:94
+msgid "Mississippi"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:95
+msgid "Missouri"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:96
+msgid "Montana"
+msgstr ""
+
+#: ./app/views/paymentMethods/creditCard.html:22
 msgid "Month"
 msgstr ""
 
-#: app/views/components/adminNav.html:8
+#: ./app/views/components/adminNav.html:8
 msgid "More"
 msgstr ""
 
-#: app/views/components/blockEditor.html:20
+#: ./app/views/components/blockEditor.html:20
 msgid "Move"
 msgstr ""
 
-#: app/views/components/blockEditor.html:128
+#: ./app/views/components/blockEditor.html:161
 msgid "Multiple Choice, Dropdown, Number, Date, Gender or Year in School"
 msgstr ""
 
-#: app/index.html:174
-msgid "My Dashboard"
-msgstr ""
-
-#: app/views/eventDetails/contactInfo.html:6
-#: app/views/eventDetails/eventInformation.html:75
-#: app/views/eventDetails/regTypes.html:18
-#: app/views/eventDetails/regTypes.html:22
+#: ./app/views/eventDetails/contactInfo.html:6
+#: ./app/views/eventDetails/eventInformation.html:75
+#: ./app/views/eventDetails/regTypes.html:18
+#: ./app/views/eventDetails/regTypes.html:22
 msgid "Name"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:4
+#: ./app/views/paymentMethods/creditCard.html:4
 msgid "Name on Card"
 msgstr ""
 
-#: app/views/eventForm.html:12
+#: ./app/views/eventDetails/paymentOptions.html:97
+msgid "Nebraska"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:98
+msgid "Nevada"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:99
+msgid "New Hampshire"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:100
+msgid "New Jersey"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:101
+msgid "New Mexico"
+msgstr ""
+
+#: ./app/views/eventForm.html:12
 msgid "New Page"
 msgstr ""
 
-#: app/views/components/pageRegistration.html:21
+#: ./app/views/eventDetails/paymentOptions.html:102
+msgid "New York"
+msgstr ""
+
+#: ./app/views/components/pageRegistration.html:21
 msgid "Next Page"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:68
+#: ./app/views/eventDetails/regTypes.html:68
 msgid "No"
 msgstr ""
 
-#: app/views/landing.html:43
+#: ./app/views/landing.html:43
 msgid "No events found matching"
 msgstr ""
 
-#: app/views/landing.html:44
+#: ./app/views/landing.html:44
 msgid "No events found matching the selected filters."
 msgstr ""
 
-#: app/views/eventDashboard.html:25
+#: ./app/views/eventDashboard.html:25
 msgid "No events found."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:136
+#: ./app/views/eventDetails/regTypes.html:136
 msgid "No payment will be required at time of registration, but will display the total due."
 msgstr ""
 
-#: app/views/eventRegistrations.html:112
+#: ./app/views/eventRegistrations.html:132
 msgid "No registrations have been found to match your filter."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:230
-#: app/views/modals/paymentsModal.html:273
-#: app/views/paymentMethods/scholarshipAdmin.html:6
-#: app/views/paymentMethods/transfer.html:6
+#: ./app/views/modals/paymentsModal.html:230
+#: ./app/views/modals/paymentsModal.html:273
+#: ./app/views/paymentMethods/scholarshipAdmin.html:6
+#: ./app/views/paymentMethods/transfer.html:6
 msgid "Non-U.S. Staff"
 msgstr ""
 
-#: app/views/components/blockEditor.html:122
+#: ./app/views/components/blockEditor.html:155
 msgid "None"
 msgstr ""
 
-#: app/views/eventRegistrations.html:29
+#: ./app/views/eventDetails/paymentOptions.html:103
+msgid "North Carolina"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:104
+msgid "North Dakota"
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:29
 msgid "Not Paid"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:326
-#: app/views/modals/paymentsModal.html:332
+#: ./app/views/modals/paymentsModal.html:326
+#: ./app/views/modals/paymentsModal.html:332
 msgid "Note:"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:176
-#: app/views/modals/paymentsModal.html:443
+#: ./app/views/components/blockEditor.html:123
+msgid "Number is larger than the max value of {{block.content.range.max}}"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:128
+msgid "Number is smaller than the min value of {{block.content.range.min}}"
+msgstr ""
+
+#: ./app/views/modals/paymentsModal.html:176
+#: ./app/views/modals/paymentsModal.html:443
 msgid "Offline Credit Card"
 msgstr ""
 
-#: app/views/eventRegistrations.html:68
-#: app/views/eventRegistrations.html:76
-#: app/views/eventRegistrations.html:84
+#: ./app/views/eventDetails/paymentOptions.html:105
+msgid "Ohio"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:106
+msgid "Oklahoma"
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:104
+#: ./app/views/eventRegistrations.html:88
+#: ./app/views/eventRegistrations.html:96
 msgid "Only"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:141
-#: app/views/modals/paymentsModal.html:250
-#: app/views/modals/paymentsModal.html:293
-#: app/views/paymentApproval.html:49
-#: app/views/paymentMethods/scholarshipAdmin.html:24
-#: app/views/paymentMethods/transfer.html:25
+#: ./app/views/eventDetails/paymentOptions.html:144
+#: ./app/views/modals/paymentsModal.html:250
+#: ./app/views/modals/paymentsModal.html:293
+#: ./app/views/paymentApproval.html:49
+#: ./app/views/paymentMethods/scholarshipAdmin.html:24
+#: ./app/views/paymentMethods/transfer.html:25
 msgid "Operating Unit"
 msgstr ""
 
-#: app/views/components/blockEditor.html:60
-#: app/views/eventRegistrations.html:160
-#: app/views/modals/choiceOptions.html:3
+#: ./app/views/components/blockEditor.html:71
+#: ./app/views/eventRegistrations.html:180
+#: ./app/views/modals/choiceOptions.html:3
 msgid "Options"
 msgstr ""
 
-#: app/views/components/registrationsPaidPopover.html:4
-#: app/views/eventRegistrations.html:30
+#: ./app/views/eventDetails/paymentOptions.html:107
+msgid "Oregon"
+msgstr ""
+
+#: ./app/views/components/registrationsPaidPopover.html:4
+#: ./app/views/eventRegistrations.html:30
 msgid "Overpaid"
 msgstr ""
 
-#: app/index.html:241
-#: app/views/components/adminNav.html:2
+#: ./app/views/components/adminNav.html:2
 msgid "Overview"
 msgstr ""
 
-#: app/views/components/pageEditor.html:7
+#: ./app/views/components/pageEditor.html:7
 msgid "Page"
 msgstr ""
 
-#: app/views/eventForm.html:36
+#: ./app/views/eventForm.html:36
 msgid "Pages"
 msgstr ""
 
-#: app/views/eventRegistrations.html:149
+#: ./app/views/eventRegistrations.html:169
 msgid "Paid"
 msgstr ""
 
-#: app/views/components/registrationsPaidPopover.html:3
+#: ./app/views/components/registrationsPaidPopover.html:3
 msgid "Paid in Full"
 msgstr ""
 
-#: app/views/eventRegistrations.html:27
+#: ./app/views/eventRegistrations.html:27
 msgid "Partial"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:368
+#: ./app/views/modals/paymentsModal.html:368
 msgid "Partial credit card refunds cannot be issued within 24 hours of payment."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:101
-#: app/views/reviewRegistration.html:192
+#: ./app/views/eventDetails/regTypes.html:101
+#: ./app/views/reviewRegistration.html:192
 msgid "Payment"
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:15
-msgid "Payment Gateway:"
-msgstr ""
-
-#: app/views/eventDetails/paymentOptions.html:1
+#: ./app/views/eventDetails/paymentOptions.html:1
 msgid "Payment Options"
 msgstr ""
 
-#: app/views/modals/export.html:36
+#: ./app/views/modals/export.html:36
 msgid "Payment data and history"
 msgstr ""
 
-#: app/views/components/payment.html:2
+#: ./app/views/components/payment.html:2
 msgid "Payment method"
 msgstr ""
 
-#: app/views/eventRegistrations.html:23
+#: ./app/views/eventRegistrations.html:23
 msgid "Payment status"
 msgstr ""
 
-#: app/views/modals/export.html:35
+#: ./app/views/modals/export.html:35
 msgid "Payments"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:3
+#: ./app/views/modals/paymentsModal.html:3
 msgid "Payments &amp; Expenses"
 msgstr ""
 
-#: app/views/eventPermissions.html:220
+#: ./app/views/eventPermissions.html:220
 msgid "Payments and Expenses"
 msgstr ""
 
-#: app/views/paymentMethods/checkAdmin.html:5
+#: ./app/views/paymentMethods/checkAdmin.html:5
 msgid "Pending"
 msgstr ""
 
-#: app/views/eventPermissions.html:41
+#: ./app/views/eventPermissions.html:41
 msgid "Pending Invites"
 msgstr ""
 
-#: app/views/eventPermissions.html:5
+#: ./app/views/eventPermissions.html:5
 msgid "Pending Requests"
 msgstr ""
 
-#: app/views/eventPermissions.html:107
+#: ./app/views/eventPermissions.html:107
 msgid "Pending acceptance"
 msgstr ""
 
-#: app/views/eventPermissions.html:77
+#: ./app/views/eventDetails/paymentOptions.html:108
+msgid "Pennsylvania"
+msgstr ""
+
+#: ./app/views/eventPermissions.html:77
 msgid "Permission Level"
 msgstr ""
 
-#: app/views/eventPermissions.html:126
+#: ./app/views/eventPermissions.html:126
 msgid "Permission level comparison"
 msgstr ""
 
-#: app/views/eventDetails/contactInfo.html:16
+#: ./app/views/eventDetails/contactInfo.html:16
 msgid "Phone"
 msgstr ""
 
-#: app/views/blocks/phoneQuestion.html:2
+#: ./app/views/blocks/phoneQuestion.html:2
 msgid "Phone number must have 10-15 digits"
 msgstr ""
 
-#: app/views/modals/cloneEvent.html:9
+#: ./app/views/modals/cloneEvent.html:9
 msgid "Please enter a name or title for this event."
 msgstr ""
 
-#: app/views/blocks/numberQuestion.html:2
-msgid "Please enter a number"
+#: ./app/views/blocks/numberQuestion.html:11
+msgid "Please enter a number between {{block.content.range.min}} and {{block.content.range.max}}"
 msgstr ""
 
-#: app/views/blocks/emailQuestion.html:2
-#: app/views/modals/manualRegistration.html:22
+#: ./app/views/components/rule.html:40
+msgid "Please enter a number between {{ruleValues(rule.parentBlockId).min}} and {{ruleValues(rule.parentBlockId).max}}"
+msgstr ""
+
+#: ./app/views/blocks/numberQuestion.html:12
+msgid "Please enter a number greater than or equal to {{block.content.range.min}}"
+msgstr ""
+
+#: ./app/views/components/rule.html:41
+msgid "Please enter a number greater than or equal to {{ruleValues(rule.parentBlockId).min}}"
+msgstr ""
+
+#: ./app/views/blocks/numberQuestion.html:13
+msgid "Please enter a number less than or equal to {{block.content.range.max}}"
+msgstr ""
+
+#: ./app/views/components/rule.html:42
+msgid "Please enter a number less than or equal to {{ruleValues(rule.parentBlockId).max}}"
+msgstr ""
+
+#: ./app/views/blocks/emailQuestion.html:2
+#: ./app/views/modals/manualRegistration.html:22
 msgid "Please enter a valid email such as: example@domain.com"
 msgstr ""
 
-#: app/views/reviewRegistration.html:7
+#: ./app/scripts/controllers/eventDetails.js:232
+msgid "Please enter the credit card {{fields}} under the \"Payment Options\" tab."
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:7
 msgid "Please enter your payment information below. Then click Confirm. That's it!"
 msgstr ""
 
-#: app/views/reviewRegistration.html:198
+#: ./app/views/reviewRegistration.html:198
 msgid "Please fill in all required fields in red before submitting."
 msgstr ""
 
-#: app/views/modals/loginDialog.html:11
+#: ./app/scripts/directives/payment.js:78
+msgid "Please select a payment method."
+msgstr ""
+
+#: ./app/views/modals/loginDialog.html:11
 msgid "Please sign in with one of the following services:"
 msgstr ""
 
-#: app/views/components/blockEditor.html:53
+#: ./app/views/components/blockEditor.html:64
 msgid "Possible Answers"
 msgstr ""
 
-#: app/views/blocks/addressQuestion.html:68
-#: app/views/eventDetails/eventInformation.html:144
-#: app/views/eventDetails/paymentOptions.html:121
+#: ./app/views/blocks/addressQuestion.html:68
+#: ./app/views/eventDetails/eventInformation.html:144
+#: ./app/views/eventDetails/paymentOptions.html:125
 msgid "Postal Code"
 msgstr ""
 
-#: app/views/eventForm.html:13
+#: ./app/views/eventForm.html:13
 msgid "Preview Form"
 msgstr ""
 
-#: app/index.html:236
-msgid "Preview Mode"
-msgstr ""
-
-#: app/views/components/adminNav.html:11
+#: ./app/views/components/adminNav.html:11
 msgid "Preview Registration Form"
 msgstr ""
 
-#: app/views/paymentMethods/check.html:3
-#: app/views/reviewRegistration.html:182
+#: ./app/views/paymentMethods/check.html:3
+#: ./app/views/reviewRegistration.html:182
 msgid "Print this page."
 msgstr ""
 
-#: app/index.html:257
-msgid "Privacy Policy"
-msgstr ""
-
-#: app/views/modals/paymentsModal.html:477
+#: ./app/views/modals/paymentsModal.html:477
 msgid "Process"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:386
+#: ./app/views/modals/paymentsModal.html:386
 msgid "Process Refund"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:387
-#: app/views/modals/paymentsModal.html:478
+#: ./app/views/modals/paymentsModal.html:387
+#: ./app/views/modals/paymentsModal.html:478
 msgid "Processing..."
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:151
-#: app/views/modals/paymentsModal.html:260
-#: app/views/modals/paymentsModal.html:303
-#: app/views/paymentApproval.html:59
-#: app/views/paymentMethods/scholarshipAdmin.html:34
-#: app/views/paymentMethods/transfer.html:35
+#: ./app/views/eventDetails/paymentOptions.html:154
+#: ./app/views/modals/paymentsModal.html:260
+#: ./app/views/modals/paymentsModal.html:303
+#: ./app/views/paymentApproval.html:59
+#: ./app/views/paymentMethods/scholarshipAdmin.html:34
+#: ./app/views/paymentMethods/transfer.html:35
 msgid "Project Id"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:25
+#: ./app/views/eventDetails/promotions.html:25
 msgid "Promotion Code"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:49
-#: app/views/modals/paymentsModal.html:71
-#: app/views/reviewRegistration.html:119
-#: app/views/reviewRegistration.html:129
+#: ./app/views/modals/paymentsModal.html:49
+#: ./app/views/modals/paymentsModal.html:71
+#: ./app/views/reviewRegistration.html:119
+#: ./app/views/reviewRegistration.html:129
 msgid "Promotion Discount"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:1
+#: ./app/views/eventDetails/promotions.html:1
 msgid "Promotions"
 msgstr ""
 
-#: app/index.html:244
-#: app/views/components/adminNav.html:5
-#: app/views/components/eventDashboardEvent.html:14
-#: app/views/eventForm.html:8
+#: ./app/views/components/adminNav.html:5
+#: ./app/views/components/eventDashboardEvent.html:14
+#: ./app/views/eventForm.html:8
 msgid "Questions"
 msgstr ""
 
-#: app/views/eventPermissions.html:21
+#: ./app/views/eventPermissions.html:21
 msgid "Reason"
 msgstr ""
 
-#: app/views/modals/accessEvent.html:38
+#: ./app/views/modals/accessEvent.html:38
 msgid "Reason for requesting access:"
 msgstr ""
 
-#: app/views/paymentMethods/checkAdmin.html:6
+#: ./app/views/paymentMethods/checkAdmin.html:6
 msgid "Received"
 msgstr ""
 
-#: app/views/eventDashboard.html:32
+#: ./app/views/eventDashboard.html:32
 msgid "Recently accessed events"
 msgstr ""
 
-#: app/views/eventRegistrations.html:45
+#: ./app/views/eventRegistrations.html:46
 msgid "Refresh"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:358
+#: ./app/views/modals/paymentsModal.html:358
 msgid "Refund Method"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:339
+#: ./app/views/modals/paymentsModal.html:339
 msgid "Refund Payment"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:344
+#: ./app/views/modals/paymentsModal.html:344
 msgid "Refundable Amount"
 msgstr ""
 
-#: app/views/components/registrationTypeSelect.html:18
-#: app/views/components/registrationTypeSelect.html:8
-#: app/views/landing.html:57
+#: ./app/views/components/registrationTypeSelect.html:18
+#: ./app/views/components/registrationTypeSelect.html:8
+#: ./app/views/landing.html:57
 msgid "Register"
 msgstr ""
 
-#: app/views/landing.html:36
+#: ./app/views/landing.html:36
 msgid "Register for an event"
 msgstr ""
 
-#: app/views/components/eventDashboardEvent.html:8
+#: ./app/views/components/eventDashboardEvent.html:8
 msgid "Registered"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:22
-#: app/views/reviewRegistration.html:47
-#: app/views/reviewRegistration.html:90
+#: ./app/views/modals/paymentsModal.html:22
+#: ./app/views/reviewRegistration.html:47
+#: ./app/views/reviewRegistration.html:90
 msgid "Registrant"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:155
+#: ./app/views/eventDetails/regTypes.html:155
 msgid "Registrant Options"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:36
-#: app/views/modals/editRegistration.html:7
+#: ./app/views/eventDetails/regTypes.html:36
+#: ./app/views/modals/editRegistration.html:7
 msgid "Registrant Type"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:59
-#: app/views/eventDetails/regTypes.html:1
+#: ./app/views/eventDetails/promotions.html:59
+#: ./app/views/eventDetails/regTypes.html:1
 msgid "Registrant Types"
 msgstr ""
 
-#: app/views/eventRegistrations.html:34
+#: ./app/views/eventRegistrations.html:34
 msgid "Registrant type:"
 msgstr ""
 
-#: app/views/registration.html:3
+#: ./app/views/registration.html:3
 msgid "Registrants"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:154
+#: ./app/views/eventDetails/regTypes.html:154
 msgid "Registrants must be signed in order to accept multiple payments."
 msgstr ""
 
-#: app/views/modals/export.html:52
-#: app/views/modals/paymentsModal.html:39
-#: app/views/reviewRegistration.html:104
+#: ./app/views/modals/paymentsModal.html:39
+#: ./app/views/reviewRegistration.html:104
 msgid "Registration"
 msgstr ""
 
-#: app/views/registration.html:31
+#: ./app/views/registration.html:31
 msgid "Registration Closed"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:8
+#: ./app/views/eventDetails/regOptions.html:8
 msgid "Registration Ends"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:40
+#: ./app/views/eventDetails/regTypes.html:40
 msgid "Registration Form"
 msgstr ""
 
-#: app/views/eventOverview.html:39
-#: app/views/eventOverview.html:50
+#: ./app/views/eventOverview.html:39
+#: ./app/views/eventOverview.html:50
 msgid "Registration Link"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:1
+#: ./app/views/eventDetails/regOptions.html:1
 msgid "Registration Options"
 msgstr ""
 
-#: app/views/reviewRegistration.html:42
+#: ./app/views/reviewRegistration.html:42
 msgid "Registration Review"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:4
+#: ./app/views/eventDetails/regOptions.html:4
 msgid "Registration Starts"
 msgstr ""
 
-#: app/views/eventOverview.html:28
-#: app/views/registration.html:57
+#: ./app/views/eventOverview.html:28
+#: ./app/views/registration.html:57
 msgid "Registration Window"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:42
+#: ./app/views/eventDetails/regOptions.html:53
 msgid "Registration completion redirect"
 msgstr ""
 
-#: app/index.html:242
-#: app/views/components/adminNav.html:3
-#: app/views/components/eventDashboardEvent.html:12
-#: app/views/eventOverview.html:8
-#: app/views/eventPermissions.html:190
-#: app/views/eventRegistrations.html:4
-#: app/views/modals/export.html:10
+#: ./app/views/components/adminNav.html:3
+#: ./app/views/components/eventDashboardEvent.html:12
+#: ./app/views/eventOverview.html:8
+#: ./app/views/eventPermissions.html:190
+#: ./app/views/eventRegistrations.html:4
+#: ./app/views/modals/export.html:10
+#: ./app/views/modals/export.html:52
 msgid "Registrations"
 msgstr ""
 
-#: app/views/modals/export.html:11
+#: ./app/views/modals/export.html:11
 msgid "Registrations and answers"
 msgstr ""
 
-#: app/views/reviewRegistration.html:152
+#: ./app/views/reviewRegistration.html:152
 msgid "Remaining Balance"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:171
+#: ./app/views/eventDetails/regTypes.html:171
 msgid "Remove"
 msgstr ""
 
-#: app/views/modals/accessEvent.html:3
-#: app/views/modals/accessEvent.html:44
+#: ./app/views/modals/accessEvent.html:3
+#: ./app/views/modals/accessEvent.html:44
 msgid "Request Access"
 msgstr ""
 
-#: app/views/eventDashboard.html:12
+#: ./app/views/eventDashboard.html:12
 msgid "Request Access to Existing Event"
 msgstr ""
 
-#: app/views/eventPermissions.html:12
-#: app/views/eventPermissions.html:132
-#: app/views/eventPermissions.html:31
+#: ./app/views/eventPermissions.html:12
+#: ./app/views/eventPermissions.html:132
+#: ./app/views/eventPermissions.html:31
 msgid "Requested"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:89
+#: ./app/views/modals/paymentsModal.html:89
 msgid "Requested scholarships and pending checks are not reflected in total due."
 msgstr ""
 
-#: app/views/paymentApproval.html:8
+#: ./app/views/paymentApproval.html:8
 msgid "Requester"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:18
+#: ./app/views/eventDetails/regOptions.html:18
 msgid "Require Relay or Facebook sign in to register"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:155
+#: ./app/views/eventDetails/regTypes.html:155
 msgid "Require sign in under the"
 msgstr ""
 
-#: app/views/components/blockEditor.html:83
+#: ./app/views/components/blockEditor.html:94
 msgid "Required"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:21
+#: ./app/views/eventDetails/regOptions.html:21
 msgid "Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below)."
 msgstr ""
 
-#: app/views/eventPermissions.html:62
+#: ./app/views/eventPermissions.html:62
 msgid "Resend Email"
 msgstr ""
 
-#: app/views/components/eventDashboardEvent.html:18
+#: ./app/views/components/eventDashboardEvent.html:18
 msgid "Restore Event"
 msgstr ""
 
-#: app/views/registration.html:12
+#: ./app/views/registration.html:12
 msgid "Review Registration"
 msgstr ""
 
-#: app/scripts/controllers/angularUiTreeConfig.js:74
+#: ./app/views/eventDetails/paymentOptions.html:109
+msgid "Rhode Island"
+msgstr ""
+
+#: ./app/scripts/controllers/angularUiTreeConfig.js:72
 msgid "Rule violations:"
 msgstr ""
 
-#: app/views/components/blockEditor.html:127
-msgid "Rules are a great way to hide questions based on the registrant's answers to other questions. All rules created must be met before the question is displayed."
+#: ./app/views/components/blockEditor.html:160
+msgid "Rules are a great way to show questions"
 msgstr ""
 
-#: app/views/components/blockEditor.html:128
+#: ./app/views/components/blockEditor.html:161
 msgid "Rules can depend on questions of"
 msgstr ""
 
-#: app/views/eventDetails.html:16
-#: app/views/modals/choiceOptions.html:25
-#: app/views/modals/editRegistration.html:20
-#: app/views/modals/paymentsModal.html:317
+#: ./app/views/eventDetails.html:16
+#: ./app/views/modals/choiceOptions.html:25
+#: ./app/views/modals/editRegistration.html:20
+#: ./app/views/modals/paymentsModal.html:317
 msgid "Save"
 msgstr ""
 
-#: app/views/modals/editRegistration.html:19
+#: ./app/views/modals/editRegistration.html:19
 msgid "Save &amp; Set as Completed"
 msgstr ""
 
-#: app/views/modals/editRegistration.html:16
-#: app/views/paymentApproval.html:81
+#: ./app/views/modals/editRegistration.html:16
+#: ./app/views/paymentApproval.html:81
 msgid "Saving"
 msgstr ""
 
-#: app/views/components/pageRegistration.html:22
+#: ./app/views/components/pageRegistration.html:22
 msgid "Saving..."
 msgstr ""
 
-#: app/views/eventPermissions.html:115
-#: app/views/eventPermissions.html:134
-#: app/views/eventPermissions.html:29
-#: app/views/eventPermissions.html:82
-#: app/views/modals/paymentsModal.html:444
+#: ./app/views/eventPermissions.html:115
+#: ./app/views/eventPermissions.html:134
+#: ./app/views/eventPermissions.html:29
+#: ./app/views/eventPermissions.html:82
+#: ./app/views/modals/paymentsModal.html:444
 msgid "Scholarship"
 msgstr ""
 
-#: app/views/paymentApproval.html:4
+#: ./app/views/paymentApproval.html:4
 msgid "Scholarship Approval"
 msgstr ""
 
-#: app/views/paymentApproval.html:87
+#: ./app/views/paymentApproval.html:87
 msgid "Scholarship Approved"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:165
-#: app/views/paymentApproval.html:92
+#: ./app/views/modals/paymentsModal.html:165
+#: ./app/views/paymentApproval.html:92
 msgid "Scholarship Denied"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:164
+#: ./app/views/modals/paymentsModal.html:164
 msgid "Scholarship Requested"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:161
+#: ./app/views/modals/paymentsModal.html:161
 msgid "Scholarship from"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:158
+#: ./app/views/modals/paymentsModal.html:158
 msgid "Scholarship from staff"
 msgstr ""
 
-#: app/views/eventRegistrations.html:15
-#: app/views/landing.html:27
+#: ./app/views/eventRegistrations.html:15
+#: ./app/views/landing.html:27
 msgid "Search"
 msgstr ""
 
-#: app/views/landing.html:5
+#: ./app/views/landing.html:5
 msgid "Search for an event"
 msgstr ""
 
-#: app/views/eventOverview.html:43
-#: app/views/eventOverview.html:54
+#: ./app/views/eventOverview.html:43
+#: ./app/views/eventOverview.html:54
 msgid "Select"
 msgstr ""
 
-#: app/views/modals/addRegistrantType.html:3
+#: ./app/views/eventDetails/paymentOptions.html:10
+msgid "Select A Payment Gateway Type:"
+msgstr ""
+
+#: ./app/views/modals/addRegistrantType.html:3
 msgid "Select Registrant Type"
 msgstr ""
 
-#: app/views/eventPermissions.html:88
+#: ./app/views/blocks/checkboxQuestion.html:3
+#: ./app/views/blocks/dateQuestion.html:7
+#: ./app/views/blocks/numberQuestion.html:9
+#: ./app/views/blocks/radioQuestion.html:2
+#: ./app/views/blocks/selectQuestion.html:5
+msgid "Selecting an answer displays it as preselected on the registration form."
+msgstr ""
+
+#: ./app/views/eventPermissions.html:88
 msgid "Send"
 msgstr ""
 
-#: app/views/eventRegistrations.html:66
-#: app/views/eventRegistrations.html:74
-#: app/views/eventRegistrations.html:82
+#: ./app/views/eventRegistrations.html:102
+#: ./app/views/eventRegistrations.html:86
+#: ./app/views/eventRegistrations.html:94
 msgid "Show"
 msgstr ""
 
-#: app/views/eventDashboard.html:54
+#: ./app/views/components/blockEditor.html:162
+msgid "Show Question Rules"
+msgstr ""
+
+#: ./app/views/eventDashboard.html:54
 msgid "Show archived events"
 msgstr ""
 
-#: app/views/components/blockEditor.html:99
+#: ./app/views/components/blockEditor.html:162
+msgid "Show question if:"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:132
 msgid "Show this question for the following registrant types:"
 msgstr ""
 
-#: app/views/eventDashboard.html:5
-#: app/views/eventRegistrations.html:105
+#: ./app/views/eventDashboard.html:5
+#: ./app/views/eventRegistrations.html:125
 msgid "Showing"
 msgstr ""
 
-#: app/index.html:176
-#: app/index.html:229
-msgid "Sign out"
-msgstr ""
-
-#: app/views/registration.html:32
+#: ./app/views/registration.html:32
 msgid "Sorry, registration for this event is closed."
 msgstr ""
 
-#: app/views/components/registrationTypeSelect.html:21
+#: ./app/views/components/registrationTypeSelect.html:21
 msgid "Sorry, this event is full."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:228
-#: app/views/modals/paymentsModal.html:271
-#: app/views/paymentApproval.html:29
-#: app/views/paymentMethods/scholarshipAdmin.html:4
-#: app/views/paymentMethods/transfer.html:4
+#: ./app/views/eventDetails/paymentOptions.html:110
+msgid "South Carolina"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:111
+msgid "South Dakota"
+msgstr ""
+
+#: ./app/views/modals/paymentsModal.html:228
+#: ./app/views/modals/paymentsModal.html:271
+#: ./app/views/paymentApproval.html:29
+#: ./app/views/paymentMethods/scholarshipAdmin.html:4
+#: ./app/views/paymentMethods/transfer.html:4
 msgid "Staff"
 msgstr ""
 
-#: app/views/modals/export.html:48
+#: ./app/views/modals/export.html:48
 msgid "Staff Account Transfer payments"
 msgstr ""
 
-#: app/views/modals/export.html:67
-msgid "Staff Taxable Item(s)"
+#: ./app/views/modals/export.html:67
+msgid "Staff Taxable Items"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:169
+#: ./app/views/modals/paymentsModal.html:169
 msgid "Staff Transfer from"
 msgstr ""
 
-#: app/views/paymentMethods/scholarship.html:6
+#: ./app/views/paymentMethods/scholarship.html:6
 msgid "Staff member name:"
 msgstr ""
 
-#: app/views/registration.html:77
+#: ./app/views/registration.html:77
 msgid "Start Over"
 msgstr ""
 
-#: app/views/eventRegistrations.html:140
+#: ./app/views/eventRegistrations.html:160
+#: ./app/views/eventRegistrations.html:69
 msgid "Started"
 msgstr ""
 
-#: app/views/eventRegistrations.html:225
+#: ./app/views/eventRegistrations.html:245
 msgid "Started on"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:313
+#: ./app/views/paymentMethods/creditCard.html:313
 msgid "State"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:309
+#: ./app/views/paymentMethods/creditCard.html:309
 msgid "State/Region"
 msgstr ""
 
-#: app/scripts/controllers/activatePermission.js:12
+#: ./app/scripts/controllers/activatePermission.js:11
 msgid "Success! Permission has been granted. Redirecting now..."
 msgstr ""
 
-#: app/views/reviewRegistration.html:80
+#: ./app/views/reviewRegistration.html:80
 msgid "Summary"
 msgstr ""
 
-#: app/views/components/payment.html:52
+#: ./app/views/popupHyperlinkInformation.html:1
+msgid ""
+"Supports HTML links <br>\n"
+"    Example: &lt;a href=&quot;https://www.google.com&quot; target=&quot_blank&quot &gt;Link to Google&lt;/a&gt;"
+msgstr ""
+
+#: ./app/scripts/controllers/eventDetails.js:44
+msgid "TSYS"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:112
+msgid "Tennessee"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:113
+msgid "Texas"
+msgstr ""
+
+#: ./app/views/components/payment.html:52
 msgid "The minimum deposit required to register for this event is"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:60
+#: ./app/views/eventDetails/promotions.html:60
 msgid "The promotion code will be applied to the following registrant types:"
 msgstr ""
 
-#: app/views/paymentApproval.html:5
+#: ./app/views/paymentApproval.html:5
 msgid "The registrant below has requested a scholarship. Please use the form below to approve or deny this request."
 msgstr ""
 
-#: app/views/paymentApproval.html:88
+#: ./app/views/paymentApproval.html:88
 msgid "The scholarship has been approved."
 msgstr ""
 
-#: app/views/paymentApproval.html:93
+#: ./app/views/paymentApproval.html:93
 msgid "The scholarship has been denied."
 msgstr ""
 
-#: app/views/eventForm.html:44
+#: ./app/scripts/directives/payment.js:125
+msgid "The security code cannot be more than 4 digits."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:132
+msgid "The security code has an invalid length."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:122
+msgid "The security code must be at least 3 digits."
+msgstr ""
+
+#: ./app/views/eventForm.html:44
 msgid "There are currently no pages. Add a new page using the toolbar above."
 msgstr ""
 
-#: app/views/paymentApproval.html:97
+#: ./app/views/paymentApproval.html:97
 msgid "There was an error retrieving the requested payment, please verify that the url is correct."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:92
+#: ./app/scripts/directives/payment.js:98
+msgid "This card number cannot contain more than 16 digits."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:113
+msgid "This card number is invalid. At least one digit was entered incorrectly."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:95
+msgid "This card number must contain at least 13 digits."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:101
+msgid "This card type is not recognized."
+msgstr ""
+
+#: ./app/views/modals/paymentsModal.html:92
 msgid "This event does not contain any promotions."
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:32
+#: ./app/views/eventDetails/regOptions.html:32
 msgid "This includes editing answers and adding family members."
 msgstr ""
 
-#: app/views/eventDetails/contactInfo.html:2
+#: ./app/views/eventDetails/contactInfo.html:2
 msgid "This information will be displayed publicly on the registration welcome page."
 msgstr ""
 
-#: app/views/eventDetails/eventInformation.html:153
+#: ./app/views/eventDetails/eventInformation.html:153
 msgid "This is a Cru Event."
 msgstr ""
 
-#: app/views/components/blockEditor.html:117
+#: ./app/scripts/directives/payment.js:109
+msgid "This is an invalid {{cardType}} number. It should have {{expectedDigits}} digits."
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:150
 msgid "This question must be shown for all registrant types."
 msgstr ""
 
-#: app/views/components/blockEditor.html:106
+#: ./app/views/components/blockEditor.html:139
 msgid "This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:392
+#: ./app/views/modals/paymentsModal.html:392
 msgid "This registration does not contain any additional expenses."
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:128
+#: ./app/views/modals/paymentsModal.html:128
 msgid "This registration does not contain any payments."
 msgstr ""
 
-#: app/views/eventDetails/paymentOptions.html:133
+#: ./app/views/eventDetails/paymentOptions.html:136
 msgid "Through which chartfield will you run this event's income and expenses?"
 msgstr ""
 
-#: app/views/components/blockEditor.html:45
+#: ./app/views/components/blockEditor.html:45
 msgid "Title"
 msgstr ""
 
-#: app/views/landing.html:40
+#: ./app/views/landing.html:40
 msgid "To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your"
 msgstr ""
 
-#: app/views/landing.html:37
+#: ./app/views/landing.html:37
 msgid "To register for an event, search the event name above."
 msgstr ""
 
-#: app/views/reviewRegistration.html:133
+#: ./app/views/reviewRegistration.html:133
 msgid "Total"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:75
+#: ./app/views/modals/paymentsModal.html:75
 msgid "Total Cost"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:83
+#: ./app/views/modals/paymentsModal.html:83
 msgid "Total Due"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:79
+#: ./app/views/modals/paymentsModal.html:79
 msgid "Total Paid"
 msgstr ""
 
-#: app/views/paymentMethods/creditCardOffline.html:2
+#: ./app/views/paymentMethods/creditCardOffline.html:2
 msgid "Transaction ID"
 msgstr ""
 
-#: app/views/modals/paymentsModal.html:172
+#: ./app/views/modals/paymentsModal.html:172
 msgid "Transfer from"
 msgstr ""
 
-#: app/views/eventRegistrations.html:136
-#: app/views/modals/manualRegistration.html:8
-#: app/views/modals/paymentsModal.html:135
-#: app/views/modals/paymentsModal.html:345
-#: app/views/modals/paymentsModal.html:399
-#: app/views/modals/paymentsModal.html:438
-#: app/views/reviewRegistration.html:48
+#: ./app/views/eventRegistrations.html:156
+#: ./app/views/modals/manualRegistration.html:8
+#: ./app/views/modals/paymentsModal.html:135
+#: ./app/views/modals/paymentsModal.html:345
+#: ./app/views/modals/paymentsModal.html:399
+#: ./app/views/modals/paymentsModal.html:438
+#: ./app/views/reviewRegistration.html:48
 msgid "Type"
 msgstr ""
 
-#: app/index.html:153
-msgid "Undo"
+#: ./app/scripts/services/payment.js:53
+msgid "Unrecognized payment gateway."
 msgstr ""
 
-#: app/views/eventPermissions.html:113
-#: app/views/eventPermissions.html:136
-#: app/views/eventPermissions.html:27
-#: app/views/eventPermissions.html:80
+#: ./app/views/eventPermissions.html:113
+#: ./app/views/eventPermissions.html:136
+#: ./app/views/eventPermissions.html:27
+#: ./app/views/eventPermissions.html:80
 msgid "Update"
 msgstr ""
 
-#: app/views/eventPermissions.html:145
+#: ./app/views/eventPermissions.html:145
 msgid "Update/modify event details"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:47
+#: ./app/views/eventDetails/promotions.html:47
 msgid "Usage limit"
 msgstr ""
 
-#: app/views/eventPermissions.html:10
-#: app/views/eventPermissions.html:97
+#: ./app/views/eventPermissions.html:10
+#: ./app/views/eventPermissions.html:97
 msgid "User"
 msgstr ""
 
-#: app/views/components/adminNav.html:12
+#: ./app/views/components/adminNav.html:12
 msgid "Users"
 msgstr ""
 
-#: app/views/eventDetails/regOptions.html:44
+#: ./app/views/eventDetails/regOptions.html:55
 msgid "Users will be redirected to the page below upon completion of their registration."
 msgstr ""
 
-#: app/views/reviewRegistration.html:173
+#: ./app/views/eventDetails/paymentOptions.html:114
+msgid "Utah"
+msgstr ""
+
+#: ./app/views/components/pickadate.html:9
+msgid "Valid Range:"
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:173
 msgid "Validate"
 msgstr ""
 
-#: app/views/eventDetails/promotions.html:35
+#: ./app/views/eventDetails/promotions.html:35
 msgid "Validity Range"
 msgstr ""
 
-#: app/scripts/controllers/activatePermission.js:7
+#: ./app/scripts/controllers/activatePermission.js:6
 msgid "Verifying Auth Code..."
 msgstr ""
 
-#: app/views/eventPermissions.html:116
-#: app/views/eventPermissions.html:133
-#: app/views/eventPermissions.html:30
-#: app/views/eventPermissions.html:83
+#: ./app/views/eventDetails/paymentOptions.html:115
+msgid "Vermont"
+msgstr ""
+
+#: ./app/views/eventPermissions.html:116
+#: ./app/views/eventPermissions.html:133
+#: ./app/views/eventPermissions.html:30
+#: ./app/views/eventPermissions.html:83
 msgid "View"
 msgstr ""
 
-#: app/views/eventPermissions.html:223
+#: ./app/views/eventPermissions.html:223
 msgid "View/export payments"
 msgstr ""
 
-#: app/views/eventPermissions.html:193
+#: ./app/views/eventPermissions.html:193
 msgid "View/export registrations"
 msgstr ""
 
-#: app/views/eventDetails/contactInfo.html:20
+#: ./app/views/eventDetails/paymentOptions.html:116
+msgid "Virginia"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:117
+msgid "Washington"
+msgstr ""
+
+#: ./app/views/eventDetails/contactInfo.html:20
 msgid "Website"
 msgstr ""
 
-#: app/views/registration.html:43
+#: ./app/views/registration.html:43
 msgid "Welcome"
 msgstr ""
 
-#: app/views/registration.html:36
+#: ./app/views/registration.html:36
 msgid "Welcome Page"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:3
+#: ./app/views/modals/loginDialog.html:3
 msgid "Welcome to the Event Registration Tool!"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:82
+#: ./app/views/eventDetails/paymentOptions.html:118
+msgid "West Virginia"
+msgstr ""
+
+#: ./app/views/eventDetails/regTypes.html:82
 msgid "When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:71
+#: ./app/views/eventDetails/regTypes.html:71
 msgid "When selected, the user will not be given the option to add more people to the registration. One person per registration."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:93
+#: ./app/views/eventDetails/regTypes.html:93
 msgid "When selected, this type will not become available until at least one registrant which has 'Family Registrations' set to 'Yes - Primary' has been added to the registration."
 msgstr ""
 
-#: app/views/eventRegistrations.html:233
+#: ./app/views/eventDetails/paymentOptions.html:119
+msgid "Wisconsin"
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:253
 msgid "Withdrawn on"
 msgstr ""
 
-#: app/views/eventRegistrations.html:80
+#: ./app/views/eventRegistrations.html:100
 msgid "Withdrawn registrations"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:40
+#: ./app/views/eventDetails/paymentOptions.html:120
+#: ./app/views/eventDetails/paymentOptions.html:121
+msgid "Wyoming"
+msgstr ""
+
+#: ./app/views/paymentMethods/creditCard.html:40
 msgid "Year"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:90
+#: ./app/views/eventDetails/regTypes.html:90
 msgid "Yes - Dependent"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:79
+#: ./app/views/eventDetails/regTypes.html:79
 msgid "Yes - Primary"
 msgstr ""
 
-#: app/views/reviewRegistration.html:4
+#: ./app/scripts/services/payment.js:73
+msgid "You are paying more than the total due of {{remainingBalance}} to register for this event."
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:4
 msgid "You are registered!"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:8
+#: ./app/scripts/services/payment.js:68
+msgid "You are required to pay at least the minimum deposit of {{minimumDeposit}} to register for this event."
+msgstr ""
+
+#: ./app/views/modals/loginDialog.html:8
 msgid "You do not have permission to access this resource or your session has expired."
 msgstr ""
 
-#: app/views/modals/cloneEvent.html:6
+#: ./app/views/modals/cloneEvent.html:6
 msgid "You do not have permission to clone this event."
 msgstr ""
 
-#: app/views/reviewRegistration.html:6
+#: ./app/views/reviewRegistration.html:6
 msgid "You have a remaining balance of"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:159
+#: ./app/views/eventDetails/regTypes.html:159
 msgid "You must accept a at least one payment method in order to set a minimum payment."
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:199
+#: ./app/scripts/directives/payment.js:138
+msgid "You must choose an expiration month."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:149
+msgid "You must choose an expiration year."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:92
+msgid "You must enter a card number."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:86
+msgid "You must enter the name on the card."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:119
+msgid "You must enter the security code."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:143
+msgid "Your credit card is expired or you selected the wrong month or year."
+msgstr ""
+
+#: ./app/scripts/directives/payment.js:152
+msgid "Your credit card is expired or you selected the wrong year."
+msgstr ""
+
+#: ./app/views/eventDetails/regTypes.html:199
 msgid "Your event name, start time and end time will be included in the email by default"
 msgstr ""
 
-#: app/views/reviewRegistration.html:31
+#: ./app/views/reviewRegistration.html:31
 msgid "Your registration is not complete"
 msgstr ""
 
-#: app/views/paymentMethods/creditCard.html:369
+#: ./app/views/paymentMethods/creditCard.html:369
 msgid "Zip"
 msgstr ""
 
-#: app/views/reviewRegistration.html:83
+#: ./app/scripts/controllers/eventDetails.js:231
+msgid "and"
+msgstr ""
+
+#: ./app/views/reviewRegistration.html:83
 msgid "and payments"
 msgstr ""
 
-#: app/views/reviewRegistration.html:84
+#: ./app/views/reviewRegistration.html:84
 msgid "associated with your registration."
 msgstr ""
 
-#: app/views/components/blockEditor.html:144
+#: ./app/views/components/blockEditor.html:160
+msgid "based on the registrant's answers to other questions."
+msgstr ""
+
+#: ./app/views/components/rule.html:24
 msgid "does not equal"
 msgstr ""
 
-#: app/views/components/blockEditor.html:143
+#: ./app/views/components/rule.html:23
 msgid "equals"
 msgstr ""
 
-#: app/views/eventDashboard.html:5
+#: ./app/views/eventDashboard.html:5
 msgid "events"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:27
+#: ./app/scripts/controllers/eventDetails.js:231
+msgid "fields"
+msgstr ""
+
+#: ./app/views/modals/loginDialog.html:27
 msgid "go to Event Dashboard"
 msgstr ""
 
-#: app/views/modals/loginDialog.html:26
+#: ./app/views/modals/loginDialog.html:26
 msgid "go to the Welcome Page"
 msgstr ""
 
-#: app/views/components/blockEditor.html:145
+#: ./app/views/components/rule.html:25
 msgid "is greater than"
 msgstr ""
 
-#: app/views/components/blockEditor.html:146
+#: ./app/views/components/rule.html:26
 msgid "is less than"
 msgstr ""
 
-#: app/scripts/controllers/angularUiTreeConfig.js:52
-#: app/scripts/controllers/angularUiTreeConfig.js:66
+#: ./app/scripts/controllers/angularUiTreeConfig.js:51
+#: ./app/scripts/controllers/angularUiTreeConfig.js:65
 msgid "must be below"
 msgstr ""
 
-#: app/views/eventDashboard.html:5
+#: ./app/views/eventDashboard.html:5
 msgid "of"
 msgstr ""
 
-#: app/views/eventDashboard.html:27
+#: ./app/scripts/directives/payment.js:108
+#: ./app/views/eventDashboard.html:27
 msgid "or"
 msgstr ""
 
-#: app/views/eventRegistrations.html:253
-#: app/views/eventRegistrations.html:96
+#: ./app/views/components/pickadate.html:14
+msgid "or before"
+msgstr ""
+
+#: ./app/views/components/blockEditor.html:160
+msgid "or force selections"
+msgstr ""
+
+#: ./app/views/components/pickadate.html:13
+msgid "or later"
+msgstr ""
+
+#: ./app/views/eventRegistrations.html:116
+#: ./app/views/eventRegistrations.html:273
 msgid "per page"
 msgstr ""
 
-#: app/views/eventDashboard.html:28
+#: ./app/views/eventDashboard.html:28
 msgid "request access to an existing event"
 msgstr ""
 
-#: app/views/eventDetails/regTypes.html:155
+#: ./app/views/eventDetails/regTypes.html:155
 msgid "tab"
 msgstr ""
 
-#: app/views/components/blockEditor.html:128
+#: ./app/views/components/blockEditor.html:161
 msgid "that are above this question."
 msgstr ""
 
-#: app/views/components/blockEditor.html:128
+#: ./app/views/components/blockEditor.html:161
 msgid "these types"
 msgstr ""
 
-#: app/views/paymentMethods/scholarship.html:26
+#: ./app/views/paymentMethods/scholarship.html:26
 msgid "to confirm the scholarship."
 msgstr ""
 
-#: app/views/eventDashboard.html:28
+#: ./app/views/eventDashboard.html:28
 msgid "to get started!"
 msgstr ""
 
-#: app/views/paymentMethods/payOnSite.html:2
+#: ./app/views/paymentMethods/payOnSite.html:2
 msgid "to the event."
 msgstr ""
 
-#: app/views/eventRegistrations.html:15
+#: ./app/views/eventRegistrations.html:15
 msgid "visible columns only"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:39
+msgid "{{field.title}}:"
+msgstr ""
+
+#: ./app/views/components/pickadate.html:12
+msgid "{{maxDate | dateRangeFormat}}"
+msgstr ""
+
+#: ./app/views/components/pickadate.html:10
+msgid "{{minDate | dateRangeFormat}}"
+msgstr ""
+
+#: ./app/views/eventDetails/paymentOptions.html:28
+msgid "{{paymentGateways[getPaymentGatewayType()].fields.paymentGatewayId.title}}:"
 msgstr ""

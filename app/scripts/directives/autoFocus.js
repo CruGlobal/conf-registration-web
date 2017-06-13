@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp').directive('autoFocus', function($timeout) {
   return {

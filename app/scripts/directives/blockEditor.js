@@ -1,11 +1,13 @@
-'use strict';
+import template from 'views/components/blockEditor.html';
+import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
+import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 
 angular.module('confRegistrationWebApp')
   .directive('blockEditor', function () {
     return {
-      templateUrl: 'views/components/blockEditor.html',
+      templateUrl: template,
       restrict: 'A',
-      controller: function ($scope, $modal, modalMessage, uuid, expenseTypesConstants, ruleTypeConstants) {
+      controller: function ($scope, $uibModal, modalMessage, uuid, expenseTypesConstants, ruleTypeConstants) {
         $scope.activeTab = 'options';
         $scope.visibleRegTypes = {};
         $scope.showClearBtn = true;
@@ -13,7 +15,7 @@ angular.module('confRegistrationWebApp')
         $scope.ruleTypeConstants = ruleTypeConstants;
 
         $scope.popup = {
-          titleTemplateUrl:'views/popupHyperlinkInformation.html'
+          titleTemplateUrl: popupHyperlinkInformationTemplate
         };
 
         // Migrate old paragraph content objects
@@ -49,7 +51,7 @@ angular.module('confRegistrationWebApp')
         }
 
         //mapping default value to answer model for showing in front end
-        if(_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+        if(_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
           $scope.answer = {
             value: $scope.block.content.default
           };
@@ -57,7 +59,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.$watch('answer', function (answer, oldAnswer) {
           if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
-            !_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
+            !_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type)) {
             return;
           }
           $scope.block.content.default = $scope.answer.value;
@@ -66,13 +68,13 @@ angular.module('confRegistrationWebApp')
 
         //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
         angular.forEach($scope.conference.registrantTypes, function(type) {
-          $scope.visibleRegTypes[type.id] = !_.contains($scope.block.registrantTypes, type.id);
+          $scope.visibleRegTypes[type.id] = !_.includes($scope.block.registrantTypes, type.id);
         });
         $scope.$watch('visibleRegTypes', function (object) {
           if (angular.isDefined(object)) {
             //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
-            $scope.block.registrantTypes = _.keys(_.omit(object, function(value){ return value; })).sort();
-            $scope.visibleRegTypesArray = _.keys(_.omit(object, function(value){ return !value; }));
+            $scope.block.registrantTypes = _.keys(_.omitBy(object, function(value){ return value; })).sort();
+            $scope.visibleRegTypesArray = _.keys(_.pickBy(object, function(value){ return value; }));
           }
         }, true);
 
@@ -86,11 +88,11 @@ angular.module('confRegistrationWebApp')
 
         $scope.profileCheck = !_.isNull($scope.block.profileType);
         $scope.profileOption = _.has(typeToProfile, $scope.block.type);
-        $scope.requiredOption = !_.contains(['paragraphContent'], $scope.block.type);
-        $scope.hasOptions = _.contains(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type);
+        $scope.requiredOption = !_.includes(['paragraphContent'], $scope.block.type);
+        $scope.hasOptions = _.includes(['radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type);
 
-        var notName = !_.contains(['NAME'], $scope.block.profileType);
-        var notNameOrEmail = !_.contains(['NAME', 'EMAIL'], $scope.block.profileType);
+        var notName = !_.includes(['NAME'], $scope.block.profileType);
+        var notNameOrEmail = !_.includes(['NAME', 'EMAIL'], $scope.block.profileType);
         $scope.canDelete = notNameOrEmail;
         $scope.canHaveRules = notNameOrEmail;
         $scope.canChangeRegTypes = notName;
@@ -139,13 +141,13 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.editBlockOptionAdvanced = function (index) {
-          $modal.open({
-            templateUrl: 'views/modals/choiceOptions.html',
-            controller: function($scope, $modalInstance, choice, blockType){
+          $uibModal.open({
+            templateUrl: choiceOptionsModalTemplate,
+            controller: function($scope, $uibModalInstance, choice, blockType){
               $scope.blockType = blockType;
               $scope.choice = choice;
               $scope.close = function () {
-                $modalInstance.dismiss();
+                $uibModalInstance.dismiss();
               };
 
               $scope.save = function (choice) {
@@ -157,7 +159,7 @@ angular.module('confRegistrationWebApp')
                 if(_.isNaN(Number(choice.amount))){
                   modalMessage.error('Error: please enter a valid additional cost.');
                 }else{
-                  $modalInstance.close(choice);
+                  $uibModalInstance.close(choice);
                 }
               };
             },
@@ -208,7 +210,7 @@ angular.module('confRegistrationWebApp')
           if ($scope.block.type === 'checkboxQuestion' && !angular.isUndefined($scope.block.content.default)) {
             for (var keyName in $scope.block.content.default) {
               var key = keyName;
-              if (_.where($scope.block.content.choices, { 'value': keyName }).length === 0) {
+              if (_.filter($scope.block.content.choices, { 'value': keyName }).length === 0) {
                 $scope.block.content.default[key] = undefined;
               }
             }
@@ -216,7 +218,7 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.disableForceSelectionRule = function () {
-          if ($scope.block.content.forceSelections === {} || !_.contains(_.values($scope.block.content.forceSelections), true)) {
+          if ($scope.block.content.forceSelections === {} || !_.includes(_.values($scope.block.content.forceSelections), true)) {
             //$scope.block.additionalRules = [];
             _.remove($scope.block.rules, { ruleType: ruleTypeConstants.FORCE_SELECTION });
             return true;

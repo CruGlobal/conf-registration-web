@@ -1,8 +1,7 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .filter('toTrustedHtml', ['$sce', function($sce){
+  .filter('toTrustedHtml', function($sce){
     return function(text) {
       return $sce.trustAsHtml(text);
     };
-  }]);
+  });

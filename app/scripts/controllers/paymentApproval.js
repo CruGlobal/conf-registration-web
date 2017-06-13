@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('PaymentApprovalCtrl', function ($scope, $rootScope, $routeParams, $http, modalMessage) {

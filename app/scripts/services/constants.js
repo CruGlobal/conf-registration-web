@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp').constant('expenseTypesConstants', {
   'REGISTRATION': 'Registration',
@@ -9,5 +8,5 @@ angular.module('confRegistrationWebApp').constant('expenseTypesConstants', {
 
 angular.module('confRegistrationWebApp').constant('ruleTypeConstants', {
   'SHOW_QUESTION': 'SHOW_QUESTION',
-  'FORCE_SELECTION': 'FORCE_SELECTION'  
+  'FORCE_SELECTION': 'FORCE_SELECTION'
 });

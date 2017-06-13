@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp').filter('unique', function () {
     return function (items, filterOn) {

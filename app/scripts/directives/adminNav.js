@@ -1,9 +1,9 @@
-'use strict';
+import template from 'views/components/adminNav.html';
 
 angular.module('confRegistrationWebApp')
   .directive('adminNav', function ($http, ConfCache, modalMessage) {
     return {
-      templateUrl: 'views/components/adminNav.html',
+      templateUrl: template,
       restrict: 'A',
       controller: function ($scope, $location, PermissionCache, permissionConstants) {
         $scope.isActive = function(viewLocation){

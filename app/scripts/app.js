@@ -1,31 +1,46 @@
-'use strict';
-angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 'ngFacebook', 'environment', 'ui.bootstrap', 'ui.tree', 'wysiwyg.module', 'gettext'])
-  .config(function ($locationProvider, $routeProvider) {
-    $locationProvider.hashPrefix('');
+import landingTemplate from 'views/landing.html';
+import registrationTemplate from 'views/registration.html';
+import paymentApprovalTemplate from 'views/paymentApproval.html';
+import reviewRegistrationTemplate from 'views/reviewRegistration.html';
+import eventDashboardTemplate from 'views/eventDashboard.html';
+import eventOverviewTemplate from 'views/eventOverview.html';
+import eventRegistrationsTemplate from 'views/eventRegistrations.html';
+import eventFormTemplate from 'views/eventForm.html';
+import eventDetailsTemplate from 'views/eventDetails.html';
+import eventPermissionsTemplate from 'views/eventPermissions.html';
+import helpTemplate from 'views/help.html';
+import privacyTemplate from 'views/privacy.html';
+
+angular.module('confRegistrationWebApp')
+  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider) {
+    $locationProvider.html5Mode(true).hashPrefix('');
+    $httpProvider.useApplyAsync(true);
+    $qProvider.errorOnUnhandledRejections(false);
+
     $routeProvider
       .when('/', {
-        templateUrl: 'views/landing.html',
+        templateUrl: landingTemplate,
         controller: 'landingCtrl'
       })
       .when('/register/:conferenceId', {
         resolve: {
-          redirect: ['$location', '$route', function ($location, $route) {
+          redirect: function ($location, $route) {
             $location.path('/register/' + $route.current.params.conferenceId + '/page/');
-          }]
+          }
         }
       })
       .when('/register/:conferenceId/page/:pageId?', {
-        templateUrl: 'views/registration.html',
+        templateUrl: registrationTemplate,
         controller: 'RegistrationCtrl',
         authorization: {
           requireLogin: true,
           allowNoneAuth: true
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }],
-          currentRegistration: ['$route', '$q', '$location', 'RegistrationCache', function ($route, $q, $location, RegistrationCache) {
+          },
+          currentRegistration: function ($route, $q, $location, RegistrationCache) {
             var q = $q.defer();
             RegistrationCache.getCurrent($route.current.params.conferenceId).then(function(registration){
               if(registration.completed && angular.isUndefined($route.current.params.pageId)){
@@ -35,132 +50,132 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
               }
             });
             return q.promise;
-          }]
+          }
         }
       })
       .when('/approvePayment/:paymentHash', {
-        templateUrl: 'views/paymentApproval.html',
+        templateUrl: paymentApprovalTemplate,
         controller: 'PaymentApprovalCtrl',
         authorization: {
           requireLogin: true
         }
       })
       .when('/reviewRegistration/:conferenceId', {
-        templateUrl: 'views/reviewRegistration.html',
+        templateUrl: reviewRegistrationTemplate,
         controller: 'ReviewRegistrationCtrl',
         authorization: {
           requireLogin: true,
           allowNoneAuth: true
         },
         resolve: {
-          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+          currentRegistration: function ($route, RegistrationCache) {
             RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent($route.current.params.conferenceId)
               .then(function (currentRegistration) {
                 return currentRegistration;
               });
-          }],
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          },
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }]
+          }
         }
       })
       .when('/preview/:conferenceId/page/:pageId?', {
-        templateUrl: 'views/registration.html',
+        templateUrl: registrationTemplate,
         controller: 'RegistrationCtrl',
         authorization: {
           requireLogin: true
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }],
-          currentRegistration: ['$route', 'RegistrationCache', function ($route, RegistrationCache) {
+          },
+          currentRegistration: function ($route, RegistrationCache) {
             return RegistrationCache.getCurrent($route.current.params.conferenceId);
-          }]
+          }
         }
       })
       .when('/eventDashboard', {
-        templateUrl: 'views/eventDashboard.html',
+        templateUrl: eventDashboardTemplate,
         controller: 'eventDashboardCtrl',
         authorization: {
           requireLogin: true
         },
         resolve: {
-          conferences: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conferences: function ($route, ConfCache) {
             return ConfCache.get('');
-          }]
+          }
         }
       })
       .when('/eventOverview/:conferenceId', {
-        templateUrl: 'views/eventOverview.html',
+        templateUrl: eventOverviewTemplate,
         controller: 'eventOverviewCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'VIEW'
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }]
+          }
         }
       })
       .when('/eventRegistrations/:conferenceId', {
-        templateUrl: 'views/eventRegistrations.html',
+        templateUrl: eventRegistrationsTemplate,
         controller: 'eventRegistrationsCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'VIEW'
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }],
-          permissions: ['$route', 'PermissionCache', function ($route, PermissionCache) {
+          },
+          permissions: function ($route, PermissionCache) {
             return PermissionCache.getForConference($route.current.params.conferenceId);
-          }]
+          }
         }
       })
       .when('/eventForm/:conferenceId', {
-        templateUrl: 'views/eventForm.html',
+        templateUrl: eventFormTemplate,
         controller: 'eventFormCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'UPDATE'
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }]
+          }
         }
       })
       .when('/eventDetails/:conferenceId', {
-        templateUrl: 'views/eventDetails.html',
+        templateUrl: eventDetailsTemplate,
         controller: 'eventDetailsCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'UPDATE'
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }]
+          }
         }
       })
       .when('/eventUsers/:conferenceId', {
-        templateUrl: 'views/eventPermissions.html',
+        templateUrl: eventPermissionsTemplate,
         controller: 'eventPermissionsCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'FULL'
         },
         resolve: {
-          conference: ['$route', 'ConfCache', function ($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }],
-          conferencePermissions: ['$route', 'ConfCache', function ($route, ConfCache) {
+          },
+          conferencePermissions: function ($route, ConfCache) {
             return ConfCache.getPermissions($route.current.params.conferenceId);
-          }]
+          }
         }
       })
       .when('/activatePermission/:permissionAuthCode', {
@@ -215,7 +230,6 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
                   $location.url('/');
                 }
               }).catch(function () {
-                alert('Logout failed');
                 $location.url('/');
               });
             }
@@ -223,11 +237,11 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
         }
       })
       .when('/help', {
-        templateUrl: 'views/help.html',
+        templateUrl: helpTemplate,
         controller: 'helpCtrl'
       })
       .when('/privacy', {
-        templateUrl: 'views/privacy.html',
+        templateUrl: privacyTemplate,
         controller: 'helpCtrl'
       })
       .otherwise({
@@ -235,15 +249,17 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
       });
   })
   .run(function ($rootScope, $cookies, $location, $window, ProfileCache) {
+    // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$locationChangeStart', function () {
       //registration mode
-      if (_.contains($location.path(), '/preview/')) {
+      if (_.includes($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';
-      } else if(_.contains($location.path(), '/register/')) {
+      } else if(_.includes($location.path(), '/register/')) {
         $rootScope.registerMode = 'register';
       }
     });
 
+    // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$routeChangeSuccess', function () {
       //scroll to top of page when new page is loaded
       $window.scrollTo(0, 0);
@@ -274,7 +290,7 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
   })
-  .config(function (envServiceProvider) {
+  .config(function (envServiceProvider, $compileProvider) {
     envServiceProvider.config({
       domains: {
         development: ['localhost'],
@@ -299,6 +315,10 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
 
     // Determine which environment we are running in
     envServiceProvider.check();
+
+    if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
+      $compileProvider.debugInfoEnabled(false);
+    }
   })
   .run(function () {
     (function(d, s, id){
@@ -311,5 +331,4 @@ angular.module('confRegistrationWebApp', ['ngRoute', 'ngCookies', 'ngSanitize', 
   })
   .config( function( $facebookProvider ) {
     $facebookProvider.setAppId('217890171695297');
-  })
-  .constant('cruPayments', window.cruPayments);
+  });

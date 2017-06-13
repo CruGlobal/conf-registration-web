@@ -36,8 +36,8 @@
       </div>
       <div class="col-md-5 col-sm-6 text-right">
         <br>
-        <div class="btn-group" role="group" dropdown auto-close="outsideClick">
-          <button class="btn btn-default" ng-model="showMoreFilters" btn-checkbox>
+        <div class="btn-group" role="group" uib-dropdown auto-close="outsideClick">
+          <button class="btn btn-default" ng-model="showMoreFilters" uib-btn-checkbox>
             <translate>Filters</translate>
             <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
             <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
@@ -45,12 +45,12 @@
           <button class="btn btn-primary" ng-click="refreshRegistrations()"><i class="fa fa-refresh"></i>
             <translate>Refresh</translate>
           </button>
-          <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
+          <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle>
             <span class="hidden-xs">
               <translate>Display</translate></span> <translate>Columns</translate>
             <i class="fa fa-caret-down"></i>
           </button>
-          <ul class="dropdown-menu dropdown-menu-right reg-views-dropdown">
+          <ul class="dropdown-menu-right reg-views-dropdown" uib-dropdown-menu>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Email')">
                 <i ng-class="builtInColumnsVisible.Email ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
@@ -79,29 +79,29 @@
         </div>
       </div>
     </div>
-    <div class="row spacing-above-sm well-border-above" collapse="!showMoreFilters">
+    <div class="row spacing-above-sm well-border-above" uib-collapse="!showMoreFilters">
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label translate>Incomplete registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'yes'" translate>Show</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'no'" translate>Hide</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" btn-radio="'only'" translate>Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" uib-btn-radio="'yes'" translate>Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" uib-btn-radio="'no'" translate>Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeIncomplete" uib-btn-radio="'only'" translate>Only</label>
         </div>
       </div>
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label translate>Checked-in registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'yes'" translate>Show</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'no'" translate>Hide</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" btn-radio="'only'" translate>Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" uib-btn-radio="'yes'" translate>Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" uib-btn-radio="'no'" translate>Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeCheckedin" uib-btn-radio="'only'" translate>Only</label>
         </div>
       </div>
       <div class="col-sm-4 stacked-spacing-col-sm">
         <label translate>Withdrawn registrations</label>
         <div class="btn-group btn-group-justified">
-          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'yes'" translate>Show</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'no'" translate>Hide</label>
-          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" btn-radio="'only'" translate>Only</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" uib-btn-radio="'yes'" translate>Show</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" uib-btn-radio="'no'" translate>Hide</label>
+          <label class="btn btn-default" ng-model="queryParameters.includeWithdrawn" uib-btn-radio="'only'" translate>Only</label>
         </div>
       </div>
     </div>
@@ -110,14 +110,14 @@
   <div class="row spacing-below-xs" ng-if="registrants.length > 0">
     <div class="col-sm-4 stacked-spacing-col-sm spacing-xs">
       <div class="btn-group">
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="20">20</label>
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="50">50</label>
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="100">100</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="20">20</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="50">50</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="100">100</label>
         <label class="btn btn-default" disabled="disabled" translate>per page</label>
       </div>
     </div>
     <div class="col-sm-8 text-right">
-      <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
+      <uib-pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></uib-pagination>
     </div>
   </div>
   <div class="row spacing-below-xs" ng-if="registrants.length > 0">
@@ -168,7 +168,7 @@
           <th class="text-center" width="70">
             <translate>Paid</translate>
             <i class="fa fa-question-circle"
-               button popover-template="paidPopoverTemplateUrl"
+               button uib-popover-template="paidPopoverTemplateUrl"
                popover-trigger="mouseenter"
                popover-append-to-body="true">
             </i>
@@ -267,14 +267,14 @@
   <div class="row spacing-above-xs" ng-if="registrants.length > 0">
     <div class="col-sm-4 stacked-spacing-col-sm spacing-xs">
       <div class="btn-group">
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="20">20</label>
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="50">50</label>
-        <label class="btn btn-default" ng-model="queryParameters.limit" btn-radio="100">100</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="20">20</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="50">50</label>
+        <label class="btn btn-default" ng-model="queryParameters.limit" uib-btn-radio="100">100</label>
         <label class="btn btn-default" disabled="disabled" translate>per page</label>
       </div>
     </div>
     <div class="col-sm-8 text-right">
-      <pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></pagination>
+      <uib-pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></uib-pagination>
     </div>
   </div>
 </div>

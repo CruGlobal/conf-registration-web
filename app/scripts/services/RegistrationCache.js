@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .service('RegistrationCache', function RegistrationCache($cacheFactory, $rootScope, $http, $q) {

@@ -1,9 +1,9 @@
-'use strict';
+import template from 'views/components/rule.html';
 
 angular.module('confRegistrationWebApp')
     .directive('rule', function () {
         return {
-            templateUrl: 'views/components/rule.html',
+            templateUrl: template,
             restrict: 'E',
             scope: {
                 ruleType: '@',
@@ -16,14 +16,14 @@ angular.module('confRegistrationWebApp')
                 $scope.rule = {};
                 $scope.rule.operand = '';
 
-                //Initializing ruleoperand 
+                //Initializing ruleoperand
                 if ($scope.ruleType === ruleTypeConstants.SHOW_QUESTION) {
                     $scope.rule.operand = $scope.block.content.ruleoperand;
                 } else if ($scope.ruleType === ruleTypeConstants.FORCE_SELECTION) {
                     $scope.rule.operand = $scope.block.content.forceSelectionRuleOperand;
                 }
 
-                //setting ruleoperand value based on the rule type 
+                //setting ruleoperand value based on the rule type
                 $scope.setRuleOperand = function () {
                     if ($scope.ruleType === ruleTypeConstants.SHOW_QUESTION) {
                         $scope.block.content.ruleoperand = $scope.rule.operand;
@@ -64,7 +64,7 @@ angular.module('confRegistrationWebApp')
                 };
 
                 $scope.ruleBlocks = function () {
-                    var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+                    var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
                     //remove blocks after current block
                     var remove = false;
                     _.remove(blocks, function (b) {
@@ -74,25 +74,25 @@ angular.module('confRegistrationWebApp')
                         return remove;
                     });
 
-                    var questionTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];                    
+                    var questionTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];
 
                     //keep valid block types that can be used in rules
                     blocks = _.filter(blocks, function (b) {
-                        return _.contains(questionTypes, b.type);
+                        return _.includes(questionTypes, b.type);
                     });
 
                     return blocks;
                 };
 
                 $scope.ruleValues = function (parentBlockId) {
-                    var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+                    var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
                     var block = _.find(blocks, { 'id': parentBlockId });
 
                     switch (block.type) {
                         case 'checkboxQuestion':
                         case 'selectQuestion':
                         case 'radioQuestion':
-                            return _.pluck(block.content.choices, 'value');
+                            return _.map(block.content.choices, 'value');
                         case 'genderQuestion':
                             return ['M', 'F'];
                         case 'yearInSchoolQuestion':
@@ -105,7 +105,7 @@ angular.module('confRegistrationWebApp')
                 };
 
                 $scope.getRangeValues = function (parentBlockId) {
-                    var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+                    var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
                     var block = _.find(blocks, { 'id': parentBlockId });
 
                     switch (block.type) {
@@ -121,7 +121,7 @@ angular.module('confRegistrationWebApp')
                 };
 
                 $scope.ruleValueInputType = function (parentBlockId) {
-                    var blocks = _.flatten(_.pluck($scope.conference.registrationPages, 'blocks'));
+                    var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
                     var parentBlock = _.find(blocks, { 'id': parentBlockId });
 
                     switch (parentBlock.type) {

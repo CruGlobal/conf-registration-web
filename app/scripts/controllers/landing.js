@@ -1,4 +1,7 @@
-'use strict';
+import moment from 'moment';
+import bigBreakImg from 'img/landing/big-break.jpg';
+import studentsImg from 'img/landing/311.jpg';
+import climbingImg from 'img/landing/187.jpg';
 
 angular.module('confRegistrationWebApp')
   .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location) {
@@ -13,13 +16,13 @@ angular.module('confRegistrationWebApp')
 
     var jumboImgs = [
       {
-        url: '/img/landing/big-break.jpg',
+        url: bigBreakImg,
         position: '0 85%'
       }, {
-        url: '/img/landing/311.jpg',
+        url: studentsImg,
         position: '0 10%'
       }, {
-        url: '/img/landing/187.jpg',
+        url: climbingImg,
         position: '0 60%'
       }
     ];

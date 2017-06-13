@@ -1,11 +1,11 @@
-'use strict';
+import template from 'views/components/registrationTypeSelect.html';
 
 angular.module('confRegistrationWebApp')
   .directive('registrationTypeSelect', function () {
     return {
-      templateUrl: 'views/components/registrationTypeSelect.html',
+      templateUrl: template,
       restrict: 'E',
-      controller: function ($scope, $rootScope, $location, $routeParams, RegistrationCache, uuid) {
+      controller: function ($scope, $rootScope, $location, $routeParams, RegistrationCache, uuid, modalMessage) {
         $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
 
         var visibleType = $routeParams.regType;
@@ -14,7 +14,7 @@ angular.module('confRegistrationWebApp')
         } else {
           _.remove($scope.visibleRegistrantTypes, function(t) {
             //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
-            return t.hidden && !_.contains(_.pluck($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
+            return t.hidden && !_.includes(_.map($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
           });
 
           //remove sub registrant types
@@ -35,7 +35,10 @@ angular.module('confRegistrationWebApp')
             RegistrationCache.emptyCache();
             $location.path(($rootScope.registerMode || 'register') + '/' + $scope.conference.id + '/page/' + $scope.conference.registrationPages[0].id).search('reg', newId);
           }, function(){
-            alert('An error occurred while updating your registration.');
+            modalMessage.error({
+              'title': 'Error',
+              'message': 'An error occurred while updating your registration.'
+            });
           });
         };
 

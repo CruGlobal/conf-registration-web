@@ -1,7 +1,7 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .service('GrowlService', function GrowlService($rootScope, $timeout) {
+    // eslint-disable-next-line no-unused-vars
     var growlScope, growlObject, growlName, growlTimeout;
     this.growl = function (scope, name, object, message) {
       growlName = name;

@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $route, conference, conferencePermissions, modalMessage) {

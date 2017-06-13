@@ -1,4 +1,4 @@
-'use strict';
+import moment from 'moment';
 
 angular.module('confRegistrationWebApp')
   .service('ConfCache', function ConfCache($cacheFactory, $rootScope, $http, $q, uuid, modalMessage) {
@@ -22,8 +22,8 @@ angular.module('confRegistrationWebApp')
           var conferences = response.data;
           cache.put(eventUrl, conferences);
           defer.resolve(conferences);
-        }).catch(function(){
-          defer.reject();
+        }).catch(function(error){
+          defer.reject(error);
         }).finally(function(){
           $rootScope.loadingMsg = '';
         });

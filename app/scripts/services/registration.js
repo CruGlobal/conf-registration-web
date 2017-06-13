@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .factory('registration', function ($q, RegistrationCache, modalMessage, payment, error) {

@@ -1,7 +1,8 @@
-'use strict';
+import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import ccp from 'components/ccp';
 
 angular.module('confRegistrationWebApp')
-  .factory('payment', function ($q, $http, $filter, cruPayments, envService, error, gettextCatalog) {
+  .factory('payment', function ($q, $http, $filter, envService, error, gettextCatalog) {
     // Load the TSYS manifest
     // Returns a promise that resolves to an object containing the manifest and device id
     function loadTsysManifest (payment) {

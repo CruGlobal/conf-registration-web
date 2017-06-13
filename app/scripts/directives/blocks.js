@@ -1,9 +1,21 @@
-'use strict';
+import nameQuestionTemplate from 'views/blocks/nameQuestion.html';
+import addressQuestionTemplate from 'views/blocks/addressQuestion.html';
+import checkboxQuestionTemplate from 'views/blocks/checkboxQuestion.html';
+import emailQuestionTemplate from 'views/blocks/emailQuestion.html';
+import numberQuestionTemplate from 'views/blocks/numberQuestion.html';
+import phoneQuestionTemplate from 'views/blocks/phoneQuestion.html';
+import radioQuestionTemplate from 'views/blocks/radioQuestion.html';
+import selectQuestionTemplate from 'views/blocks/selectQuestion.html';
+import textQuestionTemplate from 'views/blocks/textQuestion.html';
+import genderQuestionTemplate from 'views/blocks/genderQuestion.html';
+import dateQuestionTemplate from 'views/blocks/dateQuestion.html';
+import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html';
+import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
 
 angular.module('confRegistrationWebApp')
   .directive('nameQuestion', function () {
     return {
-      templateUrl: 'views/blocks/nameQuestion.html',
+      templateUrl: nameQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -11,7 +23,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('addressQuestion', function () {
     return {
-      templateUrl: 'views/blocks/addressQuestion.html',
+      templateUrl: addressQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -19,7 +31,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('checkboxQuestion', function () {
     return {
-      templateUrl: 'views/blocks/checkboxQuestion.html',
+      templateUrl: checkboxQuestionTemplate,
       restrict: 'E',
       controller: function ($scope) {
         $scope.atLeastOneChecked = function(){
@@ -33,7 +45,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('emailQuestion', function () {
     return {
-      templateUrl: 'views/blocks/emailQuestion.html',
+      templateUrl: emailQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -41,7 +53,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('numberQuestion', function () {
     return {
-      templateUrl: 'views/blocks/numberQuestion.html',
+      templateUrl: numberQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -49,7 +61,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('phoneQuestion', function () {
     return {
-      templateUrl: 'views/blocks/phoneQuestion.html',
+      templateUrl: phoneQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -57,13 +69,13 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('radioQuestion', function () {
     return {
-      templateUrl: 'views/blocks/radioQuestion.html',
+      templateUrl: radioQuestionTemplate,
       restrict: 'E',
       controller: function ($scope) {
         $scope.$watch('answer.value', function () {
           if(angular.isDefined($scope.answer)){
             //check if answer is not in current choices
-            if(!_.contains(_.pluck($scope.block.content.choices, 'value'), $scope.answer.value)){
+            if(!_.includes(_.map($scope.block.content.choices, 'value'), $scope.answer.value)){
               $scope.otherAnswer = $scope.answer.value;
             }
           }
@@ -80,7 +92,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('selectQuestion', function () {
     return {
-      templateUrl: 'views/blocks/selectQuestion.html',
+      templateUrl: selectQuestionTemplate,
       restrict: 'E',
       controller: function($scope, $filter){
         $scope.$watch('block', function() {
@@ -100,7 +112,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('textQuestion', function () {
     return {
-      templateUrl: 'views/blocks/textQuestion.html',
+      templateUrl: textQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -108,7 +120,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('genderQuestion', function () {
     return {
-      templateUrl: 'views/blocks/genderQuestion.html',
+      templateUrl: genderQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -116,7 +128,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('dateQuestion', function () {
     return {
-      templateUrl: 'views/blocks/dateQuestion.html',
+      templateUrl: dateQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -124,7 +136,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
   .directive('yearInSchoolQuestion', function () {
     return {
-      templateUrl: 'views/blocks/yearInSchoolQuestion.html',
+      templateUrl: yearInSchoolQuestionTemplate,
       restrict: 'E'
     };
   });
@@ -132,7 +144,7 @@ angular.module('confRegistrationWebApp')
 angular.module('confRegistrationWebApp')
     .directive('textareaQuestion', function () {
       return {
-        templateUrl: 'views/blocks/textareaQuestion.html',
+        templateUrl: textareaQuestionTemplate,
         restrict: 'E'
       };
     });

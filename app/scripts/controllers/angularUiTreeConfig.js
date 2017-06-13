@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('AngularUiTreeConfig', function ($scope, modalMessage, $sanitize, gettextCatalog) {
@@ -7,13 +6,13 @@ angular.module('confRegistrationWebApp')
         return sourceNodeScope.$treeScope === destNodesScope.$treeScope;
       },
       beforeDrop: function(event) {
-        event.source.nodeScope.$$apply = false; //cancel regular drop action
         //insert block
         if(event.dest.nodesScope.$nodeScope){ //prevents error from dropping on source tree
           var block = event.source.nodeScope.$modelValue;
           var pageId = event.dest.nodesScope.$nodeScope.$modelValue.id;
           $scope.insertBlock(block.id, pageId, event.dest.index, block.defaultTitle);
         }
+        return false; //cancel regular drop action
       }
     };
     $scope.pageTreeConfig = {
@@ -54,8 +53,8 @@ angular.module('confRegistrationWebApp')
         });
 
         //check if any other blocks rules will be violated
-        var allRules = _.flatten(_.flatten(conference.registrationPages, 'blocks'), 'rules');
-        var rulesLinkedToBlock = _.where(allRules, {parentBlockId: block.id});
+        var allRules = _.flatten(_.map(_.flatten(_.map(conference.registrationPages, 'blocks')), 'rules'));
+        var rulesLinkedToBlock = _.filter(allRules, {parentBlockId: block.id});
         angular.forEach(rulesLinkedToBlock, function(rule){
           var childBlockLocation = positionArray[rule.blockId];
           if(
@@ -68,11 +67,11 @@ angular.module('confRegistrationWebApp')
         });
 
         if(rulesViolated.length){
-          event.source.nodeScope.$$apply = false; //cancel regular drop action
           modalMessage.error({
             'title': gettextCatalog.getString('Error Moving Question'),
             'message': '<p><strong>' + gettextCatalog.getString('Rule violations:') + '</strong></p><ul><li>' + rulesViolated.join('</li><li>') + '</li></ul>'
           });
+          return false; //cancel regular drop action
         }
       }
     };

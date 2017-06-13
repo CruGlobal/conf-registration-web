@@ -10,7 +10,7 @@
         <strong translate>Registrations</strong><br>
         <translate>Registrations and answers</translate><br>
         <a href="" ng-click="showAdvancedRegistrations = !showAdvancedRegistrations">{{showAdvancedRegistrations ? 'Hide' : 'Show'}} advanced options</a>
-        <div collapse="!showAdvancedRegistrations">
+        <div uib-collapse="!showAdvancedRegistrations">
           <div class="checkbox">
             <label>
               <input type="checkbox" ng-model="includeWithdrawnRegistrants"> <translate>Include withdrawn registrants</translate>

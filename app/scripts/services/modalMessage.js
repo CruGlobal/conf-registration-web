@@ -1,7 +1,8 @@
-'use strict';
+import genericModalTemplate from 'views/modals/genericModal.html';
+import confirmModalTemplate from 'views/modals/confirmModal.html';
 
 angular.module('confRegistrationWebApp')
-  .factory('modalMessage', function modalMessageFactory($rootScope, $modal){
+  .factory('modalMessage', function modalMessageFactory($rootScope, $uibModal){
     var factory = {};
 
     /*
@@ -38,14 +39,14 @@ angular.module('confRegistrationWebApp')
       scope.isArray = _.isArray(options.message);
 
       var errorModalConfig = {
-        templateUrl: 'views/modals/genericModal.html',
+        templateUrl: genericModalTemplate,
         scope: scope
       };
       if(options.forceAction){
         errorModalConfig.backdrop = 'static';
         errorModalConfig.keyboard =  false;
       }
-      $modal.open(errorModalConfig);
+      $uibModal.open(errorModalConfig);
     };
 
     /*
@@ -105,13 +106,13 @@ angular.module('confRegistrationWebApp')
       scope.noString = options.noString;
 
       var confirmModalConfig = {
-        templateUrl: 'views/modals/confirmModal.html',
+        templateUrl: confirmModalTemplate,
         scope: scope
       };
       if(!options.normalSize) {
         confirmModalConfig.size = 'sm';
       }
-      return $modal.open(confirmModalConfig).result;
+      return $uibModal.open(confirmModalConfig).result;
     };
 
     return factory;

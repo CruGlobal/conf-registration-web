@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant($window, ruleTypeConstants, $filter) {
@@ -61,7 +60,7 @@ angular.module('confRegistrationWebApp')
     };
 
     var blockInRegistrantType = function(block, registrant){
-      return !_.contains(block.registrantTypes, registrant.registrantTypeId);
+      return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
 
     this.blockVisible = function(block, registrant, isAdmin){
@@ -76,7 +75,7 @@ angular.module('confRegistrationWebApp')
     this.validate = function(conference, registrant, page) {
       var invalidBlocks = [];
       conference = angular.copy(conference);
-      var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(conference.registrationPages, 'blocks');
+      var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(_.map(conference.registrationPages, 'blocks'));
 
       angular.forEach(blocks, function(block){
         if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) || !blockInRegistrantType(block, registrant)) { return; }

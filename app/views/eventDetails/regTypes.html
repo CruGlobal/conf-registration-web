@@ -48,7 +48,7 @@
                   <translate>Hide from Registration Form</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
+                   uib-popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
@@ -68,7 +68,7 @@
                   <translate>No</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
+                   uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
@@ -79,7 +79,7 @@
                   <translate>Yes - Primary</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration.' | translate}}"
+                   uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
@@ -90,7 +90,7 @@
                   <translate>Yes - Dependent</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'When selected, this type will not become available until at least one registrant which has \'Family Registrations\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Family Registrations\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
@@ -105,7 +105,7 @@
                   <translate>Accept Credit Cards</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
+                   uib-popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
                    popover-trigger="mouseenter">
                 </i>
               </div>
@@ -133,7 +133,7 @@
                   <translate>Accept 'Pay on Site'</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   popover="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
+                   uib-popover="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
                    popover-trigger="mouseenter">
                 </i>
               </div>
@@ -196,10 +196,23 @@
             <div class="col-xs-12">
               <label translate>Confirmation Email</label>
               <i class="question-popover fa fa-question-circle"
-                 popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
+                 uib-popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
                  popover-trigger="mouseenter">
               </i>
-              <wysiwyg textarea-class="form-control" ng-model="type.customConfirmationEmailText" enable-bootstrap-title="true"></wysiwyg>
+              <button type="button"
+                      class="btn btn-default btn-sm pull-right"
+                      style="margin-top: 24px"
+                      title="Preview"
+                      tabindex="-1"
+                      ng-click="previewEmail(type)">
+                <i class="fa fa-external-link"></i> Preview
+              </button>
+              <wysiwyg textarea-class="form-control"
+                       ng-model="type.customConfirmationEmailText"
+                       enable-bootstrap-title="true"
+                       textarea-menu="wysiwygButtons"
+                       textarea-height="150px">
+              </wysiwyg>
             </div>
           </div>
         </div>

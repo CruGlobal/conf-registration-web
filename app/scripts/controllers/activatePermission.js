@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('activatePermissionCtrl', function ($scope, $route, $http, $location, $timeout, gettextCatalog) {

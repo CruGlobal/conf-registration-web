@@ -1,6 +1,6 @@
-'use strict';
 
-angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, envService, ConfCache, PermissionCache, permissionConstants, modalMessage) {
+angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, envService, ConfCache, PermissionCache, permissionConstants, modalMessage, $route) {
+  // eslint-disable-next-line angular/on-watch
   $rootScope.$on('$routeChangeStart', function (event, next) {
     var nextRouteRequireLogin = next.authorization ? next.authorization.requireLogin : false;
     var nextRouteAllowsNoneAuth = next.authorization ? next.authorization.allowNoneAuth : false;
@@ -17,15 +17,9 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
       if(nextRouteEventAdminPermissionLevel){
         var permissions = PermissionCache.getForConferenceCache(nextRouteEventId);
         if(!permissions){
-          var newLocation = $location.url();
           event.preventDefault();
           PermissionCache.getForConference(nextRouteEventId).then(function(){
-            if(newLocation === $location.url()){
-              $location.path('/');
-            }
-            $timeout(function(){
-              $location.path(newLocation);
-            });
+            $route.reload();
           });
           return;
         }else{

@@ -1,9 +1,9 @@
-'use strict';
+import template from 'views/components/answerDisplay.html';
 
 angular.module('confRegistrationWebApp')
   .directive('showAnswer', function () {
     return {
-      templateUrl: 'views/components/answerDisplay.html',
+      templateUrl: template,
       restrict: 'E',
       scope: {
         block: '=',

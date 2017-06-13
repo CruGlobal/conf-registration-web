@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $route, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
@@ -39,9 +38,9 @@ angular.module('confRegistrationWebApp')
     }
     //bool for the show-errors directive that tells it whether the current page has been visited by the current registrant
     var pageAndRegistrantId = $scope.currentRegistrant + '_' + $scope.activePageIndex;
-    $scope.currentPageVisited = _.contains($rootScope.visitedPages, pageAndRegistrantId);
+    $scope.currentPageVisited = _.includes($rootScope.visitedPages, pageAndRegistrantId);
     $scope.visitedPage = function(pageId){
-      return _.contains($rootScope.visitedPages, $scope.currentRegistrant + '_' + _.findIndex($scope.conference.registrationPages, { id: pageId }));
+      return _.includes($rootScope.visitedPages, $scope.currentRegistrant + '_' + _.findIndex($scope.conference.registrationPages, { id: pageId }));
     };
 
 
@@ -110,7 +109,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantName = function(r) {
-      var nameBlock = _.find(_.flatten(conference.registrationPages, 'blocks'), { 'profileType': 'NAME' }).id;
+      var nameBlock = _.find(_.flatten(_.map(conference.registrationPages, 'blocks')), { 'profileType': 'NAME' }).id;
       var registrant = _.find($scope.currentRegistration.registrants, { 'id': r.id });
       var returnStr = '';
       nameBlock = _.find(registrant.answers, { 'blockId': nameBlock });
@@ -162,7 +161,7 @@ angular.module('confRegistrationWebApp')
         return false;
       }
 
-      return _.contains(_.map(page.blocks, function(block){
+      return _.includes(_.map(page.blocks, function(block){
         return validateRegistrant.blockVisible(block, _.find($scope.currentRegistration.registrants, { 'id': $scope.currentRegistrant }));
       }), true);
     };

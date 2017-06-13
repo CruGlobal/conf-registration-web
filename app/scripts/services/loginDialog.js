@@ -1,15 +1,15 @@
-'use strict';
+import template from 'views/modals/loginDialog.html';
 
 angular.module('confRegistrationWebApp').service('loginDialog', function ($injector) {
   this.show = function (status401) {
     var loginDialogOptions = {
-      templateUrl: 'views/modals/loginDialog.html',
-      controller: function ($scope, $modalInstance, $location, envService) {
+      templateUrl: template,
+      controller: /*@ngInject*/ function ($scope, $uibModalInstance, $location, envService) {
         $scope.apiUrl = envService.read('apiUrl');
         $scope.status401 = status401;
 
         $scope.gotoRoute = function (path) {
-          $modalInstance.dismiss();
+          $uibModalInstance.dismiss();
           $location.path(path);
         };
       },
@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp').service('loginDialog', function ($injec
       keyboard: false
     };
 
-    var $modal = $injector.get('$modal');
-    $modal.open(loginDialogOptions);
+    var $uibModal = $injector.get('$uibModal');
+    $uibModal.open(loginDialogOptions);
   };
 });
