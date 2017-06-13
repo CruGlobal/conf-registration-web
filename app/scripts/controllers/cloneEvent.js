@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('cloneEventCtrl', function ($scope, defaultValue, permissions, permissionConstants) {

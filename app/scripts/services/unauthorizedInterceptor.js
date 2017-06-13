@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .factory('unauthorizedInterceptor', function ($q, $cookies, loginDialog) {

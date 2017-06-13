@@ -1,12 +1,11 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('AccessEventCtrl', function ($scope, $http, $modalInstance, modalMessage) {
+  .controller('AccessEventCtrl', function ($scope, $http, $uibModalInstance, modalMessage) {
     //default to true
     $scope.eventSearchHistoric = true;
 
     $scope.close = function () {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
 
     $scope.submit = function (conference, reasonForRequest) {
@@ -19,7 +18,7 @@ angular.module('confRegistrationWebApp')
           permissionLevel: 'REQUESTED'
         }
       }).then(function () {
-        $modalInstance.close();
+        $uibModalInstance.close();
       }).catch(function (response) {
         modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error has occurred');
       });

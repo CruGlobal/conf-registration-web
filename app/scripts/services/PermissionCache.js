@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .service('PermissionCache', function ($cacheFactory, $http, $q, permissionConstants) {

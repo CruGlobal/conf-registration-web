@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant) {
@@ -50,7 +49,7 @@ angular.module('confRegistrationWebApp')
       };
     }
 
-    angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
+    angular.forEach(_.flatten(_.map(conference.registrationPages, 'blocks')), function (block) {
       if (block.type.indexOf('Content') === -1) {
         $scope.blocks.push(block);
       }
@@ -110,7 +109,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.submittingRegistration = false;
       }).catch(function (response) {
-        handleRegistrationError(response.data);
+        handleRegistrationError(response && response.data || response);
 
         $scope.submittingRegistration = false;
       });
@@ -143,7 +142,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.isBlockInvalid = function(rId, bId){
-      return _.contains($scope.regValidate[rId], bId);
+      return _.includes($scope.regValidate[rId], bId);
     };
 
     $scope.allRegistrantsValid = function(){
@@ -165,7 +164,7 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.acceptedPaymentMethods = function(){
-      var regTypesInRegistration =  _.uniq(_.pluck(currentRegistration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
+      var regTypesInRegistration =  _.uniq(_.map(currentRegistration.registrants, 'registrantTypeId')).map(function(registrantTypeId) {
         return $scope.getRegistrantType(registrantTypeId);
       });
 

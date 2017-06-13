@@ -3,7 +3,7 @@
     <h4 translate>Registrants</h4>
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
       <li ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-class="{'active': currentRegistrant === r.id}">
-        <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
+        <a ng-href="{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}">
           {{registrantName(r)}}
           <i class="fa fa-check pull-right" style="padding-top: 14px;" ng-show="registrantIsComplete(r.id)"></i>
         </a>
@@ -17,7 +17,7 @@
   <div class="col-xs-12">
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
       <li ng-repeat="page in conference.registrationPages | filter:pageIsVisible" ng-class="{'active': page.id === activePageId, 'invalid': visitedPage(page.id) && !pageIsValid(page.id)}">
-        <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" title="{{page.title}}">
+        <a ng-href="{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}" title="{{page.title}}">
           <span class="circle">{{$index+1}}</span>
           <span ng-bind="page.title"></span>
         </a>
@@ -33,7 +33,7 @@
       Sorry, registration for this event is closed.
     </p>
     <p>
-      <translate>If you are looking for another event, search for it on the</translate> <a href="#/" translate>Welcome Page</a>.
+      <translate>If you are looking for another event, search for it on the</translate> <a href="/" translate>Welcome Page</a>.
     </p>
   </div>
 </div>
@@ -79,7 +79,7 @@
           </button>
         </div>
         <div class="col-sm-9 col-xs-6">
-          <a ng-href="#/{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}"
+          <a ng-href="{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}"
              class="btn btn-success btn-important btn-lg btn-block" translate>
             Continue
           </a>

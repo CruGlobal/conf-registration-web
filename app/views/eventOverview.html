@@ -5,14 +5,14 @@
       <div class="eventstat-icon">
         <i class="fa fa-users green"></i> {{conference.completedRegistrationCount}}
       </div>
-      <a class="link" href="#/eventRegistrations/{{conference.id}}"><span translate>Registrations</span> <i class="fa fa-chevron-right"></i></a>
+      <a class="link" href="eventRegistrations/{{conference.id}}"><span translate>Registrations</span> <i class="fa fa-chevron-right"></i></a>
     </div>
   </aside>
   <div class="col-sm-9 col-sm-pull-3 event-info-section divider-right-col-sm">
     <div class="row">
       <div class="col-sm-6">
         <section>
-          <a href="#/eventDetails/{{conference.id}}" class="btn btn-link pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
+          <a href="eventDetails/{{conference.id}}" class="btn btn-link pull-right" role="button"><i class="fa fa-pencil"></i> Edit</a>
           <h2 class="page-title border" translate>Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
           <p ng-bind="conference.description" ng-show="conference.description" class="display-linebreaks"></p>

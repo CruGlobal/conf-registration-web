@@ -1,7 +1,6 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventFormCtrl', function ($rootScope, $scope, $modal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid) {
+  .controller('eventFormCtrl', function ($rootScope, $scope, $uibModal, modalMessage, $location, $anchorScroll, $sce, $sanitize, $http, $timeout, conference, GrowlService, ConfCache, uuid) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-questions',
@@ -76,9 +75,9 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var blocksOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), { 'pageId': page.id });
-      var blocksNotOnPage = _.where(_.flatten($scope.conference.registrationPages, 'blocks'), function(block){ return block.pageId !== page.id; });
-      var rulesToBeRemoved = _.where(_.flatten(blocksNotOnPage, 'rules'), function(rule){ return _.contains(_.pluck(blocksOnPage, 'id'), rule.parentBlockId); });
+      var blocksOnPage = _.filter(_.flatten(_.map($scope.conference.registrationPages, 'blocks')), { 'pageId': page.id });
+      var blocksNotOnPage = _.filter(_.flatten(_.map($scope.conference.registrationPages, 'blocks')), function(block){ return block.pageId !== page.id; });
+      var rulesToBeRemoved = _.filter(_.flatten(_.map(blocksNotOnPage, 'rules')), function(rule){ return _.includes(_.map(blocksOnPage, 'id'), rule.parentBlockId); });
 
       var confirmMessage = '<p>Are you sure you want to delete <strong>' + page.title + '</strong>?' + (page.blocks.length ? ' All questions on this page will be deleted.</p>' : '</p>');
       if(rulesToBeRemoved.length){
@@ -106,7 +105,7 @@ angular.module('confRegistrationWebApp')
           angular.forEach($scope.conference.registrationPages, function(page, pageIndex){
             angular.forEach(page.blocks, function(block, blockIndex){
               angular.forEach(block.rules, function(rule, ruleIndex){
-                if(_.contains(_.pluck(rulesToBeRemoved, 'id'), rule.id)){
+                if(_.includes(_.map(rulesToBeRemoved, 'id'), rule.id)){
                   $scope.conference.registrationPages[pageIndex].blocks[blockIndex].rules.splice(ruleIndex, 1);
                 }
               });
@@ -182,8 +181,8 @@ angular.module('confRegistrationWebApp')
 
     $scope.deleteBlock = function (blockId, growl) {
       //check if block is parent for any rules
-      var allBlocks = _.flatten($scope.conference.registrationPages, 'blocks');
-      var childRules = _.filter(_.flatten(allBlocks, 'rules'), {parentBlockId: blockId});
+      var allBlocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
+      var childRules = _.filter(_.flatten(_.map(allBlocks, 'rules')), {parentBlockId: blockId});
       if(childRules.length !== 0){
         var questions = _(childRules).map(function(rule){
           var block = _.find(allBlocks, {'id': rule.blockId});
@@ -227,7 +226,7 @@ angular.module('confRegistrationWebApp')
     //Logic to handle collapsing pages
     var hiddenPages = [];
     $scope.togglePage = function(id) {
-      if(_.contains(hiddenPages, id)) {
+      if(_.includes(hiddenPages, id)) {
         _.remove(hiddenPages, function(p) { return p === id ; });
       } else {
         hiddenPages.push(id);
@@ -235,6 +234,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.isPageHidden = function(id) {
-      return _.contains(hiddenPages, id);
+      return _.includes(hiddenPages, id);
     };
   });

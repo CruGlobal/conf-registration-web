@@ -1,7 +1,6 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('registrationModal', function ($scope, $modalInstance, $http, $route, conference, uuid, RegistrationCache, modalMessage) {
+  .controller('registrationModal', function ($scope, $uibModalInstance, $http, $route, conference, uuid, RegistrationCache, modalMessage) {
     $scope.conference = conference;
     $scope.form = {
       type: _.first(conference.registrantTypes).id
@@ -26,7 +25,7 @@ angular.module('confRegistrationWebApp')
       };
 
       // populate registration answers from form
-      angular.forEach(_.flatten(conference.registrationPages, 'blocks'), function (block) {
+      angular.forEach(_.flatten(_.map(conference.registrationPages, 'blocks')), function (block) {
         if (block.profileType === 'EMAIL' || block.profileType === 'NAME') {
           var answer = {
             id: uuid(),
@@ -53,6 +52,6 @@ angular.module('confRegistrationWebApp')
         .catch(function (response) {
           modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while creating registration.');
         });
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
   });

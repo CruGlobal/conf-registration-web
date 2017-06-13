@@ -13,8 +13,8 @@
   </h4>
 </div>
 <div class="modal-body tab-content-spacing-above">
-  <tabset>
-    <tab heading="Summary">
+  <uib-tabset>
+    <uib-tab heading="Summary">
       <table class="table">
         <thead>
         <tr>
@@ -87,8 +87,8 @@
         </div>
       </div>
       <p class="text-muted">* <translate>Requested scholarships and pending checks are not reflected in total due.</translate></p>
-    </tab>
-    <tab heading="Promotions">
+    </uib-tab>
+    <uib-tab heading="Promotions">
       <p ng-if="!conference.promotions.length" translate>This event does not contain any promotions.</p>
       <table class="table" ng-show="registration.promotions.length">
         <thead>
@@ -123,8 +123,8 @@
         </tr>
         </tbody>
       </table>
-    </tab>
-    <tab heading="Payments" active="activeTab[1]">
+    </uib-tab>
+    <uib-tab heading="Payments" active="activeTab[1]">
       <p ng-show="!registration.pastPayments.length" translate>This registration does not contain any payments.</p>
       <div  class="table-responsive">
         <table class="table" ng-show="registration.pastPayments.length">
@@ -365,7 +365,7 @@
             </div>
             <div class="col-sm-4">
               <label translate>Amount</label>
-              <i class="fa fa-exclamation-triangle" popover="{{'Partial credit card refunds cannot be issued within 24 hours of payment.' | translate}}"
+              <i class="fa fa-exclamation-triangle" uib-popover="{{'Partial credit card refunds cannot be issued within 24 hours of payment.' | translate}}"
                  popover-trigger="mouseenter" popover-append-to-body="true" ng-if="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
               </i>
               <div class="input-group">
@@ -387,8 +387,8 @@
           <span ng-show="processing" translate>Processing...</span>
         </div>
       </div>
-    </tab>
-    <tab heading="Discounts &amp; Expenses" active="activeTab[2]">
+    </uib-tab>
+    <uib-tab heading="Discounts &amp; Expenses" active="activeTab[2]">
       <p ng-show="!registration.expenses.length" translate>This registration does not contain any additional expenses.</p>
       <div class="table-responsive">
         <table class="table table-striped" ng-show="registration.expenses.length">
@@ -431,8 +431,8 @@
           </tbody>
         </table>
       </div>
-    </tab>
-    <tab heading="Add">
+    </uib-tab>
+    <uib-tab heading="Add">
       <div class="row form-group">
         <div class="col-sm-7 stacked-spacing-col-sm">
           <label translate>Type</label>
@@ -477,6 +477,6 @@
         <button class="btn btn-success" ng-click="processTransaction()" ng-show="!processing" translate>Process</button>
         <span ng-show="processing" translate>Processing...</span>
       </div>
-    </tab>
-  </tabset>
+    </uib-tab>
+  </uib-tabset>
 </div>

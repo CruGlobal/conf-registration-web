@@ -1,7 +1,6 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .directive('questionToolbar', function ($document, $timeout, jQuery) {
+  .directive('questionToolbar', function ($document, $timeout) {
     return {
       restrict: 'A',
       link: function($scope) {
@@ -26,21 +25,21 @@ angular.module('confRegistrationWebApp')
               }else if (execAsap) {
                 func.apply(obj, args);
               }
-              timeout = setTimeout(delayed, threshold || 500);
+              timeout = $timeout(delayed, threshold || 500);
             };
           };
           // smartresize
           jQuery.fn[sr] = function(fn){  return fn ? this.on('resize', debounce(fn)) : this.trigger(sr); };
 
-        })(jQuery,'smartresize');
+        })(angular.element,'smartresize');
 
         //keep placeholder the same size when the toolbar is affixed
         function setQuestionToolbarSize(){
-          var placeholder = jQuery('.questions-toolbar-placeholder');
+          var placeholder = angular.element('.questions-toolbar-placeholder');
           if(placeholder.length){
-            jQuery('.questions-toolbar').data('bs.affix').options.offset.top = placeholder.offset().top;
+            angular.element('.questions-toolbar').data('bs.affix').options.offset.top = placeholder.offset().top;
             placeholder.css('min-height', function(){
-              return jQuery('.questions-toolbar').outerHeight(true);
+              return angular.element('.questions-toolbar').outerHeight(true);
             });
           }
         }
@@ -51,16 +50,16 @@ angular.module('confRegistrationWebApp')
           $timeout(setQuestionToolbarSize, 0);
         };
 
-        jQuery(function () {
-          jQuery('.questions-toolbar').affix({
+        angular.element(function () {
+          angular.element('.questions-toolbar').affix({
             offset: {
               top: function () {
-                return (this.top = jQuery('.questions-toolbar-placeholder').offset().top);
+                return (this.top = angular.element('.questions-toolbar-placeholder').offset().top);
               }
             }
           });
           $timeout(setQuestionToolbarSize, 0);
-          jQuery(window).smartresize(function(){
+          angular.element(window).smartresize(function(){
             setQuestionToolbarSize();
           });
         });

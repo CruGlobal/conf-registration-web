@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp').directive('ngEnter', function () {
   return function (scope, element, attrs) {

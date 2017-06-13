@@ -1,7 +1,6 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('paymentModal', function ($scope, $modalInstance, modalMessage, $http, registration, conference, payment, permissions, permissionConstants, expenseTypesConstants) {
+  .controller('paymentModal', function ($scope, $uibModalInstance, modalMessage, $http, registration, conference, payment, permissions, permissionConstants, expenseTypesConstants) {
     $scope.registration = registration;
     $scope.conference = conference;
     $scope.expenseTypesConstants = expenseTypesConstants;
@@ -55,7 +54,7 @@ angular.module('confRegistrationWebApp')
         }
       }
 
-      if(permissions.permissionInt < permissionConstants.FULL && _.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], $scope.newTransaction.paymentType)){
+      if(permissions.permissionInt < permissionConstants.FULL && _.includes(['ADDITIONAL_EXPENSE', 'DISCOUNT'], $scope.newTransaction.paymentType)){
         modalMessage.error(permissionRequiredMsg);
         return;
       }
@@ -66,7 +65,7 @@ angular.module('confRegistrationWebApp')
       var path = 'payments?sendEmailReceipt=' + transaction.sendEmailReceipt;
       delete transaction.sendEmailReceipt;
 
-      if(_.contains(['ADDITIONAL_EXPENSE', 'DISCOUNT'], transaction.paymentType)) {
+      if(_.includes(['ADDITIONAL_EXPENSE', 'DISCOUNT'], transaction.paymentType)) {
         if(!transaction.description){
           modalMessage.error('Please enter a description.');
           return;
@@ -288,7 +287,7 @@ angular.module('confRegistrationWebApp')
     $scope.setTransactionAmount = function(){
       var paymentTypes = ['CREDIT_CARD', 'OFFLINE_CREDIT_CARD', 'SCHOLARSHIP', 'TRANSFER', 'CHECK', 'CASH'];
 
-      if($scope.registration.remainingBalance > 0 && ($scope.newTransaction.amount === 0 || $scope.newTransaction.amount === '' || $scope.newTransaction.amount === '0') && _.contains(paymentTypes, $scope.newTransaction.paymentType)){
+      if($scope.registration.remainingBalance > 0 && ($scope.newTransaction.amount === 0 || $scope.newTransaction.amount === '' || $scope.newTransaction.amount === '0') && _.includes(paymentTypes, $scope.newTransaction.paymentType)){
         $scope.newTransaction.amount = $scope.registration.remainingBalance;
       }
     };
@@ -320,8 +319,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.filterUsedPromoCodes = function(p){
-      var registrationPromoCodes = _.pluck($scope.registration.promotions, 'id');
-      return !_.contains(registrationPromoCodes, p.id);
+      var registrationPromoCodes = _.map($scope.registration.promotions, 'id');
+      return !_.includes(registrationPromoCodes, p.id);
     };
 
     /*

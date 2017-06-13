@@ -1,4 +1,4 @@
-'use strict';
+import moment from 'moment';
 
 angular.module('confRegistrationWebApp')
   .filter('evtDateFormat', function () {

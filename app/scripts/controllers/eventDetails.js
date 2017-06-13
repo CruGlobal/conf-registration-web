@@ -1,7 +1,14 @@
-'use strict';
+import moment from 'moment';
+import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
+import regOptionsTemplate from 'views/eventDetails/regOptions.html';
+import regTypesTemplate from 'views/eventDetails/regTypes.html';
+import paymentOptionsTemplate from 'views/eventDetails/paymentOptions.html';
+import promotionsTemplate from 'views/eventDetails/promotions.html';
+import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
+import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $modal, modalMessage, $filter, $location, conference, ConfCache, uuid, gettextCatalog) {
+  .controller('eventDetailsCtrl', function ($rootScope, $scope, $http, $sce, $timeout, $window, $uibModal, modalMessage, $filter, $location, conference, ConfCache, uuid, gettextCatalog) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-details',
@@ -12,12 +19,12 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.tabs = [
-      {id: 'eventInfo', name: 'Event Information', view: 'views/eventDetails/eventInformation.html'},
-      {id: 'regOptions', name: 'Registration Options', view: 'views/eventDetails/regOptions.html'},
-      {id: 'regTypes', name: 'Registrant Types', view: 'views/eventDetails/regTypes.html'},
-      {id: 'paymentOptions', name: 'Payment Options', view: 'views/eventDetails/paymentOptions.html'},
-      {id: 'promotions', name: 'Promotions', view: 'views/eventDetails/promotions.html'},
-      {id: 'contactInfo', name: 'Contact Information', view: 'views/eventDetails/contactInfo.html'}
+      {id: 'eventInfo', name: 'Event Information', view: eventInformationTemplate},
+      {id: 'regOptions', name: 'Registration Options', view: regOptionsTemplate},
+      {id: 'regTypes', name: 'Registrant Types', view: regTypesTemplate},
+      {id: 'paymentOptions', name: 'Payment Options', view: paymentOptionsTemplate},
+      {id: 'promotions', name: 'Promotions', view: promotionsTemplate},
+      {id: 'contactInfo', name: 'Contact Information', view: contactInfoTemplate}
     ];
 
     $scope.changeTab = function(tab){
@@ -48,7 +55,7 @@ angular.module('confRegistrationWebApp')
     $scope.getPaymentGatewayType = function () {
       // The UI will be distorted if the payment gateway type is not a key of $scope.paymentGateways, so treat it as
       // TSYS if it is not a valid payment gateway type.
-      if (!_.contains(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
+      if (!_.includes(_.keys($scope.paymentGateways), $scope.conference.paymentGatewayType)) {
         return 'TSYS';
       }
 
@@ -75,7 +82,7 @@ angular.module('confRegistrationWebApp')
       $scope.conference.promotions.push({
         id: uuid(),
         applyToAllRegistrants: true,
-        registrantTypeIds: _.pluck($scope.conference.registrantTypes, 'id'),
+        registrantTypeIds: _.map($scope.conference.registrantTypes, 'id'),
         activationDate: $scope.conference.registrationStartTime,
         deactivationDate: $scope.conference.registrationEndTime
       });
@@ -90,13 +97,13 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.addRegType = function(){
-      var modalInstance = $modal.open({
-        templateUrl: 'views/modals/addRegistrantType.html',
-        controller: function($scope, $modalInstance, registrantTypes){
+      var modalInstance = $uibModal.open({
+        templateUrl: addRegistrantTypeModalTemplate,
+        controller: function($scope, $uibModalInstance, registrantTypes){
           $scope.types = registrantTypes.data;
 
           $scope.selectType = function (type) {
-            $modalInstance.close(type);
+            $uibModalInstance.close(type);
           };
         },
         resolve: {
@@ -320,6 +327,17 @@ angular.module('confRegistrationWebApp')
       var fields = {
         groupSubRegistrantType: ['SPOUSE', 'CHILD']
       };
-      return _.contains(fields[field], defaultTypeKey);
+      return _.includes(fields[field], defaultTypeKey);
     };
+
+    $scope.wysiwygButtons = [
+      ['bold', 'italic', 'underline'],
+      ['font'],
+      ['font-size'],
+      ['remove-format'],
+      ['ordered-list', 'unordered-list'],
+      ['left-justify', 'center-justify', 'right-justify'],
+      ['link', 'image'],
+      ['preview']
+    ];
   });

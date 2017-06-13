@@ -1,4 +1,3 @@
-'use strict';
 
 // From https://docs.angularjs.org/error/ngModel/numfmt#example
 

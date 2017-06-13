@@ -39,11 +39,11 @@
 
   <div class="edit-options" ng-if="editBlock">
     <!-- Tab panes -->
-    <tabset>
-      <tab heading="Options">
+    <uib-tabset>
+      <uib-tab heading="Options">
         <div class="form-group popup-custom-width">
           <label class="inline-label" translate>Title</label>
-          <i popover-template="popup.titleTemplateUrl"
+          <i uib-popover-template="popup.titleTemplateUrl"
              popover-trigger="mouseenter"
              popover-placement="right"
              class="fa fa-question-circle question-popover">
@@ -53,7 +53,7 @@
 
         <div class="form-group popup-custom-width" ng-if="block.type === 'paragraphContent'">
           <label class="inline-label" translate>Description</label>
-          <i popover-template="popup.titleTemplateUrl"
+          <i uib-popover-template="popup.titleTemplateUrl"
              popover-trigger="mouseenter"
              popover-placement="right"
              class="fa fa-question-circle question-popover">
@@ -96,11 +96,11 @@
         <div class="checkbox" ng-if="profileOption || block.profileType">
           <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> <translate>Cru Profile</translate></label>
         </div>
-      </tab>
-      <tab heading="Advanced" active="activeTab.advanced">
+      </uib-tab>
+      <uib-tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label" translate>Export Title</label>
-          <i popover="Enter a value here to replace the question title in a registration export."
+          <i uib-popover="Enter a value here to replace the question title in a registration export."
              popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
           <input type="text"
                  class="form-control field-label"
@@ -136,7 +136,7 @@
                 <input type="checkbox" ng-model="block.adminOnly">
                 <translate>Admin only</translate>
               </label>
-              <i popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
+              <i uib-popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
                  popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
             </div>
 
@@ -155,13 +155,13 @@
             <option value="" translate>None</option>
           </select>
         </div>
-      </tab>
-      <tab heading="Rules" ng-if="canHaveRules">
+      </uib-tab>
+      <uib-tab heading="Rules" ng-if="canHaveRules">
         <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
-          <translate>Rules can depend on questions of</translate> <a href="" tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>        
+          <translate>Rules can depend on questions of</translate> <a href="" uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
           <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" rule-operand-message="{{'Show question if:' | translate}}" conference="conference" block="block"></rule>
           <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
-      </tab>
-    </tabset>
+      </uib-tab>
+    </uib-tabset>
   </div>
 </div>

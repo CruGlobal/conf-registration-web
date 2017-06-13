@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .factory('httpUrlInterceptor', function (envService) {
@@ -14,7 +13,7 @@ angular.module('confRegistrationWebApp')
           return regexp.test(config.url);
         };
 
-        if (!_.any(passthroughRegexs, match)) {
+        if (!_.some(passthroughRegexs, match)) {
           config.url = envService.read('apiUrl') + config.url;
         }
 

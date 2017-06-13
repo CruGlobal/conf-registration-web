@@ -1,9 +1,20 @@
-'use strict';
+import cruPayments from 'cru-payments/dist/cru-payments-cc';
+
+import template from 'views/components/payment.html';
+import creditCardTemplate from 'views/paymentMethods/creditCard.html';
+import creditCardOfflineTemplate from 'views/paymentMethods/creditCardOffline.html';
+import checkAdminTemplate from 'views/paymentMethods/checkAdmin.html';
+import checkTemplate from 'views/paymentMethods/check.html';
+import transferTemplate from 'views/paymentMethods/transfer.html';
+import scholarshipAdminTemplate from 'views/paymentMethods/scholarshipAdmin.html';
+import scholarshipTemplate from 'views/paymentMethods/scholarship.html';
+import payOnSiteTemplate from 'views/paymentMethods/payOnSite.html';
+import additionalExpenseTemplate from 'views/paymentMethods/additionalExpense.html';
 
 angular.module('confRegistrationWebApp')
   .directive('ertPayment', function () {
     return {
-      templateUrl: 'views/components/payment.html',
+      templateUrl: template,
       restrict: 'A',
       scope: {
         currentPayment: '=payment',
@@ -11,20 +22,20 @@ angular.module('confRegistrationWebApp')
         paymentMethods: '=paymentMethods',
         isAdminPayment: '=adminPayment'
       },
-      controller: function ($scope, $http, cruPayments, expenseTypesConstants, gettextCatalog) {
+      controller: function ($scope, $http, expenseTypesConstants, gettextCatalog) {
         $scope.conference =  $scope.$parent.conference;
         $scope.expenseTypesConstants = expenseTypesConstants;
         $scope.currentYear = new Date().getFullYear();
         $scope.creditCardCountry = 'US';
 
         $scope.paymentMethodsViews = {
-          CREDIT_CARD: 'views/paymentMethods/creditCard.html',
-          OFFLINE_CREDIT_CARD: 'views/paymentMethods/creditCardOffline.html',
-          CHECK: $scope.isAdminPayment ? 'views/paymentMethods/checkAdmin.html' : 'views/paymentMethods/check.html',
-          TRANSFER: 'views/paymentMethods/transfer.html',
-          SCHOLARSHIP: $scope.isAdminPayment ? 'views/paymentMethods/scholarshipAdmin.html' : 'views/paymentMethods/scholarship.html',
-          PAY_ON_SITE: 'views/paymentMethods/payOnSite.html',
-          ADDITIONAL_EXPENSE: 'views/paymentMethods/additionalExpense.html'
+          CREDIT_CARD: creditCardTemplate,
+          OFFLINE_CREDIT_CARD: creditCardOfflineTemplate,
+          CHECK: $scope.isAdminPayment ? checkAdminTemplate : checkTemplate,
+          TRANSFER: transferTemplate,
+          SCHOLARSHIP: $scope.isAdminPayment ? scholarshipAdminTemplate : scholarshipTemplate,
+          PAY_ON_SITE: payOnSiteTemplate,
+          ADDITIONAL_EXPENSE: additionalExpenseTemplate
         };
 
         $scope.searchStaff = function(val) {

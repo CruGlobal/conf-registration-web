@@ -1,7 +1,6 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $modalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
+  .controller('editRegistrationModalCtrl', function ($scope, $uibModalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
@@ -9,7 +8,7 @@ angular.module('confRegistrationWebApp')
     $scope.saving = false;
 
     $scope.close = function () {
-      $modalInstance.dismiss();
+      $uibModalInstance.dismiss();
     };
 
     $scope.blockIsVisible = function(block, registrant){
@@ -54,7 +53,7 @@ angular.module('confRegistrationWebApp')
     function getRegistrantAndClose(){
       $http.get('registrations/' + originalRegistrantObject.registrationId).then(function (response) {
         var registration = response.data;
-        $modalInstance.close(registration);
+        $uibModalInstance.close(registration);
       });
     }
   });

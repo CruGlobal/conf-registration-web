@@ -1,4 +1,3 @@
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .factory('authorizationInterceptor', function ($cookies) {

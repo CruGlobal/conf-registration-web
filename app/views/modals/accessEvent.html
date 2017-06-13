@@ -7,7 +7,7 @@
     <p translate>Enter the name of the event that you would like to request access to:</p>
     <div class="form-group has-feedback">
       <input type="text" ng-model="eventSearchTypeahead" placeholder="" class="form-control" auto-focus
-             typeahead="e.name for e in eventSearch($viewValue)"
+             uib-typeahead="e.name for e in eventSearch($viewValue)"
              typeahead-loading="loading"
              typeahead-wait-ms="300"
              typeahead-input-formatter="null"

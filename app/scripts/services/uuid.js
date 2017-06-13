@@ -1,5 +1,3 @@
-/* jshint eqeqeq: false, bitwise: false */
-'use strict';
 
 angular.module('confRegistrationWebApp')
   .constant('uuid', function () {

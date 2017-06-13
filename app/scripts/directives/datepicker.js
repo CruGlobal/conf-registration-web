@@ -1,9 +1,10 @@
-'use strict';
+import moment from 'moment';
+import template from 'views/components/datepicker.html';
 
 angular.module('confRegistrationWebApp')
-  .directive('crsDatetimepicker', function (jQuery) {
+  .directive('crsDatetimepicker', function () {
     return {
-      templateUrl: 'views/components/datepicker.html',
+      templateUrl: template,
       restrict: 'E',
       scope: {
         'localModel': '=model',
@@ -17,7 +18,7 @@ angular.module('confRegistrationWebApp')
         };
       },
       link: function (scope, element) {
-        var datePickerElement = jQuery(element).find('.datepicker');
+        var datePickerElement = angular.element(element).find('.datepicker');
         var initialDate = scope.localModel ? moment(scope.localModel).format('MM/DD/YYYY hh:mm A') : null;
         datePickerElement.datetimepicker().datetimepicker('defaultDate', initialDate).on('dp.change', function (ev) {
           scope.updateTimeStamp(ev.date);

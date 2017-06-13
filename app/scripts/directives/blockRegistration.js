@@ -1,9 +1,9 @@
-'use strict';
+import template from 'views/components/blockRegistration.html';
 
 angular.module('confRegistrationWebApp')
   .directive('blockRegistration', function () {
     return {
-      templateUrl: 'views/components/blockRegistration.html',
+      templateUrl: template,
       restrict: 'A',
       controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         $scope.isString = _.isString;
@@ -61,7 +61,7 @@ angular.module('confRegistrationWebApp')
                   $scope.answer.value = '';
               }
               //setting default value
-              if (_.contains(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type) &&
+              if (_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type) &&
                 !angular.isUndefined($scope.block.content) &&
                 !angular.isUndefined($scope.block.content.default)) {
                 $scope.answer.value = $scope.block.content.default;

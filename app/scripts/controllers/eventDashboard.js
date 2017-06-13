@@ -1,7 +1,10 @@
-'use strict';
+import eventDashboardEventTemplate from 'views/components/eventDashboardEvent.html';
+import createEventModalTemplate from 'views/modals/createEvent.html';
+import accessEventModalTemplate from 'views/modals/accessEvent.html';
+import cloneEventModalTemplate from 'views/modals/cloneEvent.html';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $modal, modalMessage, $location, $http) {
+  .controller('eventDashboardCtrl', function ($rootScope, $scope, ConfCache, conferences, $uibModal, modalMessage, $location, $http) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-dashboard',
@@ -10,7 +13,7 @@ angular.module('confRegistrationWebApp')
       confId: 0,
       footer: true
     };
-    $scope.eventBoxView = 'views/components/eventDashboardEvent.html';
+    $scope.eventBoxView = eventDashboardEventTemplate;
 
     $scope.conferences = _.map(angular.copy(conferences), function(c){
       c.lastAccess = localStorage.getItem('lastAccess:' + c.id);
@@ -22,8 +25,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.createEvent = function () {
-      $modal.open({
-        templateUrl: 'views/modals/createEvent.html'
+      $uibModal.open({
+        templateUrl: createEventModalTemplate
       }).result.then(function (conferenceName) {
           if(!conferenceName){ return; }
 
@@ -34,8 +37,8 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.requestAccess = function () {
-      $modal.open({
-        templateUrl: 'views/modals/accessEvent.html',
+      $uibModal.open({
+        templateUrl: accessEventModalTemplate,
         controller: 'AccessEventCtrl'
       });
     };
@@ -75,8 +78,8 @@ angular.module('confRegistrationWebApp')
     $scope.cloneEvent = function (conferenceToCloneId) {
       var conferenceToClone = _.find(conferences, {id: conferenceToCloneId});
 
-      $modal.open({
-        templateUrl: 'views/modals/cloneEvent.html',
+      $uibModal.open({
+        templateUrl: cloneEventModalTemplate,
         controller: 'cloneEventCtrl',
         resolve: {
           defaultValue: function () {

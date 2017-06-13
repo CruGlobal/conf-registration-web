@@ -1,7 +1,11 @@
-'use strict';
+import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
+import paymentsModalTemplate from 'views/modals/paymentsModal.html';
+import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
+import exportModalTemplate from 'views/modals/export.html';
+import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
 angular.module('confRegistrationWebApp')
-  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $modal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants, validateRegistrant) {
+  .controller('eventRegistrationsCtrl', function ($rootScope, $scope, $uibModal, modalMessage, $http, $window, RegistrationCache, conference, permissions, permissionConstants, validateRegistrant) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'event-registrations',
@@ -23,7 +27,7 @@ angular.module('confRegistrationWebApp')
       }
     }
 
-    $scope.paidPopoverTemplateUrl = 'views/components/registrationsPaidPopover.html';
+    $scope.paidPopoverTemplateUrl = registrationsPaidPopoverTemplate;
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.queryParameters = {
@@ -89,7 +93,7 @@ angular.module('confRegistrationWebApp')
     //toggle (show/hide) columns
     $scope.toggleColumn = function(block) {
       $scope.blocks[block].visible = !$scope.blocks[block].visible;
-      visibleBlocks =  _.pluck(_.where($scope.blocks, { 'visible': true }), 'id');
+      visibleBlocks =  _.map(_.filter($scope.blocks, { 'visible': true }), 'id');
       localStorage.setItem('visibleBlocks:' + conference.id, JSON.stringify(visibleBlocks));
       $scope.queryParameters.block = visibleBlocks;
     };
@@ -132,7 +136,7 @@ angular.module('confRegistrationWebApp')
       RegistrationCache.getAllForConference(conference.id, $scope.queryParameters).then(function(data){
         $scope.meta = data.meta;
         $scope.registrations = data.registrations;
-        $scope.registrants = _.flatten(data.registrations, 'registrants');
+        $scope.registrants = _.flatten(_.map(data.registrations, 'registrants'));
         expandedRegistrations = {};
       }, function(){
         $scope.registrations = [];
@@ -204,7 +208,7 @@ angular.module('confRegistrationWebApp')
     $scope.viewPayments = function (registrationId) {
       $http.get('registrations/' + registrationId).then(function (response) {
         var paymentModalOptions = {
-          templateUrl: 'views/modals/paymentsModal.html',
+          templateUrl: paymentsModalTemplate,
           controller: 'paymentModal',
           size: 'lg',
           backdrop: 'static',
@@ -221,7 +225,7 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $modal.open(paymentModalOptions).result.then(function (updatedRegistration) {
+        $uibModal.open(paymentModalOptions).result.then(function (updatedRegistration) {
           var localUpdatedRegistrationIndex = _.findIndex($scope.registrations, { 'id': updatedRegistration.id });
           $scope.registrations[localUpdatedRegistrationIndex] = updatedRegistration;
         });
@@ -271,7 +275,7 @@ angular.module('confRegistrationWebApp')
 
       $http.get('registrations/' + r.registrationId).then(function (response) {
         var editRegistrationDialogOptions = {
-          templateUrl: 'views/modals/editRegistration.html',
+          templateUrl: editRegistrationModalTemplate,
           controller: 'editRegistrationModalCtrl',
           resolve: {
             registrantId: function () {
@@ -286,7 +290,7 @@ angular.module('confRegistrationWebApp')
           }
         };
 
-        $modal.open(editRegistrationDialogOptions).result.then(function (registration) {
+        $uibModal.open(editRegistrationDialogOptions).result.then(function (registration) {
           //update registration
           var index = _.findIndex($scope.registrations, { 'id': registration.id });
           $scope.registrations[index] = registration;
@@ -304,8 +308,8 @@ angular.module('confRegistrationWebApp')
 
     // Export conference registrations information to csv
     $scope.export = function () {
-      $modal.open({
-        templateUrl: 'views/modals/export.html',
+      $uibModal.open({
+        templateUrl: exportModalTemplate,
         controller: 'exportDataModal',
         resolve: {
           conference: function() {
@@ -320,8 +324,8 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      $modal.open({
-        templateUrl: 'views/modals/manualRegistration.html',
+      $uibModal.open({
+        templateUrl: manualRegistrationModalTemplate,
         controller: 'registrationModal',
         resolve: {
           conference: function () {
