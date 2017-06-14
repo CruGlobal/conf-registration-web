@@ -4571,10 +4571,6 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
-ng-facebook@^0.1.6:
-  version "0.1.6"
-  resolved "https://registry.yarnpkg.com/ng-facebook/-/ng-facebook-0.1.6.tgz#26be85547d24c24cbd1b3900427cccdbc3d0868f"
-
 ngtemplate-loader@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ngtemplate-loader/-/ngtemplate-loader-2.0.0.tgz#07182e5b2e7e00f195aade778b3b7d7530bdd382"

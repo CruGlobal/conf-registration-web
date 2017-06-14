@@ -206,34 +206,21 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/logout', {
-        resolve: {
-          redirect: ['$location', '$cookies', '$window', '$http', '$facebook',
-            function ($location, $cookies, $window, $http, $facebook) {
-              $http.get('auth/logout').then(function() {
-                $cookies.remove('crsToken');
+        resolveRedirectTo: /*@ngInject*/ function ($location, $cookies, $window, $http, ProfileCache) {
+          return $http.get('auth/logout')
+            .catch(angular.noop)
+            .then(() => {
+              $cookies.remove('crsToken');
 
-                /* if facebook, then use the FB JavaScript SDK to log out user from FB */
-                if ($cookies.get('crsAuthProviderType') === 'FACEBOOK') {
-                  $facebook.logout().then(function () {
-                    $cookies.remove('crsAuthProviderType');
-                    $location.url('/');
-                  });
-                /* if relay, then then redirect to the Relay logout URL w/ service to bring user
-                 * back to ERT home page */
-                } else if ($cookies.get('crsAuthProviderType') === 'RELAY') {
-                  $cookies.remove('crsAuthProviderType');
-                  var serviceUrl = $location.absUrl().replace('logout', '');
-                  $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
-                /* for no auth logins, nothing further is needed, back to ERT home page */
-                } else {
-                  $cookies.remove('crsAuthProviderType');
-                  $location.url('/');
-                }
-              }).catch(function () {
-                $location.url('/');
-              });
-            }
-          ]
+              // if relay, then then redirect to the Relay logout URL
+              if ($cookies.get('crsAuthProviderType') === 'RELAY') {
+                var serviceUrl = $location.absUrl().replace('logout', '');
+                $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+              }
+              $cookies.remove('crsAuthProviderType');
+              ProfileCache.clearCache();
+              return '/';
+            });
         }
       })
       .when('/help', {
@@ -319,16 +306,4 @@ angular.module('confRegistrationWebApp')
     if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
       $compileProvider.debugInfoEnabled(false);
     }
-  })
-  .run(function () {
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = '//connect.facebook.net/en_US/all.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  })
-  .config( function( $facebookProvider ) {
-    $facebookProvider.setAppId('217890171695297');
   });
