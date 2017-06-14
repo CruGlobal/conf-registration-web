@@ -1,10 +1,11 @@
 
-angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, envService, ConfCache, PermissionCache, permissionConstants, modalMessage, $route) {
+angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $window, $location, $timeout, loginDialog, envService, ConfCache, PermissionCache, permissionConstants, modalMessage, $q) {
   // eslint-disable-next-line angular/on-watch
   $rootScope.$on('$routeChangeStart', function (event, next) {
     var nextRouteRequireLogin = next.authorization ? next.authorization.requireLogin : false;
     var nextRouteAllowsNoneAuth = next.authorization ? next.authorization.allowNoneAuth : false;
     var nextRouteEventAdminPermissionLevel = next.authorization ? next.authorization.eventAdminPermissionLevel : null;
+    var requiredPermissionLevel = permissionConstants[nextRouteEventAdminPermissionLevel];
     var nextRouteEventId = next.params.conferenceId;
     var crsToken = $cookies.get('crsToken');
     var crsAuthProviderType = $cookies.get('crsAuthProviderType');
@@ -15,23 +16,23 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
 
     if(crsToken && crsAuthProviderType !== 'NONE'){
       if(nextRouteEventAdminPermissionLevel){
-        var permissions = PermissionCache.getForConferenceCache(nextRouteEventId);
-        if(!permissions){
-          event.preventDefault();
-          PermissionCache.getForConference(nextRouteEventId).then(function(){
-            $route.reload();
-          });
-          return;
-        }else{
-          var requiredPermissionLevel = permissionConstants[nextRouteEventAdminPermissionLevel];
-          if (permissions.permissionInt < requiredPermissionLevel) {
-            event.preventDefault();
+        // eslint-disable-next-line angular/no-private-call
+        next.$$route.resolve.checkPermissions = () => PermissionCache.getForConference(nextRouteEventId)
+          .then(permissions => {
+            if (!permissions || permissions.permissionInt < requiredPermissionLevel) {
+              modalMessage.error({
+                message: 'You do not have permission to access this page. Please contact an event admin to request permission if needed.',
+                title: 'Permission Required'
+              });
+              return $q.reject('permission denied');
+            }
+          }, () => {
             modalMessage.error({
-              message: 'You do not have permission to access this page. Please contact an event admin to request permission if needed.',
+              message: 'There was an error checking your permission to access this event.',
               title: 'Permission Required'
             });
-          }
-        }
+            return $q.reject('permission check error');
+          });
       }
       return;
     }
@@ -54,6 +55,15 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
       });
     } else {
       loginDialog.show(angular.isDefined(crsToken));
+    }
+  });
+
+  // eslint-disable-next-line angular/on-watch
+  $rootScope.$on("$routeChangeError", function(event, current, previous) {
+    if (previous) {
+      $window.history.back();
+    } else {
+      $location.path("/").replace();
     }
   });
 });
