@@ -11,28 +11,22 @@ angular.module('confRegistrationWebApp')
       cache.put(path, object);
     };
 
-    var checkCache = function (path, callback) {
+    var checkCache = function (path) {
       var cachedObject = cache.get(path);
       if (angular.isDefined(cachedObject)) {
-        callback(cachedObject, path);
+        return $q.resolve(cachedObject, path);
       } else {
-        $http.get(path).then(function (response) {
+        return $http.get(path).then(function (response) {
           var data = response.data;
           data.permissionInt = permissionConstants[data.permissionLevel];
           update(path, data);
-          callback(data, path);
+          return data;
         });
       }
     };
 
     this.getForConference = function (conferenceId) {
-      var defer = $q.defer();
-      checkCache(path(conferenceId), defer.resolve);
-      return defer.promise;
-    };
-
-    this.getForConferenceCache = function(conferenceId){
-      return cache.get(path(conferenceId));
+      return checkCache(path(conferenceId));
     };
   });
 
