@@ -18,6 +18,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
       if(nextRouteEventAdminPermissionLevel){
         // eslint-disable-next-line angular/no-private-call
         next.$$route.resolve.checkPermissions = () => PermissionCache.getForConference(nextRouteEventId)
+          .catch(() => false)
           .then(permissions => {
             if (!permissions || permissions.permissionInt < requiredPermissionLevel) {
               modalMessage.error({
@@ -26,12 +27,6 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
               });
               return $q.reject('permission denied');
             }
-          }, () => {
-            modalMessage.error({
-              message: 'There was an error checking your permission to access this event.',
-              title: 'Permission Required'
-            });
-            return $q.reject('permission check error');
           });
       }
       return;
