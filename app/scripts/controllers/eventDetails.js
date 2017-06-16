@@ -337,7 +337,6 @@ angular.module('confRegistrationWebApp')
       ['remove-format'],
       ['ordered-list', 'unordered-list'],
       ['left-justify', 'center-justify', 'right-justify'],
-      ['link', 'image'],
-      ['preview']
+      ['link', 'image']
     ];
   });
