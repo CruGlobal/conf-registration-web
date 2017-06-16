@@ -32,8 +32,7 @@ module.exports = env => {
           'window.jQuery': 'jquery'
         }),
         new ExtractTextPlugin({
-          filename: "[name].[contenthash].min.css",
-          disable: !isBuild
+          filename: "[name].[contenthash].min.css"
         })
       ],
       !isTest ? [
@@ -126,8 +125,7 @@ module.exports = env => {
                   precision: 10 // fixes line height issue with bootstrap button addons
                 }
               }
-            ],
-            fallback: 'style-loader'
+            ]
           })
         },
         {
