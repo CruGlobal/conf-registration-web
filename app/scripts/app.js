@@ -282,7 +282,7 @@ angular.module('confRegistrationWebApp')
       domains: {
         development: ['localhost'],
         staging: ['stage.eventregistrationtool.com'],
-        production: ['www.eventregistrationtool.com']
+        production: ['www.eventregistrationtool.com', 'eventregistrationtool.com']
       },
       vars: {
         development: {
