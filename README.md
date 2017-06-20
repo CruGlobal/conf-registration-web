@@ -21,6 +21,11 @@ Use yarn for faster installs and to update the yarn lock file: https://yarnpkg.c
 - `yarn run build:analyze` or `npm run build:analyze` to open a visualization of bundle sizes after building
 - `yarn run angular-gettext-extract` or `npm run angular-gettext-extract` to extract strings to `languages/ert.pot` for translation
 
+### Deployment
+
+- Development should be done against `master`. Code merged to `master` will be deployed immediately to the production environment.
+- The `staging` branch deploys immediately to the staging environment. You can hard reset the `staging` to whatever commit you want to deploy to stage or merge code into that branch.
+
 ### Adding dependencies
 
 - Use `yarn add <package-name>` or `npm install <package-name> --save` to install app dependencies
