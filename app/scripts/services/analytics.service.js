@@ -17,13 +17,15 @@ class Analytics {
     this.digitalData.page.pageInfo.pageName = 'Event Registration Tool | ' + (pageTitle || 'no PageName found');
 
     // Profile info
-    this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged Out';
-    this.ProfileCache.getCache(() => {
+    this.ProfileCache.getCache().then(() => {
       this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged In';
       // TODO: Fill in profile info once exposed by API
       // this.digitalData.user[0].profile[0].profileInfo.ssoGuid = '';
       // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = '';
       // this.digitalData.user[0].profile[0].social.facebook = '';
+      this.track('page view');
+    }, () => {
+      this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged Out';
       this.track('page view');
     });
 
