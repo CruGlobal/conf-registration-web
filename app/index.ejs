@@ -15,6 +15,27 @@
   <![endif]-->
 
   <!-- Adobe DTM -->
+  <script>
+    window.digitalData = {
+      page: {
+        pageInfo: {
+          pageName: 'no pageName found'
+        }
+      },
+      user: [{
+        profile: [{
+          profileInfo: {
+            ssoGuid: '',
+            grMasterPersonId: '',
+            loggedInStatus: ''
+          },
+          social: {
+            facebook: ''
+          }
+        }]
+      }]
+    };
+  </script>
   <% if(htmlWebpackPlugin.options.prod) { %>
   <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
   <% } else { %>

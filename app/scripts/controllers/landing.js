@@ -1,10 +1,11 @@
 import moment from 'moment';
+
 import bigBreakImg from 'img/landing/big-break.jpg';
 import studentsImg from 'img/landing/311.jpg';
 import climbingImg from 'img/landing/187.jpg';
 
 angular.module('confRegistrationWebApp')
-  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location) {
+  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location, analytics) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'dashboard',
@@ -44,6 +45,11 @@ angular.module('confRegistrationWebApp')
         };
         $scope.searchComplete = val;
         $scope.searchResults = response.data;
+
+        analytics.digitalData.searchFilter = '';
+        analytics.digitalData.searchTerm = val;
+        analytics.digitalData.numberOfResults = response.data.length;
+        analytics.track('search');
       });
     }, 500, {leading: false});
 

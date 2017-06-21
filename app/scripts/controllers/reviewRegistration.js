@@ -1,6 +1,5 @@
-
 angular.module('confRegistrationWebApp')
-  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant) {
+  .controller('ReviewRegistrationCtrl', function ($scope, $rootScope, $location, $route, $window, modalMessage, $http, $q, currentRegistration, conference, error, registration, payment, validateRegistrant, analytics) {
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',
@@ -105,6 +104,11 @@ angular.module('confRegistrationWebApp')
       }).then(function() {
         return registration.completeRegistration(currentRegistration);
       }).then(function () {
+        //send analytics event
+        analytics.digitalData.eventID = conference.id;
+        analytics.digitalData.registeredEventName = conference.name;
+        analytics.track('registration');
+
         navigateToPostRegistrationPage();
 
         $scope.submittingRegistration = false;

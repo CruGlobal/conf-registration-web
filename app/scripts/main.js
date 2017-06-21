@@ -1,7 +1,6 @@
-import './vendor';
-
 import 'scripts/app.module.js';
-import 'scripts/app.js';
+import 'scripts/app.config.js';
+import 'scripts/app.run.js';
 import 'scripts/app_enforceAuth.js';
 
 // Controllers
@@ -55,6 +54,7 @@ import 'scripts/filters/dateRangeFormat.js';
 import 'scripts/filters/showQuestionFilter.js';
 
 // Services
+import 'scripts/services/analytics.service.js';
 import 'scripts/services/authorizationInterceptor.js';
 import 'scripts/services/ConfCache.js';
 import 'scripts/services/constants.js';
