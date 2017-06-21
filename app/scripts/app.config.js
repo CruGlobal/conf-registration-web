@@ -12,10 +12,45 @@ import helpTemplate from 'views/help.html';
 import privacyTemplate from 'views/privacy.html';
 
 angular.module('confRegistrationWebApp')
-  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider) {
+  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider) {
     $locationProvider.html5Mode(true).hashPrefix('');
     $httpProvider.useApplyAsync(true);
     $qProvider.errorOnUnhandledRejections(false);
+
+    $httpProvider.interceptors.push('currentRegistrationInterceptor');
+    $httpProvider.interceptors.push('httpUrlInterceptor');
+    $httpProvider.interceptors.push('authorizationInterceptor');
+    $httpProvider.interceptors.push('unauthorizedInterceptor');
+    $httpProvider.interceptors.push('statusInterceptor');
+
+    envServiceProvider.config({
+      domains: {
+        development: ['localhost'],
+        staging: ['stage.eventregistrationtool.com'],
+        production: ['www.eventregistrationtool.com', 'eventregistrationtool.com']
+      },
+      vars: {
+        development: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging'
+        },
+        staging: {
+          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production'
+        },
+        production: {
+          apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production'
+        }
+      }
+    });
+
+    // Determine which environment we are running in
+    envServiceProvider.check();
+
+    if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
+      $compileProvider.debugInfoEnabled(false);
+    }
 
     $routeProvider
       .when('/', {
@@ -234,76 +269,4 @@ angular.module('confRegistrationWebApp')
       .otherwise({
         redirectTo: '/'
       });
-  })
-  .run(function ($rootScope, $cookies, $location, $window, ProfileCache) {
-    // eslint-disable-next-line angular/on-watch
-    $rootScope.$on('$locationChangeStart', function () {
-      //registration mode
-      if (_.includes($location.path(), '/preview/')) {
-        $rootScope.registerMode = 'preview';
-      } else if(_.includes($location.path(), '/register/')) {
-        $rootScope.registerMode = 'register';
-      }
-    });
-
-    // eslint-disable-next-line angular/on-watch
-    $rootScope.$on('$routeChangeSuccess', function () {
-      //scroll to top of page when new page is loaded
-      $window.scrollTo(0, 0);
-
-      //Google Analytics
-      if($window.ga){
-        $window.ga('send', 'pageview', {'page': $location.path()});
-      }
-    });
-
-    $rootScope.generateTitle = function (title) {
-      if (title) {
-        return title + ' | Event Registration Tool';
-      } else {
-        return 'Event Registration Tool';
-      }
-    };
-
-    $rootScope.globalGreetingName = function(){
-      return ProfileCache.globalGreetingName();
-    };
-    ProfileCache.getCache();
-  })
-  .config(function ($httpProvider) {
-    $httpProvider.interceptors.push('currentRegistrationInterceptor');
-    $httpProvider.interceptors.push('httpUrlInterceptor');
-    $httpProvider.interceptors.push('authorizationInterceptor');
-    $httpProvider.interceptors.push('unauthorizedInterceptor');
-    $httpProvider.interceptors.push('statusInterceptor');
-  })
-  .config(function (envServiceProvider, $compileProvider) {
-    envServiceProvider.config({
-      domains: {
-        development: ['localhost'],
-        staging: ['stage.eventregistrationtool.com'],
-        production: ['www.eventregistrationtool.com', 'eventregistrationtool.com']
-      },
-      vars: {
-        development: {
-          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'staging'
-        },
-        staging: {
-          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production'
-        },
-        production: {
-          apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production'
-        }
-      }
-    });
-
-    // Determine which environment we are running in
-    envServiceProvider.check();
-
-    if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
-      $compileProvider.debugInfoEnabled(false);
-    }
   });
