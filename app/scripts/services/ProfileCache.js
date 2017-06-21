@@ -1,27 +1,25 @@
 
 angular.module('confRegistrationWebApp')
-  .service('ProfileCache', function ProfileCache($cacheFactory, $cookies, $http) {
+  .service('ProfileCache', function ProfileCache($cacheFactory, $cookies, $http, $q) {
     var cache = $cacheFactory('profile');
     var path = 'profile';
 
-    var checkCache = function (path, callback) {
+    var checkCache = function (path) {
       var cachedObject = cache.get(path);
       if (angular.isDefined(cachedObject)) {
-        callback(cachedObject, path);
+        return $q.resolve(cachedObject);
       } else {
-        $http.get(path).then(function (response) {
+        return $http.get(path).then(function (response) {
           var profileData = response.data;
           cache.put(path, profileData);
-          callback(profileData, path);
+          return profileData;
         });
       }
     };
 
-    this.getCache = function (callback) {
-      if(!$cookies.get('crsToken')){ return; }
-      checkCache(path, function (profileData) {
-        if(callback){ callback(profileData); }
-      });
+    this.getCache = function () {
+      if(!$cookies.get('crsToken')){ return $q.reject(); }
+      return checkCache(path);
     };
 
     this.clearCache = function(){

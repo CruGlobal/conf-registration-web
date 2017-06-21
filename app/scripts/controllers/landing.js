@@ -46,12 +46,23 @@ angular.module('confRegistrationWebApp')
         $scope.searchComplete = val;
         $scope.searchResults = response.data;
 
-        analytics.digitalData.searchFilter = '';
-        analytics.digitalData.searchTerm = val;
-        analytics.digitalData.numberOfResults = response.data.length;
-        analytics.track('search');
+        $scope.filterUpdate();
       });
     }, 500, {leading: false});
+
+    $scope.filterSearchResults = function(){
+      return _.filter($scope.searchResults, event => {
+        return $scope.dateFilter(event) && $scope.locationFilter(event);
+      });
+    };
+
+    $scope.filterUpdate = function(){
+      analytics.digitalData.searchTerm = $scope.searchVal;
+      analytics.digitalData.searchLocationFilter = $scope.eventFilters.locationName;
+      analytics.digitalData.searchDateFilter = $scope.eventFilters.date;
+      analytics.digitalData.numberOfResults = $scope.filterSearchResults().length;
+      analytics.track('search');
+    };
 
     $scope.dateFilter = function(event){
       var eventStartTime = moment.tz(event.eventStartTime, event.eventTimezone);
