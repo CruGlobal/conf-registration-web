@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="col-sm-8 text-right">
-      <uib-pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></uib-pagination>
+      <ul uib-pagination total-items="meta.totalRegistrantsFilter" items-per-page="queryParameters.limit" ng-model="queryParameters.page" max-size="5" class="pagination" rotate="false"></ul>
     </div>
   </div>
   <div class="row spacing-below-xs" ng-if="registrants.length > 0">
