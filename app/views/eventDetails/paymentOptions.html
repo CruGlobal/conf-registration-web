@@ -6,17 +6,12 @@
   </div>
   <div class="panel-body">
     <div class="form-group">
-      <div class="col-sm-12 stacked-spacing-col-sm" ng-if="originalConference.paymentGatewayType === 'AUTHORIZE_NET'">
-        <label translate>Select A Payment Gateway Type:</label>
-        <select class="form-control" ng-options="key as value.name for (key, value) in paymentGateways" ng-model="conference.paymentGatewayType"></select>
+      <div class="col-sm-12 stacked-spacing-col-sm">
+        <label translate>Payment Gateway Type Used:  {{conference.paymentGatewayType !== null ? conference.paymentGatewayType : 'TYSY'}}</label>
       </div>
     </div>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
-      <span ng-if="getPaymentGatewayType() === 'AUTHORIZE_NET'">
-        <translate>If you will be accepting credit card payments for your event, you must have an Authorize.NET merchant account from a credit card processing vendor.</translate>
-        <translate>For information on obtaining a merchant account, please see your regional Financial Professional or Operations Director.</translate>
-      </span>
       <span ng-if="getPaymentGatewayType() === 'TSYS'">
         <translate>If accepting credit card payments for your event, you will need a merchant account from a credit card processing vendor.</translate>
         <translate>For details about an existing merchant account, contact your team's finance/operations leader.</translate>

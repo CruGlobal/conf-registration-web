@@ -1,5 +1,4 @@
 import cruPayments from 'cru-payments/dist/cru-payments-cc';
-import ccp from 'components/ccp';
 
 angular.module('confRegistrationWebApp')
   .factory('payment', function ($q, $http, $filter, envService, error, gettextCatalog) {
@@ -10,18 +9,6 @@ angular.module('confRegistrationWebApp')
       return $http.get(url, { data: payment }).then(function (res) {
         return res.data;
       });
-    }
-
-    // Modify a credit card payment to use a tokenized credit card instead of real credit card data
-    // Tokenize the credit card via Authorize.NET
-    function tokenizeCreditCardPaymentAuthorizeNet (payment) {
-      return $http.get('payments/ccp-client-encryption-key').then(function (res) {
-        var ccpClientEncryptionKey = res.data;
-        ccp.initialize(ccpClientEncryptionKey);
-        payment.creditCard.lastFourDigits = ccp.getAbbreviatedNumber(payment.creditCard.number);
-        payment.creditCard.number = ccp.encrypt(payment.creditCard.number);
-        payment.creditCard.cvvNumber = ccp.encrypt(payment.creditCard.cvvNumber);
-      }).catch(error.errorFromResponse(gettextCatalog.getString('An error occurred while requesting the Authorize.NET token. Please try your payment again.')));
     }
 
     // Modify a credit card payment to use a tokenized credit card instead of real credit card data
@@ -47,8 +34,6 @@ angular.module('confRegistrationWebApp')
     function tokenizeCreditCardPayment (conference, payment) {
       if (conference.paymentGatewayType === 'TSYS') {
         return tokenizeCreditCardPaymentTsys(payment);
-      } else if (conference.paymentGatewayType === 'AUTHORIZE_NET') {
-        return tokenizeCreditCardPaymentAuthorizeNet(payment);
       } else {
         throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
       }
