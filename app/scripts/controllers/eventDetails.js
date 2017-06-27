@@ -33,16 +33,8 @@ angular.module('confRegistrationWebApp')
     $scope.changeTab($scope.tabs[0]);
 
     //AUTHORIZE_NET no longer used.
-    //Only keeping code to display AUTHORIZE_NET details for existing events already setup using AUTHORIZE_NET.
     //TSYS is now the only payment allowed.
     $scope.paymentGateways = {
-      AUTHORIZE_NET: {
-        name: gettextCatalog.getString('Authorize.Net'),
-        fields: {
-          paymentGatewayId: { title: gettextCatalog.getString('Authorize.NET Account ID') },
-          paymentGatewayKey: { title: gettextCatalog.getString('Authorize.NET Key') }
-        }
-      },
       TSYS: {
         name: gettextCatalog.getString('TSYS'),
         fields: {

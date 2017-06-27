@@ -326,6 +326,7 @@ angular.module('confRegistrationWebApp')
     /*
     Returns false is payment if payment and refund channel are credit card and current time is less than 24 hours from
     payment time.  If a refund is issued before the payment settles, authorize.net will do a full refund regardless of amount.
+    ***Authorize.net no longer used, but payment is still used so keeping code below for now.***
     */
     $scope.isPartialRefundAvailable = function(payment, refundChannel) {
       var diff = new Date().getTime() - new Date(payment.transactionDatetime).getTime();

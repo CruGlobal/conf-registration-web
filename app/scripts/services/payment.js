@@ -1,4 +1,5 @@
 import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import {Rollbar} from 'scripts/errorNotify.js';
 
 angular.module('confRegistrationWebApp')
   .factory('payment', function ($q, $http, $filter, envService, error, gettextCatalog) {
@@ -35,6 +36,7 @@ angular.module('confRegistrationWebApp')
       if (conference.paymentGatewayType === 'TSYS') {
         return tokenizeCreditCardPaymentTsys(payment);
       } else {
+        Rollbar.warning('Unrecognized payment gateway', conference);
         throw new Error(gettextCatalog.getString('Unrecognized payment gateway.'));
       }
     }
