@@ -5,11 +5,6 @@
     <h3 class="panel-title" translate>Credit Card</h3>
   </div>
   <div class="panel-body">
-    <div class="form-group">
-      <div class="col-sm-12 stacked-spacing-col-sm">
-        <label translate>Payment Gateway Type Used:  {{conference.paymentGatewayType !== null ? conference.paymentGatewayType : 'Other (not TSYS)'}}</label>
-      </div>
-    </div>
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
       <span ng-if="getPaymentGatewayType() === 'TSYS'">

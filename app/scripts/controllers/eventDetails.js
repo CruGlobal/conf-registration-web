@@ -32,8 +32,6 @@ angular.module('confRegistrationWebApp')
     };
     $scope.changeTab($scope.tabs[0]);
 
-    //AUTHORIZE_NET no longer used.
-    //TSYS is now the only payment allowed.
     $scope.paymentGateways = {
       TSYS: {
         name: gettextCatalog.getString('TSYS'),
