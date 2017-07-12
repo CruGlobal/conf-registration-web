@@ -5,7 +5,6 @@ angular.module('confRegistrationWebApp')
       type: 'landing',
       mainClass: 'container',
       bodyClass: '',
-      title: '',
       confId: 0,
       footer: true
     };

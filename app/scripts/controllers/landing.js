@@ -10,7 +10,6 @@ angular.module('confRegistrationWebApp')
       type: 'landing',
       mainClass: 'dashboard',
       bodyClass: '',
-      title: '',
       confId: 0,
       footer: true
     };
