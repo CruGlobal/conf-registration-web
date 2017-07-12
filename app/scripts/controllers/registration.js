@@ -18,18 +18,30 @@ angular.module('confRegistrationWebApp')
     $scope.savingAnswers = false;
 
     $scope.activePageId = pageId || '';
-    $scope.page = _.find(conference.registrationPages, { 'id': pageId });
-    $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, { id: pageId });
-    $scope.nextPage = function(){
-      var visiblePageArray = _.filter($scope.conference.registrationPages, function(page) {
+    $scope.page = _.find(conference.registrationPages, {'id': pageId});
+    $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, {id: pageId});
+    $scope.nextPage = function () {
+      var visiblePageArray = _.filter($scope.conference.registrationPages, function (page) {
         return $scope.pageIsVisible(page);
       });
-      return visiblePageArray[_.findIndex(visiblePageArray, { 'id': pageId }) + 1];
+      return visiblePageArray[_.findIndex(visiblePageArray, {'id': pageId}) + 1];
     };
 
     //if current page doesn't exist, go to first page
-    if($scope.activePageIndex === -1 && angular.isDefined($scope.page)){
+    if ($scope.activePageIndex === -1 && angular.isDefined($scope.page)) {
       $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[0].id);
+    }
+
+    //If page contains no questions
+    if (angular.isDefined($scope.page) && $scope.page.blocks.length === 0) {
+      // If not last page, then advanced to next page
+      if ($scope.page.position < ($scope.conference.registrationPages.length - 1)) {
+        $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[$scope.page.position + 1].id);
+      }
+      // If last page, then advanced to registration page
+      else {
+        $scope.reviewRegistration();
+      }
     }
 
     //setup visited flags array to store visits by a specific registrant to a specific page
