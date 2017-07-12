@@ -12,10 +12,6 @@ class Analytics {
 
   firePageViewEvent(){
     /* Adobe Analytics */
-    // Page title
-    const pageTitle = this.$rootScope.globalPage ? this.$rootScope.globalPage.title : null;
-    this.digitalData.page.pageInfo.pageName = 'Event Registration Tool | ' + (pageTitle || 'no PageName found');
-
     // Profile info
     this.ProfileCache.getCache().then(() => {
       this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged In';

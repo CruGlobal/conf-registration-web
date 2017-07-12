@@ -1,5 +1,5 @@
 angular.module('confRegistrationWebApp')
-  .run(function ($rootScope, $cookies, $location, $window, ProfileCache, analytics) {
+  .run(function ($rootScope, $cookies, $location, $window, ProfileCache, analytics, $timeout) {
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$locationChangeStart', () => {
       //registration mode
@@ -11,19 +11,16 @@ angular.module('confRegistrationWebApp')
     });
 
     // eslint-disable-next-line angular/on-watch
-    $rootScope.$on('$routeChangeSuccess', () => {
+    $rootScope.$on('$routeChangeSuccess', (event, next) => {
+      $rootScope.pageTitle = next.title;
+      $rootScope.currentEventName = next.locals && next.locals.conference && next.locals.conference.name;
+
       $window.scrollTo(0, 0); // Scroll to top of page when new page is loaded
 
-      analytics.firePageViewEvent();
+      $timeout(() => {
+        analytics.firePageViewEvent();
+      });
     });
-
-    $rootScope.generateTitle = function (title) {
-      if (title) {
-        return title + ' | Event Registration Tool';
-      } else {
-        return 'Event Registration Tool';
-      }
-    };
 
     $rootScope.globalGreetingName = function(){
       return ProfileCache.globalGreetingName();

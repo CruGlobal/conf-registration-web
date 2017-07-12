@@ -5,7 +5,6 @@ angular.module('confRegistrationWebApp')
       type: 'admin',
       mainClass: 'event-questions',
       bodyClass: '',
-      title: conference.name,
       confId: conference.id,
       footer: true
     };

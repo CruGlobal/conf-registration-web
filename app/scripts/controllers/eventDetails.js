@@ -13,7 +13,6 @@ angular.module('confRegistrationWebApp')
       type: 'admin',
       mainClass: 'container event-details',
       bodyClass: '',
-      title: conference.name,
       confId: conference.id,
       footer: true
     };

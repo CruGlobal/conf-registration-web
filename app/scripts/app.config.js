@@ -12,7 +12,7 @@ import helpTemplate from 'views/help.html';
 import privacyTemplate from 'views/privacy.html';
 
 angular.module('confRegistrationWebApp')
-  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider) {
+  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider, gettext) {
     $locationProvider.html5Mode(true).hashPrefix('');
     $httpProvider.useApplyAsync(true);
     $qProvider.errorOnUnhandledRejections(false);
@@ -54,10 +54,12 @@ angular.module('confRegistrationWebApp')
 
     $routeProvider
       .when('/', {
+        title: gettext('Search for event'),
         templateUrl: landingTemplate,
         controller: 'landingCtrl'
       })
       .when('/register/:conferenceId', {
+        title: gettext('Register'),
         resolve: {
           redirect: function ($location, $route) {
             $location.path('/register/' + $route.current.params.conferenceId + '/page/');
@@ -65,6 +67,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/register/:conferenceId/page/:pageId?', {
+        title: gettext('Register'),
         templateUrl: registrationTemplate,
         controller: 'RegistrationCtrl',
         authorization: {
@@ -89,6 +92,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/approvePayment/:paymentHash', {
+        title: gettext('Approve Payment'),
         templateUrl: paymentApprovalTemplate,
         controller: 'PaymentApprovalCtrl',
         authorization: {
@@ -96,6 +100,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/reviewRegistration/:conferenceId', {
+        title: gettext('Review Registration'),
         templateUrl: reviewRegistrationTemplate,
         controller: 'ReviewRegistrationCtrl',
         authorization: {
@@ -116,6 +121,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/preview/:conferenceId/page/:pageId?', {
+        title: gettext('Preview Registration'),
         templateUrl: registrationTemplate,
         controller: 'RegistrationCtrl',
         authorization: {
@@ -131,6 +137,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventDashboard', {
+        title: gettext('My Dashboard'),
         templateUrl: eventDashboardTemplate,
         controller: 'eventDashboardCtrl',
         authorization: {
@@ -143,6 +150,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventOverview/:conferenceId', {
+        title: gettext('Overview'),
         templateUrl: eventOverviewTemplate,
         controller: 'eventOverviewCtrl',
         authorization: {
@@ -156,6 +164,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventRegistrations/:conferenceId', {
+        title: gettext('Registrations'),
         templateUrl: eventRegistrationsTemplate,
         controller: 'eventRegistrationsCtrl',
         authorization: {
@@ -172,6 +181,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventForm/:conferenceId', {
+        title: gettext('Questions'),
         templateUrl: eventFormTemplate,
         controller: 'eventFormCtrl',
         authorization: {
@@ -185,6 +195,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventDetails/:conferenceId', {
+        title: gettext('Details'),
         templateUrl: eventDetailsTemplate,
         controller: 'eventDetailsCtrl',
         authorization: {
@@ -198,6 +209,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/eventUsers/:conferenceId', {
+        title: gettext('Users'),
         templateUrl: eventPermissionsTemplate,
         controller: 'eventPermissionsCtrl',
         authorization: {
@@ -214,6 +226,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/activatePermission/:permissionAuthCode', {
+        title: gettext('Activate Permission'),
         template: '{{message}}',
         controller: 'activatePermissionCtrl',
         authorization: {
@@ -221,6 +234,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/auth/:token', {
+        title: gettext('Signing In'),
         resolve: {
           redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
             function ($location, $cookies, $route, $rootScope, ProfileCache) {
@@ -241,6 +255,7 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/logout', {
+        title: gettext('Signing Out'),
         resolveRedirectTo: /*@ngInject*/ function ($location, $cookies, $window, $http, ProfileCache) {
           return $http.get('auth/logout')
             .catch(angular.noop)
@@ -259,10 +274,12 @@ angular.module('confRegistrationWebApp')
         }
       })
       .when('/help', {
+        title: gettext('Help'),
         templateUrl: helpTemplate,
         controller: 'helpCtrl'
       })
       .when('/privacy', {
+        title: gettext('Privacy'),
         templateUrl: privacyTemplate,
         controller: 'helpCtrl'
       })

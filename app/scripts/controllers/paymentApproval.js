@@ -5,7 +5,6 @@ angular.module('confRegistrationWebApp')
       type: 'registration',
       mainClass: 'container front-form',
       bodyClass: 'user-registration',
-      title: 'Event Registration Tool',
       confId: 0,
       footer: false
     };
