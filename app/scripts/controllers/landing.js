@@ -1,15 +1,15 @@
 import moment from 'moment';
+
 import bigBreakImg from 'img/landing/big-break.jpg';
 import studentsImg from 'img/landing/311.jpg';
 import climbingImg from 'img/landing/187.jpg';
 
 angular.module('confRegistrationWebApp')
-  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location) {
+  .controller('landingCtrl', function ($rootScope, $scope, $http, $cookies, $location, analytics) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'dashboard',
       bodyClass: '',
-      title: '',
       confId: 0,
       footer: true
     };
@@ -44,8 +44,24 @@ angular.module('confRegistrationWebApp')
         };
         $scope.searchComplete = val;
         $scope.searchResults = response.data;
+
+        $scope.filterUpdate();
       });
     }, 500, {leading: false});
+
+    $scope.filterSearchResults = function(){
+      return _.filter($scope.searchResults, event => {
+        return $scope.dateFilter(event) && $scope.locationFilter(event);
+      });
+    };
+
+    $scope.filterUpdate = function(){
+      analytics.digitalData.searchTerm = $scope.searchVal;
+      analytics.digitalData.searchLocationFilter = $scope.eventFilters.locationName;
+      analytics.digitalData.searchDateFilter = $scope.eventFilters.date;
+      analytics.digitalData.numberOfResults = $scope.filterSearchResults().length;
+      analytics.track('search');
+    };
 
     $scope.dateFilter = function(event){
       var eventStartTime = moment.tz(event.eventStartTime, event.eventTimezone);

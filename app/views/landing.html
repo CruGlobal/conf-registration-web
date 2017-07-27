@@ -10,14 +10,14 @@
               <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
             </div>
             <div class="hidden-xs col-sm-3">
-              <select class="form-control" ng-model="eventFilters.locationName">
+              <select class="form-control" ng-model="eventFilters.locationName" ng-change="filterUpdate()">
                 <option value="" translate>-Any Location-</option>
                 <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
                 </option>
               </select>
             </div>
             <div class="hidden-xs col-sm-3">
-              <select class="form-control" ng-model="eventFilters.date">
+              <select class="form-control" ng-model="eventFilters.date" ng-change="filterUpdate()">
                 <option value="" translate>-Any Date-</option>
                 <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
                 </option>
@@ -43,7 +43,7 @@
     <p ng-show="!searchResults.length"><translate>No events found matching</translate> "{{searchComplete}}".</p>
     <p ng-show="searchResults.length && !filteredEvents.length" translate>No events found matching the selected filters.</p>
   <div class="row_masonry">
-    <div class="col_masonry" ng-repeat="e in filteredEvents = (searchResults | filter: locationFilter | filter: dateFilter) | orderBy: 'name'">
+    <div class="col_masonry" ng-repeat="e in filteredEvents = filterSearchResults() | orderBy: 'name'">
       <div class="bs-callout">
         <h3 class="list-group-item-heading">{{e.name}}</h3>
         <p class="spacing-above-md list-group-item-text"><i class="fa fa-calendar fa-fw"></i>

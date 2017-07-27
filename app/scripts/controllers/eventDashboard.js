@@ -9,7 +9,6 @@ angular.module('confRegistrationWebApp')
       type: 'admin',
       mainClass: 'container event-dashboard',
       bodyClass: '',
-      title: 'My Dashboard',
       confId: 0,
       footer: true
     };
