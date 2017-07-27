@@ -137,14 +137,7 @@ angular.module('confRegistrationWebApp')
       }
       $scope.paymentToRefund = payment;
 
-      var refundAmount;
-
-      if($scope.isPartialRefundAvailable(payment, payment.paymentType)) {
-        refundAmount = $scope.calculateRefundableAmount(payment);
-      }
-      else {
-        refundAmount = payment.amount;
-      }
+      var refundAmount = $scope.calculateRefundableAmount(payment);
 
       $scope.refund = {
         amount: refundAmount,
@@ -153,15 +146,6 @@ angular.module('confRegistrationWebApp')
         paymentType: 'REFUND',
         refundChannel: payment.paymentType
       };
-    };
-
-    $scope.refreshRefund = function (paymentToRefund, refund) {
-      if($scope.isPartialRefundAvailable(paymentToRefund, refund.refundChannel)) {
-        refund.amount = $scope.calculateRefundableAmount(paymentToRefund);
-      }
-      else {
-        refund.amount = paymentToRefund.amount;
-      }
     };
 
     $scope.processRefund = function () {
@@ -321,15 +305,5 @@ angular.module('confRegistrationWebApp')
     $scope.filterUsedPromoCodes = function(p){
       var registrationPromoCodes = _.map($scope.registration.promotions, 'id');
       return !_.includes(registrationPromoCodes, p.id);
-    };
-
-    //Returns false if payment and refund channel are credit card.
-    $scope.isPartialRefundAvailable = function(payment, refundChannel) {
-      if(payment.paymentType === 'CREDIT_CARD' && refundChannel === 'CREDIT_CARD') {
-        return false;
-      }
-      else {
-        return true;
-      }
     };
   });
