@@ -137,14 +137,7 @@ angular.module('confRegistrationWebApp')
       }
       $scope.paymentToRefund = payment;
 
-      var refundAmount;
-
-      if($scope.isPartialRefundAvailable(payment, payment.paymentType)) {
-        refundAmount = $scope.calculateRefundableAmount(payment);
-      }
-      else {
-        refundAmount = payment.amount;
-      }
+      var refundAmount = $scope.calculateRefundableAmount(payment);
 
       $scope.refund = {
         amount: refundAmount,
@@ -153,15 +146,6 @@ angular.module('confRegistrationWebApp')
         paymentType: 'REFUND',
         refundChannel: payment.paymentType
       };
-    };
-
-    $scope.refreshRefund = function (paymentToRefund, refund) {
-      if($scope.isPartialRefundAvailable(paymentToRefund, refund.refundChannel)) {
-        refund.amount = $scope.calculateRefundableAmount(paymentToRefund);
-      }
-      else {
-        refund.amount = paymentToRefund.amount;
-      }
     };
 
     $scope.processRefund = function () {
@@ -321,23 +305,5 @@ angular.module('confRegistrationWebApp')
     $scope.filterUsedPromoCodes = function(p){
       var registrationPromoCodes = _.map($scope.registration.promotions, 'id');
       return !_.includes(registrationPromoCodes, p.id);
-    };
-
-    /*
-    Returns false is payment if payment and refund channel are credit card and current time is less than 24 hours from
-    payment time.  If a refund is issued before the payment settles, authorize.net will do a full refund regardless of amount.
-    */
-    $scope.isPartialRefundAvailable = function(payment, refundChannel) {
-      var diff = new Date().getTime() - new Date(payment.transactionDatetime).getTime();
-
-      var lengthToSettle = 1000 * 60 * 60 * 24; /*milliseconds in 24 hours.  takes 24 for hours for a credit card payment
-      to settle on authorize.net*/
-
-      if(payment.paymentType === 'CREDIT_CARD' && refundChannel === 'CREDIT_CARD' && diff < lengthToSettle) {
-        return false;
-      }
-      else {
-        return true;
-      }
     };
   });

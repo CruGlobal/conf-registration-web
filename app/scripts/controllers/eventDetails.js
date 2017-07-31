@@ -32,13 +32,6 @@ angular.module('confRegistrationWebApp')
     $scope.changeTab($scope.tabs[0]);
 
     $scope.paymentGateways = {
-      AUTHORIZE_NET: {
-        name: gettextCatalog.getString('Authorize.Net'),
-        fields: {
-          paymentGatewayId: { title: gettextCatalog.getString('Authorize.NET Account ID') },
-          paymentGatewayKey: { title: gettextCatalog.getString('Authorize.NET Key') }
-        }
-      },
       TSYS: {
         name: gettextCatalog.getString('TSYS'),
         fields: {
