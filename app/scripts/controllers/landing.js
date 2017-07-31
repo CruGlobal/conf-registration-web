@@ -28,7 +28,7 @@ angular.module('confRegistrationWebApp')
     ];
     $scope.jumboImg = jumboImgs[_.random(0, jumboImgs.length - 1)];
 
-    $scope.eventSearch = _.throttle(function(val) {
+    $scope.eventSearch = _.debounce(function(val) {
       if(!val){ return; }
       if(val.length < 2){
         return;
@@ -38,16 +38,18 @@ angular.module('confRegistrationWebApp')
           conferenceName: val
         }
       }).then(function(response){
-        $scope.eventFilters = {
-          locationName: '',
-          date: ''
-        };
-        $scope.searchComplete = val;
-        $scope.searchResults = response.data;
+        if(angular.isDefined($scope.searchVal) && val === $scope.searchVal) {
+          $scope.eventFilters = {
+            locationName: '',
+            date: ''
+          };
+          $scope.searchComplete = val;
+          $scope.searchResults = response.data;
 
-        $scope.filterUpdate();
+          $scope.filterUpdate();
+        }
       });
-    }, 500, {leading: false});
+    }, 1000);
 
     $scope.filterSearchResults = function(){
       return _.filter($scope.searchResults, event => {
