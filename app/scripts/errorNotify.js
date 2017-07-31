@@ -11,4 +11,4 @@ const rollbarConfig = {
   enabled: location.hostname  !== 'localhost'
 };
 
-new rollbar(rollbarConfig);
+export const Rollbar = new rollbar(rollbarConfig);

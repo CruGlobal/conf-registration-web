@@ -32,13 +32,6 @@ angular.module('confRegistrationWebApp')
     $scope.changeTab($scope.tabs[0]);
 
     $scope.paymentGateways = {
-      AUTHORIZE_NET: {
-        name: gettextCatalog.getString('Authorize.Net'),
-        fields: {
-          paymentGatewayId: { title: gettextCatalog.getString('Authorize.NET Account ID') },
-          paymentGatewayKey: { title: gettextCatalog.getString('Authorize.NET Key') }
-        }
-      },
       TSYS: {
         name: gettextCatalog.getString('TSYS'),
         fields: {
@@ -61,8 +54,9 @@ angular.module('confRegistrationWebApp')
       return $scope.conference.paymentGatewayType;
     };
 
-    $scope.$on('$locationChangeStart', function(event, newLocation) {
+    $scope.$on('$locationChangeStart', function(event) {
       if(!angular.equals(conference, $scope.conference)){
+        const newLocation = $location.path();
         event.preventDefault();
         modalMessage.confirm({
           title: 'Warning: Unsaved Changes',
@@ -72,7 +66,7 @@ angular.module('confRegistrationWebApp')
           normalSize: true
         }).then(function(){
           conference = angular.copy($scope.conference);
-          $location.url($location.url(newLocation).hash());
+          $location.path(newLocation);
         });
       }
     });
