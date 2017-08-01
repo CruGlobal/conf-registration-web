@@ -356,7 +356,7 @@
           <div class="row">
             <div class="col-sm-8">
               <label translate>Refund Method</label>
-              <select ng-model="refund.refundChannel" class="form-control" ng-change="refreshRefund(paymentToRefund, refund)">
+              <select ng-model="refund.refundChannel" class="form-control" ng-change="refund.amount = calculateRefundableAmount(paymentToRefund)">
                 <option value="CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'" translate>Credit Card (automatically)</option>
                 <option value="OFFLINE_CREDIT_CARD" ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'" translate>Credit Card (manually)</option>
                 <option value="CASH" translate>Cash</option>
@@ -365,12 +365,9 @@
             </div>
             <div class="col-sm-4">
               <label translate>Amount</label>
-              <i class="fa fa-exclamation-triangle" uib-popover="{{'Partial credit card refunds cannot be issued within 24 hours of payment.' | translate}}"
-                 popover-trigger="mouseenter" popover-append-to-body="true" ng-if="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
-              </i>
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control marginless" ng-model="refund.amount" ng-disabled="!isPartialRefundAvailable(paymentToRefund, refund.refundChannel)">
+                <input type="text" class="form-control marginless" ng-model="refund.amount">
               </div>
             </div>
           </div>
