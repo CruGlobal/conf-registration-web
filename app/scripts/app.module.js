@@ -19,7 +19,6 @@ import 'pickadate/lib/picker.date.js';
 import 'pickadate/lib/compressed/themes/default.css';
 import 'pickadate/lib/compressed/themes/default.date.css';
 import 'angular-environment/dist/angular-environment.js';
-import 'cru-payments/dist/cru-payments-cc.js';
 angular.module('colorpicker.module', []); // angular-wysiwyg requires this module but we aren't using the font color buttons so this is a mock
 import 'angular-wysiwyg';
 import uiTree from 'angular-ui-tree';
