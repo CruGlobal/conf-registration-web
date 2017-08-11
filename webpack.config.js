@@ -7,10 +7,26 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const SriPlugin = require('webpack-subresource-integrity');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
 const ci = process.env.CI === 'true';
 const prod = process.env.TRAVIS_BRANCH === 'master';
+
+const htmlMinDefaults = {
+  removeComments: true,
+  removeCommentsFromCDATA: true,
+  removeCDATASectionsFromCDATA: true,
+  collapseWhitespace: true,
+  conservativeCollapse: true,
+  removeAttributeQuotes: true,
+  useShortDoctype: true,
+  keepClosingSlash: true,
+  minifyJS: true,
+  minifyCSS: true,
+  removeScriptTypeAttributes: true,
+  removeStyleTypeAttributes: true
+};
 
 module.exports = env => {
   env = env || {};
@@ -22,7 +38,8 @@ module.exports = env => {
     output: {
       filename: '[name].[chunkhash].js',
       path: path.resolve(__dirname, 'dist'),
-      devtoolModuleFilenameTemplate: info => info.resourcePath.replace(/^\.\//, '')
+      devtoolModuleFilenameTemplate: info => info.resourcePath.replace(/^\.\//, ''),
+      crossOriginLoading: 'anonymous'
     },
     plugins: concat(
       [
@@ -38,7 +55,8 @@ module.exports = env => {
       !isTest ? [
         new HtmlWebpackPlugin({
           template: 'app/index.ejs',
-          prod: prod
+          prod: prod,
+          minify: htmlMinDefaults
         }),
       ] : [],
       isBuild ?
@@ -62,18 +80,23 @@ module.exports = env => {
           new HtmlWebpackPlugin({
             template: 'app/browserUnsupported.ejs',
             filename: 'browserUnsupported.html',
-            excludeAssets: /.*\.js/ // Only import CSS
+            excludeAssets: /.*\.js/, // Only import CSS
+            minify: htmlMinDefaults
           }),
           new HtmlWebpackPlugin({
             template: 'app/maintenanceMode.ejs',
             filename: 'maintenanceMode.html',
-            excludeAssets: /.*\.js/ // Only import CSS
+            excludeAssets: /.*\.js/, // Only import CSS
+            minify: htmlMinDefaults
           }),
           new HtmlWebpackExcludeAssetsPlugin(),
           new InlineManifestWebpackPlugin({
             name: 'webpackManifest'
           }),
-          new FaviconsWebpackPlugin('./app/img/favicon.png')
+          new FaviconsWebpackPlugin('./app/img/favicon.png'),
+          new SriPlugin({
+            hashFuncNames: ['sha512']
+          }),
         ] : [],
       env.analyze ? [ new BundleAnalyzerPlugin() ] : []
 
