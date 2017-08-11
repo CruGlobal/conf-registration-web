@@ -18,6 +18,10 @@ angular.module('confRegistrationWebApp')
           titleTemplateUrl: popupHyperlinkInformationTemplate
         };
 
+        if(!$scope.answer){
+          $scope.answer = {};
+        }
+
         // Migrate old paragraph content objects
         if ($scope.block.type === 'paragraphContent' &&
           angular.isDefined($scope.block.content) &&

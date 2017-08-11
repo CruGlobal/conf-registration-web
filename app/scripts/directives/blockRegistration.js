@@ -7,75 +7,86 @@ angular.module('confRegistrationWebApp')
       restrict: 'A',
       controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         $scope.isString = _.isString;
-        if (angular.isDefined($scope.adminEditRegistrant)) {
-          //registration object provided
-          $scope.answer = _.find($scope.adminEditRegistrant.answers, {'blockId': $scope.block.id});
-          if (angular.isUndefined($scope.answer)) {
-            $scope.answer = {
-              id: uuid(),
-              registrantId: $scope.adminEditRegistrant.id,
-              blockId: $scope.block.id,
-              value: ($scope.block.type === 'checkboxQuestion') ? {} : ''
-            };
-            $scope.adminEditRegistrant.answers.push($scope.answer);
+
+        $onInit();
+
+        function $onInit(){
+          if ($scope.adminEditRegistrant) {
+            initAdminEditMode();
+          } else {
+            initRegistrationMode();
           }
-        } else {
-          var registrantId = $routeParams.reg;
-          if (angular.isUndefined(registrantId) || angular.isUndefined($scope.block)) {
-            return;
-          }
-          var registrantIndex = _.findIndex($scope.currentRegistration.registrants, {'id': registrantId});
-          if (registrantIndex === -1) {
+        }
+
+        function initAdminEditMode(){
+          $scope.answer = initializeAnswer(
+            $scope.adminEditRegistrant.answers,
+            $scope.block,
+            $scope.adminEditRegistrant.id
+          );
+          $scope.adminEditRegistrant.answers.push($scope.answer);
+        }
+
+        function initRegistrationMode(){
+          const registrantId = $routeParams.reg;
+          const registrantIndex = _.findIndex($scope.currentRegistration.registrants, {'id': registrantId});
+
+          if (!registrantId || !$scope.block || registrantIndex === -1 || $scope.block.type === 'paragraphContent') {
             return;
           }
 
-          if ($scope.block.type !== 'paragraphContent') {
-            $scope.answer = _.find($scope.currentRegistration.registrants[registrantIndex].answers, {'blockId': $scope.block.id});
-            if (angular.isUndefined($scope.answer)) {
-              $scope.answer = {
-                id: uuid(),
-                registrantId: registrantId,
-                blockId: $scope.block.id
-              };
-              //default value
-              switch ($scope.block.type) {
-                case 'checkboxQuestion':
-                  $scope.answer.value = {};
-                  break;
-                case 'nameQuestion':
-                  $scope.answer.value = {
-                    firstName: '',
-                    lastName: ''
-                  };
-                  break;
-                case 'addressQuestion':
-                  $scope.answer.value = {
-                    address1: '',
-                    address2: '',
-                    city: '',
-                    state: '',
-                    zip: ''
-                  };
-                  break;
-                default:
-                  $scope.answer.value = '';
-              }
-              //setting default value
-              if (_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion'], $scope.block.type) &&
-                !angular.isUndefined($scope.block.content) &&
-                !angular.isUndefined($scope.block.content.default)) {
-                $scope.answer.value = $scope.block.content.default;
-              }
-              $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+          $scope.answer = initializeAnswer(
+            $scope.currentRegistration.registrants[registrantIndex].answers,
+            $scope.block,
+            registrantId,
+            $scope.block.content && $scope.block.content.default
+          );
+          $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+
+          $scope.$watch('answer', function (answer, oldAnswer) {
+            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+              return;
             }
 
-            $scope.$watch('answer', function (answer, oldAnswer) {
-              if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
-                return;
-              }
+            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+          }, true);
+        }
 
-              RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-            }, true);
+        function initializeAnswer(registrantAnswers, block, registrantId, blockDefault) {
+          const currentAnswer = _.find(registrantAnswers, {'blockId': block.id});
+          return currentAnswer || {
+            id: uuid(),
+            registrantId: registrantId,
+            blockId: block.id,
+            value: getDefaultValue(block.type, blockDefault)
+          };
+        }
+
+        function getDefaultValue(type, blockDefault){
+          switch (type) {
+            case 'nameQuestion':
+              return {
+                firstName: '',
+                lastName: ''
+              };
+            case 'addressQuestion':
+              return {
+                address1: '',
+                address2: '',
+                city: '',
+                state: '',
+                zip: ''
+              };
+            case 'checkboxQuestion':
+              return blockDefault || {};
+            case 'radioQuestion':
+            case 'selectQuestion':
+            case 'dateQuestion':
+              return blockDefault || '';
+            case 'numberQuestion':
+              return blockDefault || null;
+            default:
+              return '';
           }
         }
 
@@ -109,6 +120,7 @@ angular.module('confRegistrationWebApp')
             return ruleStatus;
           }
         };
+
       }
     };
   });
