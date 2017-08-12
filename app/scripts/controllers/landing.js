@@ -69,22 +69,36 @@ angular.module('confRegistrationWebApp')
       var eventStartTime = moment.tz(event.eventStartTime, event.eventTimezone);
 
       switch($scope.eventFilters.date){
-        case '':
-          return true;
         case 'This Week':
-          var mondayMidnight = moment().startOf('week');
-          var saturdayMidnight = moment().startOf('week').add(6, 'days');
-          return eventStartTime >= mondayMidnight && eventStartTime <= saturdayMidnight;
+          return eventStartTime.isBetween(
+            moment().startOf('week'),
+            moment().endOf('week'),
+            'day', '[]'
+          );
         case 'Next Week':
-          var nextMonday = moment().startOf('week').add(8, 'days');
-          var nextSundayMidnight = moment().startOf('week').add(14, 'days');
-          return eventStartTime >= nextMonday && eventStartTime <= nextSundayMidnight;
+          return eventStartTime.isBetween(
+            moment().startOf('week').add(1, 'week'),
+            moment().endOf('week').add(1, 'week'),
+            'day', '[]'
+          );
         case 'This Month':
-          return eventStartTime >= moment().startOf('month') && eventStartTime <= moment().startOf('month').add(1, 'month');
+          return eventStartTime.isBetween(
+            moment().startOf('month'),
+            moment().endOf('month'),
+            'day', '[]'
+          );
         case 'Next Month':
-          return eventStartTime >= moment().startOf('month').add(1, 'month') && eventStartTime <= moment().startOf('month').add(2, 'month');
+          return eventStartTime.isBetween(
+            moment().startOf('month').add(1, 'month'),
+            moment().endOf('month').add(1, 'month'),
+            'day', '[]'
+          );
         case 'Greater Than Next Month':
-          return eventStartTime >= moment().startOf('month').add(2, 'month');
+          return eventStartTime.isSameOrAfter(
+            moment().endOf('month').add(1, 'month')
+          );
+        default:
+          return true;
       }
     };
 
