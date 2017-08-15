@@ -49,7 +49,7 @@ angular.module('confRegistrationWebApp')
           $scope.filterUpdate();
         }
       });
-    }, 1000);
+    }, 800);
 
     $scope.filterSearchResults = function(){
       return _.filter($scope.searchResults, event => {
