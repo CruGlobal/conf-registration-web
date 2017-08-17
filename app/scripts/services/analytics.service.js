@@ -13,12 +13,17 @@ class Analytics {
   firePageViewEvent(){
     /* Adobe Analytics */
     // Profile info
-    this.ProfileCache.getCache().then(() => {
+    this.ProfileCache.getCache().then(profile => {
       this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged In';
-      // TODO: Fill in profile info once exposed by API
-      // this.digitalData.user[0].profile[0].profileInfo.ssoGuid = '';
-      // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = '';
-      // this.digitalData.user[0].profile[0].social.facebook = '';
+      switch(profile.authProviderType){
+        case 'RELAY':
+          this.digitalData.user[0].profile[0].profileInfo.ssoGuid = profile.userAuthProviderId;
+          break;
+        case 'FACEBOOK':
+          this.digitalData.user[0].profile[0].social.facebook = profile.userAuthProviderId;
+          break;
+      }
+      // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
       this.track('page view');
     }, () => {
       this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged Out';
