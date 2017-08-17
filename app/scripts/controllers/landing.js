@@ -29,6 +29,7 @@ angular.module('confRegistrationWebApp')
     $scope.jumboImg = jumboImgs[_.random(0, jumboImgs.length - 1)];
 
     $scope.eventSearch = _.debounce(function(val) {
+      $rootScope.loadingMsg = 'Search Events...';
       if(!val){ return; }
       if(val.length < 2){
         return;
@@ -39,13 +40,13 @@ angular.module('confRegistrationWebApp')
         }
       }).then(function(response){
         if(angular.isDefined($scope.searchVal) && val === $scope.searchVal) {
+          $rootScope.loadingMsg = '';
           $scope.eventFilters = {
             locationName: '',
             date: ''
           };
-          $scope.searchComplete = val;
+          $rootScope.loadingMsg = '';$scope.searchComplete = val;
           $scope.searchResults = response.data;
-
           $scope.filterUpdate();
         }
       });

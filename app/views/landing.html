@@ -31,6 +31,11 @@
       </div>
     </div>
   </div>
+  <div class="rootLoadingMsg" ng-if="loadingMsg">
+    <div class="blueMsg">
+      <div><i class="fa fa-spinner fa-spin"></i> {{loadingMsg}}...</div>
+    </div>
+  </div>
 </div>
 <div class="container spacing-above-md" ng-if="!searchComplete">
   <h3 translate>Register for an event</h3>
