@@ -31,13 +31,12 @@
       </div>
     </div>
   </div>
-  <div class="rootLoadingMsg" ng-if="loadingMsg">
-    <div class="blueMsg">
-      <div><i class="fa fa-spinner fa-spin"></i> {{loadingMsg}}...</div>
-    </div>
-  </div>
 </div>
-<div class="container spacing-above-md" ng-if="!searchComplete">
+<div class="text-center" ng-if="loadingSearchResults">
+  <h2 translate>Searching Events...</h2>
+  <i class="fa fa-spinner fa-spin fa-4x"></i>
+</div>
+<div class="container spacing-above-md" ng-if="!loadingSearchResults && !searchComplete">
   <h3 translate>Register for an event</h3>
   <p translate>To register for an event, search the event name above.</p>
 
