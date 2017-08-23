@@ -29,10 +29,10 @@ angular.module('confRegistrationWebApp')
     $scope.jumboImg = jumboImgs[_.random(0, jumboImgs.length - 1)];
 
     $scope.eventSearch = _.debounce(function(val) {
-      if(!val){ return; }
-      if(val.length < 2){
+      if (!val || val.length < 2) {
         return;
       }
+      $scope.loadingSearchResults = true;
       $http.get('conferences', {
         params: {
           conferenceName: val
@@ -43,9 +43,9 @@ angular.module('confRegistrationWebApp')
             locationName: '',
             date: ''
           };
+          $scope.loadingSearchResults = false;
           $scope.searchComplete = val;
           $scope.searchResults = response.data;
-
           $scope.filterUpdate();
         }
       });

@@ -32,14 +32,18 @@
     </div>
   </div>
 </div>
-<div class="container spacing-above-md" ng-if="!searchComplete">
+<div class="text-center" ng-if="loadingSearchResults">
+  <h2 translate>Searching Events...</h2>
+  <i class="fa fa-spinner fa-spin fa-4x"></i>
+</div>
+<div class="container spacing-above-md" ng-if="!loadingSearchResults && !searchComplete">
   <h3 translate>Register for an event</h3>
   <p translate>To register for an event, search the event name above.</p>
 
   <h3 translate>Create or manage an event</h3>
   <p><translate>To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your</translate> <a href="eventDashboard" translate>Event Dashboard</a>.</p>
 </div>
-<div class="container spacing-above-md" ng-if="searchComplete">
+<div class="container spacing-above-md" ng-if="!loadingSearchResults && searchComplete">
     <p ng-show="!searchResults.length"><translate>No events found matching</translate> "{{searchComplete}}".</p>
     <p ng-show="searchResults.length && !filteredEvents.length" translate>No events found matching the selected filters.</p>
   <div class="row_masonry">
