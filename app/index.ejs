@@ -36,6 +36,7 @@
 </head>
 
 <body ng-class="globalPage.bodyClass" ng-cloak>
+<link ng-if="globalPage.conference.cssUrl" ng-href="{{globalPage.conference.cssUrl}}" rel="stylesheet">
 <% if(!htmlWebpackPlugin.options.prod) { %>
 <div class="row previewRow">
   <div class="col-xs-12" style="font-size:24px;">

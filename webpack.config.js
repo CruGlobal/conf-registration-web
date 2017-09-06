@@ -96,7 +96,7 @@ module.exports = env => {
           new FaviconsWebpackPlugin('./app/img/favicon.png'),
           new SriPlugin({
             hashFuncNames: ['sha512']
-          }),
+          })
         ] : [],
       env.analyze ? [ new BundleAnalyzerPlugin() ] : []
 
