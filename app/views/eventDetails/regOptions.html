@@ -59,3 +59,15 @@
     <input type="text" class="form-control" placeholder="www.example.com" ng-model="conference.registrationCompleteRedirect">
   </div>
 </div>
+
+<div class="form-group">
+  <div class="col-sm-12">
+    <label class="control-label" translate>Custom CSS stylesheet</label>
+    <i class="question-popover fa fa-question-circle"
+       uib-popover="{{'Allows for custom styling of the registration pages. This CSS file will be applied to the registration pages for your conference. It has no effect on the admin pages or home page. Must be hosted at an https:// url and have a .css file extension.' | translate}}"
+       popover-trigger="mouseenter"
+       popover-append-to-body="true">
+    </i>
+    <input type="text" class="form-control" placeholder="https://www.example.com/custom.css" ng-model="conference.cssUrl" show-errors ng-pattern="/^https?:\/\/.+\..+\/.+\.css$/">
+  </div>
+</div>
