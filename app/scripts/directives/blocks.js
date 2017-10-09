@@ -1,4 +1,3 @@
-import nameQuestionTemplate from 'views/blocks/nameQuestion.html';
 import addressQuestionTemplate from 'views/blocks/addressQuestion.html';
 import checkboxQuestionTemplate from 'views/blocks/checkboxQuestion.html';
 import emailQuestionTemplate from 'views/blocks/emailQuestion.html';
@@ -11,19 +10,6 @@ import genderQuestionTemplate from 'views/blocks/genderQuestion.html';
 import dateQuestionTemplate from 'views/blocks/dateQuestion.html';
 import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html';
 import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
-
-angular.module('confRegistrationWebApp')
-  .directive('nameQuestion', function () {
-    return {
-      templateUrl: nameQuestionTemplate,
-      restrict: 'E',
-      controller: function ($scope) {
-        if(!$scope.answer.value){
-          $scope.answer.value = {};
-        }
-      }
-    };
-  });
 
 angular.module('confRegistrationWebApp')
   .directive('addressQuestion', function () {
