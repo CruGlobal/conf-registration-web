@@ -122,7 +122,7 @@ module.exports = env => {
         },
         {
           test: /\.js$/,
-          exclude: /(app\/components|node_modules)/,
+          exclude: /node_modules/,
           loader: "eslint-loader",
           enforce: "pre",
           options: {
