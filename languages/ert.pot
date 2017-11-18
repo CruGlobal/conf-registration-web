@@ -944,7 +944,7 @@ msgid "If registered by"
 msgstr ""
 
 #: ./app/views/modals/choiceOptions.html:19
-msgid "If the registrant selects this option, the total cost can be adjusted. Example: A t-shirt could add an additional $5 to the cost."
+msgid "If the registrant selects this option, the total cost can be adjusted. Example: A book could add an additional $5 to the cost."
 msgstr ""
 
 #: ./app/views/registration.html:36
