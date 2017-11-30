@@ -75,9 +75,9 @@
           </div>
 
           <div class="input-group spacing-above-md">
-            <input ng-model="editBlockAddOptionValue" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';">
+            <input ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
                   <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionValue); editBlockAddOptionValue='';"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
+                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
                   </span>
           </div>
 

@@ -13,6 +13,7 @@ angular.module('confRegistrationWebApp')
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
+        $scope.editBlockAddOptionAnswer = { value: '' };
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -116,12 +117,18 @@ angular.module('confRegistrationWebApp')
           if (angular.isUndefined($scope.block.content)) {
             $scope.block.content = { 'choices': [] };
           } else if(angular.isUndefined($scope.block.content.choices)){
-            $scope.block.content.choices = [];
+              $scope.block.content.choices = [];
           }
-          $scope.block.content.choices.push({
-            value: newOption,
-            desc: ''
-          });
+          if (_.some($scope.block.content.choices, ['value', newOption])){
+            modalMessage.error('Error: You may not use the same answer more than once for this question. Each answer needs to be unique.');
+          }
+          else {
+            $scope.block.content.choices.push({
+              value: newOption,
+              desc: ''
+            });
+            $scope.editBlockAddOptionAnswer.value = '';
+          }
         };
 
         $scope.editBlockOptionMoveUp = function (index) {
