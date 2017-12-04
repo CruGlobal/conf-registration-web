@@ -436,7 +436,6 @@
           <select ng-model="newTransaction.paymentType" class="form-control" ng-change="setTransactionAmount()">
             <option value="" disabled selected translate>Choose one...</option>
             <optgroup label="Payment">
-              <option value="CREDIT_CARD" ng-if="conference.paymentGatewayKeySaved" translate>Credit Card</option>
               <option value="OFFLINE_CREDIT_CARD" translate>Offline Credit Card</option>
               <option value="SCHOLARSHIP" translate>Scholarship</option>
               <option value="TRANSFER" translate>Account Transfer</option>
