@@ -187,7 +187,9 @@ angular.module('confRegistrationWebApp')
       angular.forEach((currentRegistrant ? currentRegistrant.answers : []), function(a){
         var savedAnswer = _.find(currentRegistrantOriginalAnswers, { 'id': a.id });
         if(angular.isUndefined(savedAnswer) || !angular.equals(savedAnswer.value, a.value)){
-          answersToSave.push($http.put('answers/' + a.id, a));
+          if($scope.registerMode !== 'preview') {
+            answersToSave.push($http.put('answers/' + a.id, a));
+          }
         }
       });
 
