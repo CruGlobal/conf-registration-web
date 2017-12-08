@@ -23,6 +23,15 @@ angular.module('confRegistrationWebApp')
           $scope.answer = {};
         }
 
+        $scope.validateAddOptionAnswer = function (newOption) {
+          if (_.some($scope.block.content.choices, ['value', newOption])){
+            $scope.questionValidationMsg = 'Error: You may not use the same answer more than once for this question. Each answer needs to be unique.';
+          }
+          else {
+            $scope.questionValidationMsg = '';
+          }
+        };
+
         // Migrate old paragraph content objects
         if ($scope.block.type === 'paragraphContent' &&
           angular.isDefined($scope.block.content) &&

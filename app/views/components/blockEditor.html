@@ -75,7 +75,7 @@
           </div>
 
           <div class="input-group spacing-above-md">
-            <input ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
+            <input name="editBlockAddOptionAnswer.value" ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)" ng-change="validateAddOptionAnswer(editBlockAddOptionAnswer.value)">
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
                   </span>
@@ -164,4 +164,5 @@
       </uib-tab>
     </uib-tabset>
   </div>
+  <label class="control-label text-danger"><translate>{{questionValidationMsg}}</translate></label>
 </div>
