@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
-        $scope.editBlockAddOptionAnswer = { value: '' };
+        $scope.editBlockAddOptionAnswer = { value: ''};
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -23,14 +23,14 @@ angular.module('confRegistrationWebApp')
           $scope.answer = {};
         }
 
-        $scope.validateAddOptionAnswer = function (newOption) {
-          if (_.some($scope.block.content.choices, ['value', newOption])){
-            $scope.questionValidationMsg = 'Error: You may not use the same answer more than once for this question. Each answer needs to be unique.';
+        $scope.$watch('editBlockAddOptionAnswer', function (editBlockAddOptionAnswer) {
+          if (_.some($scope.block.content.choices, ['value', editBlockAddOptionAnswer.value])){
+            editBlockAddOptionAnswer.$error = {blockAddOptionAnswerError: true};
           }
           else {
-            $scope.questionValidationMsg = '';
+            editBlockAddOptionAnswer.$error = {blockAddOptionAnswerError: false};
           }
-        };
+        }, true);
 
         // Migrate old paragraph content objects
         if ($scope.block.type === 'paragraphContent' &&

@@ -75,10 +75,13 @@
           </div>
 
           <div class="input-group spacing-above-md">
-            <input name="editBlockAddOptionAnswer.value" ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)" ng-change="validateAddOptionAnswer(editBlockAddOptionAnswer.value)">
+            <input name="editBlockAddOptionAnswer" ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
                   <span class="input-group-btn">
                     <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
                   </span>
+          </div>
+          <div ng-messages="editBlockAddOptionAnswer.$error" role="alert" class="alert-danger help-block">
+            <div ng-message="blockAddOptionAnswerError">Error: You may not use the same answer more than once for this question. Each answer needs to be unique.</div>
           </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
@@ -164,5 +167,4 @@
       </uib-tab>
     </uib-tabset>
   </div>
-  <label class="control-label text-danger"><translate>{{questionValidationMsg}}</translate></label>
 </div>
