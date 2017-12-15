@@ -24,7 +24,6 @@ angular.module('confRegistrationWebApp')
         }
 
         $scope.$watch('editBlockAddOptionAnswer', function (editBlockAddOptionAnswer) {
-          //editBlockAddOptionAnswer.value.$validators = {mustNotBeTest123: 'test123'};
           if (_.some($scope.block.content.choices, ['value', editBlockAddOptionAnswer.value])){
             editBlockAddOptionAnswer.$error = {blockAddOptionAnswerError: true};
           }
