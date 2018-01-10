@@ -87,6 +87,7 @@ angular.module('confRegistrationWebApp')
             case 'radioQuestion':
             case 'selectQuestion':
             case 'dateQuestion':
+            case 'birthDateQuestion':
               return blockDefault || '';
             case 'numberQuestion':
               return blockDefault || null;

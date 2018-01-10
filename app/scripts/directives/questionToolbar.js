@@ -154,6 +154,13 @@ angular.module('confRegistrationWebApp')
             'defaultProfile': 'YEAR_IN_SCHOOL',
             'iconClass': 'fa-graduation-cap',
             'name': 'Year in School'
+          },
+          {
+            'id': 'birthDateQuestion',
+            'defaultTitle': 'Date of Birth',
+            'defaultProfile': 'BIRTH_DATE',
+            'iconClass': 'fa-calendar',
+            'name': 'Date of Birth'
           }];
       }
     };
