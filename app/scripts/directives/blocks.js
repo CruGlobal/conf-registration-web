@@ -11,6 +11,7 @@ import genderQuestionTemplate from 'views/blocks/genderQuestion.html';
 import dateQuestionTemplate from 'views/blocks/dateQuestion.html';
 import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html';
 import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
+import campusQuestionTemplate from 'views/blocks/campusQuestion.html';
 
 angular.module('confRegistrationWebApp')
   .directive('nameQuestion', function () {
@@ -153,3 +154,18 @@ angular.module('confRegistrationWebApp')
         restrict: 'E'
       };
     });
+
+angular.module('confRegistrationWebApp')
+  .directive('campusQuestion', function () {
+    return {
+      templateUrl: campusQuestionTemplate,
+      restrict: 'E',
+      controller: function($scope, $http) {
+        $scope.searchCampuses = function(val) {
+          return $http.get('campuses/' + val).then(function(campusNames) {
+            return campusNames.data;
+          });
+        };
+      }
+    };
+  });
