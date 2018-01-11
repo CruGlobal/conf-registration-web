@@ -56,7 +56,7 @@ angular.module('confRegistrationWebApp')
         }
 
         //mapping default value to answer model for showing in front end
-        if(_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion', 'birthDateQuestion'], $scope.block.type)) {
+        if(_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion', 'birthDateQuestion', 'campusQuestion'], $scope.block.type)) {
           $scope.answer = {
             value: $scope.block.content.default
           };
@@ -64,7 +64,7 @@ angular.module('confRegistrationWebApp')
 
         $scope.$watch('answer', function (answer, oldAnswer) {
           if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) ||
-            !_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion', 'birthDateQuestion'], $scope.block.type)) {
+            !_.includes(['numberQuestion', 'dateQuestion', 'radioQuestion', 'checkboxQuestion', 'selectQuestion', 'birthDateQuestion', 'campusQuestion'], $scope.block.type)) {
             return;
           }
           $scope.block.content.default = $scope.answer.value;
@@ -91,6 +91,7 @@ angular.module('confRegistrationWebApp')
         typeToProfile.genderQuestion = 'GENDER';
         typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
         typeToProfile.birthDateQuestion = 'BIRTH_DATE';
+        typeToProfile.campusQuestion = 'CAMPUS';
 
         $scope.profileCheck = !_.isNull($scope.block.profileType);
         $scope.profileOption = _.has(typeToProfile, $scope.block.type);
