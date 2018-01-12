@@ -11,7 +11,6 @@ import genderQuestionTemplate from 'views/blocks/genderQuestion.html';
 import dateQuestionTemplate from 'views/blocks/dateQuestion.html';
 import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html';
 import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
-import birthDateQuestionTemplate from 'views/blocks/birthDateQuestion.html';
 
 angular.module('confRegistrationWebApp')
   .directive('nameQuestion', function () {
@@ -154,11 +153,3 @@ angular.module('confRegistrationWebApp')
         restrict: 'E'
       };
     });
-
-angular.module('confRegistrationWebApp')
-  .directive('birthDateQuestion', function () {
-    return {
-      templateUrl: birthDateQuestionTemplate,
-      restrict: 'E'
-    };
-  });
