@@ -168,6 +168,13 @@ angular.module('confRegistrationWebApp')
             'defaultProfile': 'CAMPUS',
             'iconClass': 'fa-graduation-cap',
             'name': 'Campus'
+          },
+          {
+            'id': 'dormitoryQuestion',
+            'defaultTitle': 'Dormitory',
+            'defaultProfile': 'DORMITORY',
+            'iconClass': 'fa-graduation-cap',
+            'name': 'Dormitory'
           }];
       }
     };
