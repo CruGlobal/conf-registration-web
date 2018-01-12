@@ -19,12 +19,13 @@ angular.module('confRegistrationWebApp')
         }
 
         function initAdminEditMode(){
-          $scope.answer = initializeAnswer(
+          const { answer, isNew } = initializeAnswer(
             $scope.adminEditRegistrant.answers,
             $scope.block,
             $scope.adminEditRegistrant.id
           );
-          $scope.adminEditRegistrant.answers.push($scope.answer);
+          $scope.answer = answer;
+          isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
 
         function initRegistrationMode(){
@@ -35,13 +36,14 @@ angular.module('confRegistrationWebApp')
             return;
           }
 
-          $scope.answer = initializeAnswer(
+          const { answer, isNew } = initializeAnswer(
             $scope.currentRegistration.registrants[registrantIndex].answers,
             $scope.block,
             registrantId,
             $scope.block.content && $scope.block.content.default
           );
-          $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+          $scope.answer = answer;
+          isNew && $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
 
           $scope.$watch('answer', function (answer, oldAnswer) {
             if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
@@ -54,11 +56,14 @@ angular.module('confRegistrationWebApp')
 
         function initializeAnswer(registrantAnswers, block, registrantId, blockDefault) {
           const currentAnswer = _.find(registrantAnswers, {'blockId': block.id});
-          return currentAnswer || {
-            id: uuid(),
-            registrantId: registrantId,
-            blockId: block.id,
-            value: getDefaultValue(block.type, blockDefault)
+          return {
+            answer: currentAnswer || {
+              id: uuid(),
+              registrantId: registrantId,
+              blockId: block.id,
+              value: getDefaultValue(block.type, blockDefault)
+            },
+            isNew: !currentAnswer
           };
         }
 
