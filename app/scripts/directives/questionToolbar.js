@@ -161,6 +161,13 @@ angular.module('confRegistrationWebApp')
             'defaultProfile': 'BIRTH_DATE',
             'iconClass': 'fa-calendar',
             'name': 'Date of Birth'
+          },
+          {
+            'id': 'campusQuestion',
+            'defaultTitle': 'Campus',
+            'defaultProfile': 'CAMPUS',
+            'iconClass': 'fa-graduation-cap',
+            'name': 'Campus'
           }];
       }
     };

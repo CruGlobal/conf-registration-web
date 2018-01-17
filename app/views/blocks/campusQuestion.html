@@ -1,0 +1,10 @@
+<div class="form-group has-feedback">
+  <input type="text" ng-model="answer.value" placeholder="" class="form-control" ng-required="block.required"
+         uib-typeahead="campus for campus in searchCampuses($viewValue)"
+         typeahead-loading="loadingCampuses"
+         typeahead-min-length="4"
+         typeahead-wait-ms="300">
+  <span class="form-control-feedback" title="Searching..." ng-if="loadingCampuses">
+      <i class="fa fa-spinner fa-spin"></i>
+    </span>
+</div>
