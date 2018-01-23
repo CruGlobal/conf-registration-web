@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
         if(event.dest.nodesScope.$nodeScope){ //prevents error from dropping on source tree
           var block = event.source.nodeScope.$modelValue;
           var pageId = event.dest.nodesScope.$nodeScope.$modelValue.id;
-          $scope.insertBlock(block.id, pageId, event.dest.index, block.defaultTitle);
+          $scope.insertBlock(block.id, pageId, event.dest.index, block.defaultTitle, block.defaultProfile);
         }
         return false; //cancel regular drop action
       }
