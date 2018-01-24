@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp')
         }
 
         $scope.getSelectedCheckboxes = function (choices) {
-          return _.keys(_.pick(choices, function (val) {
+          return _.keys(_.pickBy(choices, function (val) {
             return val === true;
           }));
         };
