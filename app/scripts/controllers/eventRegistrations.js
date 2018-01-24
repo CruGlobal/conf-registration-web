@@ -184,7 +184,7 @@ angular.module('confRegistrationWebApp')
         if(_.isObject(answerValue)){
           var blockType = _.find($scope.blocks, { 'id': orderBy }).type;
           if(blockType === 'checkboxQuestion'){
-            return _.keys(_.pick(answerValue, function(val){ return val; })).join();
+            return _.keys(_.pickBy(answerValue, function(val){ return val; })).join();
           }else{
             return _.values(answerValue).join();
           }
