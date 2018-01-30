@@ -186,7 +186,7 @@ angular.module('confRegistrationWebApp')
         var questions = _(childRules).map(function(rule){
           var block = _.find(allBlocks, {'id': rule.blockId});
           return '<li>' + $sanitize(block.title) + '</li>';
-        }).unique().value();
+        }).uniq().value();
         var pluralize = 'question has';
         if(questions.length > 1){
           pluralize = 'questions have';
