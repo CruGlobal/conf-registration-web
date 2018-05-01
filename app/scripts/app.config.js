@@ -241,15 +241,23 @@ angular.module('confRegistrationWebApp')
               $cookies.put('crsAuthProviderType', '');
               $cookies.put('crsToken', $route.current.params.token);
               $rootScope.crsToken = $cookies.get('crsToken');
-              ProfileCache.getCache().then(function (data) {
-                $cookies.put('crsAuthProviderType', data.authProviderType);
-                if(angular.isDefined($cookies.get('regType'))) {
-                  $location.path($cookies.get('intendedRoute') || '/').search('regType', $cookies.get('regType')).replace();
-                  $cookies.remove('regType');
-                } else {
-                  $location.path($cookies.get('intendedRoute') || '/').replace();
-                }
-              });
+              ProfileCache.getCache()
+                .then(function (data) {
+                  $cookies.put('crsAuthProviderType', data.authProviderType);
+                })
+                .catch(() => {
+                  $cookies.remove('crsToken');
+                  $cookies.remove('crsToken', { domain: 'eventregistrationtool.com'} );
+                  $cookies.remove('crsToken', { domain: 'www.eventregistrationtool.com'} );
+                })
+                .finally(() => {
+                  if(angular.isDefined($cookies.get('regType'))) {
+                    $location.path($cookies.get('intendedRoute') || '/').search('regType', $cookies.get('regType')).replace();
+                    $cookies.remove('regType');
+                  } else {
+                    $location.path($cookies.get('intendedRoute') || '/').replace();
+                  }
+                });
             }
           ]
         }
