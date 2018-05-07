@@ -12,7 +12,7 @@ import helpTemplate from 'views/help.html';
 import privacyTemplate from 'views/privacy.html';
 
 angular.module('confRegistrationWebApp')
-  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider, $cookiesProvider, gettext) {
+  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider, gettext) {
     $locationProvider.html5Mode(true).hashPrefix('');
     $httpProvider.useApplyAsync(true);
     $qProvider.errorOnUnhandledRejections(false);
@@ -32,26 +32,21 @@ angular.module('confRegistrationWebApp')
       vars: {
         development: {
           apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'staging',
-          cookieDomain: 'localhost'
+          tsysEnvironment: 'staging'
         },
         staging: {
           apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production',
-          cookieDomain: 'stage.eventregistrationtool.com'
+          tsysEnvironment: 'production'
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production',
-          cookieDomain: 'eventregistrationtool.com'
+          tsysEnvironment: 'production'
         }
       }
     });
 
     // Determine which environment we are running in
     envServiceProvider.check();
-
-    $cookiesProvider.defaults.domain = envServiceProvider.read('cookieDomain');
 
     if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
       $compileProvider.debugInfoEnabled(false);
