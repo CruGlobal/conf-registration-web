@@ -9,7 +9,6 @@ import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
 import helpTemplate from 'views/help.html';
-import privacyTemplate from 'views/privacy.html';
 
 angular.module('confRegistrationWebApp')
   .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider, gettext) {
@@ -284,11 +283,6 @@ angular.module('confRegistrationWebApp')
       .when('/help', {
         title: gettext('Help'),
         templateUrl: helpTemplate,
-        controller: 'helpCtrl'
-      })
-      .when('/privacy', {
-        title: gettext('Privacy'),
-        templateUrl: privacyTemplate,
         controller: 'helpCtrl'
       })
       .otherwise({
