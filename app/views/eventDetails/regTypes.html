@@ -61,7 +61,7 @@
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
               </div>
 
-              <h4 translate>Family Registration</h4>
+              <h4 translate>Group Registration</h4>
               <div class="radio">
                 <label>
                   <input type="radio" ng-model="type.familyStatus" value="DISABLED"  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
@@ -79,7 +79,7 @@
                   <translate>Yes - Primary</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration.' | translate}}"
+                   uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse, child, student) to the registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
@@ -90,7 +90,7 @@
                   <translate>Yes - Dependent</translate>
                 </label>
                 <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Family Registrations\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>

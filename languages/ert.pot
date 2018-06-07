@@ -122,7 +122,7 @@ msgid "Add User"
 msgstr ""
 
 #: ./app/views/reviewRegistration.html:76
-msgid "Add a Family Member"
+msgid "Add a Group Member"
 msgstr ""
 
 #: ./app/views/modals/addRegistrantType.html:6
@@ -440,7 +440,7 @@ msgid "Combine spouse registrations"
 msgstr ""
 
 #: ./app/views/eventDetails/regOptions.html:43
-msgid "Combining spouse registrations will force a husband and wife to be on the same family registration instead of on two separate registrations. Note that the first spouse must register as a registrant type that allows family members for this option to have any effect."
+msgid "Combining spouse registrations will force a husband and wife to be on the same group registration instead of on two separate registrations. Note that the first spouse must register as a registrant type that allows group members for this option to have any effect."
 msgstr ""
 
 #: ./app/views/eventRegistrations.html:164
@@ -813,7 +813,7 @@ msgid "Export Title"
 msgstr ""
 
 #: ./app/views/eventDetails/regTypes.html:64
-msgid "Family Registration"
+msgid "Group Registration"
 msgstr ""
 
 #: ./app/views/components/rule.html:47
@@ -1984,7 +1984,7 @@ msgid "This event does not contain any promotions."
 msgstr ""
 
 #: ./app/views/eventDetails/regOptions.html:32
-msgid "This includes editing answers and adding family members."
+msgid "This includes editing answers and adding group members."
 msgstr ""
 
 #: ./app/views/eventDetails/contactInfo.html:2
@@ -2165,7 +2165,7 @@ msgid "West Virginia"
 msgstr ""
 
 #: ./app/views/eventDetails/regTypes.html:82
-msgid "When selected, the user will be permitted to add more registrants (e.g. a spouse or child) to the registration."
+msgid "When selected, the user will be permitted to add more registrants (e.g. a spouse, child, student) to the registration."
 msgstr ""
 
 #: ./app/views/eventDetails/regTypes.html:71
@@ -2173,7 +2173,7 @@ msgid "When selected, the user will not be given the option to add more people t
 msgstr ""
 
 #: ./app/views/eventDetails/regTypes.html:93
-msgid "When selected, this type will not become available until at least one registrant which has 'Family Registrations' set to 'Yes - Primary' has been added to the registration."
+msgid "When selected, this type will not become available until at least one registrant which has 'Group Registration' set to 'Yes - Primary' has been added to the registration."
 msgstr ""
 
 #: ./app/views/eventDetails/paymentOptions.html:119
