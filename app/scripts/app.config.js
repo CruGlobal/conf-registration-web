@@ -272,7 +272,7 @@ angular.module('confRegistrationWebApp')
               // if relay, then then redirect to the Relay logout URL
               if ($cookies.get('crsAuthProviderType') === 'RELAY') {
                 var serviceUrl = $location.absUrl().replace('logout', '');
-                $window.location.href = 'https://signin.cru.org/cas/logout?service=' + serviceUrl;
+                $window.location.href = 'https://signon.cru.org/cas/logout?service=' + serviceUrl;
               }
               $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
