@@ -103,6 +103,7 @@ angular.module('confRegistrationWebApp')
       //Initally display (true) or not display (false) built in columns
       $scope.builtInColumnsVisible = {
         Email: true,
+        GroupId: false,
         Started: true,
         Completed: true
       };
