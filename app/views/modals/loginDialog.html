@@ -12,11 +12,11 @@
       Please sign in with one of the following services:
     </p>
     <div class="row">
-      <div class="col-sm-5 col-sm-offset-1">
+      <div ng-if="allowFacebookLogin" class="col-sm-5 col-sm-offset-1">
         <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/facebook/authorization" title="Facebook"><img src="../../img/signin-facebook.png"></a>
         <a href="https://www.facebook.com/r.php" target="_blank" translate>Create a Facebook account</a>
       </div>
-      <div class="col-sm-5">
+      <div class="{{allowFacebookLogin ? 'col-sm-5' : 'col-sm-6 col-sm-offset-3'}}">
         <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout" title="Relay"><img src="../../img/signin-relay.png"></a>
         <a href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout" target="_blank" translate>Create a Relay account</a>
       </div>

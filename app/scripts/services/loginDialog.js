@@ -1,12 +1,13 @@
 import template from 'views/modals/loginDialog.html';
 
 angular.module('confRegistrationWebApp').service('loginDialog', function ($injector) {
-  this.show = function (status401) {
+  this.show = function (options) {
     var loginDialogOptions = {
       templateUrl: template,
       controller: /*@ngInject*/ function ($scope, $uibModalInstance, $location, envService) {
         $scope.apiUrl = envService.read('apiUrl');
-        $scope.status401 = status401;
+        $scope.status401 = options.status401;
+        $scope.allowFacebookLogin = options.allowFacebookLogin === undefined ? true : options.allowFacebookLogin;
 
         $scope.gotoRoute = function (path) {
           $uibModalInstance.dismiss();

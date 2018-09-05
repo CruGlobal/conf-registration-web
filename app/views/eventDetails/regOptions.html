@@ -23,6 +23,12 @@
          popover-append-to-body="true">
       </i>
     </div>
+    <div class="checkbox">
+      <label ng-class="{'text-muted': !conference.requireLogin}">
+        <input type="checkbox" ng-model="conference.allowFacebookLogin" ng-disabled="!conference.requireLogin">
+        <translate>Allow Facebook sign in to register</translate>
+      </label>
+    </div>
 
     <div class="checkbox">
       <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">

@@ -43,13 +43,13 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     if (nextRouteAllowsNoneAuth && nextRouteEventId) {
       ConfCache.get(nextRouteEventId).then(function (conference) {
         if (conference.requireLogin) {
-          loginDialog.show();
+          loginDialog.show({allowFacebookLogin: conference.allowFacebookLogin});
         } else {
           $window.location.href = envService.read('apiUrl') + 'auth/none/login';
         }
       });
     } else {
-      loginDialog.show(angular.isDefined(crsToken));
+      loginDialog.show({status401: angular.isDefined(crsToken)});
     }
   });
 

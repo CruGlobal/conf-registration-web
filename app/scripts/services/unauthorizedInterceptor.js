@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp')
           if($cookies.get('crsAuthProviderType') === 'NONE') {
             $window.location.href = envService.read('apiUrl') + 'auth/none/login';
           }else{
-            loginDialog.show(true);
+            loginDialog.show({status401: true});
           }
         }
         return $q.reject(rejection);
