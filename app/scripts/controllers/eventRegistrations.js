@@ -175,6 +175,8 @@ angular.module('confRegistrationWebApp')
         return registrant.email;
       }else if(orderBy === 'checked_in_timestamp') {
         return registrant.checkedInTimestamp;
+      }else if(orderBy === 'group_id') {
+        return registrant.groupId;
       }else{
         var answerValue = findAnswer(registrant, orderBy);
         if(angular.isUndefined(answerValue)){
