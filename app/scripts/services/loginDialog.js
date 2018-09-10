@@ -7,7 +7,8 @@ angular.module('confRegistrationWebApp').service('loginDialog', function ($injec
       controller: /*@ngInject*/ function ($scope, $uibModalInstance, $location, envService) {
         $scope.apiUrl = envService.read('apiUrl');
         $scope.status401 = options.status401;
-        $scope.allowFacebookLogin = options.allowFacebookLogin === undefined ? true : options.allowFacebookLogin;
+        $scope.relayLogin = options.relayLogin === undefined ? true : options.relayLogin;
+        $scope.facebookLogin = options.facebookLogin === undefined ? true : options.facebookLogin;
 
         $scope.gotoRoute = function (path) {
           $uibModalInstance.dismiss();

@@ -12,22 +12,28 @@
 
 <div class="form-group">
   <div class="col-xs-12">
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="conference.requireLogin">
-        <translate>Require Relay or Facebook sign in to register</translate>
-      </label>
+    <div>
+      <translate>Require Relay or Facebook sign in to register</translate>
       <i class="question-popover fa fa-question-circle"
          uib-popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
          popover-trigger="mouseenter"
          popover-append-to-body="true">
       </i>
     </div>
-    <div class="checkbox">
-      <label ng-class="{'text-muted': !conference.requireLogin}">
-        <input type="checkbox" ng-model="conference.allowFacebookLogin" ng-disabled="!conference.requireLogin">
-        <translate>Allow Facebook sign in to register</translate>
-      </label>
+    <div class="margin-left-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="conference.relayLogin">
+          <translate>Relay</translate>
+        </label>
+      </div>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="conference.facebookLogin">
+          <translate>Facebook</translate>
+        </label>
+      </div>
     </div>
 
     <div class="checkbox">
