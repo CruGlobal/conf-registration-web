@@ -152,6 +152,22 @@
           </div>
           <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> <translate>This question must be shown for all registrant types.</translate></p>
         </div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="dateDependent" ng-change="toggleDateDependent(dateDependent)">
+            <translate>Date Dependent</translate>
+          </label>
+        </div>
+
+        <div class="form-group" ng-if="dateDependent">
+          <label class="inline-label" translate>Start Date Question</label>
+          <select ng-model="block.startDateBlockId" ng-options="block.id as block.title for block in dateBlocks()" class="form-control"></select>
+
+          <label class="inline-label" translate>End Date Question</label>
+          <select ng-model="block.endDateBlockId" ng-options="block.id as block.title for block in dateBlocks()" class="form-control"></select>
+        </div>
+
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
           <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">

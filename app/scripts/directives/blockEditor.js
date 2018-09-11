@@ -14,6 +14,7 @@ angular.module('confRegistrationWebApp')
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
         $scope.editBlockAddOptionAnswer = { value: '' };
+        $scope.dateDependent = ($scope.block.startDateBlockId !== null || $scope.block.endDateBlockId !== null);
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -239,6 +240,33 @@ angular.module('confRegistrationWebApp')
           } else {
             return false;
           }
+        };
+
+        $scope.toggleDateDependent = function (value){
+          if(!value){
+            $scope.block.startDateBlockId = null;
+            $scope.block.endDateBlockId = null;
+          }
+        };
+
+        $scope.dateBlocks = function () {
+          var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
+          //remove blocks after current block
+          var remove = false;
+          _.remove(blocks, function (b) {
+            if (b.id === $scope.block.id) {
+              remove = true;
+            }
+            return remove;
+          });
+
+          var questionTypes = ['dateQuestion'];
+
+          blocks = _.filter(blocks, function (b) {
+            return _.includes(questionTypes, b.type);
+          });
+
+          return blocks;
         };
 
       }
