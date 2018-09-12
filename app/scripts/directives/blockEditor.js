@@ -104,6 +104,7 @@ angular.module('confRegistrationWebApp')
         var notNameOrEmail = !_.includes(['NAME', 'EMAIL'], $scope.block.profileType);
         $scope.canDelete = notNameOrEmail;
         $scope.canHaveRules = notNameOrEmail;
+        $scope.canHaveAnswerRules = notNameOrEmail && $scope.hasOptions;
         $scope.canChangeRegTypes = notName;
         $scope.expenseTypesConstants = expenseTypesConstants;
         $scope.canBeDateDependent = $scope.hasOptions;
@@ -272,6 +273,10 @@ angular.module('confRegistrationWebApp')
           });
 
           return blocks;
+        };
+
+        $scope.choiceVisible = function () {
+          return true;
         };
 
       }

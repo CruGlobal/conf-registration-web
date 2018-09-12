@@ -125,6 +125,14 @@ angular.module('confRegistrationWebApp')
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           return validateRegistrant.blockVisible(block, registrant);
         };
+        
+        $scope.choiceVisible = function (block, choice) {
+          if (angular.isUndefined(choice) || angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
+            return false;
+          }
+          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          return validateRegistrant.choiceVisible(block, choice, registrant);
+        };
 
         //Check if the checkbox matches force selection rules
         $scope.checkForceRule = function(block){
