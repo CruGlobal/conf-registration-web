@@ -35,5 +35,5 @@ angular.module('confRegistrationWebApp')
 
       if (days === 0) return 1;
       return (days > 0 ? days : days * -1);
-    }
+    };
   });
