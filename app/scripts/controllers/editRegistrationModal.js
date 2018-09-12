@@ -6,6 +6,7 @@ angular.module('confRegistrationWebApp')
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
     var originalRegistrantObject = angular.copy($scope.adminEditRegistrant);
     $scope.saving = false;
+    $scope.days = 1;
 
     $scope.close = function () {
       $uibModalInstance.dismiss();

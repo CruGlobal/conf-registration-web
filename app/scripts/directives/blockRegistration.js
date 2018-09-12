@@ -1,7 +1,7 @@
 import template from 'views/components/blockRegistration.html';
 
 angular.module('confRegistrationWebApp')
-  .directive('blockRegistration', function () {
+  .directive('blockRegistration', function (DateRangeService) {
     return {
       templateUrl: template,
       restrict: 'A',
@@ -52,6 +52,24 @@ angular.module('confRegistrationWebApp')
 
             RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
           }, true);
+
+          $scope.days = 1;
+          if ($scope.block.startDateBlockId !== null) {
+            DateRangeService.subscribe($scope.block.startDateBlockId, startDateChangeCallback);
+          }
+          if ($scope.block.endDateBlockId !== null) {
+            DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
+          }
+        }
+
+        function startDateChangeCallback(value) {
+          $scope.startDate = value;
+          $scope.days = DateRangeService.calculateDateRange($scope.startDate, $scope.endDate);
+        }
+
+        function endDateChangeCallback(value) {
+          $scope.endDate = value;
+          $scope.days = DateRangeService.calculateDateRange($scope.startDate, $scope.endDate);
         }
 
         function initializeAnswer(registrantAnswers, block, registrantId, blockDefault) {

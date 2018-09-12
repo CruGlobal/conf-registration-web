@@ -14,6 +14,7 @@ angular.module('confRegistrationWebApp')
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
         $scope.editBlockAddOptionAnswer = { value: '' };
+        $scope.days = 1;
         $scope.dateDependent = ($scope.block.startDateBlockId !== null || $scope.block.endDateBlockId !== null);
 
         $scope.popup = {

@@ -60,6 +60,7 @@ import 'scripts/services/authorizationInterceptor.js';
 import 'scripts/services/ConfCache.js';
 import 'scripts/services/constants.js';
 import 'scripts/services/currentRegistrationInterceptor.js';
+import 'scripts/services/DateRangeService.js';
 import 'scripts/services/error.js';
 import 'scripts/services/growlService.js';
 import 'scripts/services/httpReturnStatusInterceptor.js';

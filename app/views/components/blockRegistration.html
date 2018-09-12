@@ -6,11 +6,11 @@
     <p ng-switch-when="paragraphContent" ng-if="isString(block.content)" ng-bind-html="block.content" class="display-linebreaks"></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
     <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
-    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
+    <radio-question block="block" days="days" ng-switch-when="radioQuestion"></radio-question>
+    <checkbox-question block="block" days="days" ng-switch-when="checkboxQuestion"></checkbox-question>
     <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
     <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+    <select-question block="block" days="days" ng-switch-when="selectQuestion"></select-question>
     <name-question block="block" ng-switch-when="nameQuestion"></name-question>
     <address-question block="block" ng-switch-when="addressQuestion"></address-question>
     <number-question block="block" ng-switch-when="numberQuestion"></number-question>
