@@ -13,7 +13,7 @@ angular.module('confRegistrationWebApp')
         $scope.showClearBtn = true;
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
-        $scope.editBlockAddOptionAnswer = { value: '' };
+        $scope.editBlockAddOptionAnswer = { value: ''};
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -22,6 +22,15 @@ angular.module('confRegistrationWebApp')
         if(!$scope.answer){
           $scope.answer = {};
         }
+
+        $scope.$watch('editBlockAddOptionAnswer', function (editBlockAddOptionAnswer) {
+          if (_.some($scope.block.content.choices, ['value', editBlockAddOptionAnswer.value])){
+            editBlockAddOptionAnswer.$error = {blockAddOptionAnswerError: true};
+          }
+          else {
+            editBlockAddOptionAnswer.$error = {blockAddOptionAnswerError: false};
+          }
+        }, true);
 
         // Migrate old paragraph content objects
         if ($scope.block.type === 'paragraphContent' &&

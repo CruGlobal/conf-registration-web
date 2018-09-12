@@ -5,6 +5,7 @@ import ngSanitize from 'angular-sanitize';
 
 import ngEnvironment from 'angular-environment';
 import ngGettext from 'angular-gettext';
+import ngMessages from 'angular-messages';
 import uiBootstrap from 'angular-ui-bootstrap';
 import 'bootstrap-sass/assets/javascripts/bootstrap/affix.js';
 import 'bootstrap-sass/assets/javascripts/bootstrap/collapse.js';
@@ -31,6 +32,7 @@ export default angular.module('confRegistrationWebApp', [
   ngSanitize,
   ngEnvironment,
   ngGettext,
+  ngMessages,
   uiBootstrap,
   uiTree,
   'wysiwyg.module'

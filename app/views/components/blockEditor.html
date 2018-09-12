@@ -77,12 +77,15 @@
             </div>
           </div>
 
-          <div class="input-group spacing-above-md">
-            <input ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
-                  </span>
-          </div>
+            <div class="input-group spacing-above-md">
+              <input ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
+                    </span>
+            </div>
+            <div ng-messages="editBlockAddOptionAnswer.$error" role="alert" class="alert-danger">
+              <div ng-message="blockAddOptionAnswerError"><translate>Error: You may not use the same answer more than once for this question. Each answer needs to be unique.</translate></div>
+            </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
             <label><input type="checkbox" ng-model="block.content.otherOption.enabled"> <translate>Allow custom "other" option</translate></label>
