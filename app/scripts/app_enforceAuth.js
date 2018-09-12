@@ -42,7 +42,7 @@ angular.module('confRegistrationWebApp').run(function ($rootScope, $cookies, $wi
     event.preventDefault();
     if (nextRouteAllowsNoneAuth && nextRouteEventId) {
       ConfCache.get(nextRouteEventId).then(function (conference) {
-        if (conference.requireLogin) {
+        if (conference.relayLogin || conference.facebookLogin) {
           loginDialog.show({relayLogin: conference.relayLogin, facebookLogin: conference.facebookLogin});
         } else {
           $window.location.href = envService.read('apiUrl') + 'auth/none/login';
