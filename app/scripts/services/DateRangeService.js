@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
 
       subscribed[emitter].push(callback);
 
-      if (!angular.isUndefined(cache[emitter])) {
+      if (angular.isDefined(cache[emitter])) {
         callback(cache[emitter]);
       }
     };

@@ -14,8 +14,7 @@ angular.module('confRegistrationWebApp')
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
         $scope.editBlockAddOptionAnswer = { value: '' };
-        $scope.days = 1;
-        $scope.dateDependent = ($scope.block.startDateBlockId !== null || $scope.block.endDateBlockId !== null);
+        $scope.dateDependent = (angular.isDefined($scope.block.startDateBlockId) && $scope.block.startDateBlockId !== null) || (angular.isDefined($scope.block.endDateBlockId) && $scope.block.endDateBlockId !== null);
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -241,6 +240,10 @@ angular.module('confRegistrationWebApp')
           } else {
             return false;
           }
+        };
+
+        $scope.daysForBlock = function () {
+          return 1;
         };
 
         $scope.toggleDateDependent = function (value){

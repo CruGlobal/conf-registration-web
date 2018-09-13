@@ -16,6 +16,14 @@ angular.module('confRegistrationWebApp')
           } else {
             initRegistrationMode();
           }
+
+          $scope.days = 1;
+          if ($scope.block.startDateBlockId !== null) {
+            DateRangeService.subscribe($scope.block.startDateBlockId, startDateChangeCallback);
+          }
+          if ($scope.block.endDateBlockId !== null) {
+            DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
+          }
         }
 
         function initAdminEditMode(){
@@ -52,14 +60,6 @@ angular.module('confRegistrationWebApp')
 
             RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
           }, true);
-
-          $scope.days = 1;
-          if ($scope.block.startDateBlockId !== null) {
-            DateRangeService.subscribe($scope.block.startDateBlockId, startDateChangeCallback);
-          }
-          if ($scope.block.endDateBlockId !== null) {
-            DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
-          }
         }
 
         function startDateChangeCallback(value) {
@@ -113,6 +113,10 @@ angular.module('confRegistrationWebApp')
               return '';
           }
         }
+
+        $scope.daysForBlock = function () {
+          return $scope.days;
+        };
 
         $scope.blockVisible = function (block) {
           if (angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {

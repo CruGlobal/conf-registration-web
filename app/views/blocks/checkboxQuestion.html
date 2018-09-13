@@ -10,7 +10,7 @@
             ng-disabled="block.content.forceSelections[choice.value] == true && (checkForceRule(block,'') || isAdmin)"
             ng-value="true"> <strong>{{choice.value}}</strong>
       <span ng-show="choice.desc" class="display-linebreaks"> - {{choice.desc}}</span>
-      <span ng-show="choice.amount"> - {{days * choice.amount | currency:'$'}}</span>
+      <span ng-show="choice.amount"> - {{daysForBlock() * choice.amount | currency:'$'}}</span>
     </label>
   </div>
   <div class="checkbox checkbox-horizontal" ng-if="answer.value[choice.value] && isAdmin" ng-class="{'col-sm-4 col-xs-4':answer.value[choice.value] && isAdmin}">

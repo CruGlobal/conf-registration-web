@@ -9,7 +9,7 @@
            ng-value="choice.value">
     <strong>{{choice.value}}</strong>
     <span ng-show="choice.desc" class="display-linebreaks"> - {{choice.desc}}</span>
-    <span ng-show="choice.amount"> - {{days * choice.amount | currency:'$'}}</span>
+    <span ng-show="choice.amount"> - {{daysForBlock() * choice.amount | currency:'$'}}</span>
   </label>
 </div>
 <label ng-if="showClearBtn && block.content.choices.length > 0 && answer.value != ''">
