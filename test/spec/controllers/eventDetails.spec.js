@@ -24,8 +24,10 @@ describe('Controller: paymentModal', function () {
     spyOn($uibModal, 'open').and.returnValue(fakeModal);
   }));
 
-  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, testData) {
+  var testData;
+  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, _testData_) {
 
+    testData = _testData_;
     scope = $rootScope.$new();
 
     $controller('eventDetailsCtrl', {
@@ -61,5 +63,9 @@ describe('Controller: paymentModal', function () {
 
   it('anyPaymentMethodAccepted should be true', function () {
     expect(scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0])).toBe(true);
+  });
+
+  it('getPaymentGatewayType should return the conference\'s paymentGatewayType', function () {
+    expect(scope.getPaymentGatewayType()).toBe(testData.conference.paymentGatewayType);
   });
 });
