@@ -1,6 +1,10 @@
 
 angular.module('confRegistrationWebApp')
   .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $route, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
+    if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
+      modalMessage.error($rootScope.currentRegistrationErrorMessage);
+    }
+
     $rootScope.globalPage = {
       type: 'registration',
       mainClass: 'container front-form',

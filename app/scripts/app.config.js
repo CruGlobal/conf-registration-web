@@ -77,15 +77,20 @@ angular.module('confRegistrationWebApp')
           conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          currentRegistration: function ($route, $q, $location, RegistrationCache) {
+          currentRegistration: function ($route, $q, $location, $rootScope, RegistrationCache) {
             var q = $q.defer();
-            RegistrationCache.getCurrent($route.current.params.conferenceId).then(function(registration){
-              if(registration.completed && angular.isUndefined($route.current.params.pageId)){
-                $location.path('/reviewRegistration/' + $route.current.params.conferenceId);
-              }else{
-                q.resolve(registration);
-              }
-            });
+            RegistrationCache.getCurrent($route.current.params.conferenceId)
+              .then(function(registration){
+                if(registration.completed && angular.isUndefined($route.current.params.pageId)){
+                  $location.path('/reviewRegistration/' + $route.current.params.conferenceId);
+                }else{
+                  q.resolve(registration);
+                }
+              })
+              .catch(function (error) {
+                $rootScope.currentRegistrationErrorMessage = error;
+                q.resolve(null);
+              });
             return q.promise;
           }
         }

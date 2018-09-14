@@ -11,16 +11,26 @@ angular.module('confRegistrationWebApp')
       $rootScope.$broadcast(path, object);
     };
 
-    var checkCache = function (path, callback) {
+    var checkCache = function (path, callback, catchErrors) {
       var cachedObject = cache.get(path);
       if (angular.isDefined(cachedObject)) {
         callback(cachedObject, path);
       } else {
-        $http.get(path).then(function (response) {
-          var data = response.data;
-          update(path, data);
-          callback(data, path);
-        });
+        $http.get(path)
+          .then(function (response) {
+            var data = response.data;
+            update(path, data);
+            callback(data, path);
+          })
+          .catch(function (response) {
+            const errorMessage = response.data && response.data.error ? response.data.error.message : 'An error occurred while creating registration.';
+
+            if (catchErrors) {
+              callback(null, path, errorMessage);
+            } else {
+              throw errorMessage;
+            }
+          });
       }
     };
 
@@ -67,7 +77,9 @@ angular.module('confRegistrationWebApp')
     this.getCurrent = function (conferenceId) {
       var defer = $q.defer();
 
-      checkCache('conferences/' + conferenceId + '/registrations/current', function (registration) {
+      checkCache('conferences/' + conferenceId + '/registrations/current', function (registration, _path_, error) {
+        if (registration === null) defer.reject(error);
+
         if ($rootScope.registerMode === 'preview') {
           if(angular.isUndefined($rootScope.previewRegCache)){
             registration.completed = false;
@@ -79,7 +91,7 @@ angular.module('confRegistrationWebApp')
         }
         update(path(registration.id), registration);
         defer.resolve(registration);
-      });
+      }, true);
 
       return defer.promise;
     };
