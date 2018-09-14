@@ -14,6 +14,7 @@ angular.module('confRegistrationWebApp')
         $scope.isAdmin = true;
         $scope.ruleTypeConstants = ruleTypeConstants;
         $scope.editBlockAddOptionAnswer = { value: '' };
+        $scope.dateDependent = (angular.isDefined($scope.block.startDateBlockId) && $scope.block.startDateBlockId !== null) || (angular.isDefined($scope.block.endDateBlockId) && $scope.block.endDateBlockId !== null);
 
         $scope.popup = {
           titleTemplateUrl: popupHyperlinkInformationTemplate
@@ -105,6 +106,7 @@ angular.module('confRegistrationWebApp')
         $scope.canHaveRules = notNameOrEmail;
         $scope.canChangeRegTypes = notName;
         $scope.expenseTypesConstants = expenseTypesConstants;
+        $scope.canBeDateDependent = $scope.hasOptions;
 
         $scope.toggleBlockEdit = function (selectTab){
           $scope.activeTab = {};
@@ -239,6 +241,37 @@ angular.module('confRegistrationWebApp')
           } else {
             return false;
           }
+        };
+
+        $scope.daysForBlock = function () {
+          return 1;
+        };
+
+        $scope.toggleDateDependent = function (value){
+          if(!value){
+            $scope.block.startDateBlockId = null;
+            $scope.block.endDateBlockId = null;
+          }
+        };
+
+        $scope.dateBlocks = function () {
+          var blocks = _.flatten(_.map($scope.conference.registrationPages, 'blocks'));
+          //remove blocks after current block
+          var remove = false;
+          _.remove(blocks, function (b) {
+            if (b.id === $scope.block.id) {
+              remove = true;
+            }
+            return remove;
+          });
+
+          var questionTypes = ['dateQuestion'];
+
+          blocks = _.filter(blocks, function (b) {
+            return _.includes(questionTypes, b.type);
+          });
+
+          return blocks;
         };
 
       }

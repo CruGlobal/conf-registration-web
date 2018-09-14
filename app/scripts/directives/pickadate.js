@@ -2,12 +2,13 @@ import moment from 'moment';
 import template from 'views/components/pickadate.html';
 
 angular.module('confRegistrationWebApp')
-  .directive('pickADate', function() {
+  .directive('pickADate', function(DateRangeService) {
     return {
       templateUrl: template,
       restrict: 'E',
       require: 'ngModel',
       scope: {
+        'block': '=block',
         'disabled': '=pickerDisabled',
         'minDate':'=?pickerMinDate',
         'maxDate':'=?pickerMaxDate'
@@ -106,8 +107,14 @@ angular.module('confRegistrationWebApp')
 
         //when date is chosen, update model
         var onSet = function(){
-            ngModelController.$setViewValue(scope.picker.get('select', 'yyyy-mm-dd'));
+            const value = scope.picker.get('select', 'yyyy-mm-dd');
+
+            ngModelController.$setViewValue(value);
             ngModelController.$setTouched();
+
+            if (angular.isDefined(scope.block)) {
+              DateRangeService.emitChange(scope.block.id, value);
+            }
         };
         scope.picker.on('set', onSet);
 

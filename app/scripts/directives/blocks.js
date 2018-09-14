@@ -101,12 +101,12 @@ angular.module('confRegistrationWebApp')
       templateUrl: selectQuestionTemplate,
       restrict: 'E',
       controller: function($scope, $filter){
-        $scope.$watch('block', function() {
+        $scope.$watchGroup(['block', 'days'], function() {
           $scope.visibleValues = [];
           angular.forEach($scope.block.content.choices, function(c){
             var visibleValue = c.value;
             if(c.amount){
-              visibleValue = visibleValue + ' - ' + $filter('currency')(c.amount, '$');
+              visibleValue = visibleValue + ' - ' + $filter('currency')($scope.daysForBlock() * c.amount, '$');
             }
             $scope.visibleValues.push(visibleValue);
           });
