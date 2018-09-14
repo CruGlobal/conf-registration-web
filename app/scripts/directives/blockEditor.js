@@ -106,6 +106,7 @@ angular.module('confRegistrationWebApp')
         $scope.canHaveRules = notNameOrEmail;
         $scope.canChangeRegTypes = notName;
         $scope.expenseTypesConstants = expenseTypesConstants;
+        $scope.canBeDateDependent = $scope.hasOptions;
 
         $scope.toggleBlockEdit = function (selectTab){
           $scope.activeTab = {};
