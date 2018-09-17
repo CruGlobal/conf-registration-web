@@ -59,6 +59,60 @@ angular.module('confRegistrationWebApp')
         (ruleOperand === 'AND' && validRuleCount === blockTypeSpecificRules.length);
     };
 
+    var choiceVisibleRuleCheck = function(block, choice, registrant, ruleType){
+      var answers = registrant.answers;
+      var ruleOperand = '';
+      var validRuleCount = 0;
+      var blockTypeSpecificRules = [];
+
+      if (ruleType === ruleTypeConstants.SHOW_OPTION) {
+        blockTypeSpecificRules = _.filter(block.rules, { 'ruleType': ruleType, 'blockEntityOption': choice.value });
+        ruleOperand = 'OR';
+      } else {
+        if($window.Rollbar){
+          $window.Rollbar.error('choiceVisibleRuleCheck was called with an unknown rule type: ', ruleType);
+        }
+        ruleOperand = 'AND';
+      }
+
+      if($window.Rollbar && !_.isArray(blockTypeSpecificRules)) {
+        $window.Rollbar.info('Block rules value in blockVisibleRuleCheck, ruleType: ' + ruleType + ', typeof: ' + typeof(blockTypeSpecificRules) + ', JSON.stringify: ' + JSON.stringify(blockTypeSpecificRules));
+      }
+
+      _.forEach(blockTypeSpecificRules, function (rule, i) {
+        var answer = _.find(answers, { blockId: rule.parentBlockId });
+        if (angular.isDefined(answer) && answer.value !== '') {
+          var answerValue;
+          var ruleValue;
+          if (angular.isObject(answer.value)) {//answer of checkboxquestion will be an object
+            answerValue = angular.isDefined(answer.value[rule.value]) ? answer.value[rule.value] : false;
+            ruleValue = true;
+          } else {
+            //If string is a number, parse it as a float for numerical comparison
+            answerValue = !isNaN(answer.value) ? parseFloat(answer.value) : answer.value;
+            ruleValue = !isNaN(rule.value) ? parseFloat(rule.value) : rule.value;
+          }
+
+          if (rule.operator === '=' && answerValue === ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '!=' && answerValue !== ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '>' && answerValue > ruleValue) {
+            validRuleCount++;
+          } else if (rule.operator === '<' && answerValue < ruleValue) {
+            validRuleCount++;
+          }
+        }
+        if ((ruleOperand === 'OR' && validRuleCount > 0) || (ruleOperand === 'AND' && validRuleCount <= i)) {
+          return false; // Exit lodash foreach as we found a case which determines the whole outcome of this function
+        }
+      });
+
+      return !blockTypeSpecificRules || blockTypeSpecificRules.length === 0 || // If no rules are set
+        (ruleOperand === 'OR' && validRuleCount > 0) ||
+        (ruleOperand === 'AND' && validRuleCount === blockTypeSpecificRules.length);
+    };
+
     var blockInRegistrantType = function(block, registrant){
       return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
@@ -66,6 +120,10 @@ angular.module('confRegistrationWebApp')
     this.blockVisible = function(block, registrant, isAdmin){
       var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) && blockInRegistrantType(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
+    };
+
+    this.choiceVisible = function(block, choice, registrant){
+      return angular.isDefined(registrant) && choiceVisibleRuleCheck(block, choice, registrant, ruleTypeConstants.SHOW_OPTION) && blockInRegistrantType(block, registrant);
     };
 
     this.checkboxDisable = function(block, registrant){

@@ -19,7 +19,7 @@ angular.module('confRegistrationWebApp')
       templateUrl: nameQuestionTemplate,
       restrict: 'E',
       controller: function ($scope) {
-        if(!$scope.answer.value){
+        if(!$scope.answer && !$scope.answer.value){
           $scope.answer.value = {};
         }
       }
