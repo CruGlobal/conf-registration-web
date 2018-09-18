@@ -167,7 +167,7 @@ angular.module('confRegistrationWebApp')
       }
 
       //allowEditRegistrationAfterComplete
-      if ($scope.conference.allowEditRegistrationAfterComplete && !$scope.conference.requireLogin) {
+      if ($scope.conference.allowEditRegistrationAfterComplete && !($scope.conference.relayLogin || $scope.conference.facebookLogin)) {
         validationErrors.push('You must require sign in if allowing users to edit their registration after it\'s complete.');
       }
 
@@ -227,7 +227,7 @@ angular.module('confRegistrationWebApp')
 
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
-        if ($scope.conference.requireLogin && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
+        if (($scope.conference.relayLogin || $scope.conference.facebookLogin) && $scope.anyPaymentMethodAccepted(t) && String(t.minimumDeposit).length > 0 && !_.isNull(t.minimumDeposit)) {
           t.minimumDeposit = Number(t.minimumDeposit);
           if (t.minimumDeposit > t.cost) {
             validationErrors.push('The minimum deposit for \'' + t.name + '\' must be less than the cost.');
