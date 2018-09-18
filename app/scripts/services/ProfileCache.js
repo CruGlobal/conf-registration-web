@@ -26,8 +26,12 @@ angular.module('confRegistrationWebApp')
       cache.remove(path);
     };
 
+    this.globalUser = function(){
+      return cache.get(path);
+    };
+
     this.globalGreetingName = function(){
-      var cachedObject = cache.get(path);
+      var cachedObject = this.globalUser();
       return angular.isDefined(cachedObject) ? cachedObject.firstName : null;
     };
   });
