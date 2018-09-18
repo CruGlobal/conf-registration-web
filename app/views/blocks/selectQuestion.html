@@ -5,7 +5,7 @@
         uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
         tooltip-enable="{{isAdmin}}">
   <option value="" translate>Choose one...</option>
-  <option value="{{choice.value}}" ng-repeat="choice in block.content.choices" ng-selected="{{choice.value === answer.value}}">
+  <option value="{{choice.value}}" ng-repeat="choice in block.content.choices" ng-show="choiceVisible(block, choice)" ng-selected="{{choice.value === answer.value}}">
     {{visibleValues[$index]}}
   </option>
 </select>

@@ -1,4 +1,4 @@
-<div ng-repeat="choice in block.content.choices" ng-class="{'row':answer.value[choice.value] && isAdmin}">
+<div ng-repeat="choice in block.content.choices" ng-show="choiceVisible(block, choice)" ng-class="{'row':answer.value[choice.value] && isAdmin}">
   <div class="checkbox checkbox-horizontal" ng-class="{'col-sm-4 col-xs-4':answer.value[choice.value] && isAdmin}">
     <label uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
            tooltip-enable="{{isAdmin}}"

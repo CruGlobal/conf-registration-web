@@ -33,17 +33,19 @@ angular.module('confRegistrationWebApp')
                 };
 
                 //to get the rules by rule type
-                $scope.getRulesByType = function (ruleType) {
+                $scope.getRulesByType = function (ruleType, blockEntityOption='') {
                     if (ruleType === ruleTypeConstants.SHOW_QUESTION) {
                         return $filter('showQuestionFilter')($scope.block.rules);
                     } else if (ruleType === ruleTypeConstants.FORCE_SELECTION) {
                         return _.filter($scope.block.rules, { 'ruleType': ruleType });
+                    } else if (ruleType === ruleTypeConstants.SHOW_OPTION) {
+                        return _.filter($scope.block.rules, { 'ruleType': ruleType, 'blockEntityOption': blockEntityOption });
                     } else {
                         return [];
                     }
                 };
 
-                $scope.addRule = function (ruleType) {
+                $scope.addRule = function (ruleType, blockEntityOption='') {
                     var ruleBlocks = $scope.ruleBlocks();
                     if (!ruleBlocks.length) {
                         modalMessage.info({
@@ -59,6 +61,7 @@ angular.module('confRegistrationWebApp')
                         parentBlockId: ruleBlocks[0].id,
                         operator: '=',
                         value: '',
+                        blockEntityOption: blockEntityOption,
                         ruleType: ruleType
                     });
                 };

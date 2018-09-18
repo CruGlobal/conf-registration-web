@@ -8,5 +8,6 @@ angular.module('confRegistrationWebApp').constant('expenseTypesConstants', {
 
 angular.module('confRegistrationWebApp').constant('ruleTypeConstants', {
   'SHOW_QUESTION': 'SHOW_QUESTION',
-  'FORCE_SELECTION': 'FORCE_SELECTION'
+  'FORCE_SELECTION': 'FORCE_SELECTION',
+  'SHOW_OPTION': 'SHOW_OPTION'
 });

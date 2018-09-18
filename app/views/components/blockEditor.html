@@ -58,6 +58,7 @@
           <label class="inline-label" translate>Description</label>
           <i uib-popover-template="popup.titleTemplateUrl"
              popover-trigger="mouseenter"
+
              popover-placement="right"
              class="fa fa-question-circle question-popover">
           </i>
@@ -114,6 +115,7 @@
           <div class="col-md-4 col-lg-3">
             <pick-a-date show-errors ng-model="block.content.range.min" ng-required="block.required" picker-max-date="block.content.range.max"></pick-a-date>
           </div>
+
           <label class="inline-label date-alignment pull-left col-md-offset-1" translate>Max Date</label>
           <div class="col-md-4 col-lg-3">
             <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
@@ -177,11 +179,14 @@
           </select>
         </div>
       </uib-tab>
-      <uib-tab heading="Rules" ng-if="canHaveRules">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
-          <translate>Rules can depend on questions of</translate> <a href="" uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
+      <uib-tab heading="Question Rules" ng-if="canHaveRules">
+        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Question Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
+          <translate>Question Rules can depend on questions of</translate> <a href="" uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
           <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" rule-operand-message="{{'Show question if:' | translate}}" conference="conference" block="block"></rule>
           <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
+      </uib-tab>
+      <uib-tab heading="Answer Rules" ng-if="canHaveAnswerRules">
+        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" rule-operand-message="{{'Show if:' | translate}}" conference="conference" block="block"></rule>
       </uib-tab>
     </uib-tabset>
   </div>

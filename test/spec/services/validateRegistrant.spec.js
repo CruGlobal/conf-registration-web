@@ -25,4 +25,11 @@ describe('Service: validateRegistrant', function () {
 
     expect(validateRegistrant.validate(testData.conference, testData.registration.registrants[0]).length).toBe(1);
   });
+
+  it('choice should be visible', function () {
+    const block = testData.conference.registrationPages[1].blocks[4];
+    const choice = block.content.choices[0];
+
+    expect(validateRegistrant.choiceVisible(block, choice, testData.registration.registrants[0])).toBe(true);
+  });
 });
