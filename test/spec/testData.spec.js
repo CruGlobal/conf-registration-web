@@ -95,7 +95,16 @@ angular.module('confRegistrationWebApp')
                     'content': {'choices': [{'value': '12', 'desc': ''}, {'value': '23', 'desc': ''}]},
                     'profileType': null,
                     'registrantTypes': [],
-                    'rules': []
+                    'rules': [{
+                        'id': 'd21552ae-cba4-432d-92ae-6abb3eec7725',
+                        'blockId': '0b876382-5fd1-46af-b778-10fc9b1b530d',
+                        'parentBlockId': '0556295a-3c4d-45b2-a00e-42b1fe199421',
+                        'operator': '>',
+                        'value': '100',
+                        'position': 0,
+                        'ruleType': 'SHOW_OPTION',
+                        'blockEntityOption': '23'
+                    }]
                 }, {
                     'id': '18ccfb09-3006-4981-ab5e-405ccf2aad1c',
                     'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
@@ -107,7 +116,16 @@ angular.module('confRegistrationWebApp')
                     'content': {'choices': [{'value': '651', 'desc': ''}, {'value': '951', 'desc': ''}]},
                     'profileType': null,
                     'registrantTypes': [],
-                    'rules': []
+                    'rules': [{
+                        'id': '326287c7-5a1d-4e79-adc8-67833db055cf',
+                        'blockId': '0b876382-5fd1-46af-b778-10fc9b1b530d',
+                        'parentBlockId': '0556295a-3c4d-45b2-a00e-42b1fe199421',
+                        'operator': '<',
+                        'value': '100',
+                        'position': 0,
+                        'ruleType': 'SHOW_OPTION',
+                        'blockEntityOption': '651'
+                    }]
                 }, {
                     'id': '9b83eebd-b064-4edf-92d0-7982a330272a',
                     'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',

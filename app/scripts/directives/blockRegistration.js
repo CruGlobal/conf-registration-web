@@ -125,12 +125,20 @@ angular.module('confRegistrationWebApp')
           var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           return validateRegistrant.blockVisible(block, registrant);
         };
-        
+
         $scope.choiceVisible = function (block, choice) {
-          if (angular.isUndefined(choice) || angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
+          if (angular.isUndefined(choice)) {
             return false;
           }
-          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          var registrant;
+          if (angular.isDefined($scope.adminEditRegistrant)) {
+            registrant = $scope.adminEditRegistrant;
+          } else {
+            if (angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
+              return false;
+            }
+            registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          }
           return validateRegistrant.choiceVisible(block, choice, registrant);
         };
 
