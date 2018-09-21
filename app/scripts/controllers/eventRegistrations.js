@@ -103,6 +103,7 @@ angular.module('confRegistrationWebApp')
       //Initally display (true) or not display (false) built in columns
       $scope.builtInColumnsVisible = {
         Email: true,
+        Group: true,
         GroupId: false,
         Started: true,
         Completed: true
@@ -339,6 +340,17 @@ angular.module('confRegistrationWebApp')
 
     $scope.getRegistration = function(id){
       return _.find($scope.registrations, { 'id': id });
+    };
+
+    $scope.getGroupName = function(id){
+      var registration = $scope.getRegistration(id);
+
+      if(registration.primaryRegistrantId === null) return null;
+
+      var registrant = _.find(registration.groupRegistrants, { 'id': registration.primaryRegistrantId });
+      if(registrant === null) return null;
+
+      return registrant.firstName + ' ' + registrant.lastName;
     };
 
     $scope.getRegistrantType = function(id){
