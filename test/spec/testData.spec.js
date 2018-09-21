@@ -369,6 +369,16 @@ angular.module('confRegistrationWebApp')
             ],
             'expenses': [],
             'totalPaid': 1.00,
-            'remainingBalance': 49.00
+            'remainingBalance': 49.00,
+            'primaryRegistrantId': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+            'groupRegistrants': [
+                {
+                    'id': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+                    'registrationId': '709738ff-da79-4eed-aacd-d9f005fc7f4e',
+                    'firstName': 'Test',
+                    'lastName': 'Person',
+                    'email': 'test.person@cru.org'
+                }
+            ]
         };
     });

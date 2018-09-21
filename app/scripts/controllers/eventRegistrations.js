@@ -1,6 +1,7 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
+import showGroupModalTemplate from 'views/modals/showGroup.html';
 import exportModalTemplate from 'views/modals/export.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
@@ -309,6 +310,35 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    $scope.showGroup = function (id) {
+      if(!hasPermission()){
+        return;
+      }
+
+      var showGroupDialogOptions = {
+        templateUrl: showGroupModalTemplate,
+        controller: function($scope, registration, groupName, editRegistrant){
+          $scope.registration = registration;
+          $scope.groupName = groupName;
+
+          $scope.editRegistrant = editRegistrant;
+        },
+        resolve: {
+          registration: function() {
+            return $scope.getRegistration(id);
+          },
+          groupName: function() {
+            return $scope.getGroupName(id);
+          },
+          editRegistrant: function() {
+            return $scope.editRegistrant;
+          }
+        }
+      };
+
+      $uibModal.open(showGroupDialogOptions);
+    };
+
     // Export conference registrations information to csv
     $scope.export = function () {
       $uibModal.open({
@@ -348,7 +378,7 @@ angular.module('confRegistrationWebApp')
       if(registration.primaryRegistrantId === null) return null;
 
       var registrant = _.find(registration.groupRegistrants, { 'id': registration.primaryRegistrantId });
-      if(registrant === null) return null;
+      if(angular.isUndefined(registrant)) return null;
 
       return registrant.firstName + ' ' + registrant.lastName;
     };
