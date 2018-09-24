@@ -1,11 +1,12 @@
 
 angular.module('confRegistrationWebApp')
-  .controller('editRegistrationModalCtrl', function ($scope, $uibModalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant) {
+  .controller('editRegistrationModalCtrl', function ($scope, $uibModalInstance, modalMessage, $http, $q, conference, registrantId, registration, validateRegistrant, enableDelete) {
     $scope.conference = angular.copy(conference);
     $scope.registration = angular.copy(registration);
     $scope.adminEditRegistrant = _.find($scope.registration.registrants, { 'id': registrantId });
     var originalRegistrantObject = angular.copy($scope.adminEditRegistrant);
     $scope.saving = false;
+    $scope.enableDelete = enableDelete;
 
     $scope.close = function () {
       $uibModalInstance.dismiss();
@@ -41,6 +42,37 @@ angular.module('confRegistrationWebApp')
         });
         $q.all(answersUpdatePromises).then(getRegistrantAndClose);
       }
+    };
+
+    $scope.delete = function () {
+      modalMessage.confirm({
+        'title': 'Delete Registration',
+        'question': 'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.',
+        'yesString': 'Delete',
+        'noString': 'Cancel',
+        'normalSize': true
+      }).then(function(){
+        $http.get('registrations/' + registration.id).then(function(response){
+          var registration = response.data;
+          var url = 'registrations/' + registration.id;
+
+          if(registration.registrants.length > 1){
+            //Delete Registrant
+            url = 'registrants/' + registrantId;
+          }
+
+          $http({
+            method: 'DELETE',
+            url: url
+          }).then(function () {
+            getRegistrantAndClose();
+          }).catch(function(response){
+            modalMessage.error({
+              'message': response.data && response.data.error ? response.data.error.message : 'An error has occurred while deleting this registration.'
+            });
+          });
+        });
+      });
     };
 
     function saveAllAnswers() {

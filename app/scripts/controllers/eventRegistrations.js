@@ -272,7 +272,7 @@ angular.module('confRegistrationWebApp')
       return expandedRegistrations[r];
     };
 
-    $scope.editRegistrant = function (r) {
+    $scope.editRegistrant = function (r, enableDelete) {
       if(!hasPermission()){
         return;
       }
@@ -290,6 +290,9 @@ angular.module('confRegistrationWebApp')
             },
             conference: function () {
               return conference;
+            },
+            enableDelete: function () {
+              return enableDelete;
             }
           }
         };
@@ -300,9 +303,15 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[index] = registration;
 
           //update registrant
-          r = _.find(registration.registrants, { 'id': r.id });
-          index = _.findIndex($scope.registrants, { 'id': r.id });
-          $scope.registrants[index] = r;
+          var reg = _.find(registration.registrants, { 'id': r.id });
+          if (angular.isDefined(reg)) {
+            index = _.findIndex($scope.registrants, { 'id': reg.id });
+            $scope.registrants[index] = reg;
+          } else {
+            _.remove($scope.registrants, function (reg) {
+              return reg.id === r.id;
+            });
+          }
         });
       }).catch(function(){
         modalMessage.error('Error: registrant data could not be retrieved.');
@@ -317,21 +326,13 @@ angular.module('confRegistrationWebApp')
 
       var showGroupDialogOptions = {
         templateUrl: showGroupModalTemplate,
-        controller: function($scope, registration, groupName, editRegistrant){
-          $scope.registration = registration;
-          $scope.groupName = groupName;
-
-          $scope.editRegistrant = editRegistrant;
+        scope: $scope,
+        controller: function($scope, registrationId){
+          $scope.registrationId = registrationId;
         },
         resolve: {
-          registration: function() {
-            return $scope.getRegistration(id);
-          },
-          groupName: function() {
-            return $scope.getGroupName(id);
-          },
-          editRegistrant: function() {
-            return $scope.editRegistrant;
+          registrationId: function() {
+            return id;
           }
         }
       };

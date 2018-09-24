@@ -25,9 +25,10 @@ describe('Controller: eventRegistrations', function () {
     openModal = spyOn($uibModal, 'open').and.returnValue(fakeModal);
   }));
 
-  var testData;
-  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, _testData_) {
+  var testData, $httpBackend;
+  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, _testData_, _$httpBackend_) {
     testData = _testData_;
+    $httpBackend = _$httpBackend_;
     scope = $rootScope.$new();
     scope.registrations = [testData.registration];
 
@@ -47,6 +48,19 @@ describe('Controller: eventRegistrations', function () {
     expect(scope.builtInColumnsVisible['Completed']).toBe(true);
   });
 
+  it('editRegistrant should open modal window', function () {
+    var registrant = testData.registration.registrants[0];
+
+    $httpBackend.whenGET(/registrations\/.*$/).respond(201, [ testData.registration ]);
+
+    scope.editRegistrant(registrant);
+    $httpBackend.flush();
+
+    expect(openModal).toHaveBeenCalled();
+
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
   it('getGroupName should return Registration\'s groupName', function () {
     var id = testData.registration.id;

@@ -1,12 +1,12 @@
 <div class="modal-header">
     <button type="button" class="close" ng-click="$dismiss()">&times;</button>
-    <h4 translate>{{groupName}} Group</h4>
+    <h4 translate>{{getGroupName(registrationId)}} Group</h4>
 </div>
 <div class="modal-body">
     <ul class="list-unstyled">
-        <li style="margin-bottom: 10px;" ng-repeat="r in registration.groupRegistrants">
-            <a href="" ng-click="editRegistrant(r)">{{r.firstName}} {{r.lastName}}</a>
-            <span ng-if="r.id === registration.primaryRegistrantId" translate>(Group Creator)</span>
+        <li style="margin-bottom: 10px;" ng-repeat="r in getRegistration(registrationId).groupRegistrants">
+            <a href="" ng-click="editRegistrant(r, true)">{{r.firstName}} {{r.lastName}}</a>
+            <span ng-if="r.id === getRegistration(registrationId).primaryRegistrantId" translate>(Group Creator)</span>
         </li>
     </ul>
 </div>
