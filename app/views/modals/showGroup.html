@@ -9,6 +9,8 @@
             <span ng-if="r.id === getRegistration(registrationId).primaryRegistrantId" translate>(Group Creator)</span>
         </li>
     </ul>
+
+    <button class="btn btn-success btn-sm" type="button" ng-click="registerUser(getRegistration(registrationId))"><i class="fa fa-plus"></i> <translate>Add Registration</translate></button>
 </div>
 <div class="modal-footer">
     <button ng-click="$dismiss()" class="btn btn-default" translate>Close</button>

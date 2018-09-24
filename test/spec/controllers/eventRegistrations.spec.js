@@ -72,4 +72,9 @@ describe('Controller: eventRegistrations', function () {
     scope.showGroup();
     expect(openModal).toHaveBeenCalled();
   });
+
+  it('registerUser should open modal window', function () {
+    scope.registerUser();
+    expect(openModal).toHaveBeenCalled();
+  });
 });

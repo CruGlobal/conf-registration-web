@@ -353,7 +353,7 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.registerUser = function () {
+    $scope.registerUser = function (primaryRegistration) {
       if(!hasPermission()){
         return;
       }
@@ -364,6 +364,9 @@ angular.module('confRegistrationWebApp')
         resolve: {
           conference: function () {
             return conference;
+          },
+          primaryRegistration: function () {
+            return primaryRegistration;
           }
         }
       });
