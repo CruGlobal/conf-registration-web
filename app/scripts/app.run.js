@@ -22,8 +22,13 @@ angular.module('confRegistrationWebApp')
       });
     });
 
+    $rootScope.globalUser = function(){
+      return ProfileCache.globalUser();
+    };
+
     $rootScope.globalGreetingName = function(){
       return ProfileCache.globalGreetingName();
     };
+
     ProfileCache.getCache();
   });

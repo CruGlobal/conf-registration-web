@@ -72,7 +72,7 @@
             <i class="fa fa-users"></i> Event Registration Tool
           </a>
         </div>
-        <div class="col-sm-4 text-right" ng-if="globalGreetingName()">
+        <div class="col-sm-4 text-right" ng-if="globalUser()">
           <div class="btn-group usr-greeting spacing-below-xs" uib-dropdown>
             <button type="button" class="btn btn-default name-btn">Hello <strong ng-bind="globalGreetingName()"></strong></button>
             <button type="button" class="btn btn-primary dropdown-toggle" uib-dropdown-toggle>
@@ -86,7 +86,7 @@
             </ul>
           </div>
         </div>
-        <div class="col-sm-4 text-right" ng-if="!globalGreetingName()">
+        <div class="col-sm-4 text-right" ng-if="!globalUser()">
           <div class="btn-group usr-greeting spacing-below-xs">
             <a href="eventDashboard" class="btn btn-default name-btn">Event Dashboard</a>
           </div>
