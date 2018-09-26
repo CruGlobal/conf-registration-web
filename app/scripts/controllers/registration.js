@@ -228,7 +228,7 @@ angular.module('confRegistrationWebApp')
         if (!t.useLimit) return false;
 
         var availableSlots = _.max([t.availableSlots, 0]);
-        if ($scope.currentRegistrantObject.registrantTypeId === t.id) {
+        if (angular.isDefined($scope.currentRegistrantObject) && $scope.currentRegistrantObject.registrantTypeId === t.id) {
           // if slot is zero, we need to increment it, otherwise the Registrant's Type wouldn't appear in the dropdown
           availableSlots++;
         }

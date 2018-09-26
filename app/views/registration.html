@@ -87,7 +87,7 @@
       </div>
     </section>
 
-    <section ng-if="visibleRegistrantTypes.length > 1">
+    <section ng-if="currentRegistrantObject && visibleRegistrantTypes.length > 1">
       <div class="form-group">
         <label class="control-label" translate>Registrant Type</label>
         <select class="form-control" ng-model="currentRegistrantObject.registrantTypeId" ng-options="t.id as t.name for t in visibleRegistrantTypes"></select>
