@@ -86,6 +86,14 @@
         </div>
       </div>
     </section>
+
+    <section ng-if="currentRegistrantObject && visibleRegistrantTypes.length > 1">
+      <div class="form-group">
+        <label class="control-label" translate>Registrant Type</label>
+        <select class="form-control" ng-model="currentRegistrantObject.registrantTypeId" ng-options="t.id as t.name for t in visibleRegistrantTypes"></select>
+      </div>
+    </section>
+
     <page ng-repeat="page in conference.registrationPages" ng-if="page.id == activePageId"></page>
   </div>
 </div>

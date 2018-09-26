@@ -1,6 +1,6 @@
 
 angular.module('confRegistrationWebApp')
-  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $route, $location, $window, $http, $q, $interval, RegistrationCache, conference, currentRegistration, validateRegistrant, modalMessage) {
+  .controller('RegistrationCtrl', function ($scope, $rootScope, $routeParams, $route, $location, $window, $http, $q, $interval, RegistrationCache, ConfCache, conference, currentRegistration, validateRegistrant, modalMessage) {
     if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
       modalMessage.error($rootScope.currentRegistrationErrorMessage);
     }
@@ -19,6 +19,7 @@ angular.module('confRegistrationWebApp')
     var originalCurrentRegistration = angular.copy(currentRegistration);
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
+    $scope.currentRegistrantObject = _.find($scope.currentRegistration.registrants, { id: $scope.currentRegistrant });
     $scope.savingAnswers = false;
 
     $scope.activePageId = pageId || '';
@@ -59,6 +60,8 @@ angular.module('confRegistrationWebApp')
       return _.includes($rootScope.visitedPages, $scope.currentRegistrant + '_' + _.findIndex($scope.conference.registrationPages, { id: pageId }));
     };
 
+    updateRegistrantTypes();
+
 
     //auto save answers every 15 seconds
     var saveAnswersInterval = $interval(function(){
@@ -79,12 +82,24 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
+      // reload Conference, so that RegistrationTypes are also reloaded (this is needed to get the correct availableSlots)
+      ConfCache.empty();
+      $scope.conference = ConfCache.get($scope.conference.id);
+
+      updateRegistrantTypes();
+
       $scope.savingAnswers = true;
       $q.all(findAnswersToSave());
 
       //add current page and registrant combo to the visitedPages array
       if($scope.currentRegistrant){
         $rootScope.visitedPages.push(pageAndRegistrantId);
+      }
+    });
+
+    $scope.$watch('currentRegistrantObject.registrantTypeId', function (newTypeId, oldTypeId) {
+      if (newTypeId !== oldTypeId) {
+        $http.put('registrants/' + $scope.currentRegistrant, $scope.currentRegistrantObject);
       }
     });
 
@@ -201,5 +216,24 @@ angular.module('confRegistrationWebApp')
       originalCurrentRegistration = angular.copy($scope.currentRegistration);
 
       return answersToSave;
+    }
+
+    function updateRegistrantTypes() {
+      $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
+
+      _.remove($scope.visibleRegistrantTypes, function(t) {
+        //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
+        if (t.hidden && !_.includes(_.map($scope.currentRegistration.registrants, 'registrantTypeId'), t.id)) return true;
+
+        if (!t.useLimit) return false;
+
+        var availableSlots = _.max([t.availableSlots, 0]);
+        if (angular.isDefined($scope.currentRegistrantObject) && $scope.currentRegistrantObject.registrantTypeId === t.id) {
+          // if slot is zero, we need to increment it, otherwise the Registrant's Type wouldn't appear in the dropdown
+          availableSlots++;
+        }
+
+        return availableSlots <= 0;
+      });
     }
   });
