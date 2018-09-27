@@ -1,9 +1,9 @@
 
 angular.module('confRegistrationWebApp')
-  .controller('registrationModal', function ($scope, $uibModalInstance, $http, $route, conference, primaryRegistration, uuid, RegistrationCache, modalMessage) {
+  .controller('registrationModal', function ($scope, $uibModalInstance, $http, $route, conference, primaryRegistration, typeId, uuid, RegistrationCache, modalMessage) {
     $scope.conference = conference;
     $scope.form = {
-      type: _.first(conference.registrantTypes).id
+      type: typeId || _.first(conference.registrantTypes).id
     };
 
     $scope.register = function () {

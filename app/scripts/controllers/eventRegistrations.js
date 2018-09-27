@@ -318,10 +318,35 @@ angular.module('confRegistrationWebApp')
       var showGroupDialogOptions = {
         templateUrl: showGroupModalTemplate,
         scope: $scope,
-        controller: function($scope, registrationId){
+        controller: function($scope, currentRegistration, registrationId){
+          $scope.currentRegistration = currentRegistration;
           $scope.registrationId = registrationId;
+
+          $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
+
+          _.remove($scope.visibleRegistrantTypes, function(t) {
+            //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
+            return t.hidden && !_.includes(_.map($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
+          });
+
+          $scope.registrationTypeFull = function(type){
+            if(!type.useLimit){
+              return false;
+            }
+            if(!type.availableSlots){
+              return true;
+            }
+
+            //subtract registrants from current registration from availableSlots
+            if(type.availableSlots - _.filter($scope.currentRegistration.registrants, { 'registrantTypeId': type.id }).length <= 0){
+              return true;
+            }
+          };
         },
         resolve: {
+          currentRegistration: function() {
+            return $scope.getRegistration(id);
+          },
           registrationId: function() {
             return id;
           }
@@ -344,7 +369,7 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.registerUser = function (primaryRegistration) {
+    $scope.registerUser = function (primaryRegistration, typeId) {
       if(!hasPermission()){
         return;
       }
@@ -358,6 +383,9 @@ angular.module('confRegistrationWebApp')
           },
           primaryRegistration: function () {
             return primaryRegistration;
+          },
+          typeId: function() {
+            return typeId;
           }
         }
       });
@@ -447,6 +475,12 @@ angular.module('confRegistrationWebApp')
             _.remove($scope.registrants, function (r) {
               return r.id === registrant.id;
             });
+            var reg = $scope.getRegistration(registrant.registrationId);
+            if (angular.isDefined(reg)) {
+              _.remove(reg.groupRegistrants, function (r) {
+                return r.id === registrant.id;
+              });
+            }
           }).catch(function(response){
             modalMessage.error({
               'message': response.data && response.data.error ? response.data.error.message : 'An error has occurred while deleting this registration.'

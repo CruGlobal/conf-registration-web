@@ -25,17 +25,19 @@ describe('Controller: eventRegistrations', function () {
     openModal = spyOn($uibModal, 'open').and.returnValue(fakeModal);
   }));
 
-  var testData, $httpBackend;
-  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, _testData_, _$httpBackend_) {
+  var testData, $httpBackend, $uibModal, $controller;
+  beforeEach(angular.mock.inject(function($rootScope, _$controller_, _$uibModal_, _testData_, _$httpBackend_) {
+    $controller = _$controller_;
     testData = _testData_;
     $httpBackend = _$httpBackend_;
+    $uibModal = _$uibModal_;
     scope = $rootScope.$new();
     scope.registrations = [testData.registration];
 
     $controller('eventRegistrationsCtrl', {
       $scope: scope,
       conference: testData.conference,
-      $uibModal: _$uibModal_,
+      $uibModal: $uibModal,
       permissions: {}
     });
   }));
@@ -66,6 +68,19 @@ describe('Controller: eventRegistrations', function () {
     var id = testData.registration.id;
 
     expect(scope.getGroupName(id)).toBe('Test Person');
+  });
+
+  it('showGroup does not open if user has no permission', function () {
+    $controller('eventRegistrationsCtrl', {
+      $scope: scope,
+      conference: testData.conference,
+      $uibModal: $uibModal,
+      permissions: { permissionInt: 2 }
+    });
+
+    scope.showGroup();
+
+    expect(openModal.calls.mostRecent().args[0].templateUrl).not.toBe('views/modals/showGroup.html');
   });
 
   it('showGroup should open modal window', function () {

@@ -23,7 +23,8 @@ describe('Controller: registrationModal', function () {
       $uibModalInstance: modalInstance,
       modalMessage: modalMessage,
       conference: testData.conference,
-      primaryRegistration: null
+      primaryRegistration: null,
+      typeId: null
     });
   }));
 
