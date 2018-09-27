@@ -224,11 +224,24 @@ angular.module('confRegistrationWebApp')
         };
 
         $scope.onChoiceOptionChange = function () {
-          if ($scope.block.type === 'checkboxQuestion' && !angular.isUndefined($scope.block.content.default)) {
-            for (var keyName in $scope.block.content.default) {
-              var key = keyName;
-              if (_.filter($scope.block.content.choices, { 'value': keyName }).length === 0) {
-                $scope.block.content.default[key] = undefined;
+          if ($scope.block.type === 'checkboxQuestion') {
+            var keyName, key;
+
+            if (angular.isDefined($scope.block.content.default)) {
+              for (keyName in $scope.block.content.default) {
+                key = keyName;
+                if (_.filter($scope.block.content.choices, { 'value': keyName }).length === 0) {
+                  $scope.block.content.default[key] = undefined;
+                }
+              }
+            }
+
+            if (angular.isDefined($scope.block.content.forceSelections)) {
+              for (keyName in $scope.block.content.forceSelections) {
+                key = keyName;
+                if (_.filter($scope.block.content.choices, { 'value': keyName }).length === 0) {
+                  $scope.block.content.forceSelections[key] = undefined;
+                }
               }
             }
           }

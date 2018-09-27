@@ -73,7 +73,13 @@ angular.module('confRegistrationWebApp')
         }
 
         function initializeAnswer(registrantAnswers, block, registrantId, blockDefault) {
-          const currentAnswer = _.find(registrantAnswers, {'blockId': block.id});
+          var currentAnswer = _.find(registrantAnswers, {'blockId': block.id});
+
+          if (block.type === 'checkboxQuestion' && angular.isDefined(currentAnswer)) {
+            // keep only choices that exist in the Block
+            currentAnswer.value = _.pick(currentAnswer.value, _.map($scope.block.content.choices, 'value'));
+          }
+
           return {
             answer: currentAnswer || {
               id: uuid(),
