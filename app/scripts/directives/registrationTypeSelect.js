@@ -10,7 +10,9 @@ angular.module('confRegistrationWebApp')
 
         var visibleType = $routeParams.regType;
         if(angular.isDefined(visibleType)){
-          _.remove($scope.visibleRegistrantTypes, function(t) { return t.id !== visibleType; });
+          if(_.isEmpty($scope.currentRegistration.registrants)){
+            _.remove($scope.visibleRegistrantTypes, function(t) { return t.id !== visibleType; });
+          }
         } else {
           _.remove($scope.visibleRegistrantTypes, function(t) {
             //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
