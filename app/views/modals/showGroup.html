@@ -5,7 +5,7 @@
 <div class="modal-body">
     <ul class="list-unstyled">
         <li style="margin-bottom: 10px;" ng-repeat="r in getRegistration(registrationId).groupRegistrants">
-            <a href="" ng-click="editRegistrant(r, true)">{{r.firstName}} {{r.lastName}}</a>
+            <a href="" ng-click="editRegistrant(r)">{{r.firstName}} {{r.lastName}}</a>
             <span ng-if="r.id === getRegistration(registrationId).primaryRegistrantId" translate>(Group Creator)</span>
         </li>
     </ul>

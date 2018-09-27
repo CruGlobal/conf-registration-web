@@ -15,8 +15,6 @@
 <div class="modal-footer">
   <h4 ng-show="saving"><i class="fa fa-circle-o-notch fa-spin"></i> <translate>Saving</translate>...</h4>
   <div ng-show="!saving">
-    <button ng-if="enableDelete" ng-click="delete()" class="btn btn-danger pull-left" translate>Delete</button>
-
     <button ng-click="close()" class="btn btn-default" translate>Cancel</button>
     <button ng-click="submit(true)" class="btn btn-info" ng-if="!registration.completed" translate>Save &amp; Set as Completed</button>
     <button ng-click="submit()" class="btn btn-primary" translate>Save</button>

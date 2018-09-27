@@ -23,16 +23,7 @@ describe('Controller: editRegistrationModalCtrl', function () {
       modalMessage: modalMessage,
       conference: {},
       registration: testData.registration,
-      registrantId: testData.registration.registrants[0],
-      enableDelete: true
+      registrantId: testData.registration.registrants[0]
     });
   }));
-
-  it('delete should show confirm window', function () {
-    var confirmWindow = spyOn(modalMessage, 'confirm').and.callThrough();
-
-    scope.delete();
-
-    expect(confirmWindow).toHaveBeenCalled();
-  });
 });

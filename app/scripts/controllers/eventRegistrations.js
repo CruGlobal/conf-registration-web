@@ -272,7 +272,7 @@ angular.module('confRegistrationWebApp')
       return expandedRegistrations[r];
     };
 
-    $scope.editRegistrant = function (r, enableDelete) {
+    $scope.editRegistrant = function (r) {
       if(!hasPermission()){
         return;
       }
@@ -290,9 +290,6 @@ angular.module('confRegistrationWebApp')
             },
             conference: function () {
               return conference;
-            },
-            enableDelete: function () {
-              return enableDelete;
             }
           }
         };
@@ -303,15 +300,9 @@ angular.module('confRegistrationWebApp')
           $scope.registrations[index] = registration;
 
           //update registrant
-          var reg = _.find(registration.registrants, { 'id': r.id });
-          if (angular.isDefined(reg)) {
-            index = _.findIndex($scope.registrants, { 'id': reg.id });
-            $scope.registrants[index] = reg;
-          } else {
-            _.remove($scope.registrants, function (reg) {
-              return reg.id === r.id;
-            });
-          }
+          r = _.find(registration.registrants, { 'id': r.id });
+          index = _.findIndex($scope.registrants, { 'id': r.id });
+          $scope.registrants[index] = r;
         });
       }).catch(function(){
         modalMessage.error('Error: registrant data could not be retrieved.');
