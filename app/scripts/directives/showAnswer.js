@@ -21,15 +21,13 @@ angular.module('confRegistrationWebApp')
         }
 
         $scope.getSelectedCheckboxes = function (choices) {
-          var blockChoices = $scope.block.content.choices;
-          var posibleChoices = [];
-          for (var i = 0; i < blockChoices.length; i++) {
-            if ($scope.choiceVisible($scope.block, blockChoices[i], $scope.registrant)){
-              posibleChoices.push(blockChoices[i].value);
-            }
-          }
-          return _.keys(_.pickBy(choices, function (key,val) {
-            return key === true && posibleChoices.includes(val);
+          var visibleChoices = _.filter($scope.block.content.choices, function(choice) {
+            return $scope.choiceVisible($scope.block, choice, $scope.registrant);
+          });
+          visibleChoices = _.map(visibleChoices, 'value');
+
+          return _.keys(_.pickBy(choices, function (value, key) {
+            return value === true && visibleChoices.includes(key);
           }));
         };
 
