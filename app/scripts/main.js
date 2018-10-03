@@ -24,6 +24,7 @@ import 'scripts/controllers/paymentModal.js';
 import 'scripts/controllers/registration.js';
 import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
+import 'scripts/controllers/showGroupModal.js';
 
 // Directives
 import 'scripts/directives/adminNav.js';

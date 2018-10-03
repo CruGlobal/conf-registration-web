@@ -7,9 +7,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.register = function () {
+      const registrationId = uuid();
       var registration;
       var registrant = {
         id: uuid(),
+        registrationId: primaryRegistration ? primaryRegistration.id : registrationId,
         registrantTypeId: $scope.form.type,
         firstName: $scope.form.first,
         lastName: $scope.form.last,
@@ -18,18 +20,13 @@ angular.module('confRegistrationWebApp')
       };
       var registrantIndex = 0;
 
-      if (angular.isDefined(primaryRegistration) && primaryRegistration !== null) {
+      if (primaryRegistration) {
         registration = primaryRegistration;
-
-        registrant.registrationId = registration.id;
 
         registrantIndex = registration.registrants.length;
         registration.registrants.push(registrant);
       } else {
         // build registration
-        var registrationId = uuid();
-        registrant.registrationId = registrationId;
-
         registration = {
           id: registrationId,
           conferenceId: conference.id,
@@ -57,15 +54,15 @@ angular.module('confRegistrationWebApp')
         }
       });
 
-      if (angular.isDefined(primaryRegistration) && primaryRegistration !== null) {
-        RegistrationCache.update('registrations/' + registration.id, registration, function () {
+      if (primaryRegistration) {
+        RegistrationCache.update(`registrations/${registration.id}`, registration, function () {
           RegistrationCache.emptyCache();
           $route.reload();
         }, function (response) {
           modalMessage.error(response.data && response.data.error ? response.data.error.message : 'An error occurred while creating registration.');
         });
       } else {
-        $http.post('conferences/' + conference.id + '/registrations', registration, {headers: {'Registration-Type': 'on-behalf-of'}})
+        $http.post(`conferences/${conference.id}/registrations`, registration, {headers: {'Registration-Type': 'on-behalf-of'}})
           .then(function () {
             // empty cache and reload in order to recognize the newly created registration
             RegistrationCache.emptyCache();

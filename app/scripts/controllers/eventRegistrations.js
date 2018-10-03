@@ -317,38 +317,17 @@ angular.module('confRegistrationWebApp')
 
       var showGroupDialogOptions = {
         templateUrl: showGroupModalTemplate,
+        controller: 'showGroupModalCtrl',
         scope: $scope,
-        controller: function($scope, currentRegistration, registrationId){
-          $scope.currentRegistration = currentRegistration;
-          $scope.registrationId = registrationId;
-
-          $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
-
-          _.remove($scope.visibleRegistrantTypes, function(t) {
-            //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
-            return t.hidden && !_.includes(_.map($scope.currentRegistration.registrants, 'registrantTypeId'), t.id);
-          });
-
-          $scope.registrationTypeFull = function(type){
-            if(!type.useLimit){
-              return false;
-            }
-            if(!type.availableSlots){
-              return true;
-            }
-
-            //subtract registrants from current registration from availableSlots
-            if(type.availableSlots - _.filter($scope.currentRegistration.registrants, { 'registrantTypeId': type.id }).length <= 0){
-              return true;
-            }
-          };
-        },
         resolve: {
           currentRegistration: function() {
             return $scope.getRegistration(id);
           },
           registrationId: function() {
             return id;
+          },
+          conference: function() {
+            return $scope.conference;
           }
         }
       };
@@ -403,7 +382,7 @@ angular.module('confRegistrationWebApp')
       var registrant = _.find(registration.groupRegistrants, { 'id': registration.primaryRegistrantId });
       if(angular.isUndefined(registrant)) return null;
 
-      return registrant.firstName + ' ' + registrant.lastName;
+      return `${registrant.firstName} ${registrant.lastName}`;
     };
 
     $scope.getRegistrantType = function(id){
