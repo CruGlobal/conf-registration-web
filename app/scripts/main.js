@@ -24,7 +24,6 @@ import 'scripts/controllers/paymentModal.js';
 import 'scripts/controllers/registration.js';
 import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
-import 'scripts/controllers/showGroupModal.js';
 
 // Directives
 import 'scripts/directives/adminNav.js';
@@ -41,6 +40,7 @@ import 'scripts/directives/pickadate.js';
 import 'scripts/directives/registrationTypeSelect.js';
 import 'scripts/directives/selectOnClick.js';
 import 'scripts/directives/showAnswer.js';
+import 'scripts/directives/showGroup.js';
 import 'scripts/directives/showErrors.js';
 import 'scripts/directives/stringToNumber.js';
 import 'scripts/directives/rule.js';

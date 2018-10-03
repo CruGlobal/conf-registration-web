@@ -1,7 +1,6 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
-import showGroupModalTemplate from 'views/modals/showGroup.html';
 import exportModalTemplate from 'views/modals/export.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
@@ -315,24 +314,35 @@ angular.module('confRegistrationWebApp')
         return;
       }
 
-      var showGroupDialogOptions = {
-        templateUrl: showGroupModalTemplate,
-        controller: 'showGroupModalCtrl',
-        scope: $scope,
+      $uibModal.open({
+        component: 'showGroup',
         resolve: {
-          currentRegistration: function() {
-            return $scope.getRegistration(id);
+          groupName: function() {
+            return $scope.getGroupName(id);
           },
           registrationId: function() {
             return id;
           },
           conference: function() {
             return $scope.conference;
+          },
+          getRegistration: function() {
+            return $scope.getRegistration;
+          },
+          getRegistrantType: function() {
+            return $scope.getRegistrantType;
+          },
+          editRegistrant: function() {
+            return $scope.editRegistrant;
+          },
+          deleteRegistrant: function() {
+            return $scope.deleteRegistrant;
+          },
+          registerUser: function() {
+            return $scope.registerUser;
           }
         }
-      };
-
-      $uibModal.open(showGroupDialogOptions);
+      });
     };
 
     // Export conference registrations information to csv

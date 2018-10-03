@@ -1,0 +1,58 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.close()">&times;</button>
+    <h4 translate>{{$ctrl.groupName}} Group</h4>
+</div>
+<div class="modal-body">
+    <table class="table review-breakdown">
+        <thead>
+        <tr>
+            <th translate>Registrant</th>
+            <th width="110"><span translate>Type</span></th>
+            <th width="150"></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp'">
+        <tr>
+            <td>
+                {{r.firstName}} {{r.lastName}}
+                <span ng-if="r.id === $ctrl.getRegistration($ctrl.registrationId).primaryRegistrantId" translate>(Group Creator)</span>
+            </td>
+            <td><span>{{$ctrl.getRegistrantType(r.registrantTypeId).name}}</span></td>
+            <td class="text-right">
+                <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="$ctrl.editRegistrant(r)" value="Edit">
+                <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="$ctrl.deleteRegistrant(r)" value="Remove">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="row reg-type-select" ng-repeat="type in $ctrl.visibleRegistrantTypes" ng-if="$ctrl.visibleRegistrantTypes.length > 1">
+        <div class="stacked-spacing-col-sm spacing-xs" ng-class="{'col-sm-7': type.cost>0, 'col-sm-9': type.cost==0}">
+            <h4>{{type.name}}</h4>
+            <span class="display-linebreaks">{{type.description}}</span>
+        </div>
+        <div class="text-right" ng-class="{'col-sm-5': type.cost>0, 'col-sm-3': type.cost==0}">
+            <span class="cost" ng-if="type.cost">{{type.calculatedCurrentCost | currency:'$'}}</span>
+            <a href="" ng-click="$ctrl.register(type.id)" class="btn btn-sm btn-success btn-important" ng-if="!$ctrl.registrationTypeFull(type)" translate>
+                Register
+            </a>
+            <a href="" class="btn btn-sm btn-success btn-important btn-full" disabled ng-if="$ctrl.registrationTypeFull(type)" translate>
+                Full
+            </a>
+        </div>
+    </div>
+    <div class="row" ng-if="$ctrl.visibleRegistrantTypes.length === 1">
+        <div class="col-xs-12 text-center">
+            <a href ng-click="$ctrl.register($ctrl.visibleRegistrantTypes[0].id)" class="btn btn-success btn-important btn-lg" ng-if="!$ctrl.registrationTypeFull($ctrl.visibleRegistrantTypes[0])" translate>
+                Register
+            </a>
+            <p ng-if="$ctrl.registrationTypeFull($ctrl.visibleRegistrantTypes[0])" translate>
+                Sorry, this event is full.
+            </p>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button ng-click="$ctrl.close()" class="btn btn-default" translate>Close</button>
+</div>
