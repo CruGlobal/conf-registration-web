@@ -15,12 +15,14 @@
       <div class="col-sm-9 col-xs-7">
         <button class="btn btn-success btn-important btn-lg btn-block"
                 type="submit"
-                ng-disabled="savingAnswers"
+                ng-disabled="savingAnswers || !pageIsValid(page.id)"
                 ng-click="goToNext()">
           <span ng-show="!savingAnswers && !nextPage()" translate>Continue</span>
           <span ng-show="!savingAnswers && nextPage()" translate>Next Page</span>
           <span ng-show="savingAnswers" translate>Saving...</span>
         </button>
+
+        <p ng-if="!pageIsValid(page.id)" style="color:red;" class="text-center" translate>Please fill in all required fields.</p>
       </div>
     </div>
   </form>
