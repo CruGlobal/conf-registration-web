@@ -315,7 +315,7 @@ angular.module('confRegistrationWebApp')
       }
 
       $uibModal.open({
-        component: 'showGroup',
+        component: 'showGroupModal',
         resolve: {
           groupName: function() {
             return $scope.getGroupName(id);
