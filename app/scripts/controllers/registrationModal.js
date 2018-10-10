@@ -1,38 +1,39 @@
 
 angular.module('confRegistrationWebApp')
-  .controller('registrationModal', function ($scope, $uibModalInstance, $http, $route, conference, primaryRegistration, typeId, uuid, RegistrationCache, modalMessage) {
+  .controller('registrationModal', function ($scope, $uibModalInstance, $http, $route, conference, primaryRegistration, typeId, uuid, RegistrationCache, modalMessage, validateRegistrant) {
     $scope.conference = conference;
     $scope.form = {
       type: typeId || _.first(conference.registrantTypes).id
     };
 
+    const registrationId = uuid();
+
+    $scope.adminEditRegistrant = {
+      id: uuid(),
+      registrationId: primaryRegistration ? primaryRegistration.id : registrationId,
+      registrantTypeId: $scope.form.type,
+      answers: []
+    };
+
     $scope.register = function () {
-      const registrationId = uuid();
-      var registration;
-      var registrant = {
-        id: uuid(),
-        registrationId: primaryRegistration ? primaryRegistration.id : registrationId,
-        registrantTypeId: $scope.form.type,
-        firstName: $scope.form.first,
-        lastName: $scope.form.last,
-        email: $scope.form.email,
-        answers: []
-      };
-      var registrantIndex = 0;
+      $scope.adminEditRegistrant.registrantTypeId = $scope.form.type;
+      $scope.adminEditRegistrant.firstName = $scope.form.first;
+      $scope.adminEditRegistrant.lastName = $scope.form.last;
+      $scope.adminEditRegistrant.email = $scope.form.email;
 
-      if (primaryRegistration) {
-        registration = primaryRegistration;
-
-        registrantIndex = registration.registrants.length;
-        registration.registrants.push(registrant);
-      } else {
-        // build registration
-        registration = {
+      const registration = primaryRegistration ?
+        primaryRegistration :
+        {
           id: registrationId,
           conferenceId: conference.id,
           completed: true,
-          registrants: [registrant]
+          registrants: [$scope.adminEditRegistrant]
         };
+
+      const registrantIndex = primaryRegistration ? primaryRegistration.registrants.length : 0;
+
+      if (primaryRegistration) {
+        registration.registrants = [...registration.registrants, $scope.adminEditRegistrant];
       }
 
       // populate registration answers from form
@@ -73,5 +74,9 @@ angular.module('confRegistrationWebApp')
           });
       }
       $uibModalInstance.dismiss();
+    };
+
+    $scope.blockIsVisible = function(block, registrant){
+      return block.type !== 'paragraphContent' && validateRegistrant.blockVisible(block, registrant, true);
     };
   });
