@@ -466,6 +466,9 @@ angular.module('confRegistrationWebApp')
             });
             var reg = $scope.getRegistration(registrant.registrationId);
             if (angular.isDefined(reg)) {
+              _.remove(reg.registrants, function (r) {
+                return r.id === registrant.id;
+              });
               _.remove(reg.groupRegistrants, function (r) {
                 return r.id === registrant.id;
               });

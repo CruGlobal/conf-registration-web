@@ -34,6 +34,7 @@ angular.module('confRegistrationWebApp')
 
       if (primaryRegistration) {
         registration.registrants = [...registration.registrants, $scope.adminEditRegistrant];
+        registration.groupRegistrants = [...registration.groupRegistrants, $scope.adminEditRegistrant];
       }
 
       // populate registration answers from form
