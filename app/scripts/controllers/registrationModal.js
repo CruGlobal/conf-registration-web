@@ -78,6 +78,6 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.blockIsVisible = function(block, registrant){
-      return block.type !== 'paragraphContent' && validateRegistrant.blockVisible(block, registrant, true);
+      return block.type !== 'paragraphContent' && block.profileType !== 'NAME' && block.profileType !== 'EMAIL' && validateRegistrant.blockVisible(block, registrant, true);
     };
   });

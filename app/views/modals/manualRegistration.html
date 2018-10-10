@@ -23,7 +23,7 @@
     </div>
 
     <div ng-repeat="page in conference.registrationPages">
-      <div ng-repeat="block in page.blocks" block="block" ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL' && blockIsVisible(block, adminEditRegistrant)" block-registration></div>
+      <div ng-repeat="block in page.blocks" block="block" ng-if="blockIsVisible(block, adminEditRegistrant)" block-registration></div>
     </div>
   </div>
   <div class="modal-footer">
