@@ -21,6 +21,10 @@
       <input show-errors class="form-control" type="email" ng-required="true" ng-model="form.email">
       <span class="help-block help-block-hidden" translate>Please enter a valid email such as: example@domain.com</span>
     </div>
+
+    <div ng-repeat="page in conference.registrationPages">
+      <div ng-repeat="block in page.blocks" block="block" ng-if="blockIsVisible(block, adminEditRegistrant)" block-registration></div>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>Close</button>

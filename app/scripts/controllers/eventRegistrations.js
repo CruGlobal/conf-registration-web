@@ -103,6 +103,7 @@ angular.module('confRegistrationWebApp')
       //Initally display (true) or not display (false) built in columns
       $scope.builtInColumnsVisible = {
         Email: true,
+        Group: true,
         GroupId: false,
         Started: true,
         Completed: true
@@ -308,6 +309,42 @@ angular.module('confRegistrationWebApp')
       });
     };
 
+    $scope.showGroup = function (id) {
+      if(!hasPermission()){
+        return;
+      }
+
+      $uibModal.open({
+        component: 'showGroupModal',
+        resolve: {
+          groupName: function() {
+            return $scope.getGroupName(id);
+          },
+          registrationId: function() {
+            return id;
+          },
+          conference: function() {
+            return $scope.conference;
+          },
+          getRegistration: function() {
+            return $scope.getRegistration;
+          },
+          getRegistrantType: function() {
+            return $scope.getRegistrantType;
+          },
+          editRegistrant: function() {
+            return $scope.editRegistrant;
+          },
+          deleteRegistrant: function() {
+            return $scope.deleteRegistrant;
+          },
+          registerUser: function() {
+            return $scope.registerUser;
+          }
+        }
+      });
+    };
+
     // Export conference registrations information to csv
     $scope.export = function () {
       $uibModal.open({
@@ -321,7 +358,7 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    $scope.registerUser = function () {
+    $scope.registerUser = function (primaryRegistration, typeId) {
       if(!hasPermission()){
         return;
       }
@@ -332,6 +369,12 @@ angular.module('confRegistrationWebApp')
         resolve: {
           conference: function () {
             return conference;
+          },
+          primaryRegistration: function () {
+            return primaryRegistration;
+          },
+          typeId: function() {
+            return typeId;
           }
         }
       });
@@ -339,6 +382,17 @@ angular.module('confRegistrationWebApp')
 
     $scope.getRegistration = function(id){
       return _.find($scope.registrations, { 'id': id });
+    };
+
+    $scope.getGroupName = function(id){
+      var registration = $scope.getRegistration(id);
+
+      if(registration.primaryRegistrantId === null) return null;
+
+      var registrant = _.find(registration.groupRegistrants, { 'id': registration.primaryRegistrantId });
+      if(angular.isUndefined(registrant)) return null;
+
+      return `${registrant.firstName} ${registrant.lastName}`;
     };
 
     $scope.getRegistrantType = function(id){
@@ -410,6 +464,15 @@ angular.module('confRegistrationWebApp')
             _.remove($scope.registrants, function (r) {
               return r.id === registrant.id;
             });
+            var reg = $scope.getRegistration(registrant.registrationId);
+            if (angular.isDefined(reg)) {
+              _.remove(reg.registrants, function (r) {
+                return r.id === registrant.id;
+              });
+              _.remove(reg.groupRegistrants, function (r) {
+                return r.id === registrant.id;
+              });
+            }
           }).catch(function(response){
             modalMessage.error({
               'message': response.data && response.data.error ? response.data.error.message : 'An error has occurred while deleting this registration.'
