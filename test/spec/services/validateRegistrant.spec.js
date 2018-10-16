@@ -46,4 +46,14 @@ describe('Service: validateRegistrant', function () {
 
     expect(validateRegistrant.choiceVisible(block, choice, testData.registration.registrants[0])).toBe(false);
   });
+
+  it('empty checkbox should not be valid', function() {
+    var conference = angular.copy(testData.conference);
+    conference.registrationPages[1].blocks[5].required = true;
+
+    var registrant = angular.copy(testData.registration.registrants[0]);
+    registrant.answers[4].value = {'651': false, '951': false};
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
+  });
 });
