@@ -30,30 +30,32 @@ angular.module('confRegistrationWebApp')
               return;
             }
 
-            $rootScope.$broadcast('answerChanged');
+            const blockTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];
+            // only triggers if this block can have dependent blocks
+            if (_.includes(blockTypes, $scope.block.type)) {
+              $rootScope.$broadcast('answerChanged');
+            }
 
             RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
           }, true);
 
-          $scope.$on('answerChanged', function() {
-            if (!_.includes(['radioQuestion', 'selectQuestion', 'checkboxQuestion'], $scope.block.type)) {
-              return;
-            }
-
-            if ($scope.block.type === 'checkboxQuestion') {
-              $scope.answer.value = _.pickBy($scope.answer.value, function(value, key) {
-                return value === true && $scope.choiceVisible($scope.block, { value: key });
-              });
-
-              RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-            } else {
-              if (!$scope.choiceVisible($scope.block, $scope.answer)) {
-                $scope.answer.value = '';
+          if (_.includes(['radioQuestion', 'selectQuestion', 'checkboxQuestion'], $scope.block.type)) {
+            $scope.$on('answerChanged', function() {
+              if ($scope.block.type === 'checkboxQuestion') {
+                $scope.answer.value = _.pickBy($scope.answer.value, function(value, key) {
+                  return value === true && $scope.choiceVisible($scope.block, { value: key });
+                });
 
                 RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+              } else {
+                if (!$scope.choiceVisible($scope.block, $scope.answer)) {
+                  $scope.answer.value = '';
+
+                  RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+                }
               }
-            }
-          });
+            });
+          }
         }
 
         function initAdminEditMode(){
