@@ -25,6 +25,10 @@ angular.module('confRegistrationWebApp')
             DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
           }
 
+          const answerChanged = _.debounce(function() {
+            $rootScope.$broadcast('answerChanged');
+          }, 500);
+
           $scope.$watch('answer', function (answer, oldAnswer) {
             if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
               return;
@@ -33,7 +37,7 @@ angular.module('confRegistrationWebApp')
             const blockTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];
             // only triggers if this block can have dependent blocks
             if (_.includes(blockTypes, $scope.block.type)) {
-              $rootScope.$broadcast('answerChanged');
+              answerChanged();
             }
 
             RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);

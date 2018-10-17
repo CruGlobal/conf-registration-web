@@ -6,6 +6,8 @@ describe('Directive: blockRegistration', function () {
 
   var element, scope, $compile, $rootScope, testData;
   beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache, _testData_){
+    spyOn(_, 'debounce').and.callFake(function(cb) { return function() { cb(); }; });
+
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     testData = _testData_;
