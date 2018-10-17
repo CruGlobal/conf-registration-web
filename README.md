@@ -1,4 +1,4 @@
-# Event Registration Tool (ERT) Web App  
+# Event Registration Tool (ERT) Web App   
 [![Build Status](https://travis-ci.org/CruGlobal/conf-registration-web.svg?branch=master)](https://travis-ci.org/CruGlobal/conf-registration-web) [![codecov](https://codecov.io/gh/CruGlobal/conf-registration-web/branch/master/graph/badge.svg)](https://codecov.io/gh/CruGlobal/conf-registration-web)
 https://www.eventregistrationtool.com | https://stage.eventregistrationtool.com
 
