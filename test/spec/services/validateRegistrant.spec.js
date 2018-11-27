@@ -56,4 +56,31 @@ describe('Service: validateRegistrant', function () {
 
     expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
   });
+
+  it('empty address fields should not be valid when missing address1, state, zip or city', function() {
+    var conference = angular.copy(testData.conference);
+    conference.registrationPages[1].blocks[7].required = true;
+
+    var registrant = angular.copy(testData.registration.registrants[0]);
+
+    var registrantAddress1 = angular.copy(testData.registration.registrants[0]);
+    registrantAddress1.answers[8].value = {'address1': ''};
+
+    var registrantCity = angular.copy(testData.registration.registrants[0]);
+    registrantCity.answers[8].value = {'city': ''};
+
+    var registrantState = angular.copy(testData.registration.registrants[0]);
+    registrantState.answers[8].value = {'state': ''};
+
+    var registrantZip = angular.copy(testData.registration.registrants[0]);
+    registrantZip.answers[8].value = {'zip': ''};
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
+    expect(validateRegistrant.validate(conference, registrantAddress1).length).toBe(1);
+    expect(validateRegistrant.validate(conference, registrantCity).length).toBe(1);
+    expect(validateRegistrant.validate(conference, registrantState).length).toBe(1);
+    expect(validateRegistrant.validate(conference, registrantZip).length).toBe(1);
+  });
+
+
 });
