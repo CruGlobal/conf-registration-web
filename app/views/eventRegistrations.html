@@ -58,6 +58,12 @@
               </a>
             </li>
             <li>
+              <a href="" ng-click="toggleBuiltInColumn('Group')">
+                <i ng-class="builtInColumnsVisible.Group ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
+                <translate>Group</translate>
+              </a>
+            </li>
+            <li>
               <a href="" ng-click="toggleBuiltInColumn('GroupId')">
                 <i ng-class="builtInColumnsVisible.GroupId ? 'fa fa-check-square' : 'fa fa-square-o'"></i>
                 <translate>Group Id</translate>
@@ -154,6 +160,9 @@
             <a href="" ng-click="setOrder('email')" translate>Email</a>
             <i ng-if="queryParameters.orderBy === 'email'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
           </th>
+          <th ng-if="builtInColumnsVisible.Group">
+            <translate>Group</translate>
+          </th>
           <th ng-if="builtInColumnsVisible.GroupId">
             <a href="" ng-click="setOrder('group_id')" translate>Group Id</a>
             <i ng-if="queryParameters.orderBy === 'group_id'" class="fa" ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"></i>
@@ -195,6 +204,9 @@
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.firstName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Email">{{r.email}}</td>
+          <td ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Group">
+            <a href="" ng-click="showGroup(r.registrationId)" ng-if="getRegistration(r.registrationId).groupRegistrants.length > 1">{{getGroupName(r.registrationId)}}</a>
+          </td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.GroupId">{{r.groupId}}</td>
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
             <show-answer block="block" registrant="r" ng-if="blockIsVisible(block, r)"></show-answer>
