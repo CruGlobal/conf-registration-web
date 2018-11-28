@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
+      controller: function ($scope, $rootScope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         $scope.isString = _.isString;
 
         $onInit();
@@ -23,6 +23,42 @@ angular.module('confRegistrationWebApp')
           }
           if ($scope.block.endDateBlockId !== null) {
             DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
+          }
+
+          const answerChanged = _.debounce(function() {
+            $rootScope.$broadcast('answerChanged');
+          }, 500);
+
+          $scope.$watch('answer', function (answer, oldAnswer) {
+            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+              return;
+            }
+
+            const blockTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];
+            // only triggers if this block can have dependent blocks
+            if (_.includes(blockTypes, $scope.block.type)) {
+              answerChanged();
+            }
+
+            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+          }, true);
+
+          if (_.includes(['radioQuestion', 'selectQuestion', 'checkboxQuestion'], $scope.block.type)) {
+            $scope.$on('answerChanged', function() {
+              if ($scope.block.type === 'checkboxQuestion') {
+                $scope.answer.value = _.pickBy($scope.answer.value, function(value, key) {
+                  return value === true && $scope.choiceVisible($scope.block, { value: key });
+                });
+
+                RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+              } else {
+                if (!$scope.choiceVisible($scope.block, $scope.answer)) {
+                  $scope.answer.value = '';
+
+                  RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+                }
+              }
+            });
           }
         }
 
@@ -52,14 +88,6 @@ angular.module('confRegistrationWebApp')
           );
           $scope.answer = answer;
           isNew && $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
-
-          $scope.$watch('answer', function (answer, oldAnswer) {
-            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
-              return;
-            }
-
-            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-          }, true);
         }
 
         function startDateChangeCallback(value) {
