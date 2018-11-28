@@ -138,7 +138,28 @@ angular.module('confRegistrationWebApp')
                     'profileType': null,
                     'registrantTypes': [],
                     'rules': []
-                }]
+                },{
+                  'adminOnly': false,
+                  'content': {default: '', ruleoperand: 'AND', forceSelections: {}, forceSelectionRuleOperand: 'AND'},
+                  'default': '',
+                  'forceSelectionRuleOperand': 'AND',
+                  'forceSelections': {},
+                  'ruleoperand': 'AND',
+                  'endDateBlockId': null,
+                  'expenseType': null,
+                  'exportFieldTitle': null,
+                  'id': '6a525ff7-8999-4e45-9fbe-da33a73128c8',
+                  'pageId': '95899b98-4258-41f1-b9fb-8f55fd7cbb50',
+                  'position': 7,
+                  'profileType': 'ADDRESS',
+                  'registrantTypes': [],
+                  'required': false,
+                  'rules': [],
+                  'startDateBlockId': null,
+                  'title': 'Address',
+                  'type': 'addressQuestion'
+                }
+                ]
             }],
             'registrantTypes': [{
                 'id': '67c70823-35bd-9262-416f-150e35a03514',
@@ -360,7 +381,20 @@ angular.module('confRegistrationWebApp')
                             'blockId': '26c09fa0-f62e-4dc4-a568-b061da6fdb09',
                             'value': '',
                             'amount': 0.00
+                        },
+                        {
+                        'amount': 0,
+                        'blockId': '6a525ff7-8999-4e45-9fbe-da33a73128c8',
+                        'id': '8413f038-0826-4aa6-aba4-2a3615d4a598',
+                        'registrantId': '707444b6-c3d6-4b26-8e0a-4e0a437b11b9',
+                        'value': {
+                          address1: 'Broadway 1',
+                          address2: '', 
+                          city: 'NYC',
+                          state: 'NY',
+                          zip: '11111'
                         }
+                      }
                     ],
                     'firstName': 'Test',
                     'lastName': 'Person',
