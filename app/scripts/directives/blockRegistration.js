@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function ($scope, $rootScope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
+      controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         $scope.isString = _.isString;
 
         $onInit();
@@ -23,42 +23,6 @@ angular.module('confRegistrationWebApp')
           }
           if ($scope.block.endDateBlockId !== null) {
             DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
-          }
-
-          const answerChanged = _.debounce(function() {
-            $rootScope.$broadcast('answerChanged');
-          }, 500);
-
-          $scope.$watch('answer', function (answer, oldAnswer) {
-            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
-              return;
-            }
-
-            const blockTypes = ['checkboxQuestion', 'radioQuestion', 'selectQuestion', 'numberQuestion', 'dateQuestion', 'genderQuestion', 'yearInSchoolQuestion'];
-            // only triggers if this block can have dependent blocks
-            if (_.includes(blockTypes, $scope.block.type)) {
-              answerChanged();
-            }
-
-            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-          }, true);
-
-          if (_.includes(['radioQuestion', 'selectQuestion', 'checkboxQuestion'], $scope.block.type)) {
-            $scope.$on('answerChanged', function() {
-              if ($scope.block.type === 'checkboxQuestion') {
-                $scope.answer.value = _.pickBy($scope.answer.value, function(value, key) {
-                  return value === true && $scope.choiceVisible($scope.block, { value: key });
-                });
-
-                RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-              } else {
-                if (!$scope.choiceVisible($scope.block, $scope.answer)) {
-                  $scope.answer.value = '';
-
-                  RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-                }
-              }
-            });
           }
         }
 
@@ -88,6 +52,14 @@ angular.module('confRegistrationWebApp')
           );
           $scope.answer = answer;
           isNew && $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+
+          $scope.$watch('answer', function (answer, oldAnswer) {
+            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+              return;
+            }
+
+            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+          }, true);
         }
 
         function startDateChangeCallback(value) {
@@ -160,6 +132,17 @@ angular.module('confRegistrationWebApp')
           return validateRegistrant.blockVisible(block, registrant);
         };
 
+        function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {
+          // if the option of checkbox, select or radio should be hidden,
+          // but it's currently selected, clear the value of that answer
+          if (!isVisible && block.type === 'checkboxQuestion') {
+            $scope.answer.value[choice.value] = false;
+          } else if (!isVisible && _.includes(['selectQuestion', 'radioQuestion'],
+            block.type) && $scope.answer.value === choice.value) {
+            $scope.answer.value = null;
+          }
+        }
+
         $scope.choiceVisible = function (block, choice) {
           if (angular.isUndefined(choice)) {
             return false;
@@ -173,7 +156,11 @@ angular.module('confRegistrationWebApp')
             }
             registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           }
-          return validateRegistrant.choiceVisible(block, choice, registrant);
+          var isVisible = validateRegistrant.choiceVisible(block, choice, registrant);
+
+          clearAnswerIfOptionHidden(isVisible, block, $scope, choice);
+
+          return isVisible;
         };
 
         //Check if the checkbox matches force selection rules
