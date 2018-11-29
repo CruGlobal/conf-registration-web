@@ -145,7 +145,17 @@ angular.module('confRegistrationWebApp')
             }
             registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           }
-          return validateRegistrant.choiceVisible(block, choice, registrant);
+          var isVisible = validateRegistrant.choiceVisible(block, choice, registrant);
+
+          // if the option of checkbox, select or radio should be hidden,
+          // but it's currently selected, clear the value of that answer
+          if(!isVisible && block.type === 'checkboxQuestion'){
+            $scope.answer.value[choice.value] = false;
+          } else if (!isVisible && _.includes(['selectQuestion', 'radioQuestion'], block.type) && $scope.answer.value === choice.value) {
+            $scope.answer.value = null;
+          }
+
+          return isVisible;
         };
 
         //Check if the checkbox matches force selection rules
