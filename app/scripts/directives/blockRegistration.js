@@ -5,7 +5,7 @@ angular.module('confRegistrationWebApp')
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function ($scope, $rootScope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
+      controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
         $scope.isString = _.isString;
 
         $onInit();
@@ -24,36 +24,6 @@ angular.module('confRegistrationWebApp')
           if ($scope.block.endDateBlockId !== null) {
             DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
           }
-
-          $scope.$watch('answer', function (answer, oldAnswer) {
-            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
-              return;
-            }
-
-            $rootScope.$broadcast('answerChanged');
-
-            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-          }, true);
-
-          $scope.$on('answerChanged', function() {
-            if (!_.includes(['radioQuestion', 'selectQuestion', 'checkboxQuestion'], $scope.block.type)) {
-              return;
-            }
-
-            if ($scope.block.type === 'checkboxQuestion') {
-              $scope.answer.value = _.pickBy($scope.answer.value, function(value, key) {
-                return value === true && $scope.choiceVisible($scope.block, { value: key });
-              });
-
-              RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-            } else {
-              if (!$scope.choiceVisible($scope.block, $scope.answer)) {
-                $scope.answer.value = '';
-
-                RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-              }
-            }
-          });
         }
 
         function initAdminEditMode(){
@@ -82,6 +52,14 @@ angular.module('confRegistrationWebApp')
           );
           $scope.answer = answer;
           isNew && $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+
+          $scope.$watch('answer', function (answer, oldAnswer) {
+            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
+              return;
+            }
+
+            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
+          }, true);
         }
 
         function startDateChangeCallback(value) {
