@@ -132,6 +132,17 @@ angular.module('confRegistrationWebApp')
           return validateRegistrant.blockVisible(block, registrant);
         };
 
+        function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {
+          // if the option of checkbox, select or radio should be hidden,
+          // but it's currently selected, clear the value of that answer
+          if (!isVisible && block.type === 'checkboxQuestion') {
+            $scope.answer.value[choice.value] = false;
+          } else if (!isVisible && _.includes(['selectQuestion', 'radioQuestion'],
+            block.type) && $scope.answer.value === choice.value) {
+            $scope.answer.value = null;
+          }
+        }
+
         $scope.choiceVisible = function (block, choice) {
           if (angular.isUndefined(choice)) {
             return false;
@@ -147,13 +158,7 @@ angular.module('confRegistrationWebApp')
           }
           var isVisible = validateRegistrant.choiceVisible(block, choice, registrant);
 
-          // if the option of checkbox, select or radio should be hidden,
-          // but it's currently selected, clear the value of that answer
-          if(!isVisible && block.type === 'checkboxQuestion'){
-            $scope.answer.value[choice.value] = false;
-          } else if (!isVisible && _.includes(['selectQuestion', 'radioQuestion'], block.type) && $scope.answer.value === choice.value) {
-            $scope.answer.value = null;
-          }
+          clearAnswerIfOptionHidden(isVisible, block, $scope, choice);
 
           return isVisible;
         };
