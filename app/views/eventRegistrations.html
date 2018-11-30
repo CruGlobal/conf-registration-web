@@ -205,7 +205,7 @@
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">{{r.lastName}}</td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Email">{{r.email}}</td>
           <td ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.Group">
-            <a href="" ng-click="showGroup(r.registrationId)" ng-if="getRegistration(r.registrationId).groupRegistrants.length > 1">{{getGroupName(r.registrationId)}}</a>
+            <a href="" ng-click="showGroup(r.registrationId)" ng-if="getRegistrantType(r.registrantTypeId).allowGroupRegistrations">{{getGroupName(r.registrationId)}}</a>
           </td>
           <td ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}" ng-if="builtInColumnsVisible.GroupId">{{r.groupId}}</td>
           <td ng-repeat="block in blocks | filter:{ visible: true }" ng-click="expandRegistration(r.id)" ng-class="{'strike-through':r.withdrawn}">
