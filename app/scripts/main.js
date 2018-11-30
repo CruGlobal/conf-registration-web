@@ -40,6 +40,7 @@ import 'scripts/directives/pickadate.js';
 import 'scripts/directives/registrationTypeSelect.js';
 import 'scripts/directives/selectOnClick.js';
 import 'scripts/directives/showAnswer.js';
+import 'scripts/directives/showGroupModal.js';
 import 'scripts/directives/showErrors.js';
 import 'scripts/directives/stringToNumber.js';
 import 'scripts/directives/rule.js';
