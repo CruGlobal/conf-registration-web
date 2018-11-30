@@ -170,6 +170,18 @@ angular.module('confRegistrationWebApp')
               return;
             }
             break;
+          case 'checkboxQuestion':
+            if (_.isEmpty(answer) || _.isEmpty(_.pickBy(answer))) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            break;
+          case 'addressQuestion':
+            if (_.isEmpty(answer.address1) || _.isEmpty(answer.state)  || _.isEmpty(answer.city)  || _.isEmpty(answer.zip)) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            break;
           default:
             if(_.isEmpty(answer)){
               invalidBlocks.push(block.id);
