@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp')
         registrant: '=',
         showAmount: '='
       },
-      controller: function ($scope) {
+      controller: function ($scope, validateRegistrant) {
         if(angular.isDefined($scope.registrant)){
           if ($scope.registrant.answers) {
             var answerObject = _.find($scope.registrant.answers, { blockId: $scope.block.id });
@@ -21,9 +21,21 @@ angular.module('confRegistrationWebApp')
         }
 
         $scope.getSelectedCheckboxes = function (choices) {
-          return _.keys(_.pickBy(choices, function (val) {
-            return val === true;
+          var visibleChoices = _.filter($scope.block.content.choices, function(choice) {
+            return $scope.choiceVisible($scope.block, choice, $scope.registrant);
+          });
+          visibleChoices = _.map(visibleChoices, 'value');
+
+          return _.keys(_.pickBy(choices, function (value, key) {
+            return value === true && visibleChoices.includes(key);
           }));
+        };
+
+        $scope.choiceVisible = function (block, choice, registrant) {
+          if (angular.isUndefined(choice)) {
+            return false;
+          }
+          return validateRegistrant.choiceVisible(block, choice, registrant);
         };
 
       }
