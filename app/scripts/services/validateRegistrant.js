@@ -177,7 +177,7 @@ angular.module('confRegistrationWebApp')
             }
             break;
           case 'addressQuestion':
-            if (_.isEmpty(answer.address1) || _.isEmpty(answer.city) || _.isEmpty(answer.state) || _.isEmpty(answer.zip)) {
+            if (_.isEmpty(answer.address1) || _.isEmpty(answer.state)  || _.isEmpty(answer.city)  || _.isEmpty(answer.zip)) {
               invalidBlocks.push(block.id);
               return;
             }
