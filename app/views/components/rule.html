@@ -57,16 +57,25 @@
   </div>
 
   <div ng-if="ruleType==='SHOW_OPTION'" ng-repeat="answer in block.content.choices">
-    <div class="rule-message-alignment clearfix">
+    <div class="rule-option-value clearfix">
       <span class="pull-left">{{answer.value}}</span>
       <button class="btn btn-success pull-right" ng-click="addRule(ruleType, answer.value)"><i class="fa fa-plus"></i> <translate>Add Rule</translate></button>
     </div>
+    <div class="clearfix rule-option-operand">
+      <div class="col-md-12 mb-2">
+        <span class="pull-left">Show if:</span>
+        <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio radio-horizontal padding-top-0">
+          <label>
+            <input type="radio" show-errors ng-model="answer.operand" ng-change="" ng-value="choice">
+            <strong ng-if="choice==='AND'" translate>All rules are met</strong>
+            <strong ng-if="choice==='OR'" translate>Any rules are met</strong>
+          </label>
+        </div>
+      </div>
+    </div>
 
     <div ng-repeat="rule in rules = (getRulesByType(ruleType, answer.value))" style="overflow: auto">
-      <div class="col-md-1 stacked-spacing-col-md" style="line-height: 34px">
-        <span class="pull-left">{{ruleOperandMessage}}</span>
-      </div>
-      <div class="col-md-4 stacked-spacing-col-md form-group">
+      <div class="col-md-5 stacked-spacing-col-md form-group">
         <select ng-model="rule.parentBlockId" ng-options="block.id as block.title for block in ruleBlocks()" class="form-control"></select>
       </div>
       <div class="col-md-2 col-sm-5 stacked-spacing-col-md form-group">

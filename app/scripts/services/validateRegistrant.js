@@ -67,7 +67,7 @@ angular.module('confRegistrationWebApp')
 
       if (ruleType === ruleTypeConstants.SHOW_OPTION) {
         blockTypeSpecificRules = _.filter(block.rules, { 'ruleType': ruleType, 'blockEntityOption': choice.value });
-        ruleOperand = 'OR';
+        ruleOperand = choice.operand ? choice.operand : 'OR';
       } else {
         if($window.Rollbar){
           $window.Rollbar.error('choiceVisibleRuleCheck was called with an unknown rule type: ', ruleType);
@@ -177,7 +177,7 @@ angular.module('confRegistrationWebApp')
             }
             break;
           case 'addressQuestion':
-            if (_.isEmpty(answer.address1) || _.isEmpty(answer.city) || _.isEmpty(answer.state) || _.isEmpty(answer.zip)) {
+            if (_.isEmpty(answer.address1) || _.isEmpty(answer.state)  || _.isEmpty(answer.city)  || _.isEmpty(answer.zip)) {
               invalidBlocks.push(block.id);
               return;
             }
