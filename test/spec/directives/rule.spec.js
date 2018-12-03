@@ -17,7 +17,7 @@ describe('Directive: rule', function () {
 
     const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
 
-    scope.block = block
+    scope.block = block;
 
     element = $compile('<rule rule-type="SHOW_OPTION" block="block" />')(scope);
     scope.$digest();
