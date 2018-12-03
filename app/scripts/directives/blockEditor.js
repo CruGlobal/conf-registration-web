@@ -131,7 +131,8 @@ angular.module('confRegistrationWebApp')
           else {
             $scope.block.content.choices.push({
               value: newOption,
-              desc: ''
+              desc: '',
+              operand: 'OR'
             });
             $scope.editBlockAddOptionAnswer.value = '';
           }

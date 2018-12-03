@@ -29,4 +29,14 @@ describe('Directive: blockEditor', function () {
 
     expect(scope.block.content.forceSelections['someValue']).toBeUndefined();
   });
+
+  it('set new answer rules operand to OR by default', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
+    scope.block = block;
+
+    scope.editBlockAddOption('EEE');
+
+    expect(scope.block.content.choices[4].operand).toBe('OR');
+  });
+
 });
