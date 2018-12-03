@@ -186,7 +186,7 @@
           <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
       </uib-tab>
       <uib-tab heading="Answer Rules" ng-if="canHaveAnswerRules">
-        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" rule-operand-message="{{'Show if:' | translate}}" conference="conference" block="block"></rule>
+        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" conference="conference" block="block"></rule>
       </uib-tab>
     </uib-tabset>
   </div>
