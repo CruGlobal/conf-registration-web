@@ -67,7 +67,7 @@ angular.module('confRegistrationWebApp')
 
       if (ruleType === ruleTypeConstants.SHOW_OPTION) {
         blockTypeSpecificRules = _.filter(block.rules, { 'ruleType': ruleType, 'blockEntityOption': choice.value });
-        ruleOperand = 'OR';
+        ruleOperand = choice.operand ? choice.operand : 'OR';
       } else {
         if($window.Rollbar){
           $window.Rollbar.error('choiceVisibleRuleCheck was called with an unknown rule type: ', ruleType);

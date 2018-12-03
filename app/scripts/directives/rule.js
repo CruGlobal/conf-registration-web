@@ -23,6 +23,15 @@ angular.module('confRegistrationWebApp')
                     $scope.rule.operand = $scope.block.content.forceSelectionRuleOperand;
                 }
 
+                //Initializing answers rules operands, if empty default to OR
+                if (angular.isDefined($scope.block.content.choices)) {
+                  _.forEach($scope.block.content.choices, function (choice) {
+                    if (!choice.operand) {
+                      choice.operand = 'OR';
+                    }
+                  });
+                }
+
                 //setting ruleoperand value based on the rule type
                 $scope.setRuleOperand = function () {
                     if ($scope.ruleType === ruleTypeConstants.SHOW_QUESTION) {

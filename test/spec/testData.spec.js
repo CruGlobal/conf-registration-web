@@ -158,6 +158,95 @@ angular.module('confRegistrationWebApp')
                   'startDateBlockId': null,
                   'title': 'Address',
                   'type': 'addressQuestion'
+                },{
+                  'id': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                  'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+                  'title': 'Checkbox Parent',
+                  'exportFieldTitle': null,
+                  'type': 'checkboxQuestion',
+                  'required': false,
+                  'position': 7,
+                  'content': {'choices': [
+                      {'value': 'A', 'desc': ''},
+                      {'value': 'B', 'desc': ''},
+                      {'value': 'C', 'desc': ''},
+                      {'value': 'D', 'desc': ''}
+
+                      ]},
+                  'profileType': null,
+                  'registrantTypes': [],
+                  'rules': []
+                }, {
+                  'id': '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
+                  'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+                  'title': 'Checkbox Rules',
+                  'exportFieldTitle': null,
+                  'type': 'checkboxQuestion',
+                  'required': false,
+                  'position': 8,
+                  'content': {'choices': [
+                      {'value': 'AAA', 'desc': '', 'operand': 'AND'},
+                      {'value': 'BBB', 'desc': '', 'operand': 'OR'},
+                      {'value': 'CCC', 'desc': ''},
+                      {'value': 'DDD', 'desc': ''}
+                    ]},
+                  'profileType': null,
+                  'registrantTypes': [],
+                  'rules': [{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05511',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'A',
+                    'position': 0,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'AAA'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05522',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'B',
+                    'position': 1,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'AAA'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05522',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'C',
+                    'position': 2,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'BBB'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05522',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'D',
+                    'position': 3,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'BBB'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05522',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'A',
+                    'position': 4,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'DDD'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05522',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'C',
+                    'position': 5,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'DDD'
+                  }]
                 }
                 ]
             }],
@@ -394,6 +483,13 @@ angular.module('confRegistrationWebApp')
                           state: 'NY',
                           zip: '11111'
                         }
+                      },
+                      {
+                        'id': '84666425-e587-40d5-afb6-cccccccccccc',
+                        'registrantId': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+                        'blockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                        'value': '',
+                        'amount': 0.00
                       }
                     ],
                     'firstName': 'Test',
