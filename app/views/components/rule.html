@@ -2,7 +2,7 @@
   <label>{{ruleTypeMessage}}</label>
   <div ng-if="ruleType!='SHOW_OPTION'">
     <div class="rule-message-alignment clearfix" >
-        <span class="pull-left">{{ruleOperandMessage}}</span>
+        <span class="pull-left">{{'Show question if:' | translate}}</span>
         <div class="col-xs-8 padding-left-0">
           <div ng-repeat="choice in ['AND','OR']" class="pull-left margin-left-10 radio radio-horizontal padding-top-0">
             <label> 

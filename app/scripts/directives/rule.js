@@ -8,7 +8,6 @@ angular.module('confRegistrationWebApp')
             scope: {
                 ruleType: '@',
                 ruleTypeMessage: '@',
-                ruleOperandMessage: '@',
                 block: '=',
                 conference: '='
             },
