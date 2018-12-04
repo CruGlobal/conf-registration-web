@@ -22,4 +22,20 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     it('blockVisibleForRegistrant should be true', function () {
         expect(scope.blockVisibleForRegistrant(scope.conference.registrationPages[1].blocks[0], scope.currentRegistration.registrants[0])).toBe(true);
     });
+
+    it('registrantDeletable should be possible when allowEditRegistrationAfterComplete set to true', function () {
+      scope.conference.allowEditRegistrationAfterComplete = true;
+      expect(scope.registrantDeletable({registrantTypeId: '2b7ca963-0503-47c4-b9cf-6348d59542c3'})).toBe(true);
+    });
+
+    it('registrantDeletable should not be possible when allowEditRegistrationAfterComplete set to false', function () {
+        scope.conference.allowEditRegistrationAfterComplete = false;
+        expect(scope.registrantDeletable({})).toBe(false);
+    });
+
+    it('registrantDeletable should not be possible when removing primary registrant', function () {
+      scope.conference.allowEditRegistrationAfterComplete = true;
+      expect(scope.registrantDeletable({id: scope.currentRegistration.primaryRegistrantId})).toBe(false);
+    });
+
 });
