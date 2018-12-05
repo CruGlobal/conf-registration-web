@@ -183,7 +183,11 @@ angular.module('confRegistrationWebApp')
     };
 
     $scope.registrantDeletable = function(r){
-      if(currentRegistration.completed){
+      if(currentRegistration.completed && !conference.allowEditRegistrationAfterComplete){
+        return false;
+      }
+
+      if(currentRegistration.primaryRegistrantId === r.id) {
         return false;
       }
       var groupRegistrants = 0, noGroupRegistrants = 0;
