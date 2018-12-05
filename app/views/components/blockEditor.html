@@ -182,11 +182,11 @@
       <uib-tab heading="Question Rules" ng-if="canHaveRules">
         <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Question Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
           <translate>Question Rules can depend on questions of</translate> <a href="" uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
-          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" rule-operand-message="{{'Show question if:' | translate}}" conference="conference" block="block"></rule>
+          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" conference="conference" block="block"></rule>
           <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
       </uib-tab>
       <uib-tab heading="Answer Rules" ng-if="canHaveAnswerRules">
-        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" rule-operand-message="{{'Show if:' | translate}}" conference="conference" block="block"></rule>
+        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" conference="conference" block="block"></rule>
       </uib-tab>
     </uib-tabset>
   </div>

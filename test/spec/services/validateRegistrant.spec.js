@@ -82,5 +82,69 @@ describe('Service: validateRegistrant', function () {
     expect(validateRegistrant.validate(conference, registrantZip).length).toBe(1);
   });
 
+  it('choices should be visible based on rules', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
+
+    const choiceAAA = _.find(block.content.choices, {value: 'AAA'});
+    const choiceBBB = _.find(block.content.choices, {value: 'BBB'});
+    const choiceCCC = _.find(block.content.choices, {value: 'CCC'});
+    const choiceDDD = _.find(block.content.choices, {value: 'DDD'});
+
+    const registrant = angular.copy(testData.registration.registrants[0]);
+
+    const answerIndex = _.findIndex(registrant.answers, {blockId: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa'});
+    registrant.answers[answerIndex].value = {
+      A: true,
+      B: true,
+      C: false,
+      D: true
+    };
+
+    // 'A' AND 'B' rules should show the option
+    expect(validateRegistrant.choiceVisible(block, choiceAAA, registrant)).toBe(true);
+
+    // 'C' OR 'D' rules should show the option
+    expect(validateRegistrant.choiceVisible(block, choiceBBB, registrant)).toBe(true);
+
+    // No rules should show the option
+    expect(validateRegistrant.choiceVisible(block, choiceCCC, registrant)).toBe(true);
+
+    // No operand for answers set (fallback for already created answers), default to OR
+    // 'A' OR 'C' should show the option
+    expect(validateRegistrant.choiceVisible(block, choiceDDD, registrant)).toBe(true);
+  });
+
+  it('choices should not be visible based on rules', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
+
+    const choiceAAA = _.find(block.content.choices, {value: 'AAA'});
+    const choiceBBB = _.find(block.content.choices, {value: 'BBB'});
+    const choiceCCC = _.find(block.content.choices, {value: 'CCC'});
+    const choiceDDD = _.find(block.content.choices, {value: 'DDD'});
+
+    const registrant = angular.copy(testData.registration.registrants[0]);
+
+    const answerIndex = _.findIndex(registrant.answers, {blockId: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa'});
+    registrant.answers[answerIndex].value = {
+      A: false,
+      B: true,
+      C: false,
+      D: false
+    };
+
+    // 'A' AND 'B' rules should not show the option
+    expect(validateRegistrant.choiceVisible(block, choiceAAA, registrant)).toBe(false);
+
+    // 'C' OR 'D' rules should not show the option
+    expect(validateRegistrant.choiceVisible(block, choiceBBB, registrant)).toBe(false);
+
+    // No rules should show the option
+    expect(validateRegistrant.choiceVisible(block, choiceCCC, registrant)).toBe(true);
+
+    // No operand for answers set (fallback for already created answers), default to OR
+    // 'A' OR 'C' should not show the option
+    expect(validateRegistrant.choiceVisible(block, choiceDDD, registrant)).toBe(false);
+  });
+
 
 });

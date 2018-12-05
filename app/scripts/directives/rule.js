@@ -8,7 +8,6 @@ angular.module('confRegistrationWebApp')
             scope: {
                 ruleType: '@',
                 ruleTypeMessage: '@',
-                ruleOperandMessage: '@',
                 block: '=',
                 conference: '='
             },
@@ -21,6 +20,15 @@ angular.module('confRegistrationWebApp')
                     $scope.rule.operand = $scope.block.content.ruleoperand;
                 } else if ($scope.ruleType === ruleTypeConstants.FORCE_SELECTION) {
                     $scope.rule.operand = $scope.block.content.forceSelectionRuleOperand;
+                }
+
+                //Initializing answers rules operands, if empty default to OR
+                if (angular.isDefined($scope.block.content.choices)) {
+                  _.forEach($scope.block.content.choices, function (choice) {
+                    if (!choice.operand) {
+                      choice.operand = 'OR';
+                    }
+                  });
                 }
 
                 //setting ruleoperand value based on the rule type
