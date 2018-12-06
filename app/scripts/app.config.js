@@ -279,7 +279,9 @@ angular.module('confRegistrationWebApp')
                 var serviceUrl = $location.absUrl().replace('logout', '');
                 $window.location.href = 'https://signon.cru.org/cas/logout?service=' + serviceUrl;
               } else if ($cookies.get('crsAuthProviderType') === 'FACEBOOK') {
-                $window.FB.logout();
+                $window.FB.logout(function() {
+                  $cookies.remove('fblo_217890171695297');
+                });
               }
               $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
