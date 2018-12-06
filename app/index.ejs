@@ -32,17 +32,17 @@
   <% } %>
 
   <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId            : '217890171695297',
-        autoLogAppEvents : true,
-        xfbml            : true,
-        version          : 'v3.2'
-      });
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId            : '217890171695297',
+          autoLogAppEvents : true,
+          xfbml            : true,
+          version          : 'v3.2'
+        });
 
        FB.getLoginStatus(function(response) {
-               console.log(response);
-           });
+           console.log(response);
+       });
     };
 
     (function(d, s, id){

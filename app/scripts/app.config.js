@@ -278,6 +278,10 @@ angular.module('confRegistrationWebApp')
               if ($cookies.get('crsAuthProviderType') === 'RELAY') {
                 var serviceUrl = $location.absUrl().replace('logout', '');
                 $window.location.href = 'https://signon.cru.org/cas/logout?service=' + serviceUrl;
+              } else if ($cookies.get('crsAuthProviderType') === 'FACEBOOK') {
+                FB.logout(function(response) {
+                    console.log(response);
+                });
               }
               $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
