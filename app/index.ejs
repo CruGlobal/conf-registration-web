@@ -134,7 +134,7 @@
             <h1 ng-bind="currentEventName"></h1>
           </a>
         </div>
-        <div class="col-sm-2 text-right hidden-xs">
+        <div class="col-sm-2 text-right hidden-xs" ng-if="globalUser() && globalUser().authProviderType !== 'NONE'">
           <a href="logout" class="btn btn-primary btn-important" translate>Sign out</a>
         </div>
       </div>
