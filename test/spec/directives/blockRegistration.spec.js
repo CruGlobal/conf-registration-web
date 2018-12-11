@@ -89,4 +89,59 @@ describe('Directive: blockRegistration', function () {
     // and also current answer should be not selected
     expect(element.scope().adminEditRegistrant.answers[4].value['651']).toBeFalsy();
   });
+
+  it('all force selected checkboxes should be visible and set to true', function() {
+    scope.adminEditRegistrant = testData.registration.registrants[0];
+
+    const blocks = testData.conference.registrationPages[1].blocks;
+    const block = _.find(blocks, {'id' : 'bd6cb777-563f-4975-a0c5-58030ee6c36c'});
+
+    scope.block = block;
+    element = $compile('<div block-registration></div>')(scope);
+    scope.$digest();
+
+    const choice1 = _.find(scope.block.content.choices, { 'value' : '1'});
+    const choice2 = _.find(scope.block.content.choices, { 'value' : '2'});
+    const choice3 = _.find(scope.block.content.choices, { 'value' : '3'});
+    const choice4 = _.find(scope.block.content.choices, { 'value' : '4'});
+
+    expect(element.scope().choiceVisible(scope.block, choice1)).toBe(true);
+    expect(element.scope().choiceVisible(scope.block, choice2)).toBe(true);
+    expect(element.scope().choiceVisible(scope.block, choice3)).toBe(true);
+    expect(element.scope().choiceVisible(scope.block, choice4)).toBe(true);
+
+    expect(scope.answer.value['1']).toBe(true);
+    expect(scope.answer.value['2']).toBe(true);
+    expect(scope.answer.value['3']).toBe(true);
+    expect(scope.answer.value['4']).toBeUndefined();
+  });
+
+  it('hidden force selection should not be counted when calculating the cost amount', function() {
+    scope.adminEditRegistrant = testData.registration.registrants[0];
+    const answerIndex = _.findIndex(scope.adminEditRegistrant.answers, {'blockId' : '1f8b4b56-22ac-417b-ada1-d2096b782ddd'})
+    scope.adminEditRegistrant.answers[answerIndex].value['B'] = false;
+    scope.adminEditRegistrant.answers[answerIndex].value['C'] = false;
+
+    const blocks = testData.conference.registrationPages[1].blocks;
+    const block = _.find(blocks, {'id' : 'bd6cb777-563f-4975-a0c5-58030ee6c36c'});
+
+    scope.block = block;
+    element = $compile('<div block-registration></div>')(scope);
+    scope.$digest();
+
+    const choice1 = _.find(scope.block.content.choices, { 'value' : '1'});
+    const choice2 = _.find(scope.block.content.choices, { 'value' : '2'});
+    const choice3 = _.find(scope.block.content.choices, { 'value' : '3'});
+    const choice4 = _.find(scope.block.content.choices, { 'value' : '4'});
+
+    expect(element.scope().choiceVisible(scope.block, choice1)).toBe(true);
+    expect(element.scope().choiceVisible(scope.block, choice2)).toBe(false);
+    expect(element.scope().choiceVisible(scope.block, choice3)).toBe(false);
+    expect(element.scope().choiceVisible(scope.block, choice4)).toBe(true);
+
+    expect(scope.answer.value['1']).toBe(true);
+    expect(scope.answer.value['2']).toBe(false);
+    expect(scope.answer.value['3']).toBe(false);
+    expect(scope.answer.value['4']).toBeUndefined();
+  });
 });

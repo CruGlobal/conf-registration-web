@@ -143,6 +143,19 @@ angular.module('confRegistrationWebApp')
           }
         }
 
+        function setForceSelections(block, registrant, isVisible, choice) {
+          if (block.type !== 'checkboxQuestion') {
+            return;
+          }
+          var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);
+          if(ruleStatus){//making all checkbox with force selection to true
+            if(angular.isDefined(block.content.forceSelections) &&
+                block.content.forceSelections[choice.value] === true && isVisible){
+              $scope.answer.value[choice.value] = block.content.forceSelections[choice.value];
+            }
+          }
+        }
+
         $scope.choiceVisible = function (block, choice) {
           if (angular.isUndefined(choice)) {
             return false;
@@ -157,6 +170,8 @@ angular.module('confRegistrationWebApp')
             registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
           }
           var isVisible = validateRegistrant.choiceVisible(block, choice, registrant);
+
+          setForceSelections(block, registrant, isVisible, choice);
 
           clearAnswerIfOptionHidden(isVisible, block, $scope, choice);
 
@@ -174,15 +189,7 @@ angular.module('confRegistrationWebApp')
             }else{
               registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
             }
-            var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);
-            if(ruleStatus){//making all checkbox with force selection to true
-              for(var i in block.content.forceSelections){
-                if(block.content.forceSelections[i] === true){
-                  $scope.answer.value[i] = block.content.forceSelections[i];
-                }
-              }
-            }
-            return ruleStatus;
+            return validateRegistrant.checkboxDisable(block, registrant);
           }
         };
 
