@@ -118,7 +118,7 @@ describe('Directive: blockRegistration', function () {
 
   it('hidden force selection should not be counted when calculating the cost amount', function() {
     scope.adminEditRegistrant = testData.registration.registrants[0];
-    const answerIndex = _.findIndex(scope.adminEditRegistrant.answers, {'blockId' : '1f8b4b56-22ac-417b-ada1-d2096b782ddd'})
+    const answerIndex = _.findIndex(scope.adminEditRegistrant.answers, {'blockId' : '1f8b4b56-22ac-417b-ada1-d2096b782ddd'});
     scope.adminEditRegistrant.answers[answerIndex].value['B'] = false;
     scope.adminEditRegistrant.answers[answerIndex].value['C'] = false;
 
