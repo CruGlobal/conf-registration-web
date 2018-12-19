@@ -247,7 +247,85 @@ angular.module('confRegistrationWebApp')
                     'ruleType': 'SHOW_OPTION',
                     'blockEntityOption': 'DDD'
                   }]
-                }
+                },
+                  {
+                    'adminOnly': 'false',
+                    'content': {
+                      'default': {},
+                      'ruleoperand': 'AND',
+                      'forceSelections': {},
+                      'forceSelectionRuleOperand': 'AND'
+                    },
+                    'choices': [
+                      {'value': 'A', 'desc': '', 'operand': 'OR'},
+                      {'value': 'B', 'desc': '', 'operand': 'OR'},
+                      {'value': 'C', 'desc': '', 'operand': 'OR'}
+                    ],
+                    'id': '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
+                    'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+                    'position': '2',
+                    'registrantTypes': [],
+                    'required': 'false',
+                    'rules': [],
+                    'title': 'Parent',
+                    'type': 'checkboxQuestion'
+                  }, {
+                    'adminOnly': 'false',
+                    'content': {
+                      'choices': [
+                        {'value': '1', 'desc': '', 'operand': 'OR', 'amount': '50'},
+                        {'value': '2', 'desc': '', 'operand': 'OR', 'amount': '20'},
+                        {'value': '3', 'desc': '', 'operand': 'OR', 'amount': '10'},
+                        {'value': '4', 'desc': '', 'operand': 'OR', 'amount': '90'}
+                      ],
+                      'default': {'1': 'true', '2': 'true', '3': 'true', '4': 'true'},
+                      'forceSelectionRuleOperand': 'AND',
+                      'forceSelections': {'1': true, '2': true, '3': true},
+                      'ruleoperand': 'AND'
+                    },
+                    'endDateBlockId': 'null',
+                    'expenseType': 'MISCELLANEOUS_ITEM',
+                    'exportFieldTitle': 'null',
+                    'id': 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
+                    'pageId': '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+                    'position': '3',
+                    'profileType': 'null',
+                    'registrantTypes': [],
+                    'required': 'false',
+                    'rules': [
+                      {
+                        'blockEntityOption': '',
+                        'blockId': 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
+                        'id': '223c9577-1df0-4d1c-be64-7be07c64805d',
+                        'operator': '=',
+                        'parentBlockId': '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
+                        'position': '0',
+                        'ruleType': 'SHOW_QUESTION',
+                        'value': 'A'
+                      },
+                      {
+                        'blockEntityOption': '2',
+                        'blockId': 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
+                        'id': '689a25b5-4c7b-40fd-b091-949b8c7fef40',
+                        'operator': '=',
+                        'parentBlockId': '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
+                        'position': 1,
+                        'ruleType': 'SHOW_OPTION',
+                        'value': 'B'
+                      }, {
+                        'blockEntityOption': '3',
+                        'blockId': 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
+                        'id': '97923d22-75df-4a10-83f0-4d4398d766a4',
+                        'operator': '=',
+                        'parentBlockId': '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
+                        'position': 2,
+                        'ruleType': 'SHOW_OPTION',
+                        'value': 'C'
+                      }
+                    ],
+                    'title': 'Child',
+                    'type': 'checkboxQuestion'
+                  }
                 ]
             }],
             'registrantTypes': [{
@@ -489,6 +567,25 @@ angular.module('confRegistrationWebApp')
                         'registrantId': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
                         'blockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
                         'value': '',
+                        'amount': 0.00
+                      },
+                      {
+                        'id': '6e52f066-f894-43ac-b9c0-aaaaaaffafaf',
+                        'registrantId': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+                        'blockId': '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
+                        'value': {
+                          'A': true,
+                          'B': true,
+                          'C': true
+                        },
+                        'amount': 0.00
+                      },
+                      {
+                        'id': '6e52f066-f894-43ac-b9c0-bfbfbfbfbfbf',
+                        'registrantId': '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+                        'blockId': 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
+                        'value': {
+                        },
                         'amount': 0.00
                       }
                     ],
