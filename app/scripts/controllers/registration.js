@@ -31,6 +31,13 @@ angular.module('confRegistrationWebApp')
       return visiblePageArray[_.findIndex(visiblePageArray, {'id': pageId}) + 1];
     };
 
+    // If a page is refreshed in preview mode redirect to the registration welcome page.
+    // A registrant data in preview mode is not stored in the backend, so after refreshing
+    // the form breaks because there is no registrant created.
+    if ($scope.registerMode === 'preview' && $scope.activePageId !== '' && !_.find(currentRegistration.registrants, { 'id' : $routeParams.reg })){
+        $scope.activePageId = '';
+    }
+
     //if current page doesn't exist, go to first page
     if ($scope.activePageIndex === -1 && angular.isDefined($scope.page)) {
       $location.path('/' + $rootScope.registerMode + '/' + conference.id + '/page/' + $scope.conference.registrationPages[0].id);
