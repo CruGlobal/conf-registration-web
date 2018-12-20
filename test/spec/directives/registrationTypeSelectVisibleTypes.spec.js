@@ -1,21 +1,21 @@
 import 'angular-mocks';
 
-describe('Directive: registrationTypeSelect', function () {
+describe('Directive: registrationTypeSelect visibleRegistrantTypes', function () {
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache, $routeParams, _testData_){
+  var element, scope, $compile, $rootScope, testRegistrantTypeData;
+  beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache, $routeParams, _testRegistrantTypeData_){
     $compile = _$compile_;
     $rootScope = _$rootScope_;
-    testData = _testData_;
-    angular.extend($routeParams, { regType: testData.conference.registrantTypes[1].id });
+    testRegistrantTypeData = _testRegistrantTypeData_;
+    angular.extend($routeParams, { regType: testRegistrantTypeData.conference.registrantTypes[1].id });
 
     scope = $rootScope.$new();
     $templateCache.put('views/components/registrationTypeSelect.html', '');
 
-    scope.conference = testData.conference;
-    scope.currentRegistration = testData.registration;
+    scope.conference = testRegistrantTypeData.conference;
+    scope.currentRegistration = testRegistrantTypeData.registration;
 
     scope.currentRegistration.registrants = [];
 
@@ -31,10 +31,10 @@ describe('Directive: registrationTypeSelect', function () {
   });
 
   it('registrationTypeFull should return false when there is no limit', function() {
-    var registrationType = testData.conference.registrantTypes[1];
+    var registrationType = testRegistrantTypeData.conference.registrantTypes[1];
 
     expect(scope.registrationTypeFull(registrationType)).toBe(false);
   });
 
-
+  
 });

@@ -6,7 +6,33 @@ angular.module('confRegistrationWebApp')
       templateUrl: template,
       restrict: 'E',
       controller: function ($scope, $rootScope, $location, $routeParams, RegistrationCache, uuid, modalMessage) {
+
+        //TBR: mocking backend response
+   /*     const index = _.findIndex($scope.conference.registrantTypes, {name: 'Group 1'});
+        $scope.conference.registrantTypes[index].childRegistrantTypes = [
+          {id: "ec98a7e5-94f2-4ecc-9dd8-964e2910df20", limit: 1},
+          {id: "85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3", limit: 2}
+        ];
+
+        const index2 = _.findIndex($scope.conference.registrantTypes, {name: 'Group 2'});
+        $scope.conference.registrantTypes[index2].childRegistrantTypes = [
+          {id: "fc10c9a0-018c-4536-9a46-14430caa5c93", limit: 2},
+          {id: "61a3a1ec-5c53-4010-8df1-46031b53bc78", limit: 3}
+        ];*/
+        // TBR END
+
         $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
+
+        const findCurrentGroupRegistrantType = function() {
+          const registrants = $scope.currentRegistration.registrants;
+          for (let i = 0; i < registrants.length; i++) {
+            const registrationType = _.find($scope.conference.registrantTypes, {'id': registrants[i].registrantTypeId});
+            if (registrationType.allowGroupRegistrations) {
+              return registrationType;
+            }
+          }
+          return null;
+        };
 
         var visibleType = $routeParams.regType;
         if(angular.isDefined(visibleType)){
@@ -22,6 +48,17 @@ angular.module('confRegistrationWebApp')
           //remove sub registrant types
           if(_.isEmpty($scope.currentRegistration.registrants)){
             _.remove($scope.visibleRegistrantTypes, function(t) { return t.groupSubRegistrantType; });
+          }
+
+          // if the current registration is a group registration, show only associated non-group registrant types within the limit
+          const groupRegistrantType = findCurrentGroupRegistrantType();
+          $scope.isGroupRegistration = groupRegistrantType !== null;
+          if ($scope.isGroupRegistration && groupRegistrantType.childRegistrantTypes != null) {
+            const currentCounts = _.countBy($scope.currentRegistration.registrants, 'registrantTypeId');
+            _.remove($scope.visibleRegistrantTypes, (t) => {
+              const childRegistrantType = _.find(groupRegistrantType.childRegistrantTypes, {id: t.id});
+              return !childRegistrantType || currentCounts[childRegistrantType.id] >= childRegistrantType.limit;
+            });
           }
         }
 

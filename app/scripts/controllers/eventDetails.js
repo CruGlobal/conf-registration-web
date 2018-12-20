@@ -43,6 +43,46 @@ angular.module('confRegistrationWebApp')
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
 
+    // TO BE REMOVED
+    /*$scope.conference.registrantTypes.forEach((type) => {
+      if (type.name === 'Group 1') {
+        type.childRegistrantTypes = [
+          {id: "ec98a7e5-94f2-4ecc-9dd8-964e2910df20", limit: 1},
+            {id: "85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3", limit: 2}
+        ];
+      }
+      if (type.name === 'Group 2') {
+        type.childRegistrantTypes = [
+         {id: "fc10c9a0-018c-4536-9a46-14430caa5c93", limit: 2},
+          {id: "61a3a1ec-5c53-4010-8df1-46031b53bc78", limit: 3}
+        ];
+      }
+    });*/
+    // TO BE REMOVED - END
+
+    $scope.conference.registrantTypes.forEach((type) => {
+      const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && !t.allowGroupRegistrations);
+
+      if (type.childRegistrantTypes && type.childRegistrantTypes.length !== 0) {
+        type.childRegistrantTypes = _.map(filtered, (t) => {
+          const existingChild = _.find(type.childRegistrantTypes, {id: t.id});
+          return {
+            name: t.name,
+            id: t.id,
+            limit: existingChild ? existingChild.limit : null,
+            selected: existingChild !== undefined
+          };
+        });
+      } else {
+        type.childRegistrantTypes = _.map(filtered, (t) => ({
+          name: t.name,
+          id: t.id,
+          limit: null,
+          selected: true
+        }));
+      }
+    });
+
     // Get the payment gateway type for this conference
     $scope.getPaymentGatewayType = function () {
       // The UI will be distorted if the payment gateway type is not a key of $scope.paymentGateways, so treat it as
@@ -109,6 +149,11 @@ angular.module('confRegistrationWebApp')
       modalInstance.result.then(function(type) {
         type.id = uuid();
         $scope.conference.registrantTypes.push(type);
+        $scope.conference.registrantTypes.forEach((t) => {
+          if (t.childRegistrantTypes) {
+            t.childRegistrantTypes.push({id: type.id, name: type.name, limit: null, selected: false});
+          }
+        });
       });
 
       return modalInstance;
@@ -117,7 +162,10 @@ angular.module('confRegistrationWebApp')
     $scope.deleteRegType = function(id){
       if ($scope.conference.registrantTypes.length > 1) {
         _.remove($scope.conference.registrantTypes, function(type) { return type.id === id; });
-      } else {
+        $scope.conference.registrantTypes.forEach((t) => {
+          _.remove(t.childRegistrantTypes, function(childType) { return childType.id === id; });
+        });
+        } else {
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml('You must have at least one registrant type per event.')
@@ -275,6 +323,15 @@ angular.module('confRegistrationWebApp')
         if (!payload.paymentGatewayType && payload.paymentGatewayId) {
           payload.paymentGatewayType = 'TSYS';
         }
+
+        payload.registrantTypes.forEach((t) => {
+          if(t.childRegistrantTypes && t.allowGroupRegistrations) {
+            const filtered = _.filter(t.childRegistrantTypes, {'selected' : true});
+            t.childRegistrantTypes = _.map(filtered, (t) => ({id: t.id, limit: t.limit}));
+          } else {
+            t.childRegistrantTypes = t.allowGroupRegistrations ? [] : null;
+          }
+        });
 
         $http(
           {method: 'PUT',

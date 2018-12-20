@@ -60,7 +60,6 @@
                 </label>
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
               </div>
-
               <h4 translate>Group Registration</h4>
               <div class="radio">
                 <label>
@@ -83,6 +82,31 @@
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
+              </div>
+              <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
+                <label translate class="pt12">Associated Registration Types</label>
+                <i class="question-popover fa fa-question-circle"
+                   uib-popover="{{'Select which registrant types are allowed to be added to this registration group and what is the maximum number of them' | translate}}"
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
+
+                <div class="checkbox" ng-repeat="childType in type.childRegistrantTypes track by $index">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="control-label">
+                        <input type="checkbox" ng-model="type.childRegistrantTypes[$index].selected">
+                        {{childType.name}}
+                      </label>
+                    </div>
+                    <div class="col-md-6 row pull-right">
+                      <label class="col-md-4 control-label"> Limit:</label>
+                      <div class="col-md-8">
+                        <input type="number" class="form-control input-sm" ng-model="type.childRegistrantTypes[$index].limit">
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="radio">
                 <label>
