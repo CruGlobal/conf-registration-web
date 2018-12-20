@@ -117,8 +117,23 @@ angular.module('confRegistrationWebApp')
       return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
 
+    this.isAnyChoiceVisible = function(block, registrant) {
+      if (block.type !== 'checkboxQuestion' && block.type !== 'selectQuestion'){
+        return true;
+      }
+      for (let i = 0; i < block.content.choices.length; i++) {
+        if (this.choiceVisible(block, block.content.choices[i], registrant)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     this.blockVisible = function(block, registrant, isAdmin){
-      var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) && blockInRegistrantType(block, registrant);
+      var visible = angular.isDefined(registrant)
+        && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION)
+        && blockInRegistrantType(block, registrant)
+        && this.isAnyChoiceVisible(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
