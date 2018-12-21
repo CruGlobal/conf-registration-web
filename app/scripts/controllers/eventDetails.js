@@ -42,24 +42,6 @@ angular.module('confRegistrationWebApp')
 
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
-
-    // TO BE REMOVED
-    /*$scope.conference.registrantTypes.forEach((type) => {
-      if (type.name === 'Group 1') {
-        type.childRegistrantTypes = [
-          {id: "ec98a7e5-94f2-4ecc-9dd8-964e2910df20", limit: 1},
-            {id: "85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3", limit: 2}
-        ];
-      }
-      if (type.name === 'Group 2') {
-        type.childRegistrantTypes = [
-         {id: "fc10c9a0-018c-4536-9a46-14430caa5c93", limit: 2},
-          {id: "61a3a1ec-5c53-4010-8df1-46031b53bc78", limit: 3}
-        ];
-      }
-    });*/
-    // TO BE REMOVED - END
-
     $scope.conference.registrantTypes.forEach((type) => {
       const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && !t.allowGroupRegistrations);
 

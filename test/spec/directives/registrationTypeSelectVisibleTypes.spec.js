@@ -84,7 +84,7 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
-  it('associated registrant types should be limited', function() {
+  it('associated registrant types can be limited', function() {
     scope.currentRegistration = testRegistrantTypeData.registrationWithLimit;
     element = $compile('<registration-type-select></registration-type-select>')(scope);
     scope.$digest();
@@ -93,6 +93,19 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
     expect(typeNames.length).toBe(1);
     expect(typeNames).toContain('Group 1 Dependant 1');
+  });
+
+  it('associated registrant types can be unlimited', function() {
+    scope.currentRegistration = testRegistrantTypeData.registrationWithLimit;
+    scope.conference.registrantTypes[1].childRegistrantTypes[1].limit = null;
+    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    scope.$digest();
+    scope = element.isolateScope() || element.scope();
+
+    const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+    expect(typeNames.length).toBe(2);
+    expect(typeNames).toContain('Group 1 Dependant 1');
+    expect(typeNames).toContain('Group 1 Dependant 2');
   });
 
   it('current registration is non-group', function() {
