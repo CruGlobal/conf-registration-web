@@ -118,7 +118,7 @@ angular.module('confRegistrationWebApp')
     };
 
     this.isAnyChoiceVisible = function(block, registrant) {
-      if (block.type !== 'checkboxQuestion' && block.type !== 'selectQuestion'){
+      if (block.type !== 'checkboxQuestion' && block.type !== 'selectQuestion' && block.type !== 'radioQuestion'){
         return true;
       }
       for (let i = 0; i < block.content.choices.length; i++) {
