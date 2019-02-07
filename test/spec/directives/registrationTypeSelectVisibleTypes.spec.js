@@ -68,7 +68,7 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   });
 
   it('when childRegistrantTypes set to null, fallback for already created conferences', function() {
-    scope.conference.registrantTypes[1].childRegistrantTypes = null;
+    scope.conference.registrantTypes[1].allowedRegistrantTypeList = null;
     element = $compile('<registration-type-select></registration-type-select>')(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
@@ -97,7 +97,7 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
 
   it('associated registrant types can be unlimited', function() {
     scope.currentRegistration = testRegistrantTypeData.registrationWithLimit;
-    scope.conference.registrantTypes[1].childRegistrantTypes[1].limit = null;
+    scope.conference.registrantTypes[1].allowedRegistrantTypeList[1].numberOfChildRegistrants = 0;
     element = $compile('<registration-type-select></registration-type-select>')(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();

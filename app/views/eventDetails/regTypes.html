@@ -91,18 +91,18 @@
                    popover-append-to-body="true">
                 </i>
 
-                <div class="checkbox" ng-repeat="childType in type.childRegistrantTypes track by $index">
+                <div class="checkbox" ng-repeat="childType in type.allowedRegistrantTypeList track by $index">
                   <div class="row">
                     <div class="col-md-6">
                       <label class="control-label">
-                        <input type="checkbox" ng-model="type.childRegistrantTypes[$index].selected">
+                        <input type="checkbox" ng-model="type.allowedRegistrantTypeList[$index].selected">
                         {{childType.name}}
                       </label>
                     </div>
                     <div class="col-md-6 row pull-right">
                       <label class="col-md-4 control-label"> Limit:</label>
                       <div class="col-md-8">
-                        <input type="number" class="form-control input-sm" ng-model="type.childRegistrantTypes[$index].limit">
+                        <input type="number" class="form-control input-sm" ng-model="type.allowedRegistrantTypeList[$index].numberOfChildRegistrants">
                       </div>
                     </div>
                   </div>

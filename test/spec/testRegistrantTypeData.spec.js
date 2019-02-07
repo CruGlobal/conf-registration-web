@@ -93,9 +93,9 @@ angular.module('confRegistrationWebApp')
       "calculatedCurrentCost": 0,
       "minimumDeposit": null,
       "position": 1,
-      "childRegistrantTypes": [
-        {id: 'ec98a7e5-94f2-4ecc-9dd8-964e2910df20', limit: 2},
-        {id: '85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3', limit: 1}
+      "allowedRegistrantTypeList": [
+        {id: 'c', childRegistrantTypeId: 'ec98a7e5-94f2-4ecc-9dd8-964e2910df20', numberOfChildRegistrants: 2},
+        {id: 'd', childRegistrantTypeId: '85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3', numberOfChildRegistrants: 1}
       ],
       "customConfirmationEmailText": null,
       "description": null,
@@ -117,9 +117,9 @@ angular.module('confRegistrationWebApp')
       "conferenceId": "0dc61eeb-6932-4d09-b04f-9def3915fd4c",
       "name": "Group 2",
       "hidden": false,
-      "childRegistrantTypes": [
-        {id: 'fc10c9a0-018c-4536-9a46-14430caa5c93', limit: 3},
-        {id: '61a3a1ec-5c53-4010-8df1-46031b53bc78', limit: 2}
+      "allowedRegistrantTypeList": [
+        {id: 'a', childRegistrantTypeId: 'fc10c9a0-018c-4536-9a46-14430caa5c93', numberOfChildRegistrants: 3},
+        {id: 'b', childRegistrantTypeId: '61a3a1ec-5c53-4010-8df1-46031b53bc78', numberOfChildRegistrants: 2}
       ],
       "createdTimestamp": null,
       "lastUpdatedTimestamp": "2018-12-20T13:26:52.556Z",

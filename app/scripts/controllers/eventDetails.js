@@ -44,26 +44,18 @@ angular.module('confRegistrationWebApp')
     $scope.conference = angular.copy(conference);
     $scope.conference.registrantTypes.forEach((type) => {
       const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && !t.allowGroupRegistrations);
-
-      if (type.childRegistrantTypes && type.childRegistrantTypes.length !== 0) {
-        type.childRegistrantTypes = _.map(filtered, (t) => {
-          const existingChild = _.find(type.childRegistrantTypes, {id: t.id});
-          return {
-            name: t.name,
-            id: t.id,
-            limit: existingChild ? existingChild.limit : null,
-            selected: existingChild !== undefined
-          };
-        });
-      } else {
-        type.childRegistrantTypes = _.map(filtered, (t) => ({
+      type.allowedRegistrantTypeList = _.map(filtered, (t) => {
+        const existingChild = _.find(type.allowedRegistrantTypeList, {childRegistrantTypeId: t.id});
+        return {
+          id: existingChild ? existingChild.id : uuid(),
           name: t.name,
-          id: t.id,
-          limit: null,
-          selected: true
-        }));
-      }
+          childRegistrantTypeId: t.id,
+          numberOfChildRegistrants: existingChild ? existingChild.numberOfChildRegistrants : 0,
+          selected: existingChild !== undefined
+        };
+      });
     });
+
 
     // Get the payment gateway type for this conference
     $scope.getPaymentGatewayType = function () {
@@ -132,8 +124,8 @@ angular.module('confRegistrationWebApp')
         type.id = uuid();
         $scope.conference.registrantTypes.push(type);
         $scope.conference.registrantTypes.forEach((t) => {
-          if (t.childRegistrantTypes) {
-            t.childRegistrantTypes.push({id: type.id, name: type.name, limit: null, selected: false});
+          if (t.allowedRegistrantTypeList) {
+            t.allowedRegistrantTypeList.push({childRegistrantTypeId: type.id, name: type.name, numberOfChildRegistrants: 0, selected: false});
           }
         });
       });
@@ -145,7 +137,7 @@ angular.module('confRegistrationWebApp')
       if ($scope.conference.registrantTypes.length > 1) {
         _.remove($scope.conference.registrantTypes, function(type) { return type.id === id; });
         $scope.conference.registrantTypes.forEach((t) => {
-          _.remove(t.childRegistrantTypes, function(childType) { return childType.id === id; });
+          _.remove(t.allowedRegistrantTypeList, function(childType) { return childType.childRegistrantTypeId === id; });
         });
         } else {
         $scope.notify = {
@@ -307,11 +299,11 @@ angular.module('confRegistrationWebApp')
         }
 
         payload.registrantTypes.forEach((t) => {
-          if(t.childRegistrantTypes && t.allowGroupRegistrations) {
-            const filtered = _.filter(t.childRegistrantTypes, {'selected' : true});
-            t.childRegistrantTypes = _.map(filtered, (t) => ({id: t.id, limit: t.limit}));
+          if(t.allowedRegistrantTypeList && t.familyStatus === 'ENABLED') {
+            const filtered = _.filter(t.allowedRegistrantTypeList, {'selected' : true});
+            t.allowedRegistrantTypeList = _.map(filtered, (t) => ({ id: t.id, childRegistrantTypeId: t.childRegistrantTypeId, numberOfChildRegistrants: t.numberOfChildRegistrants}));
           } else {
-            t.childRegistrantTypes = t.allowGroupRegistrations ? [] : null;
+            t.allowedRegistrantTypeList =  null;
           }
         });
 
