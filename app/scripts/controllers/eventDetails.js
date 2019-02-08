@@ -42,20 +42,24 @@ angular.module('confRegistrationWebApp')
 
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
-    $scope.conference.registrantTypes.forEach((type) => {
-      const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && !t.allowGroupRegistrations);
-      type.allowedRegistrantTypeList = _.map(filtered, (t) => {
-        const existingChild = _.find(type.allowedRegistrantTypeList, {childRegistrantTypeId: t.id});
-        return {
-          id: existingChild ? existingChild.id : uuid(),
-          name: t.name,
-          childRegistrantTypeId: t.id,
-          numberOfChildRegistrants: existingChild ? existingChild.numberOfChildRegistrants : 0,
-          selected: existingChild !== undefined
-        };
-      });
-    });
 
+    $scope.refreshAllowedRegistrantTypes = function () {
+      $scope.conference.registrantTypes.forEach((type) => {
+        const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && !t.allowGroupRegistrations && t.familyStatus !== 'ENABLED');
+        type.allowedRegistrantTypeList = _.map(filtered, (t) => {
+          const existingChild = _.find(type.allowedRegistrantTypeList, {childRegistrantTypeId: t.id});
+          return {
+            id: existingChild ? existingChild.id : uuid(),
+            name: t.name,
+            childRegistrantTypeId: t.id,
+            numberOfChildRegistrants: existingChild ? existingChild.numberOfChildRegistrants : 0,
+            selected: existingChild !== undefined
+          };
+        });
+      });
+    };
+
+    $scope.refreshAllowedRegistrantTypes();
 
     // Get the payment gateway type for this conference
     $scope.getPaymentGatewayType = function () {
@@ -123,11 +127,6 @@ angular.module('confRegistrationWebApp')
       modalInstance.result.then(function(type) {
         type.id = uuid();
         $scope.conference.registrantTypes.push(type);
-        $scope.conference.registrantTypes.forEach((t) => {
-          if (t.allowedRegistrantTypeList) {
-            t.allowedRegistrantTypeList.push({childRegistrantTypeId: type.id, name: type.name, numberOfChildRegistrants: 0, selected: false});
-          }
-        });
       });
 
       return modalInstance;
@@ -318,6 +317,7 @@ angular.module('confRegistrationWebApp')
             };
 
             $scope.originalConference = conference = angular.copy(payload);
+            $scope.refreshAllowedRegistrantTypes();
             //Clear cache
             ConfCache.empty();
           }).catch(function (response) {
