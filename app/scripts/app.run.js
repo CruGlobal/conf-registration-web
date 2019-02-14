@@ -1,5 +1,7 @@
 angular.module('confRegistrationWebApp')
   .run(function ($rootScope, $cookies, $location, $window, ProfileCache, analytics, $timeout) {
+    $rootScope.year = new Date().getFullYear();
+
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$locationChangeStart', () => {
       //registration mode
