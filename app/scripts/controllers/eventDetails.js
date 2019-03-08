@@ -57,10 +57,10 @@ angular.module('confRegistrationWebApp')
           };
         });
       });
+      conference = angular.copy($scope.conference);
     };
 
     $scope.refreshAllowedRegistrantTypes();
-    conference = angular.copy($scope.conference);
 
     // Get the payment gateway type for this conference
     $scope.getPaymentGatewayType = function () {
@@ -319,7 +319,8 @@ angular.module('confRegistrationWebApp')
 
             $scope.originalConference = conference = angular.copy(payload);
             $scope.refreshAllowedRegistrantTypes();
-            //Clear cache
+
+          //Clear cache
             ConfCache.empty();
           }).catch(function (response) {
             $scope.notify = {

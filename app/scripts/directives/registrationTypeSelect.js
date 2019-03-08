@@ -9,15 +9,14 @@ angular.module('confRegistrationWebApp')
 
         $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
 
-        const findCurrentGroupRegistrantType = function() {
-          const registrants = $scope.currentRegistration.registrants;
-          for (let i = 0; i < registrants.length; i++) {
-            const registrationType = _.find($scope.conference.registrantTypes, {'id': registrants[i].registrantTypeId});
-            if (registrationType.allowGroupRegistrations) {
-              return registrationType;
-            }
-          }
-          return null;
+        const findCurrentGroupRegistrantType = function(registrants, registrantTypes) {
+          const registrantTypeIds = registrants.map(
+            ({ registrantTypeId }) => registrantTypeId
+          );
+          return registrantTypes.find(
+            ({ allowGroupRegistrations, id }) =>
+              allowGroupRegistrations && registrantTypeIds.includes(id)
+          );
         };
 
         var visibleType = $routeParams.regType;
@@ -36,9 +35,11 @@ angular.module('confRegistrationWebApp')
             _.remove($scope.visibleRegistrantTypes, function(t) { return t.groupSubRegistrantType; });
           }
 
-          // if the current registration is a group registration, show only associated non-group registrant types within the limit
-          const groupRegistrantType = findCurrentGroupRegistrantType();
-          $scope.isGroupRegistration = groupRegistrantType !== null;
+          // if: the current registration has already a group registration
+          // then: narrow down visible registrant types to configured allowed registrant types (according to the limit)
+          // otherwise: show all (happens at the beginning of the registration)
+          const groupRegistrantType = findCurrentGroupRegistrantType($scope.currentRegistration.registrants, $scope.conference.registrantTypes);
+          $scope.isGroupRegistration = groupRegistrantType !== undefined;
           if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeSet != null) {
             const currentCounts = _.countBy($scope.currentRegistration.registrants, 'registrantTypeId');
             _.remove($scope.visibleRegistrantTypes, (t) => {
