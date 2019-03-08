@@ -39,10 +39,10 @@ angular.module('confRegistrationWebApp')
           // if the current registration is a group registration, show only associated non-group registrant types within the limit
           const groupRegistrantType = findCurrentGroupRegistrantType();
           $scope.isGroupRegistration = groupRegistrantType !== null;
-          if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeList != null) {
+          if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeSet != null) {
             const currentCounts = _.countBy($scope.currentRegistration.registrants, 'registrantTypeId');
             _.remove($scope.visibleRegistrantTypes, (t) => {
-              const childRegistrantType = _.find(groupRegistrantType.allowedRegistrantTypeList, {childRegistrantTypeId: t.id});
+              const childRegistrantType = _.find(groupRegistrantType.allowedRegistrantTypeSet, {childRegistrantTypeId: t.id});
               return !childRegistrantType ||
                 (childRegistrantType.numberOfChildRegistrants !== 0 && currentCounts[childRegistrantType.childRegistrantTypeId] >= childRegistrantType.numberOfChildRegistrants);
             });
