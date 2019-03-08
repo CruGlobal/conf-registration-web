@@ -13,9 +13,9 @@ angular.module('confRegistrationWebApp')
           const registrantTypeIds = registrants.map(
             ({ registrantTypeId }) => registrantTypeId
           );
-          return registrantTypes.find(
+          return _.find(registrantTypes,
             ({ allowGroupRegistrations, id }) =>
-              allowGroupRegistrations && registrantTypeIds.includes(id)
+              allowGroupRegistrations && _.includes(registrantTypeIds, id)
           );
         };
 
