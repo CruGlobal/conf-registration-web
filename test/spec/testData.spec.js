@@ -246,6 +246,15 @@ angular.module('confRegistrationWebApp')
                     'position': 5,
                     'ruleType': 'SHOW_OPTION',
                     'blockEntityOption': 'DDD'
+                  },{
+                    'id': '326287c7-5a1d-4e79-adc8-67833db05525',
+                    'blockId': '0b876382-5fd1-46af-b778-bbbbbbbbbbbb',
+                    'parentBlockId': '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
+                    'operator': '=',
+                    'value': 'B',
+                    'position': 6,
+                    'ruleType': 'SHOW_OPTION',
+                    'blockEntityOption': 'CCC'
                   }]
                 },
                   {
