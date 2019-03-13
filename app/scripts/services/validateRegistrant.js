@@ -117,8 +117,23 @@ angular.module('confRegistrationWebApp')
       return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
 
+    this.isAnyChoiceVisible = function(block, registrant) {
+      if (block.type !== 'checkboxQuestion' && block.type !== 'selectQuestion' && block.type !== 'radioQuestion'){
+        return true;
+      }
+      for (let i = 0; i < block.content.choices.length; i++) {
+        if (this.choiceVisible(block, block.content.choices[i], registrant)) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     this.blockVisible = function(block, registrant, isAdmin){
-      var visible = angular.isDefined(registrant) && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) && blockInRegistrantType(block, registrant);
+      var visible = angular.isDefined(registrant)
+        && blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION)
+        && blockInRegistrantType(block, registrant)
+        && this.isAnyChoiceVisible(block, registrant);
       return (block.adminOnly && !isAdmin) ? false : visible;
     };
 
@@ -135,6 +150,7 @@ angular.module('confRegistrationWebApp')
       conference = angular.copy(conference);
       var blocks = page ? _.find(conference.registrationPages, {id: page}).blocks : _.flatten(_.map(conference.registrationPages, 'blocks'));
 
+      var that = this;
       angular.forEach(blocks, function(block){
         if (!block.required || block.adminOnly || !blockVisibleRuleCheck(block, registrant, ruleTypeConstants.SHOW_QUESTION) || !blockInRegistrantType(block, registrant)) { return; }
 
@@ -171,7 +187,14 @@ angular.module('confRegistrationWebApp')
             }
             break;
           case 'checkboxQuestion':
-            if (_.isEmpty(answer) || _.isEmpty(_.pickBy(answer))) {
+            if (that.isAnyChoiceVisible(block, registrant) && (_.isEmpty(answer) || _.isEmpty(_.pickBy(answer)))) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            break;
+          case 'selectQuestion':
+          case 'radioQuestion':
+            if (that.isAnyChoiceVisible(block, registrant) && _.isEmpty(answer)) {
               invalidBlocks.push(block.id);
               return;
             }

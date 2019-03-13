@@ -146,5 +146,34 @@ describe('Service: validateRegistrant', function () {
     expect(validateRegistrant.choiceVisible(block, choiceDDD, registrant)).toBe(false);
   });
 
+  it('if any choice visible, block should be visible', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    const answerIndex = _.findIndex(registrant.answers, {blockId: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa'});
+    registrant.answers[answerIndex].value = {
+      A: true,
+      B: true,
+      C: true,
+      D: true
+    };
+
+    // at least one choice is visible
+    expect(validateRegistrant.blockVisible(block, registrant, false)).toBe(true);
+  });
+
+  it('no choices are visible, block should be hidden', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb'});
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    const answerIndex = _.findIndex(registrant.answers, {blockId: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa'});
+    registrant.answers[answerIndex].value = {
+      A: false,
+      B: false,
+      C: false,
+      D: false
+    };
+
+    // no choices are visible
+    expect(validateRegistrant.blockVisible(block, registrant, false)).toBe(false);
+  });
 
 });
