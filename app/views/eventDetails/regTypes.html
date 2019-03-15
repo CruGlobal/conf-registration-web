@@ -99,10 +99,13 @@
                         {{childType.name}}
                       </label>
                     </div>
-                    <div class="col-md-6 row pull-right">
+                    <div class="col-md-6 row pull-right" ng-if="type.allowedRegistrantTypeSet[$index].selected" >
                       <label class="col-md-4 control-label"> Limit:</label>
                       <div class="col-md-8">
-                        <input type="number" class="form-control input-sm" ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants">
+                        <select ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants" class="form-control">
+                          <option ng-value="0">Unlimited</option>
+                          <option ng-repeat="x in [].constructor(20) track by $index" ng-value="$index+1">{{$index+1}}</option>
+                        </select>
                       </div>
                     </div>
                   </div>
