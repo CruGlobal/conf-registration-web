@@ -43,6 +43,25 @@ angular.module('confRegistrationWebApp')
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
 
+    $scope.refreshAllowedRegistrantTypes = function () {
+      $scope.conference.registrantTypes.forEach((type) => {
+        const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && t.familyStatus !== 'ENABLED');
+        type.allowedRegistrantTypeSet = _.map(filtered, (t) => {
+          const existingChild = _.find(type.allowedRegistrantTypeSet, {childRegistrantTypeId: t.id});
+          return {
+            id: existingChild ? existingChild.id : uuid(),
+            name: t.name,
+            childRegistrantTypeId: t.id,
+            numberOfChildRegistrants: existingChild ? existingChild.numberOfChildRegistrants : 0,
+            selected: existingChild !== undefined && existingChild.selected !== false
+          };
+        });
+      });
+      conference = angular.copy($scope.conference);
+    };
+
+    $scope.refreshAllowedRegistrantTypes();
+
     // Get the payment gateway type for this conference
     $scope.getPaymentGatewayType = function () {
       // The UI will be distorted if the payment gateway type is not a key of $scope.paymentGateways, so treat it as
@@ -117,7 +136,10 @@ angular.module('confRegistrationWebApp')
     $scope.deleteRegType = function(id){
       if ($scope.conference.registrantTypes.length > 1) {
         _.remove($scope.conference.registrantTypes, function(type) { return type.id === id; });
-      } else {
+        $scope.conference.registrantTypes.forEach((t) => {
+          _.remove(t.allowedRegistrantTypeSet, function(childType) { return childType.childRegistrantTypeId === id; });
+        });
+        } else {
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml('You must have at least one registrant type per event.')
@@ -276,6 +298,15 @@ angular.module('confRegistrationWebApp')
           payload.paymentGatewayType = 'TSYS';
         }
 
+        payload.registrantTypes.forEach((t) => {
+          if(t.allowedRegistrantTypeSet && t.familyStatus === 'ENABLED') {
+            const filtered = _.filter(t.allowedRegistrantTypeSet, {'selected' : true});
+            t.allowedRegistrantTypeSet = _.map(filtered, (t) => ({ id: t.id, childRegistrantTypeId: t.childRegistrantTypeId, numberOfChildRegistrants: t.numberOfChildRegistrants}));
+          } else {
+            t.allowedRegistrantTypeSet =  null;
+          }
+        });
+
         $http(
           {method: 'PUT',
             url: 'conferences/' + conference.id,
@@ -287,7 +318,9 @@ angular.module('confRegistrationWebApp')
             };
 
             $scope.originalConference = conference = angular.copy(payload);
-            //Clear cache
+            $scope.refreshAllowedRegistrantTypes();
+
+          //Clear cache
             ConfCache.empty();
           }).catch(function (response) {
             $scope.notify = {

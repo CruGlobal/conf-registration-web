@@ -6,7 +6,18 @@ angular.module('confRegistrationWebApp')
       templateUrl: template,
       restrict: 'E',
       controller: function ($scope, $rootScope, $location, $routeParams, RegistrationCache, uuid, modalMessage) {
+
         $scope.visibleRegistrantTypes = angular.copy($scope.conference.registrantTypes);
+
+        const findCurrentGroupRegistrantType = function(registrants, registrantTypes) {
+          const registrantTypeIds = registrants.map(
+            ({ registrantTypeId }) => registrantTypeId
+          );
+          return _.find(registrantTypes,
+            ({ allowGroupRegistrations, id }) =>
+              allowGroupRegistrations && _.includes(registrantTypeIds, id)
+          );
+        };
 
         var visibleType = $routeParams.regType;
         if(angular.isDefined(visibleType)){
@@ -22,6 +33,20 @@ angular.module('confRegistrationWebApp')
           //remove sub registrant types
           if(_.isEmpty($scope.currentRegistration.registrants)){
             _.remove($scope.visibleRegistrantTypes, function(t) { return t.groupSubRegistrantType; });
+          }
+
+          // if: the current registration has already a group registration
+          // then: narrow down visible registrant types to configured allowed registrant types (according to the limit)
+          // otherwise: show all (happens at the beginning of the registration)
+          const groupRegistrantType = findCurrentGroupRegistrantType($scope.currentRegistration.registrants, $scope.conference.registrantTypes);
+          $scope.isGroupRegistration = groupRegistrantType !== undefined;
+          if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeSet != null) {
+            const currentCounts = _.countBy($scope.currentRegistration.registrants, 'registrantTypeId');
+            _.remove($scope.visibleRegistrantTypes, (t) => {
+              const childRegistrantType = _.find(groupRegistrantType.allowedRegistrantTypeSet, {childRegistrantTypeId: t.id});
+              return !childRegistrantType ||
+                (childRegistrantType.numberOfChildRegistrants !== 0 && currentCounts[childRegistrantType.childRegistrantTypeId] >= childRegistrantType.numberOfChildRegistrants);
+            });
           }
         }
 

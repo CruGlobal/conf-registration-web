@@ -60,7 +60,6 @@
                 </label>
                 <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
               </div>
-
               <h4 translate>Group Registration</h4>
               <div class="radio">
                 <label>
@@ -94,6 +93,34 @@
                    popover-trigger="mouseenter"
                    popover-append-to-body="true">
                 </i>
+              </div>
+              <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
+                <label translate class="pt12">Associated Registration Types</label>
+                <i class="question-popover fa fa-question-circle"
+                   uib-popover="{{'Select which registrant types are allowed to be added to this registration group and specify the maximum number of registrants allowed to use that type. (value 0 - means that there is no limit)' | translate}}"
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
+
+                <div class="checkbox" ng-repeat="childType in type.allowedRegistrantTypeSet track by $index">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="control-label">
+                        <input type="checkbox" ng-model="type.allowedRegistrantTypeSet[$index].selected">
+                        {{childType.name}}
+                      </label>
+                    </div>
+                    <div class="col-md-6 row pull-right" ng-if="type.allowedRegistrantTypeSet[$index].selected" >
+                      <label class="col-md-4 control-label"> Limit:</label>
+                      <div class="col-md-8">
+                        <select ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants" class="form-control">
+                          <option ng-value="0">Unlimited</option>
+                          <option ng-repeat="x in [].constructor(20) track by $index" ng-value="$index+1">{{$index+1}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

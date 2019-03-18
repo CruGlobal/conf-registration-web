@@ -35,4 +35,6 @@ describe('Directive: registrationTypeSelect', function () {
 
     expect(scope.registrationTypeFull(registrationType)).toBe(false);
   });
+
+
 });
