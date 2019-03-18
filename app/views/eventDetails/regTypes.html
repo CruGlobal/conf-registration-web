@@ -83,6 +83,17 @@
                    popover-append-to-body="true">
                 </i>
               </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
+                  <translate>Yes - Dependent</translate>
+                </label>
+                <i class="question-popover fa fa-question-circle"
+                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                   popover-trigger="mouseenter"
+                   popover-append-to-body="true">
+                </i>
+              </div>
               <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
                 <label translate class="pt12">Associated Registration Types</label>
                 <i class="question-popover fa fa-question-circle"
@@ -110,17 +121,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="radio">
-                <label>
-                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
-                  <translate>Yes - Dependent</translate>
-                </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
-                </i>
               </div>
             </div>
 
