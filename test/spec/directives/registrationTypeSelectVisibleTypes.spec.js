@@ -67,21 +67,14 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
-  it('when childRegistrantTypes set to null, fallback for already created conferences', function() {
+  it('when childRegistrantTypes set to null, no registrant types are visible', function() {
     scope.conference.registrantTypes[1].allowedRegistrantTypeSet = null;
     element = $compile('<registration-type-select></registration-type-select>')(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(7);
-    expect(typeNames).toContain('Default');
-    expect(typeNames).toContain('Group 1');
-    expect(typeNames).toContain('Group 2');
-    expect(typeNames).toContain('Group 1 Dependant 2');
-    expect(typeNames).toContain('Group 1 Dependant 2');
-    expect(typeNames).toContain('Group 2 Non-Group 1');
-    expect(typeNames).toContain('Group 2 Dependant 2');
+    expect(typeNames.length).toBe(0);
   });
 
   it('associated registrant types can be limited', function() {
