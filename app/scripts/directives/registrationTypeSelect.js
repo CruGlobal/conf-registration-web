@@ -40,7 +40,7 @@ angular.module('confRegistrationWebApp')
           // otherwise: show all (happens at the beginning of the registration)
           const groupRegistrantType = findCurrentGroupRegistrantType($scope.currentRegistration.registrants, $scope.conference.registrantTypes);
           $scope.isGroupRegistration = groupRegistrantType !== undefined;
-          if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeSet != null) {
+          if ($scope.isGroupRegistration) {
             const currentCounts = _.countBy($scope.currentRegistration.registrants, 'registrantTypeId');
             _.remove($scope.visibleRegistrantTypes, (t) => {
               const childRegistrantType = _.find(groupRegistrantType.allowedRegistrantTypeSet, {childRegistrantTypeId: t.id});
