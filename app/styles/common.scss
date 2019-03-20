@@ -194,6 +194,10 @@ div[block-registration], div[block-editor] {
   cursor: default;
 }
 
+.control-label.text-left {
+  text-align: left !important;
+}
+
 /* Validation */
 .form-group .help-block.help-block-hidden {
   display: none;
