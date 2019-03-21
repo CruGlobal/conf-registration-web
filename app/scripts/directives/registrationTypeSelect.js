@@ -37,7 +37,8 @@ angular.module('confRegistrationWebApp')
 
           // if: the current registration has already a group registration
           // then: narrow down visible registrant types to configured allowed registrant types (according to the limit)
-          // otherwise: show all (happens at the beginning of the registration)
+          // otherwise: show all (happens at the beginning of the registration
+          // and if selected group registrant type has no associated registrant types)
           const groupRegistrantType = findCurrentGroupRegistrantType($scope.currentRegistration.registrants, $scope.conference.registrantTypes);
           $scope.isGroupRegistration = groupRegistrantType !== undefined;
           if ($scope.isGroupRegistration && groupRegistrantType.allowedRegistrantTypeSet != null) {
@@ -47,6 +48,12 @@ angular.module('confRegistrationWebApp')
               return !childRegistrantType ||
                 (childRegistrantType.numberOfChildRegistrants !== 0 && currentCounts[childRegistrantType.childRegistrantTypeId] >= childRegistrantType.numberOfChildRegistrants);
             });
+          }
+
+          // if: the current registration has a group registrant type
+          // then: exclude all group registrant types
+          if ($scope.isGroupRegistration) {
+            _.remove($scope.visibleRegistrantTypes, (t) => t.allowGroupRegistrations);
           }
         }
 
