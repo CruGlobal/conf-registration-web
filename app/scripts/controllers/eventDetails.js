@@ -45,8 +45,7 @@ angular.module('confRegistrationWebApp')
 
     $scope.refreshAllowedRegistrantTypes = function () {
       $scope.conference.registrantTypes.forEach((type) => {
-        const filtered = _.filter($scope.conference.registrantTypes, (t) => t.id !== type.id && t.familyStatus !== 'ENABLED');
-        type.allowedRegistrantTypeSet = _.map(filtered, (t) => {
+        type.allowedRegistrantTypeSet = _.map($scope.conference.registrantTypes, (t) => {
           const existingChild = _.find(type.allowedRegistrantTypeSet, {childRegistrantTypeId: t.id});
           return {
             id: existingChild ? existingChild.id : uuid(),
