@@ -25,10 +25,11 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(4);
+    expect(typeNames.length).toBe(5);
     expect(typeNames).toContain('Default');
     expect(typeNames).toContain('Group 1');
     expect(typeNames).toContain('Group 2');
+    expect(typeNames).toContain('Group 3');
     expect(typeNames).toContain('Group 2 Non-Group 1');
   });
 
@@ -67,18 +68,35 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
-  it('when childRegistrantTypes set to null, fallback for already created conferences, but exclude group registrant types', function() {
+  it('when childRegistrantTypes set to null, fallback for already created conferences', function() {
     scope.conference.registrantTypes[1].allowedRegistrantTypeSet = null;
     element = $compile('<registration-type-select></registration-type-select>')(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(5);
+    expect(typeNames.length).toBe(8);
     expect(typeNames).toContain('Default');
+    expect(typeNames).toContain('Group 1');
+    expect(typeNames).toContain('Group 2');
+    expect(typeNames).toContain('Group 3');
     expect(typeNames).toContain('Group 1 Dependant 2');
     expect(typeNames).toContain('Group 1 Dependant 2');
     expect(typeNames).toContain('Group 2 Non-Group 1');
+    expect(typeNames).toContain('Group 2 Dependant 2');
+  });
+
+  it('when Group 3 selected on the first screen, other associated Primary Group Registrant Types are visible (including itself)', function() {
+    const group3Id = _.find(scope.conference.registrantTypes, {name: 'Group 3'}).id;
+    scope.currentRegistration.registrants[0].registrantTypeId = group3Id;
+    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    scope.$digest();
+    scope = element.isolateScope() || element.scope();
+
+    const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+    expect(typeNames.length).toBe(3);
+    expect(typeNames).toContain('Group 1');
+    expect(typeNames).toContain('Group 3');
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
@@ -113,7 +131,7 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(7);
+    expect(typeNames.length).toBe(8);
   });
 
 });

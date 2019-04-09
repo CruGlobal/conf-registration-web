@@ -49,12 +49,6 @@ angular.module('confRegistrationWebApp')
                 (childRegistrantType.numberOfChildRegistrants !== 0 && currentCounts[childRegistrantType.childRegistrantTypeId] >= childRegistrantType.numberOfChildRegistrants);
             });
           }
-
-          // if: the current registration has a group registrant type
-          // then: exclude all group registrant types
-          if ($scope.isGroupRegistration) {
-            _.remove($scope.visibleRegistrantTypes, (t) => t.allowGroupRegistrations);
-          }
         }
 
         $scope.newRegistrant = function(type){
