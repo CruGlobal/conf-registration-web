@@ -509,10 +509,14 @@ msgid "Create New Event"
 msgstr ""
 
 #: ./app/views/modals/loginDialog.html:17
-msgid "Create a Facebook account"
+msgid "Create an Instagram account"
 msgstr ""
 
 #: ./app/views/modals/loginDialog.html:21
+msgid "Create a Facebook account"
+msgstr ""
+
+#: ./app/views/modals/loginDialog.html:25
 msgid "Create a Relay account"
 msgstr ""
 
@@ -1678,8 +1682,8 @@ msgstr ""
 msgid "Requester"
 msgstr ""
 
-#: ./app/views/eventDetails/regOptions.html:18
-msgid "Require Relay or Facebook sign in to register"
+#: ./app/views/eventDetails/regOptions.html:16
+msgid "Require Relay, Facebook, or Instagram sign in to register"
 msgstr ""
 
 #: ./app/views/eventDetails/regTypes.html:155
