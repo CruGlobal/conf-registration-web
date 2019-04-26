@@ -1,11 +1,12 @@
 import moment from 'moment';
 
-angular.module('confRegistrationWebApp')
+angular
+  .module('confRegistrationWebApp')
   .service('DateRangeService', function DateChangeEmitter() {
     var subscribed = {};
     var cache = {};
 
-    this.subscribe = function (emitter, callback) {
+    this.subscribe = function(emitter, callback) {
       if (angular.isUndefined(subscribed[emitter])) subscribed[emitter] = [];
 
       subscribed[emitter].push(callback);
@@ -15,7 +16,7 @@ angular.module('confRegistrationWebApp')
       }
     };
 
-    this.emitChange = function (emitter, value) {
+    this.emitChange = function(emitter, value) {
       cache[emitter] = value;
 
       angular.forEach(subscribed[emitter], function(callback) {
@@ -23,8 +24,12 @@ angular.module('confRegistrationWebApp')
       });
     };
 
-    this.calculateDateRange = function (startDate, endDate) {
-      if (angular.isUndefined(startDate) || startDate === null || startDate === '') {
+    this.calculateDateRange = function(startDate, endDate) {
+      if (
+        angular.isUndefined(startDate) ||
+        startDate === null ||
+        startDate === ''
+      ) {
         return 1;
       }
       if (angular.isUndefined(endDate) || endDate === null || endDate === '') {
@@ -34,6 +39,6 @@ angular.module('confRegistrationWebApp')
       const days = moment(endDate).diff(moment(startDate), 'days');
 
       if (days === 0) return 1;
-      return (days > 0 ? days : days * -1);
+      return days > 0 ? days : days * -1;
     };
   });

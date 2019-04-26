@@ -1,15 +1,11 @@
-
-angular.module('confRegistrationWebApp')
-  .factory('httpUrlInterceptor', function (envService) {
+angular
+  .module('confRegistrationWebApp')
+  .factory('httpUrlInterceptor', function(envService) {
     return {
-      request: function (config) {
-        var passthroughRegexs = [
-          /https?:\/\/.*/,
-          /^views\/.*/,
-          /template\/.*/
-        ];
+      request: function(config) {
+        var passthroughRegexs = [/https?:\/\/.*/, /^views\/.*/, /template\/.*/];
 
-        var match = function (regexp) {
+        var match = function(regexp) {
           return regexp.test(config.url);
         };
 
@@ -18,6 +14,6 @@ angular.module('confRegistrationWebApp')
         }
 
         return config;
-      }
+      },
     };
   });

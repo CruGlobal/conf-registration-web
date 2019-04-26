@@ -8,26 +8,53 @@
     <p class="text-muted">
       <i class="fa fa-info-circle"></i>
       <span ng-if="getPaymentGatewayType() === 'TSYS'">
-        <translate>If accepting credit card payments for your event, you will need a merchant account from a credit card processing vendor.</translate>
-        <translate>For details about an existing merchant account, contact your team's finance/operations leader.</translate>
-        <translate>For a new merchant account, email merchant.account@cru.org with your request.</translate>
+        <translate
+          >If accepting credit card payments for your event, you will need a
+          merchant account from a credit card processing vendor.</translate
+        >
+        <translate
+          >For details about an existing merchant account, contact your team's
+          finance/operations leader.</translate
+        >
+        <translate
+          >For a new merchant account, email merchant.account@cru.org with your
+          request.</translate
+        >
       </span>
     </p>
     <div class="form-group">
-      <div class="col-sm-6 stacked-spacing-above-col-sm" ng-show="conference.paymentGatewayKeySaved">
-        <label translate>{{paymentGateways[getPaymentGatewayType()].fields.paymentGatewayId.title}}:</label>
-        <p>{{conference.paymentGatewayId}}
-          <button type="button" class="btn btn-default" ng-click="conference.paymentGatewayKeySaved = false">
+      <div
+        class="col-sm-6 stacked-spacing-above-col-sm"
+        ng-show="conference.paymentGatewayKeySaved"
+      >
+        <label translate
+          >{{paymentGateways[getPaymentGatewayType()].fields.paymentGatewayId.title}}:</label
+        >
+        <p>
+          {{conference.paymentGatewayId}}
+          <button
+            type="button"
+            class="btn btn-default"
+            ng-click="conference.paymentGatewayKeySaved = false"
+          >
             <i class="fa fa-pencil"></i> <translate>Edit</translate>
           </button>
         </p>
       </div>
     </div>
     <div ng-show="!conference.paymentGatewayKeySaved">
-      <div class="form-group" ng-repeat="(fieldName, field) in paymentGateways[getPaymentGatewayType()].fields">
+      <div
+        class="form-group"
+        ng-repeat="(fieldName, field) in paymentGateways[getPaymentGatewayType()].fields"
+      >
         <div class="col-xs-12">
           <label translate>{{field.title}}:</label>
-          <input class="form-control" type="text" ng-model="conference[fieldName]" autocomplete="off">
+          <input
+            class="form-control"
+            type="text"
+            ng-model="conference[fieldName]"
+            autocomplete="off"
+          />
         </div>
       </div>
     </div>
@@ -42,18 +69,32 @@
     <div class="form-group">
       <div class="col-xs-12">
         <label translate>Make checks payable to:</label>
-        <input class="form-control" type="text" ng-model="conference.checkPayableTo">
+        <input
+          class="form-control"
+          type="text"
+          ng-model="conference.checkPayableTo"
+        />
       </div>
     </div>
     <div class="form-group">
       <div class="col-xs-12">
         <label translate>Mail checks to:</label>
-        <input type="text" class="form-control" placeholder="{{'Address' | translate}}" ng-model="conference.checkMailingAddress">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{'Address' | translate}}"
+          ng-model="conference.checkMailingAddress"
+        />
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-6 stacked-spacing-col-sm">
-        <input type="text" class="form-control" placeholder="{{'City' | translate}}" ng-model="conference.checkMailingCity">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{'City' | translate}}"
+          ng-model="conference.checkMailingCity"
+        />
       </div>
       <div class="col-sm-3 stacked-spacing-col-sm">
         <select class="form-control" ng-model="conference.checkMailingState">
@@ -112,7 +153,12 @@
         </select>
       </div>
       <div class="col-sm-3">
-        <input type="text" class="form-control" placeholder="{{'Postal Code' | translate}}" ng-model="conference.checkMailingZip">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{'Postal Code' | translate}}"
+          ng-model="conference.checkMailingZip"
+        />
       </div>
     </div>
   </div>
@@ -123,26 +169,44 @@
     <h3 class="panel-title" translate>Cru Event Chartfield</h3>
   </div>
   <div class="panel-body">
-    <p translate>Through which chartfield will you run this event's income and expenses?</p>
+    <p translate>
+      Through which chartfield will you run this event's income and expenses?
+    </p>
     <div class="row form-group">
       <div class="col-sm-3">
         <label translate>Business Unit</label>
-        <input ng-model="conference.businessUnit" type="text" class="form-control">
+        <input
+          ng-model="conference.businessUnit"
+          type="text"
+          class="form-control"
+        />
       </div>
 
       <div class="col-sm-3">
         <label translate>Operating Unit</label>
-        <input ng-model="conference.operatingUnit" type="text" class="form-control">
+        <input
+          ng-model="conference.operatingUnit"
+          type="text"
+          class="form-control"
+        />
       </div>
 
       <div class="col-sm-3">
         <label translate>Department</label>
-        <input ng-model="conference.department" type="text" class="form-control">
+        <input
+          ng-model="conference.department"
+          type="text"
+          class="form-control"
+        />
       </div>
 
       <div class="col-sm-3">
         <label translate>Project Id</label>
-        <input ng-model="conference.projectId" type="text" class="form-control">
+        <input
+          ng-model="conference.projectId"
+          type="text"
+          class="form-control"
+        />
       </div>
     </div>
   </div>

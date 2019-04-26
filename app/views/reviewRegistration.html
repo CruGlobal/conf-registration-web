@@ -3,35 +3,75 @@
     <section ng-if="currentRegistration.completed">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
-      <p ng-if="currentRegistration.remainingBalance > 0"><translate>You have a remaining balance of</translate> {{currentRegistration.remainingBalance | currency:'$'}}</p>
-      <p ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" translate>Please enter your payment information below. Then click Confirm. That's it!</p>
+      <p ng-if="currentRegistration.remainingBalance > 0">
+        <translate>You have a remaining balance of</translate>
+        {{currentRegistration.remainingBalance | currency:'$'}}
+      </p>
+      <p
+        ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
+        translate
+      >
+        Please enter your payment information below. Then click Confirm. That's
+        it!
+      </p>
 
       <div class="well well-creme2">
-        <h2 class="page-title border" class="page-title border details-heading">{{conference.name}}</h2>
+        <h2 class="page-title border" class="page-title border details-heading">
+          {{conference.name}}
+        </h2>
         <p ng-bind="conference.description" class="display-linebreaks"></p>
 
         <strong translate>Event Dates</strong>
-        <p>{{conference.eventStartTime | evtDateFormat: conference.eventTimezone}} -
-          {{conference.eventEndTime | evtDateFormat: conference.eventTimezone}}</p>
+        <p>
+          {{conference.eventStartTime | evtDateFormat:
+          conference.eventTimezone}} - {{conference.eventEndTime |
+          evtDateFormat: conference.eventTimezone}}
+        </p>
 
-        <strong ng-if="conference.locationName" translate>Event Location</strong>
-        <p>{{conference.locationName}}
-          <span ng-show="conference.locationAddress"><br>{{conference.locationAddress}}<br>{{conference.locationCity}}, {{conference.locationState}} {{conference.locationZipCode}}</span>
+        <strong ng-if="conference.locationName" translate
+          >Event Location</strong
+        >
+        <p>
+          {{conference.locationName}}
+          <span ng-show="conference.locationAddress"
+            ><br />{{conference.locationAddress}}<br />{{conference.locationCity}},
+            {{conference.locationState}} {{conference.locationZipCode}}</span
+          >
         </p>
 
         <strong translate>Contact Info</strong>
         <ul class="list-unstyled">
-          <li ng-show="conference.contactPersonName">{{conference.contactPersonName}}</li>
-          <li ng-show="conference.contactPersonPhone">{{conference.contactPersonPhone}}</li>
-          <li ng-show="conference.contactPersonEmail"><a ng-href="mailto:{{conference.contactPersonEmail}}">{{conference.contactPersonEmail}}</a></li>
+          <li ng-show="conference.contactPersonName">
+            {{conference.contactPersonName}}
+          </li>
+          <li ng-show="conference.contactPersonPhone">
+            {{conference.contactPersonPhone}}
+          </li>
+          <li ng-show="conference.contactPersonEmail">
+            <a ng-href="mailto:{{conference.contactPersonEmail}}"
+              >{{conference.contactPersonEmail}}</a
+            >
+          </li>
         </ul>
       </div>
     </section>
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />
-      <p ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0" translate>Almost done. Please review your registration details below and click Confirm if correct. That's it!</p>
-      <p ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0" translate>Almost done. Please review your registration details and enter your payment information below. Then click Confirm. That's it!</p>
+      <p
+        ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0"
+        translate
+      >
+        Almost done. Please review your registration details below and click
+        Confirm if correct. That's it!
+      </p>
+      <p
+        ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0"
+        translate
+      >
+        Almost done. Please review your registration details and enter your
+        payment information below. Then click Confirm. That's it!
+      </p>
     </section>
   </div>
 </div>
@@ -45,42 +85,92 @@
           <tr>
             <th width="10"></th>
             <th translate>Registrant</th>
-            <th width="110"><span ng-if="conference.registrantTypes.length > 1" translate>Type</span></th>
+            <th width="110">
+              <span ng-if="conference.registrantTypes.length > 1" translate
+                >Type</span
+              >
+            </th>
             <th width="150"></th>
           </tr>
         </thead>
-        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'" ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0">
+        <tbody
+          ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'"
+          ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0"
+        >
           <tr>
             <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
-              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"></i>
+              <i
+                class="fa"
+                ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
+              ></i>
             </td>
-            <td ng-class="{'invalidBlock': regValidate[r.id].length}">{{r.firstName}} {{r.lastName}}</td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
-              <span ng-if="conference.registrantTypes.length > 1">{{getRegistrantType(r.registrantTypeId).name}}</span>
+              {{r.firstName}} {{r.lastName}}
+            </td>
+            <td ng-class="{'invalidBlock': regValidate[r.id].length}">
+              <span ng-if="conference.registrantTypes.length > 1"
+                >{{getRegistrantType(r.registrantTypeId).name}}</span
+              >
             </td>
             <td class="text-right">
-              <input type="button" class="btn btn-sm btn-default btn-bold" ng-click="editRegistrant(r.id)" value="Edit"
-                     ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)">
-              <input type="button" class="btn btn-sm btn-danger btn-bold" ng-click="removeRegistrant(r.id)" ng-if="registrantDeletable(r)" value="Remove">
+              <input
+                type="button"
+                class="btn btn-sm btn-default btn-bold"
+                ng-click="editRegistrant(r.id)"
+                value="Edit"
+                ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)"
+              />
+              <input
+                type="button"
+                class="btn btn-sm btn-danger btn-bold"
+                ng-click="removeRegistrant(r.id)"
+                ng-if="registrantDeletable(r)"
+                value="Remove"
+              />
             </td>
           </tr>
-          <tr ng-repeat="block in blocks" ng-if="blockVisibleForRegistrant(block, r)" ng-show="expandRegistrant[r.id]">
+          <tr
+            ng-repeat="block in blocks"
+            ng-if="blockVisibleForRegistrant(block, r)"
+            ng-show="expandRegistrant[r.id]"
+          >
             <td></td>
-            <td style="font-weight:bold;" ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}" ng-bind-html="block.title"></td>
-            <td colspan="2"><show-answer block="block" registrant="r" show-amount="true"></show-answer></td>
+            <td
+              style="font-weight:bold;"
+              ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}"
+              ng-bind-html="block.title"
+            ></td>
+            <td colspan="2">
+              <show-answer
+                block="block"
+                registrant="r"
+                show-amount="true"
+              ></show-answer>
+            </td>
           </tr>
         </tbody>
       </table>
     </section>
-    <section ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)" class="hidden-print">
-      <h2 class="page-title border" translate ng-if="visibleRegistrantTypes.length > 0">Add a Group Member</h2>
+    <section
+      ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)"
+      class="hidden-print"
+    >
+      <h2
+        class="page-title border"
+        translate
+        ng-if="visibleRegistrantTypes.length > 0"
+      >
+        Add a Group Member
+      </h2>
       <registration-type-select></registration-type-select>
     </section>
     <section>
       <h2 class="page-title border" translate>Summary</h2>
       <p>
         <translate>A breakdown of the costs</translate>
-        <span ng-show="currentRegistration.pastPayments.length > 0" translate>and payments</span>
+        <span ng-show="currentRegistration.pastPayments.length > 0" translate
+          >and payments</span
+        >
         <translate>associated with your registration.</translate>
       </p>
       <table class="table review-breakdown">
@@ -91,32 +181,69 @@
             <th width="90" translate>Cost</th>
           </tr>
         </thead>
-        <tbody ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'">
-          <tr ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]">
+        <tbody
+          ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'"
+        >
+          <tr
+            ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
+          >
             <td>
-              <i class="fa" ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"></i>
+              <i
+                class="fa"
+                ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
+              ></i>
             </td>
             <td>{{r.firstName}} {{r.lastName}}</td>
-            <td><span ng-if="!expandRegistrantCost[r.id]">{{r.calculatedTotalDue | currency:'$'}}</span></td>
+            <td>
+              <span ng-if="!expandRegistrantCost[r.id]"
+                >{{r.calculatedTotalDue | currency:'$'}}</span
+              >
+            </td>
           </tr>
           <tr ng-if="expandRegistrantCost[r.id]">
             <td></td>
-            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Registration</translate></td>
-            <td>{{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}</td>
+            <td class="horizon-padding25">
+              <i class="fa fa-angle-right"></i>
+              <translate>Registration</translate>
+            </td>
+            <td>
+              {{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}
+            </td>
           </tr>
-          <tr ng-repeat="a in r.answers" ng-if="a.amount !== 0 && expandRegistrantCost[r.id]">
+          <tr
+            ng-repeat="a in r.answers"
+            ng-if="a.amount !== 0 && expandRegistrantCost[r.id]"
+          >
             <td></td>
-            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}: <show-answer block="getBlock(a.blockId)" registrant="r"></show-answer></td>
+            <td class="horizon-padding25">
+              <i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}:
+              <show-answer
+                block="getBlock(a.blockId)"
+                registrant="r"
+              ></show-answer>
+            </td>
             <td>{{a.amount | currency:'$'}}</td>
           </tr>
-          <tr ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts">
+          <tr
+            ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts"
+          >
             <td></td>
-            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Early Registration Discount</translate></td>
-            <td>{{(r.calculatedEarlyRegistrationDiscounts * -1) | currency:'$'}}</td>
+            <td class="horizon-padding25">
+              <i class="fa fa-angle-right"></i>
+              <translate>Early Registration Discount</translate>
+            </td>
+            <td>
+              {{(r.calculatedEarlyRegistrationDiscounts * -1) | currency:'$'}}
+            </td>
           </tr>
-          <tr ng-if="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts">
+          <tr
+            ng-if="expandRegistrantCost[r.id] && r.calculatedPromotionDiscounts"
+          >
             <td></td>
-            <td class="horizon-padding25"><i class="fa fa-angle-right"></i> <translate>Promotion Discount</translate></td>
+            <td class="horizon-padding25">
+              <i class="fa fa-angle-right"></i>
+              <translate>Promotion Discount</translate>
+            </td>
             <td>{{(r.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
           </tr>
         </tbody>
@@ -127,17 +254,26 @@
           <table class="table pull-right">
             <tr ng-if="currentRegistration.calculatedPromotionDiscounts">
               <th translate>Promotion Discount</th>
-              <td width="90">{{(currentRegistration.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
+              <td width="90">
+                {{(currentRegistration.calculatedPromotionDiscounts * -1) |
+                currency:'$'}}
+              </td>
             </tr>
             <tr>
               <th translate>Total</th>
-              <td width="90">{{currentRegistration.calculatedTotalDue | currency:'$'}}</td>
+              <td width="90">
+                {{currentRegistration.calculatedTotalDue | currency:'$'}}
+              </td>
             </tr>
             <tr ng-repeat="p in currentRegistration.pastPayments">
               <td>
                 <strong>{{p.paymentType | paymentTypeFormat}}</strong>
-                <span ng-if="p.paymentType !== 'TRANSFER'">({{p.transactionDatetime | date: 'shortDate'}})</span>
-                <span ng-if="p.status === 'PENDING' || p.status === 'REQUESTED'">*</span>
+                <span ng-if="p.paymentType !== 'TRANSFER'"
+                  >({{p.transactionDatetime | date: 'shortDate'}})</span
+                >
+                <span ng-if="p.status === 'PENDING' || p.status === 'REQUESTED'"
+                  >*</span
+                >
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
@@ -153,54 +289,128 @@
               <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
             </tr>
           </table>
-          <p class="text-muted" ng-if="hasPendingPayments(currentRegistration.pastPayments)" translate>* Pending payments are not reflected in remaining balance. Your remaining balance will be automatically updated once any scholarships are approved or checks have been received.</p>
+
+          <p
+            class="text-muted"
+            ng-if="hasPendingPayments(currentRegistration.pastPayments)"
+            translate
+          >
+            * Pending payments are not reflected in remaining balance. Your
+            remaining balance will be automatically updated once any
+            scholarships are approved or checks have been received.
+          </p>
 
           <table class="table">
             <tr ng-repeat="p in currentRegistration.promotions">
-              <td>{{p.code}} <span class="text-muted" ng-if="p.description">{{p.description}}</span></td>
+              <td>
+                {{p.code}}
+                <span class="text-muted" ng-if="p.description"
+                  >{{p.description}}</span
+                >
+              </td>
               <td class="text-center" width="80">
-                <button ng-click="deletePromotion(p.id)" title="Delete Promotion" class="btn btn-xs btn-danger"><i class="fa fa-trash-o"></i></button>
+                <button
+                  ng-click="deletePromotion(p.id)"
+                  title="Delete Promotion"
+                  class="btn btn-xs btn-danger"
+                >
+                  <i class="fa fa-trash-o"></i>
+                </button>
               </td>
             </tr>
           </table>
 
-          <a href="" ng-click="showPromoInput = true" ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length && !showPromoInput">
+          <a
+            href=""
+            ng-click="showPromoInput = true"
+            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length && !showPromoInput"
+          >
             <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
           </a>
           <div class="input-group" ng-show="showPromoInput">
-            <input type="text" class="form-control" ng-model="promoInput" ng-enter="validatePromo(promoInput)">
+            <input
+              type="text"
+              class="form-control"
+              ng-model="promoInput"
+              ng-enter="validatePromo(promoInput)"
+            />
             <span class="input-group-btn">
-              <button type="button" class="btn btn-default" ng-click="validatePromo(promoInput)" ng-disabled="addingPromoCode" translate>Validate</button>
+              <button
+                type="button"
+                class="btn btn-default"
+                ng-click="validatePromo(promoInput)"
+                ng-disabled="addingPromoCode"
+                translate
+              >
+                Validate
+              </button>
             </span>
           </div>
         </div>
       </div>
 
-      <div ng-if="hasPendingCheckPayment(currentRegistration.pastPayments)" class="spacing-below-md">
+      <div
+        ng-if="hasPendingCheckPayment(currentRegistration.pastPayments)"
+        class="spacing-below-md"
+      >
         <h2 class="page-title border" translate>Check Instructions</h2>
         <ol>
           <li translate>Print this page.</li>
-          <li><translate>Make your check payable to</translate> "{{conference.checkPayableTo}}".</li>
-          <li><translate>Mail this page and your check to:</translate><br><br>
-            {{conference.checkMailingAddress}}<br>
-            {{conference.checkMailingCity}}, {{conference.checkMailingState}} {{conference.checkMailingZip}}
+          <li>
+            <translate>Make your check payable to</translate>
+            "{{conference.checkPayableTo}}".
+          </li>
+          <li>
+            <translate>Mail this page and your check to:</translate><br /><br />
+            {{conference.checkMailingAddress}}<br />
+            {{conference.checkMailingCity}}, {{conference.checkMailingState}}
+            {{conference.checkMailingZip}}
           </li>
         </ol>
       </div>
 
-      <div ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0" class="hidden-print">
+      <div
+        ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
+        class="hidden-print"
+      >
         <h2 class="page-title border" translate>Payment</h2>
-        <div ert-payment payment="currentPayment" registration="currentRegistration" payment-methods="acceptedPaymentMethods"></div>
+        <div
+          ert-payment
+          payment="currentPayment"
+          registration="currentRegistration"
+          payment-methods="acceptedPaymentMethods"
+        ></div>
       </div>
     </section>
 
-    <section class="text-center spacing-above-md hidden-print" ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)">
-      <p ng-if="!allRegistrantsValid()" style="color:red;" translate>Please fill in all required fields in red before submitting.</p>
-      <input type="button" class="btn btn-lg btn-success btn-important confirm-registration" ng-click="confirmRegistration()" value="Confirm" ng-disabled="registerDisabled()">
-      <span ng-show="registerMode === 'preview'">&laquo; <translate>Disabled in preview mode</translate></span>
+    <section
+      class="text-center spacing-above-md hidden-print"
+      ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)"
+    >
+      <p ng-if="!allRegistrantsValid()" style="color:red;" translate>
+        Please fill in all required fields in red before submitting.
+      </p>
+      <input
+        type="button"
+        class="btn btn-lg btn-success btn-important confirm-registration"
+        ng-click="confirmRegistration()"
+        value="Confirm"
+        ng-disabled="registerDisabled()"
+      />
+      <span ng-show="registerMode === 'preview'"
+        >&laquo; <translate>Disabled in preview mode</translate></span
+      >
     </section>
-    <section class="text-center spacing-above-md hidden-print" ng-if="currentRegistration.completed">
-      <input type="button" class="btn btn-primary" onClick="window.print();" value="Print this page">
+    <section
+      class="text-center spacing-above-md hidden-print"
+      ng-if="currentRegistration.completed"
+    >
+      <input
+        type="button"
+        class="btn btn-primary"
+        onClick="window.print();"
+        value="Print this page"
+      />
     </section>
   </div>
 </div>

@@ -7,15 +7,34 @@
 </div>
 <div class="modal-body" ng-show="permissionToClone">
   <p translate>Please enter a name or title for this event.</p>
-  <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" auto-focus>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Example: Fall Retreat 2017"
+    ng-model="name"
+    auto-focus
+  />
 
   <div class="checkbox">
     <label>
-      <input type="checkbox" ng-model="includePermissions" ng-init="includePermissions = true"> <translate>Copy users and permission to new event</translate>
+      <input
+        type="checkbox"
+        ng-model="includePermissions"
+        ng-init="includePermissions = true"
+      />
+      <translate>Copy users and permission to new event</translate>
     </label>
   </div>
 </div>
 <div class="modal-footer" ng-if="permissionToClone">
-  <button ng-click="$dismiss()" class="btn btn-default" translate>Cancel</button>
-  <button ng-click="$close({name: name, includePermissions: includePermissions})" class="btn btn-primary" translate>Clone</button>
+  <button ng-click="$dismiss()" class="btn btn-default" translate>
+    Cancel
+  </button>
+  <button
+    ng-click="$close({name: name, includePermissions: includePermissions})"
+    class="btn btn-primary"
+    translate
+  >
+    Clone
+  </button>
 </div>

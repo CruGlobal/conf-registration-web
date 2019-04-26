@@ -2,37 +2,48 @@
 <div class="form-group">
   <div class="col-sm-9">
     <label translate>Event Name</label>
-    <input type="text" class="form-control" ng-model="conference.name">
+    <input type="text" class="form-control" ng-model="conference.name" />
   </div>
   <div class="col-sm-3">
     <label translate>Abbreviation</label>
-    <i class="question-popover fa fa-question-circle"
-       uib-popover="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
+    <i
+      class="question-popover fa fa-question-circle"
+      uib-popover="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
         Description on the Staff Account Transfers upload report.  Including an abbreviation will help those who pay by
          transfer know which event the transfer is paying for when they view their staff account expense report.' | translate}}"
-       popover-trigger="mouseenter"
-       popover-append-to-body="true">
+      popover-trigger="mouseenter"
+      popover-append-to-body="true"
+    >
     </i>
-    <input type="text" class="form-control" ng-model="conference.abbreviation">
+    <input
+      type="text"
+      class="form-control"
+      ng-model="conference.abbreviation"
+    />
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-12">
     <label translate>Description</label>
-    <textarea type="text" class="form-control" rows="3" ng-model="conference.description"></textarea>
+    <textarea
+      type="text"
+      class="form-control"
+      rows="3"
+      ng-model="conference.description"
+    ></textarea>
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-4 stacked-spacing-col-sm">
-    <label translate>Event Starts</label><br>
+    <label translate>Event Starts</label><br />
     <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
   </div>
   <div class="col-sm-4 stacked-spacing-col-sm">
-    <label translate>Event Ends</label><br>
+    <label translate>Event Ends</label><br />
     <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
   </div>
   <div class="col-sm-4">
-    <label translate>Event Timezone</label><br>
+    <label translate>Event Timezone</label><br />
     <select class="form-control" ng-model="conference.eventTimezone">
       <optgroup label="America">
         <option value="America/Halifax">Atlantic</option>
@@ -72,18 +83,33 @@
 <div class="form-group">
   <div class="col-sm-12">
     <label translate>Event Location</label>
-    <input type="text" class="form-control" placeholder="{{'Name' | translate}}" ng-model="conference.locationName">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="{{'Name' | translate}}"
+      ng-model="conference.locationName"
+    />
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-12">
     <label translate>Event Location Address</label>
-    <input type="text" class="form-control" placeholder="{{'Address' | translate}}" ng-model="conference.locationAddress">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="{{'Address' | translate}}"
+      ng-model="conference.locationAddress"
+    />
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-6 stacked-spacing-col-sm">
-    <input type="text" class="form-control" placeholder="{{'City' | translate}}" ng-model="conference.locationCity">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="{{'City' | translate}}"
+      ng-model="conference.locationCity"
+    />
   </div>
   <div class="col-sm-3 stacked-spacing-col-sm">
     <select class="form-control" ng-model="conference.locationState">
@@ -142,7 +168,12 @@
     </select>
   </div>
   <div class="col-sm-3">
-    <input type="text" class="form-control" placeholder="{{'Postal Code' | translate}}" ng-model="conference.locationZipCode">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="{{'Postal Code' | translate}}"
+      ng-model="conference.locationZipCode"
+    />
   </div>
 </div>
 <div class="form-group">
@@ -150,7 +181,7 @@
     <label translate>Cru Event</label>
     <div class="checkbox">
       <label>
-        <input type="checkbox" ng-model="conference.cruEvent">
+        <input type="checkbox" ng-model="conference.cruEvent" />
         <translate>This is a Cru Event.</translate>
       </label>
     </div>

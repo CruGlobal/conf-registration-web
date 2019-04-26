@@ -10,38 +10,44 @@ class Analytics {
     this.digitalData = $window.digitalData;
   }
 
-  firePageViewEvent(){
+  firePageViewEvent() {
     /* Adobe Analytics */
     // Profile info
-    this.ProfileCache.getCache().then(profile => {
-      this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged In';
-      switch(profile.authProviderType){
-        case 'RELAY':
-          this.digitalData.user[0].profile[0].profileInfo.ssoGuid = profile.userAuthProviderId;
-          break;
-        case 'FACEBOOK':
-          this.digitalData.user[0].profile[0].social.facebook = profile.userAuthProviderId;
-          break;
-      }
-      // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
-      this.track('page view');
-    }, () => {
-      this.digitalData.user[0].profile[0].profileInfo.loggedInStatus = 'Logged Out';
-      this.track('page view');
-    });
+    this.ProfileCache.getCache().then(
+      profile => {
+        this.digitalData.user[0].profile[0].profileInfo.loggedInStatus =
+          'Logged In';
+        switch (profile.authProviderType) {
+          case 'RELAY':
+            this.digitalData.user[0].profile[0].profileInfo.ssoGuid =
+              profile.userAuthProviderId;
+            break;
+          case 'FACEBOOK':
+            this.digitalData.user[0].profile[0].social.facebook =
+              profile.userAuthProviderId;
+            break;
+        }
+        // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
+        this.track('page view');
+      },
+      () => {
+        this.digitalData.user[0].profile[0].profileInfo.loggedInStatus =
+          'Logged Out';
+        this.track('page view');
+      },
+    );
 
     /* Google Analytics*/
-    if(this.$window.ga){
-      this.$window.ga('send', 'pageview', {'page': this.$location.path()});
+    if (this.$window.ga) {
+      this.$window.ga('send', 'pageview', { page: this.$location.path() });
     }
   }
 
-  track(event){
+  track(event) {
     this.$window._satellite && this.$window._satellite.track(event);
   }
 }
 
 export default angular
   .module('confRegistrationWebApp')
-  .service('analytics', Analytics)
-  .name;
+  .service('analytics', Analytics).name;

@@ -1,16 +1,23 @@
 import template from 'views/components/blockRegistration.html';
 
-angular.module('confRegistrationWebApp')
-  .directive('blockRegistration', function (DateRangeService) {
+angular
+  .module('confRegistrationWebApp')
+  .directive('blockRegistration', function(DateRangeService) {
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function ($scope, $routeParams, RegistrationCache, uuid, validateRegistrant) {
+      controller: function(
+        $scope,
+        $routeParams,
+        RegistrationCache,
+        uuid,
+        validateRegistrant,
+      ) {
         $scope.isString = _.isString;
 
         $onInit();
 
-        function $onInit(){
+        function $onInit() {
           if ($scope.adminEditRegistrant) {
             initAdminEditMode();
           } else {
@@ -19,28 +26,42 @@ angular.module('confRegistrationWebApp')
 
           $scope.days = 1;
           if ($scope.block.startDateBlockId !== null) {
-            DateRangeService.subscribe($scope.block.startDateBlockId, startDateChangeCallback);
+            DateRangeService.subscribe(
+              $scope.block.startDateBlockId,
+              startDateChangeCallback,
+            );
           }
           if ($scope.block.endDateBlockId !== null) {
-            DateRangeService.subscribe($scope.block.endDateBlockId, endDateChangeCallback);
+            DateRangeService.subscribe(
+              $scope.block.endDateBlockId,
+              endDateChangeCallback,
+            );
           }
         }
 
-        function initAdminEditMode(){
+        function initAdminEditMode() {
           const { answer, isNew } = initializeAnswer(
             $scope.adminEditRegistrant.answers,
             $scope.block,
-            $scope.adminEditRegistrant.id
+            $scope.adminEditRegistrant.id,
           );
           $scope.answer = answer;
           isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
 
-        function initRegistrationMode(){
+        function initRegistrationMode() {
           const registrantId = $routeParams.reg;
-          const registrantIndex = _.findIndex($scope.currentRegistration.registrants, {'id': registrantId});
+          const registrantIndex = _.findIndex(
+            $scope.currentRegistration.registrants,
+            { id: registrantId },
+          );
 
-          if (!registrantId || !$scope.block || registrantIndex === -1 || $scope.block.type === 'paragraphContent') {
+          if (
+            !registrantId ||
+            !$scope.block ||
+            registrantIndex === -1 ||
+            $scope.block.type === 'paragraphContent'
+          ) {
             return;
           }
 
@@ -48,36 +69,67 @@ angular.module('confRegistrationWebApp')
             $scope.currentRegistration.registrants[registrantIndex].answers,
             $scope.block,
             registrantId,
-            $scope.block.content && $scope.block.content.default
+            $scope.block.content && $scope.block.content.default,
           );
           $scope.answer = answer;
-          isNew && $scope.currentRegistration.registrants[registrantIndex].answers.push($scope.answer);
+          isNew &&
+            $scope.currentRegistration.registrants[
+              registrantIndex
+            ].answers.push($scope.answer);
 
-          $scope.$watch('answer', function (answer, oldAnswer) {
-            if (angular.isUndefined(answer) || angular.isUndefined(oldAnswer) || angular.equals(answer, oldAnswer)) {
-              return;
-            }
+          $scope.$watch(
+            'answer',
+            function(answer, oldAnswer) {
+              if (
+                angular.isUndefined(answer) ||
+                angular.isUndefined(oldAnswer) ||
+                angular.equals(answer, oldAnswer)
+              ) {
+                return;
+              }
 
-            RegistrationCache.updateCurrent($scope.conference.id, $scope.currentRegistration);
-          }, true);
+              RegistrationCache.updateCurrent(
+                $scope.conference.id,
+                $scope.currentRegistration,
+              );
+            },
+            true,
+          );
         }
 
         function startDateChangeCallback(value) {
           $scope.startDate = value;
-          $scope.days = DateRangeService.calculateDateRange($scope.startDate, $scope.endDate);
+          $scope.days = DateRangeService.calculateDateRange(
+            $scope.startDate,
+            $scope.endDate,
+          );
         }
 
         function endDateChangeCallback(value) {
           $scope.endDate = value;
-          $scope.days = DateRangeService.calculateDateRange($scope.startDate, $scope.endDate);
+          $scope.days = DateRangeService.calculateDateRange(
+            $scope.startDate,
+            $scope.endDate,
+          );
         }
 
-        function initializeAnswer(registrantAnswers, block, registrantId, blockDefault) {
-          var currentAnswer = _.find(registrantAnswers, {'blockId': block.id});
+        function initializeAnswer(
+          registrantAnswers,
+          block,
+          registrantId,
+          blockDefault,
+        ) {
+          var currentAnswer = _.find(registrantAnswers, { blockId: block.id });
 
-          if (block.type === 'checkboxQuestion' && angular.isDefined(currentAnswer)) {
+          if (
+            block.type === 'checkboxQuestion' &&
+            angular.isDefined(currentAnswer)
+          ) {
             // keep only choices that exist in the Block
-            currentAnswer.value = _.pick(currentAnswer.value, _.map($scope.block.content.choices, 'value'));
+            currentAnswer.value = _.pick(
+              currentAnswer.value,
+              _.map($scope.block.content.choices, 'value'),
+            );
           }
 
           return {
@@ -85,18 +137,18 @@ angular.module('confRegistrationWebApp')
               id: uuid(),
               registrantId: registrantId,
               blockId: block.id,
-              value: getDefaultValue(block.type, blockDefault)
+              value: getDefaultValue(block.type, blockDefault),
             },
-            isNew: !currentAnswer
+            isNew: !currentAnswer,
           };
         }
 
-        function getDefaultValue(type, blockDefault){
+        function getDefaultValue(type, blockDefault) {
           switch (type) {
             case 'nameQuestion':
               return {
                 firstName: '',
-                lastName: ''
+                lastName: '',
               };
             case 'addressQuestion':
               return {
@@ -104,7 +156,7 @@ angular.module('confRegistrationWebApp')
                 address2: '',
                 city: '',
                 state: '',
-                zip: ''
+                zip: '',
               };
             case 'checkboxQuestion':
               return blockDefault || {};
@@ -120,15 +172,20 @@ angular.module('confRegistrationWebApp')
           }
         }
 
-        $scope.daysForBlock = function () {
+        $scope.daysForBlock = function() {
           return $scope.days;
         };
 
-        $scope.blockVisible = function (block) {
-          if (angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
+        $scope.blockVisible = function(block) {
+          if (
+            angular.isUndefined($scope.currentRegistration) ||
+            angular.isUndefined($scope.currentRegistrant)
+          ) {
             return false;
           }
-          var registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+          var registrant = _.find($scope.currentRegistration.registrants, {
+            id: $scope.currentRegistrant,
+          });
           return validateRegistrant.blockVisible(block, registrant);
         };
 
@@ -137,8 +194,11 @@ angular.module('confRegistrationWebApp')
           // but it's currently selected, clear the value of that answer
           if (!isVisible && block.type === 'checkboxQuestion') {
             $scope.answer.value[choice.value] = false;
-          } else if (!isVisible && _.includes(['selectQuestion', 'radioQuestion'],
-            block.type) && $scope.answer.value === choice.value) {
+          } else if (
+            !isVisible &&
+            _.includes(['selectQuestion', 'radioQuestion'], block.type) &&
+            $scope.answer.value === choice.value
+          ) {
             $scope.answer.value = null;
           }
         }
@@ -147,16 +207,24 @@ angular.module('confRegistrationWebApp')
           if (block.type !== 'checkboxQuestion') {
             return;
           }
-          var ruleStatus = validateRegistrant.checkboxDisable(block, registrant);
-          if(ruleStatus){//making all checkbox with force selection to true
-            if(angular.isDefined(block.content.forceSelections) &&
-                block.content.forceSelections[choice.value] === true && isVisible){
-              $scope.answer.value[choice.value] = block.content.forceSelections[choice.value];
+          var ruleStatus = validateRegistrant.checkboxDisable(
+            block,
+            registrant,
+          );
+          if (ruleStatus) {
+            //making all checkbox with force selection to true
+            if (
+              angular.isDefined(block.content.forceSelections) &&
+              block.content.forceSelections[choice.value] === true &&
+              isVisible
+            ) {
+              $scope.answer.value[choice.value] =
+                block.content.forceSelections[choice.value];
             }
           }
         }
 
-        $scope.choiceVisible = function (block, choice) {
+        $scope.choiceVisible = function(block, choice) {
           if (angular.isUndefined(choice)) {
             return false;
           }
@@ -164,12 +232,21 @@ angular.module('confRegistrationWebApp')
           if (angular.isDefined($scope.adminEditRegistrant)) {
             registrant = $scope.adminEditRegistrant;
           } else {
-            if (angular.isUndefined($scope.currentRegistration) || angular.isUndefined($scope.currentRegistrant)) {
+            if (
+              angular.isUndefined($scope.currentRegistration) ||
+              angular.isUndefined($scope.currentRegistrant)
+            ) {
               return false;
             }
-            registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+            registrant = _.find($scope.currentRegistration.registrants, {
+              id: $scope.currentRegistrant,
+            });
           }
-          var isVisible = validateRegistrant.choiceVisible(block, choice, registrant);
+          var isVisible = validateRegistrant.choiceVisible(
+            block,
+            choice,
+            registrant,
+          );
 
           setForceSelections(block, registrant, isVisible, choice);
 
@@ -179,20 +256,21 @@ angular.module('confRegistrationWebApp')
         };
 
         //Check if the checkbox matches force selection rules
-        $scope.checkForceRule = function(block){
-          if($scope.isAdmin){
+        $scope.checkForceRule = function(block) {
+          if ($scope.isAdmin) {
             return true;
-          }else{
+          } else {
             var registrant;
             if (angular.isDefined($scope.adminEditRegistrant)) {
               registrant = $scope.adminEditRegistrant;
-            }else{
-              registrant = _.find($scope.currentRegistration.registrants, {id: $scope.currentRegistrant});
+            } else {
+              registrant = _.find($scope.currentRegistration.registrants, {
+                id: $scope.currentRegistrant,
+              });
             }
             return validateRegistrant.checkboxDisable(block, registrant);
           }
         };
-
-      }
+      },
     };
   });

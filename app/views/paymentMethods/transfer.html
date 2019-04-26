@@ -7,32 +7,57 @@
   </select>
 </div>
 
-<div class="row form-group"
-     ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'">
+<div
+  class="row form-group"
+  ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
+>
   <div class="col-sm-12">
     <label translate>Account Number</label>
-    <input ng-model="currentPayment.transfer.accountNumber" type="text" class="form-control">
+    <input
+      ng-model="currentPayment.transfer.accountNumber"
+      type="text"
+      class="form-control"
+    />
   </div>
 </div>
 
-<div class="row form-group" ng-show="currentPayment.transfer.accountType === 'MINISTRY'">
+<div
+  class="row form-group"
+  ng-show="currentPayment.transfer.accountType === 'MINISTRY'"
+>
   <div class="col-sm-3 stacked-spacing-col-sm">
     <label translate>Business Unit</label>
-    <input ng-model="currentPayment.transfer.businessUnit" type="text" class="form-control">
+    <input
+      ng-model="currentPayment.transfer.businessUnit"
+      type="text"
+      class="form-control"
+    />
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
     <label translate>Operating Unit</label>
-    <input ng-model="currentPayment.transfer.operatingUnit" type="text" class="form-control">
+    <input
+      ng-model="currentPayment.transfer.operatingUnit"
+      type="text"
+      class="form-control"
+    />
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
     <label translate>Department</label>
-    <input ng-model="currentPayment.transfer.department" type="text" class="form-control">
+    <input
+      ng-model="currentPayment.transfer.department"
+      type="text"
+      class="form-control"
+    />
   </div>
 
   <div class="col-sm-3">
     <label translate>Project Id</label>
-    <input ng-model="currentPayment.transfer.projectId" type="text" class="form-control">
+    <input
+      ng-model="currentPayment.transfer.projectId"
+      type="text"
+      class="form-control"
+    />
   </div>
 </div>

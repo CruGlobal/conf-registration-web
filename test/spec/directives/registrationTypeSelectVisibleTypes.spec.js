@@ -1,11 +1,16 @@
 import 'angular-mocks';
 
-describe('Directive: registrationTypeSelect visibleRegistrantTypes', function () {
-
+describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testRegistrantTypeData;
-  beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache, $routeParams, _testRegistrantTypeData_){
+  beforeEach(inject(function(
+    _$compile_,
+    _$rootScope_,
+    $templateCache,
+    $routeParams,
+    _testRegistrantTypeData_,
+  ) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     testRegistrantTypeData = _testRegistrantTypeData_;
@@ -20,7 +25,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   it('on the first registration screen all group and non-group registrant types are visible (except dependant)', function() {
     // no registrants yet
     scope.currentRegistration.registrants = [];
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -34,7 +41,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   });
 
   it('when Group 1 selected on the first screen, only associated registrant types visible on review screen', function() {
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -45,7 +54,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   });
 
   it('when Group 1 selected on the first screen, only associated registrant types visible on review screen', function() {
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -56,9 +67,13 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   });
 
   it('when Group 2 selected on the first screen, only associated registrant types visible on review screen', function() {
-    const group2Id = _.find(scope.conference.registrantTypes, {name: 'Group 2'}).id;
+    const group2Id = _.find(scope.conference.registrantTypes, {
+      name: 'Group 2',
+    }).id;
     scope.currentRegistration.registrants[0].registrantTypeId = group2Id;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -70,7 +85,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
 
   it('when childRegistrantTypes set to null, fallback for already created conferences', function() {
     scope.conference.registrantTypes[1].allowedRegistrantTypeSet = null;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -87,9 +104,13 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   });
 
   it('when Group 3 selected on the first screen, other associated Primary Group Registrant Types are visible (including itself)', function() {
-    const group3Id = _.find(scope.conference.registrantTypes, {name: 'Group 3'}).id;
+    const group3Id = _.find(scope.conference.registrantTypes, {
+      name: 'Group 3',
+    }).id;
     scope.currentRegistration.registrants[0].registrantTypeId = group3Id;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -102,7 +123,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
 
   it('associated registrant types can be limited', function() {
     scope.currentRegistration = testRegistrantTypeData.registrationWithLimit;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -114,7 +137,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
   it('associated registrant types can be unlimited', function() {
     scope.currentRegistration = testRegistrantTypeData.registrationWithLimit;
     scope.conference.registrantTypes[1].allowedRegistrantTypeSet[1].numberOfChildRegistrants = 0;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
@@ -126,12 +151,13 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
 
   it('current registration is non-group', function() {
     scope.currentRegistration = testRegistrantTypeData.registrationDefault;
-    element = $compile('<registration-type-select></registration-type-select>')(scope);
+    element = $compile('<registration-type-select></registration-type-select>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
     expect(typeNames.length).toBe(8);
   });
-
 });

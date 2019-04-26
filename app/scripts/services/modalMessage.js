@@ -1,8 +1,9 @@
 import genericModalTemplate from 'views/modals/genericModal.html';
 import confirmModalTemplate from 'views/modals/confirmModal.html';
 
-angular.module('confRegistrationWebApp')
-  .factory('modalMessage', function modalMessageFactory($rootScope, $uibModal){
+angular
+  .module('confRegistrationWebApp')
+  .factory('modalMessage', function modalMessageFactory($rootScope, $uibModal) {
     var factory = {};
 
     /*
@@ -22,15 +23,16 @@ angular.module('confRegistrationWebApp')
 
      The forceAction option is optional and, if set to true, disables clicking outside the modal or using the ESC key to close the modal
      */
-    factory.error = function(options){
-      if(!_.isObject(options)){ //is message string instead of object
-        options = {'message': options};
+    factory.error = function(options) {
+      if (!_.isObject(options)) {
+        //is message string instead of object
+        options = { message: options };
       }
       _.defaults(options, {
-        'title': 'Error',
-        'message': '',
-        'forceAction': false,
-        'okString': 'Ok'
+        title: 'Error',
+        message: '',
+        forceAction: false,
+        okString: 'Ok',
       });
       var scope = $rootScope.$new(true);
       scope.title = options.title;
@@ -40,11 +42,11 @@ angular.module('confRegistrationWebApp')
 
       var errorModalConfig = {
         templateUrl: genericModalTemplate,
-        scope: scope
+        scope: scope,
       };
-      if(options.forceAction){
+      if (options.forceAction) {
         errorModalConfig.backdrop = 'static';
-        errorModalConfig.keyboard =  false;
+        errorModalConfig.keyboard = false;
       }
       $uibModal.open(errorModalConfig);
     };
@@ -64,12 +66,13 @@ angular.module('confRegistrationWebApp')
 
      Alias for modalMessage.error() with different default title. To be used to display something that is not meant to be an error. Functionality is identical for now.
      */
-    factory.info = function(options){
-      if(!_.isObject(options)){ //is message string instead of object
-        options = {'message': options};
+    factory.info = function(options) {
+      if (!_.isObject(options)) {
+        //is message string instead of object
+        options = { message: options };
       }
       _.defaults(options, {
-        'title': 'Info'
+        title: 'Info',
       });
       factory.error(options);
     };
@@ -91,13 +94,13 @@ angular.module('confRegistrationWebApp')
 
      The modal size will be set to small unless the normalSize option is set to true. Default is false.
      */
-    factory.confirm = function(options){
+    factory.confirm = function(options) {
       _.defaults(options, {
-        'title': '',
-        'question': '',
-        'yesString': 'Yes',
-        'noString': 'No',
-        'normalSize': false
+        title: '',
+        question: '',
+        yesString: 'Yes',
+        noString: 'No',
+        normalSize: false,
       });
       var scope = $rootScope.$new(true);
       scope.title = options.title;
@@ -107,9 +110,9 @@ angular.module('confRegistrationWebApp')
 
       var confirmModalConfig = {
         templateUrl: confirmModalTemplate,
-        scope: scope
+        scope: scope,
       };
-      if(!options.normalSize) {
+      if (!options.normalSize) {
         confirmModalConfig.size = 'sm';
       }
       return $uibModal.open(confirmModalConfig).result;

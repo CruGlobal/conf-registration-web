@@ -1,7 +1,12 @@
 <h2 class="page-title border" translate>Registrant Types</h2>
 <p class="text-muted">
   <i class="fa fa-info-circle"></i>
-  <translate>By setting up multiple registrant types, you can charge different amounts and ask different questions depending on the type of registration. You can drag and drop these types into the order that people registering will see them.</translate>
+  <translate
+    >By setting up multiple registrant types, you can charge different amounts
+    and ask different questions depending on the type of registration. You can
+    drag and drop these types into the order that people registering will see
+    them.</translate
+  >
 </p>
 
 <div ui-tree>
@@ -11,111 +16,187 @@
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-3 col-md-push-9 text-right">
-              <a href="" ng-click="openWell[type.id] = !openWell[type.id]"><i class="fa fa-inset fa-inset-reg-type" ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"></i></a>
-              <i class="fa fa-bars fa-inset fa-inset-reg-type" ui-tree-handle></i>
+              <a href="" ng-click="openWell[type.id] = !openWell[type.id]"
+                ><i
+                  class="fa fa-inset fa-inset-reg-type"
+                  ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"
+                ></i
+              ></a>
+              <i
+                class="fa fa-bars fa-inset fa-inset-reg-type"
+                ui-tree-handle
+              ></i>
             </div>
-            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md" ng-if="!type.defaultTypeKey">
-              <label><translate>Name</translate> <em class="required">*</em></label>
-              <input type="text" class="form-control" ng-model="type.name">
+            <div
+              class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
+              ng-if="!type.defaultTypeKey"
+            >
+              <label
+                ><translate>Name</translate> <em class="required">*</em></label
+              >
+              <input type="text" class="form-control" ng-model="type.name" />
             </div>
-            <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md" ng-if="type.defaultTypeKey">
+            <div
+              class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
+              ng-if="type.defaultTypeKey"
+            >
               <label translate>Name</label>
               <p class="form-control-static">{{type.name}}</p>
             </div>
             <div class="col-md-3 col-md-pull-3 stacked-spacing-">
-              <label><translate>Cost</translate> <em class="required">*</em></label>
+              <label
+                ><translate>Cost</translate> <em class="required">*</em></label
+              >
               <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                <input type="text" class="form-control" ng-model="type.cost">
+                <input type="text" class="form-control" ng-model="type.cost" />
               </div>
             </div>
           </div>
         </div>
         <div class="panel-body" ng-if="openWell[type.id]">
-          <button class="btn btn-xs btn-danger reg-type-delete" ng-click="deleteRegType(type.id)" type="button">
-            <i class="fa fa-trash-o"></i> <translate>Delete</translate><span class="hidden-xs"> <translate>Registrant Type</translate></span>
+          <button
+            class="btn btn-xs btn-danger reg-type-delete"
+            ng-click="deleteRegType(type.id)"
+            type="button"
+          >
+            <i class="fa fa-trash-o"></i> <translate>Delete</translate
+            ><span class="hidden-xs">
+              <translate>Registrant Type</translate></span
+            >
           </button>
           <div class="row">
             <div class="col-md-6">
               <h4 translate>Registration Form</h4>
               <div class="input-group">
                 <label translate>Description</label>
-                <textarea class="form-control" ng-model="type.description"></textarea>
+                <textarea
+                  class="form-control"
+                  ng-model="type.description"
+                ></textarea>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.hidden">
+                  <input type="checkbox" ng-model="type.hidden" />
                   <translate>Hide from Registration Form</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.useLimit">
+                  <input type="checkbox" ng-model="type.useLimit" />
                   <translate>Limit the number of registrants</translate>
                 </label>
-                <input type="number" class="form-control" ng-show="type.useLimit" ng-model="type.numberSlotsLimit">
+                <input
+                  type="number"
+                  class="form-control"
+                  ng-show="type.useLimit"
+                  ng-model="type.numberSlotsLimit"
+                />
               </div>
               <h4 translate>Group Registration</h4>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="DISABLED"  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
+                  <input
+                    type="radio"
+                    ng-model="type.familyStatus"
+                    value="DISABLED"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
                   <translate>No</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
                 </i>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="ENABLED" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
+                  <input
+                    type="radio"
+                    ng-model="type.familyStatus"
+                    value="ENABLED"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
                   <translate>Yes - Primary</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse, child, student) to the registration.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse, child, student) to the registration.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
                 </i>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="type.familyStatus" value="FAMILY_ONLY" ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)">
+                  <input
+                    type="radio"
+                    ng-model="type.familyStatus"
+                    value="FAMILY_ONLY"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
                   <translate>Yes - Dependent</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
                 </i>
               </div>
               <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
-                <label translate class="pt12">Associated Registrant Types</label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
-                   popover-trigger="mouseenter"
-                   popover-append-to-body="true">
+                <label translate class="pt12"
+                  >Associated Registrant Types</label
+                >
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
                 </i>
 
-                <div class="checkbox" ng-repeat="childType in type.allowedRegistrantTypeSet track by $index">
+                <div
+                  class="checkbox"
+                  ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
+                >
                   <div class="row">
                     <div class="col-md-6">
                       <label class="control-label text-left">
-                        <input type="checkbox" ng-model="type.allowedRegistrantTypeSet[$index].selected">
+                        <input
+                          type="checkbox"
+                          ng-model="type.allowedRegistrantTypeSet[$index].selected"
+                        />
                         {{childType.name}}
                       </label>
                     </div>
-                    <div class="col-md-6 row pull-right" ng-if="type.allowedRegistrantTypeSet[$index].selected" >
+                    <div
+                      class="col-md-6 row pull-right"
+                      ng-if="type.allowedRegistrantTypeSet[$index].selected"
+                    >
                       <label class="col-md-4 control-label"> Limit:</label>
                       <div class="col-md-8">
-                        <select ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants" class="form-control">
+                        <select
+                          ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants"
+                          class="form-control"
+                        >
                           <option ng-value="0">Unlimited</option>
-                          <option ng-repeat="x in [].constructor(20) track by $index" ng-value="$index+1">{{$index+1}}</option>
+                          <option
+                            ng-repeat="x in [].constructor(20) track by $index"
+                            ng-value="$index+1"
+                            >{{$index+1}}</option
+                          >
                         </select>
                       </div>
                     </div>
@@ -128,91 +209,146 @@
               <h4 translate>Payment</h4>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptCreditCards">
+                  <input type="checkbox" ng-model="type.acceptCreditCards" />
                   <translate>Accept Credit Cards</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
-                   popover-trigger="mouseenter">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
+                  popover-trigger="mouseenter"
+                >
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptChecks">
+                  <input type="checkbox" ng-model="type.acceptChecks" />
                   <translate>Accept Checks</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptTransfers">
+                  <input type="checkbox" ng-model="type.acceptTransfers" />
                   <translate>Accept Account Transfers</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptScholarships">
+                  <input type="checkbox" ng-model="type.acceptScholarships" />
                   <translate>Accept Scholarships</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptPayOnSite">
+                  <input type="checkbox" ng-model="type.acceptPayOnSite" />
                   <translate>Accept 'Pay on Site'</translate>
                 </label>
-                <i class="question-popover fa fa-question-circle"
-                   uib-popover="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
-                   popover-trigger="mouseenter">
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
+                  popover-trigger="mouseenter"
+                >
                 </i>
               </div>
 
-              <div class="pt12 input-group" ng-if="(conference.relayLogin || conference.facebookLogin) && anyPaymentMethodAccepted(type)">
+              <div
+                class="pt12 input-group"
+                ng-if="(conference.relayLogin || conference.facebookLogin) && anyPaymentMethodAccepted(type)"
+              >
                 <label translate>Minimum Payment to Register</label>
                 <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                  <input type="text" class="form-control marginless" ng-model="type.minimumDeposit">
+                  <span class="input-group-addon"
+                    ><i class="fa fa-usd"></i
+                  ></span>
+                  <input
+                    type="text"
+                    class="form-control marginless"
+                    ng-model="type.minimumDeposit"
+                  />
                 </div>
-                <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>If blank, full cost will be required at time of registration.</translate></p>
+                <p class="text-muted">
+                  <i class="fa fa-info-circle"></i>
+                  <translate
+                    >If blank, full cost will be required at time of
+                    registration.</translate
+                  >
+                </p>
               </div>
 
-              <div class="pt12" ng-show="!(conference.relayLogin || conference.facebookLogin) || !anyPaymentMethodAccepted(type)">
+              <div
+                class="pt12"
+                ng-show="!(conference.relayLogin || conference.facebookLogin) || !anyPaymentMethodAccepted(type)"
+              >
                 <label translate>Minimum Payment to Register</label>
-                <p class="text-muted" ng-show="!(conference.relayLogin || conference.facebookLogin)">
+                <p
+                  class="text-muted"
+                  ng-show="!(conference.relayLogin || conference.facebookLogin)"
+                >
                   <i class="fa fa-info-circle"></i>
-                  <translate>Registrants must be signed in order to accept multiple payments.</translate>
-                  <translate>Require sign in under the</translate> <a href ng-click="changeTab(tabs[1])" translate>Registrant Options</a> <translate>tab</translate>.
+                  <translate
+                    >Registrants must be signed in order to accept multiple
+                    payments.</translate
+                  >
+                  <translate>Require sign in under the</translate>
+                  <a href ng-click="changeTab(tabs[1])" translate
+                    >Registrant Options</a
+                  >
+                  <translate>tab</translate>.
                 </p>
                 <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)">
                   <i class="fa fa-info-circle"></i>
-                  <translate>You must accept a at least one payment method in order to set a minimum payment.</translate>
+                  <translate
+                    >You must accept a at least one payment method in order to
+                    set a minimum payment.</translate
+                  >
                 </p>
               </div>
 
-              <hr>
+              <hr />
               <div class="form-group">
                 <div class="col-xs-12">
                   <h4 translate>Early Registration Discount(s)</h4>
                 </div>
               </div>
-              <div class="form-group" ng-repeat="discount in type.earlyRegistrationDiscounts">
-                <button class="btn btn-xs btn-default reg-discount-delete" ng-click="type.earlyRegistrationDiscounts.splice($index,1)">
-                  <i class="fa fa-trash-o"></i> <translate>Remove</translate><span class="hidden-xs"> <translate>Discount</translate></span>
+              <div
+                class="form-group"
+                ng-repeat="discount in type.earlyRegistrationDiscounts"
+              >
+                <button
+                  class="btn btn-xs btn-default reg-discount-delete"
+                  ng-click="type.earlyRegistrationDiscounts.splice($index,1)"
+                >
+                  <i class="fa fa-trash-o"></i> <translate>Remove</translate
+                  ><span class="hidden-xs">
+                    <translate>Discount</translate></span
+                  >
                 </button>
                 <div class="col-sm-8 stacked-spacing-col-sm">
                   <label translate>If registered by</label>
-                  <crs-datetimepicker model="discount.deadline" ng-disabled="!discount.enabled"></crs-datetimepicker>
+                  <crs-datetimepicker
+                    model="discount.deadline"
+                    ng-disabled="!discount.enabled"
+                  ></crs-datetimepicker>
                 </div>
                 <div class="col-sm-4">
                   <label translate>Discount</label>
                   <div class="input-group">
-                    <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-                    <input type="text" class="form-control" ng-model="discount.amountOfDiscount" ng-disabled="!discount.enabled">
+                    <span class="input-group-addon"
+                      ><i class="fa fa-usd"></i
+                    ></span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      ng-model="discount.amountOfDiscount"
+                      ng-disabled="!discount.enabled"
+                    />
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-12">
                   <a href="" ng-click="addEarlyRegistrationDiscount(type)">
-                    <i class="fa fa-plus"></i> <translate>Add Discount</translate>
+                    <i class="fa fa-plus"></i>
+                    <translate>Add Discount</translate>
                   </a>
                 </div>
               </div>
@@ -222,23 +358,29 @@
           <div class="form-group">
             <div class="col-xs-12">
               <label translate>Confirmation Email</label>
-              <i class="question-popover fa fa-question-circle"
-                 uib-popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
-                 popover-trigger="mouseenter">
+              <i
+                class="question-popover fa fa-question-circle"
+                uib-popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
+                popover-trigger="mouseenter"
+              >
               </i>
-              <button type="button"
-                      class="btn btn-default btn-sm pull-right"
-                      style="margin-top: 24px"
-                      title="Preview"
-                      tabindex="-1"
-                      ng-click="previewEmail(type)">
+              <button
+                type="button"
+                class="btn btn-default btn-sm pull-right"
+                style="margin-top: 24px"
+                title="Preview"
+                tabindex="-1"
+                ng-click="previewEmail(type)"
+              >
                 <i class="fa fa-external-link"></i> Preview
               </button>
-              <wysiwyg textarea-class="form-control"
-                       ng-model="type.customConfirmationEmailText"
-                       enable-bootstrap-title="true"
-                       textarea-menu="wysiwygButtons"
-                       textarea-height="150px">
+              <wysiwyg
+                textarea-class="form-control"
+                ng-model="type.customConfirmationEmailText"
+                enable-bootstrap-title="true"
+                textarea-menu="wysiwygButtons"
+                textarea-height="150px"
+              >
               </wysiwyg>
             </div>
           </div>

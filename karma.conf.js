@@ -9,13 +9,12 @@ webpackConfig.module.rules.push({
   include: path.resolve('app/'),
   loader: 'istanbul-instrumenter-loader',
   query: {
-    esModules: true
-  }
+    esModules: true,
+  },
 });
 
 module.exports = function(config) {
   config.set({
-
     singleRun: true,
 
     frameworks: ['jasmine'],
@@ -24,19 +23,17 @@ module.exports = function(config) {
 
     reporters: ['mocha', 'coverage-istanbul'],
 
-    files: [
-      'test/all-tests.spec.js'
-    ],
+    files: ['test/all-tests.spec.js'],
 
     preprocessors: {
-      'test/all-tests.spec.js': ['webpack', 'sourcemap']
+      'test/all-tests.spec.js': ['webpack', 'sourcemap'],
     },
 
     webpack: webpackConfig,
 
     coverageIstanbulReporter: {
-      reports: [ 'lcov'],
-      fixWebpackSourcePaths: true
+      reports: ['lcov'],
+      fixWebpackSourcePaths: true,
     },
   });
 };

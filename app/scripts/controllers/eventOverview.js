@@ -1,13 +1,21 @@
 /* eslint-disable angular/no-private-call */
 
-angular.module('confRegistrationWebApp')
-  .controller('eventOverviewCtrl', function ($rootScope, $scope, $location, $route, ConfCache, conference) {
+angular
+  .module('confRegistrationWebApp')
+  .controller('eventOverviewCtrl', function(
+    $rootScope,
+    $scope,
+    $location,
+    $route,
+    ConfCache,
+    conference,
+  ) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-overview',
       bodyClass: '',
       confId: conference.id,
-      footer: true
+      footer: true,
     };
 
     $scope.conference = conference;
@@ -16,7 +24,13 @@ angular.module('confRegistrationWebApp')
     if ($location.$$port !== 80 && $location.$$port !== 443) {
       port = ':' + $location.$$port;
     }
-    var baseUrl = $location.$$protocol + '://' + $location.$$host + port + '/register/' + conference.id;
+    var baseUrl =
+      $location.$$protocol +
+      '://' +
+      $location.$$host +
+      port +
+      '/register/' +
+      conference.id;
     $scope.registrationUrl = {};
     $scope.registrationUrl[0] = baseUrl;
 

@@ -1,13 +1,32 @@
-<input show-errors
-       type="number"
-       class="form-control"
-       ng-model="answer.value"
-       ng-disabled="false"
-       ng-required="block.required"
-       ng-min="block.content.range.min"
-       ng-max="block.content.range.max"
-       uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
-       tooltip-enable="{{isAdmin}}" />
-<span class="help-block help-block-hidden" ng-if="block.content.range.min && block.content.range.max" translate>Please enter a number between {{block.content.range.min}} and {{block.content.range.max}}</span>
-<span class="help-block help-block-hidden" ng-if="block.content.range.min && !block.content.range.max" translate>Please enter a number greater than or equal to {{block.content.range.min}}</span>
-<span class="help-block help-block-hidden" ng-if="!block.content.range.min && block.content.range.max" translate>Please enter a number less than or equal to {{block.content.range.max}}</span>
+<input
+  show-errors
+  type="number"
+  class="form-control"
+  ng-model="answer.value"
+  ng-disabled="false"
+  ng-required="block.required"
+  ng-min="block.content.range.min"
+  ng-max="block.content.range.max"
+  uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
+  tooltip-enable="{{isAdmin}}"
+/>
+<span
+  class="help-block help-block-hidden"
+  ng-if="block.content.range.min && block.content.range.max"
+  translate
+  >Please enter a number between {{block.content.range.min}} and
+  {{block.content.range.max}}</span
+>
+<span
+  class="help-block help-block-hidden"
+  ng-if="block.content.range.min && !block.content.range.max"
+  translate
+  >Please enter a number greater than or equal to
+  {{block.content.range.min}}</span
+>
+<span
+  class="help-block help-block-hidden"
+  ng-if="!block.content.range.min && block.content.range.max"
+  translate
+  >Please enter a number less than or equal to {{block.content.range.max}}</span
+>

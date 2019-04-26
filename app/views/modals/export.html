@@ -7,70 +7,112 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-8">
-        <strong translate>Registrations</strong><br>
-        <translate>Registrations and answers</translate><br>
-        <a href="" ng-click="showAdvancedRegistrations = !showAdvancedRegistrations">{{showAdvancedRegistrations ? 'Hide' : 'Show'}} advanced options</a>
+        <strong translate>Registrations</strong><br />
+        <translate>Registrations and answers</translate><br />
+        <a
+          href=""
+          ng-click="showAdvancedRegistrations = !showAdvancedRegistrations"
+          >{{showAdvancedRegistrations ? 'Hide' : 'Show'}} advanced options</a
+        >
         <div uib-collapse="!showAdvancedRegistrations">
           <div class="checkbox">
             <label>
-              <input type="checkbox" ng-model="includeWithdrawnRegistrants"> <translate>Include withdrawn registrants</translate>
+              <input type="checkbox" ng-model="includeWithdrawnRegistrants" />
+              <translate>Include withdrawn registrants</translate>
             </label>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" ng-model="includeIncompleteRegistrations"> <translate>Include incomplete registrations</translate>
+              <input
+                type="checkbox"
+                ng-model="includeIncompleteRegistrations"
+              />
+              <translate>Include incomplete registrations</translate>
             </label>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}&includeWithdrawnRegistrants={{includeWithdrawnRegistrants}}&includeIncompleteRegistrations={{includeIncompleteRegistrations}}">
+        <a
+          class="btn btn-primary btn-block"
+          ng-href="{{apiUrl}}conferences/{{conference.id}}/export/registrations?Authorization={{authToken}}&includeWithdrawnRegistrants={{includeWithdrawnRegistrants}}&includeIncompleteRegistrations={{includeIncompleteRegistrations}}"
+        >
           <i class="fa fa-cloud-download"></i> <translate>Download</translate>
         </a>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row spacing-above-sm">
       <div class="col-xs-8">
-        <strong translate>Payments</strong><br>
+        <strong translate>Payments</strong><br />
         <translate>Payment data and history</translate>
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}">
+        <a
+          class="btn btn-primary btn-block"
+          ng-href="{{apiUrl}}conferences/{{conference.id}}/export/payments?Authorization={{authToken}}"
+        >
           <i class="fa fa-cloud-download"></i> <translate>Download</translate>
         </a>
       </div>
     </div>
-    <hr>
+    <hr />
     <div class="row spacing-above-sm">
       <div class="col-xs-8">
-        <strong translate>Account Transfers</strong><br/>
+        <strong translate>Account Transfers</strong><br />
         <translate>Staff Account Transfer payments</translate><br />
         <div class="panel">
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="true" value="REGISTRATION"> <translate>Registrations </translate>
+              <input
+                type="radio"
+                ng-model="expenseType"
+                ng-checked="true"
+                value="REGISTRATION"
+              />
+              <translate>Registrations </translate>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="MISCELLANEOUS_ITEM"> <translate>Misc. Item</translate>
+              <input
+                type="radio"
+                ng-model="expenseType"
+                ng-checked="false"
+                value="MISCELLANEOUS_ITEM"
+              />
+              <translate>Misc. Item</translate>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="CHILDCARE"> <translate>Childcare</translate>
+              <input
+                type="radio"
+                ng-model="expenseType"
+                ng-checked="false"
+                value="CHILDCARE"
+              />
+              <translate>Childcare</translate>
             </label>
           </div>
           <div class="radio">
             <label>
-              <input type="radio" ng-model="expenseType" ng-checked="false" value="STAFF_TAXABLE_ITEM"> <translate>Staff Taxable Items</translate>
+              <input
+                type="radio"
+                ng-model="expenseType"
+                ng-checked="false"
+                value="STAFF_TAXABLE_ITEM"
+              />
+              <translate>Staff Taxable Items</translate>
             </label>
           </div>
         </div>
       </div>
       <div class="col-xs-4">
-        <a class="btn btn-primary btn-block" ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}&expenseType={{expenseType}}">
+        <a
+          class="btn btn-primary btn-block"
+          ng-href="{{apiUrl}}conferences/{{conference.id}}/export/transfers?Authorization={{authToken}}&expenseType={{expenseType}}"
+        >
           <i class="fa fa-cloud-download"></i> <translate>Download</translate>
         </a>
       </div>
