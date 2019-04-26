@@ -10,8 +10,17 @@ import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
 import helpTemplate from 'views/help.html';
 
-angular.module('confRegistrationWebApp')
-  .config(function ($locationProvider, $httpProvider, $qProvider, $routeProvider, envServiceProvider, $compileProvider, gettext) {
+angular
+  .module('confRegistrationWebApp')
+  .config(function(
+    $locationProvider,
+    $httpProvider,
+    $qProvider,
+    $routeProvider,
+    envServiceProvider,
+    $compileProvider,
+    gettext,
+  ) {
     $locationProvider.html5Mode(true).hashPrefix('');
     $httpProvider.useApplyAsync(true);
     $qProvider.errorOnUnhandledRejections(false);
@@ -26,28 +35,36 @@ angular.module('confRegistrationWebApp')
       domains: {
         development: ['localhost'],
         staging: ['stage.eventregistrationtool.com'],
-        production: ['www.eventregistrationtool.com', 'eventregistrationtool.com']
+        production: [
+          'www.eventregistrationtool.com',
+          'eventregistrationtool.com',
+        ],
       },
       vars: {
         development: {
-          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'staging'
+          apiUrl:
+            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging',
         },
         staging: {
-          apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production'
+          apiUrl:
+            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'production',
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production'
-        }
-      }
+          tsysEnvironment: 'production',
+        },
+      },
     });
 
     // Determine which environment we are running in
     envServiceProvider.check();
 
-    if (envServiceProvider.is('production') || envServiceProvider.is('staging')) {
+    if (
+      envServiceProvider.is('production') ||
+      envServiceProvider.is('staging')
+    ) {
       $compileProvider.debugInfoEnabled(false);
     }
 
@@ -55,15 +72,17 @@ angular.module('confRegistrationWebApp')
       .when('/', {
         title: gettext('Search for event'),
         templateUrl: landingTemplate,
-        controller: 'landingCtrl'
+        controller: 'landingCtrl',
       })
       .when('/register/:conferenceId', {
         title: gettext('Register'),
         resolve: {
-          redirect: function ($location, $route) {
-            $location.path('/register/' + $route.current.params.conferenceId + '/page/');
-          }
-        }
+          redirect: function($location, $route) {
+            $location.path(
+              '/register/' + $route.current.params.conferenceId + '/page/',
+            );
+          },
+        },
       })
       .when('/register/:conferenceId/page/:pageId?', {
         title: gettext('Register'),
@@ -71,37 +90,48 @@ angular.module('confRegistrationWebApp')
         controller: 'RegistrationCtrl',
         authorization: {
           requireLogin: true,
-          allowNoneAuth: true
+          allowNoneAuth: true,
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          currentRegistration: function ($route, $q, $location, $rootScope, RegistrationCache) {
+          currentRegistration: function(
+            $route,
+            $q,
+            $location,
+            $rootScope,
+            RegistrationCache,
+          ) {
             var q = $q.defer();
             RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function(registration){
-                if(registration.completed && angular.isUndefined($route.current.params.pageId)){
-                  $location.path('/reviewRegistration/' + $route.current.params.conferenceId);
-                }else{
+              .then(function(registration) {
+                if (
+                  registration.completed &&
+                  angular.isUndefined($route.current.params.pageId)
+                ) {
+                  $location.path(
+                    '/reviewRegistration/' + $route.current.params.conferenceId,
+                  );
+                } else {
                   q.resolve(registration);
                 }
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 $rootScope.currentRegistrationErrorMessage = error;
                 q.resolve(null);
               });
             return q.promise;
-          }
-        }
+          },
+        },
       })
       .when('/approvePayment/:paymentHash', {
         title: gettext('Approve Payment'),
         templateUrl: paymentApprovalTemplate,
         controller: 'PaymentApprovalCtrl',
         authorization: {
-          requireLogin: true
-        }
+          requireLogin: true,
+        },
       })
       .when('/reviewRegistration/:conferenceId', {
         title: gettext('Review Registration'),
@@ -109,49 +139,52 @@ angular.module('confRegistrationWebApp')
         controller: 'ReviewRegistrationCtrl',
         authorization: {
           requireLogin: true,
-          allowNoneAuth: true
+          allowNoneAuth: true,
         },
         resolve: {
-          currentRegistration: function ($route, RegistrationCache) {
+          currentRegistration: function($route, RegistrationCache) {
             RegistrationCache.emptyCache();
-            return RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function (currentRegistration) {
-                return currentRegistration;
-              });
+            return RegistrationCache.getCurrent(
+              $route.current.params.conferenceId,
+            ).then(function(currentRegistration) {
+              return currentRegistration;
+            });
           },
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
-          }
-        }
+          },
+        },
       })
       .when('/preview/:conferenceId/page/:pageId?', {
         title: gettext('Preview Registration'),
         templateUrl: registrationTemplate,
         controller: 'RegistrationCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          currentRegistration: function ($route, RegistrationCache) {
-            return RegistrationCache.getCurrent($route.current.params.conferenceId);
-          }
-        }
+          currentRegistration: function($route, RegistrationCache) {
+            return RegistrationCache.getCurrent(
+              $route.current.params.conferenceId,
+            );
+          },
+        },
       })
       .when('/eventDashboard', {
         title: gettext('My Dashboard'),
         templateUrl: eventDashboardTemplate,
         controller: 'eventDashboardCtrl',
         authorization: {
-          requireLogin: true
+          requireLogin: true,
         },
         resolve: {
-          conferences: function ($route, ConfCache) {
+          conferences: function($route, ConfCache) {
             return ConfCache.get('');
-          }
-        }
+          },
+        },
       })
       .when('/eventOverview/:conferenceId', {
         title: gettext('Overview'),
@@ -159,13 +192,13 @@ angular.module('confRegistrationWebApp')
         controller: 'eventOverviewCtrl',
         authorization: {
           requireLogin: true,
-          eventAdminPermissionLevel: 'VIEW'
+          eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }
-        }
+          },
+        },
       })
       .when('/eventRegistrations/:conferenceId', {
         title: gettext('Registrations'),
@@ -173,16 +206,18 @@ angular.module('confRegistrationWebApp')
         controller: 'eventRegistrationsCtrl',
         authorization: {
           requireLogin: true,
-          eventAdminPermissionLevel: 'VIEW'
+          eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
-          permissions: function ($route, PermissionCache) {
-            return PermissionCache.getForConference($route.current.params.conferenceId);
-          }
-        }
+          permissions: function($route, PermissionCache) {
+            return PermissionCache.getForConference(
+              $route.current.params.conferenceId,
+            );
+          },
+        },
       })
       .when('/eventForm/:conferenceId', {
         title: gettext('Questions'),
@@ -190,13 +225,13 @@ angular.module('confRegistrationWebApp')
         controller: 'eventFormCtrl',
         authorization: {
           requireLogin: true,
-          eventAdminPermissionLevel: 'UPDATE'
+          eventAdminPermissionLevel: 'UPDATE',
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }
-        }
+          },
+        },
       })
       .when('/eventDetails/:conferenceId', {
         title: gettext('Details'),
@@ -204,13 +239,13 @@ angular.module('confRegistrationWebApp')
         controller: 'eventDetailsCtrl',
         authorization: {
           requireLogin: true,
-          eventAdminPermissionLevel: 'UPDATE'
+          eventAdminPermissionLevel: 'UPDATE',
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
-          }
-        }
+          },
+        },
       })
       .when('/eventUsers/:conferenceId', {
         title: gettext('Users'),
@@ -218,58 +253,79 @@ angular.module('confRegistrationWebApp')
         controller: 'eventPermissionsCtrl',
         authorization: {
           requireLogin: true,
-          eventAdminPermissionLevel: 'FULL'
+          eventAdminPermissionLevel: 'FULL',
         },
         resolve: {
-          conference: function ($route, ConfCache) {
+          conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          conferencePermissions: function ($route, ConfCache) {
+          conferencePermissions: function($route, ConfCache) {
             return ConfCache.getPermissions($route.current.params.conferenceId);
-          }
-        }
+          },
+        },
       })
       .when('/activatePermission/:permissionAuthCode', {
         title: gettext('Activate Permission'),
         template: '{{message}}',
         controller: 'activatePermissionCtrl',
         authorization: {
-          requireLogin: true
-        }
+          requireLogin: true,
+        },
       })
       .when('/auth/:token', {
         title: gettext('Signing In'),
         resolve: {
-          redirectToIntendedRoute: ['$location', '$cookies', '$route', '$rootScope', 'ProfileCache',
-            function ($location, $cookies, $route, $rootScope, ProfileCache) {
+          redirectToIntendedRoute: [
+            '$location',
+            '$cookies',
+            '$route',
+            '$rootScope',
+            'ProfileCache',
+            function($location, $cookies, $route, $rootScope, ProfileCache) {
               $cookies.put('crsAuthProviderType', '');
               $cookies.put('crsToken', $route.current.params.token);
               $rootScope.crsToken = $cookies.get('crsToken');
               ProfileCache.getCache()
-                .then(function (data) {
+                .then(function(data) {
                   $cookies.put('crsAuthProviderType', data.authProviderType);
                 })
                 .catch(() => {
                   $cookies.remove('crsToken');
-                  $cookies.remove('crsToken', { domain: 'eventregistrationtool.com'} );
-                  $cookies.remove('crsToken', { domain: 'www.eventregistrationtool.com'} );
+                  $cookies.remove('crsToken', {
+                    domain: 'eventregistrationtool.com',
+                  });
+                  $cookies.remove('crsToken', {
+                    domain: 'www.eventregistrationtool.com',
+                  });
                 })
                 .finally(() => {
-                  if(angular.isDefined($cookies.get('regType'))) {
-                    $location.path($cookies.get('intendedRoute') || '/').search('regType', $cookies.get('regType')).replace();
+                  if (angular.isDefined($cookies.get('regType'))) {
+                    $location
+                      .path($cookies.get('intendedRoute') || '/')
+                      .search('regType', $cookies.get('regType'))
+                      .replace();
                     $cookies.remove('regType');
                   } else {
-                    $location.path($cookies.get('intendedRoute') || '/').replace();
+                    $location
+                      .path($cookies.get('intendedRoute') || '/')
+                      .replace();
                   }
                 });
-            }
-          ]
-        }
+            },
+          ],
+        },
       })
       .when('/logout', {
         title: gettext('Signing Out'),
-        resolveRedirectTo: /*@ngInject*/ function ($location, $cookies, $window, $http, ProfileCache) {
-          return $http.get('auth/logout')
+        resolveRedirectTo: /*@ngInject*/ function(
+          $location,
+          $cookies,
+          $window,
+          $http,
+          ProfileCache,
+        ) {
+          return $http
+            .get('auth/logout')
             .catch(angular.noop)
             .then(() => {
               $cookies.remove('crsToken');
@@ -277,20 +333,21 @@ angular.module('confRegistrationWebApp')
               // if relay, then then redirect to the Relay logout URL
               if ($cookies.get('crsAuthProviderType') === 'RELAY') {
                 var serviceUrl = $location.absUrl().replace('logout', '');
-                $window.location.href = 'https://signon.cru.org/cas/logout?service=' + serviceUrl;
+                $window.location.href =
+                  'https://signon.cru.org/cas/logout?service=' + serviceUrl;
               }
               $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
               return '/';
             });
-        }
+        },
       })
       .when('/help', {
         title: gettext('Help'),
         templateUrl: helpTemplate,
-        controller: 'helpCtrl'
+        controller: 'helpCtrl',
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/',
       });
   });

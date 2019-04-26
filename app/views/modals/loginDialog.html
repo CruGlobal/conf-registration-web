@@ -6,19 +6,43 @@
 <div class="modal-body">
   <div align="center">
     <p ng-if="status401" class="spacing-below-xs" translate>
-      You do not have permission to access this resource or your session has expired.
+      You do not have permission to access this resource or your session has
+      expired.
     </p>
     <p class="spacing-below-xs" ng-class="{'lead': !status401}" translate>
       Please sign in with one of the following services:
     </p>
     <div class="row">
-      <div ng-if="facebookLogin" class="{{relayLogin ? 'col-sm-5 col-sm-offset-1' : 'col-sm-6 col-sm-offset-3' }}">
-        <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/facebook/authorization" title="Facebook"><img src="../../img/signin-facebook.png"></a>
-        <a href="https://www.facebook.com/r.php" target="_blank" translate>Create a Facebook account</a>
+      <div
+        ng-if="facebookLogin"
+        class="{{relayLogin ? 'col-sm-5 col-sm-offset-1' : 'col-sm-6 col-sm-offset-3' }}"
+      >
+        <a
+          class="btn btn-subtle btn-block"
+          ng-href="{{apiUrl}}auth/facebook/authorization"
+          title="Facebook"
+          ><img src="../../img/signin-facebook.png"
+        /></a>
+        <a href="https://www.facebook.com/r.php" target="_blank" translate
+          >Create a Facebook account</a
+        >
       </div>
-      <div ng-if="relayLogin" class="{{facebookLogin ? 'col-sm-5' : 'col-sm-6 col-sm-offset-3'}}">
-        <a class="btn btn-subtle btn-block" ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None" title="Relay"><img src="../../img/signin-relay.png"></a>
-        <a href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout" target="_blank" translate>Create a Relay account</a>
+      <div
+        ng-if="relayLogin"
+        class="{{facebookLogin ? 'col-sm-5' : 'col-sm-6 col-sm-offset-3'}}"
+      >
+        <a
+          class="btn btn-subtle btn-block"
+          ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None"
+          title="Relay"
+          ><img src="../../img/signin-relay.png"
+        /></a>
+        <a
+          href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout"
+          target="_blank"
+          translate
+          >Create a Relay account</a
+        >
       </div>
     </div>
     <p class="spacing-above-sm">

@@ -1,11 +1,15 @@
 import 'angular-mocks';
 
-describe('Directive: showAnswer', function () {
-
+describe('Directive: showAnswer', function() {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(_$compile_, _$rootScope_, $templateCache, _testData_){
+  beforeEach(inject(function(
+    _$compile_,
+    _$rootScope_,
+    $templateCache,
+    _testData_,
+  ) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     testData = _testData_;

@@ -1,84 +1,116 @@
-
-angular.module('confRegistrationWebApp')
-  .controller('eventPermissionsCtrl', function ($rootScope, $scope, $http, $route, conference, conferencePermissions, modalMessage) {
+angular
+  .module('confRegistrationWebApp')
+  .controller('eventPermissionsCtrl', function(
+    $rootScope,
+    $scope,
+    $http,
+    $route,
+    conference,
+    conferencePermissions,
+    modalMessage,
+  ) {
     $rootScope.globalPage = {
       type: 'admin',
       mainClass: 'container event-users',
       bodyClass: '',
       confId: conference.id,
-      footer: true
+      footer: true,
     };
     $scope.conference = conference;
     $scope.currentPermissions = conferencePermissions;
 
-    $scope.updatePermission = function (id) {
-      $http({method: 'PUT',
+    $scope.updatePermission = function(id) {
+      $http({
+        method: 'PUT',
         url: 'permissions/' + id,
-        data: _.find($scope.currentPermissions, { 'id': id })
-      }).then(function () {
-        $scope.notify = {
-          class: 'alert-success',
-          message: 'User updated.'
-        };
+        data: _.find($scope.currentPermissions, { id: id }),
+      })
+        .then(function() {
+          $scope.notify = {
+            class: 'alert-success',
+            message: 'User updated.',
+          };
 
-        //update timestamp
-        _.find($scope.currentPermissions, { 'id': id }).timestamp = new Date();
-      }).catch(function (response) {
-        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be updated.');
-        $route.reload();
-      });
+          //update timestamp
+          _.find($scope.currentPermissions, { id: id }).timestamp = new Date();
+        })
+        .catch(function(response) {
+          modalMessage.error(
+            response.data && response.data.error
+              ? response.data.error.message
+              : 'User could not be updated.',
+          );
+          $route.reload();
+        });
     };
 
-    $scope.addPermission = function (addPermissionsEmail, addPermissionsLevel) {
+    $scope.addPermission = function(addPermissionsEmail, addPermissionsLevel) {
       var postData = {
         conferenceId: conference.id,
         emailAddress: addPermissionsEmail,
-        permissionLevel: addPermissionsLevel
+        permissionLevel: addPermissionsLevel,
       };
       $http({
         method: 'POST',
         url: 'conferences/' + conference.id + '/permissions',
-        data: postData
-      }).then(function (response) {
-        $scope.currentPermissions.push(response.data);
-        $scope.addPermissionsEmail = '';
-        $scope.addPermissionsLevel = '';
-        $scope.notify = {
-          class: 'alert-success',
-          message: 'Email invite sent.'
-        };
-      }).catch(function (response) {
-        modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be added.');
-      });
-    };
-
-    $scope.deletePermission = function (id) {
-      modalMessage.confirm({
-        'title': 'Remove User?',
-        'question': 'Are you sure you want to remove this user?'
-      }).then(function(){
-        $http({
-          method: 'DELETE',
-          url: 'permissions/' + id
-        }).then(function () {
-          _.remove($scope.currentPermissions, {id: id});
+        data: postData,
+      })
+        .then(function(response) {
+          $scope.currentPermissions.push(response.data);
+          $scope.addPermissionsEmail = '';
+          $scope.addPermissionsLevel = '';
           $scope.notify = {
             class: 'alert-success',
-            message: 'User removed.'
+            message: 'Email invite sent.',
           };
-        }).catch(function (response) {
-          modalMessage.error(response.data && response.data.error ? response.data.error.message : 'User could not be removed.');
+        })
+        .catch(function(response) {
+          modalMessage.error(
+            response.data && response.data.error
+              ? response.data.error.message
+              : 'User could not be added.',
+          );
         });
-      });
     };
 
-    $scope.resendEmail = function(permission){
+    $scope.deletePermission = function(id) {
+      modalMessage
+        .confirm({
+          title: 'Remove User?',
+          question: 'Are you sure you want to remove this user?',
+        })
+        .then(function() {
+          $http({
+            method: 'DELETE',
+            url: 'permissions/' + id,
+          })
+            .then(function() {
+              _.remove($scope.currentPermissions, { id: id });
+              $scope.notify = {
+                class: 'alert-success',
+                message: 'User removed.',
+              };
+            })
+            .catch(function(response) {
+              modalMessage.error(
+                response.data && response.data.error
+                  ? response.data.error.message
+                  : 'User could not be removed.',
+              );
+            });
+        });
+    };
+
+    $scope.resendEmail = function(permission) {
       $http({
         method: 'DELETE',
-        url: 'permissions/' + permission.id
-      }).then(function () {
-        _.remove($scope.currentPermissions, {id: permission.id});
-        $scope.addPermission(permission.emailAddress, permission.permissionLevel);
+        url: 'permissions/' + permission.id,
+      }).then(function() {
+        _.remove($scope.currentPermissions, { id: permission.id });
+        $scope.addPermission(
+          permission.emailAddress,
+          permission.permissionLevel,
+        );
       });
     };
   });

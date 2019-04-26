@@ -1,17 +1,29 @@
 <div>
-  <p translate>Find the Cru staff that authorized this scholarship by searching below and choosing his or her name from the results list.</p>
+  <p translate>
+    Find the Cru staff that authorized this scholarship by searching below and
+    choosing his or her name from the results list.
+  </p>
 </div>
 
 <div class="form-group" ng-show="!currentPayment.scholarship.staffEmail">
   <label translate>Staff member name:</label>
   <div class="form-group has-feedback">
-    <input type="text" ng-model="staffSelectTypeahead" placeholder="" class="form-control"
-           uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-           typeahead-loading="loadingStaff"
-           typeahead-wait-ms="300"
-           typeahead-input-formatter="null"
-           typeahead-on-select="selectStaff($item, $model, $label)">
-    <span class="form-control-feedback" title="Searching..." ng-if="loadingStaff">
+    <input
+      type="text"
+      ng-model="staffSelectTypeahead"
+      placeholder=""
+      class="form-control"
+      uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+      typeahead-loading="loadingStaff"
+      typeahead-wait-ms="300"
+      typeahead-input-formatter="null"
+      typeahead-on-select="selectStaff($item, $model, $label)"
+    />
+    <span
+      class="form-control-feedback"
+      title="Searching..."
+      ng-if="loadingStaff"
+    >
       <i class="fa fa-spinner fa-spin"></i>
     </span>
   </div>
@@ -19,9 +31,15 @@
 
 <div class="well" ng-show="currentPayment.scholarship.staffEmail">
   <div class="pull-right">
-    <a href="" ng-click="currentPayment.scholarship = {}" translate>Choose different staff member</a>
+    <a href="" ng-click="currentPayment.scholarship = {}" translate
+      >Choose different staff member</a
+    >
   </div>
   <strong>{{currentPayment.scholarship.staffApprovalName}}</strong> <br />
   <p>{{currentPayment.scholarship.staffEmail}}</p>
-  <p><translate>An email will be sent to</translate> {{currentPayment.scholarship.staffApprovalName}} <translate>to confirm the scholarship.</translate></p>
+  <p>
+    <translate>An email will be sent to</translate>
+    {{currentPayment.scholarship.staffApprovalName}}
+    <translate>to confirm the scholarship.</translate>
+  </p>
 </div>

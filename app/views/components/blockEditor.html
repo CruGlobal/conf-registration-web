@@ -1,43 +1,123 @@
 <div class="edit-box-name crsQuestion">
   <div class="btn-group btn-group-xs pull-right" role="group">
-    <button class="btn btn-warning btn-disabled" ng-if="block.adminOnly" ng-click="toggleBlockEdit('advanced')">
+    <button
+      class="btn btn-warning btn-disabled"
+      ng-if="block.adminOnly"
+      ng-click="toggleBlockEdit('advanced')"
+    >
       <i class="fa fa-lock"></i> <translate>Admin only</translate>
     </button>
-    <button class="btn btn-default" ng-click="toggleBlockEdit('advanced')" ng-if="!block.adminOnly && visibleRegTypesArray.length < conference.registrantTypes.length">
+    <button
+      class="btn btn-default"
+      ng-click="toggleBlockEdit('advanced')"
+      ng-if="!block.adminOnly && visibleRegTypesArray.length < conference.registrantTypes.length"
+    >
       <i class="fa fa-eye"></i>
-      <ng-pluralize count="visibleRegTypesArray.length" offset=2
-          when="{'0': 'None',
+      <ng-pluralize
+        count="visibleRegTypesArray.length"
+        offset="2"
+        when="{'0': 'None',
            '1': '{{registrationTypeName(visibleRegTypesArray[0])}}',
            '2': '{{registrationTypeName(visibleRegTypesArray[0])}} & {{registrationTypeName(visibleRegTypesArray[1])}}',
            'one': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & one more',
-           'other': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & {} more'}">
+           'other': '{{registrationTypeName(visibleRegTypesArray[0])}}, {{registrationTypeName(visibleRegTypesArray[1])}} & {} more'}"
+      >
       </ng-pluralize>
     </button>
-    <button ng-if="!editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-pencil-square-o"></i> <translate>Edit</translate></button>
-    <button ng-if="editBlock" class="btn btn-default" ng-click="toggleBlockEdit()"><i class="fa fa-check-square-o"></i> <translate>Close</translate></button>
-    <button class="btn btn-default" ng-click="copyBlock(block.id);"><i class="fa fa-clipboard"></i> <translate>Copy</translate></button>
-    <button class="btn btn-danger" ng-click="deleteBlock(block.id, true)" ng-disabled="!canDelete"><i class="fa fa-trash-o"></i> <translate>Delete</translate></button>
-    <span class="btn btn-default" ui-tree-handle><i class="fa fa-bars"></i> <translate>Move</translate></span>
+    <button
+      ng-if="!editBlock"
+      class="btn btn-default"
+      ng-click="toggleBlockEdit()"
+    >
+      <i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>
+    </button>
+    <button
+      ng-if="editBlock"
+      class="btn btn-default"
+      ng-click="toggleBlockEdit()"
+    >
+      <i class="fa fa-check-square-o"></i> <translate>Close</translate>
+    </button>
+    <button class="btn btn-default" ng-click="copyBlock(block.id);">
+      <i class="fa fa-clipboard"></i> <translate>Copy</translate>
+    </button>
+    <button
+      class="btn btn-danger"
+      ng-click="deleteBlock(block.id, true)"
+      ng-disabled="!canDelete"
+    >
+      <i class="fa fa-trash-o"></i> <translate>Delete</translate>
+    </button>
+    <span class="btn btn-default" ui-tree-handle
+      ><i class="fa fa-bars"></i> <translate>Move</translate></span
+    >
   </div>
-  <label><span ng-bind-html="block.title"></span><em class="required" ng-show="block.required">*</em></label>
+  <label
+    ><span ng-bind-html="block.title"></span
+    ><em class="required" ng-show="block.required">*</em></label
+  >
   <ng-switch on="block.type">
-    <p ng-switch-when="paragraphContent" ng-bind-html="block.content.paragraph" class="display-linebreaks"></p>
+    <p
+      ng-switch-when="paragraphContent"
+      ng-bind-html="block.content.paragraph"
+      class="display-linebreaks"
+    ></p>
     <text-question block="block" ng-switch-when="textQuestion"></text-question>
-    <textarea-question block="block" ng-switch-when="textareaQuestion"></textarea-question>
-    <radio-question block="block" ng-switch-when="radioQuestion"></radio-question>
-    <checkbox-question block="block" ng-switch-when="checkboxQuestion"></checkbox-question>
-    <phone-question block="block" ng-switch-when="phoneQuestion"></phone-question>
-    <email-question block="block" ng-switch-when="emailQuestion"></email-question>
-    <select-question block="block" ng-switch-when="selectQuestion"></select-question>
+    <textarea-question
+      block="block"
+      ng-switch-when="textareaQuestion"
+    ></textarea-question>
+    <radio-question
+      block="block"
+      ng-switch-when="radioQuestion"
+    ></radio-question>
+    <checkbox-question
+      block="block"
+      ng-switch-when="checkboxQuestion"
+    ></checkbox-question>
+    <phone-question
+      block="block"
+      ng-switch-when="phoneQuestion"
+    ></phone-question>
+    <email-question
+      block="block"
+      ng-switch-when="emailQuestion"
+    ></email-question>
+    <select-question
+      block="block"
+      ng-switch-when="selectQuestion"
+    ></select-question>
     <name-question block="block" ng-switch-when="nameQuestion"></name-question>
-    <address-question block="block" ng-switch-when="addressQuestion"></address-question>
-    <number-question block="block" ng-switch-when="numberQuestion" class="form-group"></number-question>
-    <gender-question block="block" ng-switch-when="genderQuestion"></gender-question>
+    <address-question
+      block="block"
+      ng-switch-when="addressQuestion"
+    ></address-question>
+    <number-question
+      block="block"
+      ng-switch-when="numberQuestion"
+      class="form-group"
+    ></number-question>
+    <gender-question
+      block="block"
+      ng-switch-when="genderQuestion"
+    ></gender-question>
     <date-question block="block" ng-switch-when="dateQuestion"></date-question>
-    <year-in-school-question block="block" ng-switch-when="yearInSchoolQuestion"></year-in-school-question>
-    <date-question block="block" ng-switch-when="birthDateQuestion"></date-question>
-    <campus-question block="block" ng-switch-when="campusQuestion"></campus-question>
-    <text-question block="block" ng-switch-when="dormitoryQuestion"></text-question>
+    <year-in-school-question
+      block="block"
+      ng-switch-when="yearInSchoolQuestion"
+    ></year-in-school-question>
+    <date-question
+      block="block"
+      ng-switch-when="birthDateQuestion"
+    ></date-question>
+    <campus-question
+      block="block"
+      ng-switch-when="campusQuestion"
+    ></campus-question>
+    <text-question
+      block="block"
+      ng-switch-when="dormitoryQuestion"
+    ></text-question>
   </ng-switch>
 
   <div class="edit-options" ng-if="editBlock">
@@ -46,147 +126,344 @@
       <uib-tab heading="Options">
         <div class="form-group popup-custom-width">
           <label class="inline-label" translate>Title</label>
-          <i uib-popover-template="popup.titleTemplateUrl"
-             popover-trigger="mouseenter"
-             popover-placement="right"
-             class="fa fa-question-circle question-popover">
+          <i
+            uib-popover-template="popup.titleTemplateUrl"
+            popover-trigger="mouseenter"
+            popover-placement="right"
+            class="fa fa-question-circle question-popover"
+          >
           </i>
-          <input type="text" class="form-control field-label" placeholder="Label" ng-model="block.title">
+          <input
+            type="text"
+            class="form-control field-label"
+            placeholder="Label"
+            ng-model="block.title"
+          />
         </div>
 
-        <div class="form-group popup-custom-width" ng-if="block.type === 'paragraphContent'">
+        <div
+          class="form-group popup-custom-width"
+          ng-if="block.type === 'paragraphContent'"
+        >
           <label class="inline-label" translate>Description</label>
-          <i uib-popover-template="popup.titleTemplateUrl"
-             popover-trigger="mouseenter"
-
-             popover-placement="right"
-             class="fa fa-question-circle question-popover">
+          <i
+            uib-popover-template="popup.titleTemplateUrl"
+            popover-trigger="mouseenter"
+            popover-placement="right"
+            class="fa fa-question-circle question-popover"
+          >
           </i>
-          <textarea ng-model="block.content.paragraph" class="form-control" style="height:400px;"></textarea>
+          <textarea
+            ng-model="block.content.paragraph"
+            class="form-control"
+            style="height:400px;"
+          ></textarea>
         </div>
         <div class="form-group" ng-if="hasOptions">
           <label translate>Possible Answers</label>
-          <div ng-repeat="choice in block.content.choices track by $index" class="spacing-below-xs">
+          <div
+            ng-repeat="choice in block.content.choices track by $index"
+            class="spacing-below-xs"
+          >
             <div class="input-group">
-              <input ng-model="block.content.choices[$index].value" type="text" class="form-control" ng-keyup="onChoiceOptionChange()">
-                      <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveUp($index)" ng-disabled="$first"><span class="glyphicon glyphicon-arrow-up"></span></button>
-                        <button type="button" class="btn btn-primary" ng-click="editBlockOptionMoveDown($index)" ng-disabled="$last"><span class="glyphicon glyphicon-arrow-down"></span></button>
-                        <button type="button" class="btn" ng-click="editBlockOptionAdvanced($index)"><span class="glyphicon glyphicon-cog"></span><span class="hidden-xs hidden-sm"> <translate>Options</translate></span></button>
-                        <button type="button" class="btn btn-danger" ng-click="editBlockDeleteOption($index)"><span class="glyphicon glyphicon-trash"></span><span class="hidden-xs hidden-sm"> <translate>Delete</translate></span></button>
-                      </span>
+              <input
+                ng-model="block.content.choices[$index].value"
+                type="text"
+                class="form-control"
+                ng-keyup="onChoiceOptionChange()"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  ng-click="editBlockOptionMoveUp($index)"
+                  ng-disabled="$first"
+                >
+                  <span class="glyphicon glyphicon-arrow-up"></span>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  ng-click="editBlockOptionMoveDown($index)"
+                  ng-disabled="$last"
+                >
+                  <span class="glyphicon glyphicon-arrow-down"></span>
+                </button>
+                <button
+                  type="button"
+                  class="btn"
+                  ng-click="editBlockOptionAdvanced($index)"
+                >
+                  <span class="glyphicon glyphicon-cog"></span
+                  ><span class="hidden-xs hidden-sm">
+                    <translate>Options</translate></span
+                  >
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  ng-click="editBlockDeleteOption($index)"
+                >
+                  <span class="glyphicon glyphicon-trash"></span
+                  ><span class="hidden-xs hidden-sm">
+                    <translate>Delete</translate></span
+                  >
+                </button>
+              </span>
             </div>
           </div>
 
           <div class="input-group spacing-above-md">
-            <input ng-model="editBlockAddOptionAnswer.value" type="text" placeholder="New Answer" class="form-control" ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)">
-                  <span class="input-group-btn">
-                    <button type="button" class="btn btn-success" ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"><span class="glyphicon glyphicon-plus" page=""></span> <translate>Add</translate></button>
-                  </span>
+            <input
+              ng-model="editBlockAddOptionAnswer.value"
+              type="text"
+              placeholder="New Answer"
+              class="form-control"
+              ng-enter="editBlockAddOption(editBlockAddOptionAnswer.value)"
+            />
+            <span class="input-group-btn">
+              <button
+                type="button"
+                class="btn btn-success"
+                ng-click="editBlockAddOption(editBlockAddOptionAnswer.value)"
+              >
+                <span class="glyphicon glyphicon-plus" page=""></span>
+                <translate>Add</translate>
+              </button>
+            </span>
           </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
-            <label><input type="checkbox" ng-model="block.content.otherOption.enabled"> <translate>Allow custom "other" option</translate></label>
+            <label
+              ><input
+                type="checkbox"
+                ng-model="block.content.otherOption.enabled"
+              />
+              <translate>Allow custom "other" option</translate></label
+            >
           </div>
         </div>
 
         <div class="checkbox" ng-if="block.type === 'yearInSchoolQuestion'">
-          <label><input type="checkbox" ng-model="block.content.hideGradStudent"> <translate>Hide "Graduate Student" option</translate></label>
+          <label
+            ><input type="checkbox" ng-model="block.content.hideGradStudent" />
+            <translate>Hide "Graduate Student" option</translate></label
+          >
         </div>
 
         <div class="checkbox" ng-if="requiredOption && !block.adminOnly">
-          <label><input type="checkbox" ng-model="block.required"> <translate>Required</translate></label>
+          <label
+            ><input type="checkbox" ng-model="block.required" />
+            <translate>Required</translate></label
+          >
         </div>
         <div class="checkbox" ng-if="profileOption || block.profileType">
-          <label ng-class="{'green': block.profileType}"><input type="checkbox" ng-model="profileCheck" ng-change="toggleProfileType(profileCheck)" ng-disabled="!profileOption"> <i class="fa fa-user"></i> <translate>Cru Profile</translate></label>
+          <label ng-class="{'green': block.profileType}"
+            ><input
+              type="checkbox"
+              ng-model="profileCheck"
+              ng-change="toggleProfileType(profileCheck)"
+              ng-disabled="!profileOption"
+            />
+            <i class="fa fa-user"></i> <translate>Cru Profile</translate></label
+          >
         </div>
       </uib-tab>
       <uib-tab heading="Advanced" active="activeTab.advanced">
         <div class="form-group">
           <label class="inline-label" translate>Export Title</label>
-          <i uib-popover="Enter a value here to replace the question title in a registration export."
-             popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
-          <input type="text"
-                 class="form-control field-label"
-                 ng-model="block.exportFieldTitle" />
+          <i
+            uib-popover="Enter a value here to replace the question title in a registration export."
+            popover-trigger="mouseenter"
+            class="fa fa-question-circle question-popover"
+          ></i>
+          <input
+            type="text"
+            class="form-control field-label"
+            ng-model="block.exportFieldTitle"
+          />
         </div>
-		<div class="row form-group" ng-if="block.type === 'dateQuestion'">
-          <label class="inline-label date-alignment pull-left" translate>Min Date</label>
+        <div class="row form-group" ng-if="block.type === 'dateQuestion'">
+          <label class="inline-label date-alignment pull-left" translate
+            >Min Date</label
+          >
           <div class="col-md-4 col-lg-3">
-            <pick-a-date show-errors ng-model="block.content.range.min" ng-required="block.required" picker-max-date="block.content.range.max"></pick-a-date>
+            <pick-a-date
+              show-errors
+              ng-model="block.content.range.min"
+              ng-required="block.required"
+              picker-max-date="block.content.range.max"
+            ></pick-a-date>
           </div>
 
-          <label class="inline-label date-alignment pull-left col-md-offset-1" translate>Max Date</label>
+          <label
+            class="inline-label date-alignment pull-left col-md-offset-1"
+            translate
+            >Max Date</label
+          >
           <div class="col-md-4 col-lg-3">
-            <pick-a-date show-errors ng-model="block.content.range.max" ng-required="block.required" picker-min-date="block.content.range.min"></pick-a-date>
+            <pick-a-date
+              show-errors
+              ng-model="block.content.range.max"
+              ng-required="block.required"
+              picker-min-date="block.content.range.min"
+            ></pick-a-date>
           </div>
         </div>
         <div class="row" ng-if="block.type === 'numberQuestion'">
           <div class="form-group col-sm-6 stacked-spacing-col-sm">
             <label class="control-label" translate>Min Number</label>
-            <input show-errors show-errors-instant="true" type="number" class="form-control field-label" ng-model="block.content.range.min" ng-max="block.content.range.max">
-            <span class="help-block help-block-hidden" translate>Number is larger than the max value of {{block.content.range.max}}</span>
+            <input
+              show-errors
+              show-errors-instant="true"
+              type="number"
+              class="form-control field-label"
+              ng-model="block.content.range.min"
+              ng-max="block.content.range.max"
+            />
+            <span class="help-block help-block-hidden" translate
+              >Number is larger than the max value of
+              {{block.content.range.max}}</span
+            >
           </div>
           <div class="form-group col-sm-6 stacked-spacing-col-sm">
             <label class="control-label" translate>Max Number</label>
-            <input show-errors show-errors-instant="true" type="number" class="form-control field-label" ng-model="block.content.range.max" ng-min="block.content.range.min">
-            <span class="help-block help-block-hidden" translate>Number is smaller than the min value of {{block.content.range.min}}</span>
+            <input
+              show-errors
+              show-errors-instant="true"
+              type="number"
+              class="form-control field-label"
+              ng-model="block.content.range.max"
+              ng-min="block.content.range.min"
+            />
+            <span class="help-block help-block-hidden" translate
+              >Number is smaller than the min value of
+              {{block.content.range.min}}</span
+            >
           </div>
         </div>
         <div class="form-group">
-          <label translate>Show this question for the following registrant types:</label>
+          <label translate
+            >Show this question for the following registrant types:</label
+          >
           <div ng-if="canChangeRegTypes">
             <div class="checkbox" ng-if="block.type !== 'paragraphContent'">
               <label>
-                <input type="checkbox" ng-model="block.adminOnly">
+                <input type="checkbox" ng-model="block.adminOnly" />
                 <translate>Admin only</translate>
               </label>
-              <i uib-popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
-                 popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
+              <i
+                uib-popover="{{'This question will be visible to admins only and will not be seen by registrants. This can be used for bookkeeping meta information like room assignments.' | translate}}"
+                popover-trigger="mouseenter"
+                class="fa fa-question-circle question-popover"
+              ></i>
             </div>
 
-            <div ng-repeat="type in conference.registrantTypes" ng-if="!block.adminOnly" class="checkbox">
+            <div
+              ng-repeat="type in conference.registrantTypes"
+              ng-if="!block.adminOnly"
+              class="checkbox"
+            >
               <label>
-                <input type="checkbox" ng-model="$parent.visibleRegTypes[type.id]">
+                <input
+                  type="checkbox"
+                  ng-model="$parent.visibleRegTypes[type.id]"
+                />
                 {{type.name}}
               </label>
             </div>
           </div>
-          <p ng-if="!canChangeRegTypes" class="text-muted"><i class="fa fa-exclamation-triangle"></i> <translate>This question must be shown for all registrant types.</translate></p>
+          <p ng-if="!canChangeRegTypes" class="text-muted">
+            <i class="fa fa-exclamation-triangle"></i>
+            <translate
+              >This question must be shown for all registrant types.</translate
+            >
+          </p>
         </div>
 
         <div ng-if="canBeDateDependent">
           <div class="checkbox">
             <label>
-              <input type="checkbox" ng-model="dateDependent" ng-change="toggleDateDependent(dateDependent)">
+              <input
+                type="checkbox"
+                ng-model="dateDependent"
+                ng-change="toggleDateDependent(dateDependent)"
+              />
               <translate>Date Dependent</translate>
             </label>
           </div>
 
           <div class="form-group" ng-if="dateDependent">
             <label class="inline-label" translate>Start Date Question</label>
-            <select ng-model="block.startDateBlockId" ng-options="block.id as block.title for block in dateBlocks()" class="form-control"></select>
+            <select
+              ng-model="block.startDateBlockId"
+              ng-options="block.id as block.title for block in dateBlocks()"
+              class="form-control"
+            ></select>
 
             <label class="inline-label" translate>End Date Question</label>
-            <select ng-model="block.endDateBlockId" ng-options="block.id as block.title for block in dateBlocks()" class="form-control"></select>
+            <select
+              ng-model="block.endDateBlockId"
+              ng-options="block.id as block.title for block in dateBlocks()"
+              class="form-control"
+            ></select>
           </div>
         </div>
 
         <div class="form-group" ng-if="hasOptions">
           <label class="inline-label" translate>Expense Type</label>
-          <select class="form-control" ng-model="block.expenseType" ng-options="key as value for (key , value) in expenseTypesConstants">
+          <select
+            class="form-control"
+            ng-model="block.expenseType"
+            ng-options="key as value for (key , value) in expenseTypesConstants"
+          >
             <option value="" translate>None</option>
           </select>
         </div>
       </uib-tab>
       <uib-tab heading="Question Rules" ng-if="canHaveRules">
-        <p class="text-muted"><i class="fa fa-info-circle"></i> <translate>Question Rules are a great way to show questions</translate> <translate ng-if="block.type === 'checkboxQuestion'">or force selections</translate> <translate>based on the registrant's answers to other questions.</translate>
-          <translate>Question Rules can depend on questions of</translate> <a href="" uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}" translate>these types</a> <translate>that are above this question.</translate></p>
-          <rule rule-type="{{ruleTypeConstants.SHOW_QUESTION}}" rule-type-message="{{'Show Question Rules' | translate}}" conference="conference" block="block"></rule>
-          <rule ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()" rule-type="{{ruleTypeConstants.FORCE_SELECTION}}" rule-type-message="{{'Force Selection Rules' | translate}}" rule-operand-message="{{'Force selections if:' | translate}}" conference="conference" block="block"></rule>
+        <p class="text-muted">
+          <i class="fa fa-info-circle"></i>
+          <translate
+            >Question Rules are a great way to show questions</translate
+          >
+          <translate ng-if="block.type === 'checkboxQuestion'"
+            >or force selections</translate
+          >
+          <translate
+            >based on the registrant's answers to other questions.</translate
+          >
+          <translate>Question Rules can depend on questions of</translate>
+          <a
+            href=""
+            uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}"
+            translate
+            >these types</a
+          >
+          <translate>that are above this question.</translate>
+        </p>
+        <rule
+          rule-type="{{ruleTypeConstants.SHOW_QUESTION}}"
+          rule-type-message="{{'Show Question Rules' | translate}}"
+          conference="conference"
+          block="block"
+        ></rule>
+        <rule
+          ng-if="block.type === 'checkboxQuestion' && !disableForceSelectionRule()"
+          rule-type="{{ruleTypeConstants.FORCE_SELECTION}}"
+          rule-type-message="{{'Force Selection Rules' | translate}}"
+          rule-operand-message="{{'Force selections if:' | translate}}"
+          conference="conference"
+          block="block"
+        ></rule>
       </uib-tab>
       <uib-tab heading="Answer Rules" ng-if="canHaveAnswerRules">
-        <rule rule-type="{{ruleTypeConstants.SHOW_OPTION}}" rule-type-message="{{'Show Answer Rules' | translate}}" conference="conference" block="block"></rule>
+        <rule
+          rule-type="{{ruleTypeConstants.SHOW_OPTION}}"
+          rule-type-message="{{'Show Answer Rules' | translate}}"
+          conference="conference"
+          block="block"
+        ></rule>
       </uib-tab>
     </uib-tabset>
   </div>

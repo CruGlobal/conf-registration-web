@@ -1,4 +1,4 @@
 comment: off
 coverage:
   ignore:
-    - "app/components/*"
+    - 'app/components/*'

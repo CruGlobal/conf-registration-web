@@ -4,29 +4,56 @@
 </div>
 <div class="modal-body">
   <div class="form-group" ng-if="blockType !== 'selectQuestion'">
-    <label translate>Enter a description to add clarity or more information to registrant.</label>
-    <textarea ng-model="choice.desc" class="form-control" style="height: 120px;"></textarea>
+    <label translate
+      >Enter a description to add clarity or more information to
+      registrant.</label
+    >
+    <textarea
+      ng-model="choice.desc"
+      class="form-control"
+      style="height: 120px;"
+    ></textarea>
   </div>
   <div class="form-group">
     <label translate>Export Value</label>
-    <i uib-popover="{{'Enter a value here to replace the answer in a registration export.' | translate}}"
-       popover-trigger="mouseenter" class="fa fa-question-circle question-popover"></i>
-    <input type="text" class="form-control marginless" ng-model="choice.exportFieldAnswer">
+    <i
+      uib-popover="{{'Enter a value here to replace the answer in a registration export.' | translate}}"
+      popover-trigger="mouseenter"
+      class="fa fa-question-circle question-popover"
+    ></i>
+    <input
+      type="text"
+      class="form-control marginless"
+      ng-model="choice.exportFieldAnswer"
+    />
   </div>
   <div class="form-group">
     <label translate>Additional Cost</label>
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-usd"></i></span>
-      <input type="text" class="form-control marginless" ng-model="choice.amount">
+      <input
+        type="text"
+        class="form-control marginless"
+        ng-model="choice.amount"
+      />
     </div>
   </div>
   <div class="row">
     <div class="col-xs-12">
-      <p class="text-muted"><i class="fa fa-info-circle"></i> <span translate>If the registrant selects this option, the total cost can be adjusted. Example: A book could add an additional $5 to the cost.</span></p>
+      <p class="text-muted">
+        <i class="fa fa-info-circle"></i>
+        <span translate
+          >If the registrant selects this option, the total cost can be
+          adjusted. Example: A book could add an additional $5 to the
+          cost.</span
+        >
+      </p>
     </div>
   </div>
 </div>
 <div class="modal-footer">
   <button ng-click="close()" class="btn btn-default" translate>Cancel</button>
-  <button ng-click="save(choice)" class="btn btn-primary" translate>Save</button>
+  <button ng-click="save(choice)" class="btn btn-primary" translate>
+    Save
+  </button>
 </div>

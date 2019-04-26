@@ -1,17 +1,17 @@
 import 'angular-mocks';
 
-describe('Filter: tel', function () {
+describe('Filter: tel', function() {
   var filter;
 
-  beforeEach(function(){
+  beforeEach(function() {
     angular.mock.module('confRegistrationWebApp');
 
-    inject(function($injector){
+    inject(function($injector) {
       filter = $injector.get('$filter')('tel');
     });
   });
 
-  it('should should format date', function(){
+  it('should should format date', function() {
     expect(filter('4075555555')).toBe('(407) 555-5555');
   });
 });

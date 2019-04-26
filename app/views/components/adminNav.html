@@ -1,16 +1,34 @@
 <ul class="nav nav-pills nav-justified">
-  <li class="blue" ng-class="{ active: isActive('/eventOverview')}"><a ng-href="eventOverview/{{globalPage.confId}}" translate>Overview</a></li>
-  <li class="blue" ng-class="{ active: isActive('/eventRegistrations')}"><a ng-href="eventRegistrations/{{globalPage.confId}}" translate>Registrations</a></li>
-  <li class="blue" ng-class="{ active: isActive('/eventDetails')}"><a ng-href="eventDetails/{{globalPage.confId}}" translate>Details</a></li>
-  <li class="blue" ng-class="{ active: isActive('/eventForm')}"><a ng-href="eventForm/{{globalPage.confId}}" translate>Questions</a></li>
+  <li class="blue" ng-class="{ active: isActive('/eventOverview')}">
+    <a ng-href="eventOverview/{{globalPage.confId}}" translate>Overview</a>
+  </li>
+  <li class="blue" ng-class="{ active: isActive('/eventRegistrations')}">
+    <a ng-href="eventRegistrations/{{globalPage.confId}}" translate
+      >Registrations</a
+    >
+  </li>
+  <li class="blue" ng-class="{ active: isActive('/eventDetails')}">
+    <a ng-href="eventDetails/{{globalPage.confId}}" translate>Details</a>
+  </li>
+  <li class="blue" ng-class="{ active: isActive('/eventForm')}">
+    <a ng-href="eventForm/{{globalPage.confId}}" translate>Questions</a>
+  </li>
   <li class="dropdown" uib-dropdown>
     <a href="" class="dropdown-toggle" type="button" uib-dropdown-toggle>
       <i class="fa fa-plus-circle"></i> <span translate>More</span>
     </a>
     <ul class="dropdown-menu-right" uib-dropdown-menu="">
-      <li><a ng-href="preview/{{globalPage.confId}}/page/" translate>Preview Registration Form</a></li>
+      <li>
+        <a ng-href="preview/{{globalPage.confId}}/page/" translate
+          >Preview Registration Form</a
+        >
+      </li>
       <li><a ng-href="eventUsers/{{globalPage.confId}}" translate>Users</a></li>
-      <li><a href="" ng-click="archiveEvent(globalPage.confId)" translate>Archive Event</a></li>
+      <li>
+        <a href="" ng-click="archiveEvent(globalPage.confId)" translate
+          >Archive Event</a
+        >
+      </li>
     </ul>
   </li>
 </ul>

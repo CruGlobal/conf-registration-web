@@ -1,5 +1,14 @@
-angular.module('confRegistrationWebApp')
-  .run(function ($rootScope, $cookies, $location, $window, ProfileCache, analytics, $timeout) {
+angular
+  .module('confRegistrationWebApp')
+  .run(function(
+    $rootScope,
+    $cookies,
+    $location,
+    $window,
+    ProfileCache,
+    analytics,
+    $timeout,
+  ) {
     $rootScope.year = new Date().getFullYear();
 
     // eslint-disable-next-line angular/on-watch
@@ -7,7 +16,7 @@ angular.module('confRegistrationWebApp')
       //registration mode
       if (_.includes($location.path(), '/preview/')) {
         $rootScope.registerMode = 'preview';
-      } else if(_.includes($location.path(), '/register/')) {
+      } else if (_.includes($location.path(), '/register/')) {
         $rootScope.registerMode = 'register';
       }
     });
@@ -15,7 +24,8 @@ angular.module('confRegistrationWebApp')
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$routeChangeSuccess', (event, next) => {
       $rootScope.pageTitle = next.title;
-      $rootScope.currentEventName = next.locals && next.locals.conference && next.locals.conference.name;
+      $rootScope.currentEventName =
+        next.locals && next.locals.conference && next.locals.conference.name;
 
       $window.scrollTo(0, 0); // Scroll to top of page when new page is loaded
 
@@ -24,11 +34,11 @@ angular.module('confRegistrationWebApp')
       });
     });
 
-    $rootScope.globalUser = function(){
+    $rootScope.globalUser = function() {
       return ProfileCache.globalUser();
     };
 
-    $rootScope.globalGreetingName = function(){
+    $rootScope.globalGreetingName = function() {
       return ProfileCache.globalGreetingName();
     };
 

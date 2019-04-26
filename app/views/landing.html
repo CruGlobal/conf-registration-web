@@ -1,4 +1,7 @@
-<div class="landing-jumbo" ng-style="{'background-image': 'url(' + jumboImg.url + ')', 'background-position': jumboImg.position}">
+<div
+  class="landing-jumbo"
+  ng-style="{'background-image': 'url(' + jumboImg.url + ')', 'background-position': jumboImg.position}"
+>
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
@@ -7,24 +10,47 @@
         <form class="search-toolbar" ng-submit="eventSearch(searchVal)">
           <div class="row row-no-padding">
             <div class="col-xs-9 col-sm-5">
-              <input type="text" placeholder="Event name" ng-model="searchVal" class="form-control" ng-change="eventSearch(searchVal)">
+              <input
+                type="text"
+                placeholder="Event name"
+                ng-model="searchVal"
+                class="form-control"
+                ng-change="eventSearch(searchVal)"
+              />
             </div>
             <div class="hidden-xs col-sm-3">
-              <select class="form-control" ng-model="eventFilters.locationName" ng-change="filterUpdate()">
+              <select
+                class="form-control"
+                ng-model="eventFilters.locationName"
+                ng-change="filterUpdate()"
+              >
                 <option value="" translate>-Any Location-</option>
-                <option ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'" value="{{e.locationName}}" ng-if="e.locationName">{{e.locationName}} ({{e._count}})
+                <option
+                  ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'"
+                  value="{{e.locationName}}"
+                  ng-if="e.locationName"
+                  >{{e.locationName}} ({{e._count}})
                 </option>
               </select>
             </div>
             <div class="hidden-xs col-sm-3">
-              <select class="form-control" ng-model="eventFilters.date" ng-change="filterUpdate()">
+              <select
+                class="form-control"
+                ng-model="eventFilters.date"
+                ng-change="filterUpdate()"
+              >
                 <option value="" translate>-Any Date-</option>
-                <option ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']" ng-value="d">{{d}}
+                <option
+                  ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']"
+                  ng-value="d"
+                  >{{d}}
                 </option>
               </select>
             </div>
             <div class="col-xs-3 col-sm-1">
-              <button class="btn btn-primary" type="submit" translate>Search</button>
+              <button class="btn btn-primary" type="submit" translate>
+                Search
+              </button>
             </div>
           </div>
         </form>
@@ -36,29 +62,58 @@
   <h2 translate>Searching Events...</h2>
   <i class="fa fa-spinner fa-spin fa-4x"></i>
 </div>
-<div class="container spacing-above-md" ng-if="!loadingSearchResults && !searchComplete">
+<div
+  class="container spacing-above-md"
+  ng-if="!loadingSearchResults && !searchComplete"
+>
   <h3 translate>Register for an event</h3>
   <p translate>To register for an event, search the event name above.</p>
 
   <h3 translate>Create or manage an event</h3>
-  <p><translate>To create a new event or view registrations, manage scholarships or change questions on an existing event, continue to your</translate> <a href="eventDashboard" translate>Event Dashboard</a>.</p>
+  <p>
+    <translate
+      >To create a new event or view registrations, manage scholarships or
+      change questions on an existing event, continue to your</translate
+    >
+    <a href="eventDashboard" translate>Event Dashboard</a>.
+  </p>
 </div>
-<div class="container spacing-above-md" ng-if="!loadingSearchResults && searchComplete">
-    <p ng-show="!searchResults.length"><translate>No events found matching</translate> "{{searchComplete}}".</p>
-    <p ng-show="searchResults.length && !filteredEvents.length" translate>No events found matching the selected filters.</p>
+<div
+  class="container spacing-above-md"
+  ng-if="!loadingSearchResults && searchComplete"
+>
+  <p ng-show="!searchResults.length">
+    <translate>No events found matching</translate> "{{searchComplete}}".
+  </p>
+  <p ng-show="searchResults.length && !filteredEvents.length" translate>
+    No events found matching the selected filters.
+  </p>
   <div class="row_masonry">
-    <div class="col_masonry" ng-repeat="e in filteredEvents = filterSearchResults() | orderBy: 'name'">
+    <div
+      class="col_masonry"
+      ng-repeat="e in filteredEvents = filterSearchResults() | orderBy: 'name'"
+    >
       <div class="bs-callout">
         <h3 class="list-group-item-heading">{{e.name}}</h3>
-        <p class="spacing-above-md list-group-item-text"><i class="fa fa-calendar fa-fw"></i>
-          {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY h:mma'}} -
-          {{e.eventEndTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY h:mma'}}
-          <span ng-if="e.locationName"><br><i class="fa fa-map-marker fa-fw"></i>
-          {{e.locationName}}</span>
+        <p class="spacing-above-md list-group-item-text">
+          <i class="fa fa-calendar fa-fw"></i>
+          {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY
+          h:mma'}} - {{e.eventEndTime | evtDateFormat: e.eventTimezone:'ddd, MMM
+          D, YYYY h:mma'}}
+          <span ng-if="e.locationName"
+            ><br /><i class="fa fa-map-marker fa-fw"></i>
+            {{e.locationName}}</span
+          >
         </p>
         <p class="spacing-above-md" ng-if="e.description">{{e.description}}</p>
         <div class="text-center">
-          <button ng-click="selectEvent(e, 'register')" class="btn btn-primary spacing-above-xs" translate>Register</button>
+          <button
+            ng-click="selectEvent(e, 'register')"
+            class="btn btn-primary spacing-above-xs"
+            translate
+          >
+            Register
+          </button>
         </div>
       </div>
     </div>

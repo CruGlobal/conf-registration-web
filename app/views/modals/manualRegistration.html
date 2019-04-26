@@ -6,32 +6,73 @@
   <div class="modal-body">
     <div class="form-group">
       <label class="control-label" translate>Type</label>
-      <select show-errors
-              class="form-control"
-              ng-model="form.type"
-              ng-change="adminEditRegistrant.registrantTypeId = form.type"
-              ng-options="t.id as t.name for t in conference.registrantTypes"></select>
+      <select
+        show-errors
+        class="form-control"
+        ng-model="form.type"
+        ng-change="adminEditRegistrant.registrantTypeId = form.type"
+        ng-options="t.id as t.name for t in conference.registrantTypes"
+      ></select>
     </div>
     <div class="form-group">
       <label class="control-label" translate>First Name</label>
-      <input show-errors class="form-control" type="text" ng-required="true" ng-model="form.first">
+      <input
+        show-errors
+        class="form-control"
+        type="text"
+        ng-required="true"
+        ng-model="form.first"
+      />
     </div>
     <div class="form-group">
       <label class="control-label" translate>Last Name</label>
-      <input show-errors class="form-control" type="text" ng-required="true" ng-model="form.last">
+      <input
+        show-errors
+        class="form-control"
+        type="text"
+        ng-required="true"
+        ng-model="form.last"
+      />
     </div>
     <div class="form-group">
       <label class="control-label" translate>Email</label>
-      <input show-errors class="form-control" type="email" ng-required="true" ng-model="form.email">
-      <span class="help-block help-block-hidden" translate>Please enter a valid email such as: example@domain.com</span>
+      <input
+        show-errors
+        class="form-control"
+        type="email"
+        ng-required="true"
+        ng-model="form.email"
+      />
+      <span class="help-block help-block-hidden" translate
+        >Please enter a valid email such as: example@domain.com</span
+      >
     </div>
 
     <div ng-repeat="page in conference.registrationPages">
-      <div ng-repeat="block in page.blocks" block="block" ng-if="blockIsVisible(block, adminEditRegistrant)" block-registration></div>
+      <div
+        ng-repeat="block in page.blocks"
+        block="block"
+        ng-if="blockIsVisible(block, adminEditRegistrant)"
+        block-registration
+      ></div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="$dismiss()" translate>Close</button>
-    <button type="submit" class="btn btn-success" ng-disabled="!simpleRegistrationForm.$valid" translate>Add Registration</button>
+    <button
+      type="button"
+      class="btn btn-default"
+      ng-click="$dismiss()"
+      translate
+    >
+      Close
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success"
+      ng-disabled="!simpleRegistrationForm.$valid"
+      translate
+    >
+      Add Registration
+    </button>
   </div>
 </form>

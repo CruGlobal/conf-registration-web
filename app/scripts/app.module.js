@@ -24,7 +24,6 @@ import 'angular-wysiwyg';
 import uiTree from 'angular-ui-tree';
 import 'scripts/errorNotify.js';
 
-
 export default angular.module('confRegistrationWebApp', [
   ngRoute,
   ngCookies,
@@ -33,5 +32,5 @@ export default angular.module('confRegistrationWebApp', [
   ngGettext,
   uiBootstrap,
   uiTree,
-  'wysiwyg.module'
+  'wysiwyg.module',
 ]).name;

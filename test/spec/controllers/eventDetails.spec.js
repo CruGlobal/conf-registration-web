@@ -1,6 +1,6 @@
 import 'angular-mocks';
 
-describe('Controller: paymentModal', function () {
+describe('Controller: paymentModal', function() {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -10,14 +10,14 @@ describe('Controller: paymentModal', function () {
       then: function(confirmCallback, cancelCallback) {
         this.confirmCallBack = confirmCallback;
         this.cancelCallback = cancelCallback;
-      }
+      },
     },
-    close: function( item ) {
-      this.result.confirmCallBack( item );
+    close: function(item) {
+      this.result.confirmCallBack(item);
     },
-    dismiss: function( type ) {
-      this.result.cancelCallback( type );
-    }
+    dismiss: function(type) {
+      this.result.cancelCallback(type);
+    },
   };
 
   beforeEach(inject(function($uibModal) {
@@ -25,47 +25,57 @@ describe('Controller: paymentModal', function () {
   }));
 
   var testData;
-  beforeEach(angular.mock.inject(function($rootScope, $controller, _$uibModal_, _testData_) {
+  beforeEach(
+    angular.mock.inject(function(
+      $rootScope,
+      $controller,
+      _$uibModal_,
+      _testData_,
+    ) {
+      testData = _testData_;
+      scope = $rootScope.$new();
 
-    testData = _testData_;
-    scope = $rootScope.$new();
+      $controller('eventDetailsCtrl', {
+        $scope: scope,
+        conference: testData.conference,
+        $uibModal: _$uibModal_,
+        permissions: {},
+      });
+    }),
+  );
 
-    $controller('eventDetailsCtrl', {
-      $scope: scope,
-      conference: testData.conference,
-      $uibModal: _$uibModal_,
-      permissions: {}
-    });
-  }));
-
-  it('changeTab() should change tab', function () {
+  it('changeTab() should change tab', function() {
     scope.changeTab('paymentOptions');
     expect(scope.activeTab).toBe('paymentOptions');
   });
 
-  it('addRegType should add reg type', function () {
+  it('addRegType should add reg type', function() {
     var totalRegTypes = scope.conference.registrantTypes.length;
 
     var modal = scope.addRegType();
     modal.close({
       name: 'Additional Type',
-      defaultTypeKey: ''
+      defaultTypeKey: '',
     });
 
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
   });
 
-  it('deleteRegType should remove reg type', function () {
+  it('deleteRegType should remove reg type', function() {
     var totalRegTypes = scope.conference.registrantTypes.length;
     scope.deleteRegType(scope.conference.registrantTypes[0].id);
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes - 1);
   });
 
-  it('anyPaymentMethodAccepted should be true', function () {
-    expect(scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0])).toBe(true);
+  it('anyPaymentMethodAccepted should be true', function() {
+    expect(
+      scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0]),
+    ).toBe(true);
   });
 
-  it('getPaymentGatewayType should return the conference\'s paymentGatewayType', function () {
-    expect(scope.getPaymentGatewayType()).toBe(testData.conference.paymentGatewayType);
+  it("getPaymentGatewayType should return the conference's paymentGatewayType", function() {
+    expect(scope.getPaymentGatewayType()).toBe(
+      testData.conference.paymentGatewayType,
+    );
   });
 });

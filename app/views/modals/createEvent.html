@@ -4,12 +4,23 @@
 </div>
 <div class="modal-body">
   <p>
-    <translate>First things, first.</translate><br>
+    <translate>First things, first.</translate><br />
     <translate>Let's give this event a name:</translate>
   </p>
-  <input type="text" class="form-control" placeholder="Example: Fall Retreat 2017" ng-model="name" ng-enter="$close(name)" auto-focus>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Example: Fall Retreat 2017"
+    ng-model="name"
+    ng-enter="$close(name)"
+    auto-focus
+  />
 </div>
 <div class="modal-footer">
-  <button ng-click="$dismiss()" class="btn btn-default" translate>Cancel</button>
-  <button ng-click="$close(name)" class="btn btn-primary" translate>Create</button>
+  <button ng-click="$dismiss()" class="btn btn-default" translate>
+    Cancel
+  </button>
+  <button ng-click="$close(name)" class="btn btn-primary" translate>
+    Create
+  </button>
 </div>

@@ -1,12 +1,22 @@
 <h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
   <div class="col-sm-6 stacked-spacing-col-sm">
-    <label><translate>Registration Starts</translate> <em class="required">*</em></label>
-    <crs-datetimepicker model="conference.registrationStartTime"></crs-datetimepicker>
+    <label
+      ><translate>Registration Starts</translate>
+      <em class="required">*</em></label
+    >
+    <crs-datetimepicker
+      model="conference.registrationStartTime"
+    ></crs-datetimepicker>
   </div>
   <div class="col-sm-6">
-    <label><translate>Registration Ends</translate> <em class="required">*</em></label>
-    <crs-datetimepicker model="conference.registrationEndTime"></crs-datetimepicker>
+    <label
+      ><translate>Registration Ends</translate>
+      <em class="required">*</em></label
+    >
+    <crs-datetimepicker
+      model="conference.registrationEndTime"
+    ></crs-datetimepicker>
   </div>
 </div>
 
@@ -14,47 +24,64 @@
   <div class="col-xs-12">
     <div>
       <translate>Require Relay or Facebook sign in to register</translate>
-      <i class="question-popover fa fa-question-circle"
-         uib-popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
-         popover-trigger="mouseenter"
-         popover-append-to-body="true">
+      <i
+        class="question-popover fa fa-question-circle"
+        uib-popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
+        popover-trigger="mouseenter"
+        popover-append-to-body="true"
+      >
       </i>
     </div>
     <div class="margin-left-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox" ng-model="conference.relayLogin">
+          <input type="checkbox" ng-model="conference.relayLogin" />
           <translate>Relay</translate>
         </label>
       </div>
 
       <div class="checkbox">
         <label>
-          <input type="checkbox" ng-model="conference.facebookLogin">
+          <input type="checkbox" ng-model="conference.facebookLogin" />
           <translate>Facebook</translate>
         </label>
       </div>
     </div>
 
     <div class="checkbox">
-      <label><input type="checkbox" ng-model="conference.allowEditRegistrationAfterComplete">
-        <translate>Allow users to modify their registration after it is complete</translate>
+      <label
+        ><input
+          type="checkbox"
+          ng-model="conference.allowEditRegistrationAfterComplete"
+        />
+        <translate
+          >Allow users to modify their registration after it is
+          complete</translate
+        >
       </label>
-      <i class="question-popover fa fa-question-circle"
-         uib-popover="{{'This includes editing answers and adding group members.' | translate}}"
-         popover-trigger="mouseenter"
-         popover-append-to-body="true">
+      <i
+        class="question-popover fa fa-question-circle"
+        uib-popover="{{'This includes editing answers and adding group members.' | translate}}"
+        popover-trigger="mouseenter"
+        popover-append-to-body="true"
+      >
       </i>
     </div>
 
     <div class="checkbox">
-      <label><input type="checkbox" ng-model="conference.combineSpouseRegistrations">
+      <label
+        ><input
+          type="checkbox"
+          ng-model="conference.combineSpouseRegistrations"
+        />
         <translate>Combine spouse registrations</translate>
       </label>
-      <i class="question-popover fa fa-question-circle"
-         uib-popover="{{'Combining spouse registrations will force a husband and wife to be on the same group registration instead of on two separate registrations. Note that the first spouse must register as a registrant type that allows group members for this option to have any effect.' | translate}}"
-         popover-trigger="mouseenter"
-         popover-append-to-body="true">
+      <i
+        class="question-popover fa fa-question-circle"
+        uib-popover="{{'Combining spouse registrations will force a husband and wife to be on the same group registration instead of on two separate registrations. Note that the first spouse must register as a registrant type that allows group members for this option to have any effect.' | translate}}"
+        popover-trigger="mouseenter"
+        popover-append-to-body="true"
+      >
       </i>
     </div>
   </div>
@@ -63,23 +90,39 @@
 <div class="form-group">
   <div class="col-sm-12">
     <label translate>Registration completion redirect</label>
-    <i class="question-popover fa fa-question-circle"
-       uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
-       popover-trigger="mouseenter"
-       popover-append-to-body="true">
+    <i
+      class="question-popover fa fa-question-circle"
+      uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
+      popover-trigger="mouseenter"
+      popover-append-to-body="true"
+    >
     </i>
-    <input type="text" class="form-control" placeholder="www.example.com" ng-model="conference.registrationCompleteRedirect">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="www.example.com"
+      ng-model="conference.registrationCompleteRedirect"
+    />
   </div>
 </div>
 
 <div class="form-group">
   <div class="col-sm-12">
     <label class="control-label" translate>Custom CSS stylesheet</label>
-    <i class="question-popover fa fa-question-circle"
-       uib-popover="{{'Allows for custom styling of the registration pages. This CSS file will be applied to the registration pages for your conference. It has no effect on the admin pages or home page. Must be hosted at an https:// url and have a .css file extension.' | translate}}"
-       popover-trigger="mouseenter"
-       popover-append-to-body="true">
+    <i
+      class="question-popover fa fa-question-circle"
+      uib-popover="{{'Allows for custom styling of the registration pages. This CSS file will be applied to the registration pages for your conference. It has no effect on the admin pages or home page. Must be hosted at an https:// url and have a .css file extension.' | translate}}"
+      popover-trigger="mouseenter"
+      popover-append-to-body="true"
+    >
     </i>
-    <input type="text" class="form-control" placeholder="https://www.example.com/custom.css" ng-model="conference.cssUrl" show-errors ng-pattern="/^https?:\/\/.+\..+\/.+\.css$/">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="https://www.example.com/custom.css"
+      ng-model="conference.cssUrl"
+      show-errors
+      ng-pattern="/^https?:\/\/.+\..+\/.+\.css$/"
+    />
   </div>
 </div>
