@@ -173,7 +173,7 @@ angular
       );
     };
 
-    var blockInRegistrantType = function(block, registrant) {
+    this.blockInRegistrantType = function(block, registrant) {
       return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
 
@@ -185,7 +185,8 @@ angular
       ) {
         return true;
       }
-      for (let i = 0; i < block.content.choices.length; i++) {
+
+      for (let i = 0, len = block.content.choices.length; i < len; i++) {
         if (this.choiceVisible(block, block.content.choices[i], registrant)) {
           return true;
         }
@@ -194,15 +195,16 @@ angular
     };
 
     this.blockVisible = function(block, registrant, isAdmin) {
-      var visible =
+      let visible =
         angular.isDefined(registrant) &&
         blockVisibleRuleCheck(
           block,
           registrant,
           ruleTypeConstants.SHOW_QUESTION,
         ) &&
-        blockInRegistrantType(block, registrant) &&
+        this.blockInRegistrantType(block, registrant) &&
         this.isAnyChoiceVisible(block, registrant);
+
       return block.adminOnly && !isAdmin ? false : visible;
     };
 
@@ -215,7 +217,7 @@ angular
           registrant,
           ruleTypeConstants.SHOW_OPTION,
         ) &&
-        blockInRegistrantType(block, registrant)
+        this.blockInRegistrantType(block, registrant)
       );
     };
 
@@ -233,7 +235,6 @@ angular
       var blocks = page
         ? _.find(conference.registrationPages, { id: page }).blocks
         : _.flatten(_.map(conference.registrationPages, 'blocks'));
-
       var that = this;
       angular.forEach(blocks, function(block) {
         if (
@@ -244,7 +245,7 @@ angular
             registrant,
             ruleTypeConstants.SHOW_QUESTION,
           ) ||
-          !blockInRegistrantType(block, registrant)
+          !that.blockInRegistrantType(block, registrant)
         ) {
           return;
         }

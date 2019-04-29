@@ -3,7 +3,7 @@
 
   <form novalidate>
     <div
-      ng-repeat="block in page.blocks"
+      ng-repeat="block in page.blocks track by $index"
       block="block"
       block-registration
       ng-show="blockVisible(block)"
@@ -27,12 +27,8 @@
           ng-disabled="savingAnswers || !pageIsValid(page.id)"
           ng-click="goToNext()"
         >
-          <span ng-show="!savingAnswers && !nextPage()" translate
-            >Continue</span
-          >
-          <span ng-show="!savingAnswers && nextPage()" translate
-            >Next Page</span
-          >
+          <span ng-if="!savingAnswers && !nextPage()" translate>Continue</span>
+          <span ng-if="!savingAnswers && nextPage()" translate>Next Page</span>
           <span ng-show="savingAnswers" translate>Saving...</span>
         </button>
 

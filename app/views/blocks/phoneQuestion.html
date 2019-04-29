@@ -2,7 +2,7 @@
   show-errors
   type="tel"
   ng-model="answer.value"
-  ng-model-options="{allowInvalid: true}"
+  ng-model-options="{allowInvalid: true, debounce: 1000}"
   ng-required="block.required"
   class="form-control"
   ng-disabled="editBlock"

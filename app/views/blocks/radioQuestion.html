@@ -4,23 +4,27 @@
   ng-show="choiceVisible(block, choice)"
 >
   <label
-    uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
-    tooltip-enable="{{isAdmin}}"
+    uib-tooltip="{{
+      'Selecting an answer displays it as preselected on the registration form.'
+        | translate
+    }}"
+    tooltip-enable="{{ isAdmin }}"
   >
     <input
       type="radio"
       show-errors
-      name="{{block.id}}"
+      name="{{ block.id }}"
       ng-required="block.required"
       ng-model="answer.value"
+      ng-model-options="{ debounce: 1000 }"
       ng-value="choice.value"
     />
-    <strong>{{choice.value}}</strong>
+    <strong>{{ choice.value }}</strong>
     <span ng-show="choice.desc" class="display-linebreaks">
-      - {{choice.desc}}</span
+      - {{ choice.desc }}</span
     >
     <span ng-show="choice.amount">
-      - {{daysForBlock() * choice.amount | currency:'$'}}</span
+      - {{ daysForBlock() * choice.amount | currency: '$' }}</span
     >
   </label>
 </div>
@@ -46,6 +50,7 @@
     type="text"
     class="form-control"
     ng-model="otherAnswer"
+    ng-model-options="{ debounce: 1000 }"
     ng-change="selectOtherAnswer()"
     style="display:inline;width:auto;"
   />
