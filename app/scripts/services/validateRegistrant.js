@@ -5,32 +5,41 @@ angular
     ruleTypeConstants,
     $filter,
   ) {
-    var blockVisibleRuleCheck = function(block, registrant, ruleType) {
-      var answers = registrant.answers;
-      var ruleOperand = '';
-      var validRuleCount = 0;
-      var blockTypeSpecificRules = [];
+    const blockVisibleRuleCheck = (block, registrant, ruleType) => {
+      const answers = registrant.answers;
+      let ruleOperand = '';
+      let validRuleCount = 0;
+      let blockTypeSpecificRules = [];
 
-      if (ruleType === ruleTypeConstants.SHOW_QUESTION) {
-        blockTypeSpecificRules = $filter('showQuestionFilter')(block.rules);
-        ruleOperand =
-          block.content && block.content.ruleoperand
-            ? block.content.ruleoperand
-            : 'AND';
-      } else if (ruleType === ruleTypeConstants.FORCE_SELECTION) {
-        blockTypeSpecificRules = _.filter(block.rules, { ruleType: ruleType });
-        ruleOperand =
-          block.content && block.content.forceSelectionRuleOperand
-            ? block.content.forceSelectionRuleOperand
-            : 'AND';
-      } else {
-        if ($window.Rollbar) {
-          $window.Rollbar.error(
-            'blockVisibleRuleCheck was called with an unknown rule type: ',
-            ruleType,
-          );
+      switch (ruleType) {
+        case ruleTypeConstants.SHOW_QUESTION: {
+          blockTypeSpecificRules = $filter('showQuestionFilter')(block.rules);
+          ruleOperand =
+            block.content && block.content.ruleoperand
+              ? block.content.ruleoperand
+              : 'AND';
+          break;
         }
-        ruleOperand = 'AND';
+        case ruleTypeConstants.FORCE_SELECTION: {
+          blockTypeSpecificRules = _.filter(block.rules, {
+            ruleType: ruleType,
+          });
+          ruleOperand =
+            block.content && block.content.forceSelectionRuleOperand
+              ? block.content.forceSelectionRuleOperand
+              : 'AND';
+          break;
+        }
+        default: {
+          if ($window.Rollbar) {
+            $window.Rollbar.error(
+              'blockVisibleRuleCheck was called with an unknown rule type: ',
+              ruleType,
+            );
+          }
+          ruleOperand = 'AND';
+          break;
+        }
       }
 
       if ($window.Rollbar && !_.isArray(blockTypeSpecificRules)) {
@@ -44,11 +53,11 @@ angular
         );
       }
 
-      _.forEach(blockTypeSpecificRules, function(rule, i) {
-        var answer = _.find(answers, { blockId: rule.parentBlockId });
+      _.forEach(blockTypeSpecificRules, (rule, i) => {
+        const answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
-          var answerValue;
-          var ruleValue;
+          let answerValue;
+          let ruleValue;
           if (angular.isObject(answer.value)) {
             //answer of checkboxquestion will be an object
             answerValue = angular.isDefined(answer.value[rule.value])
@@ -92,26 +101,32 @@ angular
       );
     };
 
-    var choiceVisibleRuleCheck = function(block, choice, registrant, ruleType) {
-      var answers = registrant.answers;
-      var ruleOperand = '';
-      var validRuleCount = 0;
-      var blockTypeSpecificRules = [];
+    const choiceVisibleRuleCheck = (block, choice, registrant, ruleType) => {
+      const answers = registrant.answers;
+      let ruleOperand = '';
+      let validRuleCount = 0;
+      let blockTypeSpecificRules = [];
 
-      if (ruleType === ruleTypeConstants.SHOW_OPTION) {
-        blockTypeSpecificRules = _.filter(block.rules, {
-          ruleType: ruleType,
-          blockEntityOption: choice.value,
-        });
-        ruleOperand = choice.operand ? choice.operand : 'OR';
-      } else {
-        if ($window.Rollbar) {
-          $window.Rollbar.error(
-            'choiceVisibleRuleCheck was called with an unknown rule type: ',
-            ruleType,
-          );
+      switch (ruleType) {
+        case ruleTypeConstants.SHOW_OPTION: {
+          blockTypeSpecificRules = _.filter(block.rules, {
+            ruleType: ruleType,
+            blockEntityOption: choice.value,
+          });
+
+          ruleOperand = choice.operand ? choice.operand : 'OR';
+          break;
         }
-        ruleOperand = 'AND';
+        default: {
+          if ($window.Rollbar) {
+            $window.Rollbar.error(
+              'choiceVisibleRuleCheck was called with an unknown rule type: ',
+              ruleType,
+            );
+          }
+          ruleOperand = 'AND';
+          break;
+        }
       }
 
       if ($window.Rollbar && !_.isArray(blockTypeSpecificRules)) {
@@ -125,11 +140,11 @@ angular
         );
       }
 
-      _.forEach(blockTypeSpecificRules, function(rule, i) {
-        var answer = _.find(answers, { blockId: rule.parentBlockId });
+      _.forEach(blockTypeSpecificRules, (rule, i) => {
+        const answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
-          var answerValue;
-          var ruleValue;
+          let answerValue;
+          let ruleValue;
           if (angular.isObject(answer.value)) {
             //answer of checkboxquestion will be an object
             answerValue = angular.isDefined(answer.value[rule.value])
@@ -173,11 +188,11 @@ angular
       );
     };
 
-    this.blockInRegistrantType = function(block, registrant) {
+    const blockInRegistrantType = (block, registrant) => {
       return !_.includes(block.registrantTypes, registrant.registrantTypeId);
     };
 
-    this.isAnyChoiceVisible = function(block, registrant) {
+    this.isAnyChoiceVisible = (block, registrant) => {
       if (
         block.type !== 'checkboxQuestion' &&
         block.type !== 'selectQuestion' &&
@@ -194,21 +209,21 @@ angular
       return false;
     };
 
-    this.blockVisible = function(block, registrant, isAdmin) {
-      let visible =
+    this.blockVisible = (block, registrant, isAdmin) => {
+      const visible =
         angular.isDefined(registrant) &&
         blockVisibleRuleCheck(
           block,
           registrant,
           ruleTypeConstants.SHOW_QUESTION,
         ) &&
-        this.blockInRegistrantType(block, registrant) &&
+        blockInRegistrantType(block, registrant) &&
         this.isAnyChoiceVisible(block, registrant);
 
       return block.adminOnly && !isAdmin ? false : visible;
     };
 
-    this.choiceVisible = function(block, choice, registrant) {
+    this.choiceVisible = (block, choice, registrant) => {
       return (
         angular.isDefined(registrant) &&
         choiceVisibleRuleCheck(
@@ -216,12 +231,11 @@ angular
           choice,
           registrant,
           ruleTypeConstants.SHOW_OPTION,
-        ) &&
-        this.blockInRegistrantType(block, registrant)
+        )
       );
     };
 
-    this.checkboxDisable = function(block, registrant) {
+    this.checkboxDisable = (block, registrant) => {
       return blockVisibleRuleCheck(
         block,
         registrant,
@@ -229,14 +243,15 @@ angular
       );
     };
 
-    this.validate = function(conference, registrant, page) {
-      var invalidBlocks = [];
+    this.validate = (conference, registrant, page) => {
+      let invalidBlocks = [];
+
       conference = angular.copy(conference);
-      var blocks = page
+      const blocks = page
         ? _.find(conference.registrationPages, { id: page }).blocks
         : _.flatten(_.map(conference.registrationPages, 'blocks'));
-      var that = this;
-      angular.forEach(blocks, function(block) {
+
+      _.map(blocks, block => {
         if (
           !block.required ||
           block.adminOnly ||
@@ -245,12 +260,12 @@ angular
             registrant,
             ruleTypeConstants.SHOW_QUESTION,
           ) ||
-          !that.blockInRegistrantType(block, registrant)
+          !blockInRegistrantType(block, registrant)
         ) {
           return;
         }
 
-        var answer = _.find(registrant.answers, { blockId: block.id });
+        let answer = _.find(registrant.answers, { blockId: block.id });
         if (angular.isUndefined(answer)) {
           invalidBlocks.push(block.id);
           return;
@@ -289,7 +304,7 @@ angular
             break;
           case 'checkboxQuestion':
             if (
-              that.isAnyChoiceVisible(block, registrant) &&
+              this.isAnyChoiceVisible(block, registrant) &&
               (_.isEmpty(answer) || _.isEmpty(_.pickBy(answer)))
             ) {
               invalidBlocks.push(block.id);
@@ -299,7 +314,7 @@ angular
           case 'selectQuestion':
           case 'radioQuestion':
             if (
-              that.isAnyChoiceVisible(block, registrant) &&
+              this.isAnyChoiceVisible(block, registrant) &&
               _.isEmpty(answer)
             ) {
               invalidBlocks.push(block.id);

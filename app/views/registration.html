@@ -10,9 +10,11 @@
         ng-class="{'active': currentRegistrant === r.id}"
       >
         <a
-          ng-href="{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{r.id}}"
+          ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
+            conference.registrationPages[0].id
+          }}?reg={{ r.id }}"
         >
-          {{registrantName(r)}}
+          {{ registrantName(r) }}
           <i
             class="fa fa-check pull-right"
             style="padding-top: 14px;"
@@ -36,10 +38,12 @@
         ng-class="{'active': page.id === activePageId, 'invalid': visitedPage(page.id) && !pageIsValid(page.id)}"
       >
         <a
-          ng-href="{{registerMode}}/{{conference.id}}/page/{{page.id}}?reg={{currentRegistrant}}"
-          title="{{page.title}}"
+          ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
+            page.id
+          }}?reg={{ currentRegistrant }}"
+          title="{{ page.title }}"
         >
-          <span class="circle">{{$index+1}}</span>
+          <span class="circle">{{ $index + 1 }}</span>
           <span ng-bind="page.title"></span>
         </a>
       </li>
@@ -75,9 +79,9 @@
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading" translate>Event Dates</h2>
         <p>
-          {{conference.eventStartTime | evtDateFormat:
-          conference.eventTimezone}} - {{conference.eventEndTime |
-          evtDateFormat: conference.eventTimezone}}
+          {{ conference.eventStartTime | evtDateFormat: conference.eventTimezone
+          }} - {{ conference.eventEndTime | evtDateFormat:
+          conference.eventTimezone }}
         </p>
       </div>
       <div class="well well-creme2" ng-show="conference.locationName">
@@ -85,10 +89,11 @@
           Event Location
         </h2>
         <p>
-          {{conference.locationName}}
+          {{ conference.locationName }}
           <span ng-show="conference.locationAddress"
-            ><br />{{conference.locationAddress}}<br />{{conference.locationCity}},
-            {{conference.locationState}} {{conference.locationZipCode}}</span
+            ><br />{{ conference.locationAddress }}<br />{{
+            conference.locationCity }}, {{ conference.locationState }} {{
+            conference.locationZipCode }}</span
           >
         </p>
       </div>
@@ -97,9 +102,9 @@
           Registration Window
         </h2>
         <p>
-          {{conference.registrationStartTime | evtDateFormat:
-          conference.eventTimezone}} - {{conference.registrationEndTime |
-          evtDateFormat: conference.eventTimezone}}
+          {{ conference.registrationStartTime | evtDateFormat:
+          conference.eventTimezone }} - {{ conference.registrationEndTime |
+          evtDateFormat: conference.eventTimezone }}
         </p>
       </div>
       <div
@@ -111,19 +116,19 @@
         </h2>
         <ul class="list-unstyled">
           <li ng-show="conference.contactPersonName">
-            {{conference.contactPersonName}}
+            {{ conference.contactPersonName }}
           </li>
           <li ng-show="conference.contactPersonPhone">
-            {{conference.contactPersonPhone}}
+            {{ conference.contactPersonPhone }}
           </li>
           <li ng-show="conference.contactPersonEmail">
-            <a ng-href="mailto:{{conference.contactPersonEmail}}"
-              >{{conference.contactPersonEmail}}</a
+            <a ng-href="mailto:{{ conference.contactPersonEmail }}"
+              >{{ conference.contactPersonEmail }}</a
             >
           </li>
           <li ng-show="conference.contactWebsite">
-            <a ng-href="{{conference.contactWebsite}}"
-              >{{conference.contactWebsite}}</a
+            <a ng-href="{{ conference.contactWebsite }}"
+              >{{ conference.contactWebsite }}</a
             >
           </li>
         </ul>
@@ -148,7 +153,9 @@
         </div>
         <div class="col-sm-9 col-xs-6">
           <a
-            ng-href="{{registerMode}}/{{conference.id}}/page/{{conference.registrationPages[0].id}}?reg={{currentRegistration.registrants[0].id}}"
+            ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
+              conference.registrationPages[0].id
+            }}?reg={{ currentRegistration.registrants[0].id }}"
             class="btn btn-success btn-important btn-lg btn-block"
             translate
           >

@@ -11,11 +11,11 @@
 >
   <option value="" translate>Choose one...</option>
   <option
-    value="{{ choice.value }}"
-    ng-repeat="choice in ::block.content.choices"
+    value="{{ ::choice.value }}"
+    ng-repeat="choice in block.content.choices track by $index"
     ng-if="choiceVisible(block, choice)"
     ng-selected="{{ choice.value === answer.value }}"
   >
-    {{ visibleValues[$index] }}
+    {{ ::visibleValues[$index] }}
   </option>
 </select>

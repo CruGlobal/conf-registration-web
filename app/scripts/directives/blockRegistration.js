@@ -77,24 +77,20 @@ angular
               registrantIndex
             ].answers.push($scope.answer);
 
-          $scope.$watch(
-            'answer',
-            function(answer, oldAnswer) {
-              if (
-                angular.isUndefined(answer) ||
-                angular.isUndefined(oldAnswer) ||
-                angular.equals(answer, oldAnswer)
-              ) {
-                return;
-              }
+          $scope.$watchCollection('answer', function(answer, oldAnswer) {
+            if (
+              angular.isUndefined(answer) ||
+              angular.isUndefined(oldAnswer) ||
+              angular.equals(answer, oldAnswer)
+            ) {
+              return;
+            }
 
-              RegistrationCache.updateCurrent(
-                $scope.conference.id,
-                $scope.currentRegistration,
-              );
-            },
-            true,
-          );
+            RegistrationCache.updateCurrent(
+              $scope.conference.id,
+              $scope.currentRegistration,
+            );
+          });
         }
 
         function startDateChangeCallback(value) {
