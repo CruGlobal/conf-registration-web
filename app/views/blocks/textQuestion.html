@@ -3,6 +3,7 @@
   type="text"
   class="form-control"
   ng-model="answer.value"
+  ng-model-options="{ debounce: 1000 }"
   ng-required="block.required"
   ng-disabled="editBlock"
 />

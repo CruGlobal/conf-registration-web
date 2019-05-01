@@ -4,8 +4,9 @@
       show-errors="group"
       type="text"
       class="form-control"
-      placeholder="{{'Address Line 1' | translate}}"
+      placeholder="{{ 'Address Line 1' | translate }}"
       ng-model="answer.value.address1"
+      ng-model-options="{ debounce: 1000 }"
       ng-required="block.required"
       ng-disabled="editBlock"
     />
@@ -14,8 +15,9 @@
     <input
       type="text"
       class="form-control has-no-error"
-      placeholder="{{'Address Line 2' | translate}}"
+      placeholder="{{ 'Address Line 2' | translate }}"
       ng-model="answer.value.address2"
+      ng-model-options="{ debounce: 1000 }"
       ng-disabled="editBlock"
     />
   </div>
@@ -24,8 +26,9 @@
       show-errors="group"
       type="text"
       class="form-control"
-      placeholder="{{'City' | translate}}"
+      placeholder="{{ 'City' | translate }}"
       ng-model="answer.value.city"
+      ng-model-options="{ debounce: 1000 }"
       ng-required="block.required"
       ng-disabled="editBlock"
     />
@@ -34,6 +37,7 @@
     <select
       show-errors="group"
       ng-model="answer.value.state"
+      ng-model-options="{ debounce: 1000 }"
       ng-required="block.required"
       class="form-control"
       ng-disabled="editBlock"
@@ -97,8 +101,9 @@
       show-errors="group"
       type="text"
       class="form-control"
-      placeholder="{{'Postal Code' | translate}}"
+      placeholder="{{ 'Postal Code' | translate }}"
       ng-model="answer.value.zip"
+      ng-model-options="{ debounce: 1000 }"
       ng-required="block.required"
       ng-disabled="editBlock"
     />

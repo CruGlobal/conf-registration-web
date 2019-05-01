@@ -1,6 +1,6 @@
 <div
   ng-repeat="choice in block.content.choices"
-  ng-show="choiceVisible(block, choice)"
+  ng-if="choiceVisible(block, choice)"
   ng-class="{'row':answer.value[choice.value] && isAdmin}"
 >
   <div
@@ -8,8 +8,11 @@
     ng-class="{'col-sm-4 col-xs-4':answer.value[choice.value] && isAdmin}"
   >
     <label
-      uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
-      tooltip-enable="{{isAdmin}}"
+      uib-tooltip="{{
+        'Selecting an answer displays it as preselected on the registration form.'
+          | translate
+      }}"
+      tooltip-enable="{{ isAdmin }}"
       class="checkbox-question-label"
     >
       <input
@@ -17,15 +20,16 @@
         show-errors
         ng-required="block.required && !atLeastOneChecked()"
         ng-model="answer.value[choice.value]"
+        ng-model-options="{ debounce: 1000 }"
         ng-disabled="block.content.forceSelections[choice.value] == true && (checkForceRule(block,'') || isAdmin)"
         ng-value="true"
       />
-      <strong>{{choice.value}}</strong>
+      <strong>{{ choice.value }}</strong>
       <span ng-show="choice.desc" class="display-linebreaks">
-        - {{choice.desc}}</span
+        - {{ choice.desc }}</span
       >
       <span ng-show="choice.amount">
-        - {{daysForBlock() * choice.amount | currency:'$'}}</span
+        - {{ daysForBlock() * choice.amount | currency: '$' }}</span
       >
     </label>
   </div>
@@ -35,11 +39,15 @@
     ng-class="{'col-sm-4 col-xs-4':answer.value[choice.value] && isAdmin}"
   >
     <label
-      uib-tooltip="{{'Forcing a preselected answer prevents the user from deselecting it.' | translate}}"
+      uib-tooltip="{{
+        'Forcing a preselected answer prevents the user from deselecting it.'
+          | translate
+      }}"
     >
       <input
         type="checkbox"
         ng-model="block.content.forceSelections[choice.value]"
+        ng-model-options="{ debounce: 1000 }"
         ng-value="true"
       />
       <strong translate>Force selection</strong>

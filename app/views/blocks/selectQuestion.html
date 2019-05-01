@@ -3,16 +3,19 @@
   ng-required="block.required"
   ng-model="answer.value"
   class="form-control"
-  uib-tooltip="{{'Selecting an answer displays it as preselected on the registration form.' | translate}}"
-  tooltip-enable="{{isAdmin}}"
+  uib-tooltip="{{
+    'Selecting an answer displays it as preselected on the registration form.'
+      | translate
+  }}"
+  tooltip-enable="{{ isAdmin }}"
 >
   <option value="" translate>Choose one...</option>
   <option
-    value="{{choice.value}}"
-    ng-repeat="choice in block.content.choices"
-    ng-show="choiceVisible(block, choice)"
-    ng-selected="{{choice.value === answer.value}}"
+    value="{{ ::choice.value }}"
+    ng-repeat="choice in block.content.choices track by $index"
+    ng-if="choiceVisible(block, choice)"
+    ng-selected="{{ choice.value === answer.value }}"
   >
-    {{visibleValues[$index]}}
+    {{ ::visibleValues[$index] }}
   </option>
 </select>

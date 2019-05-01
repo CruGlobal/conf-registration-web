@@ -3,11 +3,12 @@
     <input
       type="radio"
       show-errors
-      name="{{block.id}}"
+      name="{{ block.id }}"
       ng-required="block.required"
       ng-model="answer.value"
+      ng-model-options="{ debounce: 1000 }"
       ng-value="choice.charAt(0)"
     />
-    <strong>{{choice}}</strong></label
+    <strong>{{ choice }}</strong></label
   >
 </div>

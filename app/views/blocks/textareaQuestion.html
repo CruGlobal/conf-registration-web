@@ -3,6 +3,7 @@
     show-errors
     class="form-control"
     ng-model="answer.value"
+    ng-model-options="{ debounce: 1000 }"
     ng-required="block.required"
     ng-disabled="editBlock"
     style="height:120px;"
