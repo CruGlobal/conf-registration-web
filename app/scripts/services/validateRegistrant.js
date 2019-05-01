@@ -251,7 +251,7 @@ angular
         ? _.find(conference.registrationPages, { id: page }).blocks
         : _.flatten(_.map(conference.registrationPages, 'blocks'));
 
-      _.map(blocks, block => {
+      _.forEach(blocks, block => {
         if (
           !block.required ||
           block.adminOnly ||
