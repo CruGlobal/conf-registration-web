@@ -23,7 +23,9 @@
 <div class="form-group">
   <div class="col-xs-12">
     <div>
-      <translate>Require Relay or Facebook sign in to register</translate>
+      <translate
+        >Require Relay, Facebook, or Instagram sign in to register</translate
+      >
       <i
         class="question-popover fa fa-question-circle"
         uib-popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
@@ -44,6 +46,13 @@
         <label>
           <input type="checkbox" ng-model="conference.facebookLogin" />
           <translate>Facebook</translate>
+        </label>
+      </div>
+
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="conference.instagramLogin" />
+          <translate>Instagram</translate>
         </label>
       </div>
     </div>

@@ -13,10 +13,18 @@
       Please sign in with one of the following services:
     </p>
     <div class="row">
-      <div
-        ng-if="facebookLogin"
-        class="{{relayLogin ? 'col-sm-5 col-sm-offset-1' : 'col-sm-6 col-sm-offset-3' }}"
-      >
+      <div ng-if="instagramLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <a
+          class="btn btn-subtle btn-block"
+          ng-href="{{apiUrl}}auth/instagram/authorization"
+          title="Instagram"
+          ><img src="../../img/signin-instagram.jpeg"
+        /></a>
+        <a href="https://www.instagram.com" target="_blank" translate
+          >Create an Instagram account</a
+        >
+      </div>
+      <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
           class="btn btn-subtle btn-block"
           ng-href="{{apiUrl}}auth/facebook/authorization"
@@ -27,10 +35,7 @@
           >Create a Facebook account</a
         >
       </div>
-      <div
-        ng-if="relayLogin"
-        class="{{facebookLogin ? 'col-sm-5' : 'col-sm-6 col-sm-offset-3'}}"
-      >
+      <div ng-if="relayLogin" class="{{ 'col-sm-6 col-sm-offset-3'}}">
         <a
           class="btn btn-subtle btn-block"
           ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None"

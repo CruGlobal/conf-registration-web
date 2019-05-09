@@ -263,7 +263,11 @@ angular
       //allowEditRegistrationAfterComplete
       if (
         $scope.conference.allowEditRegistrationAfterComplete &&
-        !($scope.conference.relayLogin || $scope.conference.facebookLogin)
+        !(
+          $scope.conference.relayLogin ||
+          $scope.conference.facebookLogin ||
+          $scope.conference.instagramLogin
+        )
       ) {
         validationErrors.push(
           "You must require sign in if allowing users to edit their registration after it's complete.",
@@ -363,7 +367,9 @@ angular
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (
-          ($scope.conference.relayLogin || $scope.conference.facebookLogin) &&
+          ($scope.conference.relayLogin ||
+            $scope.conference.facebookLogin ||
+            $scope.conference.instagramLogin) &&
           $scope.anyPaymentMethodAccepted(t) &&
           String(t.minimumDeposit).length > 0 &&
           !_.isNull(t.minimumDeposit)
