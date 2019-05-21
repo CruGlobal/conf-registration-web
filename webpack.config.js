@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const concat = require('lodash/concat');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -52,7 +51,6 @@ module.exports = (env = {}) => {
           'window.jQuery': 'jquery',
         }),
         new MiniCssExtractPlugin({
-          filename: '[name].[contenthash].scss',
           filename: '[name].[contenthash].css',
         }),
       ],
@@ -173,7 +171,7 @@ module.exports = (env = {}) => {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
-                precision: 10,
+                precision: 8, // fixes line height issue with bootstrap button addons | See Link for more detail:  https://github.com/twbs/bootstrap-sass#sass-number-precision
               },
             },
           ],
