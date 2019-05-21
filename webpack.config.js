@@ -33,6 +33,7 @@ const htmlMinDefaults = {
 module.exports = (env = {}) => {
   const isTest = env.test;
   return {
+    mode: isBuild ? 'production' : 'development',
     entry: {
       app: 'scripts/main.js',
     },
