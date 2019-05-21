@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const concat = require('lodash/concat');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -29,8 +30,7 @@ const htmlMinDefaults = {
   removeStyleTypeAttributes: true,
 };
 
-module.exports = env => {
-  env = env || {};
+module.exports = (env = {}) => {
   const isTest = env.test;
   return {
     entry: {
@@ -50,8 +50,9 @@ module.exports = env => {
           jQuery: 'jquery',
           'window.jQuery': 'jquery',
         }),
-        new ExtractTextPlugin({
-          filename: '[name].[contenthash].min.css',
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].scss',
+          filename: '[name].[contenthash].css',
         }),
       ],
       !isTest
@@ -159,23 +160,22 @@ module.exports = env => {
         },
         {
           test: /\.(scss|css)$/,
-          use: ExtractTextPlugin.extract({
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  sourceMap: true,
-                },
+          use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
               },
-              {
-                loader: 'sass-loader',
-                options: {
-                  sourceMap: true,
-                  precision: 10, // fixes line height issue with bootstrap button addons
-                },
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                precision: 10,
               },
-            ],
-          }),
+            },
+          ],
         },
         {
           test: /\.(woff|ttf|eot|ico)/,
@@ -188,10 +188,7 @@ module.exports = env => {
             },
           ],
         },
-        {
-          test: /\.json/,
-          use: ['json-loader'],
-        },
+
         {
           test: /\.(svg|png|jpe?g|gif)/,
           use: [
