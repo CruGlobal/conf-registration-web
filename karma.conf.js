@@ -1,17 +1,33 @@
 const path = require('path');
-const webpackConfig = require('./webpack.config.js')({ test: true });
+const {
+  entry,
+  devServer,
+  optimization,
+  ...webpackConfig
+} = require('./webpack.config.js')({ test: true });
 
-delete webpackConfig.entry;
-delete webpackConfig.devServer;
-webpackConfig.devtool = 'inline-source-map';
-webpackConfig.module.rules.push({
-  test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
-  include: path.resolve('app/'),
-  loader: 'istanbul-instrumenter-loader',
-  query: {
-    esModules: true,
+const karmaWebpackConfig = {
+  ...webpackConfig,
+  devtool: 'inline-source-map',
+  module: {
+    ...webpackConfig.module,
+    rules: [
+      ...webpackConfig.module.rules,
+      ...(process.env.npm_lifecycle_event !== 'test-debug'
+        ? [
+            {
+              test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
+              include: path.resolve('app/'),
+              loader: 'istanbul-instrumenter-loader',
+              query: {
+                esModules: true,
+              },
+            },
+          ]
+        : []),
+    ],
   },
-});
+};
 
 module.exports = function(config) {
   config.set({
@@ -29,7 +45,7 @@ module.exports = function(config) {
       'test/all-tests.spec.js': ['webpack', 'sourcemap'],
     },
 
-    webpack: webpackConfig,
+    webpack: karmaWebpackConfig,
 
     coverageIstanbulReporter: {
       reports: ['lcov'],

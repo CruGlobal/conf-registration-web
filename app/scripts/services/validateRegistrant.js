@@ -201,6 +201,11 @@ angular
         return true;
       }
 
+      // If a block has no content choices because the user forgot to add them, automatically return false.
+      if (!block.content.choices) {
+        return false;
+      }
+
       for (let i = 0, len = block.content.choices.length; i < len; i++) {
         if (this.choiceVisible(block, block.content.choices[i], registrant)) {
           return true;
