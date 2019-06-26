@@ -6,8 +6,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
@@ -43,6 +43,31 @@ module.exports = (env = {}) => {
         info.resourcePath.replace(/^\.\//, ''),
       crossOriginLoading: 'anonymous',
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            name: 'vendor',
+            test: /[\\/]node_modules[\\/]/,
+            chunks: function(module) {
+              // This prevents stylesheet resources with the .css or .scss extension
+              // from being moved from their original chunk to the vendor chunk
+              if (module.resource && /^.*\.(css|scss)$/.test(module.resource)) {
+                return false;
+              }
+              return (
+                module.context && module.context.indexOf('node_modules') !== -1
+              );
+            },
+          },
+          commons2: {
+            name: 'manifest',
+            test: /[\\/]node_modules[\\/]/,
+            minChunks: Infinity,
+          },
+        },
+      },
+    },
     plugins: concat(
       [
         new webpack.ProvidePlugin({
@@ -65,27 +90,6 @@ module.exports = (env = {}) => {
         : [],
       isBuild
         ? [
-            new webpack.optimize.CommonsChunkPlugin({
-              name: 'vendor',
-              minChunks: function(module) {
-                // This prevents stylesheet resources with the .css or .scss extension
-                // from being moved from their original chunk to the vendor chunk
-                if (
-                  module.resource &&
-                  /^.*\.(css|scss)$/.test(module.resource)
-                ) {
-                  return false;
-                }
-                return (
-                  module.context &&
-                  module.context.indexOf('node_modules') !== -1
-                );
-              },
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-              name: 'manifest',
-              minChunks: Infinity,
-            }),
             new webpack.NamedModulesPlugin(),
             new HtmlWebpackPlugin({
               template: 'app/browserUnsupported.ejs',
@@ -100,10 +104,10 @@ module.exports = (env = {}) => {
               minify: htmlMinDefaults,
             }),
             new HtmlWebpackExcludeAssetsPlugin(),
-            new InlineManifestWebpackPlugin({
+            new WebpackInlineManifestPlugin({
               name: 'webpackManifest',
             }),
-            new FaviconsWebpackPlugin('./app/img/favicon.png'),
+            new WebappWebpackPlugin('./app/img/favicon.png'),
             new SriPlugin({
               hashFuncNames: ['sha512'],
             }),
