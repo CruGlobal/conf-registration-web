@@ -51,11 +51,6 @@ module.exports = (env = {}) => {
             test: /[\\/]node_modules[\\/]/,
             chunks: 'initial',
           },
-          commons2: {
-            name: 'manifest',
-            test: /[\\/]node_modules[\\/]/,
-            minChunks: Infinity,
-          },
         },
       },
     },
