@@ -6,7 +6,7 @@ angular
     $filter,
   ) {
     const blockVisibleRuleCheck = (block, registrant, ruleType) => {
-      const answers = registrant.answers;
+      let answers = registrant.answers;
       let ruleOperand = '';
       let validRuleCount = 0;
       let blockTypeSpecificRules = [];
@@ -54,7 +54,7 @@ angular
       }
 
       _.forEach(blockTypeSpecificRules, (rule, i) => {
-        const answer = _.find(answers, { blockId: rule.parentBlockId });
+        let answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
           let answerValue;
           let ruleValue;
@@ -102,7 +102,7 @@ angular
     };
 
     const choiceVisibleRuleCheck = (block, choice, registrant, ruleType) => {
-      const answers = registrant.answers;
+      let answers = registrant.answers;
       let ruleOperand = '';
       let validRuleCount = 0;
       let blockTypeSpecificRules = [];
@@ -141,7 +141,7 @@ angular
       }
 
       _.forEach(blockTypeSpecificRules, (rule, i) => {
-        const answer = _.find(answers, { blockId: rule.parentBlockId });
+        let answer = _.find(answers, { blockId: rule.parentBlockId });
         if (angular.isDefined(answer) && answer.value !== '') {
           let answerValue;
           let ruleValue;
