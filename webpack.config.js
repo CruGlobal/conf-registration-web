@@ -49,16 +49,7 @@ module.exports = (env = {}) => {
           commons: {
             name: 'vendor',
             test: /[\\/]node_modules[\\/]/,
-            chunks: function(module) {
-              // This prevents stylesheet resources with the .css or .scss extension
-              // from being moved from their original chunk to the vendor chunk
-              if (module.resource && /^.*\.(css|scss)$/.test(module.resource)) {
-                return false;
-              }
-              return (
-                module.context && module.context.indexOf('node_modules') !== -1
-              );
-            },
+            chunks: 'initial',
           },
           commons2: {
             name: 'manifest',
