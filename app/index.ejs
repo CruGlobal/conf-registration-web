@@ -18,7 +18,7 @@
       </script>
     <![endif]-->
 
-    <!-- Adobe DTM -->
+    <!-- Adobe Launch -->
     <script>
       window.digitalData = {
         user: [
@@ -33,9 +33,6 @@
         ],
       };
     </script>
-    <% if(htmlWebpackPlugin.options.prod) { %>
-    <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
-    <% } else { %>
     <script>
       (function(win, doc, style, timeout) {
         var STYLE_ID = 'at-body-style';
@@ -67,6 +64,12 @@
         }, timeout);
       })(window, document, 'body {opacity: 0! important}', 3000);
     </script>
+    <% if(htmlWebpackPlugin.options.prod) { %>
+    <script
+      src="// assets.adobedtm.com/launch-EN1532c472c4224a57a029c57d101e0196.min.js"
+      async
+    ></script>
+    <% } else { %>
     <script
       src="// assets.adobedtm.com/launch-EN1532c472c4224a57a029c57d101e0196-development.min.js"
       async
@@ -367,10 +370,6 @@
       );
 
       ga('create', 'UA-325725-55', 'auto');
-    </script>
-
-    <script type="text/javascript">
-      window._satellite && _satellite.pageBottom();
     </script>
     <% } %> <%=htmlWebpackPlugin.files.webpackManifest%>
   </body>
