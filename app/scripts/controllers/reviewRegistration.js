@@ -54,6 +54,7 @@ angular
         var regType = _.find(conference.registrantTypes, {
           id: r.registrantTypeId,
         });
+        $scope.regType = regType;
         $scope.allowGroupRegistration = regType.allowGroupRegistrations;
       });
     }
@@ -122,8 +123,8 @@ angular
 
     // Navigate to the correct page after completing a registration
     function navigateToPostRegistrationPage() {
-      if (conference.registrationCompleteRedirect) {
-        $window.location.href = conference.registrationCompleteRedirect;
+      if ($scope.regType.registrationCompleteRedirect) {
+        $window.location.href = $scope.regType.registrationCompleteRedirect;
       } else {
         $route.reload();
       }

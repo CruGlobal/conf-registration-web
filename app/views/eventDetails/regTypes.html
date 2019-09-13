@@ -203,6 +203,22 @@
                   </div>
                 </div>
               </div>
+              <div class="pt12 input-group">
+                <label translate>Registration completion redirect</label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
+                </i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="www.example.com"
+                  ng-model="type.registrationCompleteRedirect"
+                />
+              </div>
             </div>
 
             <div class="col-md-6">
