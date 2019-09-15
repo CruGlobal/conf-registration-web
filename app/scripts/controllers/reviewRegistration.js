@@ -51,10 +51,7 @@ angular
         if ($scope.allowGroupRegistration) {
           return;
         }
-        var regType = _.find(conference.registrantTypes, {
-          id: r.registrantTypeId,
-        });
-        $scope.regType = regType;
+        var regType = getRegistrantType(r.registrantTypeId);
         $scope.allowGroupRegistration = regType.allowGroupRegistrations;
       });
     }
@@ -121,14 +118,28 @@ angular
       });
     }
 
+    function getRegistrantType(typeId) {
+      return _.find(conference.registrantTypes, {
+        id: typeId,
+      });
+    }
+
+    function primaryRegType(currentRegistration) {
+      let primaryRegistrant = _.find(currentRegistration.registrants, {
+        id: currentRegistration.primaryRegistrantId,
+      });
+      return getRegistrantType(primaryRegistrant.registrantTypeId);
+    }
+
     // Navigate to the correct page after completing a registration
-    function navigateToPostRegistrationPage() {
-      if ($scope.regType.registrationCompleteRedirect) {
-        $window.location.href = $scope.regType.registrationCompleteRedirect;
+    $scope.navigateToPostRegistrationPage = function() {
+      let regType = primaryRegType(currentRegistration);
+      if (regType.registrationCompleteRedirect) {
+        $window.location.href = regType.registrationCompleteRedirect;
       } else {
         $route.reload();
       }
-    }
+    };
 
     // Called when the user clicks the confirm button
     $scope.confirmRegistration = function() {
@@ -159,7 +170,7 @@ angular
           analytics.digitalData.registeredEventName = conference.name;
           analytics.track('registration');
 
-          navigateToPostRegistrationPage();
+          $scope.navigateToPostRegistrationPage();
 
           $scope.submittingRegistration = false;
         })
@@ -270,9 +281,7 @@ angular
       var groupRegistrants = 0,
         noGroupRegistrants = 0;
       angular.forEach(currentRegistration.registrants, function(r) {
-        var regType = _.find(conference.registrantTypes, {
-          id: r.registrantTypeId,
-        });
+        var regType = getRegistrantType(r.registrantTypeId);
         if (regType.allowGroupRegistrations) {
           groupRegistrants++;
         } else {
@@ -280,9 +289,7 @@ angular
         }
       });
 
-      var regType = _.find(conference.registrantTypes, {
-        id: r.registrantTypeId,
-      });
+      var regType = getRegistrantType(r.registrantTypeId);
       if (
         regType.allowGroupRegistrations &&
         groupRegistrants === 1 &&

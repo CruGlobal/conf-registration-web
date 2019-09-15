@@ -2,18 +2,25 @@ import 'angular-mocks';
 
 describe('Controller: ReviewRegistrationCtrl', function() {
   var scope;
+  var mockWindow;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
     angular.mock.inject(function($rootScope, $controller, testData) {
       scope = $rootScope.$new();
+      mockWindow = {
+        location: {
+          href: '',
+        },
+      };
       scope.answers = testData.registration.registrants[0].answers;
 
       $controller('ReviewRegistrationCtrl', {
         $scope: scope,
         currentRegistration: testData.registration,
         conference: testData.conference,
+        $window: mockWindow,
       });
     }),
   );
@@ -54,5 +61,11 @@ describe('Controller: ReviewRegistrationCtrl', function() {
         id: scope.currentRegistration.primaryRegistrantId,
       }),
     ).toBe(false);
+  });
+
+  it('confirmRegistration should redirect to the primary registrant type redirect url', function() {
+    scope.currentRegistration.completed = true;
+    scope.navigateToPostRegistrationPage();
+    expect(mockWindow.location.href).toEqual('url2.com');
   });
 });
