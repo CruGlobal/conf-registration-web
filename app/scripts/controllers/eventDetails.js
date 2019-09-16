@@ -279,16 +279,14 @@ angular
         if (!_.isEmpty(type.registrationCompleteRedirect)) {
           urlPattern.lastIndex = 0;
           httpPattern.lastIndex = 0;
-          if (!urlPattern.test(type.registrationCompleteRedirect)) {
-            validationErrors.push(
-              'Please enter a valid completion redirect website.',
-            );
-          } else {
-            if (!httpPattern.test(type.registrationCompleteRedirect)) {
-              type.registrationCompleteRedirect =
-                'http://' + type.registrationCompleteRedirect;
-            }
-          }
+          !urlPattern.test(type.registrationCompleteRedirect)
+            ? validationErrors.push(
+                'Please enter a valid completion redirect website.',
+              )
+            : !httpPattern.test(type.registrationCompleteRedirect)
+            ? (type.registrationCompleteRedirect =
+                'http://' + type.registrationCompleteRedirect)
+            : null;
         }
       });
 

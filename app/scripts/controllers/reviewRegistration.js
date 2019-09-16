@@ -119,26 +119,22 @@ angular
     }
 
     function getRegistrantType(typeId) {
-      return _.find(conference.registrantTypes, {
-        id: typeId,
-      });
+      return conference.registrantTypes.find(type => type.id === typeId);
     }
 
     function primaryRegType(currentRegistration) {
-      let primaryRegistrant = _.find(currentRegistration.registrants, {
-        id: currentRegistration.primaryRegistrantId,
-      });
+      let primaryRegistrant = currentRegistration.registrants.find(
+        registrant => registrant.id === currentRegistration.primaryRegistrantId,
+      );
       return getRegistrantType(primaryRegistrant.registrantTypeId);
     }
 
     // Navigate to the correct page after completing a registration
     $scope.navigateToPostRegistrationPage = function() {
       let regType = primaryRegType(currentRegistration);
-      if (regType.registrationCompleteRedirect) {
-        $window.location.href = regType.registrationCompleteRedirect;
-      } else {
-        $route.reload();
-      }
+      regType.registrationCompleteRedirect
+        ? ($window.location.href = regType.registrationCompleteRedirect)
+        : $route.reload();
     };
 
     // Called when the user clicks the confirm button
