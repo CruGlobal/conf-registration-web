@@ -119,13 +119,15 @@ angular
     }
 
     function getRegistrantType(typeId) {
-      return conference.registrantTypes.find(type => type.id === typeId);
+      return _.find(conference.registrantTypes, {
+        id: typeId,
+      });
     }
 
     function primaryRegType(currentRegistration) {
-      let primaryRegistrant = currentRegistration.registrants.find(
-        registrant => registrant.id === currentRegistration.primaryRegistrantId,
-      );
+      let primaryRegistrant = _.find(currentRegistration.registrants, {
+        id: currentRegistration.primaryRegistrantId,
+      });
       return getRegistrantType(primaryRegistrant.registrantTypeId);
     }
 
