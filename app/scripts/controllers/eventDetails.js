@@ -275,22 +275,20 @@ angular
       }
 
       //registration complete redirect website
-      if (!_.isEmpty($scope.conference.registrationCompleteRedirect)) {
-        urlPattern.lastIndex = 0;
-        httpPattern.lastIndex = 0;
-        if (!urlPattern.test($scope.conference.registrationCompleteRedirect)) {
-          validationErrors.push(
-            'Please enter a valid completion redirect website.',
-          );
-        } else {
-          if (
-            !httpPattern.test($scope.conference.registrationCompleteRedirect)
-          ) {
-            $scope.conference.registrationCompleteRedirect =
-              'http://' + $scope.conference.registrationCompleteRedirect;
-          }
+      angular.forEach($scope.conference.registrantTypes, function(type) {
+        if (!_.isEmpty(type.registrationCompleteRedirect)) {
+          urlPattern.lastIndex = 0;
+          httpPattern.lastIndex = 0;
+          !urlPattern.test(type.registrationCompleteRedirect)
+            ? validationErrors.push(
+                'Please enter a valid completion redirect website.',
+              )
+            : !httpPattern.test(type.registrationCompleteRedirect)
+            ? (type.registrationCompleteRedirect =
+                'http://' + type.registrationCompleteRedirect)
+            : null;
         }
-      }
+      });
 
       //Promo codes
       angular.forEach($scope.conference.promotions, function(p, index) {
