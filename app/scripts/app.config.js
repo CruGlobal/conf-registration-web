@@ -220,6 +220,25 @@ angular
           },
         },
       })
+      .when('/paymentReport/:conferenceId', {
+        title: gettext('Payment Report Preview'),
+        templateUrl: paymentReportTemplate,
+        controller: 'paymentReportCtrl',
+        authorization: {
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW',
+        },
+        resolve: {
+          report: function($route, paymentReportService) {
+            return paymentReportService.get($route.current.params.conferenceId);
+          },
+        },
+        permissions: function($route, PermissionCache) {
+          return PermissionCache.getForConference(
+            $route.current.params.conferenceId,
+          );
+        },
+      })
       .when('/eventForm/:conferenceId', {
         title: gettext('Questions'),
         templateUrl: eventFormTemplate,
