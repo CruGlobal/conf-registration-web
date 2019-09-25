@@ -5,6 +5,7 @@ import reviewRegistrationTemplate from 'views/reviewRegistration.html';
 import eventDashboardTemplate from 'views/eventDashboard.html';
 import eventOverviewTemplate from 'views/eventOverview.html';
 import eventRegistrationsTemplate from 'views/eventRegistrations.html';
+import paymentReportTemplate from 'views/paymentReport.html';
 import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
