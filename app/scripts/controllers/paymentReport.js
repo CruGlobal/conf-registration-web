@@ -7,8 +7,10 @@ angular
     modalMessage,
     $http,
     $window,
+    $cookies,
     paymentReportService,
     report,
+    envService,
     // permissions,
     // permissionConstants,
   ) {
@@ -42,7 +44,8 @@ angular
     $scope.meta = {
       totalPages: 0,
     };
-    $scope.reversesort = false;
+    $scope.apiUrl = envService.read('apiUrl');
+    $scope.authToken = $cookies.get('crsToken');
 
     $scope.$watch(
       'queryParameters',
@@ -71,6 +74,26 @@ angular
             $scope.meta = report.meta;
             $scope.report = report;
           },
+          function() {
+            $scope.registrations = [];
+            $scope.registrants = [];
+          },
+        );
+    };
+
+    $scope.export = function($event) {
+      $event.preventDefault();
+      paymentReportService.exportReport(report.conferenceId);
+    };
+
+    $scope.lock = function() {
+      paymentReportService
+        .lockReport(report.conferenceId, $scope.queryParameters, $scope.report)
+        .then(
+          // function(report) {
+          //   $scope.meta = report.meta;
+          //   $scope.report = report;
+          // },
           function() {
             $scope.registrations = [];
             $scope.registrants = [];

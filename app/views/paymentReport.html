@@ -1,9 +1,17 @@
 <div class="container full">
   <div class="row">
     <div class="col-sm-7">
-      <h2 class="page-title" translate>Registrations</h2>
+      <h2 class="page-title" translate>ERT Income Report Preview</h2>
     </div>
-
+    <div class="col-sm-5 text-right">
+      <button class="btn btn-success btn-sm" type="button" ng-click="lock()">
+        <i class="fa fa-lock"></i> <translate>Lock Report</translate>
+      </button>
+      <a class="btn btn-primary btn-sm" href="" ng-click="export($event)">
+        <!--         ng-href="{{apiUrl + 'conferences/' + report.conferenceId + '/payments/report/export?Authorization=' + authToken}}">-->
+        <i class="fa fa-print"></i> <translate>Print to PDF</translate></a
+      >
+    </div>
     <div class="col-xs-3 details-heading" translate>
       Conference Long Name:
     </div>
@@ -77,7 +85,7 @@
                 {{r.amount}}
               </td>
               <td>
-                {{r.amount}}
+                <input type="checkbox" ng-model="r.included" ng-value="true" />
               </td>
             </tr>
             <tr ng-repeat-end class="rowdetails on"></tr>

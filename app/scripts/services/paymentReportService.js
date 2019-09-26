@@ -53,17 +53,27 @@ angular
       return defer.promise;
     };
 
-    //
-    // this.getPermissions = function(id) {
-    //   return $http({
-    //     method: 'GET',
-    //     url: 'conferences/' + id + '/permissions',
-    //   })
-    //     .then(function(response) {
-    //       return response.data;
-    //     })
-    //     .catch(function() {
-    //       return [];
-    //     });
-    // };
+    this.lockReport = function(conferenceId, queryParameters, report) {
+      var defer = $q.defer();
+
+      $http
+        .post(path(conferenceId) + '/lock', report)
+        .then(function() {
+          // $rootScope.loadingMsg = '';
+          // defer.resolve(response.data);
+        })
+        .catch(function() {
+          // $rootScope.loadingMsg = '';
+          // defer.reject();
+        });
+
+      return defer.promise;
+    };
+
+    this.exportReport = function(conferenceId) {
+      var defer = $q.defer();
+      $http.get(path(conferenceId) + '/export');
+
+      return defer.promise;
+    };
   });
