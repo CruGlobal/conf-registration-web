@@ -11,28 +11,14 @@ angular
     paymentReportService,
     report,
     envService,
-    // permissions,
-    // permissionConstants,
   ) {
     $rootScope.globalPage = {
-      // type: 'admin',
-      mainClass: 'event-registrations',
+      type: 'admin',
+      mainClass: 'payment-report',
       bodyClass: '',
+      confId: report.conferenceId,
       footer: true,
     };
-
-    // function hasPermission() {
-    //   if (permissions.permissionInt < permissionConstants.CHECK_IN) {
-    //     modalMessage.error({
-    //       title: 'Permissions Error',
-    //       message:
-    //         'You do not have permission to perform this action. Please contact an event administrator to request permission.',
-    //     });
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // }
 
     $scope.report = report;
     $scope.blocks = [];

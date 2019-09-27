@@ -7,8 +7,11 @@
       <button class="btn btn-success btn-sm" type="button" ng-click="lock()">
         <i class="fa fa-lock"></i> <translate>Lock Report</translate>
       </button>
-      <a class="btn btn-primary btn-sm" href="" ng-click="export($event)">
-        <!--         ng-href="{{apiUrl + 'conferences/' + report.conferenceId + '/payments/report/export?Authorization=' + authToken}}">-->
+      <a
+        class="btn btn-primary btn-sm"
+        href=""
+        ng-href="{{apiUrl + 'conferences/' + report.conferenceId + '/payments/report/export?Authorization=' + authToken}}"
+      >
         <i class="fa fa-print"></i> <translate>Print to PDF</translate></a
       >
     </div>
