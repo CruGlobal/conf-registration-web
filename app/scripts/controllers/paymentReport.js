@@ -70,9 +70,25 @@ angular
       );
     };
 
-    $scope.export = function($event) {
-      $event.preventDefault();
-      paymentReportService.exportReport(report.conferenceId);
+    $scope.exportUrl = function() {
+      let queryParamForExcludedPayments = paymentReportService.queryParamForExcludedPayments(
+        $scope.report,
+      );
+      let currentReportId = $scope.queryParameters.currentReportId
+        ? '/' + $scope.queryParameters.currentReportId
+        : '';
+      return (
+        $scope.apiUrl +
+        'conferences/' +
+        $scope.report.conferenceId +
+        '/payments/report/export' +
+        currentReportId +
+        '?Authorization=' +
+        $scope.authToken +
+        (queryParamForExcludedPayments
+          ? '&' + queryParamForExcludedPayments
+          : '')
+      );
     };
 
     $scope.lock = function() {

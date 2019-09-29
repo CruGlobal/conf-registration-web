@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .service('paymentReportService', function ConfCache( //what is ConfCache
+  .service('paymentReportService', function PaymentReportService(
     $cacheFactory,
     $rootScope,
     $http,
@@ -76,11 +76,37 @@ angular
       return defer.promise;
     };
 
+    this.collectExcludedIds = function(report) {
+      let excludedIds = [];
+      for (let reportElement of report.paymentReportEntries) {
+        if (!reportElement.included) {
+          excludedIds.push(reportElement.paymentId);
+        }
+      }
+      return excludedIds;
+    };
+
+    this.queryParamForExcludedPayments = function(report) {
+      let excludedIds = this.collectExcludedIds(report);
+      return excludedIds.length > 0
+        ? 'excludedPaymentsIds=' + excludedIds.join('&excludedPaymentsIds=')
+        : '';
+    };
+
     this.lockReport = function(conferenceId, queryParameters, report) {
       var defer = $q.defer();
-
+      let queryParamForExcludedPayments = this.queryParamForExcludedPayments(
+        report,
+      );
       $http
-        .post(path(conferenceId) + '/lock', report)
+        .post(
+          path(conferenceId) +
+            '/lock' +
+            (queryParamForExcludedPayments
+              ? '?' + queryParamForExcludedPayments
+              : ''),
+          {},
+        )
         .then(function(response) {
           $rootScope.loadingMsg = '';
           defer.resolve(response.data);

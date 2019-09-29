@@ -12,12 +12,7 @@
       >
         <i class="fa fa-lock"></i> <translate>Lock Report</translate>
       </button>
-      <a
-        class="btn btn-primary btn-sm"
-        href=""
-        ng-href="{{apiUrl + 'conferences/' + report.conferenceId +
-        '/payments/report/export'+ (queryParameters.currentReportId?'/'+queryParameters.currentReportId:'') + '?Authorization=' + authToken}}"
-      >
+      <a class="btn btn-primary btn-sm" ng-href="{{exportUrl()}}">
         <i class="fa fa-print"></i> <translate>Print to PDF</translate></a
       >
     </div>
@@ -83,7 +78,7 @@
           </thead>
           <tbody>
             <tr
-              ng-repeat-start="r in report.paymentReportEntries | orderBy:answerSort:reversesort"
+              ng-repeat-start="r in report.paymentReportEntries"
               ng-class="{'active': $even}"
               class="noselect"
             >
