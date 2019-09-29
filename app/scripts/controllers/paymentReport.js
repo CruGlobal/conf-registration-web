@@ -3,13 +3,12 @@ angular
   .controller('paymentReportCtrl', function(
     $rootScope,
     $scope,
-    $uibModal,
-    modalMessage,
     $http,
     $window,
     $cookies,
     paymentReportService,
     report,
+    reportList,
     envService,
   ) {
     $rootScope.globalPage = {
@@ -21,6 +20,7 @@ angular
     };
 
     $scope.report = report;
+    $scope.reports = reportList;
     $scope.blocks = [];
     $scope.queryParameters = {
       block: [],
@@ -47,24 +47,27 @@ angular
           $window.scrollTo(0, 0);
         }
 
-        $scope.refreshPayments();
+        $scope.refresh();
       },
       true,
     );
 
-    $scope.refreshPayments = function() {
+    $scope.refresh = function() {
       paymentReportService
-        .getAllForConference(report.conferenceId, $scope.queryParameters)
+        .getReport(report.conferenceId, $scope.queryParameters)
         .then(
           function(report) {
             $scope.meta = report.meta;
             $scope.report = report;
           },
-          function() {
-            $scope.registrations = [];
-            $scope.registrants = [];
-          },
+          function() {},
         );
+      paymentReportService.getAll(report.conferenceId).then(
+        function(reports) {
+          $scope.reports = reports;
+        },
+        function() {},
+      );
     };
 
     $scope.export = function($event) {
@@ -76,10 +79,9 @@ angular
       paymentReportService
         .lockReport(report.conferenceId, $scope.queryParameters, $scope.report)
         .then(
-          // function(report) {
-          //   $scope.meta = report.meta;
-          //   $scope.report = report;
-          // },
+          function(result) {
+            $scope.queryParameters.currentReportId = result;
+          },
           function() {
             $scope.registrations = [];
             $scope.registrants = [];

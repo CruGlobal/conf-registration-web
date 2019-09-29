@@ -232,6 +232,11 @@ angular
           report: function($route, paymentReportService) {
             return paymentReportService.get($route.current.params.conferenceId);
           },
+          reportList: function($route, paymentReportService) {
+            return paymentReportService.getAll(
+              $route.current.params.conferenceId,
+            );
+          },
         },
         permissions: function($route, PermissionCache) {
           return PermissionCache.getForConference(

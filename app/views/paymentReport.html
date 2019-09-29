@@ -4,13 +4,19 @@
       <h2 class="page-title" translate>ERT Income Report Preview</h2>
     </div>
     <div class="col-sm-5 text-right">
-      <button class="btn btn-success btn-sm" type="button" ng-click="lock()">
+      <button
+        class="btn btn-success btn-sm"
+        type="button"
+        ng-click="lock()"
+        ng-disabled="queryParameters.currentReportId"
+      >
         <i class="fa fa-lock"></i> <translate>Lock Report</translate>
       </button>
       <a
         class="btn btn-primary btn-sm"
         href=""
-        ng-href="{{apiUrl + 'conferences/' + report.conferenceId + '/payments/report/export?Authorization=' + authToken}}"
+        ng-href="{{apiUrl + 'conferences/' + report.conferenceId +
+        '/payments/report/export'+ (queryParameters.currentReportId?'/'+queryParameters.currentReportId:'') + '?Authorization=' + authToken}}"
       >
         <i class="fa fa-print"></i> <translate>Print to PDF</translate></a
       >
@@ -32,6 +38,19 @@
     </div>
     <div class="col-xs-3 details-heading">
       {{report.contactPersonName}}
+    </div>
+
+    <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
+      <label translate
+        >Report creation date:
+        <select
+          ng-model="queryParameters.currentReportId"
+          ng-options="r.id as r.createdTimestamp for r in reports"
+          class="form-control"
+        >
+          <option value="">New Report</option>
+        </select>
+      </label>
     </div>
 
     <div class="row">
@@ -88,7 +107,12 @@
                 {{r.amount}}
               </td>
               <td>
-                <input type="checkbox" ng-model="r.included" ng-value="true" />
+                <input
+                  type="checkbox"
+                  ng-model="r.included"
+                  ng-value="true"
+                  ng-disabled="queryParameters.currentReportId"
+                />
               </td>
             </tr>
             <tr ng-repeat-end class="rowdetails on"></tr>
