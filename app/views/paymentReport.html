@@ -1,5 +1,5 @@
 <div class="container full">
-  <div class="row">
+  <div class="row form-group">
     <div class="col-sm-7">
       <h2 class="page-title" translate>ERT Income Report Preview</h2>
     </div>
@@ -10,45 +10,55 @@
         ng-click="lock()"
         ng-disabled="queryParameters.currentReportId"
       >
-        <i class="fa fa-lock"></i> <translate>Lock Report</translate>
+        <i class="fa fa-lock"></i>
+        <translate>Lock Report</translate>
       </button>
       <a class="btn btn-primary btn-sm" ng-href="{{exportUrl()}}">
-        <i class="fa fa-print"></i> <translate>Print to PDF</translate></a
-      >
+        <i class="fa fa-print"></i>
+        <translate>Print to PDF</translate>
+      </a>
     </div>
-    <div class="col-xs-3 details-heading" translate>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
       Conference Long Name:
     </div>
     <div class="col-xs-3 details-heading">
       {{report.conferenceLongName}}
     </div>
-    <div class="col-xs-3 details-heading" translate>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
       Conference ID:
     </div>
     <div class="col-xs-3 details-heading">
       {{report.conferenceId}}
     </div>
-    <div class="col-xs-3 details-heading" translate>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
       Conference Contact:
     </div>
     <div class="col-xs-3 details-heading">
       {{report.contactPersonName}}
     </div>
-
-    <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
-      <label translate
-        >Report creation date:
-        <select
-          ng-model="queryParameters.currentReportId"
-          ng-options="r.id as r.createdTimestamp for r in reports"
-          class="form-control"
-        >
-          <option value="">New Report</option>
-        </select>
-      </label>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-2 details-heading">
+      <label translate for="report-select-id">Report creation date: </label>
+    </div>
+    <div class="col-xs-3 details-heading">
+      <select
+        ng-model="queryParameters.currentReportId"
+        ng-options="r.id as r.createdTimestamp for r in reports"
+        class="form-control"
+        id="report-select-id"
+      >
+        <option value="">New Report</option>
+      </select>
     </div>
 
-    <div class="row">
+    <div class="row form-group">
       <div class="col-xs-12 table-responsive">
         <table class="table">
           <thead>
@@ -91,7 +101,6 @@
               <td>
                 {{r.firstName}}
               </td>
-
               <td>
                 {{r.lastName}}
               </td>
