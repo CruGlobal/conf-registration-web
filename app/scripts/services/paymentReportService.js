@@ -5,8 +5,6 @@ angular
     $rootScope,
     $http,
     $q,
-    // uuid,
-    // modalMessage,
   ) {
     var path = function(id) {
       return 'conferences/' + (id || '') + '/payments/report';
@@ -76,27 +74,21 @@ angular
       return defer.promise;
     };
 
-    this.collectExcludedIds = function(report) {
-      let excludedIds = [];
-      for (let reportElement of report.paymentReportEntries) {
-        if (!reportElement.included) {
-          excludedIds.push(reportElement.paymentId);
-        }
-      }
-      return excludedIds;
+    this.collectExcludedIds = function(excludedIdsMap) {
+      return Object.keys(excludedIdsMap).filter(k => excludedIdsMap[k]);
     };
 
-    this.queryParamForExcludedPayments = function(report) {
-      let excludedIds = this.collectExcludedIds(report);
+    this.queryParamForExcludedPayments = function(excludedIdsMap) {
+      let excludedIds = this.collectExcludedIds(excludedIdsMap);
       return excludedIds.length > 0
         ? 'excludedPaymentsIds=' + excludedIds.join('&excludedPaymentsIds=')
         : '';
     };
 
-    this.lockReport = function(conferenceId, queryParameters, report) {
+    this.lockReport = function(conferenceId, excludedIdsMap) {
       var defer = $q.defer();
       let queryParamForExcludedPayments = this.queryParamForExcludedPayments(
-        report,
+        excludedIdsMap,
       );
       $http
         .post(

@@ -22,6 +22,7 @@ angular
     $scope.report = report;
     $scope.reports = reportList;
     $scope.blocks = [];
+    $scope.excludedIds = {};
     $scope.queryParameters = {
       block: [],
       page: 1,
@@ -59,6 +60,9 @@ angular
           function(report) {
             $scope.meta = report.meta;
             $scope.report = report;
+            for (const reportEntry of report.paymentReportEntries) {
+              reportEntry.included = $scope.isIncluded(reportEntry.paymentId);
+            }
           },
           function() {},
         );
@@ -72,7 +76,7 @@ angular
 
     $scope.exportUrl = function() {
       let queryParamForExcludedPayments = paymentReportService.queryParamForExcludedPayments(
-        $scope.report,
+        $scope.excludedIds,
       );
       let currentReportId = $scope.queryParameters.currentReportId
         ? '/' + $scope.queryParameters.currentReportId
@@ -91,9 +95,17 @@ angular
       );
     };
 
+    $scope.refreshExcludedIds = function(id) {
+      $scope.excludedIds[id] = !$scope.excludedIds[id];
+    };
+
+    $scope.isIncluded = function(id) {
+      return !$scope.excludedIds[id];
+    };
+
     $scope.lock = function() {
       paymentReportService
-        .lockReport(report.conferenceId, $scope.queryParameters, $scope.report)
+        .lockReport(report.conferenceId, $scope.excludedIds)
         .then(
           function(result) {
             $scope.queryParameters.currentReportId = result;
