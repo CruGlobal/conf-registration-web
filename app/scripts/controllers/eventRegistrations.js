@@ -175,7 +175,13 @@ angular
           $scope.meta = data.meta;
           $scope.registrations = data.registrations;
           $scope.registrants = _.flatten(
-            _.map(data.registrations, 'registrants'),
+            _.map(data.registrations, r => {
+              let regs = r.registrants;
+              for (const reg of regs) {
+                reg.reported = r.reported;
+              }
+              return regs;
+            }),
           );
           expandedRegistrations = {};
         },
