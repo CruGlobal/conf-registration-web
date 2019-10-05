@@ -218,6 +218,7 @@
               <th style="width:120px;" translate>Amount</th>
               <th translate>Type</th>
               <th style="width:240px;" translate>Description</th>
+              <th style="width:120px;" translate>Reported</th>
               <th style="width:100px"></th>
             </tr>
           </thead>
@@ -317,6 +318,9 @@
                   >{{payment.scholarship.staffApprovalName}}</span
                 >
                 {{payment.description}}
+              </td>
+              <td translate>
+                {{payment.reported?"Yes":"No"}}
               </td>
               <td class="text-center">
                 <div ng-show="editPayment.id !== payment.id">

@@ -320,6 +320,7 @@ angular
             var index = _.findIndex($scope.registrants, {
               id: registrantData.id,
             });
+            registrantData.reported = $scope.registrants[index].reported;
             $scope.registrants[index] = registrantData;
 
             //update registration
