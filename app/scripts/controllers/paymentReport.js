@@ -21,10 +21,8 @@ angular
 
     $scope.report = report;
     $scope.reports = reportList;
-    $scope.blocks = [];
     $scope.excludedIds = {};
     $scope.queryParameters = {
-      block: [],
       page: 1,
       limit: 5,
     };
@@ -56,22 +54,16 @@ angular
     $scope.refresh = function() {
       paymentReportService
         .getReport(report.conferenceId, $scope.queryParameters)
-        .then(
-          function(report) {
-            $scope.meta = report.meta;
-            $scope.report = report;
-            for (const reportEntry of report.paymentReportEntries) {
-              reportEntry.included = $scope.isIncluded(reportEntry.paymentId);
-            }
-          },
-          function() {},
-        );
-      paymentReportService.getAll(report.conferenceId).then(
-        function(reports) {
-          $scope.reports = reports;
-        },
-        function() {},
-      );
+        .then(function(report) {
+          $scope.meta = report.meta;
+          $scope.report = report;
+          for (const reportEntry of report.paymentReportEntries) {
+            reportEntry.included = $scope.isIncluded(reportEntry.paymentId);
+          }
+        });
+      paymentReportService.getAll(report.conferenceId).then(function(reports) {
+        $scope.reports = reports;
+      });
     };
 
     $scope.exportUrl = function() {
@@ -103,17 +95,20 @@ angular
       return !$scope.excludedIds[id];
     };
 
+    $scope.noDataForLocking = function() {
+      return (
+        $scope.queryParameters.currentReportId ||
+        $scope.report.meta.total <=
+          paymentReportService.collectExcludedIds($scope.excludedIds).length
+      );
+    };
+
     $scope.lock = function() {
       paymentReportService
         .lockReport(report.conferenceId, $scope.excludedIds)
-        .then(
-          function(result) {
-            $scope.queryParameters.currentReportId = result;
-          },
-          function() {
-            $scope.registrations = [];
-            $scope.registrants = [];
-          },
-        );
+        .then(function(result) {
+          $scope.queryParameters.currentReportId = result;
+          $scope.excludedIds = {};
+        });
     };
   });

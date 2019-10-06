@@ -6,17 +6,15 @@ angular
     $http,
     $q,
   ) {
-    var path = function(id) {
+    const path = function(id) {
       return 'conferences/' + (id || '') + '/payments/report';
     };
 
-    this.get = function(id) {
-      var defer = $q.defer();
-      var newReportUrl = path(id) + '/new';
+    function getReportData(url) {
+      const defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Details';
-
       $http
-        .get(newReportUrl)
+        .get(url)
         .then(function(response) {
           var report = response.data;
           defer.resolve(report);
@@ -28,27 +26,16 @@ angular
           $rootScope.loadingMsg = '';
         });
       return defer.promise;
+    }
+
+    this.get = function(id) {
+      const newReportUrl = path(id) + '/new';
+      return getReportData(newReportUrl);
     };
 
     this.getAll = function(id) {
-      var defer = $q.defer();
       var allReportsUrl = path(id);
-      $rootScope.loadingMsg = 'Loading Details';
-
-      $http
-        .get(allReportsUrl)
-        .then(function(response) {
-          var reports = response.data;
-          defer.resolve(reports);
-        })
-        .catch(function(error) {
-          defer.reject(error);
-        })
-        .finally(function() {
-          $rootScope.loadingMsg = '';
-        });
-
-      return defer.promise;
+      return getReportData(allReportsUrl);
     };
 
     this.getReport = function(conferenceId, queryParameters) {
