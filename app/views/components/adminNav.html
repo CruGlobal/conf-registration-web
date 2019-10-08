@@ -7,9 +7,6 @@
       >Registrations</a
     >
   </li>
-  <li class="blue" ng-class="{ active: isActive('/paymentReport')}">
-    <a ng-href="paymentReport/{{globalPage.confId}}" translate>Payments</a>
-  </li>
   <li class="blue" ng-class="{ active: isActive('/eventDetails')}">
     <a ng-href="eventDetails/{{globalPage.confId}}" translate>Details</a>
   </li>
@@ -27,6 +24,9 @@
         >
       </li>
       <li><a ng-href="eventUsers/{{globalPage.confId}}" translate>Users</a></li>
+      <li>
+        <a ng-href="paymentReport/{{globalPage.confId}}" translate>Payments</a>
+      </li>
       <li>
         <a href="" ng-click="archiveEvent(globalPage.confId)" translate
           >Archive Event</a
