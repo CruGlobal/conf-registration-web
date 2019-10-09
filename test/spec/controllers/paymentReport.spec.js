@@ -50,16 +50,16 @@ describe('Controller: paymentReportCtrl', function() {
 
   it('exportUrl should create link for the latest payment report', function() {
     let exportUrl = scope.exportUrl();
-    expect(exportUrl).toBe(
-      'http://localhost:8080/eventhub-api/rest/conferences/41a2226f-6416-4b82-92c1-7a6a62327d48/payments/report/export?Authorization=undefined',
+    expect(exportUrl).toContain(
+      'eventhub-api/rest/conferences/41a2226f-6416-4b82-92c1-7a6a62327d48/payments/report/export?Authorization=undefined',
     );
   });
 
   it('exportUrl should create link for locked payment report', function() {
     scope.queryParameters.currentReportId = 'id';
     let exportUrl = scope.exportUrl();
-    expect(exportUrl).toBe(
-      'http://localhost:8080/eventhub-api/rest/conferences/41a2226f-6416-4b82-92c1-7a6a62327d48/payments/report/export/id?Authorization=undefined',
+    expect(exportUrl).toContain(
+      'eventhub-api/rest/conferences/41a2226f-6416-4b82-92c1-7a6a62327d48/payments/report/export/id?Authorization=undefined',
     );
   });
 
