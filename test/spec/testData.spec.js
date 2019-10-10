@@ -743,7 +743,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         included: true,
       },
     ],
-    meta: { total: 16 },
+    meta: { total: 5 },
   };
 
   this.reports = [

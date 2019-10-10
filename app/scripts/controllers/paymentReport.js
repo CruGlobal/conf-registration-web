@@ -34,14 +34,17 @@ angular
 
     $scope.$watch(
       'queryParameters',
-      function(q, oldQ) {
-        //reset page
-        if (q.page > 1 && q.page === oldQ.page) {
+      function(newParameters, oldParameters) {
+        //limit changed, reset page
+        if (
+          newParameters.page > 1 &&
+          newParameters.page === oldParameters.page
+        ) {
           $scope.queryParameters.page = 1;
           return;
         }
 
-        if (q.page !== oldQ.page) {
+        if (newParameters.page !== oldParameters.page) {
           //scroll to top on page change
           $window.scrollTo(0, 0);
         }
@@ -97,7 +100,7 @@ angular
 
     $scope.noDataForLocking = function() {
       return (
-        $scope.queryParameters.currentReportId ||
+        !!$scope.queryParameters.currentReportId ||
         $scope.report.meta.total <=
           paymentReportService.collectExcludedIds($scope.excludedIds).length
       );

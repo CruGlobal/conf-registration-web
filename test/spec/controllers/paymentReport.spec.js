@@ -55,12 +55,35 @@ describe('Controller: paymentReportCtrl', function() {
     );
   });
 
-  it('exportUrl should create link for locked payment report', function() {
+  it('exportUrl should create link for locked payment report if it is selected', function() {
     scope.queryParameters.currentReportId = 'id';
     let exportUrl = scope.exportUrl();
     expect(exportUrl).toContain(
       'eventhub-api/rest/conferences/41a2226f-6416-4b82-92c1-7a6a62327d48/payments/report/export/id?Authorization=undefined',
     );
+  });
+
+  it('noDataForLocking method should return true if report is locked', function() {
+    scope.queryParameters.currentReportId = 'report-id';
+    let noDataForLocking = scope.noDataForLocking();
+    expect(noDataForLocking).toEqual(true);
+  });
+
+  it('noDataForLocking method should return false if some payments are selected', function() {
+    scope.queryParameters.currentReportId = null;
+    scope.excludedIds = { 'da0235f3-469d-42a3-9014-ca1a47a9f048': true };
+    let noDataForLocking = scope.noDataForLocking();
+    expect(noDataForLocking).toEqual(false);
+  });
+
+  it('noDataForLocking method should return true if no payments are selected', function() {
+    scope.queryParameters.currentReportId = null;
+    scope.excludedIds = {};
+    for (const report of scope.report.paymentReportEntries) {
+      scope.refreshExcludedIds(report.paymentId);
+    }
+    let noDataForLocking = scope.noDataForLocking();
+    expect(noDataForLocking).toEqual(true);
   });
 
   it('lock report', function() {
