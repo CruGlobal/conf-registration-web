@@ -28,11 +28,6 @@ angular
       return defer.promise;
     }
 
-    this.get = function(id) {
-      const newReportUrl = path(id) + '/new';
-      return getReportData(newReportUrl);
-    };
-
     this.getAll = function(id) {
       var allReportsUrl = path(id);
       return getReportData(allReportsUrl);
@@ -94,13 +89,6 @@ angular
           $rootScope.loadingMsg = '';
           defer.reject();
         });
-
-      return defer.promise;
-    };
-
-    this.exportReport = function(conferenceId) {
-      var defer = $q.defer();
-      $http.get(path(conferenceId) + '/export');
 
       return defer.promise;
     };

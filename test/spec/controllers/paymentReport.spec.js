@@ -99,4 +99,25 @@ describe('Controller: paymentReportCtrl', function() {
     expect(scope.queryParameters.currentReportId).toBe('locked-id');
     expect(scope.excludedIds).toEqual({});
   });
+
+  it('should call get report api with correct page number', function() {
+    scope.queryParameters.page = 1;
+    $httpBackend
+      .expectGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new.*page=1.*/)
+      .respond(201, testData.report);
+    $httpBackend
+      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\.*/)
+      .respond(201, testData.reports);
+    $httpBackend.flush();
+    scope.queryParameters.page = 2;
+    $httpBackend
+      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report.*/)
+      .respond(201, testData.reports);
+    $httpBackend
+      .expectGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new.*page=2.*/)
+      .respond(201, testData.reports);
+    $httpBackend.flush();
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 });

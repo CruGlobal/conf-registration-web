@@ -230,7 +230,10 @@ angular
         },
         resolve: {
           report: function($route, paymentReportService) {
-            return paymentReportService.get($route.current.params.conferenceId);
+            return paymentReportService.getReport(
+              $route.current.params.conferenceId,
+              {},
+            );
           },
           reportList: function($route, paymentReportService) {
             return paymentReportService.getAll(

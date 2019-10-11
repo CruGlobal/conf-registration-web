@@ -671,6 +671,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     totalPaid: 1.0,
     remainingBalance: 49.0,
     primaryRegistrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+    reported: true,
     groupRegistrants: [
       {
         id: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
