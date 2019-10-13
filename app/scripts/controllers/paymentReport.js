@@ -24,7 +24,7 @@ angular
     $scope.excludedIds = {};
     $scope.queryParameters = {
       page: 1,
-      limit: 5,
+      limit: 20,
     };
     $scope.meta = {
       totalPages: 0,
