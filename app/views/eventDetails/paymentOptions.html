@@ -10,8 +10,8 @@
         <label translate>Conference currency:</label>
         <select
           class="form-control"
-          ng-model="conference.currency.currencyCode"
-          ng-options="currency.code as currency.name for currency in currencies"
+          ng-model="conference.currency"
+          ng-options="currency.name for currency in currencies track by currency.currencyCode"
         >
         </select>
       </div>
