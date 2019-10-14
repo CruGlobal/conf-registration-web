@@ -114,6 +114,7 @@ angular
             ],
           },
         ],
+        currency: { currencyCode: 'USD' },
       };
       return $http
         .post(path(), data)
@@ -134,6 +135,19 @@ angular
       return $http({
         method: 'GET',
         url: 'conferences/' + id + '/permissions',
+      })
+        .then(function(response) {
+          return response.data;
+        })
+        .catch(function() {
+          return [];
+        });
+    };
+
+    this.initCurrencies = function() {
+      return $http({
+        method: 'GET',
+        url: 'payments/currency',
       })
         .then(function(response) {
           return response.data;

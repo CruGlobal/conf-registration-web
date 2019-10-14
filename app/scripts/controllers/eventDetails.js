@@ -24,6 +24,7 @@ angular
     ConfCache,
     uuid,
     gettextCatalog,
+    currencies,
   ) {
     $rootScope.globalPage = {
       type: 'admin',
@@ -76,6 +77,7 @@ angular
 
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
+    $scope.currencies = currencies;
 
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {

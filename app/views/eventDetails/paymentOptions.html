@@ -2,6 +2,25 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
+    <h3 class="panel-title" translate>Currency</h3>
+  </div>
+  <div class="panel-body">
+    <div class="form-group">
+      <div class="col-xs-12">
+        <label translate>Conference currency:</label>
+        <select
+          class="form-control"
+          ng-model="conference.currency.currencyCode"
+          ng-options="currency.code as currency.name for currency in currencies"
+        >
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
     <h3 class="panel-title" translate>Credit Card</h3>
   </div>
   <div class="panel-body">

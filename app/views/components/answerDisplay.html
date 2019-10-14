@@ -23,6 +23,6 @@
     >{{answer.value}}</span
   >
   <span ng-show="answer.amount && showAmount">
-    - {{answer.amount | currency:'$'}}</span
+    - {{answer.amount | currency:conference.currency.shortSymbol}}</span
   >
 </ng-switch>

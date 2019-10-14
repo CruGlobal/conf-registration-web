@@ -245,6 +245,15 @@ angular
           conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
+          currencies: function(ConfCache) {
+            return ConfCache.initCurrencies()
+              .then(function(data) {
+                return data;
+              })
+              .catch(function() {
+                return [];
+              });
+          },
         },
       })
       .when('/eventUsers/:conferenceId', {
