@@ -1,0 +1,169 @@
+<div class="container full">
+  <div class="row form-group">
+    <div class="col-sm-7">
+      <h2 class="page-title" translate>ERT Income Report Preview</h2>
+    </div>
+    <div class="col-sm-5 text-right">
+      <button
+        class="btn btn-success btn-sm"
+        type="button"
+        ng-click="lock()"
+        ng-disabled="noDataForLocking()"
+      >
+        <i class="fa fa-lock"></i>
+        <translate>Lock Report</translate>
+      </button>
+      <a class="btn btn-primary btn-sm" ng-href="{{exportUrl()}}">
+        <i class="fa fa-print"></i>
+        <translate>Print to PDF</translate>
+      </a>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
+      Conference Long Name:
+    </div>
+    <div class="col-xs-3 details-heading">
+      {{report.conferenceLongName}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
+      Conference ID:
+    </div>
+    <div class="col-xs-3 details-heading">
+      {{report.conferenceId}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-2 details-heading" translate>
+      Conference Contact:
+    </div>
+    <div class="col-xs-3 details-heading">
+      {{report.contactPersonName}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-md-2 details-heading">
+      <label translate for="report-select-id">Report creation date: </label>
+    </div>
+    <div class="col-xs-3 details-heading">
+      <select
+        ng-model="queryParameters.currentReportId"
+        ng-options="r.id as r.createdTimestamp for r in reports"
+        class="form-control"
+        id="report-select-id"
+      >
+        <option value="">New Report</option>
+      </select>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-xs-12 table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                <a href="" translate>Transaction Id</a>
+              </th>
+              <th>
+                <a href="" translate>Registration Id</a>
+              </th>
+              <th>
+                <a href="" translate>First Name</a>
+              </th>
+              <th>
+                <a href="" translate>Last Name</a>
+              </th>
+              <th>
+                <a href="" translate>Check Number</a>
+              </th>
+              <th>
+                <a href="" translate>Amount</a>
+              </th>
+              <th>
+                <a href="" translate>Include into report</a>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              ng-repeat-start="r in report.paymentReportEntries"
+              ng-class="{'active': $even}"
+              class="noselect"
+            >
+              <td>
+                {{r.transactionId}}
+              </td>
+              <td>
+                {{r.registrationId}}
+              </td>
+              <td>
+                {{r.firstName}}
+              </td>
+              <td>
+                {{r.lastName}}
+              </td>
+              <td>
+                {{r.checkNumber}}
+              </td>
+              <td>
+                {{r.amount}}
+              </td>
+              <td>
+                <input
+                  type="checkbox"
+                  ng-model="r.included"
+                  ng-change="refreshExcludedIds(r.paymentId)"
+                  ng-disabled="queryParameters.currentReportId"
+                />
+              </td>
+            </tr>
+            <tr ng-repeat-end class="rowdetails on"></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div
+      class="row spacing-above-xs"
+      ng-if="report.paymentReportEntries.length > 0"
+    >
+      <div class="col-sm-4 stacked-spacing-col-sm spacing-xs">
+        <div class="btn-group">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.limit"
+            uib-btn-radio="20"
+            >20</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.limit"
+            uib-btn-radio="50"
+            >50</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.limit"
+            uib-btn-radio="100"
+            >100</label
+          >
+          <label class="btn btn-default" disabled="disabled" translate
+            >per page</label
+          >
+        </div>
+      </div>
+      <div class="col-sm-8 text-right">
+        <ul
+          uib-pagination
+          total-items="meta.total"
+          items-per-page="queryParameters.limit"
+          ng-model="queryParameters.page"
+          max-size="5"
+          class="pagination"
+          rotate="false"
+        ></ul>
+      </div>
+    </div>
+  </div>
+</div>

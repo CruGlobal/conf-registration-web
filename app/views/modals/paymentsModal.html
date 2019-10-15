@@ -218,6 +218,7 @@
               <th style="width:120px;" translate>Amount</th>
               <th translate>Type</th>
               <th style="width:240px;" translate>Description</th>
+              <th style="width:120px;" translate>Reported</th>
               <th style="width:100px"></th>
             </tr>
           </thead>
@@ -318,9 +319,13 @@
                 >
                 {{payment.description}}
               </td>
+              <td translate>
+                {{payment.reported?"Yes":"No"}}
+              </td>
               <td class="text-center">
                 <div ng-show="editPayment.id !== payment.id">
                   <button
+                    ng-if="!payment.reported"
                     ng-click="openEditPaymentRow(payment)"
                     title="Edit Payment"
                     class="btn btn-xs"
@@ -337,7 +342,7 @@
                   </button>
                   <button
                     ng-click="deletePayment(payment)"
-                    ng-if="payment.paymentType !== 'CREDIT_CARD' && payment.refundChannel !== 'CREDIT_CARD'"
+                    ng-if="payment.paymentType !== 'CREDIT_CARD' && payment.refundChannel !== 'CREDIT_CARD' && !payment.reported"
                     title="Delete Payment"
                     class="btn btn-xs btn-danger"
                   >
