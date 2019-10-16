@@ -149,6 +149,7 @@ angular
           return registration.validatePayment(
             $scope.currentPayment,
             currentRegistration,
+            $scope.conference,
           );
         })
         .then(function() {

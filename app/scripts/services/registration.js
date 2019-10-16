@@ -9,8 +9,12 @@ angular
   ) {
     return {
       // Validate payment information for a registration
-      validatePayment: function(currentPayment, currentRegistration) {
-        if (payment.validate(currentPayment, currentRegistration)) {
+      validatePayment: function(
+        currentPayment,
+        currentRegistration,
+        conference,
+      ) {
+        if (payment.validate(currentPayment, currentRegistration, conference)) {
           return $q.when();
         } else {
           modalMessage.error({
