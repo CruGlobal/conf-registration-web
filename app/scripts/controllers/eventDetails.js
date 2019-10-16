@@ -497,7 +497,10 @@ angular
     };
 
     $scope.previewEmail = function(reg) {
-      var cost = $filter('currency')(reg.cost, '$');
+      var cost = $filter('currency')(
+        reg.cost,
+        $scope.conference.currency.shortSymbol,
+      );
       var eventStartTime = moment(conference.eventStartTime).format(
         'dddd, MMMM D YYYY, h:mm a',
       );
@@ -521,7 +524,9 @@ angular
           cost +
           '<br><strong>Total Amount Paid:</strong> ' +
           cost +
-          '<br><strong>Remaining Balance:</strong> $0.00</p>' +
+          '<br><strong>Remaining Balance:</strong> ' +
+          $scope.conference.currency.shortSymbol +
+          '0.00</p>' +
           reg.customConfirmationEmailText,
         okString: 'Close',
       });
