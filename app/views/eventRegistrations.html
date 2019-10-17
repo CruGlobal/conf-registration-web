@@ -486,7 +486,7 @@
                 <button
                   type="button"
                   ng-click="viewPayments(r.registrationId)"
-                  class="btn btn-sm"
+                  class="btn btn-sm btn-bold"
                   ng-class="{
                 'btn-success': remainingBalance(r.registrationId)==0,
                 'btn-default': remainingBalance(r.registrationId)>0,
@@ -494,9 +494,7 @@
                 }"
                   title="View/Edit Payments &amp; Expenses"
                 >
-                  &nbsp;
-                  <i class="fa fa-fw fa-usd"></i>
-                  &nbsp;
+                  <span>&nbsp;{{conference.currency.shortSymbol}}&nbsp;</span>
                 </button>
               </div>
             </td>

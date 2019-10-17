@@ -38,6 +38,7 @@ describe('Controller: paymentModal', function() {
       $controller('eventDetailsCtrl', {
         $scope: scope,
         conference: testData.conference,
+        currencies: testData.currencies,
         $uibModal: _$uibModal_,
         permissions: {},
       });
