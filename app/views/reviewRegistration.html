@@ -5,7 +5,8 @@
       <p translate>Keep this information for your records.</p>
       <p ng-if="currentRegistration.remainingBalance > 0">
         <translate>You have a remaining balance of</translate>
-        {{currentRegistration.remainingBalance | currency:'$'}}
+        {{currentRegistration.remainingBalance |
+        currency:conference.currency.shortSymbol}}
       </p>
       <p
         ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
@@ -196,7 +197,8 @@
             <td>{{r.firstName}} {{r.lastName}}</td>
             <td>
               <span ng-if="!expandRegistrantCost[r.id]"
-                >{{r.calculatedTotalDue | currency:'$'}}</span
+                >{{r.calculatedTotalDue |
+                currency:conference.currency.shortSymbol}}</span
               >
             </td>
           </tr>
@@ -207,7 +209,8 @@
               <translate>Registration</translate>
             </td>
             <td>
-              {{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}
+              {{getRegistrantType(r.registrantTypeId).cost |
+              currency:conference.currency.shortSymbol}}
             </td>
           </tr>
           <tr
@@ -222,7 +225,7 @@
                 registrant="r"
               ></show-answer>
             </td>
-            <td>{{a.amount | currency:'$'}}</td>
+            <td>{{a.amount | currency:conference.currency.shortSymbol}}</td>
           </tr>
           <tr
             ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts"
@@ -233,7 +236,8 @@
               <translate>Early Registration Discount</translate>
             </td>
             <td>
-              {{(r.calculatedEarlyRegistrationDiscounts * -1) | currency:'$'}}
+              {{(r.calculatedEarlyRegistrationDiscounts * -1) |
+              currency:conference.currency.shortSymbol}}
             </td>
           </tr>
           <tr
@@ -244,7 +248,10 @@
               <i class="fa fa-angle-right"></i>
               <translate>Promotion Discount</translate>
             </td>
-            <td>{{(r.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
+            <td>
+              {{(r.calculatedPromotionDiscounts * -1) |
+              currency:conference.currency.shortSymbol}}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -256,13 +263,14 @@
               <th translate>Promotion Discount</th>
               <td width="90">
                 {{(currentRegistration.calculatedPromotionDiscounts * -1) |
-                currency:'$'}}
+                currency:(conference.currency.shortSymbol)}}
               </td>
             </tr>
             <tr>
               <th translate>Total</th>
               <td width="90">
-                {{currentRegistration.calculatedTotalDue | currency:'$'}}
+                {{currentRegistration.calculatedTotalDue |
+                currency:conference.currency.shortSymbol}}
               </td>
             </tr>
             <tr ng-repeat="p in currentRegistration.pastPayments">
@@ -277,16 +285,19 @@
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
-                  {{p.amount | currency:'$'}}
+                  {{p.amount | currency:conference.currency.shortSymbol}}
                 </span>
                 <span ng-if="p.paymentType !== 'REFUND'">
-                  {{(p.amount * -1) | currency:'$'}}
+                  {{(p.amount * -1) | currency:conference.currency.shortSymbol}}
                 </span>
               </td>
             </tr>
             <tr ng-show="currentRegistration.pastPayments.length > 0">
               <th translate>Remaining Balance</th>
-              <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
+              <td>
+                {{(currentRegistration.remainingBalance) |
+                currency:conference.currency.shortSymbol}}
+              </td>
             </tr>
           </table>
 
