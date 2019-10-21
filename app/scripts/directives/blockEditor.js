@@ -243,9 +243,16 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         $uibModal
           .open({
             templateUrl: choiceOptionsModalTemplate,
-            controller: function($scope, $uibModalInstance, choice, blockType) {
+            controller: function(
+              $scope,
+              $uibModalInstance,
+              choice,
+              blockType,
+              currency,
+            ) {
               $scope.blockType = blockType;
               $scope.choice = choice;
+              $scope.currency = currency;
               $scope.close = function() {
                 $uibModalInstance.dismiss();
               };
@@ -271,6 +278,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
               },
               blockType: function() {
                 return $scope.block.type;
+              },
+              currency: function() {
+                return $scope.conference.currency.shortSymbol;
               },
             },
           })
