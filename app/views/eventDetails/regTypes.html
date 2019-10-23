@@ -50,7 +50,8 @@
               <div class="input-group">
                 <span class="input-group-addon"
                   ><span class="currency-label"
-                    >{{conference.currency.shortSymbol}}</span
+                    >{{conference.currency.currencyCode |
+                    localizedSymbol}}</span
                   ></span
                 >
                 <input type="text" class="form-control" ng-model="type.cost" />
@@ -282,7 +283,8 @@
                   <span class="input-group-addon"
                     ><i class="fa"
                       ><span class="currency-label"
-                        >{{conference.currency.shortSymbol}}</span
+                        >{{conference.currency.currencyCode |
+                        localizedSymbol}}</span
                       ></i
                     ></span
                   >
@@ -362,7 +364,8 @@
                     <span class="input-group-addon"
                       ><i class="fa"
                         ><span class="currency-label"
-                          >{{conference.currency.shortSymbol}}</span
+                          >{{conference.currency.currencyCode |
+                          localizedSymbol}}</span
                         ></i
                       ></span
                     >

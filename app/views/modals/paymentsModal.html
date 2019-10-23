@@ -49,7 +49,7 @@
             </td>
             <td ng-show="!expandRegistrantCost[r.id]">
               {{r.calculatedTotalDue |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr ng-if="expandRegistrantCost[r.id]">
@@ -60,7 +60,7 @@
             </td>
             <td>
               {{getRegistrantType(r.registrantTypeId).cost |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -73,7 +73,7 @@
             </td>
             <td>
               {{r.calculatedEarlyRegistrationDiscounts * -1 |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -86,7 +86,7 @@
             </td>
             <td>
               {{r.calculatedPromotionDiscounts * -1 |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -99,9 +99,12 @@
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
+                conference="conference"
               ></show-answer>
             </td>
-            <td>{{a.amount | currency:conference.currency.shortSymbol}}</td>
+            <td>
+              {{a.amount | localizedCurrency:conference.currency.currencyCode}}
+            </td>
           </tr>
         </tbody>
         <tbody
@@ -111,7 +114,8 @@
             <td></td>
             <td>{{expense.description}}</td>
             <td>
-              {{expense.amount | currency:conference.currency.shortSymbol}}
+              {{expense.amount |
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
         </tbody>
@@ -124,28 +128,28 @@
               <th translate>Promotion Discount</th>
               <td width="90">
                 {{(registration.calculatedPromotionDiscounts * -1) |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
             <tr>
               <th translate>Total Cost</th>
               <td width="90">
                 {{registration.calculatedTotalDue |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
             <tr>
               <th translate>Total Paid</th>
               <td>
                 {{registration.totalPaid |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
             <tr>
               <th translate>Total Due</th>
               <td>
                 {{registration.remainingBalance |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
           </table>
@@ -242,11 +246,12 @@
             <tr ng-class="{'active': $even}">
               <td>{{payment.transactionDatetime | date:'MMM d, y h:mm a'}}</td>
               <td ng-if="payment.paymentType !== 'REFUND'">
-                {{payment.amount | currency:conference.currency.shortSymbol}}
+                {{payment.amount |
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
               <td ng-if="payment.paymentType === 'REFUND'">
                 {{payment.amount * -1 |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
               <td>
                 <span ng-if="payment.paymentType === 'CREDIT_CARD'"
@@ -388,7 +393,8 @@
                           <span class="input-group-addon"
                             ><i class="fa"
                               ><span class="currency-label"
-                                >{{conference.currency.shortSymbol}}</span
+                                >{{conference.currency.currencyCode |
+                                localizedSymbol}}</span
                               ></i
                             ></span
                           >
@@ -405,7 +411,7 @@
                         ng-if="editPayment.paymentType === 'CREDIT_CARD' || editPayment.refundChannel === 'CREDIT_CARD'"
                       >
                         {{editPayment.amount |
-                        currency:conference.currency.shortSymbol}}
+                        localizedCurrency:conference.currency.currencyCode}}
                       </div>
                     </div>
                   </div>
@@ -648,7 +654,7 @@
               </td>
               <td>
                 {{calculateRefundableAmount(paymentToRefund) |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
               <td>{{paymentToRefund.paymentType}}</td>
             </tr>
@@ -685,7 +691,8 @@
               <div class="input-group">
                 <span class="input-group-addon"
                   ><span class="currency-label"
-                    >{{conference.currency.shortSymbol}}</span
+                    >{{conference.currency.currencyCode |
+                    localizedSymbol}}</span
                   ></span
                 >
                 <input
@@ -754,7 +761,7 @@
               <td>
                 <span ng-if="editExpense.id !== expense.id"
                   >{{expense.amount |
-                  currency:conference.currency.shortSymbol}}</span
+                  localizedCurrency:conference.currency.currencyCode}}</span
                 >
                 <input
                   ng-if="editExpense.id === expense.id"
@@ -856,7 +863,7 @@
           <div class="input-group">
             <span class="input-group-addon"
               ><span class="currency-label"
-                >{{conference.currency.shortSymbol}}</span
+                >{{conference.currency.currencyCode | localizedSymbol}}</span
               ></span
             >
             <input

@@ -31,7 +31,9 @@
     <label translate>Additional Cost</label>
     <div class="input-group">
       <span class="input-group-addon"
-        ><span class="currency-label">{{currency}}</span></span
+        ><span class="currency-label"
+          >{{currency | localizedSymbol}}</span
+        ></span
       >
       <input
         type="text"

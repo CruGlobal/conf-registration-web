@@ -64,7 +64,10 @@
   >
     <div class="input-group">
       <span class="input-group-addon"
-        ><span>&nbsp;{{conference.currency.shortSymbol}}&nbsp;</span></span
+        ><span
+          >&nbsp;{{conference.currency.currencyCode |
+          localizedSymbol}}&nbsp;</span
+        ></span
       >
       <input
         type="text"
@@ -82,7 +85,7 @@
         >The minimum deposit required to register for this event is</translate
       >
       {{currentRegistration.calculatedMinimumDeposit |
-      currency:conference.currency.shortSymbol}}
+      localizedCurrency:conference.currency.currencyCode}}
     </span>
   </dd>
   <dd
@@ -94,7 +97,7 @@
       ng-value="currentRegistration.remainingBalance"
     />
     {{currentRegistration.remainingBalance |
-    currency:conference.currency.shortSymbol}}
+    localizedCurrency:conference.currency.currencyCode}}
   </dd>
 </dl>
 
