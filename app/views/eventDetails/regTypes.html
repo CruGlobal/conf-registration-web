@@ -280,14 +280,12 @@
               >
                 <label translate>Minimum Payment to Register</label>
                 <div class="input-group">
-                  <span class="input-group-addon"
-                    ><i class="fa"
-                      ><span class="currency-label"
-                        >{{conference.currency.currencyCode |
-                        localizedSymbol}}</span
-                      ></i
-                    ></span
-                  >
+                  <span class="input-group-addon">
+                    <span class="currency-label"
+                      >{{conference.currency.currencyCode |
+                      localizedSymbol}}</span
+                    >
+                  </span>
                   <input
                     type="text"
                     class="form-control marginless"
@@ -362,11 +360,9 @@
                   <label translate>Discount</label>
                   <div class="input-group">
                     <span class="input-group-addon"
-                      ><i class="fa"
-                        ><span class="currency-label"
-                          >{{conference.currency.currencyCode |
-                          localizedSymbol}}</span
-                        ></i
+                      ><span class="currency-label"
+                        >{{conference.currency.currencyCode |
+                        localizedSymbol}}</span
                       ></span
                     >
                     <input

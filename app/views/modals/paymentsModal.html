@@ -390,12 +390,10 @@
                         ng-if="editPayment.paymentType !== 'CREDIT_CARD' && editPayment.refundChannel !== 'CREDIT_CARD'"
                       >
                         <div class="input-group">
-                          <span class="input-group-addon"
-                            ><i class="fa"
-                              ><span class="currency-label"
-                                >{{conference.currency.currencyCode |
-                                localizedSymbol}}</span
-                              ></i
+                          <span class="input-group-addon">
+                            <span class="currency-label"
+                              >{{conference.currency.currencyCode |
+                              localizedSymbol}}</span
                             ></span
                           >
                           <input
