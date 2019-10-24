@@ -2,37 +2,44 @@ angular
   .module('confRegistrationWebApp')
   .filter('localizedCurrency', function($locale) {
     return function(number, currencyCode) {
-      return number.toLocaleString($locale.id, {
+      let localeId = $locale.id ? $locale.id : 'en-us';
+      return number.toLocaleString(localeId, {
         style: 'currency',
         currency: currencyCode,
       });
-      // return number.toLocaleString("en-AU", {style: 'currency', currency: currencyCode});
     };
   });
 
 angular
   .module('confRegistrationWebApp')
-  .filter('localizedSymbol', function($locale) {
+  .filter('localizedSymbol', function($locale, $window) {
     return function(currencyCode) {
-      let localeId = $locale.id;
-      let numberFormat = new Intl.NumberFormat(localeId, {
-        style: 'currency',
-        currency: currencyCode,
-      });
-      let symbol;
-      if ('formatToParts' in numberFormat) {
-        symbol = numberFormat
-          .formatToParts()
-          .filter(e => e.type === 'currency')[0].value;
-      } else {
-        let number = 0;
-        symbol = number
-          .toLocaleString(localeId, {
-            style: 'currency',
-            currency: currencyCode,
-          })
-          .replace(/[0., ]/g, '');
+      let localeId = $locale.id ? $locale.id : 'en-us';
+      let symbol = symbolFromFormatToParts(localeId, currencyCode, $window);
+      if (symbol) {
+        return symbol;
       }
-      return symbol;
+      let number = 0;
+      return number
+        .toLocaleString(localeId, {
+          style: 'currency',
+          currency: currencyCode,
+        })
+        .replace(/[0., ]/g, '');
     };
   });
+
+function symbolFromFormatToParts(localeId, currencyCode, window) {
+  if (!('Intl' in window)) {
+    return;
+  }
+  let numberFormat = new Intl.NumberFormat(localeId, {
+    style: 'currency',
+    currency: currencyCode,
+  });
+  if (!('formatToParts' in numberFormat)) {
+    return;
+  }
+  return numberFormat.formatToParts().filter(e => e.type === 'currency')[0]
+    .value;
+}
