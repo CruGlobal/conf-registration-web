@@ -454,6 +454,7 @@
               <show-answer
                 block="block"
                 registrant="r"
+                conference="conference"
                 ng-if="blockIsVisible(block, r)"
               ></show-answer>
             </td>
@@ -494,7 +495,10 @@
                 }"
                   title="View/Edit Payments &amp; Expenses"
                 >
-                  <span>&nbsp;{{conference.currency.shortSymbol}}&nbsp;</span>
+                  <span class="currency-label"
+                    >{{conference.currency.currencyCode |
+                    localizedSymbol}}</span
+                  >
                 </button>
               </div>
             </td>
@@ -581,7 +585,11 @@
                     ng-bind="block.title"
                   ></div>
                   <div class="col-xs-9">
-                    <show-answer block="block" registrant="r"></show-answer>
+                    <show-answer
+                      block="block"
+                      registrant="r"
+                      conference="conference"
+                    ></show-answer>
                   </div>
                 </div>
                 <div class="row">

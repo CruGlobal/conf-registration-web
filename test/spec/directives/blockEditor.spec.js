@@ -34,6 +34,15 @@ describe('Directive: blockEditor', function() {
     expect(scope.block.content.forceSelections['someValue']).toBeUndefined();
   });
 
+  it('should open modal for Advanced Option', function() {
+    scope.conference.currency = {
+      code: 'USD',
+      name: 'US Dollar',
+      shortSymbol: 'US',
+    };
+    scope.editBlockOptionAdvanced();
+  });
+
   it('set new answer rules operand to OR by default', function() {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',

@@ -54,6 +54,7 @@ import 'scripts/filters/toTrustedHtml.js';
 import 'scripts/filters/unique.js';
 import 'scripts/filters/dateRangeFormat.js';
 import 'scripts/filters/showQuestionFilter.js';
+import 'scripts/filters/localizedCurrency.js';
 
 // Services
 import 'scripts/services/analytics.service.js';
