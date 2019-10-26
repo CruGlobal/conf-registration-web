@@ -6,7 +6,7 @@
       <p ng-if="currentRegistration.remainingBalance > 0">
         <translate>You have a remaining balance of</translate>
         {{currentRegistration.remainingBalance |
-        currency:conference.currency.shortSymbol}}
+        localizedCurrency:conference.currency.currencyCode}}
       </p>
       <p
         ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
@@ -146,6 +146,7 @@
                 block="block"
                 registrant="r"
                 show-amount="true"
+                conference="conference"
               ></show-answer>
             </td>
           </tr>
@@ -198,7 +199,7 @@
             <td>
               <span ng-if="!expandRegistrantCost[r.id]"
                 >{{r.calculatedTotalDue |
-                currency:conference.currency.shortSymbol}}</span
+                localizedCurrency:conference.currency.currencyCode}}</span
               >
             </td>
           </tr>
@@ -210,7 +211,7 @@
             </td>
             <td>
               {{getRegistrantType(r.registrantTypeId).cost |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -223,9 +224,12 @@
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
+                conference="conference"
               ></show-answer>
             </td>
-            <td>{{a.amount | currency:conference.currency.shortSymbol}}</td>
+            <td>
+              {{a.amount | localizedCurrency:conference.currency.currencyCode}}
+            </td>
           </tr>
           <tr
             ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts"
@@ -237,7 +241,7 @@
             </td>
             <td>
               {{(r.calculatedEarlyRegistrationDiscounts * -1) |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -250,7 +254,7 @@
             </td>
             <td>
               {{(r.calculatedPromotionDiscounts * -1) |
-              currency:conference.currency.shortSymbol}}
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
         </tbody>
@@ -263,14 +267,14 @@
               <th translate>Promotion Discount</th>
               <td width="90">
                 {{(currentRegistration.calculatedPromotionDiscounts * -1) |
-                currency:(conference.currency.shortSymbol)}}
+                localizedCurrency:(conference.currency.currencyCode)}}
               </td>
             </tr>
             <tr>
               <th translate>Total</th>
               <td width="90">
                 {{currentRegistration.calculatedTotalDue |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
             <tr ng-repeat="p in currentRegistration.pastPayments">
@@ -285,10 +289,12 @@
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
-                  {{p.amount | currency:conference.currency.shortSymbol}}
+                  {{p.amount |
+                  localizedCurrency:conference.currency.currencyCode}}
                 </span>
                 <span ng-if="p.paymentType !== 'REFUND'">
-                  {{(p.amount * -1) | currency:conference.currency.shortSymbol}}
+                  {{(p.amount * -1) |
+                  localizedCurrency:conference.currency.currencyCode}}
                 </span>
               </td>
             </tr>
@@ -296,7 +302,7 @@
               <th translate>Remaining Balance</th>
               <td>
                 {{(currentRegistration.remainingBalance) |
-                currency:conference.currency.shortSymbol}}
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
           </table>

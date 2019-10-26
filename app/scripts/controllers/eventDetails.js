@@ -497,15 +497,19 @@ angular
     };
 
     $scope.previewEmail = function(reg) {
-      var cost = $filter('currency')(
+      var cost = $filter('localizedCurrency')(
         reg.cost,
-        $scope.conference.currency.shortSymbol,
+        $scope.conference.currency.currencyCode,
       );
       var eventStartTime = moment(conference.eventStartTime).format(
         'dddd, MMMM D YYYY, h:mm a',
       );
       var eventEndTime = moment(conference.eventEndTime).format(
         'dddd, MMMM D YYYY, h:mm a',
+      );
+      var zero = $filter('localizedCurrency')(
+        0,
+        $scope.conference.currency.currencyCode,
       );
       modalMessage.info({
         title: 'Email Preview',
@@ -525,8 +529,8 @@ angular
           '<br><strong>Total Amount Paid:</strong> ' +
           cost +
           '<br><strong>Remaining Balance:</strong> ' +
-          $scope.conference.currency.shortSymbol +
-          '0.00</p>' +
+          zero +
+          '</p>' +
           reg.customConfirmationEmailText,
         okString: 'Close',
       });

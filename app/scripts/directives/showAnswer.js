@@ -8,6 +8,7 @@ angular.module('confRegistrationWebApp').directive('showAnswer', function() {
       block: '=',
       registrant: '=',
       showAmount: '=',
+      conference: '=',
     },
     controller: function($scope, validateRegistrant) {
       if (angular.isDefined($scope.registrant)) {

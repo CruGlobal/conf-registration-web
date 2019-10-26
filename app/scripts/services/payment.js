@@ -81,9 +81,9 @@ angular
           registration.pastPayments.length === 0 &&
           Number(payment.amount) < registration.calculatedMinimumDeposit
         ) {
-          var minimumDeposit = $filter('currency')(
+          var minimumDeposit = $filter('localizedCurrency')(
             registration.calculatedMinimumDeposit,
-            conference.currency.shortSymbol,
+            conference.currency.currencyCode,
           );
           payment.errors.push(
             gettextCatalog.getString(
@@ -94,9 +94,9 @@ angular
         }
 
         if (Number(payment.amount) > registration.remainingBalance) {
-          var remainingBalance = $filter('currency')(
+          var remainingBalance = $filter('localizedCurrency')(
             registration.remainingBalance,
-            conference.currency.shortSymbol,
+            conference.currency.currencyCode,
           );
           payment.errors.push(
             gettextCatalog.getString(

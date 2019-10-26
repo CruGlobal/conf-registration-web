@@ -20,8 +20,8 @@
           <label translate>Discount Amount</label>
           <div class="input-group">
             <span class="input-group-addon"
-              ><span
-                >&nbsp;{{conference.currency.shortSymbol}}&nbsp;</span
+              ><span class="currency-label"
+                >{{conference.currency.currencyCode | localizedSymbol}}</span
               ></span
             >
             <input type="text" class="form-control" ng-model="promo.amount" />
