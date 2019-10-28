@@ -365,6 +365,7 @@ angular
           ProfileCache,
           $rootScope,
           $sce,
+          logoutService,
         ) {
           return $http
             .get('auth/logout')
@@ -372,26 +373,7 @@ angular
             .then(function(response) {
               $cookies.remove('crsToken');
               ProfileCache.clearCache();
-              switch ($cookies.get('crsAuthProviderType')) {
-                case 'FACEBOOK':
-                  // if facebook, then logout from facebook using url generated on the backend
-                  if (response.data) {
-                    $window.location.href = response.data.url;
-                  }
-                  break;
-                case 'RELAY':
-                  // if relay, then then redirect to the Relay logout URL
-                  var serviceUrl = $location.absUrl().replace('logout', '');
-                  $window.location.href =
-                    'https://signon.cru.org/cas/logout?service=' + serviceUrl;
-                  break;
-                case 'INSTAGRAM':
-                  // if instagram, then logout from instagram on client side
-                  $rootScope.logoutElement = $sce.trustAsHtml(
-                    '<iframe class="logout-element" src="https://instagram.com/accounts/logout/" width="0" height="0" ' +
-                      "onload=\"document.querySelector('.logout-element').parentNode.removeChild(document.querySelector('.logout-element'));\"/>",
-                  );
-              }
+              logoutService.logoutFormProviders(response);
               $cookies.remove('crsAuthProviderType');
               return '/';
             });
