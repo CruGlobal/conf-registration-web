@@ -7,20 +7,21 @@ angular
     $rootScope,
     $sce,
   ) {
-    this.logoutFormProviders = function(response) {
+    this.logoutFormProviders = ({ data = null } = {}) => {
       switch ($cookies.get('crsAuthProviderType')) {
         case 'FACEBOOK':
           // if facebook, then logout from facebook using url generated on the backend
-          if (response.data) {
-            $window.location.href = response.data.url;
+          if (data) {
+            $window.location.href = data.url;
           }
           break;
-        case 'RELAY':
-          // if relay, then then redirect to the Relay logout URL
-          var serviceUrl = $location.absUrl().replace('logout', '');
+        case 'RELAY': {
+          // if relay, then redirect to the Relay logout URL
+          const serviceUrl = $location.absUrl().replace('logout', '');
           $window.location.href =
             'https://signon.cru.org/cas/logout?service=' + serviceUrl;
           break;
+        }
         case 'INSTAGRAM':
           // if instagram, then logout from instagram on client side
           $rootScope.logoutElement = $sce.trustAsHtml(

@@ -1,34 +1,34 @@
 import 'angular-mocks';
 
-describe('Service: logoutService', function() {
+describe('Service: logoutService', () => {
   let logoutService, $rootScope, $window, $sce;
   let cookieValue = null;
 
   beforeEach(
-    angular.mock.module('confRegistrationWebApp', function($provide) {
+    angular.mock.module('confRegistrationWebApp', $provide => {
       $provide.value('$window', { location: { href: 'dummy' } });
       $provide.value('$cookies', {
-        get: function() {
+        get: () => {
           return cookieValue;
         },
       });
     }),
   );
 
-  beforeEach(inject(function(_logoutService_, _$rootScope_, _$sce_, _$window_) {
+  beforeEach(inject((_logoutService_, _$rootScope_, _$sce_, _$window_) => {
     $rootScope = _$rootScope_;
     $sce = _$sce_;
     $window = _$window_;
     logoutService = _logoutService_;
   }));
 
-  it('should logout from facebook', function() {
+  it('should logout from facebook', () => {
     cookieValue = 'FACEBOOK';
     logoutService.logoutFormProviders({ data: { url: 'redirect url' } });
     expect($window.location.href).toEqual('redirect url');
   });
 
-  it('should logout from instagram', function() {
+  it('should logout from instagram', () => {
     cookieValue = 'INSTAGRAM';
     logoutService.logoutFormProviders();
     expect($sce.getTrustedHtml($rootScope.logoutElement)).toEqual(
@@ -37,7 +37,7 @@ describe('Service: logoutService', function() {
     );
   });
 
-  it('should logout from relay', function() {
+  it('should logout from relay', () => {
     cookieValue = 'RELAY';
     logoutService.logoutFormProviders();
     expect($window.location.href).toContain(

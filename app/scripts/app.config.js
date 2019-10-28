@@ -370,7 +370,7 @@ angular
           return $http
             .get('auth/logout')
             .catch(angular.noop)
-            .then(function(response) {
+            .then(response => {
               $cookies.remove('crsToken');
               ProfileCache.clearCache();
               logoutService.logoutFormProviders(response);
