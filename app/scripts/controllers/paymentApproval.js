@@ -22,10 +22,12 @@ angular
     $http
       .get('payments/scholarship/' + paymentHash)
       .then(function(response) {
-        $scope.payment = response.data;
+        $scope.payment = response.data.payment;
+        $scope.conference = response.data.conference;
       })
       .catch(function() {
         $scope.payment = null;
+        $scope.conference = null;
       });
 
     $scope.updatePayment = function(status) {
