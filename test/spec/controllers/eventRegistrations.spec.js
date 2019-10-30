@@ -104,4 +104,28 @@ describe('Controller: eventRegistrations', function() {
     scope.registerUser();
     expect(openModal).toHaveBeenCalled();
   });
+
+  it('isGroupRegistrant should return true for primary user group registrations', function() {
+    let registrant = {
+      registrantTypeId: '47de2c40-19dc-45b3-9663-5c005bd6464b',
+    };
+    let result = scope.isGroupRegistrant(registrant);
+    expect(result).toBeTruthy();
+  });
+
+  it('isGroupRegistrant should return true for dependent user group registrations', function() {
+    let registrant = {
+      registrantTypeId: '67c70823-35bd-9262-416f-150e35a03514',
+    };
+    let result = scope.isGroupRegistrant(registrant);
+    expect(result).toBeTruthy();
+  });
+
+  it('isGroupRegistrant should return false for not dependent and not primary user group registrations', function() {
+    let registrant = {
+      registrantTypeId: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
+    };
+    let result = scope.isGroupRegistrant(registrant);
+    expect(result).toBeFalsy();
+  });
 });

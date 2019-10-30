@@ -435,7 +435,7 @@
               <a
                 href=""
                 ng-click="showGroup(r.registrationId)"
-                ng-if="getRegistrantType(r.registrantTypeId).allowGroupRegistrations"
+                ng-if="isGroupRegistrant(r)"
                 >{{getGroupName(r.registrationId)}}</a
               >
             </td>
