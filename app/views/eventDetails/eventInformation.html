@@ -232,13 +232,48 @@
   </div>
 </div>
 <div class="form-group">
-  <div class="col-sm-12">
-    <label translate>Cru Event</label>
-    <div class="checkbox">
-      <label>
-        <input type="checkbox" ng-model="conference.cruEvent" />
-        <translate>This is a Cru Event.</translate>
-      </label>
-    </div>
+  <div class="col-sm-5">
+    <label translate>
+      This is a Cru Event
+    </label>
+    <select class="form-control" ng-model="conference.cruEvent">
+      <option ng-value="true">Yes</option>
+      <option ng-value="false">No</option>
+    </select>
+  </div>
+</div>
+<div class="form-group" ng-if="conference.cruEvent">
+  <div class="col-sm-5">
+    <label translate>Ministry Hosting Event</label>
+    <select
+      class="form-control"
+      ng-model="conference.ministry"
+      ng-options="ministry.id as ministry.name for ministry in ministries"
+    >
+      <option></option>
+    </select>
+  </div>
+
+  <div class="col-sm-5" ng-if="getStrategies().length != 0">
+    <label translate>Which Strategy is hosting the event if applicable</label>
+    <select
+      class="form-control"
+      ng-model="conference.strategy"
+      ng-options="strategy.id as strategy.name for strategy in getStrategies(conference.ministry)"
+    >
+      <option></option>
+    </select>
+  </div>
+</div>
+<div class="form-group" ng-if="conference.cruEvent">
+  <div class="col-sm-5">
+    <label translate>Ministry Purpose</label>
+    <select
+      class="form-control"
+      ng-model="conference.type"
+      ng-options="type.id as type.name for type in eventTypes"
+    >
+      <option></option>
+    </select>
   </div>
 </div>
