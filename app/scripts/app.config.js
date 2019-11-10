@@ -240,6 +240,9 @@ angular
               $route.current.params.conferenceId,
             );
           },
+          conference: function($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId, true);
+          },
         },
         permissions: function($route, PermissionCache) {
           return PermissionCache.getForConference(

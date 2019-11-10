@@ -9,6 +9,7 @@ angular
     paymentReportService,
     report,
     reportList,
+    conference,
     envService,
   ) {
     $rootScope.globalPage = {
@@ -21,6 +22,7 @@ angular
 
     $scope.report = report;
     $scope.reports = reportList;
+    $scope.conference = conference;
     $scope.excludedIds = {};
     $scope.queryParameters = {
       page: 1,

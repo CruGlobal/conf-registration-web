@@ -67,9 +67,6 @@
                 <a href="" translate>Transaction Id</a>
               </th>
               <th>
-                <a href="" translate>Registration Id</a>
-              </th>
-              <th>
                 <a href="" translate>First Name</a>
               </th>
               <th>
@@ -96,9 +93,6 @@
                 {{r.transactionId}}
               </td>
               <td>
-                {{r.registrationId}}
-              </td>
-              <td>
                 {{r.firstName}}
               </td>
               <td>
@@ -108,7 +102,8 @@
                 {{r.checkNumber}}
               </td>
               <td>
-                {{r.amount}}
+                {{r.amount |
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
               <td>
                 <input
