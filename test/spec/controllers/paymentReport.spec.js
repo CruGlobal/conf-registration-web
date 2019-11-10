@@ -22,6 +22,7 @@ describe('Controller: paymentReportCtrl', function() {
         $scope: scope,
         report: testData.report,
         reportList: testData.reports,
+        conference: testData.conference,
         permissions: {},
         confId: '123456',
       });
