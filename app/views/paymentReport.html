@@ -102,8 +102,9 @@
                 {{r.checkNumber}}
               </td>
               <td>
-                {{r.amount |
-                localizedCurrency:conference.currency.currencyCode}}
+                {{(r.checkNumber == "REFUND" ? "(" : "") + (r.amount |
+                localizedCurrency:conference.currency.currencyCode) +
+                (r.checkNumber == "REFUND" ? ")" : "")}}
               </td>
               <td>
                 <input
