@@ -105,7 +105,7 @@ describe('Controller: eventRegistrations', function() {
     expect(openModal).toHaveBeenCalled();
   });
 
-  it('refreshRegistrations should assign reported attribute to registarnts', function() {
+  it('refreshRegistrations should assign reported attribute to registrants', () => {
     $httpBackend
       .whenGET(/^conferences\/.*\/registrations.*/)
       .respond(201, [testData.registration]);
