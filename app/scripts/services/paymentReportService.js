@@ -74,11 +74,11 @@ angular
       );
       $http
         .post(
-          path(conferenceId) +
-            '/lock' +
-            (queryParamForExcludedPayments
+          `${path(conferenceId)}/lock${
+            queryParamForExcludedPayments
               ? '?' + queryParamForExcludedPayments
-              : ''),
+              : ''
+          }`,
           {},
         )
         .then(function(response) {
