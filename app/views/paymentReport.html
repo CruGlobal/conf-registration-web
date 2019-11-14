@@ -85,7 +85,7 @@
           </thead>
           <tbody>
             <tr
-              ng-repeat-start="r in report.paymentReportEntries"
+              ng-repeat="r in report.paymentReportEntries"
               ng-class="{'active': $even}"
               class="noselect"
             >
@@ -115,7 +115,6 @@
                 />
               </td>
             </tr>
-            <tr ng-repeat-end></tr>
           </tbody>
         </table>
       </div>

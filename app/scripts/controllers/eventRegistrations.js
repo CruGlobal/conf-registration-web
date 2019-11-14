@@ -187,10 +187,10 @@ angular
     };
 
     $scope.isRegistrantReported = function(registrant) {
-      let t = $scope.registrations.find(r =>
-        r.registrants.some(rr => rr.id === registrant.id),
+      const registration = $scope.registrations.find(
+        r => r.id === registrant.registrationId,
       );
-      return t && t.reported;
+      return registration && registration.reported;
     };
 
     $scope.blockIsVisible = function(block, registrant) {
@@ -321,7 +321,6 @@ angular
             var index = _.findIndex($scope.registrants, {
               id: registrantData.id,
             });
-            registrantData.reported = $scope.registrants[index].reported;
             $scope.registrants[index] = registrantData;
 
             //update registration
