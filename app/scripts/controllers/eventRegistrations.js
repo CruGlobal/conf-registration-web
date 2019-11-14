@@ -175,13 +175,7 @@ angular
           $scope.meta = data.meta;
           $scope.registrations = data.registrations;
           $scope.registrants = _.flatten(
-            _.map(data.registrations, r => {
-              let regs = r.registrants;
-              for (const reg of regs) {
-                reg.reported = r.reported;
-              }
-              return regs;
-            }),
+            _.map(data.registrations, 'registrants'),
           );
           expandedRegistrations = {};
         },
@@ -190,6 +184,13 @@ angular
           $scope.registrants = [];
         },
       );
+    };
+
+    $scope.isRegistrantReported = function(registrant) {
+      let t = $scope.registrations.find(r =>
+        r.registrants.some(rr => rr.id === registrant.id),
+      );
+      return t && t.reported;
     };
 
     $scope.blockIsVisible = function(block, registrant) {

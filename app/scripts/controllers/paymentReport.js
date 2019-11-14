@@ -78,18 +78,13 @@ angular
       let currentReportId = $scope.queryParameters.currentReportId
         ? '/' + $scope.queryParameters.currentReportId
         : '';
-      return (
-        $scope.apiUrl +
-        'conferences/' +
-        $scope.report.conferenceId +
-        '/payments/report/export' +
-        currentReportId +
-        '?Authorization=' +
-        $scope.authToken +
-        (queryParamForExcludedPayments
-          ? '&' + queryParamForExcludedPayments
-          : '')
-      );
+      return `${$scope.apiUrl}conferences/${
+        $scope.report.conferenceId
+      }/payments/report/export${currentReportId}?Authorization=${
+        $scope.authToken
+      }${
+        queryParamForExcludedPayments ? '&' + queryParamForExcludedPayments : ''
+      }`;
     };
 
     $scope.refreshExcludedIds = function(id) {

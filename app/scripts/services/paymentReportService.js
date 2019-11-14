@@ -4,28 +4,21 @@ angular
     $cacheFactory,
     $rootScope,
     $http,
-    $q,
   ) {
     const path = function(id) {
-      return 'conferences/' + (id || '') + '/payments/report';
+      return 'conferences/' + id + '/payments/report';
     };
 
     function getReportData(url) {
-      const defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Details';
-      $http
+      return $http
         .get(url)
         .then(function(response) {
-          var report = response.data;
-          defer.resolve(report);
-        })
-        .catch(function(error) {
-          defer.reject(error);
+          return response.data;
         })
         .finally(function() {
           $rootScope.loadingMsg = '';
         });
-      return defer.promise;
     }
 
     this.getAll = function(id) {
@@ -34,26 +27,21 @@ angular
     };
 
     this.getReport = function(conferenceId, queryParameters) {
-      var defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Payment Report';
 
       let report = queryParameters.currentReportId
         ? queryParameters.currentReportId
         : 'new';
-      $http
+      return $http
         .get(path(conferenceId) + '/' + report, {
           params: queryParameters,
         })
         .then(function(response) {
-          $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
+          return response.data;
         })
-        .catch(function() {
+        .finally(function() {
           $rootScope.loadingMsg = '';
-          defer.reject();
         });
-
-      return defer.promise;
     };
 
     this.collectExcludedIds = function(excludedIdsMap) {
@@ -68,11 +56,10 @@ angular
     };
 
     this.lockReport = function(conferenceId, excludedIdsMap) {
-      var defer = $q.defer();
       let queryParamForExcludedPayments = this.queryParamForExcludedPayments(
         excludedIdsMap,
       );
-      $http
+      return $http
         .post(
           `${path(conferenceId)}/lock${
             queryParamForExcludedPayments
@@ -82,14 +69,10 @@ angular
           {},
         )
         .then(function(response) {
-          $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
+          return response.data;
         })
-        .catch(function() {
+        .finally(function() {
           $rootScope.loadingMsg = '';
-          defer.reject();
         });
-
-      return defer.promise;
     };
   });
