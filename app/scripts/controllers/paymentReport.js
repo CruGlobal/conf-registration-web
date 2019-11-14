@@ -60,7 +60,7 @@ angular
       paymentReportService
         .getReport(report.conferenceId, $scope.queryParameters)
         .then(function(report) {
-          $scope.meta = report.meta;
+          $scope.meta = report.paginationMetadata;
           $scope.report = report;
           for (const reportEntry of report.paymentReportEntries) {
             reportEntry.included = $scope.isIncluded(reportEntry.paymentId);
@@ -98,7 +98,7 @@ angular
     $scope.noDataForLocking = function() {
       return (
         !!$scope.queryParameters.currentReportId ||
-        $scope.report.meta.total <=
+        $scope.report.paginationMetadata.total <=
           paymentReportService.collectExcludedIds($scope.excludedIds).length
       );
     };

@@ -744,7 +744,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         included: true,
       },
     ],
-    meta: { total: 5 },
+    paginationMetadata: { total: 5 },
   };
 
   this.reports = [
@@ -818,7 +818,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 0,
@@ -830,7 +830,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 0,
@@ -842,7 +842,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 72.0,
@@ -854,7 +854,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 72.0,
@@ -866,7 +866,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 12.0,
@@ -878,7 +878,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 72.0,
@@ -890,7 +890,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 48.0,
@@ -902,7 +902,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 12.0,
@@ -914,7 +914,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 12.0,
@@ -926,7 +926,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 24.0,
@@ -938,7 +938,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 24.0,
@@ -950,7 +950,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 0,
@@ -962,7 +962,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 24,
@@ -974,7 +974,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 48,
@@ -986,7 +986,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
     {
       checkTotal: 72,
@@ -998,7 +998,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
       conferenceId: '41a2226f-6416-4b82-92c1-7a6a62327d48',
       contactPersonName: 'First Last  person@mail.com',
       paymentReportEntries: [],
-      meta: { total: 0 },
+      paginationMetadata: { total: 0 },
     },
   ];
 
