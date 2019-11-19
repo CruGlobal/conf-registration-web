@@ -104,4 +104,15 @@ describe('Controller: eventRegistrations', function() {
     scope.registerUser();
     expect(openModal).toHaveBeenCalled();
   });
+
+  it('refreshRegistrations should assign reported attribute to registrants', () => {
+    $httpBackend
+      .whenGET(/^conferences\/.*\/registrations.*/)
+      .respond(201, [testData.registration]);
+    scope.refreshRegistrations();
+    $httpBackend.flush();
+    for (const registrant of scope.registrants) {
+      expect(registrant.reported).toBe(true);
+    }
+  });
 });
