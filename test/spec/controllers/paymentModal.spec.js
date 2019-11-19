@@ -26,7 +26,18 @@ describe('Controller: paymentModal', function() {
     }),
   );
 
+  var errorModal;
+  beforeEach(inject(function(_modalMessage_) {
+    errorModal = spyOn(_modalMessage_, 'error');
+  }));
+
   it('canBeRefunded should return true', function() {
     expect(scope.canBeRefunded(scope.registration.pastPayments[0])).toBe(true);
+  });
+
+  it('savePaymentEdits should validate chect number', function() {
+    let payment = { paymentType: 'CHECK', status: 'RECEIVED', check: {} };
+    scope.savePaymentEdits(payment);
+    expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 });
