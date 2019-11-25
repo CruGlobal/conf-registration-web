@@ -363,21 +363,18 @@ angular
           $window,
           $http,
           ProfileCache,
+          $rootScope,
+          $sce,
+          logoutService,
         ) {
           return $http
             .get('auth/logout')
             .catch(angular.noop)
-            .then(() => {
+            .then(response => {
               $cookies.remove('crsToken');
-
-              // if relay, then then redirect to the Relay logout URL
-              if ($cookies.get('crsAuthProviderType') === 'RELAY') {
-                var serviceUrl = $location.absUrl().replace('logout', '');
-                $window.location.href =
-                  'https://signon.cru.org/cas/logout?service=' + serviceUrl;
-              }
-              $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
+              logoutService.logoutFormProviders(response);
+              $cookies.remove('crsAuthProviderType');
               return '/';
             });
         },

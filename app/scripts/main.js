@@ -69,6 +69,7 @@ import 'scripts/services/growlService.js';
 import 'scripts/services/httpReturnStatusInterceptor.js';
 import 'scripts/services/httpUrlInterceptor.js';
 import 'scripts/services/loginDialog.js';
+import 'scripts/services/logout.js';
 import 'scripts/services/modalMessage.js';
 import 'scripts/services/payment.js';
 import 'scripts/services/PermissionCache.js';
