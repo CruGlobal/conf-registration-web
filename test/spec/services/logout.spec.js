@@ -24,7 +24,9 @@ describe('Service: logoutService', () => {
 
   it('should logout from facebook', () => {
     cookieValue = 'FACEBOOK';
-    logoutService.logoutFormProviders({ data: { url: 'redirect url' } });
+    logoutService.logoutFormProviders({
+      data: { facebookUrl: 'redirect url' },
+    });
     expect($window.location.href).toEqual('redirect url');
   });
 

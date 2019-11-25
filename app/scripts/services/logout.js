@@ -12,7 +12,7 @@ angular
         case 'FACEBOOK':
           // if facebook, then logout from facebook using url generated on the backend
           if (data) {
-            $window.location.href = data.url;
+            $window.location.href = data.facebookUrl;
           }
           break;
         case 'RELAY': {
