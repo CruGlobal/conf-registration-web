@@ -26,8 +26,8 @@ describe('Controller: paymentModal', function() {
     }),
   );
 
-  var errorModal;
-  beforeEach(inject(function(_modalMessage_) {
+  let errorModal;
+  beforeEach(inject(_modalMessage_ => {
     errorModal = spyOn(_modalMessage_, 'error');
   }));
 
@@ -35,7 +35,7 @@ describe('Controller: paymentModal', function() {
     expect(scope.canBeRefunded(scope.registration.pastPayments[0])).toBe(true);
   });
 
-  it('savePaymentEdits should validate chect number', function() {
+  it('savePaymentEdits should validate chect number', () => {
     let payment = { paymentType: 'CHECK', status: 'RECEIVED', check: {} };
     scope.savePaymentEdits(payment);
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
