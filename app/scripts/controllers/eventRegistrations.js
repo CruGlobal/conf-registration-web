@@ -481,14 +481,11 @@ angular
       return `${registrant.firstName} ${registrant.lastName}`;
     };
 
-    $scope.isGroupRegistrant = function(registrant) {
-      return (
-        $scope.getRegistrantType(registrant.registrantTypeId)
-          .groupSubRegistrantType ||
-        $scope.getRegistrantType(registrant.registrantTypeId)
-          .allowGroupRegistrations
-      );
-    };
+    $scope.isGroupRegistrant = registrant =>
+      $scope.getRegistrantType(registrant.registrantTypeId)
+        .groupSubRegistrantType ||
+      $scope.getRegistrantType(registrant.registrantTypeId)
+        .allowGroupRegistrations;
 
     $scope.getRegistrantType = function(id) {
       return _.find(conference.registrantTypes, { id: id });
