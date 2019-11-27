@@ -251,6 +251,10 @@ angular
       }
       if (payment.paymentType === 'CHECK') {
         payment.status = 'RECEIVED';
+        if (!payment.check.checkNumber) {
+          modalMessage.error('Please enter a check number.');
+          return;
+        }
       }
 
       $http

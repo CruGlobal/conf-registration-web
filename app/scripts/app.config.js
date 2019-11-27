@@ -5,6 +5,7 @@ import reviewRegistrationTemplate from 'views/reviewRegistration.html';
 import eventDashboardTemplate from 'views/eventDashboard.html';
 import eventOverviewTemplate from 'views/eventOverview.html';
 import eventRegistrationsTemplate from 'views/eventRegistrations.html';
+import paymentReportTemplate from 'views/paymentReport.html';
 import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
@@ -219,6 +220,36 @@ angular
           },
         },
       })
+      .when('/paymentReport/:conferenceId', {
+        title: gettext('Payment Report Preview'),
+        templateUrl: paymentReportTemplate,
+        controller: 'paymentReportCtrl',
+        authorization: {
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW',
+        },
+        resolve: {
+          report: function($route, paymentReportService) {
+            return paymentReportService.getReport(
+              $route.current.params.conferenceId,
+              {},
+            );
+          },
+          reportList: function($route, paymentReportService) {
+            return paymentReportService.getAll(
+              $route.current.params.conferenceId,
+            );
+          },
+          conference: function($route, ConfCache) {
+            return ConfCache.get($route.current.params.conferenceId, true);
+          },
+        },
+        permissions: function($route, PermissionCache) {
+          return PermissionCache.getForConference(
+            $route.current.params.conferenceId,
+          );
+        },
+      })
       .when('/eventForm/:conferenceId', {
         title: gettext('Questions'),
         templateUrl: eventFormTemplate,
@@ -332,21 +363,18 @@ angular
           $window,
           $http,
           ProfileCache,
+          $rootScope,
+          $sce,
+          logoutService,
         ) {
           return $http
             .get('auth/logout')
             .catch(angular.noop)
-            .then(() => {
+            .then(response => {
               $cookies.remove('crsToken');
-
-              // if relay, then then redirect to the Relay logout URL
-              if ($cookies.get('crsAuthProviderType') === 'RELAY') {
-                var serviceUrl = $location.absUrl().replace('logout', '');
-                $window.location.href =
-                  'https://signon.cru.org/cas/logout?service=' + serviceUrl;
-              }
-              $cookies.remove('crsAuthProviderType');
               ProfileCache.clearCache();
+              logoutService.logoutFormProviders(response);
+              $cookies.remove('crsAuthProviderType');
               return '/';
             });
         },

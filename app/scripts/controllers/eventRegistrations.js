@@ -186,6 +186,13 @@ angular
       );
     };
 
+    $scope.isRegistrantReported = function(registrant) {
+      const registration = $scope.registrations.find(
+        r => r.id === registrant.registrationId,
+      );
+      return registration && registration.reported;
+    };
+
     $scope.blockIsVisible = function(block, registrant) {
       return validateRegistrant.blockVisible(block, registrant, true);
     };
