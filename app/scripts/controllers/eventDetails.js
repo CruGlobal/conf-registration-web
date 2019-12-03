@@ -428,8 +428,8 @@ angular
 
       //Ministries
       if ($scope.conference.cruEvent && !$scope.conference.ministry) {
-        validationErrors.push('Please enter Ministry Hosting Event.*');
-        validationErrorsHint = eventInformationPageHint;
+        // validationErrors.push('Please enter Ministry Hosting Event.*');
+        // validationErrorsHint = eventInformationPageHint;
       }
 
       if (
@@ -438,15 +438,15 @@ angular
         $scope.getStrategies().length !== 0 &&
         !$scope.conference.strategy
       ) {
-        validationErrors.push(
-          'Please enter which Strategy is hosting the event if applicable.*',
-        );
-        validationErrorsHint = eventInformationPageHint;
+        // validationErrors.push(
+        //   'Please enter which Strategy is hosting the event if applicable.*',
+        // );
+        // validationErrorsHint = eventInformationPageHint;
       }
 
       if ($scope.conference.cruEvent && !$scope.conference.type) {
-        validationErrors.push('Please enter Ministry Purpose.*');
-        validationErrorsHint = eventInformationPageHint;
+        // validationErrors.push('Please enter Ministry Purpose.*');
+        // validationErrorsHint = eventInformationPageHint;
       }
 
       $window.scrollTo(0, 0);
