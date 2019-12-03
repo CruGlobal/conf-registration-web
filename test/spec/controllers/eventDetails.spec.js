@@ -80,12 +80,12 @@ describe('Controller: paymentModal', function() {
     );
   });
 
-  xit('saveEvent() should validate the conference', () => {
+  it('saveEvent() should validate the conference', () => {
     scope.saveEvent();
-    expect(scope.notify.message.toString()).toContain(
+    expect(scope.notify.message.toString()).not.toContain(
       'Please enter Ministry Hosting Event.',
     );
-    expect(scope.notify.message.toString()).toContain(
+    expect(scope.notify.message.toString()).not.toContain(
       'Please enter Ministry Purpose.',
     );
   });
