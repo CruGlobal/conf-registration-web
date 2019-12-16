@@ -213,7 +213,10 @@ angular
 
     $scope.saveEvent = function() {
       //validation check
+      const eventInformationPageHint =
+        "<strong>*</strong>You can provide this information on the 'Event Information' page.";
       var validationErrors = [];
+      var validationErrorsHint = '';
       var urlPattern = new RegExp(
         /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
       );
@@ -414,6 +417,38 @@ angular
         });
       });
 
+      //Cru Event
+      if (
+        typeof $scope.conference.cruEvent === 'undefined' ||
+        $scope.conference.cruEvent === null
+      ) {
+        validationErrors.push('Please specify whether this is a Cru Event.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      //Ministries
+      if ($scope.conference.cruEvent && !$scope.conference.ministry) {
+        validationErrors.push('Please enter Ministry Hosting Event.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      if (
+        $scope.conference.cruEvent &&
+        $scope.conference.ministry &&
+        $scope.getStrategies().length !== 0 &&
+        !$scope.conference.strategy
+      ) {
+        validationErrors.push(
+          'Please enter which Strategy is hosting the event if applicable.*',
+        );
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      if ($scope.conference.cruEvent && !$scope.conference.type) {
+        validationErrors.push('Please enter Ministry Purpose.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
       $window.scrollTo(0, 0);
       if (validationErrors.length > 0) {
         var errorMsg =
@@ -422,6 +457,9 @@ angular
           errorMsg = errorMsg + '<li>' + e + '</li>';
         });
         errorMsg = errorMsg + '</ul>';
+        if (validationErrorsHint) {
+          errorMsg = errorMsg + validationErrorsHint;
+        }
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml(errorMsg),
@@ -552,4 +590,51 @@ angular
       ['left-justify', 'center-justify', 'right-justify'],
       ['link', 'image'],
     ];
+
+    $scope.getStrategies = () => {
+      const currentMinistry = $scope.ministries.find(
+        m => m.id === $scope.conference.ministry,
+      );
+      return currentMinistry ? currentMinistry.strategies : [];
+    };
+
+    $scope.$watch(
+      'conference.ministry',
+      function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          $scope.conference.strategy = null;
+        }
+      },
+      true,
+    );
+
+    $scope.$watch(
+      'conference.cruEvent',
+      function(newVal, oldVal) {
+        if (oldVal !== newVal) {
+          $scope.conference.ministry = null;
+          $scope.conference.strategy = null;
+          $scope.conference.type = null;
+        }
+      },
+      true,
+    );
+
+    $scope.sortNamesWithNA = (v1, v2) => {
+      return v1 === 'N/A' ? -1 : v1 < v2;
+    };
+
+    $http({
+      method: 'GET',
+      url: 'ministries',
+    }).then(function(response) {
+      $scope.ministries = response.data;
+    });
+
+    $http({
+      method: 'GET',
+      url: 'types',
+    }).then(function(response) {
+      $scope.eventTypes = response.data;
+    });
   });
