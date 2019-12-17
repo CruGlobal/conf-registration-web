@@ -35,7 +35,7 @@ angular
     envServiceProvider.config({
       domains: {
         development: ['localhost'],
-        staging: ['stage.eventregistrationtool.com'],
+        staging: ['stage.eventregistrationtool.com', '*.netlify.com'],
         production: [
           'www.eventregistrationtool.com',
           'eventregistrationtool.com',
