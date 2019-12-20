@@ -308,18 +308,6 @@
                 >
               </li>
               <li><a href="help/" translate>Help</a></li>
-              <% if(!htmlWebpackPlugin.options.prod) { %>
-              <li>
-                <a ng-href="http://localhost:9000/auth/{{ crsToken }}"
-                  >Local Dev Environment</a
-                >
-              </li>
-              <li>
-                <a ng-href="http://localhost:3000/auth/{{ crsToken }}"
-                  >Local React Dev Environment</a
-                >
-              </li>
-              <% } %>
             </ul>
           </div>
           <div class="col-sm-4 text-right">
@@ -345,7 +333,7 @@
     </footer>
 
     <div id="logout">
-        <div ng-bind-html="logoutElement"></div>
+      <div ng-bind-html="logoutElement"></div>
     </div>
 
     <% if(htmlWebpackPlugin.options.prod) { %>
