@@ -12,9 +12,9 @@ angular
 
 angular
   .module('confRegistrationWebApp')
-  .filter('localizedSymbol', function($locale, $window) {
-    return function(currencyCode) {
-      let localeId = $locale.id ? $locale.id : 'en-us';
+  .filter('localizedSymbol', ($locale, $window) => {
+    return currencyCode => {
+      let localeId = $locale && $locale.id ? $locale.id : 'en-us';
       let symbol = symbolFromFormatToParts(localeId, currencyCode, $window);
       if (symbol) {
         return symbol;
