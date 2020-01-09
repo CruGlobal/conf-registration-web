@@ -45,6 +45,15 @@ describe('Controller: paymentModal', function() {
     }),
   );
 
+  it('Should set default currency to USD if it does not exist', () => {
+    expect(scope.conference.currency.currencyCode).toBe('USD');
+    expect(scope.conference.currency.localeCode).toBe('en-US');
+    expect(scope.conference.currency.shortSymbol).toBe('$');
+    expect(scope.conference.currency.name).toBe(
+      'US Dollar: English (United States)',
+    );
+  });
+
   it('changeTab() should change tab', function() {
     scope.changeTab('paymentOptions');
     expect(scope.activeTab).toBe('paymentOptions');
