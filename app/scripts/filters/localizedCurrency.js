@@ -14,13 +14,8 @@ angular
   .module('confRegistrationWebApp')
   .filter('localizedSymbol', ($locale, $window) => {
     return currencyCode => {
-      let currentCurrencyCode = currencyCode ? currencyCode : 'USD';
       let localeId = $locale && $locale.id ? $locale.id : 'en-us';
-      let symbol = symbolFromFormatToParts(
-        localeId,
-        currentCurrencyCode,
-        $window,
-      );
+      let symbol = symbolFromFormatToParts(localeId, currencyCode, $window);
       if (symbol) {
         return symbol;
       }
@@ -28,7 +23,7 @@ angular
       return number
         .toLocaleString(localeId, {
           style: 'currency',
-          currency: currentCurrencyCode,
+          currency: currencyCode,
         })
         .replace(/[0., ]/g, '');
     };
