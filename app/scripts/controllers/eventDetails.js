@@ -79,6 +79,20 @@ angular
     $scope.conference = angular.copy(conference);
     $scope.currencies = currencies;
 
+    // If by chance the conference currency or currency code doesn't exist
+    // Set the default to USD.
+    if (
+      !$scope.conference.currency ||
+      !$scope.conference.currency.currencyCode
+    ) {
+      $scope.conference.currency = {
+        currencyCode: 'USD',
+        localeCode: 'en-US',
+        shortSymbol: '$',
+        name: 'US Dollar: English (United States)',
+      };
+    }
+
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {
         type.allowedRegistrantTypeSet = _.map(
