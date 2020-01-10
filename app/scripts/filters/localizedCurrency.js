@@ -40,6 +40,13 @@ function symbolFromFormatToParts(localeId, currencyCode, window) {
   if (!('formatToParts' in numberFormat)) {
     return;
   }
-  return numberFormat.formatToParts().filter(e => e.type === 'currency')[0]
-    .value;
+  // Some browsers incorrectly return nan or Nan for the formatToParts function
+  // This will filter out all incorrect results.
+  const filteredSymbol = numberFormat
+    .formatToParts()
+    .filter(e => e.type !== 'nan' || e.value !== 'NaN');
+
+  if (filteredSymbol.length > 0) {
+    return filteredSymbol.filter(e => e.type === 'currency')[0].value;
+  }
 }
