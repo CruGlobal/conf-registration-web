@@ -16,7 +16,7 @@
       <div ng-if="instagramLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
           class="btn btn-subtle btn-block"
-          ng-href="{{apiUrl}}auth/instagram/authorization"
+          ng-href="{{apiUrl}}auth/instagram/authorization?clientUrl={{clientUrl}}"
           title="Instagram"
           ><img src="../../img/signin-instagram.jpeg"
         /></a>
@@ -27,7 +27,7 @@
       <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
           class="btn btn-subtle btn-block"
-          ng-href="{{apiUrl}}auth/facebook/authorization"
+          ng-href="{{apiUrl}}auth/facebook/authorization?clientUrl={{clientUrl}}"
           title="Facebook"
           ><img src="../../img/signin-facebook.png"
         /></a>
@@ -38,7 +38,7 @@
       <div ng-if="relayLogin" class="{{ 'col-sm-6 col-sm-offset-3'}}">
         <a
           class="btn btn-subtle btn-block"
-          ng-href="{{apiUrl}}auth/relay/login?logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None"
+          ng-href="{{apiUrl}}auth/relay/login?clientUrl={{clientUrl}}&logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None"
           title="Relay"
           ><img src="../../img/signin-relay.png"
         /></a>

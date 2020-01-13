@@ -13,6 +13,7 @@ angular
           envService,
         ) {
           $scope.apiUrl = envService.read('apiUrl');
+          $scope.clientUrl = window.location.origin;
           $scope.status401 = options.status401;
           $scope.relayLogin =
             options.relayLogin === undefined ? true : options.relayLogin;
