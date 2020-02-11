@@ -32,7 +32,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.5.2",
     "css-loader": "^0.28.4",
-    "eslint": "^4.0.0",
+    "eslint": "^4.18.2",
     "eslint-config-angular": "^0.5.0",
     "eslint-loader": "^2.0.0",
     "eslint-plugin-angular": "^2.4.2",
