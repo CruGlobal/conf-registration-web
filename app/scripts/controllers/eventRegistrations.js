@@ -136,6 +136,7 @@ angular
         GroupId: false,
         Started: true,
         Completed: true,
+        LastUpdated: false,
       };
     } else {
       $scope.builtInColumnsVisible = JSON.parse(builtInColumnsVisibleInStorage);
@@ -225,6 +226,8 @@ angular
         return registrant.email;
       } else if (orderBy === 'checked_in_timestamp') {
         return registrant.checkedInTimestamp;
+      } else if (orderBy === 'last_updated_timestamp') {
+        return registrant.lastUpdatedTimestamp;
       } else if (orderBy === 'group_id') {
         return registrant.groupId;
       } else {
@@ -466,6 +469,23 @@ angular
 
     $scope.getRegistration = function(id) {
       return _.find($scope.registrations, { id: id });
+    };
+
+    $scope.getRegistrationLastUpdatedTimestamp = registrant => {
+      const registration = _.find($scope.registrations, {
+        id: registrant.registrationId,
+      });
+      if (
+        $scope.isGroupRegistrant(registrant) &&
+        registration.primaryRegistrantId !== registrant.id
+      ) {
+        return registrant.lastUpdatedTimestamp;
+      } else {
+        return registration.lastUpdatedTimestamp >
+          registrant.lastUpdatedTimestamp
+          ? registration.lastUpdatedTimestamp
+          : registrant.lastUpdatedTimestamp;
+      }
     };
 
     $scope.getGroupName = function(id) {
