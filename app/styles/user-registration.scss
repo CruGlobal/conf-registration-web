@@ -17,11 +17,13 @@ body.user-registration {
       @extend .white;
       margin: 5px 0 0 0;
     }
-    a:link, a:visited, a:hover {
+    a:link,
+    a:visited,
+    a:hover {
       @extend .white;
       text-decoration: none;
     }
-    p{
+    p {
       @extend .white;
     }
   }
@@ -50,7 +52,7 @@ body.user-registration {
       }
     }
     li.active {
-      a span.circle{
+      a span.circle {
         font-size: 14px;
         width: 26px;
         height: 26px;
@@ -61,7 +63,7 @@ body.user-registration {
     }
   }
   main.front-form {
-    .details-heading{
+    .details-heading {
       font-size: 18px;
     }
     .well {
@@ -74,7 +76,7 @@ body.user-registration {
     form label {
       margin-top: 0;
     }
-    .invalidBlock{
+    .invalidBlock {
       @extend .red;
     }
     .registrantBox {
@@ -82,7 +84,7 @@ body.user-registration {
       padding-top: 10px;
       padding-bottom: 10px;
       margin-bottom: 10px;
-      li:not(.active) a{
+      li:not(.active) a {
         @extend .darkerblue;
       }
       @media (min-width: 1054px) {
@@ -98,21 +100,21 @@ body.user-registration {
       padding-top: 10px;
       padding-bottom: 10px;
       margin-bottom: 10px;
-      a{
+      a {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
-      li:not(.active):not(.invalid) a{
+      li:not(.active):not(.invalid) a {
         @extend .darkerblue;
-        .circle{
+        .circle {
           border-color: $darkerblue;
         }
       }
-      li.invalid:not(.active){
-        background-color: #E46363;
-        :hover{
-          background-color: #F0A8A8;
+      li.invalid:not(.active) {
+        background-color: #e46363;
+        :hover {
+          background-color: #f0a8a8;
         }
       }
       @media (min-width: 1054px) {
@@ -123,11 +125,11 @@ body.user-registration {
         width: 200px;
       }
     }
-    .reg-not-complete{
+    .reg-not-complete {
       padding: 20px 15px;
     }
     .reg-type-select {
-      +.reg-type-select{
+      + .reg-type-select {
         border-top: 1px solid #ddd;
       }
       padding: 10px 5px;
@@ -151,13 +153,13 @@ body.user-registration {
   }
   em.required {
     font-style: normal;
-    color: #C00;
+    color: #c00;
   }
-  .dl-horizontal label{
+  .dl-horizontal label {
     //Used for Payment Radio Buttons
     display: block;
   }
-  .review-breakdown{
+  .review-breakdown {
     td {
       border-top: none;
     }
@@ -169,5 +171,8 @@ body.user-registration {
     text-align: center;
     margin-top: 40px;
     padding-bottom: 25px;
+  }
+  img {
+    max-width: 582px;
   }
 }

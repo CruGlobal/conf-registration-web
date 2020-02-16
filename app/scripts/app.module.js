@@ -23,6 +23,7 @@ angular.module('colorpicker.module', []); // angular-wysiwyg requires this modul
 import 'angular-wysiwyg';
 import uiTree from 'angular-ui-tree';
 import 'scripts/errorNotify.js';
+import 'ui-cropper';
 
 export default angular.module('confRegistrationWebApp', [
   ngRoute,
@@ -33,4 +34,5 @@ export default angular.module('confRegistrationWebApp', [
   uiBootstrap,
   uiTree,
   'wysiwyg.module',
+  'uiCropper',
 ]).name;

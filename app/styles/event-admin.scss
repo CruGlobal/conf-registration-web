@@ -5,11 +5,12 @@
   background: $blue;
   border-bottom: 7px solid $darkblue;
   padding-top: 26px;
-  a.logo, a.logo:hover {
+  a.logo,
+  a.logo:hover {
     color: white;
     font-size: 36px;
     text-decoration: none;
-    @media (max-width: $screen-xs-max){
+    @media (max-width: $screen-xs-max) {
       font-size: 22px;
     }
   }
@@ -38,12 +39,15 @@ section#pagetitle {
     @extend .sans-serif-light;
     font-size: 30px;
     @extend .sevengray;
-    a, a:hover, a:visited, a:active{
+    a,
+    a:hover,
+    a:visited,
+    a:active {
       @extend .sevengray;
       text-decoration: none;
     }
   }
-  #subnav ul li{
+  #subnav ul li {
     &.blue {
       font-size: 16px;
     }
@@ -90,7 +94,7 @@ main.dashboard {
     background-repeat: no-repeat;
     padding-top: 70px;
     padding-bottom: 70px;
-    h1{
+    h1 {
       color: #fff;
       font-weight: 600;
       text-shadow: 2px 2px #000011;
@@ -99,7 +103,8 @@ main.dashboard {
       padding: 30px 0px;
     }
     .search-toolbar {
-      .form-control, .btn {
+      .form-control,
+      .btn {
         height: 40px;
         font-size: 120%;
       }
@@ -122,8 +127,8 @@ main.dashboard {
     column-width: 30em;
     .col_masonry {
       display: inline-block;
-      padding:  1rem;
-      width:  100%;
+      padding: 1rem;
+      width: 100%;
     }
   }
 }
@@ -164,27 +169,30 @@ main.event-dashboard {
       @extend .mediumgray;
     }
     li {
-      +li{
+      + li {
         padding-left: 10px;
       }
       a {
         @extend .sixgray;
       }
     }
-    ul{
+    ul {
       padding-top: 5px;
       max-height: 0;
       opacity: 0;
       transition: max-height 0.5s, opacity 0.5s;
     }
-    &:hover{
+    &:hover {
       ul {
         max-height: 50px;
         opacity: 1;
       }
     }
     &.expired {
-      h2, .green, p, strong {
+      h2,
+      .green,
+      p,
+      strong {
         color: #bababa;
       }
       cursor: default;
@@ -202,7 +210,7 @@ main.event-overview {
       color: #636363;
       text-transform: uppercase;
     }
-    .eventstat-icon{
+    .eventstat-icon {
       font-size: 48px;
     }
     a.link {
@@ -224,22 +232,22 @@ main.event-registrations {
   .reg-views-dropdown {
     z-index: 9;
     a {
-      width:250px;
-      overflow:hidden;
+      width: 250px;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
   }
-  .well-border-above{
-    border-top: 1px #E8E8E8 solid;
+  .well-border-above {
+    border-top: 1px #e8e8e8 solid;
     padding-top: 1em;
   }
-  .registration-option-buttons{
+  .registration-option-buttons {
     display: flex;
   }
-  .strike-through{
-    text-decoration:line-through;
+  .strike-through {
+    text-decoration: line-through;
   }
-  .pagination{
+  .pagination {
     margin: auto;
   }
 }
@@ -247,21 +255,21 @@ main.event-details {
   section {
     padding-bottom: 20px;
   }
-  .reg-type-delete{
+  .reg-type-delete {
     position: absolute;
     right: 28px;
     z-index: 1;
   }
-  .reg-discount-delete{
+  .reg-discount-delete {
     position: absolute;
     right: 14px;
     z-index: 1;
   }
-  .pt12{
+  .pt12 {
     padding-top: 12px;
   }
 
-  .bt12{
+  .bt12 {
     padding-bottom: 12px;
   }
 }
@@ -269,21 +277,21 @@ main.event-questions {
   .questions-toolbar-placeholder {
     margin-bottom: 10px;
   }
-  .questions-toolbar-wrap{
+  .questions-toolbar-wrap {
     margin-left: -3px;
     margin-right: -3px;
   }
-  .questions-toolbar{
+  .questions-toolbar {
     margin-bottom: 0;
-    .label{
+    .label {
       display: inline-block;
       margin: 4px 2px 1px;
       font-size: 13px;
       cursor: move;
-      width: 100%
+      width: 100%;
     }
   }
-  .questions-toolbar.affix{
+  .questions-toolbar.affix {
     position: fixed;
     top: 0;
     left: 0;
@@ -296,25 +304,28 @@ main.event-questions {
     border-top: 0;
     border-radius: 0;
   }
-  .dropNewTarget{
-    text-align:center;
+  .dropNewTarget {
+    text-align: center;
     color: $mediumlightgray;
-    .fa{
+    .fa {
       font-size: 800%;
     }
-    p{
+    p {
       font-size: 200%;
     }
   }
-  .panel{
-    .list-group-item:hover, .list-group-item:focus {
+  .panel {
+    .list-group-item:hover,
+    .list-group-item:focus {
       background-color: $hover-highlight;
     }
   }
 
-  .nav-tabs{
+  .nav-tabs {
     margin-top: 10px;
-    >li.active>a, >li.active>a:hover, >li.active>a:focus {
+    > li.active > a,
+    > li.active > a:hover,
+    > li.active > a:focus {
       background-color: $tab-bkgd-color;
     }
   }
@@ -330,4 +341,16 @@ main.event-questions {
       margin-left: 0;
     }
   }
+}
+
+.cropArea {
+  background: #e4e4e4;
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+}
+
+.imagePreview {
+  width: 480px;
+  height: 240px;
 }

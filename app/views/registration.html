@@ -73,6 +73,14 @@
   ng-if="conference.registrationOpen || registerMode === 'preview'"
 >
   <div class="col-xs-12 form-content">
+    <div ng-if="activePageId == '' || conference.includeImageToAllPages">
+      <img
+        class="landing-jumbo ng-scope"
+        ng-src="{{conference.image}}"
+        alt=""
+      />
+      <p />
+    </div>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border" translate>Welcome</h2>
       <p ng-bind="conference.description" class="display-linebreaks"></p>
