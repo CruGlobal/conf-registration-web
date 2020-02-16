@@ -135,5 +135,73 @@
         </div>
       </div>
     </section>
+    <section>
+      <div
+        class="alert"
+        ng-class="notify.class"
+        ng-bind-html="notify.message"
+        ng-show="notify.class"
+      ></div>
+
+      <h2 class="page-title border" translate>Image</h2>
+      <div class="row">
+        <div class="col-sm-5">
+          <label translate for="fileInput">Select an image file: </label>
+
+          <input
+            read-file
+            type="file"
+            accept="image/*"
+            id="fileInput"
+            class="form-control-file"
+            ng-model="selectedImage"
+          />
+          <p></p>
+          <div class="cropArea">
+            <ui-cropper
+              image="selectedImage"
+              area-type="rectangle"
+              aspect-ratio="2"
+              result-image="imageSrc"
+              result-image-size="{w: 582,h: 291}"
+              init-max-area="true"
+              class="ng-isolate-scope fixed-height"
+            ></ui-cropper>
+          </div>
+        </div>
+        <div class="col-sm-7" ng-show="imageSrc!=''">
+          <i
+            class="question-popover fa fa-question-circle"
+            uib-popover="{{'You can check preview page in order to see how image is displayed.' | translate}}"
+            popover-trigger="mouseenter"
+            popover-append-to-body="true"
+          >
+            <label translate>Image to be added to the Event:</label>
+          </i>
+
+          <div class="imagePreview">
+            <img ng-src="{{imageSrc}}" class="full" alt="" />
+          </div>
+
+          <div class="checkbox">
+            <label translate
+              ><input type="checkbox" ng-model="includeImageToAllPages" />
+              Include the Image to Every Page
+            </label>
+          </div>
+
+          <div class="pull-right">
+            <button
+              class="btn btn-success btn-lg"
+              ng-click="saveImage()"
+              translate
+            >
+              Save Image
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="row"></div>
+    </section>
   </div>
 </div>

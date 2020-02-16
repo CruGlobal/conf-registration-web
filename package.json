@@ -20,7 +20,8 @@
     "moment": "^2.18.1",
     "moment-timezone": "^0.5.27",
     "pickadate": "^3.5.6",
-    "rollbar": "^2.0.4"
+    "rollbar": "^2.0.4",
+    "ui-cropper": "^1.0.9"
   },
   "devDependencies": {
     "angular-gettext-cli": "^1.2.0",

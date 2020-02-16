@@ -45,6 +45,7 @@ import 'scripts/directives/showGroupModal.js';
 import 'scripts/directives/showErrors.js';
 import 'scripts/directives/stringToNumber.js';
 import 'scripts/directives/rule.js';
+import 'scripts/directives/readFile.js';
 
 // Filters
 import 'scripts/filters/evtDateFormat.js';
