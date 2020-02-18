@@ -20,12 +20,23 @@ angular
       footer: true,
     };
 
-    $scope.conference = conference;
-    $scope.imageSrc = '';
-    $scope.selectedImage = '';
-    $scope.includeImageToAllPages = false;
+    $scope.resetImage = () => {
+      $scope.imageSrc = conference.image;
+      $scope.includeImageToAllPages = conference.includeImageToAllPages;
+    };
 
-    $scope.saveImage = function() {
+    $scope.conference = conference;
+    $scope.imageSrc = conference.image;
+    $scope.selectedImage = '';
+    $scope.resetImage();
+
+    $scope.deleteImage = () => {
+      $scope.imageSrc = '';
+      $scope.includeImageToAllPages = false;
+      $scope.saveImage();
+    };
+
+    $scope.saveImage = () => {
       $http({
         method: 'PUT',
         url: 'conferences/' + conference.id + '/image',
