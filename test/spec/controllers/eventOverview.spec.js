@@ -1,6 +1,8 @@
 import 'angular-mocks';
 
 describe('Controller: eventOverview', () => {
+  beforeEach(angular.mock.module('confRegistrationWebApp'));
+
   let scope;
   let testData;
   let $httpBackend;
