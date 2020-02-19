@@ -1,16 +1,16 @@
 angular
   .module('confRegistrationWebApp')
-  .directive('readFile', function($timeout, $q) {
+  .directive('readFile', ($timeout, $q) => {
     function readFile(file, scope) {
       const deferred = $q.defer();
       const reader = new FileReader();
-      reader.onload = function() {
-        scope.$apply(function() {
+      reader.onload = () => {
+        scope.$apply(() => {
           deferred.resolve(reader.result);
         });
       };
-      reader.onerror = function() {
-        scope.$apply(function() {
+      reader.onerror = () => {
+        scope.$apply(() => {
           deferred.reject(reader.result);
         });
       };
@@ -22,16 +22,16 @@ angular
       scope: {
         ngModel: '=',
       },
-      link: function($scope, el) {
+      link: ($scope, el) => {
         function getFile(file) {
-          readFile(file, $scope).then(function(result) {
-            $timeout(function() {
+          readFile(file, $scope).then(result => {
+            $timeout(() => {
               $scope.ngModel = result;
             });
           });
         }
 
-        el.bind('change', function(e) {
+        el.bind('change', e => {
           getFile((e.srcElement || e.target).files[0]);
         });
       },
