@@ -156,7 +156,6 @@
             class="form-control-file"
             ng-model="selectedImage"
           />
-          <p></p>
           <div class="cropArea">
             <ui-cropper
               image="selectedImage"
@@ -171,20 +170,21 @@
         </div>
         <div class="col-sm-7" ng-show="imageSrc!=''">
           <label translate>Image Details:</label>
-          <p />
-          <i
-            class="question-popover fa fa-question-circle"
-            uib-popover="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
-            popover-trigger="mouseenter"
-            popover-append-to-body="true"
-          >
-            <a
-              ng-href="preview/{{globalPage.confId}}/page/"
-              target="_blank"
-              translate
-              >Preview Registration Form</a
+          <p>
+            <i
+              class="question-popover fa fa-question-circle"
+              uib-popover="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
+              popover-trigger="mouseenter"
+              popover-append-to-body="true"
             >
-          </i>
+              <a
+                ng-href="preview/{{globalPage.confId}}/page/"
+                target="_blank"
+                translate
+                >Preview Registration Form</a
+              >
+            </i>
+          </p>
           <div class="imagePreview">
             <img ng-src="{{imageSrc}}" class="full" alt="" />
           </div>
