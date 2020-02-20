@@ -143,7 +143,7 @@
         ng-show="notify.class"
       ></div>
 
-      <h2 class="page-title border" translate>Image (optional)</h2>
+      <h2 class="page-title border" translate>Image</h2>
       <div class="row">
         <div class="col-sm-5">
           <label translate for="fileInput">Select an image file: </label>
@@ -156,6 +156,7 @@
             class="form-control-file"
             ng-model="selectedImage"
           />
+          <p></p>
           <div class="cropArea">
             <ui-cropper
               image="selectedImage"
@@ -169,22 +170,15 @@
           </div>
         </div>
         <div class="col-sm-7" ng-show="imageSrc!=''">
-          <label translate>Image Details:</label>
-          <p>
-            <i
-              class="question-popover fa fa-question-circle"
-              uib-popover="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
-              popover-trigger="mouseenter"
-              popover-append-to-body="true"
-            >
-              <a
-                ng-href="preview/{{globalPage.confId}}/page/"
-                target="_blank"
-                translate
-                >Preview Registration Form</a
-              >
-            </i>
-          </p>
+          <i
+            class="question-popover fa fa-question-circle"
+            uib-popover="{{'You can check preview page in order to see how image is displayed.' | translate}}"
+            popover-trigger="mouseenter"
+            popover-append-to-body="true"
+          >
+            <label translate>Image to be added to the Event:</label>
+          </i>
+
           <div class="imagePreview">
             <img ng-src="{{imageSrc}}" class="full" alt="" />
           </div>
@@ -192,30 +186,14 @@
           <div class="checkbox">
             <label translate
               ><input type="checkbox" ng-model="includeImageToAllPages" />
-              Include the image on every page
+              Include the Image to Every Page
             </label>
           </div>
 
           <div class="pull-right">
             <button
-              class="btn btn-cancel btn-lg"
-              ng-click="resetImage()"
-              translate
-            >
-              Reset
-            </button>
-            <button
-              class="btn btn-danger btn-lg"
-              ng-click="deleteImage()"
-              ng-disabled="conference.image === ''"
-              translate
-            >
-              Delete Image
-            </button>
-            <button
               class="btn btn-success btn-lg"
               ng-click="saveImage()"
-              ng-disabled="imageSrc === '' || (conference.image === imageSrc && conference.includeImageToAllPages === includeImageToAllPages)"
               translate
             >
               Save Image
