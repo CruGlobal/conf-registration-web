@@ -56,6 +56,15 @@
         </ul>
       </div>
     </section>
+    <div ng-if="conference.includeImageToAllPages">
+      <img
+        style="max-width: 582px;"
+        class="landing-jumbo ng-scope"
+        ng-src="{{conference.image}}"
+        alt=""
+      />
+      <p />
+    </div>
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />

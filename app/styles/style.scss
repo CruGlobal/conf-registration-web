@@ -1,9 +1,10 @@
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+@import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-@import "variables.scss";
-@import "typography.scss";
-@import "common.scss";
-@import "user-registration.scss";
-@import "event-admin.scss";
-@import "components.scss";
+@import 'variables.scss';
+@import 'typography.scss';
+@import 'common.scss';
+@import 'user-registration.scss';
+@import 'event-admin.scss';
+@import 'components.scss';
+@import '~ui-cropper/source/scss/ui-cropper.scss';

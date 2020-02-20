@@ -7,6 +7,8 @@ angular
     $scope,
     $location,
     $route,
+    $http,
+    $sce,
     ConfCache,
     conference,
   ) {
@@ -19,6 +21,31 @@ angular
     };
 
     $scope.conference = conference;
+    $scope.imageSrc = '';
+    $scope.selectedImage = '';
+    $scope.includeImageToAllPages = false;
+
+    $scope.saveImage = function() {
+      $http({
+        method: 'PUT',
+        url: 'conferences/' + conference.id + '/image',
+        data: {
+          image: $scope.imageSrc,
+          includeImageToAllPages: $scope.includeImageToAllPages,
+        },
+      }).then(function() {
+        $scope.conference.image = $scope.imageSrc;
+        $scope.conference.includeImageToAllPages =
+          $scope.includeImageToAllPages;
+        ConfCache.update(conference.id, $scope.conference);
+        $scope.notify = {
+          class: 'alert-success',
+          message: $sce.trustAsHtml(
+            '<strong>Saved!</strong> Event image details have been updated.',
+          ),
+        };
+      });
+    };
 
     var port = '';
     if ($location.$$port !== 80 && $location.$$port !== 443) {
