@@ -146,7 +146,12 @@
       <h2 class="page-title border" translate>Image (optional)</h2>
       <div class="row">
         <div class="col-sm-5">
-          <label translate for="fileInput">Select an image file: </label>
+          <label
+            translate
+            for="fileInput"
+            uib-tooltip="{{'The newly selected image can be cropped in the area below.' | translate }}"
+            >Select an image file:
+          </label>
 
           <input
             read-file
@@ -160,30 +165,33 @@
             <ui-cropper
               image="selectedImage"
               area-type="rectangle"
-              aspect-ratio="2"
+              aspect-ratio="1.5"
               result-image="imageSrc"
-              result-image-size="{w: 582,h: 291}"
+              result-image-size="{w: 282,h: 168}"
               init-max-area="true"
               class="ng-isolate-scope fixed-height"
             ></ui-cropper>
           </div>
         </div>
-        <div class="col-sm-7" ng-show="imageSrc!=''">
+        <div class="col-sm-5" ng-show="imageSrc!=''">
           <label translate>Image Details:</label>
           <p>
-            <i
-              class="question-popover fa fa-question-circle"
-              uib-popover="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
-              popover-trigger="mouseenter"
-              popover-append-to-body="true"
+            <a
+              ng-href="preview/{{globalPage.confId}}/page/"
+              target="_blank"
+              uib-tooltip="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
+              translate
+              >Preview Registration Form</a
             >
-              <a
-                ng-href="preview/{{globalPage.confId}}/page/"
-                target="_blank"
-                translate
-                >Preview Registration Form</a
-              >
-            </i>
+            <a
+              class="margin-left-10"
+              ng-click="resetImage()"
+              ng-if="conference.image !== imageSrc || conference.includeImageToAllPages !== includeImageToAllPages"
+              uib-tooltip="{{'Reset image and \'Include the image on every page\' value to the previously saved values.' | translate }}"
+              translate
+            >
+              Reset
+            </a>
           </p>
           <div class="imagePreview">
             <img ng-src="{{imageSrc}}" class="full" alt="" />
@@ -198,27 +206,20 @@
 
           <div class="pull-right">
             <button
-              class="btn btn-cancel btn-lg"
-              ng-click="resetImage()"
-              translate
-            >
-              Reset
-            </button>
-            <button
-              class="btn btn-danger btn-lg"
-              ng-click="deleteImage()"
-              ng-disabled="conference.image === ''"
-              translate
-            >
-              Delete Image
-            </button>
-            <button
-              class="btn btn-success btn-lg"
+              class="btn btn-success"
               ng-click="saveImage()"
               ng-disabled="imageSrc === '' || (conference.image === imageSrc && conference.includeImageToAllPages === includeImageToAllPages)"
               translate
             >
               Save Image
+            </button>
+            <button
+              class="btn btn-danger"
+              ng-click="deleteImage()"
+              ng-disabled="conference.image === ''"
+              translate
+            >
+              Delete Image
             </button>
           </div>
         </div>
