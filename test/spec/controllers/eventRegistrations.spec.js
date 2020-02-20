@@ -139,4 +139,23 @@ describe('Controller: eventRegistrations', function() {
       expect(registrant.reported).toBe(true);
     }
   });
+
+  it('getRegistrationLastUpdatedTimestamp should return the latest of two dates for primary registrant of group registration', () => {
+    const registrant = testData.registration.registrants[0];
+    const result_date = scope.getRegistrationLastUpdatedTimestamp(registrant);
+    expect(result_date).toEqual('2015-07-10T15:06:05.383Z');
+  });
+
+  it("getRegistrationLastUpdatedTimestamp should return registrant's LastUpdatedTimestamp for not primary registrant of group registration", () => {
+    const registrant = testData.registration.registrants[1];
+    const result_date = scope.getRegistrationLastUpdatedTimestamp(registrant);
+    expect(result_date).toEqual('2012-12-21T10:23:33.494Z');
+  });
+
+  it('getRegistrationLastUpdatedTimestamp should return the latest of two dates for not group registrant', () => {
+    scope.registrations = [testData.singleRegistration];
+    const registrant = testData.singleRegistration.registrants[0];
+    const result_date = scope.getRegistrationLastUpdatedTimestamp(registrant);
+    expect(result_date).toEqual('2015-05-15T15:23:49.846Z');
+  });
 });
