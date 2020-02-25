@@ -165,9 +165,8 @@
             <ui-cropper
               image="selectedImage"
               area-type="rectangle"
-              aspect-ratio="1.5"
               result-image="imageSrc"
-              result-image-size="{w: 282,h: 168}"
+              result-image-size="500"
               init-max-area="true"
               class="ng-isolate-scope fixed-height"
             ></ui-cropper>
@@ -194,7 +193,7 @@
             </a>
           </p>
           <div class="imagePreview">
-            <img ng-src="{{imageSrc}}" class="full" alt="" />
+            <img ng-src="{{imageSrc}}" class=" imagePreview" alt="" />
           </div>
 
           <div class="checkbox">
