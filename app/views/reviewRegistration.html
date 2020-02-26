@@ -1,5 +1,13 @@
 <div class="row spacing-below-md">
   <div class="col-xs-12 form-content">
+    <div ng-if="conference.includeImageToAllPages" class="text-center">
+      <img
+        class="landing-jumbo ng-scope"
+        ng-src="{{conference.image}}"
+        alt=""
+      />
+      <p />
+    </div>
     <section ng-if="currentRegistration.completed">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
@@ -56,15 +64,6 @@
         </ul>
       </div>
     </section>
-    <div ng-if="conference.includeImageToAllPages" class="text-center">
-      <img
-        style="max-width: 582px;"
-        class="landing-jumbo ng-scope"
-        ng-src="{{conference.image}}"
-        alt=""
-      />
-      <p />
-    </div>
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />

@@ -495,11 +495,12 @@ angular
             t.allowedRegistrantTypeSet = null;
           }
         });
-
+        let payloadWithoutImage = angular.copy(payload);
+        payloadWithoutImage.image = '';
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
-          data: payload,
+          data: payloadWithoutImage,
         })
           .then(function() {
             $scope.notify = {
