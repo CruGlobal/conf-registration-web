@@ -136,7 +136,6 @@ angular
         GroupId: false,
         Started: true,
         Completed: true,
-        LastUpdated: false,
       };
     } else {
       $scope.builtInColumnsVisible = JSON.parse(builtInColumnsVisibleInStorage);
