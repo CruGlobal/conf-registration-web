@@ -31,8 +31,8 @@ angular
       $scope.resetImage();
 
       $scope.deleteImage = () => {
-        $scope.imageSrc = '';
-        $scope.includeImageToAllPages = false;
+        $scope.image.image = '';
+        $scope.image.includeImageToAllPages = false;
         $scope.saveImage();
       };
 

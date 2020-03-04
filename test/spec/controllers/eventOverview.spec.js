@@ -26,18 +26,18 @@ describe('Controller: eventOverview', () => {
   );
 
   it('resetImage should set image and includeImageToAllPages to the value taken from the conference', () => {
-    scope.includeImageToAllPages = false;
-    scope.imageSrc = 'new-image';
+    scope.image.includeImageToAllPages = false;
+    scope.image.imageSrc = 'new-image';
     scope.resetImage();
-    expect(scope.includeImageToAllPages).toEqual(
+    expect(scope.image.includeImageToAllPages).toEqual(
       conference.image.includeImageToAllPages,
     );
-    expect(scope.imageSrc).toEqual(conference.image.image);
+    expect(scope.image.image).toEqual(conference.image.image);
   });
 
   it('saveImage should save image and includeImageToAllPages', () => {
-    scope.includeImageToAllPages = false;
-    scope.imageSrc = 'new-image';
+    scope.image.includeImageToAllPages = false;
+    scope.image.image = 'new-image';
     $httpBackend
       .whenPUT(/^conferences\/[-a-zA-Z0-9]+\/image\.*/)
       .respond((verb, url, data) => {
@@ -48,10 +48,10 @@ describe('Controller: eventOverview', () => {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-    expect(scope.includeImageToAllPages).toEqual(
+    expect(scope.image.includeImageToAllPages).toEqual(
       conference.image.includeImageToAllPages,
     );
-    expect(scope.imageSrc).toEqual(conference.image.image);
+    expect(scope.image.image).toEqual(conference.image.image);
   });
 
   it('deleteImage should delete image and set includeImageToAllPages to false', () => {
