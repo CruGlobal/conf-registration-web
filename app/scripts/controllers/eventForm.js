@@ -55,7 +55,7 @@ angular
 
       formSaving = true;
       let conferenceWithoutImage = angular.copy($scope.conference);
-      conferenceWithoutImage.image = '';
+      conferenceWithoutImage.image = null;
 
       $http({
         method: 'PUT',

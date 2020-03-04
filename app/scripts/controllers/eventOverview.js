@@ -23,8 +23,7 @@ angular
       };
 
       $scope.resetImage = () => {
-        $scope.imageSrc = conference.image;
-        $scope.includeImageToAllPages = conference.includeImageToAllPages;
+        $scope.image = conference.image;
       };
 
       $scope.conference = conference;
@@ -41,14 +40,9 @@ angular
         $http({
           method: 'PUT',
           url: `conferences/${conference.id}/image`,
-          data: {
-            image: $scope.imageSrc,
-            includeImageToAllPages: $scope.includeImageToAllPages,
-          },
+          data: $scope.image,
         }).then(() => {
-          $scope.conference.image = $scope.imageSrc;
-          $scope.conference.includeImageToAllPages =
-            $scope.includeImageToAllPages;
+          $scope.conference.image = $scope.image;
           ConfCache.update(conference.id, $scope.conference);
           $scope.notify = {
             class: 'alert-success',

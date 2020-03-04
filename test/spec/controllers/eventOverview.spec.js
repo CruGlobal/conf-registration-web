@@ -30,9 +30,9 @@ describe('Controller: eventOverview', () => {
     scope.imageSrc = 'new-image';
     scope.resetImage();
     expect(scope.includeImageToAllPages).toEqual(
-      conference.includeImageToAllPages,
+      conference.image.includeImageToAllPages,
     );
-    expect(scope.imageSrc).toEqual(conference.image);
+    expect(scope.imageSrc).toEqual(conference.image.image);
   });
 
   it('saveImage should save image and includeImageToAllPages', () => {
@@ -49,9 +49,9 @@ describe('Controller: eventOverview', () => {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
     expect(scope.includeImageToAllPages).toEqual(
-      conference.includeImageToAllPages,
+      conference.image.includeImageToAllPages,
     );
-    expect(scope.imageSrc).toEqual(conference.image);
+    expect(scope.imageSrc).toEqual(conference.image.image);
   });
 
   it('deleteImage should delete image and set includeImageToAllPages to false', () => {
@@ -65,7 +65,7 @@ describe('Controller: eventOverview', () => {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
-    expect(conference.includeImageToAllPages).toEqual(false);
-    expect(conference.image).toEqual('');
+    expect(conference.image.includeImageToAllPages).toEqual(false);
+    expect(conference.image.image).toEqual('');
   });
 });

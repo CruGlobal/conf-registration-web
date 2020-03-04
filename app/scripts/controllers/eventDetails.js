@@ -496,7 +496,7 @@ angular
           }
         });
         let payloadWithoutImage = angular.copy(payload);
-        payloadWithoutImage.image = '';
+        payloadWithoutImage.image = null;
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,

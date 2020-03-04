@@ -74,12 +74,12 @@
 >
   <div class="col-xs-12 form-content">
     <div
-      class="text-center"
-      ng-if="activePageId == '' || conference.includeImageToAllPages"
+      ng-class="{ 'text-right': conference.image.displayType === 'ALIGNED_RIGHT', 'text-left': conference.image.displayType === 'ALIGNED_LEFT', 'text-center': conference.image.displayType === 'CENTERED'}"
+      ng-if="activePageId == '' || conference.image.includeImageToAllPages"
     >
       <img
-        class="landing-jumbo ng-scope"
-        ng-src="{{conference.image}}"
+        class="landing-jumbo ng-scope "
+        ng-src="{{conference.image.image}}"
         alt=""
       />
       <p />

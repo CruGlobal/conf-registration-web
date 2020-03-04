@@ -165,14 +165,16 @@
             <ui-cropper
               image="selectedImage"
               area-type="rectangle"
-              result-image="imageSrc"
-              result-image-size="500"
+              result-image="image.image"
+              result-image-quality="0.5"
+              result-image-size="'max'"
+              area-min-size="10"
               init-max-area="true"
               class="ng-isolate-scope fixed-height"
             ></ui-cropper>
           </div>
         </div>
-        <div class="col-sm-5" ng-show="imageSrc!=''">
+        <div class="col-sm-5" ng-show="image.image!=''">
           <label translate>Image Details:</label>
           <p>
             <a
@@ -185,7 +187,7 @@
             <a
               class="margin-left-10"
               ng-click="resetImage()"
-              ng-if="conference.image !== imageSrc || conference.includeImageToAllPages !== includeImageToAllPages"
+              ng-if="conference.image.image!== image.image || conference.image.includeImageToAllPages !== image.includeImageToAllPages"
               uib-tooltip="{{'Reset image and \'Include the image on every page\' value to the previously saved values.' | translate }}"
               translate
             >
@@ -193,13 +195,24 @@
             </a>
           </p>
           <div class="imagePreview">
-            <img ng-src="{{imageSrc}}" class=" imagePreview" alt="" />
+            <img ng-src="{{image.image}}" class="imagePreview" alt="" />
           </div>
 
           <div class="checkbox">
             <label translate
-              ><input type="checkbox" ng-model="includeImageToAllPages" />
+              ><input type="checkbox" ng-model="image.includeImageToAllPages" />
               Include the image on every page
+            </label>
+          </div>
+
+          <div class="select">
+            <label translate
+              >Select image orientation on the page
+              <select class="form-control" ng-model="image.displayType">
+                <option value="ALIGNED_LEFT" translate>Aligned Left</option>
+                <option value="ALIGNED_RIGHT" translate>Aligned Right</option>
+                <option value="CENTERED" translate>Centered</option>
+              </select>
             </label>
           </div>
 
@@ -207,7 +220,7 @@
             <button
               class="btn btn-success"
               ng-click="saveImage()"
-              ng-disabled="imageSrc === '' || (conference.image === imageSrc && conference.includeImageToAllPages === includeImageToAllPages)"
+              ng-disabled="imageSrc === '' || (conference.image.image === imageSrc && conference.image.includeImageToAllPages === includeImageToAllPages)"
               translate
             >
               Save Image
@@ -215,7 +228,7 @@
             <button
               class="btn btn-danger"
               ng-click="deleteImage()"
-              ng-disabled="conference.image === ''"
+              ng-disabled="conference.image.image=== ''"
               translate
             >
               Delete Image
