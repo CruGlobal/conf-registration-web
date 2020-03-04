@@ -136,7 +136,6 @@ angular
         GroupId: false,
         Started: true,
         Completed: true,
-        LastUpdated: false,
       };
     } else {
       $scope.builtInColumnsVisible = JSON.parse(builtInColumnsVisibleInStorage);
@@ -475,16 +474,29 @@ angular
       const registration = _.find($scope.registrations, {
         id: registrant.registrationId,
       });
+      const answersTimestamps = registrant.answers.map(
+        answer => answer.lastUpdatedTimestamp,
+      );
       if (
         $scope.isGroupRegistrant(registrant) &&
         registration.primaryRegistrantId !== registrant.id
       ) {
-        return registrant.lastUpdatedTimestamp;
+        const allTimestamps = [
+          ...answersTimestamps,
+          registrant.lastUpdatedTimestamp,
+        ].sort();
+        return allTimestamps[allTimestamps.length - 1];
       } else {
-        return registration.lastUpdatedTimestamp >
-          registrant.lastUpdatedTimestamp
-          ? registration.lastUpdatedTimestamp
-          : registrant.lastUpdatedTimestamp;
+        const paymentTimestamps = registration.pastPayments.map(
+          payment => payment.lastUpdatedTimestamp,
+        );
+        const allTimestamps = [
+          ...paymentTimestamps,
+          ...answersTimestamps,
+          registration.lastUpdatedTimestamp,
+          registrant.lastUpdatedTimestamp,
+        ].sort();
+        return allTimestamps[allTimestamps.length - 1];
       }
     };
 

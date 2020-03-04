@@ -532,6 +532,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
           checkNumber: '234',
           checkType: null,
         },
+        lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
       },
     ],
     registrants: [
@@ -555,6 +556,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '9b83eebd-b064-4edf-92d0-7982a330272a',
             value: 'M',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '3a1cfe9d-e256-44e4-81fe-d4bea03d8e1c',
@@ -562,6 +564,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '0556295a-3c4d-45b2-a00e-42b1fe199421',
             value: 235246,
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: 'd1c692b3-c1c4-4d18-8490-548e81a5a806',
@@ -569,6 +572,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '0b876382-5fd1-46af-b778-10fc9b1b530d',
             value: '12',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '60eef5c3-7e09-4b25-a03f-d330fb79ce7f',
@@ -576,6 +580,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '2764e22b-8623-4c2b-81e5-f625574521f2',
             value: '1',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '6e52f066-f894-43ac-b9c0-d195bb65443f',
@@ -585,6 +590,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
               '651': true,
             },
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '8c6be491-f956-4fd3-95ad-9b381b106278',
@@ -592,6 +598,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: 'e088fefc-eb9c-4904-b849-017facc9e063',
             value: 'test.person@cru.org',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: 'c2cdfc82-5898-461c-ad15-438b49be7ca0',
@@ -602,6 +609,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
               lastName: 'Person',
             },
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '84666425-e587-40d5-afb6-d0824eda2f66',
@@ -609,6 +617,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '26c09fa0-f62e-4dc4-a568-b061da6fdb09',
             value: '',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             amount: 0,
@@ -622,6 +631,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
               state: 'NY',
               zip: '11111',
             },
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '84666425-e587-40d5-afb6-cccccccccccc',
@@ -629,6 +639,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
             value: '',
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '6e52f066-f894-43ac-b9c0-aaaaaaffafaf',
@@ -640,6 +651,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
               C: true,
             },
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
           {
             id: '6e52f066-f894-43ac-b9c0-bfbfbfbfbfbf',
@@ -647,6 +659,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             blockId: 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
             value: {},
             amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
         ],
         firstName: 'Test',
@@ -668,6 +681,16 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         firstName: 'First',
         lastName: 'Last',
         email: 'example@host.com',
+        answers: [
+          {
+            id: 'd1c692b3-c1c4-4d18-8490-548e81a5a806',
+            registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+            blockId: '0b876382-5fd1-46af-b778-10fc9b1b530d',
+            value: '12',
+            amount: 0.0,
+            lastUpdatedTimestamp: '2007-07-10T15:06:05.383Z',
+          },
+        ],
       },
     ],
     expenses: [],
@@ -715,6 +738,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
           checkNumber: '234',
           checkType: null,
         },
+        lastUpdatedTimestamp: '2000-12-21T10:23:33.494Z',
       },
     ],
     registrants: [
@@ -733,6 +757,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         firstName: 'First',
         lastName: 'Last',
         email: 'example@host.com',
+        answers: [],
       },
     ],
     expenses: [],
