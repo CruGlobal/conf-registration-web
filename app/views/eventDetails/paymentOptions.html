@@ -172,6 +172,8 @@
     <div class="form-group">
       <div class="col-xs-12">
         <label translate>Conference currency:</label>
+        <i popover="Changing the currency symbol only affects the display on the registration pages. The amounts recorded do not have the currency symbol included, therefore the event administrators extracting the data need to know what currency was used. Only one currency can be selected per event and it’s not recommend changing this once people have begun to register."
+                     popover-trigger="mouseenter" class="fa fa-question-circle btn-link"></i>
         <select
           class="form-control"
           ng-model="conference.currency"
