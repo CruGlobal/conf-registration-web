@@ -510,6 +510,7 @@ angular
 
             //Clear cache
             ConfCache.empty();
+            $scope.eventDetails.$setPristine();
           })
           .catch(function(response) {
             $scope.notify = {
