@@ -136,6 +136,14 @@
                 <translate>Completed</translate>
               </a>
             </li>
+            <li>
+              <a href="" ng-click="toggleBuiltInColumn('LastUpdated')">
+                <i
+                  ng-class="builtInColumnsVisible.LastUpdated ? 'fa fa-check-square' : 'fa fa-square-o'"
+                ></i>
+                <translate>Last Updated</translate>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -378,6 +386,19 @@
               ></i>
             </th>
 
+            <th
+              class="text-center"
+              width="160"
+              ng-if="builtInColumnsVisible.LastUpdated"
+            >
+              <translate>Last Updated</translate>
+              <i
+                ng-if="queryParameters.orderBy === 'last_updated_timestamp'"
+                class="fa"
+                ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+              ></i>
+            </th>
+
             <th class="text-center" width="70">
               <translate>Paid</translate>
               <i
@@ -435,7 +456,7 @@
               <a
                 href=""
                 ng-click="showGroup(r.registrationId)"
-                ng-if="getRegistrantType(r.registrantTypeId).allowGroupRegistrations"
+                ng-if="isGroupRegistrant(r)"
                 >{{getGroupName(r.registrationId)}}</a
               >
             </td>
@@ -481,6 +502,14 @@
               {{getRegistration(r.registrationId).completed ?
               (getRegistration(r.registrationId).completedTimestamp | date:
               'short') : '-'}}
+            </td>
+            <td
+              class="text-center"
+              ng-click="expandRegistration(r.id)"
+              ng-class="{'strike-through':r.withdrawn}"
+              ng-if="builtInColumnsVisible.LastUpdated"
+            >
+              {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
             </td>
             <td class="text-center">
               <div ng-if="getRegistration(r.registrationId).completed">
@@ -549,6 +578,7 @@
                 <button
                   type="button"
                   class="btn btn-danger"
+                  ng-if="!isRegistrantReported(r)"
                   ng-click="deleteRegistrant(r)"
                   title="Delete Registration"
                 >

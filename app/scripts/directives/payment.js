@@ -296,7 +296,10 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
                   if (!currentPayment.status) {
                     paymentErrors.push('Please select a check status.');
                   }
-                  if (!currentPayment.check.checkNumber) {
+                  if (
+                    !currentPayment.check.checkNumber &&
+                    currentPayment.status === 'RECEIVED'
+                  ) {
                     paymentErrors.push('Please enter a check number.');
                   }
                 }
