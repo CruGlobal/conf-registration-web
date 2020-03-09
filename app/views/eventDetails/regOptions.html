@@ -49,9 +49,16 @@
         </label>
       </div>
 
-      <div class="checkbox">
+      <div
+        class="checkbox"
+        ng-if="conference.instagramLogin || eventDetails.instagramLogin.$dirty"
+      >
         <label>
-          <input type="checkbox" ng-model="conference.instagramLogin" />
+          <input
+            type="checkbox"
+            name="instagramLogin"
+            ng-model="conference.instagramLogin"
+          />
           <translate>Instagram</translate>
         </label>
       </div>
