@@ -211,6 +211,10 @@ angular
       type.earlyRegistrationDiscounts.push({ id: uuid(), enabled: true });
     };
 
+    $scope.setPristine = () => {
+      $scope.eventDetails.$setPristine();
+    };
+
     $scope.saveEvent = function() {
       //validation check
       const eventInformationPageHint =
@@ -491,11 +495,12 @@ angular
             t.allowedRegistrantTypeSet = null;
           }
         });
-
+        let payloadWithoutImage = angular.copy(payload);
+        payloadWithoutImage.image = '';
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
-          data: payload,
+          data: payloadWithoutImage,
         })
           .then(function() {
             $scope.notify = {
@@ -510,6 +515,7 @@ angular
 
             //Clear cache
             ConfCache.empty();
+            $scope.setPristine();
           })
           .catch(function(response) {
             $scope.notify = {
