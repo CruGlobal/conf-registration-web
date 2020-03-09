@@ -89,4 +89,15 @@ describe('Controller: paymentModal', function() {
       'Please enter Ministry Purpose.',
     );
   });
+
+  it('setPristine() should pristine the form', () => {
+    scope.eventDetails = {
+      $setPristine() {},
+    };
+    const setPristine = spyOn(scope.eventDetails, '$setPristine');
+
+    scope.setPristine();
+
+    expect(setPristine).toHaveBeenCalled();
+  });
 });

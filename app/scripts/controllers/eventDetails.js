@@ -211,6 +211,10 @@ angular
       type.earlyRegistrationDiscounts.push({ id: uuid(), enabled: true });
     };
 
+    $scope.setPristine = () => {
+      $scope.eventDetails.$setPristine();
+    };
+
     $scope.saveEvent = function() {
       //validation check
       const eventInformationPageHint =
@@ -510,6 +514,7 @@ angular
 
             //Clear cache
             ConfCache.empty();
+            $scope.setPristine();
           })
           .catch(function(response) {
             $scope.notify = {
