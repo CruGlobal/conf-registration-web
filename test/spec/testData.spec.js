@@ -103,7 +103,10 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             required: false,
             position: 4,
             content: {
-              choices: [{ value: '12', desc: '' }, { value: '23', desc: '' }],
+              choices: [
+                { value: '12', desc: '' },
+                { value: '23', desc: '' },
+              ],
             },
             profileType: null,
             registrantTypes: [],
@@ -129,7 +132,10 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             required: false,
             position: 5,
             content: {
-              choices: [{ value: '651', desc: '' }, { value: '951', desc: '' }],
+              choices: [
+                { value: '651', desc: '' },
+                { value: '951', desc: '' },
+              ],
             },
             profileType: null,
             registrantTypes: [],
