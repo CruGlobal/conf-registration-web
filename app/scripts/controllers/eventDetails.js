@@ -643,4 +643,34 @@ angular
     }).then(function(response) {
       $scope.eventTypes = response.data;
     });
+
+    $scope.resetImage = () => {
+      $scope.image = angular.copy($scope.conference.image);
+    };
+
+    $scope.selectedImage = '';
+    $scope.resetImage();
+
+    $scope.deleteImage = () => {
+      $scope.image.image = '';
+      $scope.image.includeImageToAllPages = false;
+      $scope.saveImage();
+    };
+
+    $scope.saveImage = () => {
+      $http({
+        method: 'PUT',
+        url: `conferences/${conference.id}/image`,
+        data: $scope.image,
+      }).then(() => {
+        $scope.conference.image = angular.copy($scope.image);
+        ConfCache.update(conference.id, $scope.conference);
+        $scope.notify = {
+          class: 'alert-success',
+          message: $sce.trustAsHtml(
+            '<strong>Saved!</strong> Event image details have been updated.',
+          ),
+        };
+      });
+    };
   });

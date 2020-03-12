@@ -20,7 +20,7 @@
     ></div>
     <form class="form-horizontal" name="eventDetails">
       <section ng-include="activeTab.view"></section>
-      <div class="well">
+      <div class="well" ng-if="activeTab.id !== 'regOptions'">
         <button
           type="submit"
           class="btn btn-success btn-lg"
