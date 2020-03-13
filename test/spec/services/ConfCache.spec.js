@@ -63,6 +63,7 @@ describe('Service: ConfCache', function() {
 
     expect(conference.name).toBe(conferenceRename);
   });
+
   it('confCache.initCurrencies should return all available currencies', function() {
     $httpBackend
       .expectGET(/payments\/currency/)

@@ -53,19 +53,6 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     expect(typeNames).toContain('Group 1 Dependant 2');
   });
 
-  it('when Group 1 selected on the first screen, only associated registrant types visible on review screen', function() {
-    element = $compile('<registration-type-select></registration-type-select>')(
-      scope,
-    );
-    scope.$digest();
-    scope = element.isolateScope() || element.scope();
-
-    const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(2);
-    expect(typeNames).toContain('Group 1 Dependant 1');
-    expect(typeNames).toContain('Group 1 Dependant 2');
-  });
-
   it('when Group 2 selected on the first screen, only associated registrant types visible on review screen', function() {
     const group2Id = _.find(scope.conference.registrantTypes, {
       name: 'Group 2',
