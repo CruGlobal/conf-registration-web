@@ -80,6 +80,7 @@ describe('Service: ConfCache', function() {
       },
     );
     $httpBackend.flush();
+
     expect(result).toEqual([
       { currencyCode: 'USD', shortSymbol: '$', name: 'US Dollar' },
     ]);

@@ -37,7 +37,9 @@ describe('Controller: paymentModal', function() {
 
   it('savePaymentEdits should validate chect number', () => {
     let payment = { paymentType: 'CHECK', status: 'RECEIVED', check: {} };
+
     scope.savePaymentEdits(payment);
+
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 });

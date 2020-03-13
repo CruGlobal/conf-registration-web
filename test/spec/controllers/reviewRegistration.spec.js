@@ -42,6 +42,7 @@ describe('Controller: ReviewRegistrationCtrl', function() {
 
   it('registrantDeletable should be possible when allowEditRegistrationAfterComplete set to true', function() {
     scope.conference.allowEditRegistrationAfterComplete = true;
+
     expect(
       scope.registrantDeletable({
         registrantTypeId: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -51,11 +52,13 @@ describe('Controller: ReviewRegistrationCtrl', function() {
 
   it('registrantDeletable should not be possible when allowEditRegistrationAfterComplete set to false', function() {
     scope.conference.allowEditRegistrationAfterComplete = false;
+
     expect(scope.registrantDeletable({})).toBe(false);
   });
 
   it('registrantDeletable should not be possible when removing primary registrant', function() {
     scope.conference.allowEditRegistrationAfterComplete = true;
+
     expect(
       scope.registrantDeletable({
         id: scope.currentRegistration.primaryRegistrantId,
@@ -66,6 +69,7 @@ describe('Controller: ReviewRegistrationCtrl', function() {
   it('confirmRegistration should redirect to the primary registrant type redirect url', function() {
     scope.currentRegistration.completed = true;
     scope.navigateToPostRegistrationPage();
+
     expect(mockWindow.location.href).toEqual('url2.com');
   });
 });

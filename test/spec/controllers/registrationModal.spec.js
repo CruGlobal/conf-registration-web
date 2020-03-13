@@ -37,6 +37,6 @@ describe('Controller: registrationModal', function() {
   it('register should close the modal', function() {
     scope.register();
 
-    expect(modalInstance.dismiss).toHaveBeenCalled();
+    expect(modalInstance.dismiss).toHaveBeenCalledWith();
   });
 });

@@ -47,6 +47,7 @@ describe('Controller: paymentModal', function() {
 
   it('changeTab() should change tab', function() {
     scope.changeTab('paymentOptions');
+
     expect(scope.activeTab).toBe('paymentOptions');
   });
 
@@ -64,7 +65,9 @@ describe('Controller: paymentModal', function() {
 
   it('deleteRegType should remove reg type', function() {
     var totalRegTypes = scope.conference.registrantTypes.length;
+
     scope.deleteRegType(scope.conference.registrantTypes[0].id);
+
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes - 1);
   });
 
@@ -82,9 +85,11 @@ describe('Controller: paymentModal', function() {
 
   it('saveEvent() should validate the conference', () => {
     scope.saveEvent();
+
     expect(scope.notify.message.toString()).toContain(
       'Please enter Ministry Hosting Event.',
     );
+
     expect(scope.notify.message.toString()).toContain(
       'Please enter Ministry Purpose.',
     );
@@ -94,10 +99,11 @@ describe('Controller: paymentModal', function() {
     scope.eventDetails = {
       $setPristine() {},
     };
+
     const setPristine = spyOn(scope.eventDetails, '$setPristine');
 
     scope.setPristine();
 
-    expect(setPristine).toHaveBeenCalled();
+    expect(setPristine).toHaveBeenCalledWith();
   });
 });

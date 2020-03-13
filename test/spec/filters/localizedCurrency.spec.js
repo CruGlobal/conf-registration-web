@@ -13,6 +13,7 @@ describe('Filter: localizedCurrency', function() {
 
   it('should format currency amount', function() {
     var amount = 123.12;
+
     expect(filter(amount, 'USD')).toContain('123.12');
   });
 });
