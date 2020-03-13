@@ -32,11 +32,17 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(5);
+
     expect(typeNames).toContain('Default');
+
     expect(typeNames).toContain('Group 1');
+
     expect(typeNames).toContain('Group 2');
+
     expect(typeNames).toContain('Group 3');
+
     expect(typeNames).toContain('Group 2 Non-Group 1');
   });
 
@@ -48,21 +54,11 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
-    expect(typeNames.length).toBe(2);
-    expect(typeNames).toContain('Group 1 Dependant 1');
-    expect(typeNames).toContain('Group 1 Dependant 2');
-  });
 
-  it('when Group 1 selected on the first screen, only associated registrant types visible on review screen', function() {
-    element = $compile('<registration-type-select></registration-type-select>')(
-      scope,
-    );
-    scope.$digest();
-    scope = element.isolateScope() || element.scope();
-
-    const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
     expect(typeNames.length).toBe(2);
+
     expect(typeNames).toContain('Group 1 Dependant 1');
+
     expect(typeNames).toContain('Group 1 Dependant 2');
   });
 
@@ -78,8 +74,11 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(2);
+
     expect(typeNames).toContain('Group 2 Non-Group 1');
+
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
@@ -92,14 +91,23 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(8);
+
     expect(typeNames).toContain('Default');
+
     expect(typeNames).toContain('Group 1');
+
     expect(typeNames).toContain('Group 2');
+
     expect(typeNames).toContain('Group 3');
+
     expect(typeNames).toContain('Group 1 Dependant 2');
+
     expect(typeNames).toContain('Group 1 Dependant 2');
+
     expect(typeNames).toContain('Group 2 Non-Group 1');
+
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
@@ -115,9 +123,13 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(3);
+
     expect(typeNames).toContain('Group 1');
+
     expect(typeNames).toContain('Group 3');
+
     expect(typeNames).toContain('Group 2 Dependant 2');
   });
 
@@ -130,7 +142,9 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(1);
+
     expect(typeNames).toContain('Group 1 Dependant 1');
   });
 
@@ -144,8 +158,11 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(2);
+
     expect(typeNames).toContain('Group 1 Dependant 1');
+
     expect(typeNames).toContain('Group 1 Dependant 2');
   });
 
@@ -158,6 +175,7 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function() 
     scope = element.isolateScope() || element.scope();
 
     const typeNames = _.map(scope.visibleRegistrantTypes, 'name');
+
     expect(typeNames.length).toBe(8);
   });
 });

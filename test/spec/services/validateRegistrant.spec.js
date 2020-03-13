@@ -110,15 +110,19 @@ describe('Service: validateRegistrant', function() {
     registrantZip.answers[8].value = { zip: '' };
 
     expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
+
     expect(
       validateRegistrant.validate(conference, registrantAddress1).length,
     ).toBe(1);
+
     expect(validateRegistrant.validate(conference, registrantCity).length).toBe(
       1,
     );
+
     expect(
       validateRegistrant.validate(conference, registrantState).length,
     ).toBe(1);
+
     expect(validateRegistrant.validate(conference, registrantZip).length).toBe(
       1,
     );

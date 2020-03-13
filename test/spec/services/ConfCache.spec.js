@@ -63,6 +63,7 @@ describe('Service: ConfCache', function() {
 
     expect(conference.name).toBe(conferenceRename);
   });
+
   it('confCache.initCurrencies should return all available currencies', function() {
     $httpBackend
       .expectGET(/payments\/currency/)
@@ -79,6 +80,7 @@ describe('Service: ConfCache', function() {
       },
     );
     $httpBackend.flush();
+
     expect(result).toEqual([
       { currencyCode: 'USD', shortSymbol: '$', name: 'US Dollar' },
     ]);
