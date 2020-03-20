@@ -61,6 +61,9 @@ angular
 
     $scope.changeTab = function(tab) {
       $scope.activeTab = tab;
+      if (tab.id === 'regOptions') {
+        $scope.resetImage();
+      }
     };
     $scope.changeTab($scope.tabs[0]);
 
@@ -664,6 +667,7 @@ angular
         data: $scope.image,
       }).then(() => {
         $scope.conference.image = angular.copy($scope.image);
+        conference.image = $scope.conference.image;
         ConfCache.update(conference.id, $scope.conference);
         $scope.notify = {
           class: 'alert-success',
