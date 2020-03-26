@@ -134,8 +134,8 @@
     Save
   </button>
 </div>
-
-<section class="margin-top-50">
+<div class="divider"></div>
+<section>
   <div
     class="alert"
     ng-class="notify.class"
@@ -143,7 +143,14 @@
     ng-show="notify.class"
   ></div>
 
-  <h2 class="page-title border" translate>Image (optional)</h2>
+  <h2 class="page-title border" translate>
+    Image<i
+      class="question-popover fa fa-question-circle"
+      uib-popover="{{'Allows for adding an image to either just the Registration landing page or also each of the individual Registration pages.' | translate}}"
+      popover-trigger="mouseenter"
+      popover-append-to-body="true"
+    ></i>
+  </h2>
   <div class="row">
     <div class="col-sm-5">
       <label
