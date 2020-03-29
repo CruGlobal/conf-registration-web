@@ -649,6 +649,9 @@ angular
 
     $scope.resetImage = () => {
       $scope.image = angular.copy($scope.conference.image);
+      if (!$scope.image.displayType) {
+        $scope.image.displayType = 'CENTERED';
+      }
     };
 
     $scope.selectedImage = '';
@@ -657,6 +660,7 @@ angular
     $scope.deleteImage = () => {
       $scope.image.image = '';
       $scope.image.includeImageToAllPages = false;
+      $scope.image.displayType = 'CENTERED';
       $scope.saveImage();
     };
 
