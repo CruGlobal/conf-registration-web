@@ -73,6 +73,17 @@
   ng-if="conference.registrationOpen || registerMode === 'preview'"
 >
   <div class="col-xs-12 form-content">
+    <div
+      ng-class="{ 'text-right': conference.image.displayType === 'ALIGNED_RIGHT', 'text-left': conference.image.displayType === 'ALIGNED_LEFT', 'text-center': conference.image.displayType === 'CENTERED'}"
+      ng-if="activePageId == '' || conference.image.includeImageToAllPages"
+    >
+      <img
+        class="landing-jumbo ng-scope "
+        ng-src="{{conference.image.image}}"
+        alt=""
+      />
+      <p />
+    </div>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border" translate>Welcome</h2>
       <p ng-bind="conference.description" class="display-linebreaks"></p>

@@ -498,6 +498,11 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     accountNumber: null,
     glAccount: null,
     cruEvent: true,
+    image: {
+      image:
+        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkYAAAEiCAYAAAAcUB29AAAgAElEQVR4Xpx9B7hkVZXuf05V',
+      includeImageToAllPages: true,
+    },
   };
 
   this.registration = {

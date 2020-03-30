@@ -54,10 +54,13 @@ angular
       $timeout.cancel(formSavingTimeout);
 
       formSaving = true;
+      let conferenceWithoutImage = angular.copy($scope.conference);
+      conferenceWithoutImage.image = null;
+
       $http({
         method: 'PUT',
         url: 'conferences/' + conference.id,
-        data: $scope.conference,
+        data: conferenceWithoutImage,
       })
         .then(function() {
           formSaving = false;

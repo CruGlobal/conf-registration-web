@@ -61,6 +61,9 @@ angular
 
     $scope.changeTab = function(tab) {
       $scope.activeTab = tab;
+      if (tab.id === 'regOptions') {
+        $scope.resetImage();
+      }
     };
     $scope.changeTab($scope.tabs[0]);
 
@@ -495,11 +498,12 @@ angular
             t.allowedRegistrantTypeSet = null;
           }
         });
-
+        let payloadWithoutImage = angular.copy(payload);
+        payloadWithoutImage.image = null;
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
-          data: payload,
+          data: payloadWithoutImage,
         })
           .then(function() {
             $scope.notify = {
@@ -642,4 +646,39 @@ angular
     }).then(function(response) {
       $scope.eventTypes = response.data;
     });
+
+    $scope.resetImage = () => {
+      $scope.image = angular.copy($scope.conference.image);
+      if (!$scope.image.displayType) {
+        $scope.image.displayType = 'CENTERED';
+      }
+    };
+
+    $scope.selectedImage = '';
+    $scope.resetImage();
+
+    $scope.deleteImage = () => {
+      $scope.image.image = '';
+      $scope.image.includeImageToAllPages = false;
+      $scope.image.displayType = 'CENTERED';
+      $scope.saveImage();
+    };
+
+    $scope.saveImage = () => {
+      $http({
+        method: 'PUT',
+        url: `conferences/${conference.id}/image`,
+        data: $scope.image,
+      }).then(() => {
+        $scope.conference.image = angular.copy($scope.image);
+        conference.image = $scope.conference.image;
+        ConfCache.update(conference.id, $scope.conference);
+        $scope.notify = {
+          class: 'alert-success',
+          message: $sce.trustAsHtml(
+            '<strong>Saved!</strong> Event image details have been updated.',
+          ),
+        };
+      });
+    };
   });
