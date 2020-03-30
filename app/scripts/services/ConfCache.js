@@ -77,7 +77,7 @@ angular
           .add(20, 'days')
           .format('YYYY-MM-DD HH:mm:ss'),
         eventTimezone: 'America/New_York',
-        registrationTimezone: 'Asia/Bangkok',
+        registrationTimezone: 'America/New_York',
         registrantTypes: [
           {
             id: uuid(),
