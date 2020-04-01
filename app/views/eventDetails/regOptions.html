@@ -1,6 +1,6 @@
 <h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
-  <div class="col-sm-6 stacked-spacing-col-sm">
+  <div class="col-sm-4 stacked-spacing-col-sm">
     <label
       ><translate>Registration Starts</translate>
       <em class="required">*</em></label
@@ -9,7 +9,7 @@
       model="conference.registrationStartTime"
     ></crs-datetimepicker>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <label
       ><translate>Registration Ends</translate>
       <em class="required">*</em></label
@@ -17,6 +17,98 @@
     <crs-datetimepicker
       model="conference.registrationEndTime"
     ></crs-datetimepicker>
+  </div>
+  <div class="col-sm-4">
+    <label translate>Registration Timezone</label><br />
+    <select class="form-control" ng-model="conference.registrationTimezone">
+      <optgroup label="America">
+        <option value="America/Halifax">Atlantic</option>
+        <option value="America/Puerto_Rico">Atlantic Standard</option>
+        <option value="America/New_York">Eastern</option>
+        <option value="America/Chicago">Central</option>
+        <option value="America/Denver">Mountain</option>
+        <option value="America/Phoenix">Mountain Standard</option>
+        <option value="America/Los_Angeles">Pacific</option>
+        <option value="America/Anchorage">Alaska</option>
+        <option value="Pacific/Honolulu">Hawaii</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="Europe/Moscow">Moscow</option>
+        <option value="Europe/Athens">Eastern</option>
+        <option value="Europe/Berlin">Central</option>
+        <option value="Europe/London">Western</option>
+      </optgroup>
+      <optgroup label="Asia">
+        <option value="Asia/Dubai">Gulf</option>
+        <option value="Asia/Kabul">Afghanistan</option>
+        <option value="Asia/Karachi">Pakistan</option>
+        <option value="Asia/Kolkata">India</option>
+        <option value="Asia/Katmandu">Nepal</option>
+        <option value="Asia/Dhaka">Bangladesh</option>
+        <option value="Asia/Rangoon">Myanmar</option>
+        <option value="Asia/Bangkok">Thailand</option>
+        <option value="Asia/Hong_Kong">China</option>
+        <option value="Asia/Tokyo">Japan</option>
+        <option value="Asia/Vladivostok">Yakutsk</option>
+        <option value="Asia/Sakhalin">Vladivostok Standard</option>
+        <option value="Asia/Anadyr">Anadyr</option>
+      </optgroup>
+      <optgroup label="Africa">
+        <option value="Africa/Abidjan">Abidjan</option>
+        <option value="Africa/Accra">Accra</option>
+        <option value="Africa/Addis_Ababa">Addis_Ababa</option>
+        <option value="Africa/Algiers">Algiers</option>
+        <option value="Africa/Asmara">Asmara</option>
+        <option value="Africa/Asmera">Asmera</option>
+        <option value="Africa/Bamako">Bamako</option>
+        <option value="Africa/Bangui">Bangui</option>
+        <option value="Africa/Banjul">Banjul</option>
+        <option value="Africa/Bissau">Bissau</option>
+        <option value="Africa/Blantyre">Blantyre</option>
+        <option value="Africa/Brazzaville">Brazzaville</option>
+        <option value="Africa/Bujumbura">Bujumbura</option>
+        <option value="Africa/Cairo">Cairo</option>
+        <option value="Africa/Casablanca">Casablanca</option>
+        <option value="Africa/Ceuta">Ceuta</option>
+        <option value="Africa/Conakry">Conakry</option>
+        <option value="Africa/Dakar">Dakar</option>
+        <option value="Africa/Dar_es_Salaam">Dar_es_Salaam</option>
+        <option value="Africa/Djibouti">Djibouti</option>
+        <option value="Africa/Douala">Douala</option>
+        <option value="Africa/El_Aaiun">El_Aaiun</option>
+        <option value="Africa/Freetown">Freetown</option>
+        <option value="Africa/Gaborone">Gaborone</option>
+        <option value="Africa/Harare">Harare</option>
+        <option value="Africa/Johannesburg">Johannesburg</option>
+        <option value="Africa/Kampala">Kampala</option>
+        <option value="Africa/Khartoum">Khartoum</option>
+        <option value="Africa/Kigali">Kigali</option>
+        <option value="Africa/Kinshasa">Kinshasa</option>
+        <option value="Africa/Lagos">Lagos</option>
+        <option value="Africa/Libreville">Libreville</option>
+        <option value="Africa/Lome">Lome</option>
+        <option value="Africa/Luanda">Luanda</option>
+        <option value="Africa/Lubumbashi">Lubumbashi</option>
+        <option value="Africa/Lusaka">Lusaka</option>
+        <option value="Africa/Malabo">Malabo</option>
+        <option value="Africa/Maputo">Maputo</option>
+        <option value="Africa/Maseru">Maseru</option>
+        <option value="Africa/Mbabane">Mbabane</option>
+        <option value="Africa/Mogadishu">Mogadishu</option>
+        <option value="Africa/Monrovia">Monrovia</option>
+        <option value="Africa/Nairobi">Nairobi</option>
+        <option value="Africa/Ndjamena">Ndjamena</option>
+        <option value="Africa/Niamey">Niamey</option>
+        <option value="Africa/Nouakchott">Nouakchott</option>
+        <option value="Africa/Ouagadougou">Ouagadougou</option>
+        <option value="Africa/Porto-Novo">Porto-Novo</option>
+        <option value="Africa/Sao_Tome">Sao_Tome</option>
+        <option value="Africa/Timbuktu">Timbuktu</option>
+        <option value="Africa/Tripoli">Tripoli</option>
+        <option value="Africa/Tunis">Tunis</option>
+        <option value="Africa/Windhoek">Windhoek</option>
+      </optgroup>
+    </select>
   </div>
 </div>
 
