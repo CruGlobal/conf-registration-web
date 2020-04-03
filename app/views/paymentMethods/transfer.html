@@ -1,6 +1,10 @@
 <div class="form-group">
   <label translate>Account Type</label>
-  <select ng-model="currentPayment.transfer.accountType" class="form-control">
+  <select
+    ng-model="currentPayment.transfer.accountType"
+    ng-change="accountNumber()"
+    class="form-control"
+  >
     <option value="STAFF" translate>Staff</option>
     <option value="MINISTRY" translate>Ministry</option>
     <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
