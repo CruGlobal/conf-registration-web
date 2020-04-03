@@ -18,9 +18,27 @@ describe('Directive: ertPayment', function() {
 
   beforeEach(inject($rootScope => {
     spyOn($rootScope, 'globalUser').and.returnValue({
-      employeeId: '000123457S',
+      employeeId: 'employee-id',
     });
   }));
+
+  it('accountTypeChanged to STAFF should prefill accountNumber', () => {
+    scope.currentPayment = {
+      transfer: { accountType: 'STAFF', accountNumber: '123' },
+    };
+    scope.accountTypeChanged();
+
+    expect(scope.currentPayment.transfer.accountNumber).toBe('employee-id');
+  });
+
+  it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {
+    scope.currentPayment = {
+      transfer: { accountType: 'not-staff', accountNumber: '123' },
+    };
+    scope.accountTypeChanged();
+
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
+  });
 
   it('accountNumber to STAFF should prefill accountNumber', () => {
     scope.currentPayment = {
