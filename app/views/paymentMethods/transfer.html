@@ -13,21 +13,7 @@
 
 <div
   class="row form-group"
-  ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
->
-  <div class="col-sm-12">
-    <label translate>Account Number</label>
-    <input
-      ng-model="currentPayment.transfer.accountNumber"
-      type="text"
-      class="form-control"
-    />
-  </div>
-</div>
-
-<div
-  class="row form-group"
-  ng-show="currentPayment.transfer.accountType === 'MINISTRY'"
+  ng-show="currentPayment.transfer.accountType === 'MINISTRY' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
 >
   <div class="col-sm-3 stacked-spacing-col-sm">
     <label translate>Business Unit</label>
@@ -35,6 +21,7 @@
       ng-model="currentPayment.transfer.businessUnit"
       type="text"
       class="form-control"
+      ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
     />
   </div>
 
@@ -53,6 +40,7 @@
       ng-model="currentPayment.transfer.department"
       type="text"
       class="form-control"
+      ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
     />
   </div>
 
@@ -60,6 +48,20 @@
     <label translate>Project Id</label>
     <input
       ng-model="currentPayment.transfer.projectId"
+      type="text"
+      class="form-control"
+    />
+  </div>
+</div>
+
+<div
+  class="row form-group"
+  ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
+>
+  <div class="col-sm-12">
+    <label translate>Account Number</label>
+    <input
+      ng-model="currentPayment.transfer.accountNumber"
       type="text"
       class="form-control"
     />
