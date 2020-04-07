@@ -18,7 +18,7 @@ describe('Directive: ertPayment', function() {
 
   beforeEach(inject($rootScope => {
     spyOn($rootScope, 'globalUser').and.returnValue({
-      employeeId: 'employee-id',
+      employeeId: '9870123457S',
     });
   }));
 
@@ -28,7 +28,7 @@ describe('Directive: ertPayment', function() {
     };
     scope.accountTypeChanged();
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('employee-id');
+    expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
   });
 
   it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {
@@ -36,24 +36,6 @@ describe('Directive: ertPayment', function() {
       transfer: { accountType: 'not-staff', accountNumber: '123' },
     };
     scope.accountTypeChanged();
-
-    expect(scope.currentPayment.transfer.accountNumber).toBe('');
-  });
-
-  it('accountNumber to STAFF should prefill accountNumber', () => {
-    scope.currentPayment = {
-      transfer: { accountType: 'STAFF', accountNumber: '123' },
-    };
-    scope.accountNumber();
-
-    expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
-  });
-
-  it('accountNumber to something not equal to STAFF should not prefill accountNumber', () => {
-    scope.currentPayment = {
-      transfer: { accountType: 'not-staff', accountNumber: '123' },
-    };
-    scope.accountNumber();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
   });

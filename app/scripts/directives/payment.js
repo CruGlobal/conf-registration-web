@@ -331,7 +331,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
         return employeeId;
       }
 
-      $scope.accountNumber = () => {
+      $scope.accountTypeChanged = () => {
         $scope.currentPayment.transfer.accountNumber =
           $scope.currentPayment.transfer.accountType === 'STAFF'
             ? transformEmployeeIdIntoAccountNumber()
