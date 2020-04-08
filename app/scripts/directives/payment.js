@@ -21,7 +21,13 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       paymentMethods: '=paymentMethods',
       isAdminPayment: '=adminPayment',
     },
-    controller: function($scope, $http, expenseTypesConstants, gettextCatalog) {
+    controller: function(
+      $scope,
+      $http,
+      $rootScope,
+      expenseTypesConstants,
+      gettextCatalog,
+    ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.currentYear = new Date().getFullYear();
@@ -310,6 +316,19 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
         },
         true,
       );
+
+      function transformEmployeeIdIntoAccountNumber() {
+        let employeeId = $rootScope.globalUser().employeeId.replace(/\D/g, '');
+        employeeId = employeeId.substring(Math.max(0, employeeId.length - 7));
+        return employeeId;
+      }
+
+      $scope.accountNumber = () => {
+        $scope.currentPayment.transfer.accountNumber =
+          $scope.currentPayment.transfer.accountType === 'STAFF'
+            ? transformEmployeeIdIntoAccountNumber()
+            : '';
+      };
     },
   };
 });
