@@ -24,18 +24,21 @@
           >Create a Facebook account</a
         >
       </div>
+      <div class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <br />
+      </div>
       <div ng-if="relayLogin" class="{{ 'col-sm-6 col-sm-offset-3'}}">
         <a
           class="btn btn-subtle btn-block"
-          ng-href="{{apiUrl}}auth/relay/login?clientUrl={{clientUrl}}&logoutCallbackUrl={{apiUrl}}auth/relay/logout&ticket=None"
-          title="Relay"
-          ><img src="../../img/signin-relay.png"
-        /></a>
+          ng-href="{{apiUrl}}auth/okta/authorization?clientUrl={{clientUrl}}"
+          title="Okta"
+          ><img src="../../img/signin-okta.png" />(formerly <b>Relay</b>)</a
+        >
         <a
           href="https://signon.cru.org/cas/login?action=signup&service=https%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogin%3FlogoutCallbackUrl%3Dhttps%3A%2F%2Fapi.eventregistrationtool.com%2Feventhub-api%2Frest%2Fauth%2Frelay%2Flogout"
           target="_blank"
           translate
-          >Create a Relay account</a
+          >Create an Okta account</a
         >
       </div>
     </div>
