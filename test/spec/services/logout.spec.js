@@ -1,7 +1,7 @@
 import 'angular-mocks';
 
 describe('Service: logoutService', () => {
-  let logoutService, $rootScope, $window, $sce;
+  let logoutService, $window;
   let cookieValue = null;
 
   beforeEach(
@@ -15,9 +15,7 @@ describe('Service: logoutService', () => {
     }),
   );
 
-  beforeEach(inject((_logoutService_, _$rootScope_, _$sce_, _$window_) => {
-    $rootScope = _$rootScope_;
-    $sce = _$sce_;
+  beforeEach(inject((_logoutService_, _$window_) => {
     $window = _$window_;
     logoutService = _logoutService_;
   }));
