@@ -1,12 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .service('logoutService', function(
-    $location,
-    $cookies,
-    $window,
-    $rootScope,
-    $sce,
-  ) {
+  .service('logoutService', function($location, $cookies, $window) {
     this.logoutFormProviders = ({ data = null } = {}) => {
       switch ($cookies.get('crsAuthProviderType')) {
         case 'FACEBOOK':
@@ -22,12 +16,6 @@ angular
             'https://signon.cru.org/cas/logout?service=' + serviceUrl;
           break;
         }
-        case 'INSTAGRAM':
-          // if instagram, then logout from instagram on client side
-          $rootScope.logoutElement = $sce.trustAsHtml(
-            '<iframe class="logout-element" src="https://instagram.com/accounts/logout/" width="0" height="0" ' +
-              "onload=\"document.querySelector('.logout-element').parentNode.removeChild(document.querySelector('.logout-element'));\"/>",
-          );
       }
     };
   });

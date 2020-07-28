@@ -13,17 +13,6 @@
       Please sign in with one of the following services:
     </p>
     <div class="row">
-      <div ng-if="instagramLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
-        <a
-          class="btn btn-subtle btn-block"
-          ng-href="{{apiUrl}}auth/instagram/authorization?clientUrl={{clientUrl}}"
-          title="Instagram"
-          ><img src="../../img/signin-instagram.jpeg"
-        /></a>
-        <a href="https://www.instagram.com" target="_blank" translate
-          >Create an Instagram account</a
-        >
-      </div>
       <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
           class="btn btn-subtle btn-block"

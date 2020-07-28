@@ -19,10 +19,6 @@ angular
             options.relayLogin === undefined ? true : options.relayLogin;
           $scope.facebookLogin =
             options.facebookLogin === undefined ? true : options.facebookLogin;
-          $scope.instagramLogin =
-            options.instagramLogin === undefined
-              ? true
-              : options.instagramLogin;
 
           $scope.gotoRoute = function(path) {
             $uibModalInstance.dismiss();

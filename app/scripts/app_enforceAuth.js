@@ -68,15 +68,10 @@ angular
       event.preventDefault();
       if (nextRouteAllowsNoneAuth && nextRouteEventId) {
         ConfCache.get(nextRouteEventId).then(function(conference) {
-          if (
-            conference.relayLogin ||
-            conference.facebookLogin ||
-            conference.instagramLogin
-          ) {
+          if (conference.relayLogin || conference.facebookLogin) {
             loginDialog.show({
               relayLogin: conference.relayLogin,
               facebookLogin: conference.facebookLogin,
-              instagramLogin: conference.instagramLogin,
             });
           } else {
             $window.location.href =
