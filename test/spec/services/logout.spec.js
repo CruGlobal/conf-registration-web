@@ -31,16 +31,6 @@ describe('Service: logoutService', () => {
     expect($window.location.href).toEqual('redirect url');
   });
 
-  it('should logout from instagram', () => {
-    cookieValue = 'INSTAGRAM';
-    logoutService.logoutFormProviders();
-
-    expect($sce.getTrustedHtml($rootScope.logoutElement)).toEqual(
-      '<iframe class="logout-element" src="https://instagram.com/accounts/logout/" width="0" height="0" ' +
-        "onload=\"document.querySelector('.logout-element').parentNode.removeChild(document.querySelector('.logout-element'));\"/>",
-    );
-  });
-
   it('should logout from relay', () => {
     cookieValue = 'RELAY';
     logoutService.logoutFormProviders();
