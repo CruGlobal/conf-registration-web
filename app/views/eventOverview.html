@@ -47,8 +47,8 @@
           <h2 class="page-title border" translate>Registration Window</h2>
           <p>
             {{conference.registrationStartTime | evtDateFormat:
-            conference.eventTimezone}} - {{conference.registrationEndTime |
-            evtDateFormat: conference.eventTimezone}}
+            conference.registrationTimezone}} - {{conference.registrationEndTime
+            | evtDateFormat: conference.registrationTimezone}}
           </p>
           <p
             class="bg-success"

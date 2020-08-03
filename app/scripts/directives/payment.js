@@ -21,7 +21,13 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       paymentMethods: '=paymentMethods',
       isAdminPayment: '=adminPayment',
     },
-    controller: function($scope, $http, expenseTypesConstants, gettextCatalog) {
+    controller: function(
+      $scope,
+      $http,
+      $rootScope,
+      expenseTypesConstants,
+      gettextCatalog,
+    ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.currentYear = new Date().getFullYear();
@@ -58,227 +64,223 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       };
 
       //payment validation
-      $scope.$watch(
-        'currentPayment',
-        function(currentPayment) {
-          if (angular.isUndefined(currentPayment)) {
-            return;
-          }
-          currentPayment = angular.copy(currentPayment);
-          if (!currentPayment.creditCard) {
-            currentPayment.creditCard = {};
-          }
-          if (!currentPayment.offlineCreditCard) {
-            currentPayment.offlineCreditCard = {};
-          }
-          if (!currentPayment.transfer) {
-            currentPayment.transfer = {};
-          }
-          if (!currentPayment.scholarship) {
-            currentPayment.scholarship = {};
-          }
-          if (!currentPayment.check) {
-            currentPayment.check = {};
-          }
+      $scope.validatePayment = currentPayment => {
+        if (angular.isUndefined(currentPayment)) {
+          return;
+        }
+        currentPayment = angular.copy(currentPayment);
+        if (!currentPayment.creditCard) {
+          currentPayment.creditCard = {};
+        }
+        if (!currentPayment.offlineCreditCard) {
+          currentPayment.offlineCreditCard = {};
+        }
+        if (!currentPayment.transfer) {
+          currentPayment.transfer = {};
+        }
+        if (!currentPayment.scholarship) {
+          currentPayment.scholarship = {};
+        }
+        if (!currentPayment.check) {
+          currentPayment.check = {};
+        }
 
-          //validate SCHOLARSHIP payments as TRANSFER payments when admin
-          if (
-            currentPayment.paymentType === 'SCHOLARSHIP' &&
-            $scope.isAdminPayment
-          ) {
-            currentPayment.paymentType = 'TRANSFER';
-            currentPayment.transfer = currentPayment.scholarship;
-          }
+        //validate SCHOLARSHIP payments as TRANSFER payments when admin
+        if (
+          currentPayment.paymentType === 'SCHOLARSHIP' &&
+          $scope.isAdminPayment
+        ) {
+          currentPayment.paymentType = 'TRANSFER';
+          currentPayment.transfer = currentPayment.scholarship;
+        }
 
-          function required(value) {
-            return Boolean(value);
-          }
+        function required(value) {
+          return Boolean(value);
+        }
 
-          var paymentErrors = [];
-          if (angular.isUndefined(currentPayment.paymentType)) {
-            paymentErrors.push(
-              gettextCatalog.getString('Please select a payment method.'),
-            );
-          } else {
-            switch (currentPayment.paymentType) {
-              case 'CREDIT_CARD':
-                var validations = {
-                  nameOnCard: [
-                    {
-                      validate: required,
-                      errorMessage: gettextCatalog.getString(
-                        'You must enter the name on the card.',
-                      ),
+        var paymentErrors = [];
+        if (angular.isUndefined(currentPayment.paymentType)) {
+          paymentErrors.push(
+            gettextCatalog.getString('Please select a payment method.'),
+          );
+        } else {
+          switch (currentPayment.paymentType) {
+            case 'CREDIT_CARD':
+              var validations = {
+                nameOnCard: [
+                  {
+                    validate: required,
+                    errorMessage: gettextCatalog.getString(
+                      'You must enter the name on the card.',
+                    ),
+                  },
+                ],
+                number: [
+                  {
+                    validate: required,
+                    errorMessage: gettextCatalog.getString(
+                      'You must enter a card number.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.card.validate.minLength,
+                    errorMessage: gettextCatalog.getString(
+                      'This card number must contain at least 13 digits.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.card.validate.maxLength,
+                    errorMessage: gettextCatalog.getString(
+                      'This card number cannot contain more than 16 digits.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.card.validate.knownType,
+                    errorMessage: gettextCatalog.getString(
+                      'This card type is not recognized.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.card.validate.typeLength,
+                    get errorMessage() {
+                      var cardNumber = currentPayment.creditCard.number;
+                      var cardType = cruPayments.card.info.type(cardNumber);
+                      var expectedLength =
+                        cruPayments.card.info.expectedLengthForType(
+                          cardNumber,
+                        ) || [];
+                      var expectedDigits = expectedLength.join(
+                        gettextCatalog.getString(' or '),
+                      );
+                      return gettextCatalog.getString(
+                        'This is an invalid {{cardType}} number. It should have {{expectedDigits}} digits.',
+                        {
+                          cardType: cardType,
+                          expectedDigits: expectedDigits,
+                        },
+                      );
                     },
-                  ],
-                  number: [
-                    {
-                      validate: required,
-                      errorMessage: gettextCatalog.getString(
-                        'You must enter a card number.',
-                      ),
+                  },
+                  {
+                    validate: cruPayments.card.validate.checksum,
+                    errorMessage: gettextCatalog.getString(
+                      'This card number is invalid. At least one digit was entered incorrectly.',
+                    ),
+                  },
+                ],
+                cvvNumber: [
+                  {
+                    validate: required,
+                    errorMessage: gettextCatalog.getString(
+                      'You must enter the security code.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.cvv.validate.minLength,
+                    errorMessage: gettextCatalog.getString(
+                      'The security code must be at least 3 digits.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.cvv.validate.maxLength,
+                    errorMessage: gettextCatalog.getString(
+                      'The security code cannot be more than 4 digits.',
+                    ),
+                  },
+                  {
+                    validate: function(cvv) {
+                      var cardNumber = currentPayment.creditCard.number;
+                      var cardType = cruPayments.card.info.type(cardNumber);
+                      return cruPayments.cvv.validate.cardTypeLength(
+                        cvv,
+                        cardType,
+                      );
                     },
-                    {
-                      validate: cruPayments.card.validate.minLength,
-                      errorMessage: gettextCatalog.getString(
-                        'This card number must contain at least 13 digits.',
-                      ),
+                    errorMessage: gettextCatalog.getString(
+                      'The security code has an invalid length.',
+                    ),
+                  },
+                ],
+                expirationMonth: [
+                  {
+                    validate: required,
+                    errorMessage: gettextCatalog.getString(
+                      'You must choose an expiration month.',
+                    ),
+                  },
+                  {
+                    validate: function(expirationMonth) {
+                      return cruPayments.expiryDate.validate.month(
+                        expirationMonth,
+                        currentPayment.creditCard.expirationYear,
+                      );
                     },
-                    {
-                      validate: cruPayments.card.validate.maxLength,
-                      errorMessage: gettextCatalog.getString(
-                        'This card number cannot contain more than 16 digits.',
-                      ),
-                    },
-                    {
-                      validate: cruPayments.card.validate.knownType,
-                      errorMessage: gettextCatalog.getString(
-                        'This card type is not recognized.',
-                      ),
-                    },
-                    {
-                      validate: cruPayments.card.validate.typeLength,
-                      get errorMessage() {
-                        var cardNumber = currentPayment.creditCard.number;
-                        var cardType = cruPayments.card.info.type(cardNumber);
-                        var expectedLength =
-                          cruPayments.card.info.expectedLengthForType(
-                            cardNumber,
-                          ) || [];
-                        var expectedDigits = expectedLength.join(
-                          gettextCatalog.getString(' or '),
-                        );
-                        return gettextCatalog.getString(
-                          'This is an invalid {{cardType}} number. It should have {{expectedDigits}} digits.',
-                          {
-                            cardType: cardType,
-                            expectedDigits: expectedDigits,
-                          },
-                        );
-                      },
-                    },
-                    {
-                      validate: cruPayments.card.validate.checksum,
-                      errorMessage: gettextCatalog.getString(
-                        'This card number is invalid. At least one digit was entered incorrectly.',
-                      ),
-                    },
-                  ],
-                  cvvNumber: [
-                    {
-                      validate: required,
-                      errorMessage: gettextCatalog.getString(
-                        'You must enter the security code.',
-                      ),
-                    },
-                    {
-                      validate: cruPayments.cvv.validate.minLength,
-                      errorMessage: gettextCatalog.getString(
-                        'The security code must be at least 3 digits.',
-                      ),
-                    },
-                    {
-                      validate: cruPayments.cvv.validate.maxLength,
-                      errorMessage: gettextCatalog.getString(
-                        'The security code cannot be more than 4 digits.',
-                      ),
-                    },
-                    {
-                      validate: function(cvv) {
-                        var cardNumber = currentPayment.creditCard.number;
-                        var cardType = cruPayments.card.info.type(cardNumber);
-                        return cruPayments.cvv.validate.cardTypeLength(
-                          cvv,
-                          cardType,
-                        );
-                      },
-                      errorMessage: gettextCatalog.getString(
-                        'The security code has an invalid length.',
-                      ),
-                    },
-                  ],
-                  expirationMonth: [
-                    {
-                      validate: required,
-                      errorMessage: gettextCatalog.getString(
-                        'You must choose an expiration month.',
-                      ),
-                    },
-                    {
-                      validate: function(expirationMonth) {
-                        return cruPayments.expiryDate.validate.month(
-                          expirationMonth,
-                          currentPayment.creditCard.expirationYear,
-                        );
-                      },
-                      errorMessage: gettextCatalog.getString(
-                        'Your credit card is expired or you selected the wrong month or year.',
-                      ),
-                    },
-                  ],
-                  expirationYear: [
-                    {
-                      validate: required,
-                      errorMessage: gettextCatalog.getString(
-                        'You must choose an expiration year.',
-                      ),
-                    },
-                    {
-                      validate: cruPayments.expiryDate.validate.year,
-                      errorMessage: gettextCatalog.getString(
-                        'Your credit card is expired or you selected the wrong year.',
-                      ),
-                    },
-                  ],
-                };
+                    errorMessage: gettextCatalog.getString(
+                      'Your credit card is expired or you selected the wrong month or year.',
+                    ),
+                  },
+                ],
+                expirationYear: [
+                  {
+                    validate: required,
+                    errorMessage: gettextCatalog.getString(
+                      'You must choose an expiration year.',
+                    ),
+                  },
+                  {
+                    validate: cruPayments.expiryDate.validate.year,
+                    errorMessage: gettextCatalog.getString(
+                      'Your credit card is expired or you selected the wrong year.',
+                    ),
+                  },
+                ],
+              };
 
-                // Run all of the validations
-                _.forEach(validations, function(validators, field) {
-                  // Validate this field, stopping on the first failed validator
-                  var failedValidator = _.find(validators, function(validator) {
-                    return !validator.validate(
-                      currentPayment.creditCard[field],
-                    );
-                  });
-                  if (failedValidator) {
-                    paymentErrors.push(failedValidator.errorMessage);
-                  }
+              // Run all of the validations
+              _.forEach(validations, function(validators, field) {
+                // Validate this field, stopping on the first failed validator
+                var failedValidator = _.find(validators, function(validator) {
+                  return !validator.validate(currentPayment.creditCard[field]);
                 });
+                if (failedValidator) {
+                  paymentErrors.push(failedValidator.errorMessage);
+                }
+              });
 
-                //don't require billing address if admin payment
-                if (!$scope.isAdminPayment) {
-                  if (
-                    !currentPayment.creditCard.billingAddress ||
-                    !currentPayment.creditCard.billingCity ||
-                    !currentPayment.creditCard.billingZip
-                  ) {
-                    paymentErrors.push(
-                      'Please enter your card billing details.',
-                    );
-                  }
+              //don't require billing address if admin payment
+              if (!$scope.isAdminPayment) {
+                if (
+                  !currentPayment.creditCard.billingAddress ||
+                  !currentPayment.creditCard.billingCity ||
+                  !currentPayment.creditCard.billingZip
+                ) {
+                  paymentErrors.push('Please enter your card billing details.');
                 }
-                break;
-              case 'OFFLINE_CREDIT_CARD':
-                if (!currentPayment.offlineCreditCard.transactionId) {
-                  paymentErrors.push('Please enter a transaction ID.');
-                }
-                break;
-              case 'SCHOLARSHIP':
-                if (!currentPayment.scholarship.staffEmail) {
-                  paymentErrors.push(
-                    'Please select a staff member to approve your scholarship.',
-                  );
-                }
-                break;
-              case 'TRANSFER':
-                if (!currentPayment.transfer.accountType) {
-                  paymentErrors.push('Please select an Account Type.');
-                }
-                if (currentPayment.transfer.accountType === 'STAFF') {
+              }
+              break;
+            case 'OFFLINE_CREDIT_CARD':
+              if (!currentPayment.offlineCreditCard.transactionId) {
+                paymentErrors.push('Please enter a transaction ID.');
+              }
+              break;
+            case 'SCHOLARSHIP':
+              if (!currentPayment.scholarship.staffEmail) {
+                paymentErrors.push(
+                  'Please select a staff member to approve your scholarship.',
+                );
+              }
+              break;
+            case 'TRANSFER':
+              if (!currentPayment.transfer.accountType) {
+                paymentErrors.push('Please select an Account Type.');
+              }
+              switch (currentPayment.transfer.accountType) {
+                case 'STAFF':
                   if (!currentPayment.transfer.accountNumber) {
                     paymentErrors.push('Please enter a Staff Account Number.');
                   }
-                } else if (currentPayment.transfer.accountType === 'MINISTRY') {
+                  break;
+                case 'MINISTRY':
                   if (
                     !currentPayment.transfer.businessUnit ||
                     !currentPayment.transfer.operatingUnit ||
@@ -289,27 +291,59 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
                       'Please fill in all ministry transfer fields.',
                     );
                   }
-                }
-                break;
-              case 'CHECK':
-                if ($scope.isAdminPayment) {
-                  if (!currentPayment.status) {
-                    paymentErrors.push('Please select a check status.');
-                  }
+                  break;
+                case 'NON_US_STAFF':
                   if (
-                    !currentPayment.check.checkNumber &&
-                    currentPayment.status === 'RECEIVED'
+                    !currentPayment.transfer.businessUnit ||
+                    !currentPayment.transfer.operatingUnit ||
+                    !currentPayment.transfer.department ||
+                    !currentPayment.transfer.accountNumber
                   ) {
-                    paymentErrors.push('Please enter a check number.');
+                    paymentErrors.push(
+                      'Please fill in Operating Unit and Account Number fields.',
+                    );
                   }
+                  break;
+              }
+              break;
+            case 'CHECK':
+              if ($scope.isAdminPayment) {
+                if (!currentPayment.status) {
+                  paymentErrors.push('Please select a check status.');
                 }
-                break;
-            }
+                if (
+                  !currentPayment.check.checkNumber &&
+                  currentPayment.status === 'RECEIVED'
+                ) {
+                  paymentErrors.push('Please enter a check number.');
+                }
+              }
+              break;
           }
-          $scope.currentPayment.errors = paymentErrors;
-        },
-        true,
-      );
+        }
+        $scope.currentPayment.errors = paymentErrors;
+      };
+      $scope.$watch('currentPayment', $scope.validatePayment, true);
+
+      function transformEmployeeIdIntoAccountNumber() {
+        let employeeId = $rootScope.globalUser().employeeId.replace(/\D/g, '');
+        employeeId = employeeId.substring(Math.max(0, employeeId.length - 7));
+        return employeeId;
+      }
+
+      $scope.accountTypeChanged = () => {
+        $scope.currentPayment.transfer.accountNumber =
+          $scope.currentPayment.transfer.accountType === 'STAFF'
+            ? transformEmployeeIdIntoAccountNumber()
+            : '';
+        [
+          $scope.currentPayment.transfer.businessUnit,
+          $scope.currentPayment.transfer.department,
+        ] =
+          $scope.currentPayment.transfer.accountType === 'NON_US_STAFF'
+            ? ['INTLM', 'GENL']
+            : ['', ''];
+      };
     },
   };
 });
