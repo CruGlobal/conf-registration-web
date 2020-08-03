@@ -256,6 +256,20 @@ angular
           return;
         }
       }
+      if (
+        payment.paymentType === 'TRANSFER' &&
+        payment.transfer.accountType === 'NON_US_STAFF'
+      ) {
+        if (
+          !payment.transfer.operatingUnit ||
+          !payment.transfer.accountNumber
+        ) {
+          modalMessage.error(
+            'Please fill in Operating Unit and Account Number fields.',
+          );
+          return;
+        }
+      }
 
       $http
         .put('payments/' + payment.id, payment)

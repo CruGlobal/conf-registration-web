@@ -628,7 +628,7 @@
                   </div>
                   <div class="col-xs-9">
                     {{r.createdTimestamp | evtDateFormat:
-                    conference.eventTimezone}}
+                    conference.registrationTimezone}}
                   </div>
                 </div>
                 <div
@@ -640,7 +640,7 @@
                   </div>
                   <div class="col-xs-9">
                     {{getRegistration(r.registrationId).completedTimestamp |
-                    evtDateFormat: conference.eventTimezone}}
+                    evtDateFormat: conference.registrationTimezone}}
                   </div>
                 </div>
                 <div class="row" ng-show="r.withdrawn">

@@ -347,7 +347,6 @@ angular
       locationZipCode: null,
       relayLogin: true,
       facebookLogin: false,
-      instagramLogin: false,
       archived: false,
       paymentGatewayType: null,
       paymentGatewayId: null,
