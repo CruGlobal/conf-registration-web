@@ -89,6 +89,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: null,
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: 'url1.com',
         },
         {
           id: '115f2658-aa1c-4c0a-8d8a-9a8ea3dd7e22',
@@ -128,6 +129,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: 'url2.com',
         },
         {
           id: 'a0c10ac3-f763-487a-a50d-e84822c89cd4',
@@ -167,6 +169,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: 'url3.com',
         },
         {
           id: 'ec98a7e5-94f2-4ecc-9dd8-964e2910df20',
@@ -194,6 +197,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: null,
         },
         {
           id: '85fcc4dc-9d38-4c7e-a8a5-d48ba6effdd3',
@@ -221,6 +225,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: null,
         },
         {
           id: 'fc10c9a0-018c-4536-9a46-14430caa5c93',
@@ -248,6 +253,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: null,
         },
         {
           id: '61a3a1ec-5c53-4010-8df1-46031b53bc78',
@@ -275,6 +281,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: null,
         },
         {
           id: 'a0c10ac3-f763-487a-a50d-e84822c89aaa',
@@ -319,6 +326,7 @@ angular
           acceptPayOnSite: false,
           defaultTypeKey: '',
           earlyRegistrationDiscounts: [],
+          registrationCompleteRedirect: null,
         },
       ],
       promotions: [],
@@ -332,7 +340,6 @@ angular
       contactPersonEmail: 'bartosz.w@toptal.com',
       contactPersonPhone: '',
       contactWebsite: null,
-      registrationCompleteRedirect: null,
       locationName: null,
       locationAddress: null,
       locationCity: null,
@@ -340,7 +347,6 @@ angular
       locationZipCode: null,
       relayLogin: true,
       facebookLogin: false,
-      instagramLogin: false,
       archived: false,
       paymentGatewayType: null,
       paymentGatewayId: null,

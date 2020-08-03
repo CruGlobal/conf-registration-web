@@ -15,7 +15,8 @@
     ng-class="{'col-sm-5': type.cost>0, 'col-sm-3': type.cost==0}"
   >
     <span class="cost" ng-if="type.cost"
-      >{{type.calculatedCurrentCost | currency:'$'}}</span
+      >{{type.calculatedCurrentCost |
+      localizedCurrency:conference.currency.currencyCode}}</span
     >
     <a
       href=""

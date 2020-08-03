@@ -62,7 +62,7 @@
         setTimeout(function() {
           removeStyle(getParent(), STYLE_ID);
         }, timeout);
-      })(window, document, 'body {opacity: 0! important}', 3000);
+      })(window, document, 'body {opacity: 0 !important}', 3000);
     </script>
     <% if(htmlWebpackPlugin.options.prod) { %>
     <script
@@ -71,7 +71,7 @@
     ></script>
     <% } else { %>
     <script
-      src="// assets.adobedtm.com/launch-EN1532c472c4224a57a029c57d101e0196-development.min.js"
+      src="https://assets.adobedtm.com/launch-EN1532c472c4224a57a029c57d101e0196-development.min.js"
       async
     ></script>
     <% } %>
@@ -311,18 +311,6 @@
                 >
               </li>
               <li><a href="help/" translate>Help</a></li>
-              <% if(!htmlWebpackPlugin.options.prod) { %>
-              <li>
-                <a ng-href="http://localhost:9000/auth/{{ crsToken }}"
-                  >Local Dev Environment</a
-                >
-              </li>
-              <li>
-                <a ng-href="http://localhost:3000/auth/{{ crsToken }}"
-                  >Local React Dev Environment</a
-                >
-              </li>
-              <% } %>
             </ul>
           </div>
           <div class="col-sm-4 text-right">
@@ -346,6 +334,10 @@
         >
       </div>
     </footer>
+
+    <div id="logout">
+      <div ng-bind-html="logoutElement"></div>
+    </div>
 
     <% if(htmlWebpackPlugin.options.prod) { %>
     <script>

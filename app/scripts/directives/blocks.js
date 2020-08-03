@@ -124,7 +124,10 @@ angular
                 visibleValue =
                   visibleValue +
                   ' - ' +
-                  $filter('currency')($scope.daysForBlock() * c.amount, '$');
+                  $filter('localizedCurrency')(
+                    $scope.daysForBlock() * c.amount,
+                    $scope.conference.currency.currencyCode,
+                  );
               }
               $scope.visibleValues.push(visibleValue);
             });

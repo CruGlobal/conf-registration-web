@@ -1,6 +1,6 @@
 <h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
-  <div class="col-sm-6 stacked-spacing-col-sm">
+  <div class="col-sm-4 stacked-spacing-col-sm">
     <label
       ><translate>Registration Starts</translate>
       <em class="required">*</em></label
@@ -9,7 +9,7 @@
       model="conference.registrationStartTime"
     ></crs-datetimepicker>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <label
       ><translate>Registration Ends</translate>
       <em class="required">*</em></label
@@ -18,14 +18,104 @@
       model="conference.registrationEndTime"
     ></crs-datetimepicker>
   </div>
+  <div class="col-sm-4">
+    <label translate>Registration Timezone</label><br />
+    <select class="form-control" ng-model="conference.registrationTimezone">
+      <optgroup label="America">
+        <option value="America/Halifax">Atlantic</option>
+        <option value="America/Puerto_Rico">Atlantic Standard</option>
+        <option value="America/New_York">Eastern</option>
+        <option value="America/Chicago">Central</option>
+        <option value="America/Denver">Mountain</option>
+        <option value="America/Phoenix">Mountain Standard</option>
+        <option value="America/Los_Angeles">Pacific</option>
+        <option value="America/Anchorage">Alaska</option>
+        <option value="Pacific/Honolulu">Hawaii</option>
+      </optgroup>
+      <optgroup label="Europe">
+        <option value="Europe/Moscow">Moscow</option>
+        <option value="Europe/Athens">Eastern</option>
+        <option value="Europe/Berlin">Central</option>
+        <option value="Europe/London">Western</option>
+      </optgroup>
+      <optgroup label="Asia">
+        <option value="Asia/Dubai">Gulf</option>
+        <option value="Asia/Kabul">Afghanistan</option>
+        <option value="Asia/Karachi">Pakistan</option>
+        <option value="Asia/Kolkata">India</option>
+        <option value="Asia/Katmandu">Nepal</option>
+        <option value="Asia/Dhaka">Bangladesh</option>
+        <option value="Asia/Rangoon">Myanmar</option>
+        <option value="Asia/Bangkok">Thailand</option>
+        <option value="Asia/Hong_Kong">China</option>
+        <option value="Asia/Tokyo">Japan</option>
+        <option value="Asia/Vladivostok">Yakutsk</option>
+        <option value="Asia/Sakhalin">Vladivostok Standard</option>
+        <option value="Asia/Anadyr">Anadyr</option>
+      </optgroup>
+      <optgroup label="Africa">
+        <option value="Africa/Abidjan">Abidjan</option>
+        <option value="Africa/Accra">Accra</option>
+        <option value="Africa/Addis_Ababa">Addis_Ababa</option>
+        <option value="Africa/Algiers">Algiers</option>
+        <option value="Africa/Asmara">Asmara</option>
+        <option value="Africa/Asmera">Asmera</option>
+        <option value="Africa/Bamako">Bamako</option>
+        <option value="Africa/Bangui">Bangui</option>
+        <option value="Africa/Banjul">Banjul</option>
+        <option value="Africa/Bissau">Bissau</option>
+        <option value="Africa/Blantyre">Blantyre</option>
+        <option value="Africa/Brazzaville">Brazzaville</option>
+        <option value="Africa/Bujumbura">Bujumbura</option>
+        <option value="Africa/Cairo">Cairo</option>
+        <option value="Africa/Casablanca">Casablanca</option>
+        <option value="Africa/Ceuta">Ceuta</option>
+        <option value="Africa/Conakry">Conakry</option>
+        <option value="Africa/Dakar">Dakar</option>
+        <option value="Africa/Dar_es_Salaam">Dar_es_Salaam</option>
+        <option value="Africa/Djibouti">Djibouti</option>
+        <option value="Africa/Douala">Douala</option>
+        <option value="Africa/El_Aaiun">El_Aaiun</option>
+        <option value="Africa/Freetown">Freetown</option>
+        <option value="Africa/Gaborone">Gaborone</option>
+        <option value="Africa/Harare">Harare</option>
+        <option value="Africa/Johannesburg">Johannesburg</option>
+        <option value="Africa/Kampala">Kampala</option>
+        <option value="Africa/Khartoum">Khartoum</option>
+        <option value="Africa/Kigali">Kigali</option>
+        <option value="Africa/Kinshasa">Kinshasa</option>
+        <option value="Africa/Lagos">Lagos</option>
+        <option value="Africa/Libreville">Libreville</option>
+        <option value="Africa/Lome">Lome</option>
+        <option value="Africa/Luanda">Luanda</option>
+        <option value="Africa/Lubumbashi">Lubumbashi</option>
+        <option value="Africa/Lusaka">Lusaka</option>
+        <option value="Africa/Malabo">Malabo</option>
+        <option value="Africa/Maputo">Maputo</option>
+        <option value="Africa/Maseru">Maseru</option>
+        <option value="Africa/Mbabane">Mbabane</option>
+        <option value="Africa/Mogadishu">Mogadishu</option>
+        <option value="Africa/Monrovia">Monrovia</option>
+        <option value="Africa/Nairobi">Nairobi</option>
+        <option value="Africa/Ndjamena">Ndjamena</option>
+        <option value="Africa/Niamey">Niamey</option>
+        <option value="Africa/Nouakchott">Nouakchott</option>
+        <option value="Africa/Ouagadougou">Ouagadougou</option>
+        <option value="Africa/Porto-Novo">Porto-Novo</option>
+        <option value="Africa/Sao_Tome">Sao_Tome</option>
+        <option value="Africa/Timbuktu">Timbuktu</option>
+        <option value="Africa/Tripoli">Tripoli</option>
+        <option value="Africa/Tunis">Tunis</option>
+        <option value="Africa/Windhoek">Windhoek</option>
+      </optgroup>
+    </select>
+  </div>
 </div>
 
 <div class="form-group">
   <div class="col-xs-12">
     <div>
-      <translate
-        >Require Relay, Facebook, or Instagram sign in to register</translate
-      >
+      <translate>Require Relay or Facebook sign in to register</translate>
       <i
         class="question-popover fa fa-question-circle"
         uib-popover="{{'Requiring users to login gives them the option to come back at a later time and finish making payments (if applicable) and/or modify their registration (if enabled below).' | translate}}"
@@ -46,13 +136,6 @@
         <label>
           <input type="checkbox" ng-model="conference.facebookLogin" />
           <translate>Facebook</translate>
-        </label>
-      </div>
-
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" ng-model="conference.instagramLogin" />
-          <translate>Instagram</translate>
         </label>
       </div>
     </div>
@@ -98,25 +181,6 @@
 
 <div class="form-group">
   <div class="col-sm-12">
-    <label translate>Registration completion redirect</label>
-    <i
-      class="question-popover fa fa-question-circle"
-      uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
-      popover-trigger="mouseenter"
-      popover-append-to-body="true"
-    >
-    </i>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="www.example.com"
-      ng-model="conference.registrationCompleteRedirect"
-    />
-  </div>
-</div>
-
-<div class="form-group">
-  <div class="col-sm-12">
     <label class="control-label" translate>Custom CSS stylesheet</label>
     <i
       class="question-popover fa fa-question-circle"
@@ -135,3 +199,128 @@
     />
   </div>
 </div>
+
+<br />
+<div>
+  <button
+    type="submit"
+    class="btn btn-success btn-lg"
+    ng-click="saveEvent()"
+    translate
+  >
+    Save
+  </button>
+</div>
+<br />
+<div class="divider"></div>
+<br />
+<section>
+  <div
+    class="alert"
+    ng-class="notify.class"
+    ng-bind-html="notify.message"
+    ng-show="notify.class"
+  ></div>
+
+  <h2 class="page-title border" translate>
+    Image<i
+      class="question-popover fa fa-question-circle header-tooltip"
+      uib-popover="{{'Allows for adding an image to either just the Registration landing page or also each of the individual Registration pages. Note that the image must first be saved before it can be previewed in a Registration Form.' | translate}}"
+      popover-trigger="mouseenter"
+      popover-append-to-body="true"
+    ></i>
+  </h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <label
+        translate
+        for="fileInput"
+        uib-tooltip="{{'The newly selected image can be cropped in the area below.' | translate }}"
+        >Select an image file:
+      </label>
+
+      <input
+        read-file
+        type="file"
+        accept="image/*"
+        id="fileInput"
+        class="form-control-file"
+        ng-model="selectedImage"
+      />
+      <div class="cropArea">
+        <ui-cropper
+          image="selectedImage"
+          area-type="rectangle"
+          result-image="image.image"
+          result-image-format="image/jpeg"
+          result-image-size="'max'"
+          area-min-size="10"
+          init-max-area="true"
+          class="ng-isolate-scope fixed-height"
+        ></ui-cropper>
+      </div>
+    </div>
+    <div class="col-sm-5 image-form" ng-show="image.image!=''">
+      <label translate>Image Details:</label>
+      <p>
+        <a
+          ng-href="preview/{{globalPage.confId}}/page/"
+          target="_blank"
+          uib-tooltip="{{'You can check preview registration form after saving image in order to see how image is displayed.' | translate}}"
+          translate
+          >Preview Registration Form</a
+        >
+        <a
+          class="margin-left-10"
+          ng-click="resetImage()"
+          ng-if="conference.image.image!== image.image || conference.image.includeImageToAllPages !== image.includeImageToAllPages || conference.image.displayType !== image.displayType"
+          uib-tooltip="{{'Reset image and \'Include the image on every page\' value to the previously saved values.' | translate }}"
+          translate
+        >
+          Reset
+        </a>
+      </p>
+      <div class="imagePreview">
+        <img ng-src="{{image.image}}" class="imagePreview" alt="" />
+      </div>
+
+      <div class="checkbox">
+        <label translate
+          ><input type="checkbox" ng-model="image.includeImageToAllPages" />
+          Include the image on every page
+        </label>
+      </div>
+
+      <div class="select">
+        <label translate
+          >Select image orientation on the page
+          <select class="form-control" ng-model="image.displayType">
+            <option value="ALIGNED_LEFT" translate>Aligned Left</option>
+            <option value="ALIGNED_RIGHT" translate>Aligned Right</option>
+            <option value="CENTERED" translate>Centered</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="pull-right">
+        <button
+          class="btn btn-success"
+          ng-click="saveImage()"
+          ng-disabled="image.image === '' || (conference.image.image === image.image && conference.image.includeImageToAllPages === image.includeImageToAllPages && conference.image.displayType === image.displayType)"
+          translate
+        >
+          Save Image & Settings
+        </button>
+        <button
+          class="btn btn-danger"
+          ng-click="deleteImage()"
+          ng-disabled="conference.image.image=== ''"
+          translate
+        >
+          Delete Image
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row"></div>
+</section>

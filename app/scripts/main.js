@@ -24,6 +24,7 @@ import 'scripts/controllers/paymentModal.js';
 import 'scripts/controllers/registration.js';
 import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
+import 'scripts/controllers/paymentReport.js';
 
 // Directives
 import 'scripts/directives/adminNav.js';
@@ -44,6 +45,7 @@ import 'scripts/directives/showGroupModal.js';
 import 'scripts/directives/showErrors.js';
 import 'scripts/directives/stringToNumber.js';
 import 'scripts/directives/rule.js';
+import 'scripts/directives/readFile.js';
 
 // Filters
 import 'scripts/filters/evtDateFormat.js';
@@ -54,6 +56,7 @@ import 'scripts/filters/toTrustedHtml.js';
 import 'scripts/filters/unique.js';
 import 'scripts/filters/dateRangeFormat.js';
 import 'scripts/filters/showQuestionFilter.js';
+import 'scripts/filters/localizedCurrency.js';
 
 // Services
 import 'scripts/services/analytics.service.js';
@@ -67,6 +70,7 @@ import 'scripts/services/growlService.js';
 import 'scripts/services/httpReturnStatusInterceptor.js';
 import 'scripts/services/httpUrlInterceptor.js';
 import 'scripts/services/loginDialog.js';
+import 'scripts/services/logout.js';
 import 'scripts/services/modalMessage.js';
 import 'scripts/services/payment.js';
 import 'scripts/services/PermissionCache.js';
@@ -76,6 +80,7 @@ import 'scripts/services/RegistrationCache.js';
 import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
+import 'scripts/services/paymentReportService.js';
 
 // App styles
 import '../styles/style.scss';

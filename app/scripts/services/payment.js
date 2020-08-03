@@ -70,7 +70,7 @@ angular
 
     return {
       // Validate a payment and return a boolean indicating whether or not it is valid
-      validate: function(payment, registration) {
+      validate: function(payment, registration, conference) {
         /*
         If the totalPaid (previously) AND the amount of this payment are less than the minimum required deposit, then
         show and error message. The first payment must be at least the minimum deposit amount. Subsequent payments can be
@@ -81,9 +81,9 @@ angular
           registration.pastPayments.length === 0 &&
           Number(payment.amount) < registration.calculatedMinimumDeposit
         ) {
-          var minimumDeposit = $filter('currency')(
+          var minimumDeposit = $filter('localizedCurrency')(
             registration.calculatedMinimumDeposit,
-            '$',
+            conference.currency.currencyCode,
           );
           payment.errors.push(
             gettextCatalog.getString(
@@ -94,9 +94,9 @@ angular
         }
 
         if (Number(payment.amount) > registration.remainingBalance) {
-          var remainingBalance = $filter('currency')(
+          var remainingBalance = $filter('localizedCurrency')(
             registration.remainingBalance,
-            '$',
+            conference.currency.currencyCode,
           );
           payment.errors.push(
             gettextCatalog.getString(

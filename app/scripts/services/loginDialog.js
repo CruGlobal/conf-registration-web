@@ -13,15 +13,12 @@ angular
           envService,
         ) {
           $scope.apiUrl = envService.read('apiUrl');
+          $scope.clientUrl = window.location.origin;
           $scope.status401 = options.status401;
           $scope.relayLogin =
             options.relayLogin === undefined ? true : options.relayLogin;
           $scope.facebookLogin =
             options.facebookLogin === undefined ? true : options.facebookLogin;
-          $scope.instagramLogin =
-            options.instagramLogin === undefined
-              ? true
-              : options.instagramLogin;
 
           $scope.gotoRoute = function(path) {
             $uibModalInstance.dismiss();

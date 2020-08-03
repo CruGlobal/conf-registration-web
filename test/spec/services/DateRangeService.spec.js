@@ -17,6 +17,6 @@ describe('Service: DateRangeService', function() {
     DateRangeService.subscribe('sample-uuid', object.callback);
     DateRangeService.emitChange('sample-uuid', 'sample-date');
 
-    expect(callbackSpy).toHaveBeenCalled();
+    expect(callbackSpy).toHaveBeenCalledWith('sample-date');
   });
 });

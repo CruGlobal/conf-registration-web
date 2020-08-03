@@ -186,6 +186,13 @@ angular
       );
     };
 
+    $scope.isRegistrantReported = function(registrant) {
+      const registration = $scope.registrations.find(
+        r => r.id === registrant.registrationId,
+      );
+      return registration && registration.reported;
+    };
+
     $scope.blockIsVisible = function(block, registrant) {
       return validateRegistrant.blockVisible(block, registrant, true);
     };
@@ -218,6 +225,8 @@ angular
         return registrant.email;
       } else if (orderBy === 'checked_in_timestamp') {
         return registrant.checkedInTimestamp;
+      } else if (orderBy === 'last_updated_timestamp') {
+        return registrant.lastUpdatedTimestamp;
       } else if (orderBy === 'group_id') {
         return registrant.groupId;
       } else {
@@ -461,6 +470,36 @@ angular
       return _.find($scope.registrations, { id: id });
     };
 
+    $scope.getRegistrationLastUpdatedTimestamp = registrant => {
+      const registration = _.find($scope.registrations, {
+        id: registrant.registrationId,
+      });
+      const answersTimestamps = registrant.answers.map(
+        answer => answer.lastUpdatedTimestamp,
+      );
+      if (
+        $scope.isGroupRegistrant(registrant) &&
+        registration.primaryRegistrantId !== registrant.id
+      ) {
+        const allTimestamps = [
+          ...answersTimestamps,
+          registrant.lastUpdatedTimestamp,
+        ].sort();
+        return allTimestamps[allTimestamps.length - 1];
+      } else {
+        const paymentTimestamps = registration.pastPayments.map(
+          payment => payment.lastUpdatedTimestamp,
+        );
+        const allTimestamps = [
+          ...paymentTimestamps,
+          ...answersTimestamps,
+          registration.lastUpdatedTimestamp,
+          registrant.lastUpdatedTimestamp,
+        ].sort();
+        return allTimestamps[allTimestamps.length - 1];
+      }
+    };
+
     $scope.getGroupName = function(id) {
       var registration = $scope.getRegistration(id);
 
@@ -473,6 +512,12 @@ angular
 
       return `${registrant.firstName} ${registrant.lastName}`;
     };
+
+    $scope.isGroupRegistrant = registrant =>
+      $scope.getRegistrantType(registrant.registrantTypeId)
+        .groupSubRegistrantType ||
+      $scope.getRegistrantType(registrant.registrantTypeId)
+        .allowGroupRegistrations;
 
     $scope.getRegistrantType = function(id) {
       return _.find(conference.registrantTypes, { id: id });

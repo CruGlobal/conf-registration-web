@@ -4,6 +4,7 @@ node_js: '10'
 script:
   - yarn test -- --single-run
   - yarn prettier:check
+  - yarn lint
   - if [ "$TRAVIS_PULL_REQUEST" = "false" ] && ([ "$TRAVIS_BRANCH" == "master" ]
     || [ "$TRAVIS_BRANCH" == "staging" ]); then yarn build; fi
 after_success:

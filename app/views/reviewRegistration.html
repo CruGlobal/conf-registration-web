@@ -1,11 +1,20 @@
 <div class="row spacing-below-md">
   <div class="col-xs-12 form-content">
+    <div ng-if="conference.image.includeImageToAllPages" class="text-center">
+      <img
+        class="landing-jumbo ng-scope"
+        ng-src="{{conference.image.image}}"
+        alt=""
+      />
+      <p />
+    </div>
     <section ng-if="currentRegistration.completed">
       <h1 translate>You are registered!</h1>
       <p translate>Keep this information for your records.</p>
       <p ng-if="currentRegistration.remainingBalance > 0">
         <translate>You have a remaining balance of</translate>
-        {{currentRegistration.remainingBalance | currency:'$'}}
+        {{currentRegistration.remainingBalance |
+        localizedCurrency:conference.currency.currencyCode}}
       </p>
       <p
         ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
@@ -145,6 +154,7 @@
                 block="block"
                 registrant="r"
                 show-amount="true"
+                conference="conference"
               ></show-answer>
             </td>
           </tr>
@@ -196,7 +206,8 @@
             <td>{{r.firstName}} {{r.lastName}}</td>
             <td>
               <span ng-if="!expandRegistrantCost[r.id]"
-                >{{r.calculatedTotalDue | currency:'$'}}</span
+                >{{r.calculatedTotalDue |
+                localizedCurrency:conference.currency.currencyCode}}</span
               >
             </td>
           </tr>
@@ -207,7 +218,8 @@
               <translate>Registration</translate>
             </td>
             <td>
-              {{getRegistrantType(r.registrantTypeId).cost | currency:'$'}}
+              {{getRegistrantType(r.registrantTypeId).cost |
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -220,9 +232,12 @@
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
+                conference="conference"
               ></show-answer>
             </td>
-            <td>{{a.amount | currency:'$'}}</td>
+            <td>
+              {{a.amount | localizedCurrency:conference.currency.currencyCode}}
+            </td>
           </tr>
           <tr
             ng-if="expandRegistrantCost[r.id] && r.calculatedEarlyRegistrationDiscounts"
@@ -233,7 +248,8 @@
               <translate>Early Registration Discount</translate>
             </td>
             <td>
-              {{(r.calculatedEarlyRegistrationDiscounts * -1) | currency:'$'}}
+              {{(r.calculatedEarlyRegistrationDiscounts * -1) |
+              localizedCurrency:conference.currency.currencyCode}}
             </td>
           </tr>
           <tr
@@ -244,7 +260,10 @@
               <i class="fa fa-angle-right"></i>
               <translate>Promotion Discount</translate>
             </td>
-            <td>{{(r.calculatedPromotionDiscounts * -1) | currency:'$'}}</td>
+            <td>
+              {{(r.calculatedPromotionDiscounts * -1) |
+              localizedCurrency:conference.currency.currencyCode}}
+            </td>
           </tr>
         </tbody>
       </table>
@@ -256,13 +275,14 @@
               <th translate>Promotion Discount</th>
               <td width="90">
                 {{(currentRegistration.calculatedPromotionDiscounts * -1) |
-                currency:'$'}}
+                localizedCurrency:(conference.currency.currencyCode)}}
               </td>
             </tr>
             <tr>
               <th translate>Total</th>
               <td width="90">
-                {{currentRegistration.calculatedTotalDue | currency:'$'}}
+                {{currentRegistration.calculatedTotalDue |
+                localizedCurrency:conference.currency.currencyCode}}
               </td>
             </tr>
             <tr ng-repeat="p in currentRegistration.pastPayments">
@@ -277,16 +297,21 @@
               </td>
               <td>
                 <span ng-if="p.paymentType === 'REFUND'">
-                  {{p.amount | currency:'$'}}
+                  {{p.amount |
+                  localizedCurrency:conference.currency.currencyCode}}
                 </span>
                 <span ng-if="p.paymentType !== 'REFUND'">
-                  {{(p.amount * -1) | currency:'$'}}
+                  {{(p.amount * -1) |
+                  localizedCurrency:conference.currency.currencyCode}}
                 </span>
               </td>
             </tr>
             <tr ng-show="currentRegistration.pastPayments.length > 0">
               <th translate>Remaining Balance</th>
-              <td>{{(currentRegistration.remainingBalance) | currency:'$'}}</td>
+              <td>
+                {{(currentRegistration.remainingBalance) |
+                localizedCurrency:conference.currency.currencyCode}}
+              </td>
             </tr>
           </table>
 

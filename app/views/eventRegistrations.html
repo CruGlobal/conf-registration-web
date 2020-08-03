@@ -136,6 +136,14 @@
                 <translate>Completed</translate>
               </a>
             </li>
+            <li>
+              <a href="" ng-click="toggleBuiltInColumn('LastUpdated')">
+                <i
+                  ng-class="builtInColumnsVisible.LastUpdated ? 'fa fa-check-square' : 'fa fa-square-o'"
+                ></i>
+                <translate>Last Updated</translate>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -378,6 +386,19 @@
               ></i>
             </th>
 
+            <th
+              class="text-center"
+              width="160"
+              ng-if="builtInColumnsVisible.LastUpdated"
+            >
+              <translate>Last Updated</translate>
+              <i
+                ng-if="queryParameters.orderBy === 'last_updated_timestamp'"
+                class="fa"
+                ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+              ></i>
+            </th>
+
             <th class="text-center" width="70">
               <translate>Paid</translate>
               <i
@@ -435,7 +456,7 @@
               <a
                 href=""
                 ng-click="showGroup(r.registrationId)"
-                ng-if="getRegistrantType(r.registrantTypeId).allowGroupRegistrations"
+                ng-if="isGroupRegistrant(r)"
                 >{{getGroupName(r.registrationId)}}</a
               >
             </td>
@@ -454,6 +475,7 @@
               <show-answer
                 block="block"
                 registrant="r"
+                conference="conference"
                 ng-if="blockIsVisible(block, r)"
               ></show-answer>
             </td>
@@ -481,12 +503,20 @@
               (getRegistration(r.registrationId).completedTimestamp | date:
               'short') : '-'}}
             </td>
+            <td
+              class="text-center"
+              ng-click="expandRegistration(r.id)"
+              ng-class="{'strike-through':r.withdrawn}"
+              ng-if="builtInColumnsVisible.LastUpdated"
+            >
+              {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
+            </td>
             <td class="text-center">
               <div ng-if="getRegistration(r.registrationId).completed">
                 <button
                   type="button"
                   ng-click="viewPayments(r.registrationId)"
-                  class="btn btn-sm"
+                  class="btn btn-sm btn-bold"
                   ng-class="{
                 'btn-success': remainingBalance(r.registrationId)==0,
                 'btn-default': remainingBalance(r.registrationId)>0,
@@ -494,9 +524,10 @@
                 }"
                   title="View/Edit Payments &amp; Expenses"
                 >
-                  &nbsp;
-                  <i class="fa fa-fw fa-usd"></i>
-                  &nbsp;
+                  <span class="currency-label"
+                    >{{conference.currency.currencyCode |
+                    localizedSymbol}}</span
+                  >
                 </button>
               </div>
             </td>
@@ -547,6 +578,7 @@
                 <button
                   type="button"
                   class="btn btn-danger"
+                  ng-if="!isRegistrantReported(r)"
                   ng-click="deleteRegistrant(r)"
                   title="Delete Registration"
                 >
@@ -583,7 +615,11 @@
                     ng-bind="block.title"
                   ></div>
                   <div class="col-xs-9">
-                    <show-answer block="block" registrant="r"></show-answer>
+                    <show-answer
+                      block="block"
+                      registrant="r"
+                      conference="conference"
+                    ></show-answer>
                   </div>
                 </div>
                 <div class="row">
@@ -592,7 +628,7 @@
                   </div>
                   <div class="col-xs-9">
                     {{r.createdTimestamp | evtDateFormat:
-                    conference.eventTimezone}}
+                    conference.registrationTimezone}}
                   </div>
                 </div>
                 <div
@@ -604,7 +640,7 @@
                   </div>
                   <div class="col-xs-9">
                     {{getRegistration(r.registrationId).completedTimestamp |
-                    evtDateFormat: conference.eventTimezone}}
+                    evtDateFormat: conference.registrationTimezone}}
                   </div>
                 </div>
                 <div class="row" ng-show="r.withdrawn">

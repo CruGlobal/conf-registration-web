@@ -48,7 +48,12 @@
                 ><translate>Cost</translate> <em class="required">*</em></label
               >
               <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-usd"></i></span>
+                <span class="input-group-addon"
+                  ><span class="currency-label"
+                    >{{conference.currency.currencyCode |
+                    localizedSymbol}}</span
+                  ></span
+                >
                 <input type="text" class="form-control" ng-model="type.cost" />
               </div>
             </div>
@@ -203,6 +208,25 @@
                   </div>
                 </div>
               </div>
+              <div
+                class="pt12 input-group"
+                ng-if="type.familyStatus != 'FAMILY_ONLY'"
+              >
+                <label translate>Registration completion redirect</label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
+                  popover-trigger="mouseenter"
+                  popover-append-to-body="true"
+                >
+                </i>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="www.example.com"
+                  ng-model="type.registrationCompleteRedirect"
+                />
+              </div>
             </div>
 
             <div class="col-md-6">
@@ -252,13 +276,16 @@
 
               <div
                 class="pt12 input-group"
-                ng-if="(conference.relayLogin || conference.facebookLogin || conference.instagramLogin) && anyPaymentMethodAccepted(type)"
+                ng-if="(conference.relayLogin || conference.facebookLogin) && anyPaymentMethodAccepted(type)"
               >
                 <label translate>Minimum Payment to Register</label>
                 <div class="input-group">
-                  <span class="input-group-addon"
-                    ><i class="fa fa-usd"></i
-                  ></span>
+                  <span class="input-group-addon">
+                    <span class="currency-label"
+                      >{{conference.currency.currencyCode |
+                      localizedSymbol}}</span
+                    >
+                  </span>
                   <input
                     type="text"
                     class="form-control marginless"
@@ -276,12 +303,12 @@
 
               <div
                 class="pt12"
-                ng-show="!(conference.relayLogin || conference.facebookLogin || conference.instagramLogin) || !anyPaymentMethodAccepted(type)"
+                ng-show="!(conference.relayLogin || conference.facebookLogin) || !anyPaymentMethodAccepted(type)"
               >
                 <label translate>Minimum Payment to Register</label>
                 <p
                   class="text-muted"
-                  ng-show="!(conference.relayLogin || conference.facebookLogin || conference.instagramLogin)"
+                  ng-show="!(conference.relayLogin || conference.facebookLogin)"
                 >
                   <i class="fa fa-info-circle"></i>
                   <translate
@@ -333,8 +360,11 @@
                   <label translate>Discount</label>
                   <div class="input-group">
                     <span class="input-group-addon"
-                      ><i class="fa fa-usd"></i
-                    ></span>
+                      ><span class="currency-label"
+                        >{{conference.currency.currencyCode |
+                        localizedSymbol}}</span
+                      ></span
+                    >
                     <input
                       type="text"
                       class="form-control"

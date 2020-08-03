@@ -26,10 +26,6 @@ class Analytics {
             this.digitalData.user[0].profile[0].social.facebook =
               profile.userAuthProviderId;
             break;
-          case 'INSTAGRAM':
-            this.digitalData.user[0].profile[0].social.instagram =
-              profile.userAuthProviderId;
-            break;
         }
         // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
         this.track('page view');

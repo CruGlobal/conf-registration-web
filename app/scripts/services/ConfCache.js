@@ -77,6 +77,7 @@ angular
           .add(20, 'days')
           .format('YYYY-MM-DD HH:mm:ss'),
         eventTimezone: 'America/New_York',
+        registrationTimezone: 'America/New_York',
         registrantTypes: [
           {
             id: uuid(),
@@ -114,6 +115,7 @@ angular
             ],
           },
         ],
+        currency: { currencyCode: 'USD' },
       };
       return $http
         .post(path(), data)
@@ -134,6 +136,19 @@ angular
       return $http({
         method: 'GET',
         url: 'conferences/' + id + '/permissions',
+      })
+        .then(function(response) {
+          return response.data;
+        })
+        .catch(function() {
+          return [];
+        });
+    };
+
+    this.initCurrencies = function() {
+      return $http({
+        method: 'GET',
+        url: 'payments/currency',
       })
         .then(function(response) {
           return response.data;

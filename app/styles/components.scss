@@ -1,6 +1,11 @@
 /***** COMPONENTS *****/
 
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
   display: none !important;
 }
 
@@ -12,7 +17,7 @@
   position: absolute;
   pointer-events: none;
   z-index: 999;
-  opacity: .8;
+  opacity: 0.8;
 }
 .angular-ui-tree-handle {
   cursor: move;
@@ -22,24 +27,27 @@
 }
 
 /* pickadate.js */
-.picker__select--month, .picker__select--year {
-  padding: .2em;
+.picker__select--month,
+.picker__select--year {
+  padding: 0.2em;
 }
 .picker__select--year {
   width: 90px;
 }
-pick-a-date, pick-a-time {
-  .add-on:not(.form-control[disabled]){
+pick-a-date,
+pick-a-time {
+  .add-on:not(.form-control[disabled]) {
     cursor: pointer;
   }
-  .form-control[readonly]:not([disabled]){
+  .form-control[readonly]:not([disabled]) {
     cursor: pointer;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
   }
 }
 
 /* bootstrap-datetimepicker */
-.timepicker, .datepicker {
+.timepicker,
+.datepicker {
   .add-on {
     cursor: pointer;
   }
@@ -62,10 +70,11 @@ pick-a-date, pick-a-time {
 /***** BOOTSTRAP *****/
 
 /* Default Overrides */
-.label-success, .btn-success {
+.label-success,
+.btn-success {
   background: $green;
 }
-.label-primary{
+.label-primary {
   background: $blue;
 }
 .nav-pills .active a {
@@ -98,12 +107,24 @@ pick-a-date, pick-a-time {
 }
 
 /****** min and max date styles *****/
-.date-alignment{
-    padding-top: 6px;
+.date-alignment {
+  padding-top: 6px;
 }
 
 .margin-left-10 {
-  margin-left:10px;
+  margin-left: 10px;
+}
+
+.divider {
+  padding-top: 10px;
+  border-top: 2px solid #bbb;
+  border-bottom: 2px solid #bbb;
+  margin-bottom: 15px;
+}
+
+.fa.header-tooltip {
+  font-size: 14px;
+  vertical-align: super;
 }
 
 .padding-top-0 {
@@ -111,31 +132,31 @@ pick-a-date, pick-a-time {
 }
 
 .checkbox-question-label strong {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .radio-horizontal {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .radio-horizontal + .radio-horizontal {
-   position: relative;
-    display: block;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+  position: relative;
+  display: block;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .checkbox-horizontal {
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .checkbox-horizontal + .checkbox-horizontal {
-   position: relative;
-    display: block;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+  position: relative;
+  display: block;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 .padding-left-0 {
   padding-left: 0px !important;

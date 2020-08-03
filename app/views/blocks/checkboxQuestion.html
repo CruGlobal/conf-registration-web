@@ -29,7 +29,8 @@
         - {{ choice.desc }}</span
       >
       <span ng-show="choice.amount">
-        - {{ daysForBlock() * choice.amount | currency: '$' }}</span
+        - {{ daysForBlock() * choice.amount | localizedCurrency:
+        conference.currency.currencyCode }}</span
       >
     </label>
   </div>

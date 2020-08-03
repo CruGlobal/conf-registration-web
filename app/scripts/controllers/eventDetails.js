@@ -24,6 +24,7 @@ angular
     ConfCache,
     uuid,
     gettextCatalog,
+    currencies,
   ) {
     $rootScope.globalPage = {
       type: 'admin',
@@ -60,6 +61,9 @@ angular
 
     $scope.changeTab = function(tab) {
       $scope.activeTab = tab;
+      if (tab.id === 'regOptions') {
+        $scope.resetImage();
+      }
     };
     $scope.changeTab($scope.tabs[0]);
 
@@ -76,6 +80,7 @@ angular
 
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
+    $scope.currencies = currencies;
 
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {
@@ -209,9 +214,16 @@ angular
       type.earlyRegistrationDiscounts.push({ id: uuid(), enabled: true });
     };
 
+    $scope.setPristine = () => {
+      $scope.eventDetails.$setPristine();
+    };
+
     $scope.saveEvent = function() {
       //validation check
+      const eventInformationPageHint =
+        "<strong>*</strong>You can provide this information on the 'Event Information' page.";
       var validationErrors = [];
+      var validationErrorsHint = '';
       var urlPattern = new RegExp(
         /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
       );
@@ -263,11 +275,7 @@ angular
       //allowEditRegistrationAfterComplete
       if (
         $scope.conference.allowEditRegistrationAfterComplete &&
-        !(
-          $scope.conference.relayLogin ||
-          $scope.conference.facebookLogin ||
-          $scope.conference.instagramLogin
-        )
+        !($scope.conference.relayLogin || $scope.conference.facebookLogin)
       ) {
         validationErrors.push(
           "You must require sign in if allowing users to edit their registration after it's complete.",
@@ -275,22 +283,20 @@ angular
       }
 
       //registration complete redirect website
-      if (!_.isEmpty($scope.conference.registrationCompleteRedirect)) {
-        urlPattern.lastIndex = 0;
-        httpPattern.lastIndex = 0;
-        if (!urlPattern.test($scope.conference.registrationCompleteRedirect)) {
-          validationErrors.push(
-            'Please enter a valid completion redirect website.',
-          );
-        } else {
-          if (
-            !httpPattern.test($scope.conference.registrationCompleteRedirect)
-          ) {
-            $scope.conference.registrationCompleteRedirect =
-              'http://' + $scope.conference.registrationCompleteRedirect;
-          }
+      angular.forEach($scope.conference.registrantTypes, function(type) {
+        if (!_.isEmpty(type.registrationCompleteRedirect)) {
+          urlPattern.lastIndex = 0;
+          httpPattern.lastIndex = 0;
+          !urlPattern.test(type.registrationCompleteRedirect)
+            ? validationErrors.push(
+                'Please enter a valid completion redirect website.',
+              )
+            : !httpPattern.test(type.registrationCompleteRedirect)
+            ? (type.registrationCompleteRedirect =
+                'http://' + type.registrationCompleteRedirect)
+            : null;
         }
-      }
+      });
 
       //Promo codes
       angular.forEach($scope.conference.promotions, function(p, index) {
@@ -367,9 +373,7 @@ angular
       //Minimum Deposit
       angular.forEach($scope.conference.registrantTypes, function(t) {
         if (
-          ($scope.conference.relayLogin ||
-            $scope.conference.facebookLogin ||
-            $scope.conference.instagramLogin) &&
+          ($scope.conference.relayLogin || $scope.conference.facebookLogin) &&
           $scope.anyPaymentMethodAccepted(t) &&
           String(t.minimumDeposit).length > 0 &&
           !_.isNull(t.minimumDeposit)
@@ -414,6 +418,38 @@ angular
         });
       });
 
+      //Cru Event
+      if (
+        typeof $scope.conference.cruEvent === 'undefined' ||
+        $scope.conference.cruEvent === null
+      ) {
+        validationErrors.push('Please specify whether this is a Cru Event.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      //Ministries
+      if ($scope.conference.cruEvent && !$scope.conference.ministry) {
+        validationErrors.push('Please enter Ministry Hosting Event.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      if (
+        $scope.conference.cruEvent &&
+        $scope.conference.ministry &&
+        $scope.getStrategies().length !== 0 &&
+        !$scope.conference.strategy
+      ) {
+        validationErrors.push(
+          'Please enter which Strategy is hosting the event if applicable.*',
+        );
+        validationErrorsHint = eventInformationPageHint;
+      }
+
+      if ($scope.conference.cruEvent && !$scope.conference.type) {
+        validationErrors.push('Please enter Ministry Purpose.*');
+        validationErrorsHint = eventInformationPageHint;
+      }
+
       $window.scrollTo(0, 0);
       if (validationErrors.length > 0) {
         var errorMsg =
@@ -422,6 +458,9 @@ angular
           errorMsg = errorMsg + '<li>' + e + '</li>';
         });
         errorMsg = errorMsg + '</ul>';
+        if (validationErrorsHint) {
+          errorMsg = errorMsg + validationErrorsHint;
+        }
         $scope.notify = {
           class: 'alert-danger',
           message: $sce.trustAsHtml(errorMsg),
@@ -453,11 +492,12 @@ angular
             t.allowedRegistrantTypeSet = null;
           }
         });
-
+        let payloadWithoutImage = angular.copy(payload);
+        payloadWithoutImage.image = null;
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
-          data: payload,
+          data: payloadWithoutImage,
         })
           .then(function() {
             $scope.notify = {
@@ -472,6 +512,7 @@ angular
 
             //Clear cache
             ConfCache.empty();
+            $scope.setPristine();
           })
           .catch(function(response) {
             $scope.notify = {
@@ -497,12 +538,19 @@ angular
     };
 
     $scope.previewEmail = function(reg) {
-      var cost = $filter('currency')(reg.cost, '$');
+      var cost = $filter('localizedCurrency')(
+        reg.cost,
+        $scope.conference.currency.currencyCode,
+      );
       var eventStartTime = moment(conference.eventStartTime).format(
         'dddd, MMMM D YYYY, h:mm a',
       );
       var eventEndTime = moment(conference.eventEndTime).format(
         'dddd, MMMM D YYYY, h:mm a',
+      );
+      var zero = $filter('localizedCurrency')(
+        0,
+        $scope.conference.currency.currencyCode,
       );
       modalMessage.info({
         title: 'Email Preview',
@@ -521,7 +569,9 @@ angular
           cost +
           '<br><strong>Total Amount Paid:</strong> ' +
           cost +
-          '<br><strong>Remaining Balance:</strong> $0.00</p>' +
+          '<br><strong>Remaining Balance:</strong> ' +
+          zero +
+          '</p>' +
           reg.customConfirmationEmailText,
         okString: 'Close',
       });
@@ -543,4 +593,86 @@ angular
       ['left-justify', 'center-justify', 'right-justify'],
       ['link', 'image'],
     ];
+
+    $scope.getStrategies = () => {
+      const currentMinistry = $scope.ministries.find(
+        m => m.id === $scope.conference.ministry,
+      );
+      return currentMinistry ? currentMinistry.strategies : [];
+    };
+
+    $scope.$watch(
+      'conference.ministry',
+      function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+          $scope.conference.strategy = null;
+        }
+      },
+      true,
+    );
+
+    $scope.$watch(
+      'conference.cruEvent',
+      function(newVal, oldVal) {
+        if (oldVal !== newVal) {
+          $scope.conference.ministry = null;
+          $scope.conference.strategy = null;
+          $scope.conference.type = null;
+        }
+      },
+      true,
+    );
+
+    $scope.sortNamesWithNA = (v1, v2) => {
+      return v1 === 'N/A' ? -1 : v1 < v2;
+    };
+
+    $http({
+      method: 'GET',
+      url: 'ministries',
+    }).then(function(response) {
+      $scope.ministries = response.data;
+    });
+
+    $http({
+      method: 'GET',
+      url: 'types',
+    }).then(function(response) {
+      $scope.eventTypes = response.data;
+    });
+
+    $scope.resetImage = () => {
+      $scope.image = angular.copy($scope.conference.image);
+      if (!$scope.image.displayType) {
+        $scope.image.displayType = 'CENTERED';
+      }
+    };
+
+    $scope.selectedImage = '';
+    $scope.resetImage();
+
+    $scope.deleteImage = () => {
+      $scope.image.image = '';
+      $scope.image.includeImageToAllPages = false;
+      $scope.image.displayType = 'CENTERED';
+      $scope.saveImage();
+    };
+
+    $scope.saveImage = () => {
+      $http({
+        method: 'PUT',
+        url: `conferences/${conference.id}/image`,
+        data: $scope.image,
+      }).then(() => {
+        $scope.conference.image = angular.copy($scope.image);
+        conference.image = $scope.conference.image;
+        ConfCache.update(conference.id, $scope.conference);
+        $scope.notify = {
+          class: 'alert-success',
+          message: $sce.trustAsHtml(
+            '<strong>Saved!</strong> Event image details have been updated.',
+          ),
+        };
+      });
+    };
   });
