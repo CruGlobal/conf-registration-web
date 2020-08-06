@@ -10,10 +10,10 @@ angular
           }
           break;
         case 'RELAY': {
-          // if relay, then redirect to the Relay logout URL
-          const serviceUrl = $location.absUrl().replace('logout', '');
-          $window.location.href =
-            'https://signon.cru.org/cas/logout?service=' + serviceUrl;
+          // if relay, then redirect to the Okta logout URL
+          if (data) {
+            $window.location.href = data.oktaUrl;
+          }
           break;
         }
       }
