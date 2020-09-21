@@ -18,6 +18,7 @@ import 'scripts/controllers/eventPermissions.js';
 import 'scripts/controllers/eventRegistrations.js';
 import 'scripts/controllers/exportData.js';
 import 'scripts/controllers/help.js';
+import 'scripts/controllers/oktaDescription.js';
 import 'scripts/controllers/landing.js';
 import 'scripts/controllers/paymentApproval.js';
 import 'scripts/controllers/paymentModal.js';

@@ -10,6 +10,7 @@ import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
 import helpTemplate from 'views/help.html';
+import oktaDescriptionTemplate from 'views/oktaDescription.html';
 
 angular
   .module('confRegistrationWebApp')
@@ -383,6 +384,11 @@ angular
         title: gettext('Help'),
         templateUrl: helpTemplate,
         controller: 'helpCtrl',
+      })
+      .when('/oktaDescription', {
+        title: gettext('Okta Description'),
+        templateUrl: oktaDescriptionTemplate,
+        controller: 'oktaDescriptionCtrl',
       })
       .otherwise({
         redirectTo: '/',

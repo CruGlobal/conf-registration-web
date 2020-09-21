@@ -31,10 +31,10 @@ describe('Service: logoutService', () => {
 
   it('should logout from relay', () => {
     cookieValue = 'RELAY';
-    logoutService.logoutFormProviders();
+    logoutService.logoutFormProviders({
+      data: { oktaUrl: 'redirect url' },
+    });
 
-    expect($window.location.href).toContain(
-      'https://signon.cru.org/cas/logout?service=',
-    );
+    expect($window.location.href).toEqual('redirect url');
   });
 });
