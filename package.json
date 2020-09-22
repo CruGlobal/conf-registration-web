@@ -50,7 +50,7 @@
     "jasmine-promise-matchers": "^2.2.0",
     "karma": "^1.5.0",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage-istanbul-reporter": "^1.0.0",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^1.1.0",
     "karma-mocha-reporter": "^2.0.4",
     "karma-phantomjs-launcher": "^1.0.4",
