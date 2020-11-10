@@ -46,6 +46,7 @@ angular
         .then(function(tokenizedCard) {
           payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
           payment.creditCard.number = tokenizedCard.tsepToken;
+          payment.creditCard.network = tokenizedCard.cardType;
         })
         .catch(
           error.errorFromResponse(
