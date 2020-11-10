@@ -230,40 +230,70 @@
             </div>
 
             <div class="col-md-6">
-              <h4 translate>Payment</h4>
+              <h4>
+                <span translate>Payment</span>
+                <i
+                  class="warning-popover fa fa-exclamation-triangle"
+                  uib-popover="{{'Since this is a Cru Event, you must enter a Chartfield under the Payments Options tab to enable payments.' | translate}}"
+                  popover-trigger="mouseenter"
+                  ng-if="conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                >
+                </i>
+              </h4>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptCreditCards" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptCreditCards"
+                    ng-disabled="!type.acceptCreditCards && (!conference.paymentGatewayId || (conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)))"
+                  />
                   <translate>Accept Credit Cards</translate>
                 </label>
                 <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'Enter credit card processing details under the Payment Options tab.' | translate}}"
+                  class="warning-popover fa fa-exclamation-triangle"
+                  uib-popover="{{'Enter credit card processing details under the Payment Options tab to enable this option.' | translate}}"
                   popover-trigger="mouseenter"
+                  ng-if="!conference.paymentGatewayId"
                 >
                 </i>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptChecks" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptChecks"
+                    ng-disabled="!type.acceptChecks && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                  />
                   <translate>Accept Checks</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptTransfers" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptTransfers"
+                    ng-disabled="!type.acceptTransfers && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                  />
                   <translate>Accept Account Transfers</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptScholarships" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptScholarships"
+                    ng-disabled="!type.acceptScholarships && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                  />
                   <translate>Accept Scholarships</translate>
                 </label>
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.acceptPayOnSite" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptPayOnSite"
+                    ng-disabled="!type.acceptPayOnSite && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                  />
                   <translate>Accept 'Pay on Site'</translate>
                 </label>
                 <i
