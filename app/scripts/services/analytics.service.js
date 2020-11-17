@@ -28,22 +28,28 @@ class Analytics {
             break;
         }
         // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
-        this.track('page view');
+        this.adobeTrack('page view');
       },
       () => {
         this.digitalData.user[0].profile[0].profileInfo.loggedInStatus =
           'Logged Out';
-        this.track('page view');
+        this.adobeTrack('page view');
       },
     );
-
-    /* Google Analytics*/
-    if (this.$window.ga) {
-      this.$window.ga('send', 'pageview', { page: this.$location.path() });
-    }
   }
 
-  track(event) {
+  track(event, data) {
+    this.$window.dataLayer.push({
+      event,
+      ...data,
+    });
+
+    this.adobeTrack(event, data);
+  }
+
+  adobeTrack(event, data) {
+    // Adobe Analytics below
+    Object.assign(this.digitalData, data);
     this.$window._satellite && this.$window._satellite.track(event);
   }
 }
