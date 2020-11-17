@@ -164,10 +164,10 @@ angular
           return registration.completeRegistration(currentRegistration);
         })
         .then(function() {
-          //send analytics event
-          analytics.digitalData.eventID = conference.id;
-          analytics.digitalData.registeredEventName = conference.name;
-          analytics.track('registration');
+          analytics.track('registration', {
+            eventID: conference.id,
+            registeredEventName: conference.name,
+          });
 
           $scope.navigateToPostRegistrationPage();
 
