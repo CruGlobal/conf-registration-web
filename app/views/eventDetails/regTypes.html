@@ -236,7 +236,7 @@
                   class="warning-popover fa fa-exclamation-triangle"
                   uib-popover="{{'Since this is a Cru Event, you must enter a Chartfield under the Payments Options tab to enable payments.' | translate}}"
                   popover-trigger="mouseenter"
-                  ng-if="conference.cruEvent && !(conference.businessUnit || conference.operatingUnit || conference.department || conference.projectId)"
+                  ng-if="cruEventWithoutChartfield()"
                 >
                 </i>
               </h4>
@@ -245,7 +245,7 @@
                   <input
                     type="checkbox"
                     ng-model="type.acceptCreditCards"
-                    ng-disabled="!type.acceptCreditCards && (!conference.paymentGatewayId || (conference.cruEvent && !(conference.businessUnit || conference.operatingUnit || conference.department || conference.projectId)))"
+                    ng-disabled="!type.acceptCreditCards && (!conference.paymentGatewayId || cruEventWithoutChartfield())"
                   />
                   <translate>Accept Credit Cards</translate>
                 </label>
@@ -262,7 +262,7 @@
                   <input
                     type="checkbox"
                     ng-model="type.acceptChecks"
-                    ng-disabled="!type.acceptChecks && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                    ng-disabled="!type.acceptChecks && cruEventWithoutChartfield()"
                   />
                   <translate>Accept Checks</translate>
                 </label>
@@ -272,7 +272,7 @@
                   <input
                     type="checkbox"
                     ng-model="type.acceptTransfers"
-                    ng-disabled="!type.acceptTransfers && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                    ng-disabled="!type.acceptTransfers && cruEventWithoutChartfield()"
                   />
                   <translate>Accept Account Transfers</translate>
                 </label>
@@ -282,7 +282,7 @@
                   <input
                     type="checkbox"
                     ng-model="type.acceptScholarships"
-                    ng-disabled="!type.acceptScholarships && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                    ng-disabled="!type.acceptScholarships && cruEventWithoutChartfield()"
                   />
                   <translate>Accept Scholarships</translate>
                 </label>
@@ -292,7 +292,8 @@
                   <input
                     type="checkbox"
                     ng-model="type.acceptPayOnSite"
-                    ng-disabled="!type.acceptPayOnSite && conference.cruEvent && !(conference.businessUnit && conference.operatingUnit && conference.department && conference.projectId)"
+                    ng-disabled="!type.acceptPayOnSite &&
+                  cruEventWithoutChartfield()"
                   />
                   <translate>Accept 'Pay on Site'</translate>
                 </label>
