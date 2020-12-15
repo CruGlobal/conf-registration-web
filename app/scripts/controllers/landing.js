@@ -70,12 +70,12 @@ angular
     };
 
     $scope.filterUpdate = function() {
-      analytics.digitalData.searchTerm = $scope.searchVal;
-      analytics.digitalData.searchLocationFilter =
-        $scope.eventFilters.locationName;
-      analytics.digitalData.searchDateFilter = $scope.eventFilters.date;
-      analytics.digitalData.numberOfResults = $scope.filterSearchResults().length;
-      analytics.track('search');
+      analytics.track('search', {
+        searchTerm: $scope.searchVal,
+        searchLocationFilter: $scope.eventFilters.locationName,
+        searchDateFilter: $scope.eventFilters.date,
+        numberOfResults: $scope.filterSearchResults().length,
+      });
     };
 
     $scope.dateFilter = function(event) {

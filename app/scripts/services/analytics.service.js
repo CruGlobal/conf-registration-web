@@ -28,23 +28,36 @@ class Analytics {
             break;
         }
         // this.digitalData.user[0].profile[0].profileInfo.grMasterPersonId = ''; // TODO: provide when exposed by API
-        this.track('page view');
+        this.track('virtual-page-view');
       },
       () => {
         this.digitalData.user[0].profile[0].profileInfo.loggedInStatus =
           'Logged Out';
-        this.track('page view');
+        this.track('virtual-page-view');
       },
     );
-
-    /* Google Analytics*/
-    if (this.$window.ga) {
-      this.$window.ga('send', 'pageview', { page: this.$location.path() });
-    }
   }
 
-  track(event) {
-    this.$window._satellite && this.$window._satellite.track(event);
+  track(event, data) {
+    // Placing event data on digitalData layer for Adobe and for Google as requested by Clark but data could be pulled from the event instead
+    Object.assign(this.digitalData, data);
+
+    // Google Analytics
+    this.$window.dataLayer.push(
+      Object.assign(
+        {},
+        {
+          event,
+        },
+        data,
+      ),
+    );
+
+    // Adobe Analytics
+    this.$window._satellite &&
+      this.$window._satellite.track(
+        event === 'virtual-page-view' ? 'page view' : event,
+      );
   }
 }
 

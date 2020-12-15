@@ -8,6 +8,27 @@
       name="description"
       content="The Event Registration Tool provides everything you need when it comes to event registration and management."
     />
+    <meta
+      property="og:url"
+      content="https://www.eventregistrationtool.com/"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Event Registration Tool"
+    />
+    <meta
+      property="og:image"
+      content="https://eventregistrationtool.com/assets/favicon.ico"
+    />
+    <meta
+      name="og:description"
+      content="The Event Registration Tool provides everything you need when it comes to event registration and management."
+    />
+    <meta
+      name="fb:app_id"
+      content="217890171695297"
+    />
     <base href="/" />
 
     <title
@@ -22,7 +43,6 @@
       </script>
     <![endif]-->
 
-    <!-- Adobe DTM -->
     <script>
       window.digitalData = {
         user: [
@@ -36,10 +56,45 @@
           },
         ],
       };
+      window.dataLayer = [];
     </script>
     <% if(htmlWebpackPlugin.options.prod) { %>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-5VHJ5WH');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
     <% } else { %>
+    <!-- Google Tag Manager -->
+    <script>
+      (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' +
+          i +
+          dl +
+          '&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x';
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-5VHJ5WH');
+    </script>
+    <!-- End Google Tag Manager -->
+
     <script>
       (function(win, doc, style, timeout) {
         var STYLE_ID = 'at-body-style';
@@ -87,6 +142,29 @@
   </head>
 
   <body ng-class="globalPage.bodyClass" ng-cloak>
+    <% if(htmlWebpackPlugin.options.prod) { %>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5VHJ5WH"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <% } else { %>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-5VHJ5WH&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <% } %>
     <link
       ng-if="globalPage.conference.cssUrl"
       ng-href="{{ globalPage.conference.cssUrl }}"
@@ -341,30 +419,6 @@
     </div>
 
     <% if(htmlWebpackPlugin.options.prod) { %>
-    <script>
-      (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        (i[r] =
-          i[r] ||
-          function() {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        'script',
-        '//www.google-analytics.com/analytics.js',
-        'ga',
-      );
-
-      ga('create', 'UA-325725-55', 'auto');
-    </script>
-
     <script type="text/javascript">
       window._satellite && _satellite.pageBottom();
     </script>
