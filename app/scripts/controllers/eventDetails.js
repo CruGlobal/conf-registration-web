@@ -675,4 +675,11 @@ angular
         };
       });
     };
+    $scope.cruEventWithoutChartfield = () =>
+      $scope.conference.cruEvent &&
+      !(
+        $scope.conference.businessUnit ||
+        $scope.conference.operatingUnit ||
+        $scope.conference.department
+      );
   });
