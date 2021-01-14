@@ -6098,10 +6098,10 @@ istanbul-reports@^3.0.2:
     html-escaper "^2.0.0"
     istanbul-lib-report "^3.0.0"
 
-jasmine-core@^2.5.2:
-  version "2.6.3"
-  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.6.3.tgz#45072950e4a42b1e322fe55c001100a465d77815"
-  integrity sha1-RQcpUOSkKx4yL+VcABEApGXXeBU=
+jasmine-core@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.6.0.tgz#491f3bb23941799c353ceb7a45b38a950ebc5a20"
+  integrity sha512-8uQYa7zJN8hq9z+g8z1bqCfdC8eoDAeVnM5sfqs7KHv9/ifoJ500m018fpFc7RDaO6SWCLCXwo/wPSNcdYTgcw==
 
 jasmine-promise-matchers@^2.2.0:
   version "2.3.0"
