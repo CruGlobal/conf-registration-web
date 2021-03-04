@@ -767,6 +767,24 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     remainingBalance: 49.0,
     primaryRegistrantId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
     reported: true,
+    accountTransfers: [
+      {
+        amount: '2.00',
+        businessUnit: 'STFFD',
+        departmentId: 'STAFF',
+        description: 'Reg-Again1, Test',
+        expenseType: 'REGISTRATION',
+        firstName: 'Test',
+        glAccount: '67620',
+        lastName: 'Person',
+        operatingUnit: 'LH',
+        productCode: 'INT',
+        projectId: null,
+        reference: '123456789',
+        registrationId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
+        totalDue: '5.00',
+      },
+    ],
   };
 
   this.report = {
