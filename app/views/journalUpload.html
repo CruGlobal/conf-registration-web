@@ -257,7 +257,10 @@
         No transactions have been found to match your filter.
       </p>
     </div>
-    <div class="col-xs-12 table-responsive journal-row">
+    <div
+      class="col-xs-12 table-responsive journal-row"
+      ng-if="meta.accountTransferEvents.length > 0"
+    >
       <table class="table table-aligned">
         <thead>
           <tr>
