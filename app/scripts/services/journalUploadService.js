@@ -22,6 +22,7 @@ angular
         includeCheckedin: 'yes',
         includeWithdrawn: 'yes',
         includeIncomplete: 'yes',
+        primaryRegistrantOnly: true,
       },
     ) => {
       const defer = $q.defer();

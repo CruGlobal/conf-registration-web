@@ -45,6 +45,7 @@ angular
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
+      primaryRegistrantOnly: true,
     };
     $scope.meta = {
       totalPages: 0,
