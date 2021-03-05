@@ -25,7 +25,8 @@ import 'scripts/controllers/paymentModal.js';
 import 'scripts/controllers/registration.js';
 import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
-import 'scripts/controllers/paymentReport.js';
+import 'scripts/controllers/paymentCashCheckReport.js';
+import 'scripts/controllers/journalUpload.js';
 
 // Directives
 import 'scripts/directives/adminNav.js';
@@ -82,6 +83,7 @@ import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
 import 'scripts/services/paymentReportService.js';
+import 'scripts/services/journalUploadService.js';
 
 // App styles
 import '../styles/style.scss';

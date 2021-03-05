@@ -1,6 +1,6 @@
 import 'angular-mocks';
 
-describe('Controller: paymentReportCtrl', function() {
+describe('Controller: paymentCashCheckReportCtrl', function() {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -18,7 +18,7 @@ describe('Controller: paymentReportCtrl', function() {
       $httpBackend = _$httpBackend_;
       scope = $rootScope.$new();
 
-      $controller('paymentReportCtrl', {
+      $controller('paymentCashCheckReportCtrl', {
         $scope: scope,
         report: testData.report,
         reportList: testData.reports,

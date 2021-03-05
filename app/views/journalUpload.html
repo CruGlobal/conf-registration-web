@@ -1,0 +1,524 @@
+<div class="container full">
+  <div class="row form-group">
+    <div class="col-sm-7">
+      <h2 class="page-title" translate>
+        ERT Journal Upload Submission
+      </h2>
+    </div>
+    <div class="col-sm-5 text-right">
+      <button class="btn btn-success btn-md" type="button">
+        <translate>Submit Journal Upload</translate>
+      </button>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6 col-sm-2 details-heading" translate>
+      Conference Long Name:
+    </div>
+    <div class="col-xs-6 col-sm-3 details-heading" translate>
+      {{conference.name}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6 col-sm-2 details-heading" translate>
+      Conference ID:
+    </div>
+    <div class="col-xs-6  col-sm-3 details-heading">
+      {{conference.id}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6 col-sm-2 details-heading" translate>
+      Conference Contact:
+    </div>
+    <div class="col-xs-6 col-sm-3 details-heading">
+      {{conference.contactPersonName}}, {{conference.contactPersonPhone}},
+      {{conference.contactPersonEmail}}
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-xs-6 col-sm-2 details-heading">
+      <label translate for="report-select-id">Report creation date: </label>
+    </div>
+    <div class="col-xs-6 col-sm-3 details-heading">
+      <select
+        ng-model="queryParameters.currentReportId"
+        ng-options="r.id as r.createdTimestamp for r in reports"
+        class="form-control"
+        id="report-select-id"
+      >
+        <option value="">New Report</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="row form-group well well-full spacing-above-xs spacing-below-sm">
+    <div class="row">
+      <div class="col-md-2 col-sm-8 stacked-spacing-col-md">
+        <div class="form-group has-feedback has-clear">
+          <label
+            ><translate>Search</translate>
+            <small>(<translate>visible columns only</translate>)</small>:</label
+          >
+          <input type="text" class="form-control" ng-model="strFilter" />
+          <span
+            class="form-control-feedback form-control-clear"
+            ng-click="resetStrFilter()"
+            title="Clear search"
+            ng-if="strFilter"
+          >
+            <i class="fa fa-times"></i>
+          </span>
+        </div>
+      </div>
+      <div class="col-md-2 col-sm-4 stacked-spacing-col-sm">
+        <label><translate>Payment status</translate>:</label>
+        <select ng-model="queryParameters.filterPayment" class="form-control">
+          <option value="" translate>-Any-</option>
+          <option value="full" translate>Full/Overpaid</option>
+          <option value="partial" translate>Partial</option>
+          <option value="full-partial" translate>Full/Partial</option>
+          <option value="none" translate>Not Paid</option>
+          <option value="over" translate>Overpaid</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
+        <label><translate>Registrant type</translate>:</label>
+        <select
+          class="form-control"
+          ng-model="queryParameters.filterRegType"
+          ng-options="r.registrationId as r.name for r in conference.registrantTypes"
+        >
+          <option value="">-Any-</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
+        <label><translate>Payment type</translate>:</label>
+        <select
+          class="form-control"
+          ng-model="queryParameters.filterAccountTransfersByPaymentType"
+        >
+          <option value="">-Any-</option>
+          <option value="ACCOUNT_TRANSFER">Account Transfer</option>
+          <option value="SCHOLARSHIP">Scholarship</option>
+        </select>
+      </div>
+      <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
+        <label><translate>Expense type</translate>:</label>
+        <select
+          class="form-control"
+          ng-model="queryParameters.filterAccountTransfersByExpenseType"
+        >
+          <option value="" translate>-Any-</option>
+          <option value="REGISTRATION" translate>Registration</option>
+          <option value="MISCELLANEOUS_ITEM" translate>Misc. Expense</option>
+          <option value="CHILDCARE" translate>Childcare</option>
+          <option value="STAFF_TAXABLE_ITEM" translate
+            >Staff Taxable Expense</option
+          >
+        </select>
+      </div>
+      <div class="col-md-2 col-sm-6 text-right stacked-spacing-col-md">
+        <br />
+        <div class="btn-group" role="group uib-dropdown">
+          <button
+            class="btn btn-default"
+            ng-model="showMoreFilters"
+            uib-btn-checkbox
+          >
+            <translate>Filters</translate>
+            <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
+            <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="row spacing-above-sm well-border-above"
+      uib-collapse="!showMoreFilters"
+    >
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label translate>Journal Submission Errors</label>
+        <div class="btn-group btn-group-justified">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.filterAccountTransferErrors"
+            uib-btn-radio="'yes'"
+            translate
+            >Show</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.filterAccountTransferErrors"
+            uib-btn-radio="'no'"
+            translate
+            >Hide</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.filterAccountTransferErrors"
+            uib-btn-radio="'only'"
+            translate
+            >Only</label
+          >
+        </div>
+      </div>
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label translate>Incomplete registrations</label>
+        <div class="btn-group btn-group-justified">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeIncomplete"
+            uib-btn-radio="'yes'"
+            translate
+            >Show</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeIncomplete"
+            uib-btn-radio="'no'"
+            translate
+            >Hide</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeIncomplete"
+            uib-btn-radio="'only'"
+            translate
+            >Only</label
+          >
+        </div>
+      </div>
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label translate>Checked-in registrations</label>
+        <div class="btn-group btn-group-justified">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeCheckedin"
+            uib-btn-radio="'yes'"
+            translate
+            >Show</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeCheckedin"
+            uib-btn-radio="'no'"
+            translate
+            >Hide</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeCheckedin"
+            uib-btn-radio="'only'"
+            translate
+            >Only</label
+          >
+        </div>
+      </div>
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label translate>Withdrawn registrations</label>
+        <div class="btn-group btn-group-justified">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeWithdrawn"
+            uib-btn-radio="'yes'"
+            translate
+            >Show</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeWithdrawn"
+            uib-btn-radio="'no'"
+            translate
+            >Hide</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeWithdrawn"
+            uib-btn-radio="'only'"
+            translate
+            >Only</label
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journal Upload Event Transaction Section -->
+  <div class="row form-group">
+    <div class="col-xs-12 details-heading">
+      <h4>
+        <a href="" translate>Journal Upload Event Transactions</a>
+      </h4>
+    </div>
+    <div class="col-xs-12" ng-if="meta.accountTransferEvents.length === 0">
+      <p translate>
+        No transactions have been found to match your filter.
+      </p>
+    </div>
+    <div
+      class="col-xs-12 table-responsive journal-row"
+      ng-if="meta.accountTransferEvents.length > 0"
+    >
+      <table class="table table-aligned">
+        <thead>
+          <tr>
+            <th>
+              <a href="" translate>Expense Type</a>
+            </th>
+            <th></th>
+            <th></th>
+            <th>
+              <a href="" translate>Business Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Operating Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Department ID</a>
+            </th>
+            <th>
+              <a href="" translate>Project ID</a>
+            </th>
+            <th>
+              <a href="" translate>GL Account</a>
+            </th>
+            <th>
+              <a href="" translate>Product Code</a>
+            </th>
+            <th>
+              <a href="" translate>Amount</a>
+            </th>
+            <th>
+              <a href="" translate>Description</a>
+            </th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            ng-repeat="r in meta.accountTransferEvents"
+            ng-class="{'active': $even}"
+            class="noselect"
+          >
+            <th>{{r.expenseType}}</th>
+            <td></td>
+            <td></td>
+            <td>{{r.businessUnit}}</td>
+            <td>{{r.operatingUnit}}</td>
+            <td>{{r.departmentId}}</td>
+            <td>{{r.projectId}}</td>
+            <td>
+              {{r.glAccount}}
+            </td>
+            <td>
+              {{r.productCode}}
+            </td>
+            <td>
+              {{r.amount}}
+            </td>
+            <td>
+              {{r.description}}
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Journal Upload Participant Transactions Section -->
+  <div class="row form-group">
+    <div>
+      <div class="col-xs-6 details-heading">
+        <h4>
+          <a href="" translate>Journal Upload Participant Transactions</a>
+        </h4>
+      </div>
+      <div class="col-xs-6 text-right">
+        <button
+          type="button"
+          class="btn btn-default btn-sm"
+          ng-click=""
+          ng-if="accountTransfers.length > 0"
+          title="Add All to Journal Report"
+        >
+          <translate>Add All to Journal Report</translate>
+        </button>
+      </div>
+      <div class="col-xs-12" ng-if="accountTransfers.length === 0">
+        <p translate>
+          No account transfers have been found to match your filter.
+        </p>
+      </div>
+    </div>
+    <div
+      class="col-xs-12 table-responsive journal-row"
+      ng-if="accountTransfers.length > 0"
+    >
+      <table class="table table-aligned">
+        <thead>
+          <tr>
+            <th>
+              <a href="" translate>First Name</a>
+            </th>
+            <th>
+              <a href="" translate>Last Name</a>
+            </th>
+            <th>
+              <translate>Paid</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                uib-popover-template="paidPopoverTemplateUrl"
+                popover-trigger="mouseenter"
+                popover-append-to-body="true"
+              >
+              </i>
+            </th>
+            <th>
+              <a href="" translate>Business Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Operating Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Department ID</a>
+            </th>
+            <th>
+              <a href="" translate>Project ID</a>
+            </th>
+            <th>
+              <a href="" translate>GL Account</a>
+            </th>
+            <th>
+              <a href="" translate>Product Code</a>
+            </th>
+            <th>
+              <a href="" translate>Amount</a>
+            </th>
+            <th class="text-center">
+              <a href="" translate>Description</a>
+            </th>
+            <th>
+              <a href="" translate>Reference</a>
+            </th>
+            <th class="text-center">
+              <a href="" translate>Include into report</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            ng-repeat="r in accountTransfers"
+            ng-class="{'active': $even}"
+            class="noselect"
+          >
+            <td>
+              {{r.firstName}}
+            </td>
+            <td>
+              {{r.lastName}}
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-bold text-center"
+                title="View/Edit Payments &amp; Expenses"
+                ng-click="viewPayments(r.registrationId)"
+                ng-class="{
+                  'btn-success': r.remainingBalance==0,
+                  'btn-default': r.remainingBalance>0,
+                  'btn-danger': r.remainingBalance<0
+                  }"
+              >
+                <span class="currency-label"
+                  >{{conference.currency.currencyCode | localizedSymbol}}</span
+                >
+              </button>
+            </td>
+            <td>
+              {{r.businessUnit}}
+            </td>
+            <td>
+              {{r.operatingUnit}}
+            </td>
+            <td>
+              {{r.departmentId}}
+            </td>
+            <td>
+              {{r.projectId}}
+            </td>
+            <td>
+              {{r.glAccount}}
+            </td>
+            <td>
+              {{r.productCode}}
+            </td>
+            <td>
+              {{ (r.amount | localizedCurrency:conference.currency.currencyCode)
+              }}
+            </td>
+            <td class="text-center">
+              {{r.description}}
+            </td>
+            <td>
+              {{r.reference}}
+            </td>
+            <td class="text-center">
+              <input
+                type="checkbox"
+                ng-model="r.included"
+                ng-change="refreshExcludedIds(r.paymentId)"
+                ng-disabled="queryParameters.currentReportId"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <div class="row spacing-above-xs" ng-if="accountTransfers.length > 0">
+    <div class="col-sm-4 spacing-xs spacing-above-md">
+      <div class="btn-group">
+        <label
+          class="btn btn-default"
+          ng-model="queryParameters.limit"
+          uib-btn-radio="20"
+          >20</label
+        >
+        <label
+          class="btn btn-default"
+          ng-model="queryParameters.limit"
+          uib-btn-radio="50"
+          >50</label
+        >
+        <label
+          class="btn btn-default"
+          ng-model="queryParameters.limit"
+          uib-btn-radio="100"
+          >100</label
+        >
+        <label class="btn btn-default" disabled="disabled" translate
+          >per page</label
+        >
+      </div>
+    </div>
+    <div class="col-sm-8 text-right">
+      <ul
+        uib-pagination
+        total-items="meta.totalRegistrantsFilter"
+        items-per-page="queryParameters.limit"
+        ng-model="queryParameters.page"
+        max-size="5"
+        class="pagination"
+        rotate="false"
+      ></ul>
+    </div>
+  </div>
+</div>
