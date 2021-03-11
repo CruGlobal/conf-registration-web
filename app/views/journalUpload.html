@@ -6,7 +6,11 @@
       </h2>
     </div>
     <div class="col-sm-5 text-right">
-      <button class="btn btn-success btn-md" type="button">
+      <button
+        class="btn btn-success btn-md"
+        type="button"
+        ng-disabled="accountTransfersToInclude.length === 0"
+      >
         <translate>Submit Journal Upload</translate>
       </button>
     </div>
@@ -466,13 +470,13 @@
               {{r.description}}
             </td>
             <td>
-              {{r.reference}}
+              {{r.account}}
             </td>
             <td class="text-center">
               <input
                 type="checkbox"
                 ng-model="r.included"
-                ng-change="refreshExcludedIds(r.paymentId)"
+                ng-change="refreshAccountTransfersToInclude(r)"
                 ng-disabled="queryParameters.currentReportId"
               />
             </td>
