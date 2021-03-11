@@ -29,7 +29,7 @@ angular
       registrations,
     );
     $scope.conference = conference;
-    $scope.excludedIds = {};
+    $scope.accountTransfersToInclude = [];
     $scope.queryParameters = {
       page: 1,
       limit: 20,
@@ -45,7 +45,6 @@ angular
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
-      primaryRegistrantOnly: true,
     };
     $scope.meta = {
       totalPages: 0,
@@ -102,11 +101,14 @@ angular
         });
     };
 
-    $scope.refreshExcludedIds = id => {
-      $scope.excludedIds[id] = !$scope.excludedIds[id];
+    $scope.refreshAccountTransfersToInclude = accountTransfer => {
+      const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
+        accountTransfer,
+      );
+      accountTransferIndex !== -1
+        ? $scope.accountTransfersToInclude.splice(accountTransferIndex, 1)
+        : $scope.accountTransfersToInclude.push(accountTransfer);
     };
-
-    $scope.isIncluded = id => !$scope.excludedIds[id];
 
     $scope.viewPayments = registrationId => {
       $http
