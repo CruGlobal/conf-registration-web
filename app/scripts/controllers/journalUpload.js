@@ -110,6 +110,14 @@ angular
         : $scope.accountTransfersToInclude.push(accountTransfer);
     };
 
+    $scope.submit = () => {
+      journalUploadService
+        .submitAccountTransfers(conference.id, $scope.accountTransfersToInclude)
+        .then(response => {
+          console.log(response.data);
+        });
+    };
+
     $scope.viewPayments = registrationId => {
       $http
         .get('registrations/' + registrationId)
