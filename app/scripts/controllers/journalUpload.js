@@ -112,7 +112,6 @@ angular
 
     $scope.submit = () => {
       journalUploadService.submitAccountTransfers(
-        conference.id,
         $scope.accountTransfersToInclude,
       );
     };
