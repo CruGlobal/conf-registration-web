@@ -5,6 +5,10 @@ angular
     $http,
     $q,
   ) {
+    const path = function(id) {
+      return 'conferences/' + id + '/registrations';
+    };
+
     this.getRegistrationData = (
       conferenceId,
       queryParameters = {
@@ -29,7 +33,7 @@ angular
       $rootScope.loadingMsg = 'Loading Registrations';
 
       $http
-        .get('conferences/' + conferenceId + '/registrations', {
+        .get(path(conferenceId), {
           params: queryParameters,
         })
         .then(response => {
@@ -56,5 +60,9 @@ angular
           ];
         }, []),
       );
+    };
+
+    this.submitAccountTransfers = accountTransfers => {
+      return $http.post('account/transfers', accountTransfers);
     };
   });
