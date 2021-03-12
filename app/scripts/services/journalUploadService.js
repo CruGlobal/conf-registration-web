@@ -4,6 +4,7 @@ angular
     $rootScope,
     $http,
     $q,
+    modalMessage,
   ) {
     const path = function(id) {
       return 'conferences/' + id + '/registrations';
@@ -63,6 +64,19 @@ angular
     };
 
     this.submitAccountTransfers = accountTransfers => {
-      return $http.post('account/transfers', accountTransfers);
+      $rootScope.loadingMsg = 'Submitting account transfers';
+      return $http
+        .post('account/transfers', accountTransfers)
+        .then(response => response.data)
+        .finally(() => {
+          $rootScope.loadingMsg = '';
+        })
+        .catch(() => {
+          $rootScope.loadingMsg = '';
+          modalMessage.error({
+            message:
+              'An error occurred while attempting to submit account transfers.',
+          });
+        });
     };
   });

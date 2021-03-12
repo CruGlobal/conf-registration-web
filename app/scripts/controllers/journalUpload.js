@@ -111,11 +111,10 @@ angular
     };
 
     $scope.submit = () => {
-      journalUploadService
-        .submitAccountTransfers(conference.id, $scope.accountTransfersToInclude)
-        .then(response => {
-          console.log(response.data);
-        });
+      journalUploadService.submitAccountTransfers(
+        conference.id,
+        $scope.accountTransfersToInclude,
+      );
     };
 
     $scope.viewPayments = registrationId => {
