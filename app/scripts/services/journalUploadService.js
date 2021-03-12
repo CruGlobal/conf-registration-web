@@ -55,7 +55,6 @@ angular
           return [
             ...result,
             registrant.accountTransfers.map(accountTransfer => {
-              accountTransfer.remainingBalance = registrant.remainingBalance;
               return accountTransfer;
             }),
           ];

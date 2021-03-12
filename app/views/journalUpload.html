@@ -435,9 +435,9 @@
                 title="View/Edit Payments &amp; Expenses"
                 ng-click="viewPayments(r.registrationId)"
                 ng-class="{
-                  'btn-success': r.remainingBalance==0,
-                  'btn-default': r.remainingBalance>0,
-                  'btn-danger': r.remainingBalance<0
+                  'btn-success': getRemainingBalance(r.registrationId)==0,
+                  'btn-default': getRemainingBalance(r.registrationId)>0,
+                  'btn-danger': getRemainingBalance(r.registrationId)<0
                   }"
               >
                 <span class="currency-label"

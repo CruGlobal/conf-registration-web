@@ -28,6 +28,7 @@ angular
     $scope.accountTransfers = journalUploadService.getAccountTransferData(
       registrations,
     );
+    $scope.registrations = registrations;
     $scope.conference = conference;
     $scope.accountTransfersToInclude = [];
     $scope.queryParameters = {
@@ -108,6 +109,12 @@ angular
       accountTransferIndex !== -1
         ? $scope.accountTransfersToInclude.splice(accountTransferIndex, 1)
         : $scope.accountTransfersToInclude.push(accountTransfer);
+    };
+
+    $scope.getRemainingBalance = registrationId => {
+      return _.find($scope.registrations.registrations, {
+        id: registrationId,
+      }).remainingBalance;
     };
 
     $scope.submit = () => {
