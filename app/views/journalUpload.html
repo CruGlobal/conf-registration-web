@@ -347,11 +347,14 @@
         <button
           type="button"
           class="btn btn-default btn-sm"
-          ng-click=""
+          ng-click="allAccountTransfersIncluded() ? removeAllTransfersToInclude() : addAllTransfersToInclude()"
           ng-if="accountTransfers.length > 0"
-          title="Add All to Journal Report"
+          title="{{allAccountTransfersIncluded() ? 'Remove All from Journal Report' : 'Add All from Journal Report'}}"
         >
-          <translate>Add All to Journal Report</translate>
+          <translate
+            >{{allAccountTransfersIncluded() ? "Remove all from Journal Report"
+            : "Add All To Journal Report"}}</translate
+          >
         </button>
       </div>
       <div class="col-xs-12" ng-if="accountTransfers.length === 0">

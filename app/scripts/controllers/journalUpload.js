@@ -111,6 +111,36 @@ angular
         : $scope.accountTransfersToInclude.push(accountTransfer);
     };
 
+    $scope.allAccountTransfersIncluded = () =>
+      $scope.accountTransfersToInclude.length ===
+      $scope.accountTransfers.length;
+
+    $scope.addAllTransfersToInclude = () => {
+      $scope.accountTransfers.map(accountTransfer => {
+        const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
+          accountTransfer,
+        );
+        if (accountTransferIndex === -1) {
+          accountTransfer.included = true;
+          $scope.accountTransfersToInclude.push(accountTransfer);
+        }
+        return accountTransfer;
+      });
+    };
+
+    $scope.removeAllTransfersToInclude = () => {
+      $scope.accountTransfers.map(accountTransfer => {
+        const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
+          accountTransfer,
+        );
+        if (accountTransferIndex !== -1) {
+          accountTransfer.included = false;
+          $scope.accountTransfersToInclude.splice(accountTransferIndex, 1);
+        }
+        return accountTransfer;
+      });
+    };
+
     $scope.getRemainingBalance = registrationId => {
       return _.find($scope.registrations.registrations, {
         id: registrationId,
