@@ -128,7 +128,7 @@ angular
       });
     };
 
-    $scope.removeAllTransfersToInclude = () => {
+    $scope.removeAllTransfersFromToInclude = () => {
       $scope.accountTransfers.map(accountTransfer => {
         const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
           accountTransfer,
