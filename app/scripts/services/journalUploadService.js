@@ -55,7 +55,6 @@ angular
           return [
             ...result,
             registrant.accountTransfers.map(accountTransfer => {
-              accountTransfer.remainingBalance = registrant.remainingBalance;
               return accountTransfer;
             }),
           ];
@@ -65,8 +64,17 @@ angular
 
     this.submitAccountTransfers = accountTransfers => {
       $rootScope.loadingMsg = 'Submitting account transfers';
+      // Filter out included key from account transfer object
+      const filteredAccountTransfers = accountTransfers.map(accountTransfer => {
+        return Object.keys(accountTransfer)
+          .filter(key => key !== 'included')
+          .reduce((obj, key) => {
+            obj[key] = accountTransfer[key];
+            return obj;
+          }, {});
+      });
       return $http
-        .post('account/transfers', accountTransfers)
+        .post('account/transfers', filteredAccountTransfers)
         .then(response => response.data)
         .finally(() => {
           $rootScope.loadingMsg = '';
