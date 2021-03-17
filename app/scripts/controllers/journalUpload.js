@@ -99,6 +99,7 @@ angular
           $scope.accountTransfers = journalUploadService.getAccountTransferData(
             data,
           );
+          $scope.removeAllTransfersFromToInclude();
         });
     };
 
@@ -116,28 +117,18 @@ angular
       $scope.accountTransfers.length;
 
     $scope.addAllTransfersToInclude = () => {
-      $scope.accountTransfers.map(accountTransfer => {
-        const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
-          accountTransfer,
-        );
-        if (accountTransferIndex === -1) {
+      angular.forEach($scope.accountTransfers, accountTransfer => {
+        if ($scope.accountTransfersToInclude.indexOf(accountTransfer) === -1) {
           accountTransfer.included = true;
           $scope.accountTransfersToInclude.push(accountTransfer);
         }
-        return accountTransfer;
       });
     };
 
     $scope.removeAllTransfersFromToInclude = () => {
-      $scope.accountTransfers.map(accountTransfer => {
-        const accountTransferIndex = $scope.accountTransfersToInclude.indexOf(
-          accountTransfer,
-        );
-        if (accountTransferIndex !== -1) {
-          accountTransfer.included = false;
-          $scope.accountTransfersToInclude.splice(accountTransferIndex, 1);
-        }
-        return accountTransfer;
+      $scope.accountTransfersToInclude = [];
+      angular.forEach($scope.accountTransfers, accountTransfer => {
+        accountTransfer.included = false;
       });
     };
 

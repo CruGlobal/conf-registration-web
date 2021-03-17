@@ -59,6 +59,20 @@ describe('Controller: journalUploadCtrl', function() {
       );
     });
 
+    it('removes a single account transfer from accountTransfersToInclude', () => {
+      scope.accountTransfers = [testData.singleRegistration.accountTransfers];
+      scope.accountTransfersToInclude = [
+        testData.singleRegistration.accountTransfers,
+      ];
+
+      scope.refreshAccountTransfersToInclude(scope.accountTransfers[0]);
+
+      scope.refresh();
+
+      expect(scope.accountTransfersToInclude.length).toBe(0);
+      expect(scope.accountTransfersToInclude).toEqual([]);
+    });
+
     it('returns true if all account transfers have been added to accountTransfersToInclude', () => {
       scope.accountTransfers = [testData.singleRegistration.accountTransfers];
       scope.accountTransfersToInclude = [

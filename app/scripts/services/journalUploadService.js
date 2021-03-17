@@ -54,9 +54,7 @@ angular
         data.registrations.reduce((result, registrant) => {
           return [
             ...result,
-            registrant.accountTransfers.map(accountTransfer => {
-              return accountTransfer;
-            }),
+            registrant.accountTransfers.map(accountTransfer => accountTransfer),
           ];
         }, []),
       );
