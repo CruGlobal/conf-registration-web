@@ -407,6 +407,7 @@
                           <input
                             type="number"
                             ng-model="editPayment.amount"
+                            ng-disabled="disableEditingPaymentAmount(editPayment, registration.pastPayments)"
                             class="form-control"
                             step="1"
                             min="0"

@@ -448,4 +448,25 @@ angular
       var registrationPromoCodes = _.map($scope.registration.promotions, 'id');
       return !_.includes(registrationPromoCodes, p.id);
     };
+
+    // Disable editing payment amount field if another transfer or scholarship payment has been reported
+    $scope.disableEditingPaymentAmount = (payment, pastPayments) => {
+      if (
+        payment.paymentType !== 'SCHOLARSHIP' &&
+        payment.paymentType !== 'TRANSFER'
+      ) {
+        return false;
+      } else {
+        // If the paymentType is an account transfer or scholarship
+        // they can only edit the payment amount if no other scholarship or transfer payments
+        // have been reported for this registration.
+        const filteredPastPayments = pastPayments.filter(
+          pastPayment =>
+            (pastPayment.paymentType === 'SCHOLARSHIP' ||
+              pastPayment.paymentType === 'TRANSFER') &&
+            pastPayment.reported === true,
+        );
+        return filteredPastPayments.length > 0;
+      }
+    };
   });
