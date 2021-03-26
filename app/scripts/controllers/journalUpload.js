@@ -139,9 +139,11 @@ angular
     };
 
     $scope.submit = () => {
-      journalUploadService.submitAccountTransfers(
-        $scope.accountTransfersToInclude,
-      );
+      journalUploadService
+        .submitAccountTransfers($scope.accountTransfersToInclude)
+        .then(() => {
+          $scope.refresh();
+        });
     };
 
     $scope.viewPayments = registrationId => {
