@@ -30,6 +30,9 @@ angular
     $scope.accountTransfers = journalUploadService.getAccountTransferData(
       registrations,
     );
+    $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
+      registrations,
+    );
     $scope.registrations = registrations;
     $scope.reports = reports;
     $scope.currentReportId = null;
@@ -88,10 +91,14 @@ angular
       if (!newReportId) {
         $scope.refresh();
       } else {
-        // set accountTransfers to current report's account transfers
-        $scope.accountTransfers = $scope.reports.filter(
-          report => report.id === newReportId,
-        )[0].accountTransfers;
+        // set accountTransfers to current report's valid account transfers
+        $scope.accountTransfers = $scope.reports
+          .filter(report => report.id === newReportId)[0]
+          .accountTransfers.filter(accountTransfer => !accountTransfer.error);
+        // set accountTransfersWithErrors to current report's account transfers that have errors
+        $scope.accountTransfersWithErrors = $scope.reports
+          .filter(report => report.id === newReportId)[0]
+          .accountTransfers.filter(accountTransfer => accountTransfer.error);
       }
     });
 
@@ -117,6 +124,9 @@ angular
         .then(data => {
           $scope.meta = data.meta;
           $scope.accountTransfers = journalUploadService.getAccountTransferData(
+            data,
+          );
+          $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
             data,
           );
           $scope.removeAllTransfersFromToInclude();
@@ -150,6 +160,12 @@ angular
       angular.forEach($scope.accountTransfers, accountTransfer => {
         accountTransfer.included = false;
       });
+      angular.forEach(
+        $scope.accountTransfersWithErrors,
+        accountTransferWithError => {
+          accountTransferWithError.included = false;
+        },
+      );
     };
 
     $scope.getRemainingBalance = registrationId => {

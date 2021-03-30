@@ -335,6 +335,142 @@
     </div>
   </div>
 
+  <!-- Journal Upload Participant Transaction Error Section -->
+  <div class="row form-group" ng-hide="accountTransfersWithErrors.length === 0">
+    <div>
+      <div class="col-xs-12 details-heading">
+        <h4>
+          <a href="" translate
+            >Journal Upload Participant Transactions With Errors</a
+          >
+        </h4>
+      </div>
+    </div>
+    <div class="col-xs-12 table-responsive journal-row">
+      <table class="table table-aligned">
+        <thead>
+          <tr>
+            <th>
+              <a href="" translate>First Name</a>
+            </th>
+            <th>
+              <a href="" translate>Last Name</a>
+            </th>
+            <th>
+              <translate>Paid</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                uib-popover-template="paidPopoverTemplateUrl"
+                popover-trigger="mouseenter"
+                popover-append-to-body="true"
+              >
+              </i>
+            </th>
+            <th>
+              <a href="" translate>Business Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Operating Unit</a>
+            </th>
+            <th>
+              <a href="" translate>Department ID</a>
+            </th>
+            <th>
+              <a href="" translate>Project ID</a>
+            </th>
+            <th>
+              <a href="" translate>GL Account</a>
+            </th>
+            <th>
+              <a href="" translate>Product Code</a>
+            </th>
+            <th>
+              <a href="" translate>Amount</a>
+            </th>
+            <th class="text-center">
+              <a href="" translate>Description</a>
+            </th>
+            <th>
+              <a href="" translate>Reference</a>
+            </th>
+            <th class="text-center">
+              <a href="" translate>Include into report</a>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            ng-repeat="r in accountTransfersWithErrors"
+            ng-class="{'active': $even}"
+            class="noselect"
+          >
+            <td>
+              {{r.firstName}}
+            </td>
+            <td>
+              {{r.lastName}}
+            </td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm btn-bold text-center"
+                title="View/Edit Payments &amp; Expenses"
+                ng-disabled="r.reportId"
+                ng-click="viewPayments(r.registrationId)"
+                ng-class="{
+                  'btn-success': getRemainingBalance(r.registrationId)==0,
+                  'btn-default': getRemainingBalance(r.registrationId)>0,
+                  'btn-danger': getRemainingBalance(r.registrationId)<0
+                  }"
+              >
+                <span class="currency-label"
+                  >{{conference.currency.currencyCode | localizedSymbol}}</span
+                >
+              </button>
+            </td>
+            <td>
+              {{r.businessUnit}}
+            </td>
+            <td>
+              {{r.operatingUnit}}
+            </td>
+            <td>
+              {{r.departmentId}}
+            </td>
+            <td>
+              {{r.projectId}}
+            </td>
+            <td>
+              {{r.glAccount}}
+            </td>
+            <td>
+              {{r.productCode}}
+            </td>
+            <td>
+              {{ (r.amount | localizedCurrency:conference.currency.currencyCode)
+              }}
+            </td>
+            <td class="text-center">
+              {{r.description}}
+            </td>
+            <td>
+              {{r.account}}
+            </td>
+            <td class="text-center">
+              <input
+                type="checkbox"
+                ng-model="r.included"
+                ng-change="refreshAccountTransfersToInclude(r)"
+                ng-disabled="r.reportId"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
   <!-- Journal Upload Participant Transactions Section -->
   <div class="row form-group">
     <div>
@@ -357,9 +493,20 @@
           >
         </button>
       </div>
-      <div class="col-xs-12" ng-if="accountTransfers.length === 0">
+      <div
+        class="col-xs-12"
+        ng-if="accountTransfers.length === 0 && !currentReportId"
+      >
         <p translate>
           No account transfers have been found to match your filter.
+        </p>
+      </div>
+      <div
+        class="col-xs-12"
+        ng-if="accountTransfers.length === 0 && currentReportId"
+      >
+        <p translate>
+          No successful account transfers have been found in this report.
         </p>
       </div>
     </div>

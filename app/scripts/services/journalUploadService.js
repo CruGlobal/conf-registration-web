@@ -90,7 +90,22 @@ angular
         data.registrations.reduce((result, registrant) => {
           return [
             ...result,
-            registrant.accountTransfers.map(accountTransfer => accountTransfer),
+            registrant.accountTransfers.filter(
+              accountTransfer => !accountTransfer.error,
+            ),
+          ];
+        }, []),
+      );
+    };
+
+    this.getAccountTransferDataWithErrors = data => {
+      return _.flatten(
+        data.registrations.reduce((result, registrant) => {
+          return [
+            ...result,
+            registrant.accountTransfers.filter(
+              accountTransfer => accountTransfer.error,
+            ),
           ];
         }, []),
       );
