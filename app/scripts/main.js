@@ -27,6 +27,7 @@ import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
 import 'scripts/controllers/paymentCashCheckReport.js';
 import 'scripts/controllers/journalUpload.js';
+import 'scripts/controllers/journalUploadReview.js';
 
 // Directives
 import 'scripts/directives/adminNav.js';

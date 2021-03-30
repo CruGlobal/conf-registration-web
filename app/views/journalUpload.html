@@ -47,12 +47,12 @@
     </div>
     <div class="col-xs-6 col-sm-3 details-heading">
       <select
-        ng-model="queryParameters.currentReportId"
-        ng-options="r.id as r.createdTimestamp for r in reports"
+        ng-model="currentReportId"
+        ng-options="r.id as r.transactionTimestamp for r in reports"
         class="form-control"
         id="report-select-id"
       >
-        <option value="">New Report</option>
+        <option value="" translate>New Report</option>
       </select>
     </div>
   </div>
@@ -251,7 +251,7 @@
   </div>
 
   <!-- Journal Upload Event Transaction Section -->
-  <div class="row form-group">
+  <div class="row form-group" ng-hide="currentReportId">
     <div class="col-xs-12 details-heading">
       <h4>
         <a href="" translate>Journal Upload Event Transactions</a>
@@ -436,6 +436,7 @@
                 type="button"
                 class="btn btn-sm btn-bold text-center"
                 title="View/Edit Payments &amp; Expenses"
+                ng-disabled="r.reportId"
                 ng-click="viewPayments(r.registrationId)"
                 ng-class="{
                   'btn-success': getRemainingBalance(r.registrationId)==0,
@@ -481,7 +482,7 @@
                 type="checkbox"
                 ng-model="r.included"
                 ng-change="refreshAccountTransfersToInclude(r)"
-                ng-disabled="queryParameters.currentReportId"
+                ng-disabled="r.reportId"
               />
             </td>
           </tr>

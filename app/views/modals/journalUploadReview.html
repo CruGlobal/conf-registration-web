@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()">&times;</button>
+  <h3 class="text-center">
+    <translate>Journal Upload Review</translate> - {{conference.name}}
+  </h3>
+</div>
+
+<div class="modal-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <h3 class="text-center">
+          Your Journal Upload Was Submitted
+        </h3>
+        <p class="text-center">
+          <ng-pluralize
+            count="accountTransfers.length"
+            when="{'0': 'No account transfers were successfully submitted.', 
+            '1': 'There was one account transfer successfully submitted.', 
+            'other': 'There were {} account transfers successfully submitted.'}"
+          ></ng-pluralize>
+          <ng-pluralize
+            count="accountTransfersWithErrors.length"
+            when="{'0': 'There were no errors.', 
+            '1': 'There was {} error that needs to be addressed.', 
+            'other': 'There were {} errors that need to be addressed.'}"
+          ></ng-pluralize>
+        </p>
+        <hr />
+      </div>
+      <div class="col-xs-6">
+        <label class="bg-success"><translate>Successes</translate>:</label>
+        <h4>
+          {{accountTransfers.length}}
+        </h4>
+      </div>
+      <div class="col-xs-6">
+        <label class="bg-danger"><translate>Errors</translate>:</label>
+        <h4>
+          {{accountTransfersWithErrors.length}}
+        </h4>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button ng-click="viewReport()" class="btn btn-primary" translate>
+      View Report
+    </button>
+    <button
+      ng-if="accountTransfersWithErrors.length"
+      ng-click="viewErrors()"
+      class="btn btn-danger"
+      translate
+    >
+      View Errors
+    </button>
+    <button ng-click="close()" class="btn btn-default" translate>
+      Return To Journal Upload
+    </button>
+  </div>
+</div>
