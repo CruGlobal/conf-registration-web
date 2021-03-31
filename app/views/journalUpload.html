@@ -394,7 +394,7 @@
             <th>
               <a href="" translate>Reference</a>
             </th>
-            <th class="text-center">
+            <th class="text-center" ng-if="!currentReportId">
               <a href="" translate>Include into report</a>
             </th>
           </tr>
@@ -462,7 +462,7 @@
                 type="checkbox"
                 ng-model="r.included"
                 ng-change="refreshAccountTransfersToInclude(r)"
-                ng-disabled="r.reportId"
+                ng-if="!currentReportId"
               />
             </td>
           </tr>
@@ -484,7 +484,7 @@
           type="button"
           class="btn btn-default btn-sm"
           ng-click="allAccountTransfersIncluded() ? removeAllTransfersFromToInclude() : addAllTransfersToInclude()"
-          ng-if="accountTransfers.length > 0"
+          ng-if="accountTransfers.length > 0 && !currentReportId"
           title="{{allAccountTransfersIncluded() ? 'Remove All from Journal Report' : 'Add All from Journal Report'}}"
         >
           <translate
@@ -561,7 +561,7 @@
             <th>
               <a href="" translate>Reference</a>
             </th>
-            <th class="text-center">
+            <th class="text-center" ng-if="!currentReportId">
               <a href="" translate>Include into report</a>
             </th>
           </tr>
@@ -629,7 +629,7 @@
                 type="checkbox"
                 ng-model="r.included"
                 ng-change="refreshAccountTransfersToInclude(r)"
-                ng-disabled="r.reportId"
+                ng-if="!currentReportId"
               />
             </td>
           </tr>
