@@ -428,6 +428,13 @@
                   >{{conference.currency.currencyCode | localizedSymbol}}</span
                 >
               </button>
+              <i
+                class="error-popover fa fa-exclamation-triangle"
+                uib-popover="{{r.error | translate}}"
+                popover-trigger="'mouseenter'"
+                popover-append-to-body="true"
+              >
+              </i>
             </td>
             <td>
               {{r.businessUnit}}
