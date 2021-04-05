@@ -774,6 +774,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         departmentId: 'STAFF',
         description: 'Reg-Again1, Test',
         expenseType: 'REGISTRATION',
+        error: null,
         firstName: 'Test',
         glAccount: '67620',
         lastName: 'Person',

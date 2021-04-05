@@ -55,9 +55,13 @@ describe('Controller: journalUploadCtrl', function() {
 
       scope.$digest();
 
-      expect(scope.accountTransfers).toEqual(
-        testData.accountTransfersReportList[0].accountTransfers,
-      );
+      expect(scope.accountTransfers).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[0],
+      ]);
+
+      expect(scope.accountTransfersWithErrors).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[1],
+      ]);
     });
 
     it('refreshes account transfer data if currentReportId is set to null', () => {
@@ -65,9 +69,13 @@ describe('Controller: journalUploadCtrl', function() {
 
       scope.$digest();
 
-      expect(scope.accountTransfers).toEqual(
-        testData.accountTransfersReportList[0].accountTransfers,
-      );
+      expect(scope.accountTransfers).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[0],
+      ]);
+
+      expect(scope.accountTransfersWithErrors).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[1],
+      ]);
 
       $httpBackend
         .whenGET(/^conferences\/.*\/registrations.*/)
