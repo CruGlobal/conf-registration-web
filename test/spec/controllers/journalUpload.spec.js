@@ -43,6 +43,7 @@ describe('Controller: journalUploadCtrl', function() {
     $httpBackend.verifyNoOutstandingRequest();
 
     expect(scope.accountTransfers.length).toBeGreaterThan(0);
+    expect(scope.reports.length).toBeGreaterThan(0);
   });
 
   describe('account transfer reports', () => {
