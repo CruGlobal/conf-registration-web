@@ -265,6 +265,10 @@ angular
             journalUploadService.getRegistrationData(
               $route.current.params.conferenceId,
             ),
+          reports: ($route, journalUploadService) =>
+            journalUploadService.getAllAccountTransferReports(
+              $route.current.params.conferenceId,
+            ),
           conference: ($route, ConfCache) =>
             ConfCache.get($route.current.params.conferenceId, true),
           permissions: ($route, PermissionCache) =>

@@ -22,6 +22,7 @@ describe('Controller: journalUploadCtrl', function() {
         $scope: scope,
         registrations: { registrations: [testData.singleRegistration] },
         conference: testData.conference,
+        reports: testData.accountTransfersReportList,
         permissions: {},
         confId: '123456',
       });
@@ -42,6 +43,57 @@ describe('Controller: journalUploadCtrl', function() {
     $httpBackend.verifyNoOutstandingRequest();
 
     expect(scope.accountTransfers.length).toBeGreaterThan(0);
+    expect(scope.reports.length).toBeGreaterThan(0);
+  });
+
+  describe('account transfer reports', () => {
+    it('sets accountTransfers to specific reports accountTransfers', () => {
+      scope.accountTransfers[testData.singleRegistration.accountTransfers];
+
+      expect(scope.currentReportId).toEqual(null);
+
+      scope.currentReportId = '59d56562-b97e-4cc8-a6f3-305f207042a4';
+
+      scope.$digest();
+
+      expect(scope.accountTransfers).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[0],
+      ]);
+
+      expect(scope.accountTransfersWithErrors).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[1],
+      ]);
+    });
+
+    it('refreshes account transfer data if currentReportId is set to null', () => {
+      scope.currentReportId = '59d56562-b97e-4cc8-a6f3-305f207042a4';
+
+      scope.$digest();
+
+      expect(scope.accountTransfers).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[0],
+      ]);
+
+      expect(scope.accountTransfersWithErrors).toEqual([
+        testData.accountTransfersReportList[0].accountTransfers[1],
+      ]);
+
+      $httpBackend
+        .whenGET(/^conferences\/.*\/registrations.*/)
+        .respond(201, { registrations: [testData.singleRegistration] });
+
+      scope.currentReportId = null;
+
+      $httpBackend.flush();
+
+      scope.$digest();
+
+      expect(scope.currentReportId).toEqual(null);
+
+      expect(scope.accountTransfers[0].id).toEqual(
+        testData.singleRegistration.accountTransfers[0].id,
+      );
+    });
   });
 
   describe('accountTransfersToInclude', () => {

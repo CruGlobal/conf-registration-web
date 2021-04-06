@@ -1,5 +1,6 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
+import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
 
 angular
   .module('confRegistrationWebApp')
@@ -11,6 +12,7 @@ angular
     $cookies,
     $uibModal,
     registrations,
+    reports,
     journalUploadService,
     conference,
     envService,
@@ -28,7 +30,12 @@ angular
     $scope.accountTransfers = journalUploadService.getAccountTransferData(
       registrations,
     );
+    $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
+      registrations,
+    );
     $scope.registrations = registrations;
+    $scope.reports = reports;
+    $scope.currentReportId = null;
     $scope.conference = conference;
     $scope.accountTransfersToInclude = [];
     $scope.queryParameters = {
@@ -75,6 +82,26 @@ angular
       true,
     );
 
+    $scope.$watch('currentReportId', (newReportId, oldReportId) => {
+      // scroll to top of page if selected report changes
+      if (newReportId !== oldReportId) {
+        $window.scrollTo(0, 0);
+      }
+      // if currentReportId is null, refresh account transfer data
+      if (!newReportId) {
+        $scope.refresh();
+      } else {
+        // set accountTransfers to current report's valid account transfers
+        $scope.accountTransfers = $scope.reports
+          .filter(report => report.id === newReportId)[0]
+          .accountTransfers.filter(accountTransfer => !accountTransfer.error);
+        // set accountTransfersWithErrors to current report's account transfers that have errors
+        $scope.accountTransfersWithErrors = $scope.reports
+          .filter(report => report.id === newReportId)[0]
+          .accountTransfers.filter(accountTransfer => accountTransfer.error);
+      }
+    });
+
     const throttleFilter = _.debounce(() => {
       $scope.$apply(() => {
         $scope.queryParameters.filter = $scope.strFilter;
@@ -97,6 +124,9 @@ angular
         .then(data => {
           $scope.meta = data.meta;
           $scope.accountTransfers = journalUploadService.getAccountTransferData(
+            data,
+          );
+          $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
             data,
           );
           $scope.removeAllTransfersFromToInclude();
@@ -130,6 +160,12 @@ angular
       angular.forEach($scope.accountTransfers, accountTransfer => {
         accountTransfer.included = false;
       });
+      angular.forEach(
+        $scope.accountTransfersWithErrors,
+        accountTransferWithError => {
+          accountTransferWithError.included = false;
+        },
+      );
     };
 
     $scope.getRemainingBalance = registrationId => {
@@ -141,9 +177,39 @@ angular
     $scope.submit = () => {
       journalUploadService
         .submitAccountTransfers($scope.accountTransfersToInclude)
-        .then(() => {
-          $scope.refresh();
+        .then(data => {
+          // Refresh reports list after submitting
+          journalUploadService
+            .getAllAccountTransferReports(conference.id)
+            .then(data => {
+              $scope.reports = data;
+            });
+          $scope.viewSubmissionReview(data);
         });
+    };
+
+    $scope.viewSubmissionReview = report => {
+      const journalReviewModalOptions = {
+        templateUrl: journalUploadReviewModalTemplate,
+        controller: 'journalUploadReviewModal',
+        size: 'md',
+        backdrop: 'static',
+        resolve: {
+          conference: () => conference,
+          queryParameters: () => $scope.queryParameters,
+          report: () => report,
+        },
+      };
+
+      $uibModal.open(journalReviewModalOptions).result.then(data => {
+        // If data has a value, the user chose to view the report
+        if (data) {
+          $scope.currentReportId = data;
+        } else {
+          // If not, refresh account transfers
+          $scope.refresh();
+        }
+      });
     };
 
     $scope.viewPayments = registrationId => {

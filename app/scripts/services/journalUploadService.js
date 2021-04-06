@@ -7,7 +7,7 @@ angular
     modalMessage,
   ) {
     const path = function(id) {
-      return 'conferences/' + id + '/registrations';
+      return `conferences/${id}`;
     };
 
     this.getRegistrationData = (
@@ -34,9 +34,45 @@ angular
       $rootScope.loadingMsg = 'Loading Registrations';
 
       $http
-        .get(path(conferenceId), {
+        .get(`${path(conferenceId)}/registrations`, {
           params: queryParameters,
         })
+        .then(response => {
+          $rootScope.loadingMsg = '';
+          defer.resolve(response.data);
+        })
+        .catch(() => {
+          $rootScope.loadingMsg = '';
+          defer.reject();
+        });
+
+      return defer.promise;
+    };
+
+    this.getAllAccountTransferReports = conferenceId => {
+      const defer = $q.defer();
+      $rootScope.loadingMsg = 'Loading Reports';
+
+      $http
+        .get(`${path(conferenceId)}/account/transfer/reports`)
+        .then(response => {
+          $rootScope.loadingMsg = '';
+          defer.resolve(response.data);
+        })
+        .catch(() => {
+          $rootScope.loadingMsg = '';
+          defer.reject();
+        });
+
+      return defer.promise;
+    };
+
+    this.getAccountTransferReport = url => {
+      const defer = $q.defer();
+      $rootScope.loadingMsg = 'Loading Report';
+
+      $http
+        .get(url)
         .then(response => {
           $rootScope.loadingMsg = '';
           defer.resolve(response.data);
@@ -54,7 +90,22 @@ angular
         data.registrations.reduce((result, registrant) => {
           return [
             ...result,
-            registrant.accountTransfers.map(accountTransfer => accountTransfer),
+            registrant.accountTransfers.filter(
+              accountTransfer => !accountTransfer.error,
+            ),
+          ];
+        }, []),
+      );
+    };
+
+    this.getAccountTransferDataWithErrors = data => {
+      return _.flatten(
+        data.registrations.reduce((result, registrant) => {
+          return [
+            ...result,
+            registrant.accountTransfers.filter(
+              accountTransfer => accountTransfer.error,
+            ),
           ];
         }, []),
       );
@@ -73,7 +124,7 @@ angular
       });
       return $http
         .post('account/transfers', filteredAccountTransfers)
-        .then(response => response.data)
+        .then(response => this.getAccountTransferReport(response.data))
         .finally(() => {
           $rootScope.loadingMsg = '';
         })
