@@ -36,7 +36,3 @@ deploy:
     skip_cleanup: true
     on:
       branch: master
-env:
-  global:
-    - AWS_ACCESS_KEY_ID=AKIAJ3CKARY2R6SAMKDA
-    - secure: SrUj83k6YW7o4xwsRw/20zRglGita1wKplb13zKFyCLPyNJABoomxN0D88umcUCVLUoy3ICjja4U4BM/hH85pDD+WlQWjTg2AyGDDoyVzCY6IOgqNAQaU7UET09VKs7HmQ1KcqBB8KbEgNxtQMARFtWDRvmISjOfnSRRul2phg8=
