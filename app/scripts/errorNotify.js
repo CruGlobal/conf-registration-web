@@ -1,7 +1,7 @@
 import rollbar from 'rollbar';
 
 const rollbarConfig = {
-  accessToken: '599d1830feff45dbb2f03f366e03eab3',
+  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
   ignoredMessages: [
     "undefined is not an object (evaluating '__gCrWeb.autofill.extractForms')",
   ],
