@@ -56,6 +56,11 @@ module.exports = (env = {}) => {
     },
     plugins: concat(
       [
+        new webpack.EnvironmentPlugin({
+          ROLLBAR_ACCESS_TOKEN:
+            JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN) ||
+            'development-token',
+        }),
         new webpack.ProvidePlugin({
           $: 'jquery',
           jQuery: 'jquery',
