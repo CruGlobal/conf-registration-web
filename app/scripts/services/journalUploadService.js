@@ -30,85 +30,72 @@ angular
         primaryRegistrantOnly: true,
       },
     ) => {
-      const defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Registrations';
 
-      $http
+      return $http
         .get(`${path(conferenceId)}/registrations`, {
           params: queryParameters,
         })
         .then(response => {
           $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
+          return response.data;
         })
-        .catch(() => {
+        .catch(err => {
           $rootScope.loadingMsg = '';
-          defer.reject();
+          throw err;
         });
-
-      return defer.promise;
     };
 
     this.getAllAccountTransferReports = conferenceId => {
-      const defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Reports';
 
-      $http
+      return $http
         .get(`${path(conferenceId)}/account/transfer/reports`)
         .then(response => {
           $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
+          return response.data;
         })
-        .catch(() => {
+        .catch(err => {
           $rootScope.loadingMsg = '';
-          defer.reject();
+          throw err;
         });
-
-      return defer.promise;
     };
 
     this.getAccountTransferReport = url => {
-      const defer = $q.defer();
       $rootScope.loadingMsg = 'Loading Report';
 
-      $http
+      return $http
         .get(url)
         .then(response => {
           $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
+          return response.data;
         })
-        .catch(() => {
+        .catch(err => {
           $rootScope.loadingMsg = '';
-          defer.reject();
+          throw err;
         });
-
-      return defer.promise;
     };
 
     this.getAccountTransferData = data => {
-      return _.flatten(
-        data.registrations.reduce((result, registrant) => {
-          return [
-            ...result,
-            registrant.accountTransfers.filter(
-              accountTransfer => !accountTransfer.error,
-            ),
-          ];
-        }, []),
-      );
+      return data.registrations.reduce((result, registrant) => {
+        return [
+          ...result,
+          ...registrant.accountTransfers.filter(
+            accountTransfer => !accountTransfer.error,
+          ),
+        ];
+      }, []);
     };
 
     this.getAccountTransferDataWithErrors = data => {
-      return _.flatten(
-        data.registrations.reduce((result, registrant) => {
-          return [
-            ...result,
-            registrant.accountTransfers.filter(
-              accountTransfer => accountTransfer.error,
-            ),
-          ];
-        }, []),
-      );
+      return data.registrations.reduce((result, registrant) => {
+        return [
+          ...result,
+          ...registrant.accountTransfers.filter(
+            accountTransfer => accountTransfer.error,
+          ),
+        ];
+      }, []);
     };
 
     this.submitAccountTransfers = accountTransfers => {
