@@ -407,7 +407,6 @@
                           <input
                             type="number"
                             ng-model="editPayment.amount"
-                            ng-disabled="disableEditingPaymentAmount(editPayment, registration.pastPayments)"
                             class="form-control"
                             step="1"
                             min="0"
@@ -453,7 +452,7 @@
                       <div class="col-sm-9">
                         <select
                           ng-model="editPayment.transfer.accountType"
-                          ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                          ng-disabled="editPayment.reported"
                           class="form-control"
                         >
                           <option value="STAFF" translate>Staff</option>
@@ -474,7 +473,7 @@
                           <input
                             ng-disabled="editPayment.transfer.accountType
                           === 'NON_US_STAFF' ||
-                          disableEditingFieldsForReportedPayments(editPayment)"
+                          editPayment.reported"
                             ng-model="editPayment.transfer.businessUnit"
                             type="text"
                             class="form-control"
@@ -485,7 +484,7 @@
                           <label translate>Operating Unit</label>
                           <input
                             ng-model="editPayment.transfer.operatingUnit"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -494,7 +493,7 @@
                         <div class="col-sm-3">
                           <label translate>Department</label>
                           <input
-                            ng-disabled="editPayment.transfer.accountType === 'NON_US_STAFF' || disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.transfer.accountType === 'NON_US_STAFF' || editPayment.reported"
                             ng-model="editPayment.transfer.department"
                             type="text"
                             class="form-control"
@@ -505,7 +504,7 @@
                           <label translate>Project Id</label>
                           <input
                             ng-model="editPayment.transfer.projectId"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -523,7 +522,7 @@
                       <div class="col-sm-9">
                         <input
                           ng-model="editPayment.transfer.accountNumber"
-                          ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                          ng-disabled="editPayment.reported"
                           type="text"
                           class="form-control"
                         />
@@ -538,7 +537,7 @@
                       <div class="col-sm-9">
                         <select
                           ng-model="editPayment.scholarship.accountType"
-                          ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                          ng-disabled="editPayment.reported"
                           class="form-control"
                         >
                           <option value="STAFF" translate>Staff</option>
@@ -560,7 +559,7 @@
                         <div class="col-sm-9">
                           <input
                             ng-model="editPayment.scholarship.accountNumber"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -574,7 +573,7 @@
                           <label translate>Business Unit</label>
                           <input
                             ng-model="editPayment.scholarship.businessUnit"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -584,7 +583,7 @@
                           <label translate>Operating Unit</label>
                           <input
                             ng-model="editPayment.scholarship.operatingUnit"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -594,7 +593,7 @@
                           <label translate>Department</label>
                           <input
                             ng-model="editPayment.scholarship.department"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -604,7 +603,7 @@
                           <label translate>Project Id</label>
                           <input
                             ng-model="editPayment.scholarship.projectId"
-                            ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                            ng-disabled="editPayment.reported"
                             type="text"
                             class="form-control"
                           />
@@ -620,7 +619,7 @@
                       <input
                         type="text"
                         ng-model="editPayment.description"
-                        ng-disabled="disableEditingFieldsForReportedPayments(editPayment)"
+                        ng-disabled="editPayment.reported"
                         class="form-control"
                       />
                     </div>

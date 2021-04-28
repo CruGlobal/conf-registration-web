@@ -43,43 +43,43 @@ describe('Controller: paymentModal', function() {
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 
-  describe('disableEditingFieldsForReportedPayments', () => {
-    it('returns false and does not disable editing if paymentType is TRANSFER and payment has not been reported', () => {
+  describe('canEditPayment', () => {
+    it('returns true if paymentType is TRANSFER and payment has not been reported', () => {
       let payment = { paymentType: 'TRANSFER', reported: false };
 
-      const result = scope.disableEditingFieldsForReportedPayments(payment);
+      const result = scope.canEditPayment(payment);
 
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
 
-    it('returns false and does not disable editing if paymentType is SCHOLARSHIP and payment has not been reported', () => {
+    it('returns true if paymentType is SCHOLARSHIP and payment has not been reported', () => {
       let payment = { paymentType: 'SCHOLARSHIP', reported: false };
 
-      const result = scope.disableEditingFieldsForReportedPayments(payment);
+      const result = scope.canEditPayment(payment);
 
-      expect(result).toBe(false);
+      expect(result).toBe(true);
     });
 
     it('returns false if paymentType is not a TRANSFER or SCHOLARSHIP but has been reported', () => {
       let payment = { paymentType: 'CHECK', reported: true };
 
-      const result = scope.disableEditingFieldsForReportedPayments(payment);
+      const result = scope.canEditPayment(payment);
 
       expect(result).toBe(false);
     });
 
-    it('returns true and disables editing if paymentType is TRANSFER and payment has been reported', () => {
+    it('returns true if paymentType is TRANSFER and payment has been reported', () => {
       let payment = { paymentType: 'TRANSFER', reported: true };
 
-      const result = scope.disableEditingFieldsForReportedPayments(payment);
+      const result = scope.canEditPayment(payment);
 
       expect(result).toBe(true);
     });
 
-    it('returns true and disables editing if paymentType is SCHOLARSHIP and payment has been reported', () => {
+    it('returns true if paymentType is SCHOLARSHIP and payment has been reported', () => {
       let payment = { paymentType: 'SCHOLARSHIP', reported: true };
 
-      const result = scope.disableEditingFieldsForReportedPayments(payment);
+      const result = scope.canEditPayment(payment);
 
       expect(result).toBe(true);
     });
