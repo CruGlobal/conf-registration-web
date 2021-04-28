@@ -43,95 +43,45 @@ describe('Controller: paymentModal', function() {
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 
-  describe('disableEditingPaymentAmount', () => {
-    it('returns true and disables editing if paymentType is TRANSFER and a past account transfer payment has been reported', () => {
+  describe('disableEditingFieldsForReportedPayments', () => {
+    it('returns false and does not disable editing if paymentType is TRANSFER and payment has not been reported', () => {
       let payment = { paymentType: 'TRANSFER', reported: false };
 
-      let pastPayments = [payment, { paymentType: 'TRANSFER', reported: true }];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
-
-      expect(result).toBe(true);
-    });
-
-    it('returns true and disables editing if paymentType is TRANSFER and a past scholarship payment has been reported', () => {
-      let payment = { paymentType: 'TRANSFER', reported: false };
-
-      let pastPayments = [
-        payment,
-        { paymentType: 'SCHOLARSHIP', reported: true },
-      ];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
-
-      expect(result).toBe(true);
-    });
-
-    it('returns true and disables editing if paymentType is SCHOLARSHIP and a past scholarship payment has been reported', () => {
-      let payment = { paymentType: 'SCHOLARSHIP', reported: false };
-
-      let pastPayments = [
-        payment,
-        { paymentType: 'SCHOLARSHIP', reported: true },
-      ];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
-
-      expect(result).toBe(true);
-    });
-
-    it('returns true and disables editing if paymentType is SCHOLARSHIP and a past account transfer payment has been reported', () => {
-      let payment = { paymentType: 'SCHOLARSHIP', reported: false };
-
-      let pastPayments = [payment, { paymentType: 'TRANSFER', reported: true }];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
-
-      expect(result).toBe(true);
-    });
-
-    it('returns false and does not disable editing if paymentType is SCHOLARSHIP and no other past account transfer or scholarship payments have been reported', () => {
-      let payment = { paymentType: 'SCHOLARSHIP', reported: false };
-
-      let pastPayments = [
-        payment,
-        { paymentType: 'TRANSFER', reported: false },
-        { paymentType: 'SCHOLARSHIP', reported: false },
-      ];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
+      const result = scope.disableEditingFieldsForReportedPayments(payment);
 
       expect(result).toBe(false);
     });
 
-    it('returns false and does not disable editing if paymentType is TRANSFER and no other past account transfer or scholarship payments have been reported', () => {
-      let payment = { paymentType: 'TRANSFER', reported: false };
+    it('returns false and does not disable editing if paymentType is SCHOLARSHIP and payment has not been reported', () => {
+      let payment = { paymentType: 'SCHOLARSHIP', reported: false };
 
-      let pastPayments = [
-        payment,
-        { paymentType: 'TRANSFER', reported: false },
-        { paymentType: 'SCHOLARSHIP', reported: false },
-      ];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
+      const result = scope.disableEditingFieldsForReportedPayments(payment);
 
       expect(result).toBe(false);
     });
 
-    it('does not disable editing if other past reported payments do not have a paymentType of SCHOLARSHIP or TRANSFER', () => {
-      let payment = { paymentType: 'TRANSFER', reported: false };
+    it('returns false if paymentType is not a TRANSFER or SCHOLARSHIP but has been reported', () => {
+      let payment = { paymentType: 'CHECK', reported: true };
 
-      let pastPayments = [
-        payment,
-        { paymentType: 'CASH', reported: true },
-        { paymentType: 'CREDIT_CARD', reported: true },
-        { paymentType: 'CHECK', reported: true },
-        { paymentType: 'OFFLINE_CREDIT_CARD', reported: true },
-      ];
-
-      const result = scope.disableEditingPaymentAmount(payment, pastPayments);
+      const result = scope.disableEditingFieldsForReportedPayments(payment);
 
       expect(result).toBe(false);
+    });
+
+    it('returns true and disables editing if paymentType is TRANSFER and payment has been reported', () => {
+      let payment = { paymentType: 'TRANSFER', reported: true };
+
+      const result = scope.disableEditingFieldsForReportedPayments(payment);
+
+      expect(result).toBe(true);
+    });
+
+    it('returns true and disables editing if paymentType is SCHOLARSHIP and payment has been reported', () => {
+      let payment = { paymentType: 'SCHOLARSHIP', reported: true };
+
+      const result = scope.disableEditingFieldsForReportedPayments(payment);
+
+      expect(result).toBe(true);
     });
   });
 });
