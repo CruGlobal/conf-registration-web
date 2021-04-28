@@ -453,10 +453,4 @@ angular
       var registrationPromoCodes = _.map($scope.registration.promotions, 'id');
       return !_.includes(registrationPromoCodes, p.id);
     };
-
-    // Disable editing all other fields if payment has been reported and the paymentType is either SCHOLARSHIP or TRANSFER
-    $scope.disableEditingFieldsForReportedPayments = payment =>
-      payment.reported &&
-      (payment.paymentType === 'SCHOLARSHIP' ||
-        payment.paymentType === 'TRANSFER');
   });
