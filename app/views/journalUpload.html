@@ -93,7 +93,7 @@
         <select
           class="form-control"
           ng-model="queryParameters.filterRegType"
-          ng-options="r.registrationId as r.name for r in conference.registrantTypes"
+          ng-options="r.id as r.name for r in conference.registrantTypes"
         >
           <option value="">-Any-</option>
         </select>
