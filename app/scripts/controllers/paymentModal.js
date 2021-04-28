@@ -146,6 +146,17 @@ angular
         });
     }
 
+    $scope.canEditPayment = payment => {
+      if (payment.reported) {
+        return (
+          payment.paymentType === 'SCHOLARSHIP' ||
+          payment.paymentType === 'TRANSFER'
+        );
+      } else {
+        return true;
+      }
+    };
+
     $scope.canBeRefunded = function(payment) {
       return (
         payment.paymentType !== 'REFUND' &&
@@ -449,24 +460,9 @@ angular
       return !_.includes(registrationPromoCodes, p.id);
     };
 
-    // Disable editing payment amount field if another transfer or scholarship payment has been reported
-    $scope.disableEditingPaymentAmount = (payment, pastPayments) => {
-      if (
-        payment.paymentType !== 'SCHOLARSHIP' &&
-        payment.paymentType !== 'TRANSFER'
-      ) {
-        return false;
-      } else {
-        // If the paymentType is an account transfer or scholarship
-        // they can only edit the payment amount if no other scholarship or transfer payments
-        // have been reported for this registration.
-        const filteredPastPayments = pastPayments.filter(
-          pastPayment =>
-            (pastPayment.paymentType === 'SCHOLARSHIP' ||
-              pastPayment.paymentType === 'TRANSFER') &&
-            pastPayment.reported === true,
-        );
-        return filteredPastPayments.length > 0;
-      }
-    };
+    // Disable editing all other fields if payment has been reported and the paymentType is either SCHOLARSHIP or TRANSFER
+    $scope.disableEditingFieldsForReportedPayments = payment =>
+      payment.reported &&
+      (payment.paymentType === 'SCHOLARSHIP' ||
+        payment.paymentType === 'TRANSFER');
   });
