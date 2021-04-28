@@ -146,16 +146,10 @@ angular
         });
     }
 
-    $scope.canEditPayment = payment => {
-      if (payment.reported) {
-        return (
-          payment.paymentType === 'SCHOLARSHIP' ||
-          payment.paymentType === 'TRANSFER'
-        );
-      } else {
-        return true;
-      }
-    };
+    $scope.canEditPayment = payment =>
+      !payment.reported ||
+      (payment.paymentType === 'SCHOLARSHIP' ||
+        payment.paymentType === 'TRANSFER');
 
     $scope.canBeRefunded = function(payment) {
       return (
