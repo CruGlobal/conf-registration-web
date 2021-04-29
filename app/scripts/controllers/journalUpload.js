@@ -53,6 +53,7 @@ angular
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
+      primaryRegistrantOnly: true,
     };
     $scope.meta = {
       totalPages: 0,
@@ -76,8 +77,10 @@ angular
           //scroll to top on page change
           $window.scrollTo(0, 0);
         }
-
-        $scope.refresh();
+        // Only refresh when paramters are different
+        if (newParameters !== oldParameters) {
+          $scope.refresh();
+        }
       },
       true,
     );
@@ -87,6 +90,12 @@ angular
       if (newReportId !== oldReportId) {
         $window.scrollTo(0, 0);
       }
+
+      // Prevent refresh on initial page load
+      if (!newReportId && !oldReportId) {
+        return;
+      }
+
       // if currentReportId is null, refresh account transfer data
       if (!newReportId) {
         $scope.refresh();
