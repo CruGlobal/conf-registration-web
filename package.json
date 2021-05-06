@@ -16,7 +16,7 @@
     "cru-payments": "^1.2.2",
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
     "jquery": "^3.5.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.27",
     "pickadate": "^3.5.6",
