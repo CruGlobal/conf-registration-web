@@ -284,8 +284,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
                   if (
                     !currentPayment.transfer.businessUnit ||
                     !currentPayment.transfer.operatingUnit ||
-                    !currentPayment.transfer.department ||
-                    !currentPayment.transfer.projectId
+                    !currentPayment.transfer.department
                   ) {
                     paymentErrors.push(
                       'Please fill in all ministry transfer fields.',
