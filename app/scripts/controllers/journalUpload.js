@@ -11,7 +11,7 @@ angular
     $window,
     $cookies,
     $uibModal,
-    registrations,
+    registrationsData,
     reports,
     journalUploadService,
     conference,
@@ -28,12 +28,12 @@ angular
     };
     $scope.paidPopoverTemplateUrl = registrationsPaidPopoverTemplate;
     $scope.accountTransfers = journalUploadService.getAccountTransferData(
-      registrations,
+      registrationsData,
     );
     $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
-      registrations,
+      registrationsData,
     );
-    $scope.registrations = registrations;
+    $scope.registrations = registrationsData.registrations;
     $scope.reports = reports;
     $scope.currentReportId = null;
     $scope.conference = conference;
@@ -55,9 +55,7 @@ angular
       includeIncomplete: 'yes',
       primaryRegistrantOnly: true,
     };
-    $scope.meta = {
-      totalPages: 0,
-    };
+    $scope.meta = registrationsData.meta;
     $scope.apiUrl = envService.read('apiUrl');
     $scope.authToken = $cookies.get('crsToken');
 
@@ -130,13 +128,14 @@ angular
     $scope.refresh = () => {
       journalUploadService
         .getRegistrationData(conference.id, $scope.queryParameters)
-        .then(data => {
-          $scope.meta = data.meta;
+        .then(registrationsData => {
+          $scope.meta = registrationsData.meta;
+          $scope.registrations = registrationsData.registrations;
           $scope.accountTransfers = journalUploadService.getAccountTransferData(
-            data,
+            registrationsData,
           );
           $scope.accountTransfersWithErrors = journalUploadService.getAccountTransferDataWithErrors(
-            data,
+            registrationsData,
           );
           $scope.removeAllTransfersFromToInclude();
         });
@@ -178,7 +177,7 @@ angular
     };
 
     $scope.getRemainingBalance = registrationId => {
-      return _.find($scope.registrations.registrations, {
+      return _.find($scope.registrations, {
         id: registrationId,
       }).remainingBalance;
     };
