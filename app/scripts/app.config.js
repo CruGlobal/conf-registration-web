@@ -261,7 +261,7 @@ angular
           eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          registrations: ($route, journalUploadService) =>
+          registrationsData: ($route, journalUploadService) =>
             journalUploadService.getRegistrationData(
               $route.current.params.conferenceId,
             ),
