@@ -20,7 +20,7 @@ describe('Controller: journalUploadCtrl', function() {
 
       $controller('journalUploadCtrl', {
         $scope: scope,
-        registrations: { registrations: [testData.singleRegistration] },
+        registrationsData: { registrations: [testData.singleRegistration] },
         conference: testData.conference,
         reports: testData.accountTransfersReportList,
         permissions: {},
