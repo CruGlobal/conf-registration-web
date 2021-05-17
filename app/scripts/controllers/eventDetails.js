@@ -246,6 +246,10 @@ angular
         validationErrors.push('Please enter an event name.');
       }
 
+      if (_.isEmpty($scope.conference.abbreviation)) {
+        validationErrors.push('Please enter an event abbreviation.');
+      }
+
       if (
         $scope.conference.abbreviation &&
         $scope.conference.abbreviation.length > 10
