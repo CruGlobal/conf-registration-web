@@ -258,7 +258,8 @@
     </div>
     <div class="col-xs-12" ng-if="meta.accountTransferEvents.length === 0">
       <p translate>
-        No transactions have been found to match your filter.
+        No transactions have been found to match your filter{{ meta.totalPages >
+        1 ? ' on this page' : '' }}.
       </p>
     </div>
     <div
@@ -492,7 +493,8 @@
         ng-if="accountTransfers.length === 0 && !currentReportId"
       >
         <p translate>
-          No account transfers have been found to match your filter.
+          No account transfers have been found to match your filter{{
+          meta.totalPages > 1 ? ' on this page' : ''}}.
         </p>
       </div>
       <div
