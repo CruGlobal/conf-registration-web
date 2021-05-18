@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .controller('paymentReportCtrl', function(
+  .controller('paymentCashCheckReportCtrl', function(
     $rootScope,
     $scope,
     $http,

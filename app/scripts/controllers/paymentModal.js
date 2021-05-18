@@ -146,6 +146,11 @@ angular
         });
     }
 
+    $scope.canEditPayment = payment =>
+      !payment.reported ||
+      (payment.paymentType === 'SCHOLARSHIP' ||
+        payment.paymentType === 'TRANSFER');
+
     $scope.canBeRefunded = function(payment) {
       return (
         payment.paymentType !== 'REFUND' &&

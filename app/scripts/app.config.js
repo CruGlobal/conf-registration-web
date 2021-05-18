@@ -5,7 +5,8 @@ import reviewRegistrationTemplate from 'views/reviewRegistration.html';
 import eventDashboardTemplate from 'views/eventDashboard.html';
 import eventOverviewTemplate from 'views/eventOverview.html';
 import eventRegistrationsTemplate from 'views/eventRegistrations.html';
-import paymentReportTemplate from 'views/paymentReport.html';
+import paymentCashCheckReportTemplate from 'views/paymentCashCheckReport.html';
+import journalUploadTemplate from 'views/journalUpload.html';
 import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
@@ -221,10 +222,10 @@ angular
           },
         },
       })
-      .when('/paymentReport/:conferenceId', {
-        title: gettext('Payment Report Preview'),
-        templateUrl: paymentReportTemplate,
-        controller: 'paymentReportCtrl',
+      .when('/paymentCashCheckReport/:conferenceId', {
+        title: gettext('Payment Cash & Check Report Preview'),
+        templateUrl: paymentCashCheckReportTemplate,
+        controller: 'paymentCashCheckReportCtrl',
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'VIEW',
@@ -244,11 +245,36 @@ angular
           conference: function($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
+          permissions: function($route, PermissionCache) {
+            return PermissionCache.getForConference(
+              $route.current.params.conferenceId,
+            );
+          },
         },
-        permissions: function($route, PermissionCache) {
-          return PermissionCache.getForConference(
-            $route.current.params.conferenceId,
-          );
+      })
+      .when('/journalUpload/:conferenceId', {
+        title: gettext('Journal Submission Upload Preview'),
+        templateUrl: journalUploadTemplate,
+        controller: 'journalUploadCtrl',
+        authorization: {
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW',
+        },
+        resolve: {
+          registrationsData: ($route, journalUploadService) =>
+            journalUploadService.getRegistrationData(
+              $route.current.params.conferenceId,
+            ),
+          reports: ($route, journalUploadService) =>
+            journalUploadService.getAllAccountTransferReports(
+              $route.current.params.conferenceId,
+            ),
+          conference: ($route, ConfCache) =>
+            ConfCache.get($route.current.params.conferenceId, true),
+          permissions: ($route, PermissionCache) =>
+            PermissionCache.getForConference(
+              $route.current.params.conferenceId,
+            ),
         },
       })
       .when('/eventForm/:conferenceId', {

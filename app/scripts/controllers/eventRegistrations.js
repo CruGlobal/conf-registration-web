@@ -298,7 +298,9 @@ angular
             });
         })
         .catch(function() {
-          modalMessage.error('Error: registration data could be be retrieved.');
+          modalMessage.error(
+            'Error: registration data could not be retrieved.',
+          );
         });
     };
 
