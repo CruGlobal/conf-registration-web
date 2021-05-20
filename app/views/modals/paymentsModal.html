@@ -502,6 +502,14 @@
 
                         <div class="col-sm-3">
                           <label translate>Project Id</label>
+                          <i
+                            class="fa fa-question-circle"
+                            button
+                            uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                            popover-trigger="'mouseenter'"
+                            popover-append-to-body="true"
+                          >
+                          </i>
                           <input
                             ng-model="editPayment.transfer.projectId"
                             ng-disabled="editPayment.reported"
@@ -601,6 +609,14 @@
 
                         <div class="col-sm-3">
                           <label translate>Project Id</label>
+                          <i
+                            class="fa fa-question-circle"
+                            button
+                            uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                            popover-trigger="'mouseenter'"
+                            popover-append-to-body="true"
+                          >
+                          </i>
                           <input
                             ng-model="editPayment.scholarship.projectId"
                             ng-disabled="editPayment.reported"
