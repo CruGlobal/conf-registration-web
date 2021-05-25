@@ -118,6 +118,7 @@ angular
         .catch(errorResponse => {
           $rootScope.loadingMsg = '';
           modalMessage.error({
+            title: 'Error Submitting Account Transfers',
             message:
               errorResponse.data && errorResponse.data.error
                 ? errorResponse.data.error
