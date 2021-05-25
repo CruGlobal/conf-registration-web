@@ -115,11 +115,14 @@ angular
         .finally(() => {
           $rootScope.loadingMsg = '';
         })
-        .catch(() => {
+        .catch(errorResponse => {
           $rootScope.loadingMsg = '';
           modalMessage.error({
+            title: 'Error Submitting Account Transfers',
             message:
-              'An error occurred while attempting to submit account transfers.',
+              errorResponse.data && errorResponse.data.error
+                ? errorResponse.data.error
+                : 'An error occurred while attempting to submit account transfers.',
           });
         });
     };
