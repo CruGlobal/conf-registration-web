@@ -2,6 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .service('journalUploadService', function JournalUploadService(
     $rootScope,
+    $route,
     $http,
     $q,
     modalMessage,
@@ -122,8 +123,9 @@ angular
             message:
               errorResponse.data && errorResponse.data.error
                 ? errorResponse.data.error
-                : 'An error occurred while attempting to submit account transfers.',
+                : 'Journal Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process, check back on the Journal Upload page in few moments for your report for this submission. (Please DO NOT submit the same transactions again while waiting or charges will be duplicated).',
           });
+          $route.reload();
         });
     };
   });
