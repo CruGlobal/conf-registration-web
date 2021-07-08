@@ -115,9 +115,11 @@ describe('Controller: paymentModal', function() {
     scope.image.includeImageToAllPages = false;
     scope.image.imageSrc = 'new-image';
     scope.resetImage();
+
     expect(scope.image.includeImageToAllPages).toEqual(
       scope.conference.image.includeImageToAllPages,
     );
+
     expect(scope.image.image).toEqual(scope.conference.image.image);
   });
 
@@ -134,9 +136,11 @@ describe('Controller: paymentModal', function() {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
+
     expect(scope.image.includeImageToAllPages).toEqual(
       scope.conference.image.includeImageToAllPages,
     );
+
     expect(scope.image.image).toEqual(scope.conference.image.image);
   });
 
@@ -151,7 +155,9 @@ describe('Controller: paymentModal', function() {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
+
     expect(scope.conference.image.includeImageToAllPages).toEqual(false);
+
     expect(scope.conference.image.image).toEqual('');
   });
 });

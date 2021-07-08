@@ -109,7 +109,7 @@ module.exports = (env = {}) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: [
             {
@@ -117,15 +117,18 @@ module.exports = (env = {}) => {
               options: {
                 presets: [
                   [
-                    'env',
+                    '@babel/preset-env',
                     {
                       modules: false,
-                      exclude: ['transform-es2015-function-name'],
+                      targets: {
+                        browsers: ['last 1 version', 'ie >= 11'],
+                      },
+                      exclude: ['@babel/plugin-transform-function-name'],
                     },
                   ],
                 ], // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
                 plugins: concat(
-                  ['transform-runtime'],
+                  ['@babel/plugin-transform-runtime'],
                   !isTest ? ['angularjs-annotate'] : [],
                 ),
               },
@@ -206,6 +209,7 @@ module.exports = (env = {}) => {
     },
     resolve: {
       modules: [path.resolve(__dirname, 'app'), 'node_modules'],
+      extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],
     },
     devtool: 'source-map',
     devServer: {
