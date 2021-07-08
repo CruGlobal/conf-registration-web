@@ -123,10 +123,12 @@ module.exports = (env = {}) => {
                       targets: {
                         browsers: ['last 1 version', 'ie >= 11'],
                       },
+                      // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
                       exclude: ['@babel/plugin-transform-function-name'],
                     },
                   ],
-                ], // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
+                  '@babel/preset-react',
+                ],
                 plugins: concat(
                   ['@babel/plugin-transform-runtime'],
                   !isTest ? ['angularjs-annotate'] : [],
