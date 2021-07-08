@@ -128,6 +128,7 @@ module.exports = (env = {}) => {
                     },
                   ],
                   '@babel/preset-react',
+                  '@babel/preset-typescript',
                 ],
                 plugins: concat(
                   ['@babel/plugin-transform-runtime'],
@@ -211,7 +212,7 @@ module.exports = (env = {}) => {
     },
     resolve: {
       modules: [path.resolve(__dirname, 'app'), 'node_modules'],
-      extensions: ['.mjs', '.ts', '.tsx', '.js', '.jsx'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     devtool: 'source-map',
     devServer: {
