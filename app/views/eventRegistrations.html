@@ -411,6 +411,16 @@
               </i>
             </th>
 
+            <th class="text-center" width="120">
+              <translate>Form Status</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                popover-trigger="'mouseenter'"
+                popover-append-to-body="true"
+              ></i>
+            </th>
+
             <th class="text-center" width="94">
               <a href="" ng-click="setOrder('checked_in_timestamp')" translate
                 >Checked-in</a
@@ -530,6 +540,15 @@
                   >
                 </button>
               </div>
+            </td>
+            <td class="text-center">
+              <button
+                type="button"
+                ng-click="viewFormStatus(r)"
+                class="btn btn-sm btn-bold"
+              >
+                <i class="fa fa-wpforms"></i>
+              </button>
             </td>
             <td class="text-center">
               <button

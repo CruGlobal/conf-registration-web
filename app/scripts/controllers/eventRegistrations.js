@@ -304,6 +304,19 @@ angular
         });
     };
 
+    $scope.viewFormStatus = registrant => {
+      const formStatusModalOptions = {
+        component: 'formStatusModal',
+        size: 'md',
+        backdrop: 'static',
+        resolve: {
+          registrant: () => registrant,
+        },
+      };
+
+      $uibModal.open(formStatusModalOptions).result.then(() => {});
+    };
+
     $scope.remainingBalance = function(registrationId) {
       var registration = _.find($scope.registrations, { id: registrationId });
       return registration.remainingBalance;

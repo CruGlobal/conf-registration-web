@@ -1,6 +1,4 @@
 {
-  "include": ["src/**/*", "__mocks__/**/*"],
-  "files": ["custom.d.ts"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "lib": ["dom", "esnext"],
