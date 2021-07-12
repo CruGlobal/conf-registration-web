@@ -1,4 +1,5 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
+import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import exportModalTemplate from 'views/modals/export.html';
@@ -41,6 +42,7 @@ angular
     }
 
     $scope.paidPopoverTemplateUrl = registrationsPaidPopoverTemplate;
+    $scope.formStatusPopoverTemplate = formStatusPopoverTemplate;
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.queryParameters = {

@@ -411,17 +411,18 @@
               </i>
             </th>
 
-            <th class="text-center" width="120">
+            <th class="text-center" width="115">
               <translate>Form Status</translate>
               <i
                 class="fa fa-question-circle"
                 button
+                uib-popover-template="formStatusPopoverTemplate"
                 popover-trigger="'mouseenter'"
                 popover-append-to-body="true"
               ></i>
             </th>
 
-            <th class="text-center" width="94">
+            <th class="text-center" width="120">
               <a href="" ng-click="setOrder('checked_in_timestamp')" translate
                 >Checked-in</a
               >

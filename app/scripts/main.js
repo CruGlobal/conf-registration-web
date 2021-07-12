@@ -6,6 +6,7 @@ import 'scripts/app_enforceAuth.js';
 
 // components
 import 'scripts/components/FormStatusModal/FormStatusModal';
+import 'scripts/components/FormStatusPopover/FormStatusPopover';
 
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';
