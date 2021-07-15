@@ -399,6 +399,17 @@
               ></i>
             </th>
 
+            <th class="text-center" width="115">
+              <translate>Form Status</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                uib-popover-template="formStatusPopoverTemplate"
+                popover-trigger="'mouseenter'"
+                popover-append-to-body="true"
+              ></i>
+            </th>
+
             <th class="text-center" width="70">
               <translate>Paid</translate>
               <i
@@ -409,17 +420,6 @@
                 popover-append-to-body="true"
               >
               </i>
-            </th>
-
-            <th class="text-center" width="115">
-              <translate>Form Status</translate>
-              <i
-                class="fa fa-question-circle"
-                button
-                uib-popover-template="formStatusPopoverTemplate"
-                popover-trigger="'mouseenter'"
-                popover-append-to-body="true"
-              ></i>
             </th>
 
             <th class="text-center" width="120">
@@ -523,6 +523,15 @@
               {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
             </td>
             <td class="text-center">
+              <button
+                type="button"
+                ng-click="viewFormStatus(r)"
+                class="btn btn-sm btn-bold"
+              >
+                <i class="fa fa-wpforms"></i>
+              </button>
+            </td>
+            <td class="text-center">
               <div ng-if="getRegistration(r.registrationId).completed">
                 <button
                   type="button"
@@ -541,15 +550,6 @@
                   >
                 </button>
               </div>
-            </td>
-            <td class="text-center">
-              <button
-                type="button"
-                ng-click="viewFormStatus(r)"
-                class="btn btn-sm btn-bold"
-              >
-                <i class="fa fa-wpforms"></i>
-              </button>
             </td>
             <td class="text-center">
               <button
