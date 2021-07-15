@@ -599,9 +599,9 @@ angular
     ];
 
     $scope.getStrategies = () => {
-      const currentMinistry = $scope.ministries.find(
-        m => m.id === $scope.conference.ministry,
-      );
+      const currentMinistry =
+        $scope.ministries &&
+        $scope.ministries.find(m => m.id === $scope.conference.ministry);
       return currentMinistry ? currentMinistry.strategies : [];
     };
 
