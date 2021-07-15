@@ -30,6 +30,6 @@ describe('Filter: localizedSymbol', function() {
   });
 
   it('should format currency symbol', function() {
-    expect(filter('USD')).toBe('');
+    expect(filter('USD')).toBe('$');
   });
 });
