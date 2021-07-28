@@ -769,7 +769,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     reported: true,
     accountTransfers: [
       {
-        amount: '2.00',
+        amount: 2,
         businessUnit: 'STFFD',
         departmentId: 'STAFF',
         description: 'Reg-Again1, Test',
@@ -784,6 +784,24 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         reference: '123456789',
         registrationId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
         totalDue: '5.00',
+      },
+      {
+        account: '7415874',
+        amount: 5,
+        businessUnit: 'STFFD',
+        departmentId: 'STAFF',
+        description: 'Reg-Again1, Test',
+        expenseType: 'MISCELLANEOUS_ITEM',
+        firstName: 'Test',
+        glAccount: '67620',
+        lastName: 'Person',
+        operatingUnit: 'LH',
+        productCode: 'INT',
+        projectId: null,
+        reference: '123456788',
+        registrationId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
+        reportId: '59d56562-b97e-4cc8-a6f3-305f207042a',
+        error: 'some random error message.',
       },
     ],
   };
