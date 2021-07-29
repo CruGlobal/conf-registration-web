@@ -253,7 +253,23 @@
       <option></option>
     </select>
   </div>
-
+  <div class="col-sm-5" ng-if="getActivities().length != 0">
+    <label translate>
+      Ministry Activity
+      <i
+        uib-popover="Used to determine the liability release form needed."
+        popover-trigger="'mouseenter'"
+        class="fa fa-question-circle"
+      ></i>
+    </label>
+    <select
+      class="form-control"
+      ng-model="conference.ministryActivity"
+      ng-options="activity.id as activity.name for activity in getActivities(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
+    >
+      <option></option>
+    </select>
+  </div>
   <div class="col-sm-5" ng-if="getStrategies().length != 0">
     <label translate>Which Strategy is hosting the event if applicable</label>
     <select
@@ -275,5 +291,21 @@
     >
       <option></option>
     </select>
+  </div>
+</div>
+<div
+  class="form-group"
+  ng-if="conference.cruEvent && getActivities().length == 0"
+>
+  <div class="col-sm-5">
+    <input type="checkbox" ng-model="conference.workProject" />
+    <label translate>
+      Work Project
+      <i
+        uib-popover="Event includes 'work' or 'construction' (i.e., disaster relief, storm clean-up, building projects, etc.)"
+        popover-trigger="'mouseenter'"
+        class="fa fa-question-circle"
+      ></i>
+    </label>
   </div>
 </div>

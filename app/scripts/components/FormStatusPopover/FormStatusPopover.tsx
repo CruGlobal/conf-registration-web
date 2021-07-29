@@ -6,6 +6,13 @@ export const FormStatusPopover = (): ReactElement => {
   return (
     <div>
       <button
+        className="btn btn-danger btn-xs"
+        style={{ margin: '0 2px' }}
+        translate="yes"
+      >
+        Voided
+      </button>
+      <button
         className="btn btn-default btn-xs"
         style={{ margin: '0 2px' }}
         translate="yes"
@@ -17,14 +24,14 @@ export const FormStatusPopover = (): ReactElement => {
         style={{ margin: '0 2px' }}
         translate="yes"
       >
-        Recieved
+        Delivered
       </button>
       <button
         className="btn btn-success btn-xs"
         style={{ margin: '0 2px' }}
         translate="yes"
       >
-        Complete
+        Completed
       </button>
     </div>
   );

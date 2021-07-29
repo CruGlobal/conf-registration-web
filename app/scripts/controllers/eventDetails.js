@@ -449,6 +449,18 @@ angular
         validationErrorsHint = eventInformationPageHint;
       }
 
+      if (
+        $scope.conference.cruEvent &&
+        $scope.conference.ministry &&
+        $scope.getActivities().length !== 0 &&
+        !$scope.conference.ministryActivity
+      ) {
+        validationErrors.push(
+          'Please enter which Ministry Activitiy is applicable for this event.*',
+        );
+        validationErrorsHint = eventInformationPageHint;
+      }
+
       if ($scope.conference.cruEvent && !$scope.conference.type) {
         validationErrors.push('Please enter Ministry Purpose.*');
         validationErrorsHint = eventInformationPageHint;
@@ -605,11 +617,19 @@ angular
       return currentMinistry ? currentMinistry.strategies : [];
     };
 
+    $scope.getActivities = () => {
+      const currentMinistry =
+        $scope.ministries &&
+        $scope.ministries.find(m => m.id === $scope.conference.ministry);
+      return currentMinistry ? currentMinistry.activities : [];
+    };
+
     $scope.$watch(
       'conference.ministry',
       function(newVal, oldVal) {
         if (newVal !== oldVal) {
           $scope.conference.strategy = null;
+          $scope.conference.ministryActivity = null;
         }
       },
       true,
@@ -622,6 +642,8 @@ angular
           $scope.conference.ministry = null;
           $scope.conference.strategy = null;
           $scope.conference.type = null;
+          $scope.conference.ministryActivity = null;
+          $scope.conference.workProject = false;
         }
       },
       true,
