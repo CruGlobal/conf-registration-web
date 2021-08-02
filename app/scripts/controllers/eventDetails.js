@@ -522,8 +522,16 @@ angular
                 '<strong>Saved!</strong> Your event details have been updated.',
               ),
             };
+            $http({
+              method: 'GET',
+              url: `conferences/${conference.id}`,
+            }).then(response => {
+              $scope.conference = response.data;
+              $scope.originalConference = conference = angular.copy(
+                response.data,
+              );
+            });
 
-            $scope.originalConference = conference = angular.copy(payload);
             $scope.refreshAllowedRegistrantTypes();
 
             //Clear cache
@@ -649,6 +657,18 @@ angular
       true,
     );
 
+    $scope.$watch('conference.eform', (newVal, oldVal) => {
+      if (oldVal !== newVal) {
+        // If eform is true, create related liability questions
+        if (newVal === true) {
+          $scope.createLiabilityQuestions();
+        } else {
+          // IF eform becomes false, delete related liability questions
+          $scope.deleteLiabilityQuestions();
+        }
+      }
+    });
+
     $scope.sortNamesWithNA = (v1, v2) => {
       return v1 === 'N/A' ? -1 : v1 < v2;
     };
@@ -708,4 +728,153 @@ angular
         $scope.conference.operatingUnit ||
         $scope.conference.department
       );
+
+    $scope.createLiabilityQuestions = () => {
+      const minorQuestionId = uuid();
+      const guardianNameId = uuid();
+      const guardianEmailId = uuid();
+      $scope.conference.registrationPages[0].blocks.push(
+        {
+          id: minorQuestionId,
+          content: {
+            forceSelectionRuleOperand: 'AND',
+            forceSelections: {},
+            ruleoperand: 'AND',
+            choices: [
+              { value: 'Yes', desc: '', operand: 'OR' },
+              { value: 'No', desc: '', operand: 'OR' },
+            ],
+          },
+          pageId: $scope.conference.registrationPages[0].id,
+          required: true,
+          title: 'Are you under 18?',
+          type: 'selectQuestion',
+          profileType: null,
+          registrantTypes: [],
+          rules: [],
+          tag: 'EFORM',
+        },
+        {
+          id: guardianNameId,
+          pageId: $scope.conference.registrationPages[0].id,
+          required: true,
+          title: 'Guardian Name',
+          type: 'nameQuestion',
+          profileType: null,
+          registrantTypes: [],
+          rules: [
+            {
+              blockEntityOption: '',
+              blockId: guardianNameId,
+              id: uuid(),
+              operator: '=',
+              parentBlockId: minorQuestionId,
+              ruleType: 'SHOW_QUESTION',
+              value: 'Yes',
+            },
+          ],
+          tag: 'EFORM',
+        },
+        {
+          id: guardianEmailId,
+          pageId: $scope.conference.registrationPages[0].id,
+          required: true,
+          title: 'Guardian Email',
+          type: 'emailQuestion',
+          profileType: null,
+          registrantTypes: [],
+          rules: [
+            {
+              blockEntityOption: '',
+              blockId: guardianEmailId,
+              id: uuid(),
+              operator: '=',
+              parentBlockId: minorQuestionId,
+              ruleType: 'SHOW_QUESTION',
+              value: 'Yes',
+            },
+          ],
+          tag: 'EFORM',
+        },
+      );
+      $http({
+        method: 'PUT',
+        url: 'conferences/' + conference.id,
+        data: $scope.conference,
+      }).then(() => {
+        $scope.originalConference = conference = angular.copy(
+          $scope.conference,
+        );
+        ConfCache.empty();
+        $scope.setPristine();
+      });
+    };
+
+    $scope.deleteLiabilityQuestions = () => {
+      $scope.conference.registrationPages.forEach(p => {
+        p.blocks = p.blocks.filter(
+          b => b.tag !== 'EFORM' || b.title !== 'Guardian Email',
+        );
+      });
+      const payload = angular.copy($scope.conference);
+      $http({
+        method: 'PUT',
+        url: 'conferences/' + conference.id,
+        data: payload,
+      })
+        .then(() => {
+          $scope.conference.registrationPages.forEach(p => {
+            p.blocks = p.blocks.filter(
+              b => b.tag !== 'EFORM' || b.title !== 'Guardian Name',
+            );
+          });
+          const payload = angular.copy($scope.conference);
+          $http({
+            method: 'PUT',
+            url: 'conferences/' + conference.id,
+            data: payload,
+          })
+            .then(() => {
+              $scope.conference.registrationPages.forEach(p => {
+                p.blocks = p.blocks.filter(
+                  b => b.tag !== 'EFORM' || b.title !== 'Are you under 18?',
+                );
+              });
+              const payload = angular.copy($scope.conference);
+              $http({
+                method: 'PUT',
+                url: 'conferences/' + conference.id,
+                data: payload,
+              })
+                .then(() => {
+                  $scope.originalConference = conference = angular.copy(
+                    $scope.conference,
+                  );
+                  ConfCache.empty();
+                  $scope.setPristine();
+                })
+                .catch(err => {
+                  $scope.notify = {
+                    class: 'alert-danger',
+                    message: 'Error deleting liability questions.',
+                  };
+                  throw err;
+                });
+            })
+            .catch(err => {
+              $scope.notify = {
+                class: 'alert-danger',
+                message: 'Error deleting liability questions.',
+              };
+              throw err;
+            });
+        })
+        .catch(err => {
+          $scope.notify = {
+            class: 'alert-danger',
+            message: 'Error deleting liability questions.',
+          };
+          throw err;
+        });
+    };
   });

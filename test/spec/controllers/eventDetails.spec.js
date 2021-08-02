@@ -160,4 +160,56 @@ describe('Controller: paymentModal', function() {
 
     expect(scope.conference.image.image).toEqual('');
   });
+
+  it('createLiabilityQuestions() should create liability related questions on first page', () => {
+    scope.createLiabilityQuestions();
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 1
+      ].title,
+    ).toEqual('Guardian Email');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 2
+      ].title,
+    ).toEqual('Guardian Name');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 3
+      ].title,
+    ).toEqual('Are you under 18?');
+  });
+
+  it('deleteLiabilityQuestions() should delete liability related questions', () => {
+    scope.createLiabilityQuestions();
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 1
+      ].title,
+    ).toEqual('Guardian Email');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 2
+      ].title,
+    ).toEqual('Guardian Name');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 3
+      ].title,
+    ).toEqual('Are you under 18?');
+
+    expect(scope.conference.registrationPages[0].blocks.length).toBe(4);
+
+    scope.deleteLiabilityQuestions();
+    $httpBackend.flush();
+    $httpBackend.flush();
+
+    expect(scope.conference.registrationPages[0].blocks.length).toBe(1);
+  });
 });

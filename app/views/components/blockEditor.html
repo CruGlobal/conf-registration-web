@@ -28,6 +28,7 @@
       ng-if="!editBlock"
       class="btn btn-default"
       ng-click="toggleBlockEdit()"
+      ng-disabled="!canEdit"
     >
       <i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>
     </button>
@@ -38,7 +39,11 @@
     >
       <i class="fa fa-check-square-o"></i> <translate>Close</translate>
     </button>
-    <button class="btn btn-default" ng-click="copyBlock(block.id);">
+    <button
+      class="btn btn-default"
+      ng-click="copyBlock(block.id)"
+      ng-disabled="!canCopy"
+    >
       <i class="fa fa-clipboard"></i> <translate>Copy</translate>
     </button>
     <button
