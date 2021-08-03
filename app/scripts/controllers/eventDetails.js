@@ -181,6 +181,7 @@ angular
 
       modalInstance.result.then(function(type) {
         type.id = uuid();
+        type.eform = $scope.conference.eform;
         $scope.conference.registrantTypes.push(type);
       });
 
@@ -662,9 +663,10 @@ angular
         // If eform is true, create related liability questions
         if (newVal === true) {
           $scope.createLiabilityQuestions();
+          $scope.conference.registrantTypes.forEach(t => (t.eform = true));
         } else {
-          // IF eform becomes false, delete related liability questions
           $scope.deleteLiabilityQuestions();
+          $scope.conference.registrantTypes.forEach(t => (t.eform = false));
         }
       }
     });

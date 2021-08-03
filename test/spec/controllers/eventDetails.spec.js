@@ -67,6 +67,20 @@ describe('Controller: paymentModal', function() {
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
   });
 
+  it('addRegType() should set reg type eform to value of conference eform', () => {
+    const totalRegTypes = scope.conference.registrantTypes.length;
+    scope.conference.eform = true;
+    const modal = scope.addRegType();
+    modal.close({
+      name: 'Additional Type',
+      defaultTypeKey: '',
+    });
+
+    expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
+    expect(scope.conference.registrantTypes[3].name).toEqual('Additional Type');
+    expect(scope.conference.registrantTypes[3].eform).toEqual(true);
+  });
+
   it('deleteRegType should remove reg type', function() {
     var totalRegTypes = scope.conference.registrantTypes.length;
 
