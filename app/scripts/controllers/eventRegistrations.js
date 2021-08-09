@@ -1,4 +1,5 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
+import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import exportModalTemplate from 'views/modals/export.html';
@@ -41,6 +42,7 @@ angular
     }
 
     $scope.paidPopoverTemplateUrl = registrationsPaidPopoverTemplate;
+    $scope.formStatusPopoverTemplate = formStatusPopoverTemplate;
     $scope.conference = conference;
     $scope.blocks = [];
     $scope.queryParameters = {
@@ -55,6 +57,7 @@ angular
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
+      includeEFormStatus: 'yes',
     };
     $scope.meta = {
       totalPages: 0,
@@ -302,6 +305,21 @@ angular
             'Error: registration data could not be retrieved.',
           );
         });
+    };
+
+    $scope.viewFormStatus = registrant => {
+      const formStatusModalOptions = {
+        component: 'formStatusModal',
+        size: 'md',
+        backdrop: 'static',
+        resolve: {
+          registrant: () => registrant,
+          registrantTypeName: () =>
+            $scope.getRegistrantType(registrant.registrantTypeId).name,
+        },
+      };
+
+      $uibModal.open(formStatusModalOptions).result.then(() => {});
     };
 
     $scope.remainingBalance = function(registrationId) {

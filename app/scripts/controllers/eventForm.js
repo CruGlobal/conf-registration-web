@@ -114,6 +114,15 @@ angular
         return;
       }
 
+      if (_.some(page.blocks, 'tag', ['EFORM'])) {
+        modalMessage.error({
+          title: 'Error Deleting Page',
+          message:
+            'This page contains required liability questions and cannot be deleted.',
+        });
+        return;
+      }
+
       var blocksOnPage = _.filter(
         _.flatten(_.map($scope.conference.registrationPages, 'blocks')),
         { pageId: page.id },

@@ -80,6 +80,19 @@
                   ng-model="type.description"
                 ></textarea>
               </div>
+              <div class="checkbox" ng-if="conference.eform">
+                <label>
+                  <input type="checkbox" ng-model="type.eform" />
+                  <translate>Send liability form</translate>
+                </label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Send liability form to this registrant type.' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
+              </div>
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.hidden" />

@@ -405,6 +405,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: true,
         acceptChecks: false,
         registrationCompleteRedirect: 'url.com',
+        eform: false,
       },
       {
         id: '47de2c40-19dc-45b3-9663-5c005bd6464b',
@@ -431,6 +432,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: false,
         acceptChecks: true,
         registrationCompleteRedirect: 'url1.com',
+        eform: false,
       },
       {
         id: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -457,6 +459,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: false,
         acceptChecks: false,
         registrationCompleteRedirect: 'url2.com',
+        eform: false,
       },
     ],
     eventStartTime: '2015-12-30 16:48:00',
