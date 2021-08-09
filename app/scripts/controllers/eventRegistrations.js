@@ -57,6 +57,7 @@ angular
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
+      includeEFormStatus: 'yes',
     };
     $scope.meta = {
       totalPages: 0,
@@ -313,6 +314,8 @@ angular
         backdrop: 'static',
         resolve: {
           registrant: () => registrant,
+          registrantTypeName: () =>
+            $scope.getRegistrantType(registrant.registrantTypeId).name,
         },
       };
 
