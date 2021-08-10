@@ -665,7 +665,7 @@ angular
           $scope.createLiabilityQuestions();
           $scope.conference.registrantTypes.forEach(t => (t.eform = true));
         } else {
-          $scope.deleteLiabilityQuestions();
+          $scope.updateLiabilityQuestions();
           $scope.conference.registrantTypes.forEach(t => (t.eform = false));
         }
       }
@@ -812,11 +812,14 @@ angular
       });
     };
 
-    $scope.deleteLiabilityQuestions = () => {
+    $scope.updateLiabilityQuestions = () => {
       $scope.conference.registrationPages.forEach(p => {
-        p.blocks = p.blocks.filter(
-          b => b.tag !== 'EFORM' || b.title !== 'Guardian Email',
-        );
+        p.blocks = p.blocks.map(b => {
+          if (b.tag === 'EFORM') {
+            b.tag = null;
+          }
+          return b;
+        });
       });
       const payload = angular.copy($scope.conference);
       $http({
@@ -825,56 +828,17 @@ angular
         data: payload,
       })
         .then(() => {
-          $scope.conference.registrationPages.forEach(p => {
-            p.blocks = p.blocks.filter(
-              b => b.tag !== 'EFORM' || b.title !== 'Guardian Name',
-            );
-          });
-          const payload = angular.copy($scope.conference);
-          $http({
-            method: 'PUT',
-            url: 'conferences/' + conference.id,
-            data: payload,
-          })
-            .then(() => {
-              $scope.conference.registrationPages.forEach(p => {
-                p.blocks = p.blocks.filter(
-                  b => b.tag !== 'EFORM' || b.title !== 'Are you under 18?',
-                );
-              });
-              const payload = angular.copy($scope.conference);
-              $http({
-                method: 'PUT',
-                url: 'conferences/' + conference.id,
-                data: payload,
-              })
-                .then(() => {
-                  $scope.originalConference = conference = angular.copy(
-                    $scope.conference,
-                  );
-                  ConfCache.empty();
-                  $scope.setPristine();
-                })
-                .catch(err => {
-                  $scope.notify = {
-                    class: 'alert-danger',
-                    message: 'Error deleting liability questions.',
-                  };
-                  throw err;
-                });
-            })
-            .catch(err => {
-              $scope.notify = {
-                class: 'alert-danger',
-                message: 'Error deleting liability questions.',
-              };
-              throw err;
-            });
+          $scope.originalConference = conference = angular.copy(
+            $scope.conference,
+          );
+
+          ConfCache.empty();
+          $scope.setPristine();
         })
         .catch(err => {
           $scope.notify = {
             class: 'alert-danger',
-            message: 'Error deleting liability questions.',
+            message: 'Error updating liability questions.',
           };
           throw err;
         });
