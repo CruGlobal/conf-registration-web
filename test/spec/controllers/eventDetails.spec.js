@@ -197,33 +197,42 @@ describe('Controller: paymentModal', function() {
     ).toEqual('Are you under 18?');
   });
 
-  it('deleteLiabilityQuestions() should delete liability related questions', () => {
+  it('updateLiabilityQuestions() should delete liability related questions', () => {
     scope.createLiabilityQuestions();
 
-    expect(
-      scope.conference.registrationPages[0].blocks[
-        scope.conference.registrationPages[0].blocks.length - 1
-      ].title,
-    ).toEqual('Guardian Email');
+    expect(scope.conference.registrationPages[0].blocks[3].title).toEqual(
+      'Guardian Email',
+    );
 
-    expect(
-      scope.conference.registrationPages[0].blocks[
-        scope.conference.registrationPages[0].blocks.length - 2
-      ].title,
-    ).toEqual('Guardian Name');
+    expect(scope.conference.registrationPages[0].blocks[3].tag).toEqual(
+      'EFORM',
+    );
 
-    expect(
-      scope.conference.registrationPages[0].blocks[
-        scope.conference.registrationPages[0].blocks.length - 3
-      ].title,
-    ).toEqual('Are you under 18?');
+    expect(scope.conference.registrationPages[0].blocks[2].title).toEqual(
+      'Guardian Name',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(
+      'EFORM',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[1].title).toEqual(
+      'Are you under 18?',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[1].tag).toEqual(
+      'EFORM',
+    );
 
     expect(scope.conference.registrationPages[0].blocks.length).toBe(4);
 
-    scope.deleteLiabilityQuestions();
-    $httpBackend.flush();
+    scope.updateLiabilityQuestions();
     $httpBackend.flush();
 
-    expect(scope.conference.registrationPages[0].blocks.length).toBe(1);
+    expect(scope.conference.registrationPages[0].blocks[3].tag).toEqual(null);
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
   });
 });
