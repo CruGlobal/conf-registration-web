@@ -658,6 +658,20 @@ angular
       true,
     );
 
+    $scope.$watch(
+      'conference.virtual',
+      (newVal, oldVal) => {
+        if (oldVal !== newVal) {
+          $scope.conference.locationName = null;
+          $scope.conference.locationAddress = null;
+          $scope.conference.locationCity = null;
+          $scope.conference.locationState = null;
+          $scope.conference.locationZipCode = null;
+        }
+      },
+      true,
+    );
+
     $scope.$watch('conference.eform', (newVal, oldVal) => {
       if (oldVal !== newVal) {
         // If eform is true, create related liability questions
