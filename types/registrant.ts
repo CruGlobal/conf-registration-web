@@ -18,5 +18,5 @@ export interface RegistrantType {
   userId: string;
   withdrawn: boolean;
   withdrawnTimestamp: string | null;
-  eformStatus: string | null;
+  eformStatus: string;
 }

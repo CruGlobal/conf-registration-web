@@ -1,5 +1,5 @@
-import React from 'react';
-import angular from 'angular';
+import React, { useState } from 'react';
+import angular, { IHttpService } from 'angular';
 import { react2angular } from 'react2angular';
 
 import { RegistrantType } from '../../../../types/registrant';
@@ -10,18 +10,40 @@ interface FormStatusModalProps {
     registrantTypeName: string;
   };
   modalInstance: {
-    close: (result?: any) => void;
+    close: (result?: RegistrantType) => void;
   };
+  $http: IHttpService;
 }
 
-const FormStatusModal = ({ resolve, modalInstance }: FormStatusModalProps) => {
+const FormStatusModal = ({
+  resolve,
+  modalInstance,
+  $http,
+}: FormStatusModalProps) => {
   const { registrant, registrantTypeName } = resolve;
+
+  const [eformStatus, setEformStatus] = useState(registrant.eformStatus);
 
   const handleClose = () => modalInstance.close();
 
   const handleResend = () => modalInstance.close();
 
-  const handleSave = () => modalInstance.close();
+  const handleSave = () => {
+    const updatedRegistrant = {
+      ...registrant,
+      eformStatus,
+    };
+    $http({
+      method: 'PUT',
+      url: `registrants/${registrant.id}`,
+      data: updatedRegistrant,
+    })
+      .then(() => modalInstance.close(updatedRegistrant))
+      .catch((error: Error) => {
+        throw error;
+      });
+  };
+
   return (
     <>
       <div className="modal-header">
@@ -55,7 +77,11 @@ const FormStatusModal = ({ resolve, modalInstance }: FormStatusModalProps) => {
         <div className="row">
           <div className="col-sm-3">
             <label translate="yes">Form Status:</label>
-            <select ng-model="registrant.eformStatus" className="form-control">
+            <select
+              value={eformStatus}
+              onChange={e => setEformStatus(e.target.value)}
+              className="form-control"
+            >
               <option value="sent" translate="yes">
                 Sent
               </option>
@@ -103,5 +129,5 @@ angular
   .module('confRegistrationWebApp')
   .component(
     'formStatusModal',
-    react2angular(FormStatusModal, ['resolve', 'modalInstance'], []),
+    react2angular(FormStatusModal, ['resolve', 'modalInstance'], ['$http']),
   );
