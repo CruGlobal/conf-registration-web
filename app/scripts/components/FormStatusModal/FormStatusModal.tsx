@@ -22,10 +22,10 @@ const FormStatusModal = ({
   $http,
 }: FormStatusModalProps) => {
   const { registrant, registrantTypeName } = resolve;
-
   const [eformStatus, setEformStatus] = useState(registrant.eformStatus);
+  const [loading, setLoading] = useState(false);
 
-  const handleClose = () => modalInstance.dismiss();
+  const handleClose = () => modalInstance.close({ ...registrant, eformStatus });
 
   const handleResend = () => {
     $http({
@@ -34,19 +34,15 @@ const FormStatusModal = ({
     });
   };
 
-  const handleSave = () => {
-    const updatedRegistrant = {
-      ...registrant,
-      eformStatus,
-    };
-    $http({
-      method: 'PUT',
-      url: `registrants/${registrant.id}`,
-      data: updatedRegistrant,
-    })
-      .then(() => modalInstance.close(updatedRegistrant))
-      .catch((error: Error) => {
-        throw error;
+  const handleCheckStatus = () => {
+    setLoading(true);
+    $http
+      .get(`docusign/status/${registrant.id}`)
+      // @ts-ignore
+      .then(({ data }: { data: RegistrantType }) => {
+        const { eformStatus } = data;
+        setLoading(false);
+        setEformStatus(eformStatus);
       });
   };
 
@@ -65,7 +61,7 @@ const FormStatusModal = ({
       </div>
       <div className="modal-body tab-content-spacing-above">
         <div className="row">
-          <div className="col-sm-3">
+          <div className="col-sm-4">
             <label translate="yes">Registrant Name:</label>
             <p>
               {registrant.firstName} {registrant.lastName}
@@ -81,29 +77,22 @@ const FormStatusModal = ({
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-3">
+          <div className="col-sm-4">
             <label translate="yes">Form Status:</label>
-            <select
-              value={eformStatus}
-              onChange={e => setEformStatus(e.target.value)}
-              className="form-control"
-            >
-              <option value="sent" translate="yes">
-                Sent
-              </option>
-              <option value="delivered" translate="yes">
-                Delivered
-              </option>
-              <option value="completed" translate="yes">
-                Completed
-              </option>
-              <option value="voided" translate="yes">
-                Voided
-              </option>
-            </select>
+            <p>{eformStatus}</p>
           </div>
           <div className="col-sm-5">
-            <label translate="yes">Last sent time:</label>
+            <label translate="yes">Check Form Status:</label>
+            <button
+              className="btn btn-primary"
+              onClick={handleCheckStatus}
+              translate="yes"
+            >
+              Check Status
+              {loading ? (
+                <i className="fa fa-spinner fa-spin margin-left-10" />
+              ) : null}
+            </button>
           </div>
           <div className="col-sm-3">
             <label translate="yes">Resend Form?</label>
@@ -120,10 +109,10 @@ const FormStatusModal = ({
         <div className="form-group text-right">
           <button
             className="btn btn-success"
-            onClick={handleSave}
+            onClick={handleClose}
             translate="yes"
           >
-            Save
+            Close
           </button>
         </div>
       </div>

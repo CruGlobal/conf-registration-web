@@ -549,8 +549,10 @@
               {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
             </td>
             <td class="text-center" ng-if="conference.eform">
+              <p ng-if="!r.eformStatus">-</p>
               <button
                 type="button"
+                ng-if="r.eformStatus"
                 ng-click="viewFormStatus(r)"
                 class="btn btn-sm btn-bold"
                 ng-class="{
