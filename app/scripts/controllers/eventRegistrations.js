@@ -319,14 +319,12 @@ angular
         },
       };
 
-      $uibModal
-        .open(formStatusModalOptions)
-        .result.then(updatedRegistration => {
-          const index = _.findIndex($scope.registrants, {
-            id: updatedRegistration.id,
-          });
-          $scope.registrants[index] = updatedRegistration;
+      $uibModal.open(formStatusModalOptions).result.then(updatedRegistrant => {
+        const index = _.findIndex($scope.registrants, {
+          id: updatedRegistrant.id,
         });
+        $scope.registrants[index] = updatedRegistrant;
+      });
     };
 
     $scope.remainingBalance = function(registrationId) {

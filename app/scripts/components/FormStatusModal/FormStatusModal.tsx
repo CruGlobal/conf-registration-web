@@ -10,6 +10,7 @@ interface FormStatusModalProps {
     registrantTypeName: string;
   };
   modalInstance: {
+    dismiss: () => void;
     close: (result?: RegistrantType) => void;
   };
   $http: IHttpService;
@@ -24,9 +25,14 @@ const FormStatusModal = ({
 
   const [eformStatus, setEformStatus] = useState(registrant.eformStatus);
 
-  const handleClose = () => modalInstance.close();
+  const handleClose = () => modalInstance.dismiss();
 
-  const handleResend = () => modalInstance.close();
+  const handleResend = () => {
+    $http({
+      method: 'PUT',
+      url: `docusign/resend/${registrant.id}`,
+    });
+  };
 
   const handleSave = () => {
     const updatedRegistrant = {
