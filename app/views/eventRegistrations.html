@@ -558,7 +558,7 @@
                 ng-class="{
                   'btn-success': r.eformStatus==='completed',
                   'btn-default': r.eformStatus==='sent',
-                  'btn-danger': r.eformStatus==='voided',
+                  'btn-danger': r.eformStatus==='voided' || r.eformStatus==='declined',
                   'btn-warning': r.eformStatus==='delivered'
                   }"
               >
