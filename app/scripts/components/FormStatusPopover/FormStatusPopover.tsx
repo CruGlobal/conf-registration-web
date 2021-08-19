@@ -4,13 +4,13 @@ import { react2angular } from 'react2angular';
 
 export const FormStatusPopover = (): ReactElement => {
   return (
-    <div>
+    <div className="text-center">
       <button
         className="btn btn-danger btn-xs"
         style={{ margin: '0 2px' }}
         translate="yes"
       >
-        Voided
+        Voided/Declined
       </button>
       <button
         className="btn btn-default btn-xs"
