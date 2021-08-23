@@ -1,6 +1,16 @@
 module.exports = {
   presets: [
-    '@babel/preset-env',
+    [
+      '@babel/preset-env',
+      {
+        modules: false,
+        targets: {
+          browsers: ['defaults'],
+        },
+        // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
+        exclude: ['@babel/plugin-transform-function-name'],
+      },
+    ],
     '@babel/preset-react',
     '@babel/preset-typescript',
   ],

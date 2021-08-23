@@ -115,25 +115,7 @@ module.exports = (env = {}) => {
             {
               loader: 'babel-loader',
               options: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      modules: false,
-                      targets: {
-                        browsers: ['last 1 version', 'ie >= 11'],
-                      },
-                      // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
-                      exclude: ['@babel/plugin-transform-function-name'],
-                    },
-                  ],
-                  '@babel/preset-react',
-                  '@babel/preset-typescript',
-                ],
-                plugins: concat(
-                  ['@babel/plugin-transform-runtime'],
-                  !isTest ? ['angularjs-annotate'] : [],
-                ),
+                plugins: !isTest ? ['angularjs-annotate'] : [],
               },
             },
           ],
