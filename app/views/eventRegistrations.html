@@ -152,7 +152,7 @@
       class="row spacing-above-sm well-border-above"
       uib-collapse="!showMoreFilters"
     >
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label translate>Incomplete registrations</label>
         <div class="btn-group btn-group-justified">
           <label
@@ -178,7 +178,7 @@
           >
         </div>
       </div>
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label translate>Checked-in registrations</label>
         <div class="btn-group btn-group-justified">
           <label
@@ -204,7 +204,7 @@
           >
         </div>
       </div>
-      <div class="col-sm-4 stacked-spacing-col-sm">
+      <div class="col-sm-3 stacked-spacing-col-sm">
         <label translate>Withdrawn registrations</label>
         <div class="btn-group btn-group-justified">
           <label
@@ -224,6 +224,32 @@
           <label
             class="btn btn-default"
             ng-model="queryParameters.includeWithdrawn"
+            uib-btn-radio="'only'"
+            translate
+            >Only</label
+          >
+        </div>
+      </div>
+      <div class="col-sm-3 stacked-spacing-col-sm">
+        <label translate>Include Eform Status</label>
+        <div class="btn-group btn-group-justified">
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeEFormStatus"
+            uib-btn-radio="'yes'"
+            translate
+            >Show</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeEFormStatus"
+            uib-btn-radio="'no'"
+            translate
+            >Hide</label
+          >
+          <label
+            class="btn btn-default"
+            ng-model="queryParameters.includeEFormStatus"
             uib-btn-radio="'only'"
             translate
             >Only</label
@@ -399,6 +425,17 @@
               ></i>
             </th>
 
+            <th class="text-center" width="115" ng-if="conference.eform">
+              <translate>Form Status</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                uib-popover-template="formStatusPopoverTemplate"
+                popover-trigger="'mouseenter'"
+                popover-append-to-body="true"
+              ></i>
+            </th>
+
             <th class="text-center" width="70">
               <translate>Paid</translate>
               <i
@@ -411,7 +448,7 @@
               </i>
             </th>
 
-            <th class="text-center" width="94">
+            <th class="text-center" width="120">
               <a href="" ng-click="setOrder('checked_in_timestamp')" translate
                 >Checked-in</a
               >
@@ -510,6 +547,23 @@
               ng-if="builtInColumnsVisible.LastUpdated"
             >
               {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
+            </td>
+            <td class="text-center" ng-if="conference.eform">
+              <p ng-if="!r.eformStatus">-</p>
+              <button
+                type="button"
+                ng-if="r.eformStatus"
+                ng-click="viewFormStatus(r)"
+                class="btn btn-sm btn-bold"
+                ng-class="{
+                  'btn-success': r.eformStatus==='completed',
+                  'btn-default': r.eformStatus==='sent',
+                  'btn-danger': r.eformStatus==='voided' || r.eformStatus==='declined',
+                  'btn-warning': r.eformStatus==='delivered'
+                  }"
+              >
+                <i class="fa fa-wpforms"></i>
+              </button>
             </td>
             <td class="text-center">
               <div ng-if="getRegistration(r.registrationId).completed">

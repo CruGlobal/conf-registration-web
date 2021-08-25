@@ -180,7 +180,10 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         ['NAME', 'EMAIL'],
         $scope.block.profileType,
       );
-      $scope.canDelete = notNameOrEmail;
+      const notEform = $scope.block.tag !== 'EFORM';
+      $scope.canDelete = notNameOrEmail && notEform;
+      $scope.canEdit = notEform;
+      $scope.canCopy = notEform;
       $scope.canHaveRules = notNameOrEmail;
       $scope.canHaveAnswerRules = notNameOrEmail && $scope.hasOptions;
       $scope.canChangeRegTypes = notName;
