@@ -635,7 +635,10 @@ angular
       method: 'GET',
       url: 'ministries',
     }).then(function(response) {
-      $scope.ministries = response.data;
+      $scope.ministries = response.data.filter(
+        // filter out Soon Movement until it can be removed
+        ministry => ministry.id !== '4cffaaa8-5b1f-4465-989f-0669a7011d3d',
+      );
     });
 
     $http({
