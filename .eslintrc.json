@@ -1,15 +1,28 @@
 {
   "parser": "babel-eslint",
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
-  "plugins": ["jasmine"],
+  "plugins": ["jasmine", "react"],
   "env": {
     "browser": true,
     "jasmine": true,
     "node": true
   },
-  "extends": ["angular", "plugin:jasmine/recommended"],
+  "settings": {
+    "react": {
+      "version": "detect" // you have to tell eslint which version React are using, "detect" will say can you just figure out yourself (from package.json)
+    }
+  },
+  "extends": [
+    "angular",
+    "plugin:jasmine/recommended",
+    "plugin:react/recommended"
+  ],
   "globals": {
     "inject": true,
     "require": true,
