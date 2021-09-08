@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import angular, { IHttpService } from 'angular';
+import angular, { IHttpService, ITimeoutService } from 'angular';
 import { react2angular } from 'react2angular';
 
 import { RegistrantType } from '../../../../types/registrant';
@@ -14,16 +14,27 @@ interface FormStatusModalProps {
     close: (result?: RegistrantType) => void;
   };
   $http: IHttpService;
+  $timeout: ITimeoutService;
 }
 
 const FormStatusModal = ({
   resolve,
   modalInstance,
   $http,
+  $timeout,
 }: FormStatusModalProps) => {
   const { registrant, registrantTypeName } = resolve;
   const [eformStatus, setEformStatus] = useState(registrant.eformStatus);
+  const [alert, setAlert] = useState<{
+    message: string;
+    type: string;
+  }>();
   const [loading, setLoading] = useState(false);
+
+  const handleAlert = (message: string, type: string) => {
+    setAlert({ message, type });
+    $timeout(() => setAlert(undefined), 5000);
+  };
 
   const handleClose = () => modalInstance.close({ ...registrant, eformStatus });
 
@@ -31,6 +42,8 @@ const FormStatusModal = ({
     $http({
       method: 'PUT',
       url: `docusign/resend/${registrant.id}`,
+    }).then(() => {
+      handleAlert('Form successfully resent.', 'alert-success');
     });
   };
 
@@ -41,6 +54,7 @@ const FormStatusModal = ({
       // @ts-ignore
       .then(({ data }: { data: RegistrantType }) => {
         const { eformStatus } = data;
+        handleAlert('Status succesfully updated.', 'alert-success');
         setLoading(false);
         setEformStatus(eformStatus);
       });
@@ -57,7 +71,7 @@ const FormStatusModal = ({
         >
           &times;
         </button>
-        <h4 translate="yes">Form Staus</h4>
+        <h4 translate="yes">Form Status</h4>
       </div>
       <div className="modal-body tab-content-spacing-above">
         <div className="row">
@@ -106,6 +120,10 @@ const FormStatusModal = ({
           </div>
         </div>
         <hr />
+        {alert ? (
+          <div className={`alert ${alert.type}`}>{alert.message}</div>
+        ) : null}
+
         <div className="form-group text-right">
           <button
             className="btn btn-success"
@@ -124,5 +142,9 @@ angular
   .module('confRegistrationWebApp')
   .component(
     'formStatusModal',
-    react2angular(FormStatusModal, ['resolve', 'modalInstance'], ['$http']),
+    react2angular(
+      FormStatusModal,
+      ['resolve', 'modalInstance'],
+      ['$http', '$timeout'],
+    ),
   );
