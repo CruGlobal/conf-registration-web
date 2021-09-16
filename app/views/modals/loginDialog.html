@@ -1,4 +1,5 @@
-<div class="modal-header">
+<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+<div class="modal-header text-center">
   <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3 ng-if="!status401" translate>Welcome to the Event Registration Tool!</h3>
   <h3 ng-if="status401" translate>Authorization Required</h3>
@@ -13,6 +14,25 @@
       Please sign in with one of the following services:
     </p>
     <div class="row">
+      <div ng-if="googleLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <div
+          id="g_id_onload"
+          data-client_id="489812205323-7dbar0imd3vhsmjargo36md9iro0o146.apps.googleusercontent.com"
+          data-auto_prompt="true"
+        ></div>
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-theme="outline"
+          data-text="sign_in_with"
+          data-shape="rectangular"
+          data-logo_alignment="left"
+          data-width="269"
+        ></div>
+      </div>
+      <div class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <br />
+      </div>
       <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
           class="btn btn-subtle btn-block"

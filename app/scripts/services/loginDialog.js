@@ -11,6 +11,7 @@ angular
           $uibModalInstance,
           $location,
           envService,
+          $document,
         ) {
           $scope.apiUrl = envService.read('apiUrl');
           $scope.clientUrl = window.location.origin;
@@ -19,11 +20,21 @@ angular
             options.relayLogin === undefined ? true : options.relayLogin;
           $scope.facebookLogin =
             options.facebookLogin === undefined ? true : options.facebookLogin;
-
+          $scope.googleLogin =
+            options.googleLogin === undefined ? true : options.googleLogin;
           $scope.gotoRoute = function(path) {
             $uibModalInstance.dismiss();
             $location.path(path);
           };
+
+          const loadGoogle = () => {
+            const script = $document[0].createElement('script');
+            script.src = 'https://accounts.google.com/gsi/client';
+            script.type = 'text/javascript';
+            script.async = true;
+            $document[0].body.appendChild(script);
+          };
+          loadGoogle();
         },
         backdrop: 'static',
         keyboard: false,

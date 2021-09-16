@@ -20,6 +20,15 @@ describe('Service: logoutService', () => {
     logoutService = _logoutService_;
   }));
 
+  it('should logout from google', () => {
+    cookieValue = 'GOOGLE';
+    logoutService.logoutFormProviders({
+      data: { googleUrl: 'redirect url' },
+    });
+
+    expect($window.location.href).toEqual('redirect url');
+  });
+
   it('should logout from facebook', () => {
     cookieValue = 'FACEBOOK';
     logoutService.logoutFormProviders({
