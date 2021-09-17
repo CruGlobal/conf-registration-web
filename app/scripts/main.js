@@ -7,6 +7,7 @@ import 'scripts/app_enforceAuth.js';
 // components
 import 'scripts/components/FormStatusModal/FormStatusModal';
 import 'scripts/components/FormStatusPopover/FormStatusPopover';
+import 'scripts/components/GoogleLogin/GoogleLogin';
 
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';

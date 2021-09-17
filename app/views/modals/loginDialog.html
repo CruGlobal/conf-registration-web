@@ -15,22 +15,7 @@
     </p>
     <div class="row">
       <div ng-if="googleLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
-        <div
-          id="g_id_onload"
-          data-client_id="489812205323-7dbar0imd3vhsmjargo36md9iro0o146.apps.googleusercontent.com"
-          data-auto_prompt="true"
-          data-nonce="{{googleNonce}}"
-          data-login_uri="{{apiUrl}}auth/google/login"
-        ></div>
-        <div
-          class="g_id_signin"
-          data-type="standard"
-          data-theme="outline"
-          data-text="sign_in_with"
-          data-shape="rectangular"
-          data-logo_alignment="left"
-          data-width="269"
-        ></div>
+        <google-login></google-login>
       </div>
       <div class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <br />
