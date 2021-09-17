@@ -12,6 +12,7 @@ angular
           $location,
           envService,
           $document,
+          $http,
         ) {
           $scope.apiUrl = envService.read('apiUrl');
           $scope.clientUrl = window.location.origin;
@@ -26,6 +27,15 @@ angular
             $uibModalInstance.dismiss();
             $location.path(path);
           };
+
+          this.$onInit = () => {
+            $scope.googleNonce = getGoogleNonce();
+          };
+
+          const getGoogleNonce = () =>
+            $http
+              .get(`auth/google/authorization`)
+              .then(response => response.data.googleNonce);
 
           const loadGoogle = () => {
             const script = $document[0].createElement('script');
