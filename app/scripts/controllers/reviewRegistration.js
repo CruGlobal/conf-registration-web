@@ -170,8 +170,6 @@ angular
           });
 
           $scope.navigateToPostRegistrationPage();
-
-          $scope.submittingRegistration = false;
         })
         .catch(function(response) {
           handleRegistrationError((response && response.data) || response);
