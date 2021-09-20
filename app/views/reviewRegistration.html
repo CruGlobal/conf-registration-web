@@ -415,13 +415,15 @@
       <p ng-if="!allRegistrantsValid()" style="color:red;" translate>
         Please fill in all required fields in red before submitting.
       </p>
-      <input
-        type="button"
+      <button
         class="btn btn-lg btn-success btn-important confirm-registration"
         ng-click="confirmRegistration()"
-        value="Confirm"
         ng-disabled="registerDisabled()"
-      />
+      >
+        <translate ng-if="!submittingRegistration">Confirm</translate>
+        <translate ng-if="submittingRegistration">Submitting...</translate>
+        <i ng-if="submittingRegistration" class="fa fa-spinner fa-spin"></i>
+      </button>
       <span ng-show="registerMode === 'preview'"
         >&laquo; <translate>Disabled in preview mode</translate></span
       >
