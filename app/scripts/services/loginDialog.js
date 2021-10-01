@@ -11,7 +11,6 @@ angular
           $uibModalInstance,
           $location,
           envService,
-          $document,
         ) {
           $scope.apiUrl = envService.read('apiUrl');
           $scope.clientUrl = window.location.origin;

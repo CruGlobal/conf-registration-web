@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import angular, { IHttpService } from 'angular';
+import angular, { IHttpService, IDocumentService } from 'angular';
 import { react2angular } from 'react2angular';
 
 interface GoogleLoginProps {
   $http: IHttpService;
+  $document: IDocumentService;
   envService: any;
 }
 
-const GoogleLogin = ({ $http, envService }: GoogleLoginProps) => {
+const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
   const [googleNonce, setGoogleNonce] = useState('');
   const loadGoogle = () => {
-    const script = document.createElement('script');
+    // @ts-ignore
+    const script = $document[0].createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
     script.type = 'text/javascript';
     script.async = true;
-    document.body.appendChild(script);
+    // @ts-ignore
+    $document[0].body.appendChild(script);
   };
 
   useEffect(() => {
@@ -25,12 +28,13 @@ const GoogleLogin = ({ $http, envService }: GoogleLoginProps) => {
         const { googleNonce } = data;
         setGoogleNonce(googleNonce);
         if (googleNonce !== '') {
-          console.log('googleNonce call', googleNonce);
           loadGoogle();
         }
       });
   }, []);
+
   if (googleNonce == '') return null;
+
   return (
     <>
       <div
@@ -57,5 +61,5 @@ angular
   .module('confRegistrationWebApp')
   .component(
     'googleLogin',
-    react2angular(GoogleLogin, [], ['$http', 'envService']),
+    react2angular(GoogleLogin, [], ['$http', '$document', 'envService']),
   );
