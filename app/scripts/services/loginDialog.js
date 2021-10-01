@@ -26,15 +26,6 @@ angular
             $uibModalInstance.dismiss();
             $location.path(path);
           };
-
-          const loadGoogle = () => {
-            const script = $document[0].createElement('script');
-            script.src = 'https://accounts.google.com/gsi/client';
-            script.type = 'text/javascript';
-            script.async = true;
-            $document[0].body.appendChild(script);
-          };
-          loadGoogle();
         },
         backdrop: 'static',
         keyboard: false,

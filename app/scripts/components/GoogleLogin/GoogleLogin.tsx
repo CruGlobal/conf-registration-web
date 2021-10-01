@@ -9,6 +9,14 @@ interface GoogleLoginProps {
 
 const GoogleLogin = ({ $http, envService }: GoogleLoginProps) => {
   const [googleNonce, setGoogleNonce] = useState('');
+  const loadGoogle = () => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.type = 'text/javascript';
+    script.async = true;
+    document.body.appendChild(script);
+  };
+
   useEffect(() => {
     $http
       .get('auth/google/authorization')
@@ -16,8 +24,13 @@ const GoogleLogin = ({ $http, envService }: GoogleLoginProps) => {
       .then(({ data }: { data: { googleNonce: string } }) => {
         const { googleNonce } = data;
         setGoogleNonce(googleNonce);
+        if (googleNonce !== '') {
+          console.log('googleNonce call', googleNonce);
+          loadGoogle();
+        }
       });
   }, []);
+  if (googleNonce == '') return null;
   return (
     <>
       <div
