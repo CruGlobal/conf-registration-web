@@ -85,8 +85,9 @@ jobs:
         env:
           ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v1
         with:
+          aws-region: us-east-1
           role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
       - name: 🚀 Deploy to S3 Production
         if: github.ref == 'refs/heads/master'
