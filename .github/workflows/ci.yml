@@ -69,6 +69,8 @@ jobs:
         run: yarn install --immutable --immutable-cache --check-cache
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     needs: [test, eslint, typescript, prettier]
     if: github.event_name == 'push'
     steps:
@@ -80,21 +82,19 @@ jobs:
         run: yarn install --immutable --immutable-cache
       - name: 🔨 Build
         run: yarn build
+        env:
+          ROLLBAR_ACCESS_TOKEN: ${{ secrets.ROLLBAR_ACCESS_TOKEN }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_GITHUB_ACTIONS_ROLE }}
       - name: 🚀 Deploy to S3 Production
         if: github.ref == 'refs/heads/master'
         run: |
           aws s3 sync dist s3://cru-ert-web-prod --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000',
           aws s3 sync dist s3://cru-ert-web-prod --region us-east-1 --acl public-read --include '*.html' --cache-control 'public, max-age=180'
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: 'us-east-1'
       - name: 🚀 Deploy to S3 Staging
         if: github.ref == 'refs/heads/staging'
         run: |
           aws s3 sync dist s3://cru-ert-web-stage --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000' --delete,
           aws s3 sync dist s3://cru-ert-web-stage --region us-east-1 --acl public-read --include '*.html' --cache-control 'public, no-cache' --delete
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: 'us-east-1'
