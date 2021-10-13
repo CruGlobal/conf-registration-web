@@ -96,10 +96,10 @@ jobs:
       - name: 🚀 Deploy to S3 Production
         if: github.ref == 'refs/heads/master'
         run: |
-          aws s3 sync dist s3://cru-ert-web-prod --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000',
+          aws s3 sync dist s3://cru-ert-web-prod --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000'
           aws s3 sync dist s3://cru-ert-web-prod --region us-east-1 --acl public-read --include '*.html' --cache-control 'public, max-age=180'
       - name: 🚀 Deploy to S3 Staging
         if: github.ref == 'refs/heads/staging'
         run: |
-          aws s3 sync dist s3://cru-ert-web-stage --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000' --delete,
+          aws s3 sync dist s3://cru-ert-web-stage --region us-east-1 --acl public-read --exclude '*.html' --cache-control 'public, max-age=31536000' --delete
           aws s3 sync dist s3://cru-ert-web-stage --region us-east-1 --acl public-read --include '*.html' --cache-control 'public, no-cache' --delete
