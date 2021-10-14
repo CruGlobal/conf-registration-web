@@ -74,7 +74,6 @@
     </script>
     <!-- End Google Tag Manager -->
 
-    <script src="//assets.adobedtm.com/3202ba9b02b459ee20779cfcd8e79eaf266be170/satelliteLib-928beaae1bce68f8836cc63dd18a9951aa3a1f4e.js"></script>
     <% } else { %>
     <!-- Google Tag Manager -->
     <script>
@@ -94,42 +93,6 @@
       })(window, document, 'script', 'dataLayer', 'GTM-5VHJ5WH');
     </script>
     <!-- End Google Tag Manager -->
-
-    <script>
-      (function(win, doc, style, timeout) {
-        var STYLE_ID = 'at-body-style';
-        function getParent() {
-          return doc.getElementsByTagName('head')[0];
-        }
-        function addStyle(parent, id, def) {
-          if (!parent) {
-            return;
-          }
-          var style = doc.createElement('style');
-          style.id = id;
-          style.innerHTML = def;
-          parent.appendChild(style);
-        }
-        function removeStyle(parent, id) {
-          if (!parent) {
-            return;
-          }
-          var style = doc.getElementById(id);
-          if (!style) {
-            return;
-          }
-          parent.removeChild(style);
-        }
-        addStyle(getParent(), STYLE_ID, style);
-        setTimeout(function() {
-          removeStyle(getParent(), STYLE_ID);
-        }, timeout);
-      })(window, document, 'body {opacity: 0 !important}', 3000);
-    </script>
-    <script
-      src="https://assets.adobedtm.com/launch-EN1532c472c4224a57a029c57d101e0196-development.min.js"
-      async
-    ></script>
     <% } %>
 
     <!-- Font Awesome (Icons) -->
@@ -418,10 +381,6 @@
       <div ng-bind-html="logoutElement"></div>
     </div>
 
-    <% if(htmlWebpackPlugin.options.prod) { %>
-    <script type="text/javascript">
-      window._satellite && _satellite.pageBottom();
-    </script>
-    <% } %> <%=htmlWebpackPlugin.files.webpackManifest%>
+    <%=htmlWebpackPlugin.files.webpackManifest%>
   </body>
 </html>
