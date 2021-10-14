@@ -11,7 +11,6 @@ class Analytics {
   }
 
   firePageViewEvent() {
-    /* Adobe Analytics */
     // Profile info
     this.ProfileCache.getCache().then(
       profile => {
@@ -39,7 +38,7 @@ class Analytics {
   }
 
   track(event, data) {
-    // Placing event data on digitalData layer for Adobe and for Google as requested by Clark but data could be pulled from the event instead
+    // Placing event data on digitalData layer for Google as requested by Clark but data could be pulled from the event instead
     Object.assign(this.digitalData, data);
 
     // Google Analytics
@@ -52,12 +51,6 @@ class Analytics {
         data,
       ),
     );
-
-    // Adobe Analytics
-    this.$window._satellite &&
-      this.$window._satellite.track(
-        event === 'virtual-page-view' ? 'page view' : event,
-      );
   }
 }
 

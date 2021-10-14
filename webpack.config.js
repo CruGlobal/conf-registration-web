@@ -12,7 +12,7 @@ const SriPlugin = require('webpack-subresource-integrity');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
 const ci = process.env.CI === 'true';
-const prod = process.env.TRAVIS_BRANCH === 'master';
+const prod = process.env.GITHUB_REF === 'refs/heads/master';
 
 const htmlMinDefaults = {
   removeComments: true,
