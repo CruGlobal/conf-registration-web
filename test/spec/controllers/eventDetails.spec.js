@@ -67,6 +67,20 @@ describe('Controller: paymentModal', function() {
     expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
   });
 
+  it('addRegType() should set reg type eform to value of conference eform', () => {
+    const totalRegTypes = scope.conference.registrantTypes.length;
+    scope.conference.eform = true;
+    const modal = scope.addRegType();
+    modal.close({
+      name: 'Additional Type',
+      defaultTypeKey: '',
+    });
+
+    expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
+    expect(scope.conference.registrantTypes[3].name).toEqual('Additional Type');
+    expect(scope.conference.registrantTypes[3].eform).toEqual(true);
+  });
+
   it('deleteRegType should remove reg type', function() {
     var totalRegTypes = scope.conference.registrantTypes.length;
 
@@ -115,9 +129,11 @@ describe('Controller: paymentModal', function() {
     scope.image.includeImageToAllPages = false;
     scope.image.imageSrc = 'new-image';
     scope.resetImage();
+
     expect(scope.image.includeImageToAllPages).toEqual(
       scope.conference.image.includeImageToAllPages,
     );
+
     expect(scope.image.image).toEqual(scope.conference.image.image);
   });
 
@@ -134,9 +150,11 @@ describe('Controller: paymentModal', function() {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
+
     expect(scope.image.includeImageToAllPages).toEqual(
       scope.conference.image.includeImageToAllPages,
     );
+
     expect(scope.image.image).toEqual(scope.conference.image.image);
   });
 
@@ -151,7 +169,70 @@ describe('Controller: paymentModal', function() {
     $httpBackend.flush();
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
+
     expect(scope.conference.image.includeImageToAllPages).toEqual(false);
+
     expect(scope.conference.image.image).toEqual('');
+  });
+
+  it('createLiabilityQuestions() should create liability related questions on first page', () => {
+    scope.createLiabilityQuestions();
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 1
+      ].title,
+    ).toEqual('Guardian Email');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 2
+      ].title,
+    ).toEqual('Guardian Name');
+
+    expect(
+      scope.conference.registrationPages[0].blocks[
+        scope.conference.registrationPages[0].blocks.length - 3
+      ].title,
+    ).toEqual('Are you under 18?');
+  });
+
+  it('updateLiabilityQuestions() should delete liability related questions', () => {
+    scope.createLiabilityQuestions();
+
+    expect(scope.conference.registrationPages[0].blocks[3].title).toEqual(
+      'Guardian Email',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[3].tag).toEqual(
+      'EFORM',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[2].title).toEqual(
+      'Guardian Name',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(
+      'EFORM',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[1].title).toEqual(
+      'Are you under 18?',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks[1].tag).toEqual(
+      'EFORM',
+    );
+
+    expect(scope.conference.registrationPages[0].blocks.length).toBe(4);
+
+    scope.updateLiabilityQuestions();
+    $httpBackend.flush();
+
+    expect(scope.conference.registrationPages[0].blocks[3].tag).toEqual(null);
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
+
+    expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
   });
 });

@@ -405,6 +405,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: true,
         acceptChecks: false,
         registrationCompleteRedirect: 'url.com',
+        eform: false,
       },
       {
         id: '47de2c40-19dc-45b3-9663-5c005bd6464b',
@@ -431,6 +432,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: false,
         acceptChecks: true,
         registrationCompleteRedirect: 'url1.com',
+        eform: false,
       },
       {
         id: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -457,6 +459,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         acceptScholarships: false,
         acceptChecks: false,
         registrationCompleteRedirect: 'url2.com',
+        eform: false,
       },
     ],
     eventStartTime: '2015-12-30 16:48:00',
@@ -498,6 +501,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     accountNumber: null,
     glAccount: null,
     cruEvent: true,
+    virtual: false,
     image: {
       image:
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkYAAAEiCAYAAAAcUB29AAAgAElEQVR4Xpx9B7hkVZXuf05V',
@@ -769,7 +773,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
     reported: true,
     accountTransfers: [
       {
-        amount: '2.00',
+        amount: 2,
         businessUnit: 'STFFD',
         departmentId: 'STAFF',
         description: 'Reg-Again1, Test',
@@ -784,6 +788,24 @@ angular.module('confRegistrationWebApp').service('testData', function() {
         reference: '123456789',
         registrationId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
         totalDue: '5.00',
+      },
+      {
+        account: '7415874',
+        amount: 5,
+        businessUnit: 'STFFD',
+        departmentId: 'STAFF',
+        description: 'Reg-Again1, Test',
+        expenseType: 'MISCELLANEOUS_ITEM',
+        firstName: 'Test',
+        glAccount: '67620',
+        lastName: 'Person',
+        operatingUnit: 'LH',
+        productCode: 'INT',
+        projectId: null,
+        reference: '123456788',
+        registrationId: 'c0855056-efc8-4ea7-81aa-4b0902376db1',
+        reportId: '59d56562-b97e-4cc8-a6f3-305f207042a',
+        error: 'some random error message.',
       },
     ],
   };

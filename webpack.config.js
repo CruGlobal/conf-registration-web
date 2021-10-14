@@ -12,7 +12,7 @@ const SriPlugin = require('webpack-subresource-integrity');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
 const ci = process.env.CI === 'true';
-const prod = process.env.TRAVIS_BRANCH === 'master';
+const prod = process.env.GITHUB_REF === 'refs/heads/master';
 
 const htmlMinDefaults = {
   removeComments: true,
@@ -109,25 +109,13 @@ module.exports = (env = {}) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(ts|js)x?$/,
           exclude: /node_modules/,
           use: [
             {
               loader: 'babel-loader',
               options: {
-                presets: [
-                  [
-                    'env',
-                    {
-                      modules: false,
-                      exclude: ['transform-es2015-function-name'],
-                    },
-                  ],
-                ], // transform-es2015-function-name is renaming function params in eventRegistrations that are needed for Angular DI
-                plugins: concat(
-                  ['transform-runtime'],
-                  !isTest ? ['angularjs-annotate'] : [],
-                ),
+                plugins: !isTest ? ['angularjs-annotate'] : [],
               },
             },
           ],
@@ -206,6 +194,7 @@ module.exports = (env = {}) => {
     },
     resolve: {
       modules: [path.resolve(__dirname, 'app'), 'node_modules'],
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
     devtool: 'source-map',
     devServer: {

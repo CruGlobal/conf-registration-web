@@ -4,6 +4,10 @@ import 'scripts/app.config.js';
 import 'scripts/app.run.js';
 import 'scripts/app_enforceAuth.js';
 
+// components
+import 'scripts/components/FormStatusModal/FormStatusModal';
+import 'scripts/components/FormStatusPopover/FormStatusPopover';
+
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';
 import 'scripts/controllers/accessEvent.js';
