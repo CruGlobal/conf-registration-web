@@ -335,3 +335,11 @@ div[block-editor] {
 .currency-label {
   padding: 3px;
 }
+
+.signin-button {
+  display: flex;
+  color: black;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+}

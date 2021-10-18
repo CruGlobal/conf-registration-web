@@ -34,11 +34,13 @@
       </div>
       <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
-          class="btn btn-subtle btn-block"
+          class="btn btn-subtle btn-block signin-button"
           ng-href="{{apiUrl}}auth/facebook/authorization?clientUrl={{clientUrl}}"
           title="Facebook"
-          ><img src="../../img/signin-facebook.png"
-        /></a>
+          ><img src="../../img/signin-facebook.png" style="width: 24px;"/>
+          Sign in with Facebook
+          <div style="width: 24px;"></div
+        ></a>
         <a href="https://www.facebook.com/r.php" target="_blank" translate
           >Create a Facebook account</a
         >
@@ -48,11 +50,14 @@
       </div>
       <div ng-if="relayLogin" class="{{ 'col-sm-6 col-sm-offset-3'}}">
         <a
-          class="btn btn-subtle btn-block"
+          class="btn btn-subtle btn-block signin-button"
           ng-href="{{apiUrl}}auth/okta/authorization?clientUrl={{clientUrl}}"
           title="Okta"
-          ><img src="../../img/signin-okta.png" />(formerly <b>Relay</b>)</a
-        >
+          ><img src="../../img/signin-okta.png" style="width: 24px;"/>
+          Sign in with Okta
+          <div style="width: 24px;"></div
+        ></a>
+
         <a href="oktaDescription/" target="_blank" translate>What is Okta?</a>
         <br />
         <p translate>
