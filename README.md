@@ -1,10 +1,12 @@
 # Event Registration Tool (ERT) Web App
-[![Build Status](https://travis-ci.org/CruGlobal/conf-registration-web.svg?branch=master)](https://travis-ci.org/CruGlobal/conf-registration-web) [![codecov](https://codecov.io/gh/CruGlobal/conf-registration-web/branch/master/graph/badge.svg)](https://codecov.io/gh/CruGlobal/conf-registration-web)
+
+[![CI](https://github.com/CruGlobal/conf-registration-web/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/CruGlobal/conf-registration-web/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/CruGlobal/conf-registration-web/branch/master/graph/badge.svg)](https://codecov.io/gh/CruGlobal/conf-registration-web)
 https://www.eventregistrationtool.com | https://stage.eventregistrationtool.com
 
 ## Development
 
 ### Installing yarn
+
 Use yarn for faster installs and to update the yarn lock file: https://yarnpkg.com/en/docs/install
 
 ### Install & Run
@@ -31,7 +33,7 @@ Use yarn for faster installs and to update the yarn lock file: https://yarnpkg.c
 - Use `yarn add <package-name>` or `npm install <package-name> --save` to install app dependencies
 - Use `yarn add <package-name> -dev` `npm install <package-name> --save-dev` to install tooling dependencies
 
-### Localhost API 
+### Localhost API
 
 To run against an ERT API server running on your localhost,
 edit https://github.com/CruGlobal/conf-registration-web/blob/master/app/scripts/app.js,
