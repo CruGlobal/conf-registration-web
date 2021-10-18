@@ -1,4 +1,5 @@
-<div class="modal-header">
+<!-- <script src="https://accounts.google.com/gsi/client" async defer></script> -->
+<div class="modal-header text-center">
   <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3 ng-if="!status401" translate>Welcome to the Event Registration Tool!</h3>
   <h3 ng-if="status401" translate>Authorization Required</h3>
@@ -9,17 +10,37 @@
       You do not have permission to access this resource or your session has
       expired.
     </p>
-    <p class="spacing-below-xs" ng-class="{'lead': !status401}" translate>
+    <p
+      ng-if="nonceExpired"
+      class="spacing-below-xs text-danger"
+      ng-class="{'lead': nonceExpired }"
+      translate
+    >
+      Your sign in attempt took too long. Please try again.
+    </p>
+    <p
+      class="spacing-below-xs"
+      ng-class="{'lead': !status401 && !nonceExpired }"
+      translate
+    >
       Please sign in with one of the following services:
     </p>
     <div class="row">
+      <div ng-if="googleLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <google-login></google-login>
+      </div>
+      <div class="{{ 'col-sm-6 col-sm-offset-3' }}">
+        <br />
+      </div>
       <div ng-if="facebookLogin" class="{{ 'col-sm-6 col-sm-offset-3' }}">
         <a
-          class="btn btn-subtle btn-block"
+          class="btn btn-subtle btn-block signin-button"
           ng-href="{{apiUrl}}auth/facebook/authorization?clientUrl={{clientUrl}}"
           title="Facebook"
-          ><img src="../../img/signin-facebook.png"
-        /></a>
+          ><img src="../../img/signin-facebook.png" style="width: 18px;"/>
+          Sign in with Facebook
+          <div style="width: 18px;"></div
+        ></a>
         <a href="https://www.facebook.com/r.php" target="_blank" translate
           >Create a Facebook account</a
         >
@@ -29,11 +50,14 @@
       </div>
       <div ng-if="relayLogin" class="{{ 'col-sm-6 col-sm-offset-3'}}">
         <a
-          class="btn btn-subtle btn-block"
+          class="btn btn-subtle btn-block signin-button"
           ng-href="{{apiUrl}}auth/okta/authorization?clientUrl={{clientUrl}}"
           title="Okta"
-          ><img src="../../img/signin-okta.png" />(formerly <b>Relay</b>)</a
-        >
+          ><img src="../../img/signin-okta.png" style="width: 18px;"/>
+          Sign in with Okta
+          <div style="width: 18px;"></div
+        ></a>
+
         <a href="oktaDescription/" target="_blank" translate>What is Okta?</a>
         <br />
         <p translate>

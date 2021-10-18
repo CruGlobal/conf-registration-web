@@ -14,12 +14,14 @@ angular
         ) {
           $scope.apiUrl = envService.read('apiUrl');
           $scope.clientUrl = window.location.origin;
+          $scope.nonceExpired = options.nonceExpired;
           $scope.status401 = options.status401;
           $scope.relayLogin =
             options.relayLogin === undefined ? true : options.relayLogin;
           $scope.facebookLogin =
             options.facebookLogin === undefined ? true : options.facebookLogin;
-
+          $scope.googleLogin =
+            options.googleLogin === undefined ? true : options.googleLogin;
           $scope.gotoRoute = function(path) {
             $uibModalInstance.dismiss();
             $location.path(path);

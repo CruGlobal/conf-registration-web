@@ -30,6 +30,15 @@ angular
       var nextRouteEventId = next.params.conferenceId;
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
+      const nonceExpired = next.params
+        ? next.params.nonceExpired === 'true'
+        : false;
+
+      if (nonceExpired) {
+        loginDialog.show({
+          nonceExpired,
+        });
+      }
 
       if (!nextRouteRequireLogin || (crsToken && nextRouteAllowsNoneAuth)) {
         return;
@@ -68,10 +77,15 @@ angular
       event.preventDefault();
       if (nextRouteAllowsNoneAuth && nextRouteEventId) {
         ConfCache.get(nextRouteEventId).then(function(conference) {
-          if (conference.relayLogin || conference.facebookLogin) {
+          if (
+            conference.relayLogin ||
+            conference.facebookLogin ||
+            conference.googleLogin
+          ) {
             loginDialog.show({
               relayLogin: conference.relayLogin,
               facebookLogin: conference.facebookLogin,
+              googleLogin: conference.googleLogin,
             });
           } else {
             $window.location.href =
