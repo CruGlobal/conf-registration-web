@@ -10,7 +10,19 @@
       You do not have permission to access this resource or your session has
       expired.
     </p>
-    <p class="spacing-below-xs" ng-class="{'lead': !status401}" translate>
+    <p
+      ng-if="nonceExpired"
+      class="spacing-below-xs text-danger"
+      ng-class="{'lead': nonceExpired }"
+      translate
+    >
+      Your sign in attempt took too long. Please try again.
+    </p>
+    <p
+      class="spacing-below-xs"
+      ng-class="{'lead': !status401 && !nonceExpired }"
+      translate
+    >
       Please sign in with one of the following services:
     </p>
     <div class="row">

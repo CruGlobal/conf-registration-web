@@ -30,6 +30,15 @@ angular
       var nextRouteEventId = next.params.conferenceId;
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
+      const nonceExpired = next.params
+        ? next.params.nonceExpired === 'true'
+        : false;
+
+      if (nonceExpired) {
+        loginDialog.show({
+          nonceExpired,
+        });
+      }
 
       if (!nextRouteRequireLogin || (crsToken && nextRouteAllowsNoneAuth)) {
         return;
