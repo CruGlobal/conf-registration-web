@@ -338,8 +338,12 @@ div[block-editor] {
 
 .signin-button {
   display: flex;
-  color: black;
+  color: rgb(60, 64, 67);
+  padding-top: 8px;
+  padding-bottom: 8px;
   justify-content: space-between;
   align-items: center;
   background-color: white;
+  border-color: rgb(218, 220, 224);
+  max-width: 269px;
 }
