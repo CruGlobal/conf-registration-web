@@ -10,6 +10,7 @@ interface GoogleLoginProps {
 
 const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
   const [googleNonce, setGoogleNonce] = useState('');
+  const [clientId, setClientId] = useState('');
   const loadGoogle = () => {
     // @ts-ignore
     const script = $document[0].createElement('script');
@@ -24,22 +25,23 @@ const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
     $http
       .get('auth/google/authorization')
       // @ts-ignore
-      .then(({ data }: { data: { googleNonce: string } }) => {
-        const { googleNonce } = data;
+      .then(({ data }: { data: { googleNonce: string; clientId: string } }) => {
+        const { googleNonce, clientId } = data;
         setGoogleNonce(googleNonce);
-        if (googleNonce !== '') {
+        setClientId(clientId);
+        if (googleNonce !== '' && clientId !== '') {
           loadGoogle();
         }
       });
   }, []);
 
-  if (googleNonce == '') return null;
+  if (googleNonce == '' || clientId == '') return null;
 
   return (
     <>
       <div
         id="g_id_onload"
-        data-client_id="832792323918-g5kjaf3tbgq5fammukgev37if64ud1o8.apps.googleusercontent.com"
+        data-client_id={clientId}
         data-auto_prompt="true"
         data-nonce={googleNonce}
         data-login_uri={`${envService.read('apiUrl')}auth/google/login`}
