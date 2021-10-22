@@ -31,7 +31,7 @@ angular
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
       const nonceExpired = next.params
-        ? next.params.nonceExpired === 'true'
+        ? next.params.auth_error === 'expiredAuthentication'
         : false;
 
       if (nonceExpired) {
