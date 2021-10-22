@@ -39,7 +39,7 @@ const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
     <>
       <div
         id="g_id_onload"
-        data-client_id="489812205323-7dbar0imd3vhsmjargo36md9iro0o146.apps.googleusercontent.com"
+        data-client_id="832792323918-g5kjaf3tbgq5fammukgev37if64ud1o8.apps.googleusercontent.com"
         data-auto_prompt="true"
         data-nonce={googleNonce}
         data-login_uri={`${envService.read('apiUrl')}auth/google/login`}
