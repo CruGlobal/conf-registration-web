@@ -31,20 +31,14 @@ angular
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
       const checkForAuthError = () => {
-        let errorMsg = '';
         if (next.params.auth_error) {
           switch (next.params.auth_error) {
             case 'expiredAuthentication':
-              errorMsg =
-                'Your sign in attempt took too long. Please try again.';
-              break;
+              return 'Your sign in attempt took too long. Please try again.';
             default:
-              errorMsg =
-                'There was an error while trying to sign in. Please try again.';
-              break;
+              return 'There was an error while trying to sign in. Please try again.';
           }
         }
-        return errorMsg;
       };
 
       const authError = checkForAuthError();
