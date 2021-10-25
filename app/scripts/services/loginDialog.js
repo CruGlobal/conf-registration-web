@@ -14,7 +14,7 @@ angular
         ) {
           $scope.apiUrl = envService.read('apiUrl');
           $scope.clientUrl = window.location.origin;
-          $scope.nonceExpired = options.nonceExpired;
+          $scope.authError = options.authError;
           $scope.status401 = options.status401;
           $scope.relayLogin =
             options.relayLogin === undefined ? true : options.relayLogin;

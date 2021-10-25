@@ -30,13 +30,27 @@ angular
       var nextRouteEventId = next.params.conferenceId;
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
-      const nonceExpired = next.params
-        ? next.params.auth_error === 'expiredAuthentication'
-        : false;
+      const checkForAuthError = () => {
+        let errorMsg = '';
+        if (next.params.auth_error) {
+          switch (next.params.auth_error) {
+            case 'expiredAuthentication':
+              errorMsg =
+                'Your sign in attempt took too long. Please try again.';
+              break;
+            default:
+              errorMsg =
+                'There was an error while trying to sign in. Please try again.';
+              break;
+          }
+        }
+        return errorMsg;
+      };
 
-      if (nonceExpired) {
+      const authError = checkForAuthError();
+      if (authError) {
         loginDialog.show({
-          nonceExpired,
+          authError,
         });
       }
 
