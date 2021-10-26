@@ -29,34 +29,36 @@ const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
         const { googleNonce, clientId } = data;
         setGoogleNonce(googleNonce);
         setClientId(clientId);
-        if (googleNonce !== '' && clientId !== '') {
+        if (googleNonce && clientId) {
           loadGoogle();
         }
       });
   }, []);
 
-  if (googleNonce == '' || clientId == '') return null;
+  if (googleNonce && clientId) {
+    return (
+      <>
+        <div
+          id="g_id_onload"
+          data-client_id={clientId}
+          data-auto_prompt="true"
+          data-nonce={googleNonce}
+          data-login_uri={`${envService.read('apiUrl')}auth/google/login`}
+        />
+        <div
+          className="g_id_signin"
+          data-type="standard"
+          data-theme="outline"
+          data-text="sign_in_with"
+          data-shape="rectangular"
+          data-logo_alignment="left"
+          data-width="269"
+        />
+      </>
+    );
+  }
 
-  return (
-    <>
-      <div
-        id="g_id_onload"
-        data-client_id={clientId}
-        data-auto_prompt="true"
-        data-nonce={googleNonce}
-        data-login_uri={`${envService.read('apiUrl')}auth/google/login`}
-      />
-      <div
-        className="g_id_signin"
-        data-type="standard"
-        data-theme="outline"
-        data-text="sign_in_with"
-        data-shape="rectangular"
-        data-logo_alignment="left"
-        data-width="269"
-      />
-    </>
-  );
+  return null;
 };
 
 angular

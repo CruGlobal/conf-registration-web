@@ -10,16 +10,16 @@
       expired.
     </p>
     <p
-      ng-if="nonceExpired"
+      ng-if="authError"
       class="spacing-below-xs text-danger"
-      ng-class="{'lead': nonceExpired }"
+      ng-class="{'lead': authError }"
       translate
     >
-      Your sign in attempt took too long. Please try again.
+      {{authError}}
     </p>
     <p
       class="spacing-below-xs"
-      ng-class="{'lead': !status401 && !nonceExpired }"
+      ng-class="{'lead': !status401 && !authError }"
       translate
     >
       Please sign in with one of the following services:
