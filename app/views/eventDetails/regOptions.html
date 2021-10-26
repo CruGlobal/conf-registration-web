@@ -116,7 +116,8 @@
   <div class="col-xs-12">
     <div>
       <translate>
-        Require Okta (formerly Relay) and/or Facebook sign in to register
+        Require Okta (formerly Relay), Google, and/or Facebook sign in to
+        register
       </translate>
       <i
         class="question-popover fa fa-question-circle"
@@ -127,6 +128,13 @@
       </i>
     </div>
     <div class="margin-left-10">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" ng-model="conference.googleLogin" />
+          <translate>Google</translate>
+        </label>
+      </div>
+
       <div class="checkbox">
         <label>
           <input type="checkbox" ng-model="conference.relayLogin" />

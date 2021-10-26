@@ -320,7 +320,7 @@
 
               <div
                 class="pt12 input-group"
-                ng-if="(conference.relayLogin || conference.facebookLogin) && anyPaymentMethodAccepted(type)"
+                ng-if="(conference.relayLogin || conference.facebookLogin || conference.googleLogin) && anyPaymentMethodAccepted(type)"
               >
                 <label translate>Minimum Payment to Register</label>
                 <div class="input-group">
@@ -347,12 +347,12 @@
 
               <div
                 class="pt12"
-                ng-show="!(conference.relayLogin || conference.facebookLogin) || !anyPaymentMethodAccepted(type)"
+                ng-show="!(conference.relayLogin || conference.facebookLogin || conference.googleLogin) || !anyPaymentMethodAccepted(type)"
               >
                 <label translate>Minimum Payment to Register</label>
                 <p
                   class="text-muted"
-                  ng-show="!(conference.relayLogin || conference.facebookLogin)"
+                  ng-show="!(conference.relayLogin || conference.facebookLogin || conference.googleLogin)"
                 >
                   <i class="fa fa-info-circle"></i>
                   <translate

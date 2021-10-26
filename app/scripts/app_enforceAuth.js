@@ -30,6 +30,23 @@ angular
       var nextRouteEventId = next.params.conferenceId;
       var crsToken = $cookies.get('crsToken');
       var crsAuthProviderType = $cookies.get('crsAuthProviderType');
+      const checkForAuthError = () => {
+        if (next.params.auth_error) {
+          switch (next.params.auth_error) {
+            case 'expiredAuthentication':
+              return 'Your sign in attempt took too long. Please try again.';
+            default:
+              return 'There was an error while trying to sign in. Please try again.';
+          }
+        }
+      };
+
+      const authError = checkForAuthError();
+      if (authError) {
+        loginDialog.show({
+          authError,
+        });
+      }
 
       if (!nextRouteRequireLogin || (crsToken && nextRouteAllowsNoneAuth)) {
         return;
@@ -68,10 +85,15 @@ angular
       event.preventDefault();
       if (nextRouteAllowsNoneAuth && nextRouteEventId) {
         ConfCache.get(nextRouteEventId).then(function(conference) {
-          if (conference.relayLogin || conference.facebookLogin) {
+          if (
+            conference.relayLogin ||
+            conference.facebookLogin ||
+            conference.googleLogin
+          ) {
             loginDialog.show({
               relayLogin: conference.relayLogin,
               facebookLogin: conference.facebookLogin,
+              googleLogin: conference.googleLogin,
             });
           } else {
             $window.location.href =
