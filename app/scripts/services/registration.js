@@ -46,7 +46,7 @@ angular
             },
             function(response) {
               currentRegistration.completed = false;
-              reject(response.data);
+              reject(response);
             },
           );
         }).catch(
