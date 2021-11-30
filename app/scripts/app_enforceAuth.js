@@ -35,6 +35,8 @@ angular
           switch (next.params.auth_error) {
             case 'expiredAuthentication':
               return 'Your sign in attempt took too long. Please try again.';
+            case 'expiredSession':
+              return 'Your session has expired, plesase sign in.';
             default:
               return 'There was an error while trying to sign in. Please try again.';
           }
