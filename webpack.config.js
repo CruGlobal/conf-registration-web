@@ -154,7 +154,10 @@ module.exports = (env = {}) => {
               loader: 'sass-loader',
               options: {
                 sourceMap: true,
-                precision: 8, // fixes line height issue with bootstrap button addons | See Link for more detail:  https://github.com/twbs/bootstrap-sass#sass-number-precision
+                sassOptions: {
+                  precision: 8, // fixes line height issue with bootstrap button addons | See Link for more detail:  https://github.com/twbs/bootstrap-sass#sass-number-precision
+                  quietDeps: true,
+                },
               },
             },
           ],
