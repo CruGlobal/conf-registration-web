@@ -41,13 +41,26 @@ angular
     $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, {
       id: pageId,
     });
+    // Filter through all pages and remove any empty pages
+    // Check for registrant needed since on the welcome page
+    // user could possibly not have started registration yet
+    $scope.validPages =
+      $scope.currentRegistration.registrants.length >= 1
+        ? $scope.conference.registrationPages.filter(page => {
+            return (
+              page.blocks.filter(
+                block =>
+                  !block.registrantTypes.includes(
+                    $scope.currentRegistration.registrants[0].registrantTypeId,
+                  ),
+              ).length > 0
+            );
+          })
+        : $scope.conference.registrationPages;
     $scope.nextPage = function() {
-      var visiblePageArray = _.filter(
-        $scope.conference.registrationPages,
-        function(page) {
-          return $scope.pageIsVisible(page);
-        },
-      );
+      var visiblePageArray = _.filter($scope.validPages, function(page) {
+        return $scope.pageIsVisible(page);
+      });
       return visiblePageArray[
         _.findIndex(visiblePageArray, { id: pageId }) + 1
       ];
@@ -72,24 +85,21 @@ angular
           '/' +
           conference.id +
           '/page/' +
-          $scope.conference.registrationPages[0].id,
+          $scope.validPages[0].id,
       );
     }
 
     //If page contains no questions
     if (angular.isDefined($scope.page) && $scope.page.blocks.length === 0) {
       // If not last page, then advanced to next page
-      if (
-        $scope.page.position <
-        $scope.conference.registrationPages.length - 1
-      ) {
+      if ($scope.page.position < $scope.validPages.length - 1) {
         $location.path(
           '/' +
             $rootScope.registerMode +
             '/' +
             conference.id +
             '/page/' +
-            $scope.conference.registrationPages[$scope.page.position + 1].id,
+            $scope.validPages[$scope.page.position + 1].id,
         );
       }
       // If last page, then advanced to registration page
@@ -114,7 +124,7 @@ angular
         $rootScope.visitedPages,
         $scope.currentRegistrant +
           '_' +
-          _.findIndex($scope.conference.registrationPages, { id: pageId }),
+          _.findIndex($scope.validPages, { id: pageId }),
       );
     };
 
@@ -163,12 +173,9 @@ angular
     };
 
     $scope.previousPage = function() {
-      var visiblePageArray = _.filter(
-        $scope.conference.registrationPages,
-        function(page) {
-          return $scope.pageIsVisible(page);
-        },
-      );
+      var visiblePageArray = _.filter($scope.validPages, function(page) {
+        return $scope.pageIsVisible(page);
+      });
 
       var previousPage =
         visiblePageArray[_.findIndex(visiblePageArray, { id: pageId }) - 1];
@@ -209,10 +216,9 @@ angular
     };
 
     $scope.registrantName = function(r) {
-      var nameBlock = _.find(
-        _.flatten(_.map(conference.registrationPages, 'blocks')),
-        { profileType: 'NAME' },
-      ).id;
+      var nameBlock = _.find(_.flatten(_.map($scope.validPages, 'blocks')), {
+        profileType: 'NAME',
+      }).id;
       var registrant = _.find($scope.currentRegistration.registrants, {
         id: r.id,
       });
