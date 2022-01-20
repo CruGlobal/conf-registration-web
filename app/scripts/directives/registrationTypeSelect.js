@@ -96,6 +96,13 @@ angular
 
         $scope.newRegistrant = function(type) {
           var newId = uuid();
+          // Filter through all pages and remove any empty pages
+          const validPages = $scope.conference.registrationPages.filter(
+            page =>
+              page.blocks.filter(block => !block.registrantTypes.includes(type))
+                .length > 0,
+          );
+
           $scope.currentRegistration.registrants.push({
             id: newId,
             registrationId: $scope.currentRegistration.id,
@@ -113,7 +120,7 @@ angular
                     '/' +
                     $scope.conference.id +
                     '/page/' +
-                    $scope.conference.registrationPages[0].id,
+                    validPages[0].id,
                 )
                 .search('reg', newId);
             },
