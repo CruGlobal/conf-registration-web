@@ -168,7 +168,7 @@
         <div class="col-sm-9 col-xs-6">
           <a
             ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
-              conference.registrationPages[0].id
+              validPages[0].id
             }}?reg={{ currentRegistration.registrants[0].id }}"
             class="btn btn-success btn-important btn-lg btn-block"
             translate
@@ -178,9 +178,6 @@
         </div>
       </div>
     </section>
-    <page
-      ng-repeat="page in conference.registrationPages"
-      ng-if="page.id == activePageId"
-    ></page>
+    <page ng-repeat="page in validPages" ng-if="page.id == activePageId"></page>
   </div>
 </div>
