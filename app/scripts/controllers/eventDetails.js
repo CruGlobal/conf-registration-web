@@ -537,9 +537,8 @@ angular
               $scope.originalConference = conference = angular.copy(
                 response.data,
               );
+              $scope.refreshAllowedRegistrantTypes();
             });
-
-            $scope.refreshAllowedRegistrantTypes();
 
             //Clear cache
             ConfCache.empty();
