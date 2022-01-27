@@ -81,6 +81,9 @@ angular
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
     $scope.currencies = currencies;
+    $scope.conference.locationCountry = conference.locationCountry
+      ? conference.locationCountry
+      : 'US';
 
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {
@@ -689,6 +692,17 @@ angular
         }
       }
     });
+
+    $scope.$watch(
+      'conference.locationCountry',
+      (newVal, oldVal) => {
+        if (oldVal !== newVal) {
+          $scope.conference.locationState = null;
+          $scope.conference.locationZipCode = null;
+        }
+      },
+      true,
+    );
 
     $scope.sortNamesWithNA = (v1, v2) => {
       return v1 === 'N/A' ? -1 : v1 < v2;

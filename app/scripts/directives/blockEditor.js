@@ -98,6 +98,19 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         };
       }
 
+      if (_.includes(['addressQuestion'], $scope.block.type)) {
+        $scope.answer = {
+          value: {
+            address1: null,
+            address2: null,
+            city: null,
+            state: null,
+            zip: null,
+            country: 'US',
+          },
+        };
+      }
+
       $scope.$watch(
         'answer',
         function(answer, oldAnswer) {

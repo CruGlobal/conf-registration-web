@@ -337,10 +337,21 @@ angular
             break;
           case 'addressQuestion':
             if (
-              _.isEmpty(answer.address1) ||
-              _.isEmpty(answer.state) ||
-              _.isEmpty(answer.city) ||
-              _.isEmpty(answer.zip)
+              answer.country !== 'US' &&
+              (_.isEmpty(answer.address1) ||
+                _.isEmpty(answer.city) ||
+                _.isEmpty(answer.country))
+            ) {
+              invalidBlocks.push(block.id);
+              return;
+            }
+            if (
+              answer.country === 'US' &&
+              (_.isEmpty(answer.address1) ||
+                _.isEmpty(answer.state) ||
+                _.isEmpty(answer.city) ||
+                _.isEmpty(answer.zip) ||
+                _.isEmpty(answer.country))
             ) {
               invalidBlocks.push(block.id);
               return;

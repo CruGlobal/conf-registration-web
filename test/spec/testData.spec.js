@@ -636,6 +636,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
               city: 'NYC',
               state: 'NY',
               zip: '11111',
+              country: 'US',
             },
             lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
