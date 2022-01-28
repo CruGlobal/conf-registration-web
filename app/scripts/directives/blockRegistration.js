@@ -87,14 +87,6 @@ angular
               ) {
                 return;
               }
-              // clear saved value of answer state and zip if address question and country changes
-              if (
-                answer.value.country &&
-                answer.value.country !== oldAnswer.value.country
-              ) {
-                answer.value.state = '';
-                answer.value.zip = '';
-              }
 
               RegistrationCache.updateCurrent(
                 $scope.conference.id,

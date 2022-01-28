@@ -1,3 +1,5 @@
+import { states } from './constants';
+
 angular
   .module('confRegistrationWebApp')
   .service('validateRegistrant', function validateRegistrant(
@@ -348,7 +350,7 @@ angular
             if (
               answer.country === 'US' &&
               (_.isEmpty(answer.address1) ||
-                _.isEmpty(answer.state) ||
+                (_.isEmpty(answer.state) || !states.includes(answer.state)) ||
                 _.isEmpty(answer.city) ||
                 _.isEmpty(answer.zip) ||
                 _.isEmpty(answer.country))
