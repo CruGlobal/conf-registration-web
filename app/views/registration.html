@@ -11,7 +11,7 @@
       >
         <a
           ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
-            conference.registrationPages[0].id
+            getValidFirstPage(r.id).id
           }}?reg={{ r.id }}"
         >
           {{ registrantName(r) }}
