@@ -24,7 +24,7 @@
           <h2 class="page-title border" translate>Event Information</h2>
           <p><strong>{{conference.name}}</strong></p>
           <p
-            ng-bind-html="conference.description | toTrustedHtml"
+            ng-bind-html="conference.description"
             ng-show="conference.description"
             class="display-linebreaks"
           ></p>
