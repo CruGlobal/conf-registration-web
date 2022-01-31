@@ -37,26 +37,33 @@ angular
     $scope.savingAnswers = false;
 
     $scope.activePageId = pageId || '';
-    $scope.page = _.find(conference.registrationPages, { id: pageId });
-    $scope.activePageIndex = _.findIndex($scope.conference.registrationPages, {
-      id: pageId,
-    });
     // Filter through all pages and remove any empty pages
     // Check for registrant needed since on the welcome page
     // user could possibly not have started registration yet
     $scope.validPages =
       $scope.currentRegistration.registrants.length >= 1
         ? $scope.conference.registrationPages.filter(page => {
+            const registrantId = $scope.currentRegistrant
+              ? $scope.currentRegistrant
+              : $scope.currentRegistration.registrants[0].id;
+
             return (
-              page.blocks.filter(
-                block =>
-                  !block.registrantTypes.includes(
-                    $scope.currentRegistration.registrants[0].registrantTypeId,
+              page.blocks.filter(block =>
+                validateRegistrant.blockVisible(
+                  block,
+                  currentRegistration.registrants.find(
+                    r => r.id === registrantId,
                   ),
+                ),
               ).length > 0
             );
           })
         : $scope.conference.registrationPages;
+
+    $scope.page = _.find($scope.validPages, { id: pageId });
+    $scope.activePageIndex = _.findIndex($scope.validPages, {
+      id: pageId,
+    });
     $scope.nextPage = function() {
       var visiblePageArray = _.filter($scope.validPages, function(page) {
         return $scope.pageIsVisible(page);
@@ -65,6 +72,17 @@ angular
         _.findIndex(visiblePageArray, { id: pageId }) + 1
       ];
     };
+
+    $scope.getValidFirstPage = registrantId =>
+      $scope.conference.registrationPages.filter(
+        page =>
+          page.blocks.filter(block =>
+            validateRegistrant.blockVisible(
+              block,
+              currentRegistration.registrants.find(r => r.id === registrantId),
+            ),
+          ).length > 0,
+      )[0];
 
     // If a page is refreshed in preview mode redirect to the registration welcome page.
     // A registrant data in preview mode is not stored in the backend, so after refreshing

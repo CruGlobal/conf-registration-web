@@ -178,7 +178,7 @@ angular
         });
     };
 
-    $scope.editRegistrant = function(id) {
+    $scope.editRegistrant = registrantId => {
       $location
         .path(
           '/' +
@@ -186,10 +186,20 @@ angular
             '/' +
             conference.id +
             '/page/' +
-            conference.registrationPages[0].id,
+            conference.registrationPages.filter(page =>
+              $scope.pageIsVisible(page, registrantId),
+            )[0].id,
         )
-        .search('reg', id);
+        .search('reg', registrantId);
     };
+
+    $scope.pageIsVisible = (page, registrantId) =>
+      page.blocks.filter(block =>
+        validateRegistrant.blockVisible(
+          block,
+          currentRegistration.registrants.find(r => r.id === registrantId),
+        ),
+      ).length > 0;
 
     $scope.removeRegistrant = function(id) {
       modalMessage

@@ -11,7 +11,7 @@
       >
         <a
           ng-href="{{ registerMode }}/{{ conference.id }}/page/{{
-            conference.registrationPages[0].id
+            getValidFirstPage(r.id).id
           }}?reg={{ r.id }}"
         >
           {{ registrantName(r) }}
@@ -86,7 +86,7 @@
     </div>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border" translate>Welcome</h2>
-      <p ng-bind="conference.description" class="display-linebreaks"></p>
+      <p ng-bind-html="conference.description" class="display-linebreaks"></p>
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading" translate>Event Dates</h2>
         <p>

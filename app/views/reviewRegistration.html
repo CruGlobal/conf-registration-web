@@ -28,7 +28,7 @@
         <h2 class="page-title border" class="page-title border details-heading">
           {{conference.name}}
         </h2>
-        <p ng-bind="conference.description" class="display-linebreaks"></p>
+        <p ng-bind-html="conference.description" class="display-linebreaks"></p>
 
         <strong translate>Event Dates</strong>
         <p>
