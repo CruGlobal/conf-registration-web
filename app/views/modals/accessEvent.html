@@ -39,10 +39,7 @@
     </div>
     <p><strong>{{selectedEvent.name}}</strong></p>
     <br />
-    <p
-      class="display-linebreaks"
-      ng-bind-html="selectedEvent.description | toTrustedHtml"
-    ></p>
+    <p class="display-linebreaks" ng-bind-html="selectedEvent.description"></p>
     <p>
       <strong translate>Dates:</strong> {{selectedEvent.eventStartTime |
       evtDateFormat: selectedEvent.eventTimezone}} -
