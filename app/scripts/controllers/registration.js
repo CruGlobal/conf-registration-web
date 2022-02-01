@@ -8,6 +8,7 @@ angular
     $location,
     $window,
     $http,
+    $filter,
     $q,
     $interval,
     RegistrationCache,
@@ -35,7 +36,12 @@ angular
     $scope.currentRegistration = currentRegistration;
     $scope.currentRegistrant = $routeParams.reg;
     $scope.savingAnswers = false;
-
+    $scope.displayAddress = $filter('eventAddressFormat')(
+      $scope.conference.locationCity,
+      $scope.conference.locationState,
+      $scope.conference.locationZipCode,
+      $scope.conference.locationCountry,
+    );
     $scope.activePageId = pageId || '';
     // Filter through all pages and remove any empty pages
     // Check for registrant needed since on the welcome page

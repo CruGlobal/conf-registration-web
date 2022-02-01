@@ -1,4 +1,4 @@
-import { states } from './constants';
+import { allCountries } from 'country-region-data';
 
 angular
   .module('confRegistrationWebApp')
@@ -350,7 +350,10 @@ angular
             if (
               answer.country === 'US' &&
               (_.isEmpty(answer.address1) ||
-                (_.isEmpty(answer.state) || !states.includes(answer.state)) ||
+                (_.isEmpty(answer.state) ||
+                  !allCountries[235][2]
+                    .map(r => r[0])
+                    .includes(answer.state)) ||
                 _.isEmpty(answer.city) ||
                 _.isEmpty(answer.zip) ||
                 _.isEmpty(answer.country))

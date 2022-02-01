@@ -8,6 +8,7 @@ angular
     $window,
     modalMessage,
     $http,
+    $filter,
     $q,
     currentRegistration,
     conference,
@@ -43,6 +44,12 @@ angular
     $scope.currentRegistration = currentRegistration;
     $scope.blocks = [];
     $scope.regValidate = [];
+    $scope.displayAddress = $filter('eventAddressFormat')(
+      $scope.conference.locationCity,
+      $scope.conference.locationState,
+      $scope.conference.locationZipCode,
+      $scope.conference.locationCountry,
+    );
 
     //check if group registration is allowed based on registrants already in registration
     if (!_.isEmpty(currentRegistration.registrants)) {

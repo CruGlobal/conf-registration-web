@@ -1,4 +1,5 @@
 import template from 'views/components/blockRegistration.html';
+import { allCountries } from 'country-region-data';
 
 angular
   .module('confRegistrationWebApp')
@@ -14,6 +15,7 @@ angular
         validateRegistrant,
       ) {
         $scope.isString = _.isString;
+        $scope.countries = allCountries;
 
         $onInit();
 
@@ -48,6 +50,12 @@ angular
           $scope.answer = answer;
           isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
+
+        $scope.currentRegions = country => {
+          return $scope.countries[
+            $scope.countries.map(c => c[1]).indexOf(country)
+          ][2];
+        };
 
         function initRegistrationMode() {
           const registrantId = $routeParams.reg;

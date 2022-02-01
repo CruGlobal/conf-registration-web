@@ -1,6 +1,7 @@
 import template from 'views/components/blockEditor.html';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
+import { allCountries } from 'country-region-data';
 
 angular.module('confRegistrationWebApp').directive('blockEditor', function() {
   return {
@@ -26,6 +27,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         (angular.isDefined($scope.block.endDateBlockId) &&
           $scope.block.endDateBlockId !== null);
 
+      $scope.countries = allCountries;
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
@@ -110,6 +112,12 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
           },
         };
       }
+
+      $scope.currentRegions = country => {
+        return $scope.countries[
+          $scope.countries.map(c => c[1]).indexOf(country)
+        ][2];
+      };
 
       $scope.$watch(
         'answer',

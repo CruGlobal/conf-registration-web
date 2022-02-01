@@ -6,6 +6,7 @@ import paymentOptionsTemplate from 'views/eventDetails/paymentOptions.html';
 import promotionsTemplate from 'views/eventDetails/promotions.html';
 import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
+import { allCountries } from 'country-region-data';
 
 angular
   .module('confRegistrationWebApp')
@@ -81,9 +82,16 @@ angular
     $scope.originalConference = conference;
     $scope.conference = angular.copy(conference);
     $scope.currencies = currencies;
+    $scope.countries = allCountries;
     $scope.conference.locationCountry = conference.locationCountry
       ? conference.locationCountry
       : 'US';
+    $scope.currentRegions =
+      $scope.countries[
+        $scope.countries
+          .map(c => c[1])
+          .indexOf($scope.conference.locationCountry)
+      ][2];
 
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {
@@ -697,8 +705,14 @@ angular
       'conference.locationCountry',
       (newVal, oldVal) => {
         if (oldVal !== newVal) {
-          $scope.conference.locationState = null;
+          $scope.currentRegions =
+            $scope.countries[
+              $scope.countries
+                .map(c => c[1])
+                .indexOf($scope.conference.locationCountry)
+            ][2];
           $scope.conference.locationZipCode = null;
+          $scope.conference.locationState = null;
         }
       },
       true,

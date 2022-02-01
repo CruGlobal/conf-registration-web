@@ -12,6 +12,7 @@
     "angular-ui-tree": "^2.4.0",
     "angular-wysiwyg": "https://github.com/TerryMooreII/angular-wysiwyg.git#6b7961cc45d150cfb2a215eda0a0b97fd82b8509",
     "bootstrap-sass": "^3.4.1",
+    "country-region-data": "^2.0.0",
     "cru-payments": "^1.2.2",
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
     "jquery": "^3.5.1",
