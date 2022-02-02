@@ -342,6 +342,14 @@ angular
               answer.country !== 'US' &&
               (_.isEmpty(answer.address1) ||
                 _.isEmpty(answer.city) ||
+                (allCountries[
+                  allCountries.map(c => c[1]).indexOf(answer.country)
+                ][2].length > 1 &&
+                  !allCountries[
+                    allCountries.map(c => c[1]).indexOf(answer.country)
+                  ][2]
+                    .map(r => r[1])
+                    .includes(answer.state)) ||
                 _.isEmpty(answer.country))
             ) {
               invalidBlocks.push(block.id);
@@ -352,7 +360,7 @@ angular
               (_.isEmpty(answer.address1) ||
                 (_.isEmpty(answer.state) ||
                   !allCountries[235][2]
-                    .map(r => r[0])
+                    .map(r => r[1])
                     .includes(answer.state)) ||
                 _.isEmpty(answer.city) ||
                 _.isEmpty(answer.zip) ||

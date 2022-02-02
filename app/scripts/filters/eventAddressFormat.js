@@ -3,18 +3,27 @@ import { allCountries } from 'country-region-data';
 angular
   .module('confRegistrationWebApp')
   .filter('eventAddressFormat', () => (city, state, zip, country) => {
+    const formattedState =
+      state &&
+      allCountries.reduce((result, currentCountry) => {
+        if (currentCountry[1] === country) {
+          result = currentCountry[2].filter(r => r[1] === state)[0][0];
+        }
+        return result;
+      }, '');
+
     const addressLine3 = city
       ? state
         ? zip
-          ? `${city}, ${state} ${zip}`
-          : `${city}, ${state}`
+          ? `${city}, ${formattedState} ${zip}`
+          : `${city}, ${formattedState}`
         : zip
         ? `${city} ${zip}`
         : `${city}`
-      : state
+      : formattedState
       ? zip
-        ? `${state} ${zip}`
-        : `${state}`
+        ? `${formattedState} ${zip}`
+        : `${formattedState}`
       : zip
       ? `${zip}`
       : '';

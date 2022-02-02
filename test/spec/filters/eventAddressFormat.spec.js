@@ -13,14 +13,14 @@ describe('Filter: eventAddressFormat', () => {
 
   it('should format address | City, State Zip', () => {
     expect(filter('City', 'FL', '55555', 'US')).toEqual({
-      addressLine3: 'City, FL 55555',
+      addressLine3: 'City, Florida 55555',
       addressCountry: 'United States',
     });
   });
 
   it('should format address | City, State', () => {
     expect(filter('City', 'FL', null, 'US')).toEqual({
-      addressLine3: 'City, FL',
+      addressLine3: 'City, Florida',
       addressCountry: 'United States',
     });
   });
@@ -41,14 +41,14 @@ describe('Filter: eventAddressFormat', () => {
 
   it('should format address | State Zip', () => {
     expect(filter(null, 'FL', '55555', 'US')).toEqual({
-      addressLine3: 'FL 55555',
+      addressLine3: 'Florida 55555',
       addressCountry: 'United States',
     });
   });
 
   it('should format address | Just State', () => {
     expect(filter(null, 'FL', null, 'US')).toEqual({
-      addressLine3: 'FL',
+      addressLine3: 'Florida',
       addressCountry: 'United States',
     });
   });

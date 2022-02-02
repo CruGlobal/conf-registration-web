@@ -41,8 +41,8 @@
       ng-required="block.required"
       class="form-control"
       ng-disabled="editBlock"
-      uib-tooltip="{{ conference.locationCountry !== 'US' ?
-      'Fill out only if applicable based on your events address.' : ''
+      uib-tooltip="{{ answer.value.country !== 'US' ?
+      'Fill out only if applicable based on your address.' : ''
       | translate
       }}"
       ng-if="currentRegions(answer.value.country).length > 1"
@@ -50,14 +50,14 @@
       <option value="" disabled selected>State/Region</option>
       <option
         ng-repeat="region in currentRegions(answer.value.country)"
-        ng-value="region[0]"
+        ng-value="region[1]"
         >{{region[0]}}
       </option>
     </select>
     <input
       show-errors="group"
       uib-tooltip="{{ 
-        'Fill out only if applicable based on your events address.' 
+        'Fill out only if applicable based on your address.' 
         | translate 
       }}"
       type="text"
@@ -67,6 +67,7 @@
       ng-required="block.required"
       ng-disabled="editBlock"
       ng-if="currentRegions(answer.value.country).length <= 1"
+      placeholder="{{ 'State/Region' | translate }}"
     />
   </div>
   <div class="col-sm-3">
