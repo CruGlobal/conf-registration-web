@@ -5,11 +5,19 @@ angular
   .filter('eventAddressFormat', () => (city, state, zip, country) => {
     const addressLine3 = city
       ? state
-        ? `${city}, ${state} ${zip}`
-        : `${city} ${zip}`
+        ? zip
+          ? `${city}, ${state} ${zip}`
+          : `${city}, ${state}`
+        : zip
+        ? `${city} ${zip}`
+        : `${city}`
       : state
-      ? `${state} ${zip}`
-      : `${zip}`;
+      ? zip
+        ? `${state} ${zip}`
+        : `${state}`
+      : zip
+      ? `${zip}`
+      : '';
 
     const addressCountry =
       allCountries[allCountries.map(c => c[1]).indexOf(country)][0];
