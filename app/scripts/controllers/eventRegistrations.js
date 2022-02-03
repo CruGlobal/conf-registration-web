@@ -460,6 +460,7 @@ angular
       $uibModal.open({
         component: 'exportModal',
         resolve: {
+          queryParameters: () => $scope.queryParameters,
           conference: () => $scope.conference,
         },
       });
