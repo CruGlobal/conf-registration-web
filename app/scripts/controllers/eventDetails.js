@@ -6,6 +6,7 @@ import paymentOptionsTemplate from 'views/eventDetails/paymentOptions.html';
 import promotionsTemplate from 'views/eventDetails/promotions.html';
 import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
+import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 
 angular
   .module('confRegistrationWebApp')
@@ -58,6 +59,10 @@ angular
         view: contactInfoTemplate,
       },
     ];
+
+    $scope.descriptionPopup = {
+      titleTemplateUrl: popupHyperlinkInformationTemplate,
+    };
 
     $scope.changeTab = function(tab) {
       $scope.activeTab = tab;
