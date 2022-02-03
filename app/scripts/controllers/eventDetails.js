@@ -267,6 +267,23 @@ angular
         );
       }
 
+      //Event Location
+      if (_.isEmpty($scope.conference.locationName)) {
+        validationErrors.push('Please enter an event location name.');
+      }
+      if (_.isEmpty($scope.conference.locationAddress)) {
+        validationErrors.push('Please enter an event location address.');
+      }
+      if (_.isEmpty($scope.conference.locationCity)) {
+        validationErrors.push('Please enter an event location city.');
+      }
+      if (_.isEmpty($scope.conference.locationState)) {
+        validationErrors.push('Please enter an event location state.');
+      }
+      if (_.isEmpty($scope.conference.locationZipCode)) {
+        validationErrors.push('Please enter an event location postal code.');
+      }
+
       //Registration Window
       if (
         $scope.conference.registrationStartTime >
