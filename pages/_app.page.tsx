@@ -1,8 +1,12 @@
 // import App from "next/app";
 import type { AppProps /*, AppContext */ } from 'next/app';
+import angular from 'angular';
 import 'styles/style.scss';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // eslint-disable-next-line angular/document-service
+  angular.bootstrap(document.createElement('div'), ['confRegistrationWebApp']);
+
   return <Component {...pageProps} />;
 }
 

@@ -1,5 +1,5 @@
 import angular from 'angular';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { react2angular } from 'react2angular';
 
 export const FormStatusPopover = (): ReactElement => {

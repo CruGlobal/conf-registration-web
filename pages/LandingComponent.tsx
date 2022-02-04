@@ -2,6 +2,7 @@ import angular from 'angular';
 import { angular2react } from 'angular2react';
 
 import '../app/scripts/main';
+// @ts-ignore
 import landingTemplate from 'views/landing.html';
 
 const LandingComponentConfig = {
@@ -12,9 +13,6 @@ const LandingComponentConfig = {
 angular
   .module('confRegistrationWebApp')
   .component('landingComponent', LandingComponentConfig);
-
-// eslint-disable-next-line angular/document-service
-angular.bootstrap(document.createElement('div'), ['confRegistrationWebApp']);
 
 const LandingComponent = angular2react(
   'landingComponent',
