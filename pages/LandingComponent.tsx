@@ -1,22 +1,10 @@
-import angular from 'angular';
 import { angular2react } from 'angular2react';
 
-import '../app/scripts/main';
-// @ts-ignore
-import landingTemplate from 'views/landing.html';
-
-const LandingComponentConfig = {
-  controller: 'landingCtrl',
-  templateUrl: landingTemplate,
-};
-
-angular
-  .module('confRegistrationWebApp')
-  .component('landingComponent', LandingComponentConfig);
+import 'app/scripts/main';
 
 const LandingComponent = angular2react(
   'landingComponent',
-  LandingComponentConfig,
+  {}, // angular2react only uses this for bindings. If bindings are needed, this config will need to be shared with/copied from the AngularJS component definition
 );
 
 export default LandingComponent;

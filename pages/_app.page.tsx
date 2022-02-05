@@ -1,14 +1,10 @@
 // import App from "next/app";
 import type { AppProps /*, AppContext */ } from 'next/app';
-import angular from 'angular';
 import 'styles/style.scss';
 
-function MyApp({ Component, pageProps }: AppProps) {
-  // eslint-disable-next-line angular/document-service
-  angular.bootstrap(document.createElement('div'), ['confRegistrationWebApp']);
-
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return <Component {...pageProps} />;
-}
+};
 
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
