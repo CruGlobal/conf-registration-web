@@ -1,4 +1,5 @@
 import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import { allCountries } from 'country-region-data';
 
 import template from 'views/components/payment.html';
 import creditCardTemplate from 'views/paymentMethods/creditCard.html';
@@ -32,7 +33,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
-
+      $scope.countries = allCountries;
+      $scope.currentRegions = country =>
+        allCountries.find(c => c[1] === country)[2];
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
         OFFLINE_CREDIT_CARD: creditCardOfflineTemplate,
@@ -323,6 +326,13 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
         $scope.currentPayment.errors = paymentErrors;
       };
       $scope.$watch('currentPayment', $scope.validatePayment, true);
+
+      $scope.$watch('creditCardCountry', (newVal, oldVal) => {
+        if (oldVal !== newVal) {
+          $scope.currentPayment.creditCard.billing = null;
+          $scope.currentPayment.creditCard.billingZip = null;
+        }
+      });
 
       function transformEmployeeIdIntoAccountNumber() {
         let employeeId = $rootScope.globalUser().employeeId.replace(/\D/g, '');
