@@ -3,14 +3,14 @@ import { allCountries } from 'country-region-data';
 angular
   .module('confRegistrationWebApp')
   .filter('eventAddressFormat', () => (city, state, zip, country) => {
+    // Existing conferences will have a default country value of an empty string
+    // To prevent issues, default their country to 'US' if country is falsey
+    const currentCountry = country ? country : 'US';
     const formattedState =
       state &&
-      allCountries.reduce((result, currentCountry) => {
-        if (currentCountry[1] === country) {
-          result = currentCountry[2].filter(r => r[1] === state)[0][0];
-        }
-        return result;
-      }, '');
+      allCountries
+        .find(c => c[1] === currentCountry)[2]
+        .filter(r => r[1] === state)[0][0];
 
     const addressLine3 = city
       ? state
@@ -28,9 +28,7 @@ angular
       ? `${zip}`
       : '';
 
-    const addressCountry = country
-      ? allCountries[allCountries.map(c => c[1]).indexOf(country)][0]
-      : 'United States';
+    const addressCountry = allCountries.find(c => c[1] === currentCountry)[0];
 
     return {
       addressLine3,
