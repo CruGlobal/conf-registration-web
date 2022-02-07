@@ -28,8 +28,9 @@ angular
       ? `${zip}`
       : '';
 
-    const addressCountry =
-      allCountries[allCountries.map(c => c[1]).indexOf(country)][0];
+    const addressCountry = country
+      ? allCountries[allCountries.map(c => c[1]).indexOf(country)][0]
+      : 'United States';
 
     return {
       addressLine3,

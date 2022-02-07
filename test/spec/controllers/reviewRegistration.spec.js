@@ -25,13 +25,13 @@ describe('Controller: ReviewRegistrationCtrl', function() {
     }),
   );
 
-  xit('findAnswer should return answer', function() {
+  it('findAnswer should return answer', function() {
     expect(scope.findAnswer('9b83eebd-b064-4edf-92d0-7982a330272a').value).toBe(
       'M',
     );
   });
 
-  xit('blockVisibleForRegistrant should be true', function() {
+  it('blockVisibleForRegistrant should be true', function() {
     expect(
       scope.blockVisibleForRegistrant(
         scope.conference.registrationPages[1].blocks[0],
@@ -40,7 +40,7 @@ describe('Controller: ReviewRegistrationCtrl', function() {
     ).toBe(true);
   });
 
-  xit('registrantDeletable should be possible when allowEditRegistrationAfterComplete set to true', function() {
+  it('registrantDeletable should be possible when allowEditRegistrationAfterComplete set to true', function() {
     scope.conference.allowEditRegistrationAfterComplete = true;
 
     expect(
@@ -50,13 +50,13 @@ describe('Controller: ReviewRegistrationCtrl', function() {
     ).toBe(true);
   });
 
-  xit('registrantDeletable should not be possible when allowEditRegistrationAfterComplete set to false', function() {
+  it('registrantDeletable should not be possible when allowEditRegistrationAfterComplete set to false', function() {
     scope.conference.allowEditRegistrationAfterComplete = false;
 
     expect(scope.registrantDeletable({})).toBe(false);
   });
 
-  xit('registrantDeletable should not be possible when removing primary registrant', function() {
+  it('registrantDeletable should not be possible when removing primary registrant', function() {
     scope.conference.allowEditRegistrationAfterComplete = true;
 
     expect(
@@ -66,7 +66,7 @@ describe('Controller: ReviewRegistrationCtrl', function() {
     ).toBe(false);
   });
 
-  xit('confirmRegistration should redirect to the primary registrant type redirect url', function() {
+  it('confirmRegistration should redirect to the primary registrant type redirect url', function() {
     scope.currentRegistration.completed = true;
     scope.navigateToPostRegistrationPage();
 

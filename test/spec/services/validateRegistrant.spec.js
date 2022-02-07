@@ -95,7 +95,7 @@ describe('Service: validateRegistrant', function() {
     var conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[7].required = true;
 
-    // var registrant = angular.copy(testData.registration.registrants[0]);
+    var registrant = angular.copy(testData.registration.registrants[0]);
 
     var registrantAddress1 = angular.copy(testData.registration.registrants[0]);
     registrantAddress1.answers[8].value = { address1: '' };
@@ -113,8 +113,8 @@ describe('Service: validateRegistrant', function() {
       testData.registration.registrants[0],
     );
     registrantCountry.answers[8].value = { country: '' };
-    // TODO Fix issue with country-region-data import
-    // expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
 
     expect(
       validateRegistrant.validate(conference, registrantAddress1).length,
@@ -154,8 +154,7 @@ describe('Service: validateRegistrant', function() {
     );
     registrantCountry.answers[8].value = { country: '' };
 
-    // TODO Fix issue with country-region-data import
-    // expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
 
     expect(
       validateRegistrant.validate(conference, registrantCountry).length,
