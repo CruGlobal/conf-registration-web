@@ -2,6 +2,7 @@ import template from 'views/components/blockEditor.html';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
+import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular.module('confRegistrationWebApp').directive('blockEditor', function() {
   return {
@@ -113,11 +114,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         };
       }
 
-      $scope.currentRegions = country => {
-        return $scope.countries[
-          $scope.countries.map(c => c[1]).indexOf(country)
-        ][2];
-      };
+      $scope.currentRegions = country => getCurrentRegions(country);
 
       $scope.$watch(
         'answer',

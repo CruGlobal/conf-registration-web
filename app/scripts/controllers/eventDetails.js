@@ -8,6 +8,7 @@ import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
 import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
+import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular
   .module('confRegistrationWebApp')
@@ -91,12 +92,9 @@ angular
     $scope.conference.locationCountry = conference.locationCountry
       ? conference.locationCountry
       : 'US';
-    $scope.currentRegions =
-      $scope.countries[
-        $scope.countries
-          .map(c => c[1])
-          .indexOf($scope.conference.locationCountry)
-      ][2];
+    $scope.currentRegions = getCurrentRegions(
+      $scope.conference.locationCountry,
+    );
 
     $scope.refreshAllowedRegistrantTypes = function() {
       $scope.conference.registrantTypes.forEach(type => {
@@ -710,12 +708,9 @@ angular
       'conference.locationCountry',
       (newVal, oldVal) => {
         if (oldVal !== newVal) {
-          $scope.currentRegions =
-            $scope.countries[
-              $scope.countries
-                .map(c => c[1])
-                .indexOf($scope.conference.locationCountry)
-            ][2];
+          $scope.currentRegions = getCurrentRegions(
+            $scope.conference.locationCountry,
+          );
           $scope.conference.locationZipCode = null;
           $scope.conference.locationState = null;
         }

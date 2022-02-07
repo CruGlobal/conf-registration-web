@@ -11,6 +11,7 @@ import scholarshipAdminTemplate from 'views/paymentMethods/scholarshipAdmin.html
 import scholarshipTemplate from 'views/paymentMethods/scholarship.html';
 import payOnSiteTemplate from 'views/paymentMethods/payOnSite.html';
 import additionalExpenseTemplate from 'views/paymentMethods/additionalExpense.html';
+import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular.module('confRegistrationWebApp').directive('ertPayment', function() {
   return {
@@ -34,8 +35,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
       $scope.countries = allCountries;
-      $scope.currentRegions = country =>
-        allCountries.find(c => c[1] === country)[2];
+      $scope.currentRegions = country => getCurrentRegions(country);
+
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
         OFFLINE_CREDIT_CARD: creditCardOfflineTemplate,
@@ -329,7 +330,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
 
       $scope.$watch('creditCardCountry', (newVal, oldVal) => {
         if (oldVal !== newVal) {
-          $scope.currentPayment.creditCard.billing = null;
+          $scope.currentPayment.creditCard.billingState = null;
           $scope.currentPayment.creditCard.billingZip = null;
         }
       });

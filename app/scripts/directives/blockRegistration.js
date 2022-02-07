@@ -1,5 +1,6 @@
 import template from 'views/components/blockRegistration.html';
 import { allCountries } from 'country-region-data';
+import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular
   .module('confRegistrationWebApp')
@@ -51,11 +52,7 @@ angular
           isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
 
-        $scope.currentRegions = country => {
-          return $scope.countries[
-            $scope.countries.map(c => c[1]).indexOf(country)
-          ][2];
-        };
+        $scope.currentRegions = country => getCurrentRegions(country);
 
         function initRegistrationMode() {
           const registrantId = $routeParams.reg;

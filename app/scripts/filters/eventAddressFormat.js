@@ -37,3 +37,6 @@ angular
       addressCountry,
     };
   });
+
+export const getCurrentRegions = country =>
+  allCountries.find(c => c[1] === country)[2];
