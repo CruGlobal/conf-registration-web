@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .controller('oktaDescriptionCtrl', function($rootScope) {
+  .controller('oktaDescriptionCtrl', function ($rootScope) {
     $rootScope.globalPage = {
       type: 'landing',
       mainClass: 'container',

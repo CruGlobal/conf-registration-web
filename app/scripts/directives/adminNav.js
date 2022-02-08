@@ -2,23 +2,23 @@ import template from 'views/components/adminNav.html';
 
 angular
   .module('confRegistrationWebApp')
-  .directive('adminNav', function($http, ConfCache, modalMessage) {
+  .directive('adminNav', function ($http, ConfCache, modalMessage) {
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function(
+      controller: function (
         $scope,
         $location,
         PermissionCache,
         permissionConstants,
       ) {
-        $scope.isActive = function(viewLocation) {
+        $scope.isActive = function (viewLocation) {
           return (
             viewLocation === $location.path().substr(0, viewLocation.length)
           );
         };
-        $scope.archiveEvent = function(conferenceId) {
-          PermissionCache.getForConference(conferenceId).then(function(
+        $scope.archiveEvent = function (conferenceId) {
+          PermissionCache.getForConference(conferenceId).then(function (
             permissions,
           ) {
             if (permissions.permissionInt < permissionConstants.FULL) {
@@ -37,8 +37,8 @@ angular
                 noString: 'Cancel',
                 normalSize: true,
               })
-              .then(function() {
-                ConfCache.get(conferenceId).then(function(conference) {
+              .then(function () {
+                ConfCache.get(conferenceId).then(function (conference) {
                   conference.archived = true;
 
                   $http({
@@ -46,14 +46,14 @@ angular
                     url: 'conferences/' + conferenceId,
                     data: conference,
                   })
-                    .then(function() {
+                    .then(function () {
                       //Clear cache
                       ConfCache.empty();
 
                       //redirect to dashboard
                       $location.path('/eventDashboard');
                     })
-                    .catch(function(response) {
+                    .catch(function (response) {
                       modalMessage.error(
                         response.data && response.data.error
                           ? response.data.error.message

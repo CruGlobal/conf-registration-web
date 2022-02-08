@@ -24,14 +24,14 @@ angular
       },
       link: ($scope, el) => {
         function getFile(file) {
-          readFile(file, $scope).then(result => {
+          readFile(file, $scope).then((result) => {
             $timeout(() => {
               $scope.ngModel = result;
             });
           });
         }
 
-        el.bind('change', e => {
+        el.bind('change', (e) => {
           getFile((e.srcElement || e.target).files[0]);
         });
       },

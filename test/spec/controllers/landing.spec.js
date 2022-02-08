@@ -1,13 +1,13 @@
 import 'angular-mocks';
 import moment from 'moment';
 
-describe('Controller: landingCtrl', function() {
+describe('Controller: landingCtrl', function () {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject(function($rootScope, $controller) {
+    angular.mock.inject(function ($rootScope, $controller) {
       scope = $rootScope.$new();
 
       $controller('landingCtrl', {
@@ -24,7 +24,7 @@ describe('Controller: landingCtrl', function() {
       };
     });
 
-    it('should return true if not set', function() {
+    it('should return true if not set', function () {
       expect(scope.dateFilter({ eventStartTime: moment() })).toEqual(true);
 
       expect(
@@ -32,7 +32,7 @@ describe('Controller: landingCtrl', function() {
       ).toEqual(true);
     });
 
-    it('should return true for This Week', function() {
+    it('should return true for This Week', function () {
       scope.eventFilters.date = 'This Week';
 
       expect(
@@ -44,7 +44,7 @@ describe('Controller: landingCtrl', function() {
       ).toEqual(false);
     });
 
-    it('should return true for Next Week', function() {
+    it('should return true for Next Week', function () {
       scope.eventFilters.date = 'Next Week';
 
       expect(
@@ -56,7 +56,7 @@ describe('Controller: landingCtrl', function() {
       ).toEqual(true);
     });
 
-    it('should return true for This Month', function() {
+    it('should return true for This Month', function () {
       scope.eventFilters.date = 'This Month';
 
       expect(
@@ -72,7 +72,7 @@ describe('Controller: landingCtrl', function() {
       ).toEqual(false);
     });
 
-    it('should return true for Next Month', function() {
+    it('should return true for Next Month', function () {
       scope.eventFilters.date = 'Next Month';
 
       expect(
@@ -84,7 +84,7 @@ describe('Controller: landingCtrl', function() {
       ).toEqual(true);
     });
 
-    it('should return true for Greater Than Next Month', function() {
+    it('should return true for Greater Than Next Month', function () {
       scope.eventFilters.date = 'Greater Than Next Month';
 
       expect(

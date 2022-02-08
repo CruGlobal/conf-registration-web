@@ -5,7 +5,7 @@ describe('Service: logoutService', () => {
   let cookieValue = null;
 
   beforeEach(
-    angular.mock.module('confRegistrationWebApp', $provide => {
+    angular.mock.module('confRegistrationWebApp', ($provide) => {
       $provide.value('$window', { location: { href: 'dummy' } });
       $provide.value('$cookies', {
         get: () => {

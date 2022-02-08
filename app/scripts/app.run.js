@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .run(function(
+  .run(function (
     $rootScope,
     $cookies,
     $location,
@@ -34,11 +34,11 @@ angular
       });
     });
 
-    $rootScope.globalUser = function() {
+    $rootScope.globalUser = function () {
       return ProfileCache.globalUser();
     };
 
-    $rootScope.globalGreetingName = function() {
+    $rootScope.globalGreetingName = function () {
       return ProfileCache.globalGreetingName();
     };
 

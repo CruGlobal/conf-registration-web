@@ -4,21 +4,21 @@ console.log('**********************USING MOCK BACKEND**********************');
 
 angular
   .module('confRegistrationWebApp')
-  .config(function($httpProvider) {
+  .config(function ($httpProvider) {
     //remove urlInterceptor
     var i = $httpProvider.interceptors.indexOf('httpUrlInterceptor');
     if (i !== -1) {
       $httpProvider.interceptors.splice(i, 1);
     }
   })
-  .run(function($httpBackend, testData, uuid) {
-    $httpBackend.whenGET(/^conferences\/?$/).respond(function() {
+  .run(function ($httpBackend, testData, uuid) {
+    $httpBackend.whenGET(/^conferences\/?$/).respond(function () {
       var headers = {};
       return [200, [testData.conference], headers];
     });
     $httpBackend
       .whenPOST(/^conferences\/?$/)
-      .respond(function(verb, url, data) {
+      .respond(function (verb, url, data) {
         console.log(arguments);
 
         var conference = angular.extend(angular.fromJson(data), { id: uuid() });
@@ -28,14 +28,16 @@ angular
         };
         return [201, conference, headers];
       });
-    $httpBackend.whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/).respond(function() {
-      //var conferenceId = url.split('/')[1];
-      var conference = testData.conference;
-      return [200, conference, {}];
-    });
+    $httpBackend
+      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/?$/)
+      .respond(function () {
+        //var conferenceId = url.split('/')[1];
+        var conference = testData.conference;
+        return [200, conference, {}];
+      });
     $httpBackend
       .whenPUT(/^conferences\/[-a-zA-Z0-9]+\/?$/)
-      .respond(function(verb, url, data) {
+      .respond(function (verb, url, data) {
         //var conferenceId = url.split('/')[1];
 
         return [200, data, {}];
@@ -43,13 +45,13 @@ angular
 
     $httpBackend
       .whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/)
-      .respond(function() {
+      .respond(function () {
         //var conferenceId = url.split('/')[1];
         return [200, [testData.registration], {}];
       });
     $httpBackend
       .whenPOST(/^conferences\/[-a-zA-Z0-9]+\/registrations\/?$/)
-      .respond(function(verb, url) {
+      .respond(function (verb, url) {
         console.log(arguments);
         var registrationId = uuid();
 
@@ -57,13 +59,13 @@ angular
 
         var conference = testData.conference;
         var blocks = [];
-        angular.forEach(conference.pages, function(page) {
-          angular.forEach(page.blocks, function(block) {
+        angular.forEach(conference.pages, function (page) {
+          angular.forEach(page.blocks, function (block) {
             blocks.push(block);
           });
         });
         var answers = [];
-        angular.forEach(blocks, function(block) {
+        angular.forEach(blocks, function (block) {
           answers.push({
             id: registrationId,
             block: block.id,
@@ -93,7 +95,7 @@ angular
       });
     $httpBackend
       .whenGET(/^conferences\/[-a-zA-Z0-9]+\/registrations\/current\/?$/)
-      .respond(function(verb, url) {
+      .respond(function (verb, url) {
         console.log(arguments);
 
         var conferenceId = url.split('/')[1];
@@ -112,7 +114,7 @@ angular
       });
     $httpBackend
       .whenGET(/^registrations\/[-a-zA-Z0-9]+\/?$/)
-      .respond(function(verb, url) {
+      .respond(function (verb, url) {
         console.log(arguments);
 
         var registrationId = url.split('/')[1];
@@ -128,7 +130,7 @@ angular
 
     $httpBackend
       .whenPUT(/^answers\/[-a-zA-Z0-9]+\/?$/)
-      .respond(function(verb, url, data) {
+      .respond(function (verb, url, data) {
         console.log(arguments);
         var answer = angular.fromJson(data);
 

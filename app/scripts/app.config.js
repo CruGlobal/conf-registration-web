@@ -15,7 +15,7 @@ import oktaDescriptionTemplate from 'views/oktaDescription.html';
 
 angular
   .module('confRegistrationWebApp')
-  .config(function(
+  .config(function (
     $locationProvider,
     $httpProvider,
     $qProvider,
@@ -80,7 +80,7 @@ angular
       .when('/register/:conferenceId', {
         title: gettext('Register'),
         resolve: {
-          redirect: function($location, $route) {
+          redirect: function ($location, $route) {
             $location.path(
               '/register/' + $route.current.params.conferenceId + '/page/',
             );
@@ -96,10 +96,10 @@ angular
           allowNoneAuth: true,
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          currentRegistration: function(
+          currentRegistration: function (
             $route,
             $q,
             $location,
@@ -108,7 +108,7 @@ angular
           ) {
             var q = $q.defer();
             RegistrationCache.getCurrent($route.current.params.conferenceId)
-              .then(function(registration) {
+              .then(function (registration) {
                 if (
                   registration.completed &&
                   angular.isUndefined($route.current.params.pageId)
@@ -120,7 +120,7 @@ angular
                   q.resolve(registration);
                 }
               })
-              .catch(function(error) {
+              .catch(function (error) {
                 $rootScope.currentRegistrationErrorMessage = error;
                 q.resolve(null);
               });
@@ -145,15 +145,15 @@ angular
           allowNoneAuth: true,
         },
         resolve: {
-          currentRegistration: function($route, RegistrationCache) {
+          currentRegistration: function ($route, RegistrationCache) {
             RegistrationCache.emptyCache();
             return RegistrationCache.getCurrent(
               $route.current.params.conferenceId,
-            ).then(function(currentRegistration) {
+            ).then(function (currentRegistration) {
               return currentRegistration;
             });
           },
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
         },
@@ -166,10 +166,10 @@ angular
           requireLogin: true,
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          currentRegistration: function($route, RegistrationCache) {
+          currentRegistration: function ($route, RegistrationCache) {
             return RegistrationCache.getCurrent(
               $route.current.params.conferenceId,
             );
@@ -184,7 +184,7 @@ angular
           requireLogin: true,
         },
         resolve: {
-          conferences: function($route, ConfCache) {
+          conferences: function ($route, ConfCache) {
             return ConfCache.get('');
           },
         },
@@ -198,7 +198,7 @@ angular
           eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
         },
@@ -212,10 +212,10 @@ angular
           eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
-          permissions: function($route, PermissionCache) {
+          permissions: function ($route, PermissionCache) {
             return PermissionCache.getForConference(
               $route.current.params.conferenceId,
             );
@@ -231,21 +231,21 @@ angular
           eventAdminPermissionLevel: 'VIEW',
         },
         resolve: {
-          report: function($route, paymentReportService) {
+          report: function ($route, paymentReportService) {
             return paymentReportService.getReport(
               $route.current.params.conferenceId,
               {},
             );
           },
-          reportList: function($route, paymentReportService) {
+          reportList: function ($route, paymentReportService) {
             return paymentReportService.getAll(
               $route.current.params.conferenceId,
             );
           },
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
-          permissions: function($route, PermissionCache) {
+          permissions: function ($route, PermissionCache) {
             return PermissionCache.getForConference(
               $route.current.params.conferenceId,
             );
@@ -286,7 +286,7 @@ angular
           eventAdminPermissionLevel: 'UPDATE',
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
         },
@@ -300,15 +300,15 @@ angular
           eventAdminPermissionLevel: 'UPDATE',
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId, true);
           },
-          currencies: function(ConfCache) {
+          currencies: function (ConfCache) {
             return ConfCache.initCurrencies()
-              .then(function(data) {
+              .then(function (data) {
                 return data;
               })
-              .catch(function() {
+              .catch(function () {
                 return [];
               });
           },
@@ -323,10 +323,10 @@ angular
           eventAdminPermissionLevel: 'FULL',
         },
         resolve: {
-          conference: function($route, ConfCache) {
+          conference: function ($route, ConfCache) {
             return ConfCache.get($route.current.params.conferenceId);
           },
-          conferencePermissions: function($route, ConfCache) {
+          conferencePermissions: function ($route, ConfCache) {
             return ConfCache.getPermissions($route.current.params.conferenceId);
           },
         },
@@ -348,12 +348,12 @@ angular
             '$route',
             '$rootScope',
             'ProfileCache',
-            function($location, $cookies, $route, $rootScope, ProfileCache) {
+            function ($location, $cookies, $route, $rootScope, ProfileCache) {
               $cookies.put('crsAuthProviderType', '');
               $cookies.put('crsToken', $route.current.params.token);
               $rootScope.crsToken = $cookies.get('crsToken');
               ProfileCache.getCache()
-                .then(function(data) {
+                .then(function (data) {
                   $cookies.put('crsAuthProviderType', data.authProviderType);
                 })
                 .catch(() => {
@@ -384,7 +384,7 @@ angular
       })
       .when('/logout', {
         title: gettext('Signing Out'),
-        resolveRedirectTo: /*@ngInject*/ function(
+        resolveRedirectTo: /*@ngInject*/ function (
           $location,
           $cookies,
           $window,
@@ -397,7 +397,7 @@ angular
           return $http
             .get('auth/logout')
             .catch(angular.noop)
-            .then(response => {
+            .then((response) => {
               $cookies.remove('crsToken');
               ProfileCache.clearCache();
               logoutService.logoutFormProviders(response);

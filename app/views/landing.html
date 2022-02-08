@@ -29,7 +29,8 @@
                   ng-repeat="e in searchResults | unique: 'locationName' | orderBy: 'locationName'"
                   value="{{e.locationName}}"
                   ng-if="e.locationName"
-                  >{{e.locationName}} ({{e._count}})
+                >
+                  {{e.locationName}} ({{e._count}})
                 </option>
               </select>
             </div>
@@ -43,7 +44,8 @@
                 <option
                   ng-repeat="d in ['This Week', 'This Month', 'Next Month', 'Greater Than Next Month']"
                   ng-value="d"
-                  >{{d}}
+                >
+                  {{d}}
                 </option>
               </select>
             </div>
