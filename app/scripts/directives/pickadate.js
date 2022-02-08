@@ -3,7 +3,7 @@ import template from 'views/components/pickadate.html';
 
 angular
   .module('confRegistrationWebApp')
-  .directive('pickADate', function(DateRangeService) {
+  .directive('pickADate', function (DateRangeService) {
     return {
       templateUrl: template,
       restrict: 'E',
@@ -14,14 +14,14 @@ angular
         minDate: '=?pickerMinDate',
         maxDate: '=?pickerMaxDate',
       },
-      link: function(scope, element, attr, ngModelController) {
+      link: function (scope, element, attr, ngModelController) {
         //load date value from model into datepicker
         var loaded = false;
         scope.$watch(
-          function() {
+          function () {
             return ngModelController.$viewValue;
           },
-          function(value) {
+          function (value) {
             if (!loaded && !_.isEmpty(value)) {
               //only set value of picker to value of model once when directive is first loaded
               scope.picker.set('select', value, {
@@ -52,7 +52,7 @@ angular
           .pickadate('picker');
 
         //function to set min date
-        scope.setMinDate = function() {
+        scope.setMinDate = function () {
           if (!angular.isUndefined(scope.minDate) && scope.minDate !== '') {
             var dateArray = scope.minDate.split('-');
             dateArray[1] = dateArray[1] - 1;
@@ -61,7 +61,7 @@ angular
         };
 
         //function to set max date
-        scope.setMaxDate = function() {
+        scope.setMaxDate = function () {
           if (!angular.isUndefined(scope.maxDate) && scope.maxDate !== '') {
             var dateArray = scope.maxDate.split('-');
             dateArray[1] = dateArray[1] - 1;
@@ -70,7 +70,7 @@ angular
         };
 
         //function to correct current selected date if min and max date changed
-        scope.checkDateRange = function() {
+        scope.checkDateRange = function () {
           if (
             angular.isUndefined(scope.picker.get('select', 'yyyy-mm-dd')) ||
             scope.picker.get('select', 'yyyy-mm-dd') === '' ||
@@ -106,7 +106,7 @@ angular
 
         scope.$watch(
           'minDate',
-          function(newMinDate) {
+          function (newMinDate) {
             if (angular.isUndefined(newMinDate) || newMinDate === '') {
               scope.picker.set('min', false);
               return;
@@ -122,7 +122,7 @@ angular
 
         scope.$watch(
           'maxDate',
-          function(newMaxDate) {
+          function (newMaxDate) {
             if (angular.isUndefined(newMaxDate) || newMaxDate === '') {
               scope.picker.set('max', false);
               return;
@@ -137,7 +137,7 @@ angular
         );
 
         //when date is chosen, update model
-        var onSet = function() {
+        var onSet = function () {
           const value = scope.picker.get('select', 'yyyy-mm-dd');
 
           ngModelController.$setViewValue(value);
@@ -151,10 +151,10 @@ angular
 
         //disable picker when disabled attribute is true
         scope.$watch(
-          function() {
+          function () {
             return scope.disabled;
           },
-          function(disabled) {
+          function (disabled) {
             if (disabled) {
               scope.picker.stop(); //this destroys the onSet event callback
             } else {
@@ -168,7 +168,7 @@ angular
         );
 
         //open datepicker when icon is clicked
-        scope.open = function(event) {
+        scope.open = function (event) {
           scope.picker.open();
           event.stopPropagation();
         };

@@ -1,142 +1,140 @@
 angular
   .module('confRegistrationWebApp')
-  .service('RegistrationCache', function RegistrationCache(
-    $cacheFactory,
-    $rootScope,
-    $http,
-    $q,
-  ) {
-    var cache = $cacheFactory('registration');
-    var path = function(id) {
-      return 'registrations/' + (id || '');
-    };
+  .service(
+    'RegistrationCache',
+    function RegistrationCache($cacheFactory, $rootScope, $http, $q) {
+      var cache = $cacheFactory('registration');
+      var path = function (id) {
+        return 'registrations/' + (id || '');
+      };
 
-    var update = function(path, object) {
-      cache.put(path, angular.copy(object));
-      $rootScope.$broadcast(path, object);
-    };
+      var update = function (path, object) {
+        cache.put(path, angular.copy(object));
+        $rootScope.$broadcast(path, object);
+      };
 
-    var checkCache = function(path, callback, catchErrors) {
-      var cachedObject = cache.get(path);
-      if (angular.isDefined(cachedObject)) {
-        callback(cachedObject, path);
-      } else {
-        $http
-          .get(path)
-          .then(function(response) {
-            var data = response.data;
-            update(path, data);
-            callback(data, path);
-          })
-          .catch(function(response) {
-            const errorMessage =
-              response.data && response.data.error
-                ? response.data.error.message
-                : 'An error occurred while creating registration.';
+      var checkCache = function (path, callback, catchErrors) {
+        var cachedObject = cache.get(path);
+        if (angular.isDefined(cachedObject)) {
+          callback(cachedObject, path);
+        } else {
+          $http
+            .get(path)
+            .then(function (response) {
+              var data = response.data;
+              update(path, data);
+              callback(data, path);
+            })
+            .catch(function (response) {
+              const errorMessage =
+                response.data && response.data.error
+                  ? response.data.error.message
+                  : 'An error occurred while creating registration.';
 
-            if (catchErrors) {
-              callback(null, path, errorMessage);
-            } else {
-              throw errorMessage;
-            }
-          });
-      }
-    };
-
-    this.update = function(path, registration, cb, errorCallback) {
-      if ($rootScope.registerMode === 'preview') {
-        $rootScope.previewRegCache = registration;
-        if (cb) {
-          cb();
+              if (catchErrors) {
+                callback(null, path, errorMessage);
+              } else {
+                throw errorMessage;
+              }
+            });
         }
-        return;
-      }
+      };
 
-      var cachedReg = cache.get(path);
-      if (angular.equals(registration, cachedReg)) {
-        //do nothing
-      } else {
-        $http.put(path, registration).then(function() {
-          //update cache
-          cache.put(path, angular.copy(registration));
-
+      this.update = function (path, registration, cb, errorCallback) {
+        if ($rootScope.registerMode === 'preview') {
+          $rootScope.previewRegCache = registration;
           if (cb) {
             cb();
           }
-        }, errorCallback);
-      }
-    };
+          return;
+        }
 
-    this.query = function(id) {
-      checkCache(path(id), function(conferences, path) {
-        $rootScope.$broadcast(path, conferences);
-      });
-    };
+        var cachedReg = cache.get(path);
+        if (angular.equals(registration, cachedReg)) {
+          //do nothing
+        } else {
+          $http.put(path, registration).then(function () {
+            //update cache
+            cache.put(path, angular.copy(registration));
 
-    this.emptyCache = function() {
-      cache.removeAll();
-    };
-
-    this.get = function(id) {
-      var defer = $q.defer();
-      checkCache(path(id), defer.resolve);
-      return defer.promise;
-    };
-
-    this.getCurrent = function(conferenceId) {
-      var defer = $q.defer();
-
-      checkCache(
-        'conferences/' + conferenceId + '/registrations/current',
-        function(registration, _path_, error) {
-          if (registration === null) defer.reject(error);
-
-          if ($rootScope.registerMode === 'preview') {
-            if (angular.isUndefined($rootScope.previewRegCache)) {
-              registration.completed = false;
-              registration.registrants = [];
-              $rootScope.previewRegCache = registration;
-            } else {
-              registration = $rootScope.previewRegCache;
+            if (cb) {
+              cb();
             }
-          }
-          update(path(registration.id), registration);
-          defer.resolve(registration);
-        },
-        true,
-      );
+          }, errorCallback);
+        }
+      };
 
-      return defer.promise;
-    };
-
-    this.updateCurrent = function(conferenceId, currentRegistration) {
-      if ($rootScope.registerMode === 'preview') {
-        $rootScope.previewRegCache = currentRegistration;
-        return;
-      }
-      cache.put(
-        'conferences/' + conferenceId + '/registrations/current',
-        angular.copy(currentRegistration),
-      );
-    };
-
-    this.getAllForConference = function(conferenceId, queryParameters) {
-      var defer = $q.defer();
-      $rootScope.loadingMsg = 'Loading Registrations';
-
-      $http
-        .get('conferences/' + conferenceId + '/registrations', {
-          params: queryParameters,
-        })
-        .then(function(response) {
-          $rootScope.loadingMsg = '';
-          defer.resolve(response.data);
-        })
-        .catch(function() {
-          $rootScope.loadingMsg = '';
-          defer.reject();
+      this.query = function (id) {
+        checkCache(path(id), function (conferences, path) {
+          $rootScope.$broadcast(path, conferences);
         });
+      };
 
-      return defer.promise;
-    };
-  });
+      this.emptyCache = function () {
+        cache.removeAll();
+      };
+
+      this.get = function (id) {
+        var defer = $q.defer();
+        checkCache(path(id), defer.resolve);
+        return defer.promise;
+      };
+
+      this.getCurrent = function (conferenceId) {
+        var defer = $q.defer();
+
+        checkCache(
+          'conferences/' + conferenceId + '/registrations/current',
+          function (registration, _path_, error) {
+            if (registration === null) defer.reject(error);
+
+            if ($rootScope.registerMode === 'preview') {
+              if (angular.isUndefined($rootScope.previewRegCache)) {
+                registration.completed = false;
+                registration.registrants = [];
+                $rootScope.previewRegCache = registration;
+              } else {
+                registration = $rootScope.previewRegCache;
+              }
+            }
+            update(path(registration.id), registration);
+            defer.resolve(registration);
+          },
+          true,
+        );
+
+        return defer.promise;
+      };
+
+      this.updateCurrent = function (conferenceId, currentRegistration) {
+        if ($rootScope.registerMode === 'preview') {
+          $rootScope.previewRegCache = currentRegistration;
+          return;
+        }
+        cache.put(
+          'conferences/' + conferenceId + '/registrations/current',
+          angular.copy(currentRegistration),
+        );
+      };
+
+      this.getAllForConference = function (conferenceId, queryParameters) {
+        var defer = $q.defer();
+        $rootScope.loadingMsg = 'Loading Registrations';
+
+        $http
+          .get('conferences/' + conferenceId + '/registrations', {
+            params: queryParameters,
+          })
+          .then(function (response) {
+            $rootScope.loadingMsg = '';
+            defer.resolve(response.data);
+          })
+          .catch(function () {
+            $rootScope.loadingMsg = '';
+            defer.reject();
+          });
+
+        return defer.promise;
+      };
+    },
+  );

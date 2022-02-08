@@ -6,7 +6,7 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
     resolve: '<',
     dismiss: '&',
   },
-  controller: function() {
+  controller: function () {
     this.$onInit = () => {
       this.groupName = this.resolve.groupName;
       this.registrationId = this.resolve.registrationId;
@@ -23,7 +23,7 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
 
       const registration = this.getRegistration(this.registrationId);
 
-      _.remove(this.visibleRegistrantTypes, function(registrantType) {
+      _.remove(this.visibleRegistrantTypes, function (registrantType) {
         //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
         return (
           registrantType.hidden &&
@@ -35,11 +35,11 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
       });
     };
 
-    this.register = function(typeId) {
+    this.register = function (typeId) {
       this.registerUser(this.getRegistration(this.registrationId), typeId);
     };
 
-    this.registrationTypeFull = function(type) {
+    this.registrationTypeFull = function (type) {
       if (!type.useLimit) {
         return false;
       }

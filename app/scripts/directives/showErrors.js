@@ -1,8 +1,8 @@
-angular.module('confRegistrationWebApp').directive('showErrors', function() {
+angular.module('confRegistrationWebApp').directive('showErrors', function () {
   return {
     restrict: 'A',
     require: 'ngModel',
-    link: function(scope, element, attrs, ngModelCtrl) {
+    link: function (scope, element, attrs, ngModelCtrl) {
       //Logic to handle groups of inputs in one block
       if (attrs.showErrors === 'group') {
         if (!scope.inputs) {
@@ -12,7 +12,7 @@ angular.module('confRegistrationWebApp').directive('showErrors', function() {
       }
 
       scope.$watch(
-        function(scope) {
+        function (scope) {
           return (
             ngModelCtrl.$invalid &&
             (scope.currentPageVisited ||
@@ -20,10 +20,10 @@ angular.module('confRegistrationWebApp').directive('showErrors', function() {
               !!attrs.showErrorsInstant)
           );
         },
-        function(invalid) {
+        function (invalid) {
           if (scope.inputs && scope.inputs.length >= 2) {
             //if we are handling a group of inputs and any of the inputs are invalid and touched
-            var groupInvalid = scope.inputs.some(function(currentValue) {
+            var groupInvalid = scope.inputs.some(function (currentValue) {
               return (
                 currentValue.$invalid &&
                 (scope.currentPageVisited ||

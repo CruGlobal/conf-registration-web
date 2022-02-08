@@ -1,6 +1,6 @@
 import 'angular-mocks';
 
-angular.module('confRegistrationWebApp').service('testData', function() {
+angular.module('confRegistrationWebApp').service('testData', function () {
   this.conference = {
     id: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
     name: 'Big Event 2015',
@@ -103,7 +103,10 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             required: false,
             position: 4,
             content: {
-              choices: [{ value: '12', desc: '' }, { value: '23', desc: '' }],
+              choices: [
+                { value: '12', desc: '' },
+                { value: '23', desc: '' },
+              ],
             },
             profileType: null,
             registrantTypes: [],
@@ -129,7 +132,10 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             required: false,
             position: 5,
             content: {
-              choices: [{ value: '651', desc: '' }, { value: '951', desc: '' }],
+              choices: [
+                { value: '651', desc: '' },
+                { value: '951', desc: '' },
+              ],
             },
             profileType: null,
             registrantTypes: [],
@@ -327,9 +333,9 @@ angular.module('confRegistrationWebApp').service('testData', function() {
                 { value: '3', desc: '', operand: 'OR', amount: '10' },
                 { value: '4', desc: '', operand: 'OR', amount: '90' },
               ],
-              default: { '1': 'true', '2': 'true', '3': 'true', '4': 'true' },
+              default: { 1: 'true', 2: 'true', 3: 'true', 4: 'true' },
               forceSelectionRuleOperand: 'AND',
-              forceSelections: { '1': true, '2': true, '3': true },
+              forceSelections: { 1: true, 2: true, 3: true },
               ruleoperand: 'AND',
             },
             endDateBlockId: 'null',
@@ -593,7 +599,7 @@ angular.module('confRegistrationWebApp').service('testData', function() {
             registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
             blockId: '18ccfb09-3006-4981-ab5e-405ccf2aad1c',
             value: {
-              '651': true,
+              651: true,
             },
             amount: 0.0,
             lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',

@@ -2,11 +2,11 @@ import template from 'views/components/blockRegistration.html';
 
 angular
   .module('confRegistrationWebApp')
-  .directive('blockRegistration', function(DateRangeService) {
+  .directive('blockRegistration', function (DateRangeService) {
     return {
       templateUrl: template,
       restrict: 'A',
-      controller: function(
+      controller: function (
         $scope,
         $routeParams,
         RegistrationCache,
@@ -79,7 +79,7 @@ angular
 
           $scope.$watch(
             'answer',
-            function(answer, oldAnswer) {
+            function (answer, oldAnswer) {
               if (
                 angular.isUndefined(answer) ||
                 angular.isUndefined(oldAnswer) ||
@@ -172,11 +172,11 @@ angular
           }
         }
 
-        $scope.daysForBlock = function() {
+        $scope.daysForBlock = function () {
           return $scope.days;
         };
 
-        $scope.blockVisible = function(block) {
+        $scope.blockVisible = function (block) {
           if (
             angular.isUndefined($scope.currentRegistration) ||
             angular.isUndefined($scope.currentRegistrant)
@@ -224,7 +224,7 @@ angular
           }
         }
 
-        $scope.choiceVisible = function(block, choice) {
+        $scope.choiceVisible = function (block, choice) {
           if (angular.isUndefined(choice)) {
             return false;
           }
@@ -256,7 +256,7 @@ angular
         };
 
         //Check if the checkbox matches force selection rules
-        $scope.checkForceRule = function(block) {
+        $scope.checkForceRule = function (block) {
           if ($scope.isAdmin) {
             return true;
           } else {

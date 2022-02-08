@@ -23,7 +23,7 @@ angular
 
      The forceAction option is optional and, if set to true, disables clicking outside the modal or using the ESC key to close the modal
      */
-    factory.error = function(options) {
+    factory.error = function (options) {
       if (!_.isObject(options)) {
         //is message string instead of object
         options = { message: options };
@@ -66,7 +66,7 @@ angular
 
      Alias for modalMessage.error() with different default title. To be used to display something that is not meant to be an error. Functionality is identical for now.
      */
-    factory.info = function(options) {
+    factory.info = function (options) {
       if (!_.isObject(options)) {
         //is message string instead of object
         options = { message: options };
@@ -94,7 +94,7 @@ angular
 
      The modal size will be set to small unless the normalSize option is set to true. Default is false.
      */
-    factory.confirm = function(options) {
+    factory.confirm = function (options) {
       _.defaults(options, {
         title: '',
         question: '',

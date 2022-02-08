@@ -1,9 +1,7 @@
 <div class="container full">
   <div class="row form-group">
     <div class="col-sm-7">
-      <h2 class="page-title" translate>
-        ERT Journal Upload Submission
-      </h2>
+      <h2 class="page-title" translate>ERT Journal Upload Submission</h2>
     </div>
     <div class="col-sm-5 text-right">
       <button
@@ -28,9 +26,7 @@
     <div class="col-xs-6 col-sm-2 details-heading" translate>
       Conference ID:
     </div>
-    <div class="col-xs-6  col-sm-3 details-heading">
-      {{conference.id}}
-    </div>
+    <div class="col-xs-6 col-sm-3 details-heading">{{conference.id}}</div>
   </div>
   <div class="row form-group">
     <div class="col-xs-6 col-sm-2 details-heading" translate>
@@ -118,9 +114,9 @@
           <option value="REGISTRATION" translate>Registration</option>
           <option value="MISCELLANEOUS_ITEM" translate>Misc. Expense</option>
           <option value="CHILDCARE" translate>Childcare</option>
-          <option value="STAFF_TAXABLE_ITEM" translate
-            >Staff Taxable Expense</option
-          >
+          <option value="STAFF_TAXABLE_ITEM" translate>
+            Staff Taxable Expense
+          </option>
         </select>
       </div>
       <div class="col-md-2 col-sm-6 text-right stacked-spacing-col-md">
@@ -312,15 +308,9 @@
             <td>{{r.operatingUnit}}</td>
             <td>{{r.departmentId}}</td>
             <td>{{r.projectId}}</td>
-            <td>
-              {{r.glAccount}}
-            </td>
-            <td>
-              {{r.amount}}
-            </td>
-            <td>
-              {{r.description}}
-            </td>
+            <td>{{r.glAccount}}</td>
+            <td>{{r.amount}}</td>
+            <td>{{r.description}}</td>
             <td></td>
             <td></td>
           </tr>
@@ -396,12 +386,8 @@
             ng-class="{'active': $even}"
             class="noselect"
           >
-            <td>
-              {{r.firstName}}
-            </td>
-            <td>
-              {{r.lastName}}
-            </td>
+            <td>{{r.firstName}}</td>
+            <td>{{r.lastName}}</td>
             <td>
               <button
                 type="button"
@@ -427,31 +413,17 @@
               >
               </i>
             </td>
-            <td>
-              {{r.businessUnit}}
-            </td>
-            <td>
-              {{r.operatingUnit}}
-            </td>
-            <td>
-              {{r.departmentId}}
-            </td>
-            <td>
-              {{r.projectId}}
-            </td>
-            <td>
-              {{r.glAccount}}
-            </td>
+            <td>{{r.businessUnit}}</td>
+            <td>{{r.operatingUnit}}</td>
+            <td>{{r.departmentId}}</td>
+            <td>{{r.projectId}}</td>
+            <td>{{r.glAccount}}</td>
             <td>
               {{ (r.amount | localizedCurrency:conference.currency.currencyCode)
               }}
             </td>
-            <td class="text-center">
-              {{r.description}}
-            </td>
-            <td>
-              {{r.account}}
-            </td>
+            <td class="text-center">{{r.description}}</td>
+            <td>{{r.account}}</td>
             <td class="text-center">
               <input
                 type="checkbox"
@@ -565,12 +537,8 @@
             ng-class="{'active': $even}"
             class="noselect"
           >
-            <td>
-              {{r.firstName}}
-            </td>
-            <td>
-              {{r.lastName}}
-            </td>
+            <td>{{r.firstName}}</td>
+            <td>{{r.lastName}}</td>
             <td>
               <button
                 type="button"
@@ -589,31 +557,17 @@
                 >
               </button>
             </td>
-            <td>
-              {{r.businessUnit}}
-            </td>
-            <td>
-              {{r.operatingUnit}}
-            </td>
-            <td>
-              {{r.departmentId}}
-            </td>
-            <td>
-              {{r.projectId}}
-            </td>
-            <td>
-              {{r.glAccount}}
-            </td>
+            <td>{{r.businessUnit}}</td>
+            <td>{{r.operatingUnit}}</td>
+            <td>{{r.departmentId}}</td>
+            <td>{{r.projectId}}</td>
+            <td>{{r.glAccount}}</td>
             <td>
               {{ (r.amount | localizedCurrency:conference.currency.currencyCode)
               }}
             </td>
-            <td class="text-center">
-              {{r.description}}
-            </td>
-            <td>
-              {{r.account}}
-            </td>
+            <td class="text-center">{{r.description}}</td>
+            <td>{{r.account}}</td>
             <td class="text-center">
               <input
                 type="checkbox"

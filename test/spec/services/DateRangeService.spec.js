@@ -1,16 +1,16 @@
 import 'angular-mocks';
 
-describe('Service: DateRangeService', function() {
+describe('Service: DateRangeService', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var DateRangeService;
-  beforeEach(inject(function(_DateRangeService_) {
+  beforeEach(inject(function (_DateRangeService_) {
     DateRangeService = _DateRangeService_;
   }));
 
-  it('should call the callback when subscribed', function() {
+  it('should call the callback when subscribed', function () {
     var object = {};
-    object.callback = function() {};
+    object.callback = function () {};
 
     const callbackSpy = spyOn(object, 'callback').and.callThrough();
 
