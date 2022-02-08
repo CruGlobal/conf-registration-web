@@ -11,7 +11,7 @@ import scholarshipTemplate from 'views/paymentMethods/scholarship.html';
 import payOnSiteTemplate from 'views/paymentMethods/payOnSite.html';
 import additionalExpenseTemplate from 'views/paymentMethods/additionalExpense.html';
 
-angular.module('confRegistrationWebApp').directive('ertPayment', function() {
+angular.module('confRegistrationWebApp').directive('ertPayment', function () {
   return {
     templateUrl: template,
     restrict: 'A',
@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       paymentMethods: '=paymentMethods',
       isAdminPayment: '=adminPayment',
     },
-    controller: function(
+    controller: function (
       $scope,
       $http,
       $rootScope,
@@ -45,18 +45,18 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
 
-      $scope.searchStaff = function(val) {
+      $scope.searchStaff = function (val) {
         return $http
           .get(
             'registrations/' + $scope.currentRegistration.id + '/staffsearch',
             { params: { name: val } },
           )
-          .then(function(response) {
+          .then(function (response) {
             return response.data;
           });
       };
 
-      $scope.selectStaff = function(item) {
+      $scope.selectStaff = function (item) {
         $scope.currentPayment.scholarship = {
           staffApprovalName: item.firstName + ' ' + item.lastName,
           staffEmail: item.email,
@@ -64,7 +64,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
       };
 
       //payment validation
-      $scope.validatePayment = currentPayment => {
+      $scope.validatePayment = (currentPayment) => {
         if (angular.isUndefined(currentPayment)) {
           return;
         }
@@ -188,7 +188,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
                     ),
                   },
                   {
-                    validate: function(cvv) {
+                    validate: function (cvv) {
                       var cardNumber = currentPayment.creditCard.number;
                       var cardType = cruPayments.card.info.type(cardNumber);
                       return cruPayments.cvv.validate.cardTypeLength(
@@ -209,7 +209,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
                     ),
                   },
                   {
-                    validate: function(expirationMonth) {
+                    validate: function (expirationMonth) {
                       return cruPayments.expiryDate.validate.month(
                         expirationMonth,
                         currentPayment.creditCard.expirationYear,
@@ -237,9 +237,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function() {
               };
 
               // Run all of the validations
-              _.forEach(validations, function(validators, field) {
+              _.forEach(validations, function (validators, field) {
                 // Validate this field, stopping on the first failed validator
-                var failedValidator = _.find(validators, function(validator) {
+                var failedValidator = _.find(validators, function (validator) {
                   return !validator.validate(currentPayment.creditCard[field]);
                 });
                 if (failedValidator) {

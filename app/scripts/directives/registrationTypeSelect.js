@@ -2,11 +2,11 @@ import template from 'views/components/registrationTypeSelect.html';
 
 angular
   .module('confRegistrationWebApp')
-  .directive('registrationTypeSelect', function() {
+  .directive('registrationTypeSelect', function () {
     return {
       templateUrl: template,
       restrict: 'E',
-      controller: function(
+      controller: function (
         $scope,
         $rootScope,
         $location,
@@ -19,7 +19,7 @@ angular
           $scope.conference.registrantTypes,
         );
 
-        const findCurrentGroupRegistrantType = function(
+        const findCurrentGroupRegistrantType = function (
           registrants,
           registrantTypes,
         ) {
@@ -36,12 +36,12 @@ angular
         var visibleType = $routeParams.regType;
         if (angular.isDefined(visibleType)) {
           if (_.isEmpty($scope.currentRegistration.registrants)) {
-            _.remove($scope.visibleRegistrantTypes, function(t) {
+            _.remove($scope.visibleRegistrantTypes, function (t) {
               return t.id !== visibleType;
             });
           }
         } else {
-          _.remove($scope.visibleRegistrantTypes, function(t) {
+          _.remove($scope.visibleRegistrantTypes, function (t) {
             //remove if type is marked as hidden and a registrant with this type doesn't already exist in the registration
             return (
               t.hidden &&
@@ -57,7 +57,7 @@ angular
 
           //remove sub registrant types
           if (_.isEmpty($scope.currentRegistration.registrants)) {
-            _.remove($scope.visibleRegistrantTypes, function(t) {
+            _.remove($scope.visibleRegistrantTypes, function (t) {
               return t.groupSubRegistrantType;
             });
           }
@@ -79,7 +79,7 @@ angular
               $scope.currentRegistration.registrants,
               'registrantTypeId',
             );
-            _.remove($scope.visibleRegistrantTypes, t => {
+            _.remove($scope.visibleRegistrantTypes, (t) => {
               const childRegistrantType = _.find(
                 groupRegistrantType.allowedRegistrantTypeSet,
                 { childRegistrantTypeId: t.id },
@@ -94,13 +94,14 @@ angular
           }
         }
 
-        $scope.newRegistrant = function(type) {
+        $scope.newRegistrant = function (type) {
           var newId = uuid();
           // Filter through all pages and remove any empty pages
           const validPages = $scope.conference.registrationPages.filter(
-            page =>
-              page.blocks.filter(block => !block.registrantTypes.includes(type))
-                .length > 0,
+            (page) =>
+              page.blocks.filter(
+                (block) => !block.registrantTypes.includes(type),
+              ).length > 0,
           );
 
           $scope.currentRegistration.registrants.push({
@@ -112,7 +113,7 @@ angular
           RegistrationCache.update(
             'registrations/' + $scope.currentRegistration.id,
             $scope.currentRegistration,
-            function() {
+            function () {
               RegistrationCache.emptyCache();
               $location
                 .path(
@@ -124,7 +125,7 @@ angular
                 )
                 .search('reg', newId);
             },
-            function() {
+            function () {
               modalMessage.error({
                 title: 'Error',
                 message: 'An error occurred while updating your registration.',
@@ -133,7 +134,7 @@ angular
           );
         };
 
-        $scope.registrationTypeFull = function(type) {
+        $scope.registrationTypeFull = function (type) {
           if (!type.useLimit) {
             return false;
           }

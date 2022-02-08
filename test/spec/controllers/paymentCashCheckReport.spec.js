@@ -1,13 +1,13 @@
 import 'angular-mocks';
 
-describe('Controller: paymentCashCheckReportCtrl', function() {
+describe('Controller: paymentCashCheckReportCtrl', function () {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var testData, $httpBackend, $controller;
   beforeEach(
-    angular.mock.inject(function(
+    angular.mock.inject(function (
       $rootScope,
       _$controller_,
       _testData_,
@@ -29,7 +29,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     }),
   );
 
-  it('refresh should call api and refresh scope data', function() {
+  it('refresh should call api and refresh scope data', function () {
     scope.report = {};
     scope.reports = [];
     $httpBackend
@@ -50,7 +50,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     expect(scope.report.conferenceLongName).toBe('Payment Event');
   });
 
-  it('exportUrl should create link for the latest payment report', function() {
+  it('exportUrl should create link for the latest payment report', function () {
     let exportUrl = scope.exportUrl();
 
     expect(exportUrl).toContain(
@@ -58,7 +58,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     );
   });
 
-  it('exportUrl should create link for locked payment report if it is selected', function() {
+  it('exportUrl should create link for locked payment report if it is selected', function () {
     scope.queryParameters.currentReportId = 'id';
     let exportUrl = scope.exportUrl();
 
@@ -67,14 +67,14 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     );
   });
 
-  it('noDataForLocking method should return true if report is locked', function() {
+  it('noDataForLocking method should return true if report is locked', function () {
     scope.queryParameters.currentReportId = 'report-id';
     let noDataForLocking = scope.noDataForLocking();
 
     expect(noDataForLocking).toEqual(true);
   });
 
-  it('noDataForLocking method should return false if some payments are selected', function() {
+  it('noDataForLocking method should return false if some payments are selected', function () {
     scope.queryParameters.currentReportId = null;
     scope.excludedIds = { 'da0235f3-469d-42a3-9014-ca1a47a9f048': true };
     let noDataForLocking = scope.noDataForLocking();
@@ -82,7 +82,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     expect(noDataForLocking).toEqual(false);
   });
 
-  it('noDataForLocking method should return true if no payments are selected', function() {
+  it('noDataForLocking method should return true if no payments are selected', function () {
     scope.queryParameters.currentReportId = null;
     scope.excludedIds = {};
     for (const report of scope.report.paymentReportEntries) {
@@ -94,7 +94,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     expect(noDataForLocking).toEqual(true);
   });
 
-  it('lock report', function() {
+  it('lock report', function () {
     $httpBackend
       .whenPOST(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/lock\.*/, {})
       .respond(201, 'locked-id');
@@ -109,7 +109,7 @@ describe('Controller: paymentCashCheckReportCtrl', function() {
     expect(scope.excludedIds).toEqual({});
   });
 
-  it('should call get report api with correct page number', function() {
+  it('should call get report api with correct page number', function () {
     scope.queryParameters.page = 1;
     $httpBackend
       .expectGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new.*page=1.*/)

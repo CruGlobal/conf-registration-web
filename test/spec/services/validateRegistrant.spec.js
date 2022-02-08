@@ -1,15 +1,15 @@
 import 'angular-mocks';
 
-describe('Service: validateRegistrant', function() {
+describe('Service: validateRegistrant', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var validateRegistrant, testData;
-  beforeEach(inject(function(_validateRegistrant_, _testData_) {
+  beforeEach(inject(function (_validateRegistrant_, _testData_) {
     validateRegistrant = _validateRegistrant_;
     testData = _testData_;
   }));
 
-  it('block should be visible', function() {
+  it('block should be visible', function () {
     expect(
       validateRegistrant.blockVisible(
         testData.conference.registrationPages[1].blocks[0],
@@ -18,7 +18,7 @@ describe('Service: validateRegistrant', function() {
     ).toBe(true);
   });
 
-  it('registrant should have no invalid blocks', function() {
+  it('registrant should have no invalid blocks', function () {
     expect(
       validateRegistrant.validate(
         testData.conference,
@@ -27,7 +27,7 @@ describe('Service: validateRegistrant', function() {
     ).toBe(0);
   });
 
-  it('registrant should have one invalid block', function() {
+  it('registrant should have one invalid block', function () {
     //find name block
     var nameAnswer = _.find(testData.registration.registrants[0].answers, {
       blockId: '122a15bf-0608-4813-834a-0d31a8c44c64',
@@ -42,7 +42,7 @@ describe('Service: validateRegistrant', function() {
     ).toBe(1);
   });
 
-  it('choice should be visible without rules', function() {
+  it('choice should be visible without rules', function () {
     const block = testData.conference.registrationPages[1].blocks[4];
     const choice = block.content.choices[0];
 
@@ -55,7 +55,7 @@ describe('Service: validateRegistrant', function() {
     ).toBe(true);
   });
 
-  it('choice should be visible', function() {
+  it('choice should be visible', function () {
     const block = testData.conference.registrationPages[1].blocks[4];
     const choice = block.content.choices[1];
 
@@ -68,7 +68,7 @@ describe('Service: validateRegistrant', function() {
     ).toBe(true);
   });
 
-  it('choice should not be visible', function() {
+  it('choice should not be visible', function () {
     const block = testData.conference.registrationPages[1].blocks[5];
     const choice = block.content.choices[0];
 
@@ -81,17 +81,17 @@ describe('Service: validateRegistrant', function() {
     ).toBe(false);
   });
 
-  it('empty checkbox should not be valid', function() {
+  it('empty checkbox should not be valid', function () {
     var conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[5].required = true;
 
     var registrant = angular.copy(testData.registration.registrants[0]);
-    registrant.answers[4].value = { '651': false, '951': false };
+    registrant.answers[4].value = { 651: false, 951: false };
 
     expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
   });
 
-  it('empty address fields should not be valid when missing address1, state, zip or city', function() {
+  it('empty address fields should not be valid when missing address1, state, zip or city', function () {
     var conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[7].required = true;
 
@@ -128,7 +128,7 @@ describe('Service: validateRegistrant', function() {
     );
   });
 
-  it('choices should be visible based on rules', function() {
+  it('choices should be visible based on rules', function () {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
     });
@@ -172,7 +172,7 @@ describe('Service: validateRegistrant', function() {
     );
   });
 
-  it('choices should not be visible based on rules', function() {
+  it('choices should not be visible based on rules', function () {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
     });
@@ -216,7 +216,7 @@ describe('Service: validateRegistrant', function() {
     );
   });
 
-  it('if any choice visible, block should be visible', function() {
+  it('if any choice visible, block should be visible', function () {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
     });
@@ -237,7 +237,7 @@ describe('Service: validateRegistrant', function() {
     );
   });
 
-  it('no choices are visible, block should be hidden', function() {
+  it('no choices are visible, block should be hidden', function () {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
     });

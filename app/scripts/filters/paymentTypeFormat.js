@@ -1,7 +1,7 @@
 angular
   .module('confRegistrationWebApp')
-  .filter('paymentTypeFormat', function() {
-    return function(paymentType) {
+  .filter('paymentTypeFormat', function () {
+    return function (paymentType) {
       if (angular.isUndefined(paymentType)) {
         return '';
       }

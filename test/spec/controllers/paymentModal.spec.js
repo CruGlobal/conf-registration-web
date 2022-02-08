@@ -1,12 +1,12 @@
 import 'angular-mocks';
 
-describe('Controller: paymentModal', function() {
+describe('Controller: paymentModal', function () {
   var scope, modalInstance;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject(function($rootScope, $controller, testData) {
+    angular.mock.inject(function ($rootScope, $controller, testData) {
       scope = $rootScope.$new();
       modalInstance = {
         close: jasmine.createSpy('modalInstance.close'),
@@ -27,11 +27,11 @@ describe('Controller: paymentModal', function() {
   );
 
   let errorModal;
-  beforeEach(inject(_modalMessage_ => {
+  beforeEach(inject((_modalMessage_) => {
     errorModal = spyOn(_modalMessage_, 'error');
   }));
 
-  it('canBeRefunded should return true', function() {
+  it('canBeRefunded should return true', function () {
     expect(scope.canBeRefunded(scope.registration.pastPayments[0])).toBe(true);
   });
 

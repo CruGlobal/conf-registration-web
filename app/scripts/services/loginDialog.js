@@ -2,11 +2,11 @@ import template from 'views/modals/loginDialog.html';
 
 angular
   .module('confRegistrationWebApp')
-  .service('loginDialog', function($injector) {
-    this.show = function(options) {
+  .service('loginDialog', function ($injector) {
+    this.show = function (options) {
       var loginDialogOptions = {
         templateUrl: template,
-        controller: /*@ngInject*/ function(
+        controller: /*@ngInject*/ function (
           $scope,
           $uibModalInstance,
           $location,
@@ -22,7 +22,7 @@ angular
             options.facebookLogin === undefined ? true : options.facebookLogin;
           $scope.googleLogin =
             options.googleLogin === undefined ? true : options.googleLogin;
-          $scope.gotoRoute = function(path) {
+          $scope.gotoRoute = function (path) {
             $uibModalInstance.dismiss();
             $location.path(path);
           };
