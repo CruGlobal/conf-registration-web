@@ -6,11 +6,11 @@ angular
     // Existing conferences will have a default country value of an empty string
     // To prevent issues, default their country to 'US' if country is falsey
     const currentCountry = country ? country : 'US';
+    const filteredRegions = allCountries
+      .find(c => c[1] === currentCountry)[2]
+      .filter(r => r[1] === state);
     const formattedState =
-      state &&
-      allCountries
-        .find(c => c[1] === currentCountry)[2]
-        .filter(r => r[1] === state)[0][0];
+      state && filteredRegions.length >= 1 ? filteredRegions[0][0] : state;
 
     const addressLine3 = city
       ? state
