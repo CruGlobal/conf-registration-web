@@ -1,9 +1,6 @@
-import angular from 'angular';
 import { angular2react } from 'angular2react';
 
-import 'app/scripts/main';
-// eslint-disable-next-line angular/document-service
-angular.bootstrap(document, ['confRegistrationWebApp']);
+import 'app/scripts/main-next';
 
 const LandingComponent = angular2react(
   'landingComponent',
