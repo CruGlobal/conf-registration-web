@@ -90,6 +90,3 @@ import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
 import 'scripts/services/paymentReportService.js';
 import 'scripts/services/journalUploadService.js';
-
-// eslint-disable-next-line angular/document-service
-angular.bootstrap(document, ['confRegistrationWebApp']);
