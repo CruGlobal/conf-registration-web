@@ -1,12 +1,12 @@
 import 'angular-mocks';
 
-describe('Controller: registrationModal', function() {
+describe('Controller: registrationModal', function () {
   var scope, modalInstance, modalMessage, testData;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject(function(
+    angular.mock.inject(function (
       $rootScope,
       $controller,
       _testData_,
@@ -34,7 +34,7 @@ describe('Controller: registrationModal', function() {
     }),
   );
 
-  it('register should close the modal', function() {
+  it('register should close the modal', function () {
     scope.register();
 
     expect(modalInstance.dismiss).toHaveBeenCalledWith();

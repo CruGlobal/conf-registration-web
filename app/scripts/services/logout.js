@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .service('logoutService', function($location, $cookies, $window) {
+  .service('logoutService', function ($location, $cookies, $window) {
     this.logoutFormProviders = ({ data = null } = {}) => {
       switch ($cookies.get('crsAuthProviderType')) {
         case 'GOOGLE':

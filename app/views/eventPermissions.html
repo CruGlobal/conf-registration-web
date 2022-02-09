@@ -33,7 +33,7 @@
             </td>
             <td>
               <select
-                style="min-width:128px;"
+                style="min-width: 128px"
                 ng-model="permission.permissionLevel"
                 ng-change="updatePermission(permission.id)"
                 class="form-control"
@@ -47,8 +47,9 @@
                   ng-if="permission.permissionLevel === 'REQUESTED'"
                   value="REQUESTED"
                   translate
-                  >Requested</option
                 >
+                  Requested
+                </option>
               </select>
             </td>
             <td>{{permission.timestamp | date:'short'}}</td>
@@ -74,7 +75,7 @@
             <th>Email</th>
             <th class="col-xs-2" translate>Level</th>
             <th class="col-xs-2" translate>Email Sent</th>
-            <th style="width:200px;" class="text-center" translate>Actions</th>
+            <th style="width: 200px" class="text-center" translate>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -86,9 +87,7 @@
                 >{{permission.lastName}}, {{permission.firstName}} |&nbsp;</span
               >{{permission.emailAddress}}
             </td>
-            <td>
-              {{permission.permissionLevel}}
-            </td>
+            <td>{{permission.permissionLevel}}</td>
             <td>{{permission.timestamp | date:'short'}}</td>
             <td class="text-center">
               <a
@@ -170,7 +169,7 @@
             </td>
             <td>
               <select
-                style="min-width:128px;"
+                style="min-width: 128px"
                 ng-model="permission.permissionLevel"
                 ng-change="updatePermission(permission.id)"
                 class="form-control"
@@ -179,8 +178,9 @@
                   ng-if="permission.permissionLevel === 'CREATOR'"
                   value="CREATOR"
                   translate
-                  >Creator</option
                 >
+                  Creator
+                </option>
                 <option value="FULL" translate>Full</option>
                 <option value="UPDATE" translate>Update</option>
                 <option value="CHECK_IN" translate>Check in</option>
@@ -209,16 +209,16 @@
         <thead>
           <tr>
             <th></th>
-            <th style="width:140px;" class="text-center" translate>
+            <th style="width: 140px" class="text-center" translate>
               Requested
             </th>
-            <th style="width:140px;" class="text-center" translate>View</th>
-            <th style="width:140px;" class="text-center" translate>
+            <th style="width: 140px" class="text-center" translate>View</th>
+            <th style="width: 140px" class="text-center" translate>
               Scholarship
             </th>
-            <th style="width:140px;" class="text-center" translate>Check in</th>
-            <th style="width:140px;" class="text-center" translate>Update</th>
-            <th style="width:140px;" class="text-center" translate>
+            <th style="width: 140px" class="text-center" translate>Check in</th>
+            <th style="width: 140px" class="text-center" translate>Update</th>
+            <th style="width: 140px" class="text-center" translate>
               Full/Creator
             </th>
           </tr>

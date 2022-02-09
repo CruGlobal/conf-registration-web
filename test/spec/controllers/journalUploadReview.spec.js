@@ -6,7 +6,7 @@ describe('Controller: journalUploadReviewModal', () => {
   let scope, modalInstance, testData;
   let queryParameters = { filterAccountTransferErrors: 'yes' };
   beforeEach(
-    angular.mock.inject(function($rootScope, $controller, _testData_) {
+    angular.mock.inject(function ($rootScope, $controller, _testData_) {
       scope = $rootScope.$new();
       modalInstance = {
         close: jasmine.createSpy('modalInstance.close'),

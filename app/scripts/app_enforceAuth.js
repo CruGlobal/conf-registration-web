@@ -1,6 +1,6 @@
 angular
   .module('confRegistrationWebApp')
-  .run(function(
+  .run(function (
     $rootScope,
     $cookies,
     $window,
@@ -15,7 +15,7 @@ angular
     $q,
   ) {
     // eslint-disable-next-line angular/on-watch
-    $rootScope.$on('$routeChangeStart', function(event, next) {
+    $rootScope.$on('$routeChangeStart', function (event, next) {
       var nextRouteRequireLogin = next.authorization
         ? next.authorization.requireLogin
         : false;
@@ -60,7 +60,7 @@ angular
           next.$$route.resolve.checkPermissions = () =>
             PermissionCache.getForConference(nextRouteEventId)
               .catch(() => false)
-              .then(permissions => {
+              .then((permissions) => {
                 if (
                   !permissions ||
                   permissions.permissionInt < requiredPermissionLevel
@@ -86,7 +86,7 @@ angular
 
       event.preventDefault();
       if (nextRouteAllowsNoneAuth && nextRouteEventId) {
-        ConfCache.get(nextRouteEventId).then(function(conference) {
+        ConfCache.get(nextRouteEventId).then(function (conference) {
           if (
             conference.relayLogin ||
             conference.facebookLogin ||
@@ -108,7 +108,7 @@ angular
     });
 
     // eslint-disable-next-line angular/on-watch
-    $rootScope.$on('$routeChangeError', function(event, current, previous) {
+    $rootScope.$on('$routeChangeError', function (event, current, previous) {
       if (previous) {
         $window.history.back();
       } else {
