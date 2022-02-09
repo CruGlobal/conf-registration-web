@@ -1,6 +1,6 @@
 import template from 'views/components/rule.html';
 
-angular.module('confRegistrationWebApp').directive('rule', function() {
+angular.module('confRegistrationWebApp').directive('rule', function () {
   return {
     templateUrl: template,
     restrict: 'E',
@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
       block: '=',
       conference: '=',
     },
-    controller: function(
+    controller: function (
       $scope,
       modalMessage,
       uuid,
@@ -30,7 +30,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
 
       //Initializing answers rules operands, if empty default to OR
       if (angular.isDefined($scope.block.content.choices)) {
-        _.forEach($scope.block.content.choices, function(choice) {
+        _.forEach($scope.block.content.choices, function (choice) {
           if (!choice.operand) {
             choice.operand = 'OR';
           }
@@ -38,7 +38,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
       }
 
       //setting ruleoperand value based on the rule type
-      $scope.setRuleOperand = function() {
+      $scope.setRuleOperand = function () {
         if ($scope.ruleType === ruleTypeConstants.SHOW_QUESTION) {
           $scope.block.content.ruleoperand = $scope.rule.operand;
         } else if ($scope.ruleType === ruleTypeConstants.FORCE_SELECTION) {
@@ -47,7 +47,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
       };
 
       //to get the rules by rule type
-      $scope.getRulesByType = function(ruleType, blockEntityOption = '') {
+      $scope.getRulesByType = function (ruleType, blockEntityOption = '') {
         if (ruleType === ruleTypeConstants.SHOW_QUESTION) {
           return $filter('showQuestionFilter')($scope.block.rules);
         } else if (ruleType === ruleTypeConstants.FORCE_SELECTION) {
@@ -62,7 +62,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
         }
       };
 
-      $scope.addRule = function(ruleType, blockEntityOption = '') {
+      $scope.addRule = function (ruleType, blockEntityOption = '') {
         var ruleBlocks = $scope.ruleBlocks();
         if (!ruleBlocks.length) {
           modalMessage.info({
@@ -84,13 +84,13 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
         });
       };
 
-      $scope.ruleBlocks = function() {
+      $scope.ruleBlocks = function () {
         var blocks = _.flatten(
           _.map($scope.conference.registrationPages, 'blocks'),
         );
         //remove blocks after current block
         var remove = false;
-        _.remove(blocks, function(b) {
+        _.remove(blocks, function (b) {
           if (b.id === $scope.block.id) {
             remove = true;
           }
@@ -108,14 +108,14 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
         ];
 
         //keep valid block types that can be used in rules
-        blocks = _.filter(blocks, function(b) {
+        blocks = _.filter(blocks, function (b) {
           return _.includes(questionTypes, b.type);
         });
 
         return blocks;
       };
 
-      $scope.ruleValues = function(parentBlockId) {
+      $scope.ruleValues = function (parentBlockId) {
         var blocks = _.flatten(
           _.map($scope.conference.registrationPages, 'blocks'),
         );
@@ -143,7 +143,7 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
         }
       };
 
-      $scope.getRangeValues = function(parentBlockId) {
+      $scope.getRangeValues = function (parentBlockId) {
         var blocks = _.flatten(
           _.map($scope.conference.registrationPages, 'blocks'),
         );
@@ -157,11 +157,11 @@ angular.module('confRegistrationWebApp').directive('rule', function() {
         }
       };
 
-      $scope.removeRule = function(id) {
+      $scope.removeRule = function (id) {
         _.remove($scope.block.rules, { id: id });
       };
 
-      $scope.ruleValueInputType = function(parentBlockId) {
+      $scope.ruleValueInputType = function (parentBlockId) {
         var blocks = _.flatten(
           _.map($scope.conference.registrationPages, 'blocks'),
         );

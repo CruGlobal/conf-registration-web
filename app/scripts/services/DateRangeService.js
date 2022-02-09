@@ -6,7 +6,7 @@ angular
     var subscribed = {};
     var cache = {};
 
-    this.subscribe = function(emitter, callback) {
+    this.subscribe = function (emitter, callback) {
       if (angular.isUndefined(subscribed[emitter])) subscribed[emitter] = [];
 
       subscribed[emitter].push(callback);
@@ -16,15 +16,15 @@ angular
       }
     };
 
-    this.emitChange = function(emitter, value) {
+    this.emitChange = function (emitter, value) {
       cache[emitter] = value;
 
-      angular.forEach(subscribed[emitter], function(callback) {
+      angular.forEach(subscribed[emitter], function (callback) {
         callback(value);
       });
     };
 
-    this.calculateDateRange = function(startDate, endDate) {
+    this.calculateDateRange = function (startDate, endDate) {
       if (
         angular.isUndefined(startDate) ||
         startDate === null ||

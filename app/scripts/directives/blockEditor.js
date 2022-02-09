@@ -4,11 +4,11 @@ import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
 
-angular.module('confRegistrationWebApp').directive('blockEditor', function() {
+angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {
     templateUrl: template,
     restrict: 'A',
-    controller: function(
+    controller: function (
       $scope,
       $uibModal,
       modalMessage,
@@ -118,7 +118,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
 
       $scope.$watch(
         'answer',
-        function(answer, oldAnswer) {
+        function (answer, oldAnswer) {
           if (
             angular.isUndefined(answer) ||
             angular.isUndefined(oldAnswer) ||
@@ -145,7 +145,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
       );
 
       //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
-      angular.forEach($scope.conference.registrantTypes, function(type) {
+      angular.forEach($scope.conference.registrantTypes, function (type) {
         $scope.visibleRegTypes[type.id] = !_.includes(
           $scope.block.registrantTypes,
           type.id,
@@ -153,16 +153,16 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
       });
       $scope.$watch(
         'visibleRegTypes',
-        function(object) {
+        function (object) {
           if (angular.isDefined(object)) {
             //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
             $scope.block.registrantTypes = _.keys(
-              _.omitBy(object, function(value) {
+              _.omitBy(object, function (value) {
                 return value;
               }),
             ).sort();
             $scope.visibleRegTypesArray = _.keys(
-              _.pickBy(object, function(value) {
+              _.pickBy(object, function (value) {
                 return value;
               }),
             );
@@ -208,7 +208,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.canBeDateDependent = $scope.hasOptions;
 
-      $scope.toggleBlockEdit = function(selectTab) {
+      $scope.toggleBlockEdit = function (selectTab) {
         $scope.activeTab = {};
         if (selectTab) {
           $scope.editBlock = true;
@@ -218,7 +218,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.editBlockAddOption = function(newOption) {
+      $scope.editBlockAddOption = function (newOption) {
         if (angular.isUndefined($scope.block.content)) {
           $scope.block.content = { choices: [] };
         } else if (angular.isUndefined($scope.block.content.choices)) {
@@ -238,7 +238,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.editBlockOptionMoveUp = function(index) {
+      $scope.editBlockOptionMoveUp = function (index) {
         if (index > 0 && index < $scope.block.content.choices.length) {
           var temp = $scope.block.content.choices[index];
           $scope.block.content.choices[index] =
@@ -247,7 +247,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.editBlockOptionMoveDown = function(index) {
+      $scope.editBlockOptionMoveDown = function (index) {
         if (index >= 0 && index < $scope.block.content.choices.length - 1) {
           var temp = $scope.block.content.choices[index];
           $scope.block.content.choices[index] =
@@ -256,15 +256,15 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.editBlockDeleteOption = function(index) {
+      $scope.editBlockDeleteOption = function (index) {
         $scope.block.content.choices.splice(index, 1);
       };
 
-      $scope.editBlockOptionAdvanced = function(index) {
+      $scope.editBlockOptionAdvanced = function (index) {
         $uibModal
           .open({
             templateUrl: choiceOptionsModalTemplate,
-            controller: function(
+            controller: function (
               $scope,
               $uibModalInstance,
               choice,
@@ -274,11 +274,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
               $scope.blockType = blockType;
               $scope.choice = choice;
               $scope.currency = currency;
-              $scope.close = function() {
+              $scope.close = function () {
                 $uibModalInstance.dismiss();
               };
 
-              $scope.save = function(choice) {
+              $scope.save = function (choice) {
                 if (_.isUndefined(choice.amount)) {
                   choice.amount = 0;
                 } else if (_.isString(choice.amount)) {
@@ -294,31 +294,31 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
               };
             },
             resolve: {
-              choice: function() {
+              choice: function () {
                 return angular.copy($scope.block.content.choices[index]);
               },
-              blockType: function() {
+              blockType: function () {
                 return $scope.block.type;
               },
-              currency: function() {
+              currency: function () {
                 return $scope.conference.currency.currencyCode;
               },
             },
           })
-          .result.then(function(choice) {
+          .result.then(function (choice) {
             choice.amount = Number(choice.amount);
             $scope.block.content.choices[index] = choice;
           });
       };
 
-      $scope.toggleProfileType = function(value) {
+      $scope.toggleProfileType = function (value) {
         if (!value) {
           $scope.block.profileType = null;
         } else {
           $scope.block.profileType = typeToProfile[$scope.block.type];
           var profileCount = 0;
-          $scope.conference.registrationPages.forEach(function(page) {
-            page.blocks.forEach(function(block) {
+          $scope.conference.registrationPages.forEach(function (page) {
+            page.blocks.forEach(function (block) {
               if ($scope.block.profileType === block.profileType) {
                 profileCount++;
               }
@@ -337,14 +337,14 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.registrationTypeName = function(id) {
+      $scope.registrationTypeName = function (id) {
         if (!id) {
           return;
         }
         return _.find($scope.conference.registrantTypes, { id: id }).name;
       };
 
-      $scope.onChoiceOptionChange = function() {
+      $scope.onChoiceOptionChange = function () {
         if ($scope.block.type === 'checkboxQuestion') {
           var keyName, key;
 
@@ -374,7 +374,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.disableForceSelectionRule = function() {
+      $scope.disableForceSelectionRule = function () {
         if (
           $scope.block.content.forceSelections === {} ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
@@ -389,24 +389,24 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
         }
       };
 
-      $scope.daysForBlock = function() {
+      $scope.daysForBlock = function () {
         return 1;
       };
 
-      $scope.toggleDateDependent = function(value) {
+      $scope.toggleDateDependent = function (value) {
         if (!value) {
           $scope.block.startDateBlockId = null;
           $scope.block.endDateBlockId = null;
         }
       };
 
-      $scope.dateBlocks = function() {
+      $scope.dateBlocks = function () {
         var blocks = _.flatten(
           _.map($scope.conference.registrationPages, 'blocks'),
         );
         //remove blocks after current block
         var remove = false;
-        _.remove(blocks, function(b) {
+        _.remove(blocks, function (b) {
           if (b.id === $scope.block.id) {
             remove = true;
           }
@@ -415,14 +415,14 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function() {
 
         var questionTypes = ['dateQuestion'];
 
-        blocks = _.filter(blocks, function(b) {
+        blocks = _.filter(blocks, function (b) {
           return _.includes(questionTypes, b.type);
         });
 
         return blocks;
       };
 
-      $scope.choiceVisible = function() {
+      $scope.choiceVisible = function () {
         return true;
       };
     },

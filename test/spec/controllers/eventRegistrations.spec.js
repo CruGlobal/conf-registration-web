@@ -1,33 +1,33 @@
 import 'angular-mocks';
 
-describe('Controller: eventRegistrations', function() {
+describe('Controller: eventRegistrations', function () {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var fakeModal = {
     result: {
-      then: function(confirmCallback, cancelCallback) {
+      then: function (confirmCallback, cancelCallback) {
         this.confirmCallBack = confirmCallback;
         this.cancelCallback = cancelCallback;
       },
     },
-    close: function(item) {
+    close: function (item) {
       this.result.confirmCallBack(item);
     },
-    dismiss: function(type) {
+    dismiss: function (type) {
       this.result.cancelCallback(type);
     },
   };
 
   var openModal;
-  beforeEach(inject(function($uibModal) {
+  beforeEach(inject(function ($uibModal) {
     openModal = spyOn($uibModal, 'open').and.returnValue(fakeModal);
   }));
 
   var testData, $httpBackend, $uibModal, $controller;
   beforeEach(
-    angular.mock.inject(function(
+    angular.mock.inject(function (
       $rootScope,
       _$controller_,
       _$uibModal_,
@@ -50,7 +50,7 @@ describe('Controller: eventRegistrations', function() {
     }),
   );
 
-  it('builtInColumnsVisible initialization', function() {
+  it('builtInColumnsVisible initialization', function () {
     expect(scope.builtInColumnsVisible['Email']).toBe(true);
     expect(scope.builtInColumnsVisible['Group']).toBe(true);
     expect(scope.builtInColumnsVisible['GroupId']).toBe(false);
@@ -58,7 +58,7 @@ describe('Controller: eventRegistrations', function() {
     expect(scope.builtInColumnsVisible['Completed']).toBe(true);
   });
 
-  it('editRegistrant should open modal window', function() {
+  it('editRegistrant should open modal window', function () {
     var registrant = testData.registration.registrants[0];
 
     $httpBackend
@@ -74,13 +74,13 @@ describe('Controller: eventRegistrations', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it("getGroupName should return Registration's groupName", function() {
+  it("getGroupName should return Registration's groupName", function () {
     var id = testData.registration.id;
 
     expect(scope.getGroupName(id)).toBe('Test Person');
   });
 
-  it('showGroup does not open if user has no permission', function() {
+  it('showGroup does not open if user has no permission', function () {
     $controller('eventRegistrationsCtrl', {
       $scope: scope,
       conference: testData.conference,
@@ -95,13 +95,13 @@ describe('Controller: eventRegistrations', function() {
     );
   });
 
-  it('showGroup should open modal window', function() {
+  it('showGroup should open modal window', function () {
     scope.showGroup();
 
     expect(openModal).toHaveBeenCalled(); /* eslint-disable-line */
   });
 
-  it('registerUser should open modal window', function() {
+  it('registerUser should open modal window', function () {
     scope.registerUser();
 
     expect(openModal).toHaveBeenCalled(); /* eslint-disable-line */

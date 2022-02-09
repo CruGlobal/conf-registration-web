@@ -1,15 +1,12 @@
 // Adapted from: http://stackoverflow.com/questions/12700145/how-to-format-a-telephone-number-in-angularjs
 
-angular.module('confRegistrationWebApp').filter('tel', function() {
-  return function(tel) {
+angular.module('confRegistrationWebApp').filter('tel', function () {
+  return function (tel) {
     if (!tel) {
       return '';
     }
 
-    var value = tel
-      .toString()
-      .trim()
-      .replace(/\D/g, '');
+    var value = tel.toString().trim().replace(/\D/g, '');
 
     var country, city, number;
 

@@ -13,7 +13,7 @@ class Analytics {
   firePageViewEvent() {
     // Profile info
     this.ProfileCache.getCache().then(
-      profile => {
+      (profile) => {
         this.digitalData.user[0].profile[0].profileInfo.loggedInStatus =
           'Logged In';
         switch (profile.authProviderType) {

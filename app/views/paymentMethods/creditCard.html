@@ -62,8 +62,9 @@
         <option
           value="{{currentYear+$index}}"
           ng-repeat="t in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
-          >{{currentYear+$index}}</option
         >
+          {{currentYear+$index}}
+        </option>
       </select>
     </div>
   </div>
@@ -113,8 +114,8 @@
       <div class="col-sm-12">
         <label translate>Country</label>
         <select ng-model="creditCardCountry" class="form-control">
-          <option ng-repeat="country in countries" ng-value="country[1]"
-            >{{country[0]}}
+          <option ng-repeat="country in countries" ng-value="country[1]">
+            {{country[0]}}
           </option>
         </select>
       </div>

@@ -144,7 +144,7 @@
           >
             <td></td>
             <td
-              style="font-weight:bold;"
+              style="font-weight: bold"
               ng-class="{'invalidBlock': isBlockInvalid(r.id, block.id)}"
               ng-bind-html="block.title"
             ></td>
@@ -411,7 +411,7 @@
       class="text-center spacing-above-md hidden-print"
       ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)"
     >
-      <p ng-if="!allRegistrantsValid()" style="color:red;" translate>
+      <p ng-if="!allRegistrantsValid()" style="color: red" translate>
         Please fill in all required fields in red before submitting.
       </p>
       <button

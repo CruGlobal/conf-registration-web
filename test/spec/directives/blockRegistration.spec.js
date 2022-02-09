@@ -1,10 +1,10 @@
 import 'angular-mocks';
 
-describe('Directive: blockRegistration', function() {
+describe('Directive: blockRegistration', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(
+  beforeEach(inject(function (
     _$compile_,
     _$rootScope_,
     $templateCache,
@@ -25,17 +25,17 @@ describe('Directive: blockRegistration', function() {
     scope.$digest();
   }));
 
-  it('is false when choice is undefined', function() {
+  it('is false when choice is undefined', function () {
     expect(element.scope().choiceVisible(scope.block)).toBe(false);
   });
 
-  it('choice should be visible without rules', function() {
+  it('choice should be visible without rules', function () {
     const choice = scope.block.content.choices[0];
 
     expect(element.scope().choiceVisible(scope.block, choice)).toBe(true);
   });
 
-  it('choice should not be visible with rules', function() {
+  it('choice should not be visible with rules', function () {
     // choice is has a value = 23
     // but has rule to be visible if parent value is more than 100
     const choice = scope.block.content.choices[1];
@@ -47,7 +47,7 @@ describe('Directive: blockRegistration', function() {
     expect(element.scope().choiceVisible(scope.block, choice)).toBe(false);
   });
 
-  it('choice should be visible with fulfilled rules', function() {
+  it('choice should be visible with fulfilled rules', function () {
     // choice is has a value = 23
     // but has rule to be visible if parent value is more than 100
     const choice = scope.block.content.choices[1];
@@ -57,7 +57,7 @@ describe('Directive: blockRegistration', function() {
     expect(element.scope().choiceVisible(scope.block, choice)).toBe(true);
   });
 
-  it('choice should disappear because the rules became not fulfilled for radioQuestion type', function() {
+  it('choice should disappear because the rules became not fulfilled for radioQuestion type', function () {
     // choice is has a value = 23
     // but has rule to be visible if parent value is more than 100
     const choice = scope.block.content.choices[1];
@@ -74,7 +74,7 @@ describe('Directive: blockRegistration', function() {
     expect(element.scope().adminEditRegistrant.answers[2].value).toBeNull();
   });
 
-  it('choice should disappear because the rules became not fulfilled for checkboxQuestion type', function() {
+  it('choice should disappear because the rules became not fulfilled for checkboxQuestion type', function () {
     // select checkboxQuestion block type
     scope.adminEditRegistrant = testData.registration.registrants[0];
     scope.block = testData.conference.registrationPages[1].blocks[5];
@@ -96,7 +96,7 @@ describe('Directive: blockRegistration', function() {
     ).toBeFalsy();
   });
 
-  it('all force selected checkboxes should be visible and set to true', function() {
+  it('all force selected checkboxes should be visible and set to true', function () {
     scope.adminEditRegistrant = testData.registration.registrants[0];
 
     const blocks = testData.conference.registrationPages[1].blocks;
@@ -124,7 +124,7 @@ describe('Directive: blockRegistration', function() {
     expect(scope.answer.value['4']).toBeUndefined();
   });
 
-  it('hidden force selection should not be counted when calculating the cost amount', function() {
+  it('hidden force selection should not be counted when calculating the cost amount', function () {
     scope.adminEditRegistrant = testData.registration.registrants[0];
     const answerIndex = _.findIndex(scope.adminEditRegistrant.answers, {
       blockId: '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
