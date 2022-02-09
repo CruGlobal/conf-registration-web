@@ -1,10 +1,10 @@
 import 'angular-mocks';
 
-describe('Directive: showAnswer', function() {
+describe('Directive: showAnswer', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(
+  beforeEach(inject(function (
     _$compile_,
     _$rootScope_,
     $templateCache,
@@ -24,7 +24,7 @@ describe('Directive: showAnswer', function() {
     scope.$digest();
   }));
 
-  it('choiceVisible is false when choice is undefined', function() {
+  it('choiceVisible is false when choice is undefined', function () {
     expect(element.isolateScope().choiceVisible(scope.block)).toBe(false);
   });
 });

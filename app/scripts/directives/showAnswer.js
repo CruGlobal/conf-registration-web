@@ -1,6 +1,6 @@
 import template from 'views/components/answerDisplay.html';
 
-angular.module('confRegistrationWebApp').directive('showAnswer', function() {
+angular.module('confRegistrationWebApp').directive('showAnswer', function () {
   return {
     templateUrl: template,
     restrict: 'E',
@@ -10,7 +10,7 @@ angular.module('confRegistrationWebApp').directive('showAnswer', function() {
       showAmount: '=',
       conference: '=',
     },
-    controller: function($scope, validateRegistrant) {
+    controller: function ($scope, validateRegistrant) {
       if (angular.isDefined($scope.registrant)) {
         if ($scope.registrant.answers) {
           var answerObject = _.find($scope.registrant.answers, {
@@ -22,22 +22,27 @@ angular.module('confRegistrationWebApp').directive('showAnswer', function() {
         }
       }
 
-      $scope.getSelectedCheckboxes = function(choices) {
-        var visibleChoices = _.filter($scope.block.content.choices, function(
-          choice,
-        ) {
-          return $scope.choiceVisible($scope.block, choice, $scope.registrant);
-        });
+      $scope.getSelectedCheckboxes = function (choices) {
+        var visibleChoices = _.filter(
+          $scope.block.content.choices,
+          function (choice) {
+            return $scope.choiceVisible(
+              $scope.block,
+              choice,
+              $scope.registrant,
+            );
+          },
+        );
         visibleChoices = _.map(visibleChoices, 'value');
 
         return _.keys(
-          _.pickBy(choices, function(value, key) {
+          _.pickBy(choices, function (value, key) {
             return value === true && visibleChoices.includes(key);
           }),
         );
       };
 
-      $scope.choiceVisible = function(block, choice, registrant) {
+      $scope.choiceVisible = function (block, choice, registrant) {
         if (angular.isUndefined(choice)) {
           return false;
         }

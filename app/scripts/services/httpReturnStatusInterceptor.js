@@ -1,8 +1,8 @@
 angular
   .module('confRegistrationWebApp')
-  .factory('statusInterceptor', function() {
+  .factory('statusInterceptor', function () {
     return {
-      response: function(response) {
+      response: function (response) {
         if (!_.isUndefined(response.data.statusCode)) {
           response.status = response.data.statusCode;
         }

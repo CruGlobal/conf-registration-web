@@ -1,11 +1,11 @@
 angular
   .module('confRegistrationWebApp')
-  .factory('httpUrlInterceptor', function(envService) {
+  .factory('httpUrlInterceptor', function (envService) {
     return {
-      request: function(config) {
+      request: function (config) {
         var passthroughRegexs = [/https?:\/\/.*/, /^views\/.*/, /template\/.*/];
 
-        var match = function(regexp) {
+        var match = function (regexp) {
           return regexp.test(config.url);
         };
 

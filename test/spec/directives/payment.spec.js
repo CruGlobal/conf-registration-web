@@ -1,6 +1,6 @@
 import 'angular-mocks';
 
-describe('Directive: ertPayment', function() {
+describe('Directive: ertPayment', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var scope, $rootScope, element, $compile;
@@ -16,7 +16,7 @@ describe('Directive: ertPayment', function() {
     scope = element.isolateScope() || element.scope();
   }));
 
-  beforeEach(inject($rootScope => {
+  beforeEach(inject(($rootScope) => {
     spyOn($rootScope, 'globalUser').and.returnValue({
       employeeId: '9870123457S',
     });

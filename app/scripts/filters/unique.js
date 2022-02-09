@@ -1,5 +1,5 @@
-angular.module('confRegistrationWebApp').filter('unique', function() {
-  return function(items, filterOn) {
+angular.module('confRegistrationWebApp').filter('unique', function () {
+  return function (items, filterOn) {
     if (filterOn === false) {
       return items;
     }
@@ -7,7 +7,7 @@ angular.module('confRegistrationWebApp').filter('unique', function() {
     if ((filterOn || angular.isUndefined(filterOn)) && angular.isArray(items)) {
       var newItems = [];
 
-      var extractValueToCompare = function(item) {
+      var extractValueToCompare = function (item) {
         if (angular.isObject(item) && angular.isString(filterOn)) {
           return item[filterOn];
         } else {
@@ -15,7 +15,7 @@ angular.module('confRegistrationWebApp').filter('unique', function() {
         }
       };
 
-      angular.forEach(items, function(item) {
+      angular.forEach(items, function (item) {
         var isDuplicate = false;
 
         for (var i = 0; i < newItems.length; i++) {

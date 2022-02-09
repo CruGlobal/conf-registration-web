@@ -1,10 +1,10 @@
 import 'angular-mocks';
 
-describe('Directive: rule', function() {
+describe('Directive: rule', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(
+  beforeEach(inject(function (
     _$compile_,
     _$rootScope_,
     $templateCache,
@@ -31,7 +31,7 @@ describe('Directive: rule', function() {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('defaults answers operand to OR value', function() {
+  it('defaults answers operand to OR value', function () {
     const choiceCCC = _.find(scope.block.content.choices, { value: 'CCC' });
     const choiceDDD = _.find(scope.block.content.choices, { value: 'DDD' });
 

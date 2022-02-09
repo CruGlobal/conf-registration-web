@@ -2,7 +2,7 @@ import 'angular-mocks';
 
 angular
   .module('confRegistrationWebApp')
-  .service('testRegistrantTypeData', function() {
+  .service('testRegistrantTypeData', function () {
     this.conference = {
       id: '0dc61eeb-6932-4d09-b04f-9def3915fd4c',
       name: 'EVENT 607',

@@ -3,7 +3,7 @@ import template from 'views/components/datepicker.html';
 
 angular
   .module('confRegistrationWebApp')
-  .directive('crsDatetimepicker', function() {
+  .directive('crsDatetimepicker', function () {
     return {
       templateUrl: template,
       restrict: 'E',
@@ -11,14 +11,14 @@ angular
         localModel: '=model',
         ngDisabled: '=',
       },
-      controller: function($timeout, $scope) {
-        $scope.updateTimeStamp = function(timestamp) {
-          $scope.$apply(function() {
+      controller: function ($timeout, $scope) {
+        $scope.updateTimeStamp = function (timestamp) {
+          $scope.$apply(function () {
             $scope.localModel = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
           });
         };
       },
-      link: function(scope, element) {
+      link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
         var initialDate = scope.localModel
           ? moment(scope.localModel).format('MM/DD/YYYY hh:mm A')
@@ -26,11 +26,11 @@ angular
         datePickerElement
           .datetimepicker()
           .datetimepicker('defaultDate', initialDate)
-          .on('dp.change', function(ev) {
+          .on('dp.change', function (ev) {
             scope.updateTimeStamp(ev.date);
           });
 
-        scope.$on('$destroy', function() {
+        scope.$on('$destroy', function () {
           if (angular.isDefined(datePickerElement.data('DateTimePicker'))) {
             datePickerElement.data('DateTimePicker').destroy();
           }

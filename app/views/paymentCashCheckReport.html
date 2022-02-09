@@ -22,28 +22,16 @@
     </div>
   </div>
   <div class="row form-group">
-    <div class="col-xs-2 details-heading" translate>
-      Conference Long Name:
-    </div>
-    <div class="col-xs-3 details-heading">
-      {{report.conferenceLongName}}
-    </div>
+    <div class="col-xs-2 details-heading" translate>Conference Long Name:</div>
+    <div class="col-xs-3 details-heading">{{report.conferenceLongName}}</div>
   </div>
   <div class="row form-group">
-    <div class="col-xs-2 details-heading" translate>
-      Conference ID:
-    </div>
-    <div class="col-xs-3 details-heading">
-      {{report.conferenceId}}
-    </div>
+    <div class="col-xs-2 details-heading" translate>Conference ID:</div>
+    <div class="col-xs-3 details-heading">{{report.conferenceId}}</div>
   </div>
   <div class="row form-group">
-    <div class="col-xs-2 details-heading" translate>
-      Conference Contact:
-    </div>
-    <div class="col-xs-3 details-heading">
-      {{report.contactPersonName}}
-    </div>
+    <div class="col-xs-2 details-heading" translate>Conference Contact:</div>
+    <div class="col-xs-3 details-heading">{{report.contactPersonName}}</div>
   </div>
   <div class="row form-group">
     <div class="col-md-2 details-heading">
@@ -91,18 +79,10 @@
               ng-class="{'active': $even}"
               class="noselect"
             >
-              <td>
-                {{r.transactionId}}
-              </td>
-              <td>
-                {{r.firstName}}
-              </td>
-              <td>
-                {{r.lastName}}
-              </td>
-              <td>
-                {{r.checkNumber}}
-              </td>
+              <td>{{r.transactionId}}</td>
+              <td>{{r.firstName}}</td>
+              <td>{{r.lastName}}</td>
+              <td>{{r.checkNumber}}</td>
               <td>
                 {{(r.checkNumber == "REFUND" ? "(" : "") + (r.amount |
                 localizedCurrency:conference.currency.currencyCode) +

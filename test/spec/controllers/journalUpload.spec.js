@@ -1,13 +1,13 @@
 import 'angular-mocks';
 
-describe('Controller: journalUploadCtrl', function() {
+describe('Controller: journalUploadCtrl', function () {
   var scope;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var testData, $httpBackend, $controller;
   beforeEach(
-    angular.mock.inject(function(
+    angular.mock.inject(function (
       $rootScope,
       _$controller_,
       _testData_,

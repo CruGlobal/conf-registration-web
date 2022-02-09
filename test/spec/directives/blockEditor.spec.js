@@ -1,10 +1,10 @@
 import 'angular-mocks';
 
-describe('Directive: blockEditor', function() {
+describe('Directive: blockEditor', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var element, scope, $compile, $rootScope, testData;
-  beforeEach(inject(function(
+  beforeEach(inject(function (
     _$compile_,
     _$rootScope_,
     $templateCache,
@@ -26,7 +26,7 @@ describe('Directive: blockEditor', function() {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('updates forceSelection', function() {
+  it('updates forceSelection', function () {
     scope.block.content.forceSelections = { someValue: true };
 
     scope.onChoiceOptionChange();
@@ -34,7 +34,7 @@ describe('Directive: blockEditor', function() {
     expect(scope.block.content.forceSelections['someValue']).toBeUndefined();
   });
 
-  it('should open modal for Advanced Option', function() {
+  it('should open modal for Advanced Option', function () {
     scope.conference.currency = {
       code: 'USD',
       name: 'US Dollar',
@@ -43,7 +43,7 @@ describe('Directive: blockEditor', function() {
     scope.editBlockOptionAdvanced();
   });
 
-  it('set new answer rules operand to OR by default', function() {
+  it('set new answer rules operand to OR by default', function () {
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
     });
