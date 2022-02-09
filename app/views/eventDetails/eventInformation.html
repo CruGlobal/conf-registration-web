@@ -196,8 +196,8 @@
       ng-if="currentRegions.length > 1"
     >
       <option value="" disabled selected>State/Region</option>
-      <option ng-repeat="region in currentRegions" ng-value="region[1]"
-        >{{region[0]}}
+      <option ng-repeat="region in currentRegions" ng-value="region[1]">
+        {{region[0]}}
       </option>
     </select>
     <input
@@ -228,8 +228,8 @@
 <div class="form-group" ng-if="!conference.virtual">
   <div class="col-sm-6 stacked-spacing-col-sm">
     <select ng-model="conference.locationCountry" class="form-control">
-      <option ng-repeat="country in countries" ng-value="country[1]"
-        >{{country[0]}}
+      <option ng-repeat="country in countries" ng-value="country[1]">
+        {{country[0]}}
       </option>
     </select>
   </div>

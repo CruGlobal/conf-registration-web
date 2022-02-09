@@ -6,7 +6,7 @@ describe('Filter: eventAddressFormat', () => {
   beforeEach(() => {
     angular.mock.module('confRegistrationWebApp');
 
-    inject($injector => {
+    inject(($injector) => {
       filter = $injector.get('$filter')('eventAddressFormat');
     });
   });

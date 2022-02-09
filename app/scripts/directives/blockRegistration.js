@@ -52,7 +52,7 @@ angular
           isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
 
-        $scope.currentRegions = country => getCurrentRegions(country);
+        $scope.currentRegions = (country) => getCurrentRegions(country);
 
         function initRegistrationMode() {
           const registrantId = $routeParams.reg;

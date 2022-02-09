@@ -51,7 +51,8 @@
       <option
         ng-repeat="region in currentRegions(answer.value.country)"
         ng-value="region[1]"
-        >{{region[0]}}
+      >
+        {{region[0]}}
       </option>
     </select>
     <input
@@ -95,8 +96,8 @@
       ng-model-options="{ debounce: 1000 }"
       ng-disabled="editBlock"
     >
-      <option ng-repeat="country in countries" ng-value="country[1]"
-        >{{country[0]}}
+      <option ng-repeat="country in countries" ng-value="country[1]">
+        {{country[0]}}
       </option>
     </select>
   </div>

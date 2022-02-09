@@ -114,7 +114,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         };
       }
 
-      $scope.currentRegions = country => getCurrentRegions(country);
+      $scope.currentRegions = (country) => getCurrentRegions(country);
 
       $scope.$watch(
         'answer',

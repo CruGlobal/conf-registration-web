@@ -7,8 +7,8 @@ angular
     // To prevent issues, default their country to 'US' if country is falsey
     const currentCountry = country ? country : 'US';
     const filteredRegions = allCountries
-      .find(c => c[1] === currentCountry)[2]
-      .filter(r => r[1] === state);
+      .find((c) => c[1] === currentCountry)[2]
+      .filter((r) => r[1] === state);
     const formattedState =
       state && filteredRegions.length >= 1 ? filteredRegions[0][0] : state;
 
@@ -28,7 +28,7 @@ angular
       ? `${zip}`
       : '';
 
-    const addressCountry = allCountries.find(c => c[1] === currentCountry)[0];
+    const addressCountry = allCountries.find((c) => c[1] === currentCountry)[0];
 
     return {
       addressLine3,
@@ -36,5 +36,5 @@ angular
     };
   });
 
-export const getCurrentRegions = country =>
-  allCountries.find(c => c[1] === country)[2];
+export const getCurrentRegions = (country) =>
+  allCountries.find((c) => c[1] === country)[2];
