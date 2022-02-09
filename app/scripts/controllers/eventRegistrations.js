@@ -2,7 +2,6 @@ import registrationsPaidPopoverTemplate from 'views/components/registrationsPaid
 import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
-import exportModalTemplate from 'views/modals/export.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
 angular
@@ -457,14 +456,12 @@ angular
     };
 
     // Export conference registrations information to csv
-    $scope.export = function() {
+    $scope.export = () => {
       $uibModal.open({
-        templateUrl: exportModalTemplate,
-        controller: 'exportDataModal',
+        component: 'exportModal',
         resolve: {
-          conference: function() {
-            return $scope.conference;
-          },
+          queryParameters: () => $scope.queryParameters,
+          conference: () => $scope.conference,
         },
       });
     };
