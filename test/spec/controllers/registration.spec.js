@@ -113,7 +113,11 @@ describe('Controller: registration', () => {
 
     expect(currentPage).toEqual(scope.conference.registrationPages[0]);
 
+    const checkValidPagesSpy = spyOn(scope, 'checkValidPages');
+
     const nextPage = scope.nextPage();
+
+    expect(checkValidPagesSpy).toHaveBeenCalledWith();
 
     expect(scope.validPages.length).toEqual(2);
 
