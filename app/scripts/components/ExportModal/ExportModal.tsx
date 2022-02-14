@@ -32,14 +32,10 @@ const ExportModal = ({
   const { conference, queryParameters } = resolve;
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [includeFilters, setIncludeFilters] = useState(false);
-  const [
-    includeWithdrawnRegistrants,
-    setIncludeWithdrawnRegistrants,
-  ] = useState(false);
-  const [
-    includeIncompleteRegistrations,
-    setIncludeIncompleteRegistrations,
-  ] = useState(false);
+  const [includeWithdrawnRegistrants, setIncludeWithdrawnRegistrants] =
+    useState(false);
+  const [includeIncompleteRegistrations, setIncludeIncompleteRegistrations] =
+    useState(false);
   const [expenseType, setExpenseType] = useState(
     AccountTransferExportEnum.REGISTRATION,
   );
@@ -48,15 +44,7 @@ const ExportModal = ({
 
   const handleClose = () => modalInstance.dismiss();
 
-  const filterString = `&filter=${queryParameters.filter}&filterPayment=${
-    queryParameters.filterPayment
-  }&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${
-    queryParameters.includeCheckedin
-  }&includeEFormStatus=${
-    queryParameters.includeEFormStatus
-  }&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${
-    queryParameters.includeWithdrawn
-  }&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
+  const filterString = `&filter=${queryParameters.filter}&filterPayment=${queryParameters.filterPayment}&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${queryParameters.includeEFormStatus}&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${queryParameters.includeWithdrawn}&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
 
   return (
     <>
@@ -77,7 +65,7 @@ const ExportModal = ({
               <br />
               <p translate="yes">Registrations and answers</p>
               <br />
-              <a onClick={() => setShowAdvanced(prev => !prev)}>
+              <a onClick={() => setShowAdvanced((prev) => !prev)}>
                 {showAdvanced ? 'Hide' : 'Show'} advanced options
               </a>
               {showAdvanced ? (
@@ -86,7 +74,7 @@ const ExportModal = ({
                     <label>
                       <input
                         type="checkbox"
-                        onChange={() => setIncludeFilters(prev => !prev)}
+                        onChange={() => setIncludeFilters((prev) => !prev)}
                         checked={includeFilters}
                       />
                       <span translate="yes">
@@ -99,7 +87,7 @@ const ExportModal = ({
                       <input
                         type="checkbox"
                         onChange={() =>
-                          setIncludeWithdrawnRegistrants(prev => !prev)
+                          setIncludeWithdrawnRegistrants((prev) => !prev)
                         }
                         checked={includeWithdrawnRegistrants}
                       />
@@ -111,7 +99,7 @@ const ExportModal = ({
                       <input
                         type="checkbox"
                         onChange={() =>
-                          setIncludeIncompleteRegistrations(prev => !prev)
+                          setIncludeIncompleteRegistrations((prev) => !prev)
                         }
                         checked={includeIncompleteRegistrations}
                       />
@@ -147,9 +135,7 @@ const ExportModal = ({
             <div className="col-xs-4">
               <a
                 className="btn btn-primary btn-block"
-                href={`${apiUrl}conferences/${
-                  conference.id
-                }/export/payments?Authorization=${authToken}`}
+                href={`${apiUrl}conferences/${conference.id}/export/payments?Authorization=${authToken}`}
               >
                 <i className="fa fa-cloud-download" />{' '}
                 <span translate="yes">Download</span>
@@ -235,9 +221,7 @@ const ExportModal = ({
             <div className="col-xs-4">
               <a
                 className="btn btn-primary btn-block"
-                href={`${apiUrl}conferences/${
-                  conference.id
-                }/export/transfers?Authorization=${authToken}&expenseType=${expenseType}`}
+                href={`${apiUrl}conferences/${conference.id}/export/transfers?Authorization=${authToken}&expenseType=${expenseType}`}
               >
                 <i className="fa fa-cloud-download" />{' '}
                 <span translate="yes">Download</span>
