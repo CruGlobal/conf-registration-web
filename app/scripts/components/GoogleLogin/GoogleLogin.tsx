@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import angular, { IHttpService, IDocumentService } from 'angular';
 import { react2angular } from 'react2angular';
 

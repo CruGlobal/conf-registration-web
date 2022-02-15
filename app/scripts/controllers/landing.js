@@ -4,8 +4,14 @@ import bigBreakImg from 'img/landing/big-break.jpg';
 import studentsImg from 'img/landing/311.jpg';
 import climbingImg from 'img/landing/187.jpg';
 
+import landingTemplate from 'views/landing.html';
+
 angular
   .module('confRegistrationWebApp')
+  .component('landingComponent', {
+    controller: 'landingCtrl',
+    templateUrl: landingTemplate,
+  })
   .controller(
     'landingCtrl',
     function ($rootScope, $scope, $http, $cookies, $location, analytics) {
