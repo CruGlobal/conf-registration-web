@@ -2,8 +2,8 @@ const webpack = require('webpack');
 const path = require('path');
 const concat = require('lodash/concat');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
@@ -34,12 +34,12 @@ module.exports = (env = {}) => {
   return {
     mode: isBuild ? 'production' : 'development',
     entry: {
-      app: 'scripts/main.js',
+      app: ['scripts/main.js', 'styles/style.scss'],
     },
     output: {
       filename: '[name].[chunkhash].js',
       path: path.resolve(__dirname, 'dist'),
-      devtoolModuleFilenameTemplate: info =>
+      devtoolModuleFilenameTemplate: (info) =>
         info.resourcePath.replace(/^\.\//, ''),
       crossOriginLoading: 'anonymous',
     },
@@ -115,6 +115,9 @@ module.exports = (env = {}) => {
             {
               loader: 'babel-loader',
               options: {
+                configFile: `${path.resolve(
+                  __dirname,
+                )}/babel-angular.config.js`,
                 plugins: !isTest ? ['angularjs-annotate'] : [],
               },
             },

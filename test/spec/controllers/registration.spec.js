@@ -107,4 +107,20 @@ describe('Controller: registration', () => {
 
     expect(scope.validPages.length).toEqual(1);
   });
+
+  it('should run nextPage', () => {
+    const currentPage = scope.page;
+
+    expect(currentPage).toEqual(scope.conference.registrationPages[0]);
+
+    const checkValidPagesSpy = spyOn(scope, 'checkValidPages');
+
+    const nextPage = scope.nextPage();
+
+    expect(checkValidPagesSpy).toHaveBeenCalledWith();
+
+    expect(scope.validPages.length).toEqual(2);
+
+    expect(nextPage).toEqual(scope.conference.registrationPages[1]);
+  });
 });
