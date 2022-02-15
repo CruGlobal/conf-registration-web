@@ -69,11 +69,33 @@ angular
             })
           : $scope.conference.registrationPages;
 
+      $scope.checkValidPages = () => {
+        $scope.validPages = $scope.conference.registrationPages.filter(
+          (page) => {
+            const registrantId = $scope.currentRegistrant
+              ? $scope.currentRegistrant
+              : $scope.currentRegistration.registrants[0].id;
+
+            return (
+              page.blocks.filter((block) =>
+                validateRegistrant.blockVisible(
+                  block,
+                  currentRegistration.registrants.find(
+                    (r) => r.id === registrantId,
+                  ),
+                ),
+              ).length > 0
+            );
+          },
+        );
+      };
+
       $scope.page = _.find($scope.validPages, { id: pageId });
       $scope.activePageIndex = _.findIndex($scope.validPages, {
         id: pageId,
       });
       $scope.nextPage = function () {
+        $scope.checkValidPages();
         var visiblePageArray = _.filter($scope.validPages, function (page) {
           return $scope.pageIsVisible(page);
         });
