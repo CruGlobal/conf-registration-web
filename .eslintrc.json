@@ -21,7 +21,8 @@
   "extends": [
     "angular",
     "plugin:jasmine/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime"
   ],
   "globals": {
     "inject": true,

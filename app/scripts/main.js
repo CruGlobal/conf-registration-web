@@ -91,6 +91,3 @@ import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
 import 'scripts/services/paymentReportService.js';
 import 'scripts/services/journalUploadService.js';
-
-// App styles
-import '../styles/style.scss';
