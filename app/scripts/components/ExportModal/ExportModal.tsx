@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import angular from 'angular';
 import { react2angular } from 'react2angular';
 
