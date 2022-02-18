@@ -11,7 +11,12 @@ module.exports = {
         exclude: ['@babel/plugin-transform-function-name'],
       },
     ],
-    '@babel/preset-react',
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
     '@babel/preset-typescript',
   ],
   plugins: ['@babel/plugin-transform-runtime'],
