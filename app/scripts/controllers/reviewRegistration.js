@@ -7,6 +7,7 @@ angular
       $rootScope,
       $location,
       $route,
+      $filter,
       $window,
       modalMessage,
       $http,
@@ -43,6 +44,13 @@ angular
 
       $scope.conference = conference;
       $scope.currentRegistration = currentRegistration;
+      $scope.displayAddress = $filter('eventAddressFormat')(
+        $scope.conference.locationCity,
+        $scope.conference.locationState,
+        $scope.conference.locationZipCode,
+        $scope.conference.locationCountry,
+      );
+
       $scope.blocks = [];
       $scope.regValidate = [];
 
