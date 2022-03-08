@@ -29,9 +29,8 @@ const ExportModal = ({
   $cookies,
   envService,
 }: ExportModalProps) => {
-  const { conference, queryParameters } = resolve;
+  const { conference } = resolve;
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [includeFilters, setIncludeFilters] = useState(false);
   const [includeWithdrawnRegistrants, setIncludeWithdrawnRegistrants] =
     useState(false);
   const [includeIncompleteRegistrations, setIncludeIncompleteRegistrations] =
@@ -43,8 +42,6 @@ const ExportModal = ({
   const authToken = $cookies.get('crsToken');
 
   const handleClose = () => modalInstance.dismiss();
-
-  const filterString = `&filter=${queryParameters.filter}&filterPayment=${queryParameters.filterPayment}&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${queryParameters.includeEFormStatus}&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${queryParameters.includeWithdrawn}&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
 
   return (
     <>
@@ -70,18 +67,6 @@ const ExportModal = ({
               </a>
               {showAdvanced ? (
                 <div>
-                  <div className="checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        onChange={() => setIncludeFilters((prev) => !prev)}
-                        checked={includeFilters}
-                      />
-                      <span translate="yes">
-                        Apply current filters to export
-                      </span>
-                    </label>
-                  </div>
                   <div className="checkbox">
                     <label>
                       <input
@@ -114,11 +99,7 @@ const ExportModal = ({
             <div className="col-xs-4">
               <a
                 className="btn btn-primary btn-block"
-                href={`${apiUrl}conferences/${
-                  conference.id
-                }/export/registrations?Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}${
-                  includeFilters ? filterString : ''
-                }`}
+                href={`${apiUrl}conferences/${conference.id}/export/registrations?Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}`}
               >
                 <i className="fa fa-cloud-download" />{' '}
                 <span translate="yes">Download</span>

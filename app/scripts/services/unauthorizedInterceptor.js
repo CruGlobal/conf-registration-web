@@ -7,6 +7,7 @@ angular
         responseError: function (rejection) {
           if (
             rejection.status === 401 &&
+            !rejection.config.url.includes('/profile') &&
             angular.isDefined($cookies.get('crsToken'))
           ) {
             if ($cookies.get('crsAuthProviderType') === 'NONE') {
