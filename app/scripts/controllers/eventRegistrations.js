@@ -236,6 +236,8 @@ angular
           return registrant.lastUpdatedTimestamp;
         } else if (orderBy === 'group_id') {
           return registrant.groupId;
+        } else if (orderBy === 'form_status') {
+          return registrant.eformStatus;
         } else {
           var answerValue = findAnswer(registrant, orderBy);
           if (angular.isUndefined(answerValue)) {
