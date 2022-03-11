@@ -216,49 +216,25 @@ angular
           return 0;
         }
 
-        if (orderBy === 'completed_timestamp') {
-          return $scope.getRegistration(registrant.registrationId)
-            .completedTimestamp;
-        } else if (orderBy === 'created_timestamp') {
-          return registrant.createdTimestamp;
-        } else if (orderBy === 'registrant_type_id') {
-          return registrant.registrantTypeId;
-          //return $scope.getRegistrantType(registration.registrantTypeId).name;
-        } else if (orderBy === 'first_name') {
-          return registrant.firstName;
-        } else if (orderBy === 'last_name') {
-          return registrant.lastName;
-        } else if (orderBy === 'email') {
-          return registrant.email;
-        } else if (orderBy === 'checked_in_timestamp') {
-          return registrant.checkedInTimestamp;
-        } else if (orderBy === 'last_updated_timestamp') {
-          return registrant.lastUpdatedTimestamp;
-        } else if (orderBy === 'group_id') {
-          return registrant.groupId;
-        } else if (orderBy === 'form_status') {
-          return registrant.eformStatus;
-        } else {
-          var answerValue = findAnswer(registrant, orderBy);
-          if (angular.isUndefined(answerValue)) {
-            return '';
-          }
+        var answerValue = findAnswer(registrant, orderBy);
+        if (angular.isUndefined(answerValue)) {
+          return '';
+        }
 
-          answerValue = answerValue.value;
-          if (_.isObject(answerValue)) {
-            var blockType = _.find($scope.blocks, { id: orderBy }).type;
-            if (blockType === 'checkboxQuestion') {
-              return _.keys(
-                _.pickBy(answerValue, function (val) {
-                  return val;
-                }),
-              ).join();
-            } else {
-              return _.values(answerValue).join();
-            }
+        answerValue = answerValue.value;
+        if (_.isObject(answerValue)) {
+          var blockType = _.find($scope.blocks, { id: orderBy }).type;
+          if (blockType === 'checkboxQuestion') {
+            return _.keys(
+              _.pickBy(answerValue, function (val) {
+                return val;
+              }),
+            ).join();
           } else {
-            return answerValue;
+            return _.values(answerValue).join();
           }
+        } else {
+          return answerValue;
         }
       };
 
