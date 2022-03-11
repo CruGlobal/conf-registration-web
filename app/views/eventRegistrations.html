@@ -562,7 +562,7 @@
               ng-class="{'strike-through':r.withdrawn}"
               ng-if="builtInColumnsVisible.LastUpdated"
             >
-              {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
+              {{r.lastUpdatedTimestamp | date: 'short'}}
             </td>
             <td class="text-center" ng-if="conference.eform">
               <p ng-if="!r.eformStatus">-</p>
