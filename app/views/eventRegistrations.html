@@ -417,7 +417,9 @@
               width="160"
               ng-if="builtInColumnsVisible.LastUpdated"
             >
-              <translate>Last Updated</translate>
+              <a href="" ng-click="setOrder('last_updated_timestamp')" translate
+                >Last Updated</a
+              >
               <i
                 ng-if="queryParameters.orderBy === 'last_updated_timestamp'"
                 class="fa"
@@ -425,8 +427,10 @@
               ></i>
             </th>
 
-            <th class="text-center" width="115" ng-if="conference.eform">
-              <translate>Form Status</translate>
+            <th class="text-center" width="140" ng-if="conference.eform">
+              <a href="" ng-click="setOrder('form_status')" translate
+                >Form Status</a
+              >
               <i
                 class="fa fa-question-circle"
                 button
@@ -434,10 +438,17 @@
                 popover-trigger="'mouseenter'"
                 popover-append-to-body="true"
               ></i>
+              <i
+                ng-if="queryParameters.orderBy === 'form_status'"
+                class="fa"
+                ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+              ></i>
             </th>
 
-            <th class="text-center" width="70">
-              <translate>Paid</translate>
+            <th class="text-center" width="75">
+              <a href="" ng-click="setOrder('payment_status')" translate
+                >Paid</a
+              >
               <i
                 class="fa fa-question-circle"
                 button
@@ -446,6 +457,11 @@
                 popover-append-to-body="true"
               >
               </i>
+              <i
+                ng-if="queryParameters.orderBy === 'payment_status'"
+                class="fa"
+                ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+              ></i>
             </th>
 
             <th class="text-center" width="120">
@@ -463,7 +479,7 @@
         </thead>
         <tbody>
           <tr
-            ng-repeat-start="r in registrants | orderBy:answerSort:reversesort"
+            ng-repeat-start="r in registrants | orderBy:answerSort"
             ng-class="{'active': $even}"
             class="noselect"
           >
@@ -546,7 +562,7 @@
               ng-class="{'strike-through':r.withdrawn}"
               ng-if="builtInColumnsVisible.LastUpdated"
             >
-              {{getRegistrationLastUpdatedTimestamp(r) | date: 'short'}}
+              {{r.lastUpdatedTimestamp | date: 'short'}}
             </td>
             <td class="text-center" ng-if="conference.eform">
               <p ng-if="!r.eformStatus">-</p>

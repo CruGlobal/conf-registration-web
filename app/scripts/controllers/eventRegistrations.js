@@ -2,7 +2,6 @@ import registrationsPaidPopoverTemplate from 'views/components/registrationsPaid
 import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
-import exportModalTemplate from 'views/modals/export.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
 angular
@@ -217,47 +216,25 @@ angular
           return 0;
         }
 
-        if (orderBy === 'completed_timestamp') {
-          return $scope.getRegistration(registrant.registrationId)
-            .completedTimestamp;
-        } else if (orderBy === 'created_timestamp') {
-          return registrant.createdTimestamp;
-        } else if (orderBy === 'registrant_type_id') {
-          return registrant.registrantTypeId;
-          //return $scope.getRegistrantType(registration.registrantTypeId).name;
-        } else if (orderBy === 'first_name') {
-          return registrant.firstName;
-        } else if (orderBy === 'last_name') {
-          return registrant.lastName;
-        } else if (orderBy === 'email') {
-          return registrant.email;
-        } else if (orderBy === 'checked_in_timestamp') {
-          return registrant.checkedInTimestamp;
-        } else if (orderBy === 'last_updated_timestamp') {
-          return registrant.lastUpdatedTimestamp;
-        } else if (orderBy === 'group_id') {
-          return registrant.groupId;
-        } else {
-          var answerValue = findAnswer(registrant, orderBy);
-          if (angular.isUndefined(answerValue)) {
-            return '';
-          }
+        var answerValue = findAnswer(registrant, orderBy);
+        if (angular.isUndefined(answerValue)) {
+          return '';
+        }
 
-          answerValue = answerValue.value;
-          if (_.isObject(answerValue)) {
-            var blockType = _.find($scope.blocks, { id: orderBy }).type;
-            if (blockType === 'checkboxQuestion') {
-              return _.keys(
-                _.pickBy(answerValue, function (val) {
-                  return val;
-                }),
-              ).join();
-            } else {
-              return _.values(answerValue).join();
-            }
+        answerValue = answerValue.value;
+        if (_.isObject(answerValue)) {
+          var blockType = _.find($scope.blocks, { id: orderBy }).type;
+          if (blockType === 'checkboxQuestion') {
+            return _.keys(
+              _.pickBy(answerValue, function (val) {
+                return val;
+              }),
+            ).join();
           } else {
-            return answerValue;
+            return _.values(answerValue).join();
           }
+        } else {
+          return answerValue;
         }
       };
 
@@ -464,14 +441,12 @@ angular
       };
 
       // Export conference registrations information to csv
-      $scope.export = function () {
+      $scope.export = () => {
         $uibModal.open({
-          templateUrl: exportModalTemplate,
-          controller: 'exportDataModal',
+          component: 'exportModal',
           resolve: {
-            conference: function () {
-              return $scope.conference;
-            },
+            queryParameters: () => $scope.queryParameters,
+            conference: () => $scope.conference,
           },
         });
       };
@@ -500,36 +475,6 @@ angular
 
       $scope.getRegistration = function (id) {
         return _.find($scope.registrations, { id: id });
-      };
-
-      $scope.getRegistrationLastUpdatedTimestamp = (registrant) => {
-        const registration = _.find($scope.registrations, {
-          id: registrant.registrationId,
-        });
-        const answersTimestamps = registrant.answers.map(
-          (answer) => answer.lastUpdatedTimestamp,
-        );
-        if (
-          $scope.isGroupRegistrant(registrant) &&
-          registration.primaryRegistrantId !== registrant.id
-        ) {
-          const allTimestamps = [
-            ...answersTimestamps,
-            registrant.lastUpdatedTimestamp,
-          ].sort();
-          return allTimestamps[allTimestamps.length - 1];
-        } else {
-          const paymentTimestamps = registration.pastPayments.map(
-            (payment) => payment.lastUpdatedTimestamp,
-          );
-          const allTimestamps = [
-            ...paymentTimestamps,
-            ...answersTimestamps,
-            registration.lastUpdatedTimestamp,
-            registrant.lastUpdatedTimestamp,
-          ].sort();
-          return allTimestamps[allTimestamps.length - 1];
-        }
       };
 
       $scope.getGroupName = function (id) {

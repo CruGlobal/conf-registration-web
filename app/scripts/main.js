@@ -8,6 +8,7 @@ import 'scripts/app_enforceAuth.js';
 import 'scripts/components/FormStatusModal/FormStatusModal';
 import 'scripts/components/FormStatusPopover/FormStatusPopover';
 import 'scripts/components/GoogleLogin/GoogleLogin';
+import 'scripts/components/ExportModal/ExportModal';
 
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';
@@ -21,7 +22,6 @@ import 'scripts/controllers/eventForm.js';
 import 'scripts/controllers/eventOverview.js';
 import 'scripts/controllers/eventPermissions.js';
 import 'scripts/controllers/eventRegistrations.js';
-import 'scripts/controllers/exportData.js';
 import 'scripts/controllers/help.js';
 import 'scripts/controllers/oktaDescription.js';
 import 'scripts/controllers/landing.js';
