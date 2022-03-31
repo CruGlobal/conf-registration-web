@@ -57,15 +57,15 @@
     </select>
     <input
       show-errors="group"
-      uib-tooltip="{{ 
-        'Fill out only if applicable based on your address.' 
-        | translate 
+      uib-tooltip="{{
+        'Fill out only if applicable based on your address.'
+        | translate
       }}"
       type="text"
       class="form-control"
       ng-model="answer.value.state"
       ng-model-options="{ debounce: 1000 }"
-      ng-required="block.required"
+      ng-required="block.required && answer.value.country === 'US'"
       ng-disabled="editBlock"
       ng-if="currentRegions(answer.value.country).length <= 1"
       placeholder="{{ 'State/Region' | translate }}"
@@ -83,7 +83,7 @@
       placeholder="{{ answer.value.country !== 'US' ? 'ZIP' : 'Postal Code' | translate }}"
       ng-model="answer.value.zip"
       ng-model-options="{ debounce: 1000 }"
-      ng-required="block.required"
+      ng-required="block.required && answer.value.country === 'US'"
       ng-disabled="editBlock"
     />
   </div>
