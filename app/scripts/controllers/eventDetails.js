@@ -6,9 +6,7 @@ import paymentOptionsTemplate from 'views/eventDetails/paymentOptions.html';
 import promotionsTemplate from 'views/eventDetails/promotions.html';
 import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
-import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
-import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular
   .module('confRegistrationWebApp')
@@ -90,13 +88,6 @@ angular
       $scope.originalConference = conference;
       $scope.conference = angular.copy(conference);
       $scope.currencies = currencies;
-      $scope.countries = allCountries;
-      $scope.conference.locationCountry = conference.locationCountry
-        ? conference.locationCountry
-        : 'US';
-      $scope.currentRegions = getCurrentRegions(
-        $scope.conference.locationCountry,
-      );
 
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
@@ -706,20 +697,6 @@ angular
           }
         }
       });
-
-      $scope.$watch(
-        'conference.locationCountry',
-        (newVal, oldVal) => {
-          if (oldVal !== newVal) {
-            $scope.currentRegions = getCurrentRegions(
-              $scope.conference.locationCountry,
-            );
-            $scope.conference.locationZipCode = null;
-            $scope.conference.locationState = null;
-          }
-        },
-        true,
-      );
 
       $scope.sortNamesWithNA = (v1, v2) => {
         return v1 === 'N/A' ? -1 : v1 < v2;

@@ -4,15 +4,7 @@ angular
   .module('confRegistrationWebApp')
   .controller(
     'eventOverviewCtrl',
-    function (
-      $rootScope,
-      $scope,
-      $location,
-      $filter,
-      $route,
-      ConfCache,
-      conference,
-    ) {
+    function ($rootScope, $scope, $location, $route, ConfCache, conference) {
       $rootScope.globalPage = {
         type: 'admin',
         mainClass: 'container event-overview',
@@ -22,12 +14,6 @@ angular
       };
 
       $scope.conference = conference;
-      $scope.displayAddress = $filter('eventAddressFormat')(
-        $scope.conference.locationCity,
-        $scope.conference.locationState,
-        $scope.conference.locationZipCode,
-        $scope.conference.locationCountry,
-      );
 
       var port = '';
       if ($location.$$port !== 80 && $location.$$port !== 443) {

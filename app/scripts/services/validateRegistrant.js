@@ -1,5 +1,3 @@
-import { allCountries } from 'country-region-data';
-
 angular
   .module('confRegistrationWebApp')
   .service(
@@ -337,30 +335,10 @@ angular
               break;
             case 'addressQuestion':
               if (
-                answer.country !== 'US' &&
-                (_.isEmpty(answer.address1) ||
-                  _.isEmpty(answer.city) ||
-                  (allCountries.find((c) => c[1] === answer.country)[2].length >
-                    1 &&
-                    !allCountries
-                      .find((c) => c[1] === answer.country)[2]
-                      .map((r) => r[1])
-                      .includes(answer.state)) ||
-                  _.isEmpty(answer.country))
-              ) {
-                invalidBlocks.push(block.id);
-                return;
-              }
-              if (
-                answer.country === 'US' &&
-                (_.isEmpty(answer.address1) ||
-                  _.isEmpty(answer.state) ||
-                  !allCountries[235][2]
-                    .map((r) => r[1])
-                    .includes(answer.state) ||
-                  _.isEmpty(answer.city) ||
-                  _.isEmpty(answer.zip) ||
-                  _.isEmpty(answer.country))
+                _.isEmpty(answer.address1) ||
+                _.isEmpty(answer.state) ||
+                _.isEmpty(answer.city) ||
+                _.isEmpty(answer.zip)
               ) {
                 invalidBlocks.push(block.id);
                 return;
