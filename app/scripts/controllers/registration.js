@@ -7,6 +7,7 @@ angular
       $rootScope,
       $routeParams,
       $route,
+      $filter,
       $location,
       $window,
       $http,
@@ -36,6 +37,12 @@ angular
       var originalCurrentRegistration = angular.copy(currentRegistration);
       $scope.currentRegistration = currentRegistration;
       $scope.currentRegistrant = $routeParams.reg;
+      $scope.displayAddress = $filter('eventAddressFormat')(
+        $scope.conference.locationCity,
+        $scope.conference.locationState,
+        $scope.conference.locationZipCode,
+        $scope.conference.locationCountry,
+      );
       $scope.savingAnswers = false;
 
       $scope.activePageId = pageId || '';
