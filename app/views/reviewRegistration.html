@@ -43,7 +43,8 @@
         <p>
           {{conference.locationName}}
           <span ng-show="conference.locationAddress"
-            ><br />{{conference.locationAddress}}<br />{{displayAddress.addressLine3}}<br />{{displayAddress.addressCountry}}</span
+            ><br />{{conference.locationAddress}}<br />{{conference.locationCity}},
+            {{conference.locationState}} {{conference.locationZipCode}}</span
           >
         </p>
 

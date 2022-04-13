@@ -109,11 +109,6 @@ describe('Service: validateRegistrant', function () {
     var registrantZip = angular.copy(testData.registration.registrants[0]);
     registrantZip.answers[8].value = { zip: '' };
 
-    const registrantCountry = angular.copy(
-      testData.registration.registrants[0],
-    );
-    registrantCountry.answers[8].value = { country: '' };
-
     expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
 
     expect(
@@ -131,34 +126,6 @@ describe('Service: validateRegistrant', function () {
     expect(validateRegistrant.validate(conference, registrantZip).length).toBe(
       1,
     );
-
-    expect(
-      validateRegistrant.validate(conference, registrantCountry).length,
-    ).toBe(1);
-  });
-
-  it('should allow empty state and zip field when country is non-US', () => {
-    const conference = angular.copy(testData.conference);
-    conference.registrationPages[1].blocks[7].required = true;
-
-    const registrant = angular.copy(testData.registration.registrants[0]);
-    registrant.answers[8].value = {
-      country: 'UZ',
-      state: '',
-      zip: '',
-      ...registrant.answers[8].value,
-    };
-
-    const registrantCountry = angular.copy(
-      testData.registration.registrants[0],
-    );
-    registrantCountry.answers[8].value = { country: '' };
-
-    expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
-
-    expect(
-      validateRegistrant.validate(conference, registrantCountry).length,
-    ).toBe(1);
   });
 
   it('choices should be visible based on rules', function () {

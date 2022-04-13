@@ -1,8 +1,6 @@
 import template from 'views/components/blockEditor.html';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
-import { allCountries } from 'country-region-data';
-import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {
@@ -28,7 +26,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         (angular.isDefined($scope.block.endDateBlockId) &&
           $scope.block.endDateBlockId !== null);
 
-      $scope.countries = allCountries;
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
@@ -100,21 +97,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           value: $scope.block.content.default,
         };
       }
-
-      if (_.includes(['addressQuestion'], $scope.block.type)) {
-        $scope.answer = {
-          value: {
-            address1: null,
-            address2: null,
-            city: null,
-            state: null,
-            zip: null,
-            country: 'US',
-          },
-        };
-      }
-
-      $scope.currentRegions = (country) => getCurrentRegions(country);
 
       $scope.$watch(
         'answer',
