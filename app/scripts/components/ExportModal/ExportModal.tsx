@@ -118,7 +118,7 @@ const ExportModal = ({
                   conference.id
                 }/export/registrations?Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}${
                   includeFilters ? filterString : ''
-                }`}
+                }&block=${queryParameters.block}`}
               >
                 <i className="fa fa-cloud-download" />{' '}
                 <span translate="yes">Download</span>
