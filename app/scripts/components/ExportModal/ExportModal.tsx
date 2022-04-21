@@ -44,7 +44,7 @@ const ExportModal = ({
 
   const handleClose = () => modalInstance.dismiss();
 
-  const filterString = `&filter=${queryParameters.filter}&filterPayment=${queryParameters.filterPayment}&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${queryParameters.includeEFormStatus}&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${queryParameters.includeWithdrawn}&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
+  const filterString = `&applyUiFilters=true&filter=${queryParameters.filter}&filterPayment=${queryParameters.filterPayment}&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${queryParameters.includeEFormStatus}&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${queryParameters.includeWithdrawn}&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
 
   return (
     <>
