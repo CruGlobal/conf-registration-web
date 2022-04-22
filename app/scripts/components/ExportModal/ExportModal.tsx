@@ -44,7 +44,14 @@ const ExportModal = ({
 
   const handleClose = () => modalInstance.dismiss();
 
+  let exportParameters = `?Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}`;
   const filterString = `&applyUiFilters=true&filter=${queryParameters.filter}&filterPayment=${queryParameters.filterPayment}&filterRegType=${queryParameters.filterRegType}&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${queryParameters.includeEFormStatus}&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${queryParameters.includeWithdrawn}&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
+  if (includeFilters) {
+    exportParameters += filterString;
+  }
+  angular.forEach(queryParameters.block, (blockId) => {
+    exportParameters += `&block=${blockId}`;
+  });
 
   return (
     <>
@@ -114,11 +121,7 @@ const ExportModal = ({
             <div className="col-xs-4">
               <a
                 className="btn btn-primary btn-block"
-                href={`${apiUrl}conferences/${
-                  conference.id
-                }/export/registrations?Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}${
-                  includeFilters ? filterString : ''
-                }&block=${queryParameters.block}`}
+                href={`${apiUrl}conferences/${conference.id}/export/registrations?${exportParameters}`}
               >
                 <i className="fa fa-cloud-download" />{' '}
                 <span translate="yes">Download</span>
