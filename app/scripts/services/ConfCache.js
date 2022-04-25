@@ -78,6 +78,7 @@ angular
           eventEndTime: moment().add(20, 'days').format('YYYY-MM-DD HH:mm:ss'),
           eventTimezone: 'America/New_York',
           registrationTimezone: 'America/New_York',
+          locationCountry: 'US',
           registrantTypes: [
             {
               id: uuid(),

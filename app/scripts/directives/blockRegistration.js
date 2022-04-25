@@ -1,4 +1,6 @@
 import template from 'views/components/blockRegistration.html';
+import { allCountries } from 'country-region-data';
+import { getCurrentRegions } from '../filters/eventAddressFormat';
 
 angular
   .module('confRegistrationWebApp')
@@ -14,6 +16,7 @@ angular
         validateRegistrant,
       ) {
         $scope.isString = _.isString;
+        $scope.countries = allCountries;
 
         $onInit();
 
@@ -48,6 +51,8 @@ angular
           $scope.answer = answer;
           isNew && $scope.adminEditRegistrant.answers.push($scope.answer);
         }
+
+        $scope.currentRegions = (country) => getCurrentRegions(country);
 
         function initRegistrationMode() {
           const registrantId = $routeParams.reg;
@@ -157,6 +162,7 @@ angular
                 city: '',
                 state: '',
                 zip: '',
+                country: 'US',
               };
             case 'checkboxQuestion':
               return blockDefault || {};
