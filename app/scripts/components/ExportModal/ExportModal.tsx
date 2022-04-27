@@ -85,7 +85,8 @@ const ExportModal = ({
                         checked={includeFilters}
                       />
                       <span translate="yes">
-                        Apply current filters to export
+                        Apply current filters to export{' '}
+                        <em>(overrides other advanced options)</em>
                       </span>
                     </label>
                   </div>
