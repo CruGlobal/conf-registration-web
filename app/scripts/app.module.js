@@ -24,6 +24,7 @@ import 'angular-wysiwyg';
 import uiTree from 'angular-ui-tree';
 import 'scripts/errorNotify.js';
 import 'ui-cropper';
+import 'country-region-data';
 import 'ngimport';
 
 export default angular.module('confRegistrationWebApp', [
