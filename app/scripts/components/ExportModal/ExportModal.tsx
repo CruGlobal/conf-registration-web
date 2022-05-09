@@ -44,7 +44,9 @@ const ExportModal = ({
 
   const handleClose = () => modalInstance.dismiss();
 
-  let exportParameters = `Authorization=${authToken}&includedWithdrawnRegistrants=${includeWithdrawnRegistrants}&includeIncompleteRegistrations=${includeIncompleteRegistrations}`;
+  let exportParameters = `Authorization=${authToken}&includedWithdrawn=${
+    includeWithdrawnRegistrants ? 'yes' : 'no'
+  }&includeIncomplete=${includeIncompleteRegistrations ? 'yes' : 'no'}`;
   const filterString = `&applyUiFilters=true&filter=${encodeURIComponent(
     queryParameters.filter,
   )}&filterPayment=${queryParameters.filterPayment}&filterRegType=${
