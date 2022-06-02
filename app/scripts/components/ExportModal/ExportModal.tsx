@@ -44,21 +44,24 @@ const ExportModal = ({
 
   const handleClose = () => modalInstance.dismiss();
 
-  let exportParameters = `Authorization=${authToken}&includeWithdrawn=${
-    includeWithdrawnRegistrants ? 'yes' : 'no'
-  }&includeIncomplete=${includeIncompleteRegistrations ? 'yes' : 'no'}`;
+  let includeWithdrawn = includeWithdrawnRegistrants ? 'yes' : 'no';
+  let includeIncomplete = includeIncompleteRegistrations ? 'yes' : 'no';
+
+  let exportParameters = `Authorization=${authToken}`;
   const filterString = `&applyUiFilters=true&filter=${encodeURIComponent(
     queryParameters.filter,
   )}&filterPayment=${queryParameters.filterPayment}&filterRegType=${
     queryParameters.filterRegType
   }&includeCheckedin=${queryParameters.includeCheckedin}&includeEFormStatus=${
     queryParameters.includeEFormStatus
-  }&includeIncomplete=${queryParameters.includeIncomplete}&includeWithdrawn=${
-    queryParameters.includeWithdrawn
   }&order=${queryParameters.order}&orderBy=${queryParameters.orderBy}`;
   if (includeFilters) {
+    includeWithdrawn = queryParameters.includeWithdrawn;
+    includeIncomplete = queryParameters.includeIncomplete;
     exportParameters += filterString;
   }
+  exportParameters += `&includeWithdrawn=${includeWithdrawn}`;
+  exportParameters += `&includeIncomplete=${includeIncomplete}`;
   angular.forEach(queryParameters.block, (blockId) => {
     exportParameters += `&block=${blockId}`;
   });
