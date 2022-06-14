@@ -45,8 +45,7 @@ angular
       },
       vars: {
         development: {
-          apiUrl:
-            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          apiUrl: 'http://localhost:9000',
           tsysEnvironment: 'staging',
         },
         staging: {
