@@ -1,4 +1,30 @@
 <h2 class="page-title border" translate>Promotions</h2>
+<div ng-if="conference.promotions && conference.promotions.length > 0">
+  <p class="text-muted margin-left-15">
+    <i class="fa fa-info-circle"></i>
+    <span>
+      <translate>
+        Event promo codes now require a chartfield to help document the use of
+        discounts for your event with an ERT account transfer after your event
+        is over.
+      </translate>
+    </span>
+  </p>
+  <ul class="text-muted margin-left-15">
+    <li>
+      <translate
+        >Enter the event chartfield for those promo codes covered by the
+        event.</translate
+      >
+    </li>
+    <li>
+      <translate
+        >Enter another chartfield for promo codes that should be charged to a
+        different account.</translate
+      >
+    </li>
+  </ul>
+</div>
 
 <div ng-repeat="promo in conference.promotions">
   <div class="panel panel-default">
