@@ -93,7 +93,7 @@
     "test": "karma start",
     "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}'",
     "lint:ts": "tsc",
-    "angular-gettext-extract": "angular-gettext-cli --files './app/***.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
+    "angular-gettext-extract": "angular-gettext-cli --files './app/**/*.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
     "prettier:check": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --list-different",
     "prettier:write": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --write",
     "next:dev": "next dev",
