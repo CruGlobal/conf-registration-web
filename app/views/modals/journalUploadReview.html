@@ -12,15 +12,15 @@
         <h3 class="text-center">Your Journal Upload Was Submitted</h3>
         <p class="text-center">
           <ng-pluralize
-            count="accountTransfers.length"
-            when="{'0': 'No account transfers were successfully submitted.', 
-            '1': 'There was one account transfer successfully submitted.', 
+            count="successCount"
+            when="{'0': 'No account transfers were successfully submitted.',
+            '1': 'There was one account transfer successfully submitted.',
             'other': 'There were {} account transfers successfully submitted.'}"
           ></ng-pluralize>
           <ng-pluralize
-            count="accountTransfersWithErrors.length"
-            when="{'0': 'There were no errors.', 
-            '1': 'There was {} error that needs to be addressed.', 
+            count="errorCount"
+            when="{'0': 'There were no errors.',
+            '1': 'There was {} error that needs to be addressed.',
             'other': 'There were {} errors that need to be addressed.'}"
           ></ng-pluralize>
         </p>
@@ -28,11 +28,11 @@
       </div>
       <div class="col-xs-6">
         <label class="bg-success"><translate>Successes</translate>:</label>
-        <h4>{{accountTransfers.length}}</h4>
+        <h4>{{successCount}}</h4>
       </div>
       <div class="col-xs-6">
         <label class="bg-danger"><translate>Errors</translate>:</label>
-        <h4>{{accountTransfersWithErrors.length}}</h4>
+        <h4>{{errorCount}}</h4>
       </div>
     </div>
   </div>
@@ -41,7 +41,7 @@
       View Report
     </button>
     <button
-      ng-if="accountTransfersWithErrors.length"
+      ng-if="errorCount"
       ng-click="viewErrors()"
       class="btn btn-danger"
       translate

@@ -1,3 +1,5 @@
+import { uniqueId } from 'lodash';
+
 angular
   .module('confRegistrationWebApp')
   .service(
@@ -34,6 +36,10 @@ angular
             params: queryParameters,
           })
           .then((response) => {
+            response.data.meta.accountTransferEvents.forEach((event) => {
+              // Generate unique ids for the transfer events
+              event.id = uniqueId();
+            });
             $rootScope.loadingMsg = '';
             return response.data;
           })

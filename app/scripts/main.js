@@ -9,6 +9,8 @@ import 'scripts/components/FormStatusModal/FormStatusModal';
 import 'scripts/components/FormStatusPopover/FormStatusPopover';
 import 'scripts/components/GoogleLogin/GoogleLogin';
 import 'scripts/components/ExportModal/ExportModal';
+import 'scripts/components/JournalUploadPage/JournalUploadPage';
+import 'scripts/components/PromoUploadPage/PromoUploadPage';
 
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';
@@ -91,3 +93,4 @@ import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
 import 'scripts/services/paymentReportService.js';
 import 'scripts/services/journalUploadService.js';
+import 'scripts/services/promoReportService.ts';

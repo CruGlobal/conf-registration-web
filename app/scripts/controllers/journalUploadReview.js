@@ -11,17 +11,19 @@ angular
       report,
       envService,
     ) {
+      const items =
+        report.accountTransfers || report.promotionRegistrationInfoList || [];
       $scope.conference = conference;
       $scope.queryParameters = queryParameters;
       $scope.apiUrl = envService.read('apiUrl');
       $scope.authToken = $cookies.get('crsToken');
       $scope.report = report;
-      $scope.accountTransfers = $scope.report.accountTransfers.filter(
+      $scope.successCount = items.filter(
         (accountTransfers) => !accountTransfers.error,
-      );
-      $scope.accountTransfersWithErrors = $scope.report.accountTransfers.filter(
+      ).length;
+      $scope.errorCount = items.filter(
         (accountTransfers) => accountTransfers.error,
-      );
+      ).length;
 
       $scope.close = () => $uibModalInstance.close();
 

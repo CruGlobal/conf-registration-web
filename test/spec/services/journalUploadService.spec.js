@@ -13,9 +13,16 @@ describe('Service: JournalUpload', () => {
   const conferenceId = '123';
   it('gets registration data', () => {
     let registrationData;
-    $httpBackend
-      .expectGET(/^conferences\/.*\/registrations.*/)
-      .respond(200, { registrations: [testData.singleRegistration] });
+    $httpBackend.expectGET(/^conferences\/.*\/registrations.*/).respond(200, {
+      meta: {
+        totalRegistrants: 1,
+        totalRegistrantsFilter: 1,
+        currentPage: 1,
+        totalPages: 1,
+        accountTransferEvents: [],
+      },
+      registrations: [testData.singleRegistration],
+    });
     journalUploadService.getRegistrationData(conferenceId).then((regData) => {
       registrationData = regData;
     });

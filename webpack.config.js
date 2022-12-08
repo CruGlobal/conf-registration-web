@@ -9,6 +9,7 @@ const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plug
 const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
 const ci = process.env.CI === 'true';
@@ -68,6 +69,13 @@ module.exports = (env = {}) => {
         }),
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
+        }),
+        new ESLintPlugin({
+          extensions: ['js', 'ts', 'tsx'],
+
+          // Show errors as warnings during development to prevent start/test commands from exiting
+          failOnError: isBuild || ci,
+          emitWarning: !isBuild && !ci,
         }),
       ],
       !isTest
@@ -131,17 +139,6 @@ module.exports = (env = {}) => {
               '/',
             'html-loader',
           ],
-        },
-        {
-          test: /\.js$/,
-          exclude: /(app\/components|node_modules)/,
-          loader: 'eslint-loader',
-          enforce: 'pre',
-          options: {
-            // Show errors as warnings during development to prevent start/test commands from exiting
-            failOnError: isBuild || ci,
-            emitWarning: !isBuild && !ci,
-          },
         },
         {
           test: /\.(scss|css)$/,
