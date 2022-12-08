@@ -1,6 +1,6 @@
-// React creation
+// React component creation
 
-import { useState } from 'react';
+import React from 'react';
 import angular from 'angular';
 import { react2angular } from 'react2angular';
 import 'styles/style.scss';
@@ -32,8 +32,8 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
           <thead>
             <tr>
               <th translate="yes">Registrant</th>
-              <th width="110"><span translate="yes">Type</span></th>
-              <th width="150"></th>
+              <th style={{width: 110}}><span translate="yes">Type</span></th>
+              <th style={{width: 150}}></th>
             </tr>
           </thead>
           <tbody
@@ -139,6 +139,11 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
   );
 };
 
+export default GroupModal;
+
 angular
-  .module('react.components', [])
-  .component('groupModal', react2angular(GroupModal, []));
+  .module('eventRegistrationWebApp', [])
+  .component(
+    'groupModal',
+    react2angular(GroupModal, ['resolve', 'modalInstance']),
+  );

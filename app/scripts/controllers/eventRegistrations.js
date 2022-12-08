@@ -4,6 +4,8 @@ import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
 
+import GroupModal from 'pages/groupModal.tsx';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
