@@ -1,5 +1,5 @@
 import { AccountTransfer } from 'accountTransfer';
-import { JournalQueryParams, JournalUploadService } from 'injectables';
+import { RegistrationQueryParams, JournalUploadService } from 'injectables';
 import { partition } from 'lodash';
 import { useState } from 'react';
 import { RegistrationsData } from 'registrations';
@@ -33,7 +33,7 @@ export const useAccountTransfers = ({
   // Update the transfers with fresh registrations data from the server
   loadConferenceRegistrations(
     conferenceId: string,
-    queryParameters: JournalQueryParams,
+    queryParameters: RegistrationQueryParams,
   ): Promise<void>;
 
   // Update the transfers with registrations data from a report
@@ -53,7 +53,7 @@ export const useAccountTransfers = ({
 
   const loadConferenceRegistrations = async (
     conferenceId: string,
-    queryParameters: JournalQueryParams,
+    queryParameters: RegistrationQueryParams,
   ) => {
     const registrationsData = await journalUploadService.getRegistrationData(
       conferenceId,

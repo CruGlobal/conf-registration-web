@@ -65,7 +65,7 @@ export interface ModalMessage {
   error: typeof ModalMessageFunction;
 }
 
-export interface JournalQueryParams {
+export interface RegistrationQueryParams {
   page: number;
   limit: number;
   orderBy: string;
@@ -87,7 +87,7 @@ export interface JournalQueryParams {
 export interface JournalUploadService {
   getRegistrationData(
     conferenceId: string,
-    query?: JournalQueryParams,
+    query?: RegistrationQueryParams,
   ): Promise<
     RegistrationsData & {
       meta: { accountTransferEvents: Array<AccountTransfer & { id: string }> };

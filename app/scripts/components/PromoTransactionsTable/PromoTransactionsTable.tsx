@@ -1,16 +1,12 @@
+import { PromoRegistration } from '../../hooks/usePromoRegistrationList';
 import classNames from 'classnames';
-import { Promotion } from 'promotion';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { OverlayTrigger, Popover } from 'react-bootstrap';
-import { Registration } from 'registration';
 import { RegistrationsPaidPopover } from '../RegistrationsPaidPopover/RegistrationsPaidPopover';
 
 export interface PromoTransactionsTableProps {
-  promoRegistrations: Array<{
-    registration: Registration;
-    promotion: Promotion;
-    error?: string;
-  }>;
+  // The promo registrations to display
+  promoRegistrations: Array<PromoRegistration>;
 
   // The id of the report that is currently being viewed, if any
   currentReportId: string | null;
@@ -18,11 +14,8 @@ export interface PromoTransactionsTableProps {
   // The localized currency symbol
   currencySymbol: string;
 
-  // Message to display when there aren't any account transfers
+  // Message to display when there aren't any promo transactions
   emptyMessage?: string;
-
-  // Lookup the remaining balance of a registration
-  getRemainingBalance: (registrationId: string) => number;
 
   // Extra content to display in the table header
   headerExtra?: React.ReactFragment;
@@ -31,11 +24,11 @@ export interface PromoTransactionsTableProps {
   localizedCurrency: (amount: number) => string;
 
   // The set of registrations that are selected and will be included in a new report
-  selectedRegistrants: Set<Registration>;
+  selectedRegistrants: Set<PromoRegistration>;
 
-  // Handle changes to the selected state of an account transfer
+  // Handle changes to the selected state of a promo transaction
   setRegistrationSelected: (
-    registration: Registration,
+    promoRegistration: PromoRegistration,
     selected: boolean,
   ) => void;
 
@@ -52,7 +45,6 @@ export const PromoTransactionsTable = ({
   currencySymbol,
   emptyMessage,
   headerExtra,
-  getRemainingBalance,
   localizedCurrency,
   selectedRegistrants,
   setRegistrationSelected,
@@ -69,16 +61,28 @@ export const PromoTransactionsTable = ({
     }
   }
 
-  const entries = promoRegistrations.flatMap((promoRegistration) => {
-    // The registrants property will always only contain one element
-    const registrants = promoRegistration.promotion.applyToAllRegistrants
-      ? promoRegistration.registration.groupRegistrants
-      : promoRegistration.registration.registrants;
-    return registrants.map((registrant) => ({
-      ...promoRegistration,
-      registrant,
-    }));
-  });
+  const entries = useMemo(
+    () =>
+      promoRegistrations
+        .flatMap((promoRegistration) =>
+          promoRegistration.registration.groupRegistrants
+            // If the promotion doesn't apply to all registrations, filter out the non-primary registrations
+            .filter(
+              (registrant) =>
+                promoRegistration.promotion.applyToAllRegistrants ||
+                registrant.id ===
+                  promoRegistration.registration.primaryRegistrantId,
+            )
+            .map((registrant) => ({
+              id: `${registrant.id}|${promoRegistration.promotion.id}`,
+              promoRegistration,
+              registrant,
+              ...promoRegistration,
+            })),
+        )
+        .filter(({ registrant }) => registrant.checkedInTimestamp !== null),
+    [promoRegistrations],
+  );
 
   return (
     <>
@@ -145,9 +149,19 @@ export const PromoTransactionsTable = ({
             </thead>
             <tbody>
               {entries.map(
-                ({ registration, registrant, promotion, error }, index) => (
+                (
+                  {
+                    id,
+                    promoRegistration,
+                    registration,
+                    registrant,
+                    promotion,
+                    error,
+                  },
+                  index,
+                ) => (
                   <tr
-                    key={registrant.id + promotion.id}
+                    key={id}
                     className={classNames('noselect', {
                       active: index % 2 === 0,
                     })}
@@ -159,9 +173,7 @@ export const PromoTransactionsTable = ({
                         type="button"
                         className={classNames([
                           'btn btn-sm btn-bold text-center',
-                          getBalanceClassName(
-                            getRemainingBalance(registrant.registrationId),
-                          ),
+                          getBalanceClassName(registration.remainingBalance),
                         ])}
                         title="View/Edit Payments &amp; Expenses"
                         onClick={() => viewPayments(registrant.registrationId)}
@@ -192,10 +204,10 @@ export const PromoTransactionsTable = ({
                       {!currentReportId && (
                         <input
                           type="checkbox"
-                          checked={selectedRegistrants.has(registration)}
+                          checked={selectedRegistrants.has(promoRegistration)}
                           onChange={(event) =>
                             setRegistrationSelected(
-                              registration,
+                              promoRegistration,
                               event.target.checked,
                             )
                           }

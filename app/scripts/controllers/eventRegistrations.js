@@ -59,6 +59,7 @@ angular
         includeWithdrawn: 'yes',
         includeIncomplete: 'yes',
         includeEFormStatus: 'yes',
+        includePromotions: true,
       };
       $scope.meta = {
         totalPages: 0,
@@ -252,6 +253,13 @@ angular
         $http
           .get('registrations/' + registrationId)
           .then(function (response) {
+            // Determine which of this registrations promotions have already been posted
+            const postedPromotionIds = $scope.meta.promotionRegistrationInfoList
+              .filter(
+                (info) => info.registrationId === registrationId && !info.error,
+              )
+              .map((item) => item.promotionId);
+
             var paymentModalOptions = {
               templateUrl: paymentsModalTemplate,
               controller: 'paymentModal',
@@ -261,6 +269,7 @@ angular
                 registration: function () {
                   return response.data;
                 },
+                postedPromotionIds: () => postedPromotionIds,
                 conference: function () {
                   return conference;
                 },

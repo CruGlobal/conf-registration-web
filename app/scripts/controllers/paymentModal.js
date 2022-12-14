@@ -8,6 +8,7 @@ angular
       modalMessage,
       $http,
       registration,
+      postedPromotionIds,
       conference,
       payment,
       permissions,
@@ -15,6 +16,7 @@ angular
       expenseTypesConstants,
     ) {
       $scope.registration = registration;
+      $scope.postedPromotionIds = postedPromotionIds;
       $scope.conference = conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.processing = false;

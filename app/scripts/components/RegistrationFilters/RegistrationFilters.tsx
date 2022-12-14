@@ -1,26 +1,29 @@
 import classNames from 'classnames';
-import { JournalQueryParams } from 'injectables';
+import { RegistrationQueryParams } from 'injectables';
 import { debounce } from 'lodash';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { useWatch } from '../../../scripts/hooks/useWatch';
 import { Pagination } from '../Pagination/Pagination';
 
-export interface JournalFiltersProps {
-  defaultQueryParams: JournalQueryParams;
-  onQueryChange: (filters: JournalQueryParams) => unknown;
+export interface RegistrationFiltersProps {
+  defaultQueryParams: RegistrationQueryParams;
+  onQueryChange: (filters: RegistrationQueryParams) => unknown;
   showPagination: boolean;
   pageCount: number;
   children: React.ReactFragment;
 }
 
-export const JournalFilters = (props: JournalFiltersProps): JSX.Element => {
+export const RegistrationFilters = (
+  props: RegistrationFiltersProps,
+): JSX.Element => {
   const [queryParameters, setQueryParameters] = useState(
     props.defaultQueryParams,
   );
 
-  function setQueryParam<Key extends keyof JournalQueryParams>(
+  function setQueryParam<Key extends keyof RegistrationQueryParams>(
     key: Key,
-    value: JournalQueryParams[Key],
+    value: RegistrationQueryParams[Key],
   ) {
     const newQueryParams = {
       ...queryParameters,
@@ -35,14 +38,14 @@ export const JournalFilters = (props: JournalFiltersProps): JSX.Element => {
   const [strFilterInput, setStrFilterInput] = useState('');
   const [strFilter, setStrFilter] = useState('');
   const setStrFilterDebounced = useCallback(debounce(setStrFilter, 500), []);
-  useEffect(() => {
+  useWatch(() => {
     // When the filter input value changes, update the strFilter but with debouncing
     setStrFilterDebounced(strFilterInput);
     return () => {
       setStrFilterDebounced.cancel();
     };
   }, [strFilterInput]);
-  useEffect(() => {
+  useWatch(() => {
     // When the strFilter input value changes, update the query parameter
     setQueryParam('filter', strFilter);
   }, [strFilter]);

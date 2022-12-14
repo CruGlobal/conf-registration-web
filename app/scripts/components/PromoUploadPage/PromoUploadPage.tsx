@@ -1,10 +1,10 @@
 import angular from 'angular';
-import { find, map } from 'lodash';
+import { map } from 'lodash';
 import { Conference } from 'conference';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { react2angular } from 'react2angular';
-import { JournalFilters } from '../JournalFilters/JournalFilters';
+import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import type {
@@ -13,18 +13,21 @@ import type {
   $rootScope,
   $uibModal,
   $window,
-  JournalQueryParams,
+  RegistrationQueryParams,
   JournalUploadService,
   ModalMessage,
 } from 'injectables';
 import { RegistrationsData } from 'registrations';
-import { Report } from 'report';
-import { usePromoRegistrationList } from '../../hooks/usePromoRegistrationList';
+import {
+  PromoRegistration,
+  usePromoRegistrationList,
+} from '../../hooks/usePromoRegistrationList';
+import { usePromoReport } from '../../hooks/usePromoReport';
+import { usePromoReports } from '../../hooks/usePromoReports';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
 import { PromoTransactionsTable } from '../PromoTransactionsTable/PromoTransactionsTable';
 import { useWatch } from '../../hooks/useWatch';
 import { PromoReportService } from '../../services/promoReportService';
-import { Registration } from 'registration';
 import { PromotionReport } from 'promotionReport';
 
 interface PromoUploadPageProps {
@@ -38,7 +41,6 @@ interface PromoUploadPageProps {
   modalMessage: ModalMessage;
   resolve: {
     registrationsData: RegistrationsData;
-    reports: Array<Report>;
     conference: Conference;
     permissions: Permissions;
   };
@@ -73,23 +75,55 @@ const PromoUploadPage = ({
     conference.currency.currencyCode,
   );
 
+  const { reports, refresh: refreshReports } = usePromoReports({
+    conferenceId: conference.id,
+    promoReportService,
+  });
+  const [currentReportId, setCurrentReportId] = useState<string | null>(null);
+  const { report, refresh: refreshReport } = usePromoReport({
+    conference: conference,
+    reportId: currentReportId,
+    promoReportService,
+  });
+
+  const [queryParameters, setQueryParameters] =
+    useState<RegistrationQueryParams>({
+      page: 1,
+      limit: 20,
+      orderBy: 'last_name',
+      order: 'ASC',
+      filter: '',
+      filterAccountTransferErrors: 'yes',
+      filterAccountTransfersByExpenseType: '',
+      filterAccountTransfersByPaymentType: '',
+      filterPayment: '',
+      filterRegType: '',
+      includeAccountTransfers: false,
+      includeCheckedin: 'yes',
+      includeWithdrawn: 'yes',
+      includeIncomplete: 'yes',
+      primaryRegistrantOnly: false,
+    });
+
   const {
-    allPromoRegistrations,
-    promoRegistrationsWithoutErrors,
-    promoRegistrationsWithErrors,
+    promoRegistrations,
     promoTransactions,
-    meta,
-    registrations,
-    loadFromUnposted: refreshRegistrations,
-    loadFromReport: loadReportPromoRegistrations,
+    refreshPendingRegistrations,
+    metadata,
   } = usePromoRegistrationList({
     journalUploadService,
     conference,
-    initialRegistrationsData: registrationsData,
+    initialPendingRegistrations: registrationsData,
+    registrationQueryParams: useMemo(
+      () => ({
+        ...queryParameters,
+        includeCheckedin: 'only',
+      }),
+      [queryParameters],
+    ),
+    report,
   });
 
-  const [reports, setReports] = useState<Array<PromotionReport>>([]);
-  const [currentReportId, setCurrentReportId] = useState('');
   const {
     selectedItems: registrationsToInclude,
     selectedItemsSet: registrationsToIncludeSet,
@@ -97,29 +131,17 @@ const PromoUploadPage = ({
     setSelected: setRegistrationIncluded,
     setManySelected: setManyPromosIncluded,
     reset: resetSelectedRegistrations,
-  } = useSelectedItems<Registration>();
-  const allRegistrationsIncluded = allRegistrationsSelected(
-    map(allPromoRegistrations, 'registration'),
-  );
-  const [queryParameters, setQueryParameters] = useState<JournalQueryParams>({
-    page: 1,
-    limit: 20,
-    orderBy: 'last_name',
-    order: 'ASC',
-    filter: '',
-    filterAccountTransferErrors: 'yes',
-    filterAccountTransfersByExpenseType: '',
-    filterAccountTransfersByPaymentType: '',
-    filterPayment: '',
-    filterRegType: '',
-    includeAccountTransfers: true,
-    includeCheckedin: 'yes',
-    includeWithdrawn: 'yes',
-    includeIncomplete: 'yes',
-    primaryRegistrantOnly: true,
-  });
+  } = useSelectedItems<PromoRegistration>();
+  const allRegistrationsIncluded = allRegistrationsSelected(promoRegistrations);
 
-  function onQueryParametersChange(newQueryParams: JournalQueryParams) {
+  const promoRegistrationsWithErrors = promoRegistrations.filter(
+    (item) => item.error,
+  );
+  const promoRegistrationsWithoutErrors = promoRegistrations.filter(
+    (item) => !item.error,
+  );
+
+  function onQueryParametersChange(newQueryParams: RegistrationQueryParams) {
     if (newQueryParams.page !== queryParameters.page) {
       // scroll to top on page change
       $window.scrollTo(0, 0);
@@ -128,58 +150,21 @@ const PromoUploadPage = ({
     setQueryParameters(newQueryParams);
   }
 
-  // Load the initial list of reports
-  useEffect(() => {
-    promoReportService.loadAllPromoReports(conference.id).then((reports) => {
-      setReports(reports);
-    });
-  }, []);
-
-  useWatch(() => {
-    // Refresh the data whenever the query parameters change
-    refresh();
-  }, [queryParameters]);
-
   useWatch(() => {
     // scroll to top of page if selected report changes
     $window.scrollTo(0, 0);
-
-    // if currentReportId is blank, refresh account transfer data
-    if (!currentReportId) {
-      refresh();
-    } else {
-      const report = reports.find((report) => report.id === currentReportId);
-      if (!report) {
-        throw new Error(`No report exists with id "${currentReportId}"`);
-      }
-      loadReportPromoRegistrations(report);
-    }
   }, [currentReportId]);
 
-  const refresh = () => {
-    refreshRegistrations(conference.id, queryParameters).then(() => {
-      resetSelectedRegistrations();
-    });
-  };
-
-  const getRemainingBalance = (registrationId: string): number => {
-    return (
-      find(registrations, {
-        id: registrationId,
-      })?.remainingBalance ?? 0
-    );
-  };
+  useWatch(() => {
+    resetSelectedRegistrations();
+  }, [promoRegistrations]);
 
   const submit = () => {
     promoReportService
-      .submitPromos([...registrationsToInclude])
+      .submitPromos(map(registrationsToInclude, 'registration'))
       .then((report) => {
-        // Refresh reports list after submitting
-        promoReportService
-          .loadAllPromoReports(conference.id)
-          .then((reports) => {
-            setReports(reports);
-          });
+        // Load the new list of reports
+        refreshReports();
 
         if (report) {
           viewSubmissionReview(report);
@@ -210,8 +195,7 @@ const PromoUploadPage = ({
         setCurrentReportId(data);
       } else {
         // If not, refresh promotion list
-        setCurrentReportId('');
-        refresh();
+        setCurrentReportId(null);
       }
     });
   };
@@ -233,7 +217,11 @@ const PromoUploadPage = ({
         };
 
         $uibModal.open(paymentModalOptions).result.then(() => {
-          refresh();
+          if (metadata.source === 'report') {
+            refreshReport();
+          } else {
+            refreshPendingRegistrations();
+          }
         });
       })
       .catch(() => {
@@ -287,8 +275,8 @@ const PromoUploadPage = ({
           <select
             className="form-control"
             id="report-select-id"
-            value={currentReportId}
-            onChange={(event) => setCurrentReportId(event.target.value)}
+            value={currentReportId ?? ''}
+            onChange={(event) => setCurrentReportId(event.target.value || null)}
           >
             <option value="">New Report</option>
             {reports.map((r) => (
@@ -300,16 +288,18 @@ const PromoUploadPage = ({
         </div>
       </div>
 
-      <JournalFilters
+      <RegistrationFilters
         defaultQueryParams={queryParameters}
         onQueryChange={(query) => onQueryParametersChange(query)}
-        showPagination={!currentReportId}
+        showPagination={currentReportId === null}
         pageCount={Math.ceil(
-          (meta?.totalRegistrantsFilter ?? 0) / queryParameters.limit,
+          (metadata.source === 'pending-registrations'
+            ? metadata.meta.totalRegistrantsFilter
+            : 0) / queryParameters.limit,
         )}
       >
         {/* Journal Upload Event Transaction Section */}
-        {!currentReportId && meta && (
+        {metadata.source === 'pending-registrations' && (
           <div className="row form-group">
             <div className="col-xs-12 details-heading">
               <h4>
@@ -320,7 +310,7 @@ const PromoUploadPage = ({
               <div className="col-xs-12">
                 <p>
                   No transactions have been found to match your filter
-                  {meta.totalPages > 1 ? ' on this page' : ''}.
+                  {metadata.meta.totalPages > 1 ? ' on this page' : ''}.
                 </p>
               </div>
             ) : (
@@ -391,14 +381,9 @@ const PromoUploadPage = ({
         {promoRegistrationsWithErrors.length > 0 && (
           <div className="row form-group">
             <PromoTransactionsTable
-              promoRegistrations={promoRegistrationsWithErrors.filter((item) =>
-                currentReportId
-                  ? item.successfullyPosted
-                  : !item.successfullyPosted,
-              )}
+              promoRegistrations={promoRegistrationsWithErrors}
               currencySymbol={currencySymbol}
               currentReportId={currentReportId}
-              getRemainingBalance={getRemainingBalance}
               localizedCurrency={localizedCurrency}
               selectedRegistrants={registrationsToIncludeSet}
               setRegistrationSelected={setRegistrationIncluded}
@@ -411,30 +396,25 @@ const PromoUploadPage = ({
         {/* Promo Upload Participant Transaction Section */}
         <div className="row form-group">
           <PromoTransactionsTable
-            promoRegistrations={promoRegistrationsWithoutErrors.filter((item) =>
-              currentReportId
-                ? item.successfullyPosted
-                : !item.successfullyPosted,
-            )}
+            promoRegistrations={promoRegistrationsWithoutErrors}
             currencySymbol={currencySymbol}
             currentReportId={currentReportId}
             emptyMessage={
-              currentReportId
+              metadata.source === 'report'
                 ? 'No successful promotion transfers have been found in this report.'
                 : `No promotion transfers have been found to match your filter${
-                    meta.totalPages > 1 ? ' on this page' : ''
+                    metadata.meta.totalPages > 1 ? ' on this page' : ''
                   }.`
             }
-            getRemainingBalance={getRemainingBalance}
             headerExtra={
-              registrations.length > 0 &&
+              promoRegistrationsWithoutErrors.length > 0 &&
               !currentReportId && (
                 <button
                   type="button"
                   className="btn btn-default btn-sm"
                   onClick={() => {
                     setManyPromosIncluded(
-                      registrations,
+                      promoRegistrations,
                       !allRegistrationsIncluded,
                     );
                   }}
@@ -452,7 +432,7 @@ const PromoUploadPage = ({
             viewPayments={viewPayments}
           />
         </div>
-      </JournalFilters>
+      </RegistrationFilters>
     </div>
   );
 };

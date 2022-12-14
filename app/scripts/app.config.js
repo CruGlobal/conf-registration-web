@@ -286,10 +286,12 @@ angular
           registrationsData: ($route, journalUploadService) =>
             journalUploadService.getRegistrationData(
               $route.current.params.conferenceId,
-            ),
-          reports: ($route, journalUploadService) =>
-            journalUploadService.getAllAccountTransferReports(
-              $route.current.params.conferenceId,
+              {
+                includeAccountTransfers: false,
+                includeCheckedin: 'only',
+                includePromotions: true,
+                primaryRegistrantOnly: false,
+              },
             ),
           conference: ($route, ConfCache) =>
             ConfCache.get($route.current.params.conferenceId, true),

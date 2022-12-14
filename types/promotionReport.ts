@@ -1,3 +1,5 @@
+import { Registration } from 'registration';
+
 export interface PromotionRegistrationInfo {
   id: string;
   promotionId: string;
@@ -12,5 +14,6 @@ export interface PromotionReport {
   id: string;
   conferenceId: string;
   promotionRegistrationInfoList: Array<PromotionRegistrationInfo>;
+  registrationList: Array<Registration>;
   transactionTimestamp: string;
 }

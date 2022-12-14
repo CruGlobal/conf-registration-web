@@ -4,7 +4,7 @@ import { Conference } from 'conference';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { react2angular } from 'react2angular';
-import { JournalFilters } from '../JournalFilters/JournalFilters';
+import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import { JournalTransactionsTable } from '../JournalTransactionsTable/JournalTransactionsTable';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
@@ -14,7 +14,7 @@ import type {
   $rootScope,
   $uibModal,
   $window,
-  JournalQueryParams,
+  RegistrationQueryParams,
   JournalUploadService,
   ModalMessage,
 } from 'injectables';
@@ -92,25 +92,26 @@ const JournalUploadPage = ({
     reset: removeAllTransfersFromToInclude,
   } = useSelectedItems<AccountTransfer>();
   const allAccountTransfersIncluded = allTransfersSelected(accountTransfers);
-  const [queryParameters, setQueryParameters] = useState<JournalQueryParams>({
-    page: 1,
-    limit: 20,
-    orderBy: 'last_name',
-    order: 'ASC',
-    filter: '',
-    filterAccountTransferErrors: 'yes',
-    filterAccountTransfersByExpenseType: '',
-    filterAccountTransfersByPaymentType: '',
-    filterPayment: '',
-    filterRegType: '',
-    includeAccountTransfers: true,
-    includeCheckedin: 'yes',
-    includeWithdrawn: 'yes',
-    includeIncomplete: 'yes',
-    primaryRegistrantOnly: true,
-  });
+  const [queryParameters, setQueryParameters] =
+    useState<RegistrationQueryParams>({
+      page: 1,
+      limit: 20,
+      orderBy: 'last_name',
+      order: 'ASC',
+      filter: '',
+      filterAccountTransferErrors: 'yes',
+      filterAccountTransfersByExpenseType: '',
+      filterAccountTransfersByPaymentType: '',
+      filterPayment: '',
+      filterRegType: '',
+      includeAccountTransfers: true,
+      includeCheckedin: 'yes',
+      includeWithdrawn: 'yes',
+      includeIncomplete: 'yes',
+      primaryRegistrantOnly: true,
+    });
 
-  function onQueryParametersChange(newQueryParams: JournalQueryParams) {
+  function onQueryParametersChange(newQueryParams: RegistrationQueryParams) {
     if (newQueryParams.page !== queryParameters.page) {
       // scroll to top on page change
       $window.scrollTo(0, 0);
@@ -280,7 +281,7 @@ const JournalUploadPage = ({
         </div>
       </div>
 
-      <JournalFilters
+      <RegistrationFilters
         defaultQueryParams={queryParameters}
         onQueryChange={(query) => onQueryParametersChange(query)}
         showPagination={!currentReportId}
@@ -425,7 +426,7 @@ const JournalUploadPage = ({
             viewPayments={viewPayments}
           />
         </div>
-      </JournalFilters>
+      </RegistrationFilters>
     </div>
   );
 };
