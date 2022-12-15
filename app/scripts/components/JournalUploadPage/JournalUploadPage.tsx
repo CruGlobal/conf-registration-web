@@ -105,20 +105,21 @@ const JournalUploadPage = ({
       filterPayment: '',
       filterRegType: '',
       includeAccountTransfers: true,
+      includePromotions: true,
       includeCheckedin: 'yes',
       includeWithdrawn: 'yes',
       includeIncomplete: 'yes',
       primaryRegistrantOnly: true,
     });
 
-  function onQueryParametersChange(newQueryParams: RegistrationQueryParams) {
+  const onQueryParametersChange = (newQueryParams: RegistrationQueryParams) => {
     if (newQueryParams.page !== queryParameters.page) {
       // scroll to top on page change
       $window.scrollTo(0, 0);
     }
 
     setQueryParameters(newQueryParams);
-  }
+  };
 
   useWatch(() => {
     // Refresh the data whenever the query parameters change
@@ -208,6 +209,8 @@ const JournalUploadPage = ({
           backdrop: 'static',
           resolve: {
             registration: () => response.data,
+            promotionRegistrationInfoList: () =>
+              meta?.promotionRegistrationInfoList ?? [],
             conference: () => conference,
             permissions: () => permissions,
           },

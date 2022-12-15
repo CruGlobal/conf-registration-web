@@ -51,7 +51,7 @@ export const PromoTransactionsTable = ({
   title,
   viewPayments,
 }: PromoTransactionsTableProps): JSX.Element => {
-  function getBalanceClassName(balance: number): string {
+  const getBalanceClassName = (balance: number): string => {
     if (balance === 0) {
       return 'btn-success';
     } else if (balance < 0) {
@@ -59,28 +59,26 @@ export const PromoTransactionsTable = ({
     } else {
       return 'btn-default';
     }
-  }
+  };
 
   const entries = useMemo(
     () =>
-      promoRegistrations
-        .flatMap((promoRegistration) =>
-          promoRegistration.registration.groupRegistrants
-            // If the promotion doesn't apply to all registrations, filter out the non-primary registrations
-            .filter(
-              (registrant) =>
-                promoRegistration.promotion.applyToAllRegistrants ||
-                registrant.id ===
-                  promoRegistration.registration.primaryRegistrantId,
-            )
-            .map((registrant) => ({
-              id: `${registrant.id}|${promoRegistration.promotion.id}`,
-              promoRegistration,
-              registrant,
-              ...promoRegistration,
-            })),
-        )
-        .filter(({ registrant }) => registrant.checkedInTimestamp !== null),
+      promoRegistrations.flatMap((promoRegistration) =>
+        promoRegistration.registration.registrants
+          // If the promotion doesn't apply to all registrations, filter out the non-primary registrations
+          .filter(
+            (registrant) =>
+              promoRegistration.promotion.applyToAllRegistrants ||
+              registrant.id ===
+                promoRegistration.registration.primaryRegistrantId,
+          )
+          .map((registrant) => ({
+            id: `${registrant.id}|${promoRegistration.promotion.id}`,
+            promoRegistration,
+            registrant,
+            ...promoRegistration,
+          })),
+      ),
     [promoRegistrations],
   );
 
@@ -199,7 +197,10 @@ export const PromoTransactionsTable = ({
                     <td>{promotion.departmentId}</td>
                     <td>{promotion.projectId}</td>
                     <td>{localizedCurrency(promotion.amount)}</td>
-                    <td className="text-center">{promotion.code}</td>
+                    <td className="text-center">
+                      {promotion.code} {registrant.lastName},{' '}
+                      {registrant.firstName}
+                    </td>
                     <td className="text-center">
                       {!currentReportId && (
                         <input

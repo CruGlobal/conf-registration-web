@@ -81,7 +81,7 @@ export interface RegistrationQueryParams {
   includeWithdrawn: string;
   includeIncomplete: string;
   primaryRegistrantOnly: boolean;
-  includePromotions?: boolean;
+  includePromotions: boolean;
 }
 
 export interface JournalUploadService {

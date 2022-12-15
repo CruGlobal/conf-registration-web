@@ -253,13 +253,6 @@ angular
         $http
           .get('registrations/' + registrationId)
           .then(function (response) {
-            // Determine which of this registrations promotions have already been posted
-            const postedPromotionIds = $scope.meta.promotionRegistrationInfoList
-              .filter(
-                (info) => info.registrationId === registrationId && !info.error,
-              )
-              .map((item) => item.promotionId);
-
             var paymentModalOptions = {
               templateUrl: paymentsModalTemplate,
               controller: 'paymentModal',
@@ -269,7 +262,9 @@ angular
                 registration: function () {
                   return response.data;
                 },
-                postedPromotionIds: () => postedPromotionIds,
+                promotionRegistrationInfoList: function () {
+                  return $scope.meta.promotionRegistrationInfoList;
+                },
                 conference: function () {
                   return conference;
                 },

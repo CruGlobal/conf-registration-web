@@ -31,6 +31,7 @@ angular
                 includeWithdrawn: 'yes',
                 includeIncomplete: 'yes',
                 primaryRegistrantOnly: true,
+                includePromotions: true,
               },
               queryParameters,
             ),

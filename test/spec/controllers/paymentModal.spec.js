@@ -20,7 +20,7 @@ describe('Controller: paymentModal', function () {
         $scope: scope,
         $uibModalInstance: modalInstance,
         registration: testData.registration,
-        postedPromotionIds: [],
+        promotionRegistrationInfoList: [],
         conference: {},
         permissions: {},
       });

@@ -70,7 +70,7 @@ export class PromoReportService {
   async submitPromos(
     registrations: Array<Registration>,
   ): Promise<PromotionReport | null> {
-    this.$rootScope.loadingMsg = 'Submitting account transfers';
+    this.$rootScope.loadingMsg = 'Submitting promo reports';
     try {
       const response = await this.$http.post<string>(
         'promotion/post',
@@ -83,9 +83,7 @@ export class PromoReportService {
 
       this.$rootScope.loadingMsg = '';
       this.modalMessage.error({
-        title: error
-          ? 'Error Submitting Account Transfers'
-          : 'Promo Upload Delay',
+        title: error ? 'Error Submitting Promo Reports' : 'Promo Upload Delay',
         message:
           error ??
           '<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process. The system is still working to complete your request.</p>' +

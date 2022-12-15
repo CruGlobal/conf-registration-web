@@ -289,7 +289,6 @@ angular
               {
                 includeAccountTransfers: false,
                 includeCheckedin: 'only',
-                includePromotions: true,
                 primaryRegistrantOnly: false,
               },
             ),

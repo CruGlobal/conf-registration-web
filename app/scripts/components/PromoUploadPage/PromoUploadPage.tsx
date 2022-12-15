@@ -1,7 +1,7 @@
 import angular from 'angular';
 import { map } from 'lodash';
 import { Conference } from 'conference';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { react2angular } from 'react2angular';
 import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
@@ -99,9 +99,10 @@ const PromoUploadPage = ({
       filterPayment: '',
       filterRegType: '',
       includeAccountTransfers: false,
-      includeCheckedin: 'yes',
-      includeWithdrawn: 'yes',
-      includeIncomplete: 'yes',
+      includePromotions: true,
+      includeCheckedin: 'only',
+      includeWithdrawn: 'no',
+      includeIncomplete: 'no',
       primaryRegistrantOnly: false,
     });
 
@@ -114,13 +115,7 @@ const PromoUploadPage = ({
     journalUploadService,
     conference,
     initialPendingRegistrations: registrationsData,
-    registrationQueryParams: useMemo(
-      () => ({
-        ...queryParameters,
-        includeCheckedin: 'only',
-      }),
-      [queryParameters],
-    ),
+    registrationQueryParams: queryParameters,
     report,
   });
 
@@ -141,14 +136,14 @@ const PromoUploadPage = ({
     (item) => !item.error,
   );
 
-  function onQueryParametersChange(newQueryParams: RegistrationQueryParams) {
+  const onQueryParametersChange = (newQueryParams: RegistrationQueryParams) => {
     if (newQueryParams.page !== queryParameters.page) {
       // scroll to top on page change
       $window.scrollTo(0, 0);
     }
 
     setQueryParameters(newQueryParams);
-  }
+  };
 
   useWatch(() => {
     // scroll to top of page if selected report changes
@@ -165,6 +160,7 @@ const PromoUploadPage = ({
       .then((report) => {
         // Load the new list of reports
         refreshReports();
+        refreshPendingRegistrations();
 
         if (report) {
           viewSubmissionReview(report);
@@ -211,6 +207,10 @@ const PromoUploadPage = ({
           backdrop: 'static',
           resolve: {
             registration: () => response.data,
+            promotionRegistrationInfoList: () =>
+              metadata.source === 'report'
+                ? metadata.report.promotionRegistrationInfoList
+                : metadata.meta.promotionRegistrationInfoList ?? [],
             conference: () => conference,
             permissions: () => permissions,
           },
@@ -297,6 +297,11 @@ const PromoUploadPage = ({
             ? metadata.meta.totalRegistrantsFilter
             : 0) / queryParameters.limit,
         )}
+        hiddenFilters={[
+          'filterPayment',
+          'filterAccountTransfersByExpenseType',
+          'filterAccountTransferErrors',
+        ]}
       >
         {/* Journal Upload Event Transaction Section */}
         {metadata.source === 'pending-registrations' && (
@@ -359,10 +364,10 @@ const PromoUploadPage = ({
                         <th>PROMOTION</th>
                         <td></td>
                         <td></td>
-                        <td>{promotion.businessUnit}</td>
-                        <td>{promotion.operatingUnit}</td>
-                        <td>{promotion.departmentId}</td>
-                        <td>{promotion.projectId}</td>
+                        <td>{conference.businessUnit}</td>
+                        <td>{conference.operatingUnit}</td>
+                        <td>{conference.department}</td>
+                        <td>{conference.projectId}</td>
                         <td>41300</td>
                         <td>{promotion.amount * count}</td>
                         <td>{promotion.code}</td>

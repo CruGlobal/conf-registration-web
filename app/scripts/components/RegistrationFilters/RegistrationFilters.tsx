@@ -12,6 +12,7 @@ export interface RegistrationFiltersProps {
   showPagination: boolean;
   pageCount: number;
   children: React.ReactFragment;
+  hiddenFilters?: Array<keyof RegistrationQueryParams>;
 }
 
 export const RegistrationFilters = (
@@ -21,10 +22,10 @@ export const RegistrationFilters = (
     props.defaultQueryParams,
   );
 
-  function setQueryParam<Key extends keyof RegistrationQueryParams>(
+  const setQueryParam = <Key extends keyof RegistrationQueryParams>(
     key: Key,
     value: RegistrationQueryParams[Key],
-  ) {
+  ) => {
     const newQueryParams = {
       ...queryParameters,
       [key]: value,
@@ -33,7 +34,7 @@ export const RegistrationFilters = (
     };
     setQueryParameters(newQueryParams);
     props.onQueryChange(newQueryParams);
-  }
+  };
 
   const [strFilterInput, setStrFilterInput] = useState('');
   const [strFilter, setStrFilter] = useState('');
@@ -52,99 +53,114 @@ export const RegistrationFilters = (
 
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
+  const showFilter = (filterName: keyof RegistrationQueryParams) =>
+    !props.hiddenFilters?.includes(filterName);
+
   return (
     <>
       <div className="row form-group well well-full spacing-above-xs spacing-below-sm">
-        <div className="row">
-          <div className="col-md-2 col-sm-8 stacked-spacing-col-md">
-            <div className="form-group has-feedback has-clear">
-              <label>
-                Search <small>(visible columns only)</small>:
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                value={strFilterInput}
-                onChange={(event) => {
-                  setStrFilterInput(event.target.value);
-                }}
-              />
-              {strFilterInput && (
-                <span
-                  className="form-control-feedback form-control-clear"
-                  onClick={() => {
-                    setStrFilterInput('');
+        <div className="filters-row row">
+          {showFilter('filter') && (
+            <div className="col-md-2 col-sm-8 stacked-spacing-col-md">
+              <div className="form-group has-feedback has-clear">
+                <label>
+                  Search <small>(visible columns only)</small>:
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={strFilterInput}
+                  onChange={(event) => {
+                    setStrFilterInput(event.target.value);
                   }}
-                  title="Clear search"
-                >
-                  <i className="fa fa-times"></i>
-                </span>
-              )}
+                />
+                {strFilterInput && (
+                  <span
+                    className="form-control-feedback form-control-clear"
+                    onClick={() => {
+                      setStrFilterInput('');
+                    }}
+                    title="Clear search"
+                  >
+                    <i className="fa fa-times"></i>
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="col-md-2 col-sm-4 stacked-spacing-col-sm">
-            <label>Payment status:</label>
-            <select
-              value={queryParameters.filterPayment}
-              onChange={(event) =>
-                setQueryParam('filterPayment', event.target.value)
-              }
-              className="form-control"
-            >
-              <option value="">-Any-</option>
-              <option value="full">Full/Overpaid</option>
-              <option value="partial">Partial</option>
-              <option value="full-partial">Full/Partial</option>
-              <option value="over">Overpaid</option>
-            </select>
-          </div>
-          <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
-            <label>Registrant type:</label>
-            <select
-              className="form-control"
-              ng-model="queryParameters.filterRegType"
-              ng-options="r.id as r.name for r in conference.registrantTypes"
-            >
-              <option value="">-Any-</option>
-            </select>
-          </div>
-          <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
-            <label>Payment type:</label>
-            <select
-              className="form-control"
-              value={queryParameters.filterAccountTransfersByPaymentType}
-              onChange={(event) =>
-                setQueryParam(
-                  'filterAccountTransfersByPaymentType',
-                  event.target.value,
-                )
-              }
-            >
-              <option value="">-Any-</option>
-              <option value="ACCOUNT_TRANSFER">Account Transfer</option>
-              <option value="SCHOLARSHIP">Scholarship</option>
-            </select>
-          </div>
-          <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
-            <label>Expense type:</label>
-            <select
-              className="form-control"
-              value={queryParameters.filterAccountTransfersByExpenseType}
-              onChange={(event) =>
-                setQueryParam(
-                  'filterAccountTransfersByExpenseType',
-                  event.target.value,
-                )
-              }
-            >
-              <option value="">-Any-</option>
-              <option value="REGISTRATION">Registration</option>
-              <option value="MISCELLANEOUS_ITEM">Misc. Expense</option>
-              <option value="CHILDCARE">Childcare</option>
-              <option value="STAFF_TAXABLE_ITEM">Staff Taxable Expense</option>
-            </select>
-          </div>
-          <div className="col-md-2 col-sm-6 text-right stacked-spacing-col-md">
+          )}
+          {showFilter('filterPayment') && (
+            <div className="col-md-2 col-sm-4 stacked-spacing-col-sm">
+              <label>Payment status:</label>
+              <select
+                value={queryParameters.filterPayment}
+                onChange={(event) =>
+                  setQueryParam('filterPayment', event.target.value)
+                }
+                className="form-control"
+              >
+                <option value="">-Any-</option>
+                <option value="full">Full/Overpaid</option>
+                <option value="partial">Partial</option>
+                <option value="full-partial">Full/Partial</option>
+                <option value="over">Overpaid</option>
+              </select>
+            </div>
+          )}
+          {showFilter('filterRegType') && (
+            <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
+              <label>Registrant type:</label>
+              <select
+                className="form-control"
+                ng-model="queryParameters.filterRegType"
+                ng-options="r.id as r.name for r in conference.registrantTypes"
+              >
+                <option value="">-Any-</option>
+              </select>
+            </div>
+          )}
+          {showFilter('filterAccountTransfersByPaymentType') && (
+            <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
+              <label>Payment type:</label>
+              <select
+                className="form-control"
+                value={queryParameters.filterAccountTransfersByPaymentType}
+                onChange={(event) =>
+                  setQueryParam(
+                    'filterAccountTransfersByPaymentType',
+                    event.target.value,
+                  )
+                }
+              >
+                <option value="">-Any-</option>
+                <option value="ACCOUNT_TRANSFER">Account Transfer</option>
+                <option value="SCHOLARSHIP">Scholarship</option>
+              </select>
+            </div>
+          )}
+          {showFilter('filterAccountTransfersByExpenseType') && (
+            <div className="col-md-2 col-sm-6 stacked-spacing-col-sm">
+              <label>Expense type:</label>
+              <select
+                className="form-control"
+                value={queryParameters.filterAccountTransfersByExpenseType}
+                onChange={(event) =>
+                  setQueryParam(
+                    'filterAccountTransfersByExpenseType',
+                    event.target.value,
+                  )
+                }
+              >
+                <option value="">-Any-</option>
+                <option value="REGISTRATION">Registration</option>
+                <option value="MISCELLANEOUS_ITEM">Misc. Expense</option>
+                <option value="CHILDCARE">Childcare</option>
+                <option value="STAFF_TAXABLE_ITEM">
+                  Staff Taxable Expense
+                </option>
+              </select>
+            </div>
+          )}
+          <div className="more-filters col-md-2 col-sm-6 text-right stacked-spacing-col-md">
             <br />
             <Button
               className="btn btn-default"
@@ -163,64 +179,74 @@ export const RegistrationFilters = (
         </div>
         {showMoreFilters && (
           <div className="row spacing-above-sm well-border-above">
-            <div className="col-sm-3 stacked-spacing-col-sm">
-              <label>Journal Submission Errors</label>
-              <ToggleButtonGroup
-                type="radio"
-                name="filterAccountTransferErrors"
-                className="btn-group-justified"
-                value={queryParameters.filterAccountTransferErrors}
-                onChange={(value) =>
-                  setQueryParam('filterAccountTransferErrors', value)
-                }
-              >
-                <ToggleButton value="yes">Show</ToggleButton>
-                <ToggleButton value="no">Hide</ToggleButton>
-                <ToggleButton value="only">Only</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div className="col-sm-3 stacked-spacing-col-sm">
-              <label>Incomplete registrations</label>
-              <ToggleButtonGroup
-                type="radio"
-                name="includeIncomplete"
-                className="btn-group-justified"
-                value={queryParameters.includeIncomplete}
-                onChange={(value) => setQueryParam('includeIncomplete', value)}
-              >
-                <ToggleButton value="yes">Show</ToggleButton>
-                <ToggleButton value="no">Hide</ToggleButton>
-                <ToggleButton value="only">Only</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div className="col-sm-3 stacked-spacing-col-sm">
-              <label>Checked-in registrations</label>
-              <ToggleButtonGroup
-                type="radio"
-                name="includeCheckedin"
-                className="btn-group-justified"
-                value={queryParameters.includeCheckedin}
-                onChange={(value) => setQueryParam('includeCheckedin', value)}
-              >
-                <ToggleButton value="yes">Show</ToggleButton>
-                <ToggleButton value="no">Hide</ToggleButton>
-                <ToggleButton value="only">Only</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
-            <div className="col-sm-3 stacked-spacing-col-sm">
-              <label>Withdrawn registrations</label>
-              <ToggleButtonGroup
-                type="radio"
-                name="includeWithdrawn"
-                className="btn-group-justified"
-                value={queryParameters.includeWithdrawn}
-                onChange={(value) => setQueryParam('includeWithdrawn', value)}
-              >
-                <ToggleButton value="yes">Show</ToggleButton>
-                <ToggleButton value="no">Hide</ToggleButton>
-                <ToggleButton value="only">Only</ToggleButton>
-              </ToggleButtonGroup>
-            </div>
+            {showFilter('filterAccountTransferErrors') && (
+              <div className="col-sm-3 stacked-spacing-col-sm">
+                <label>Journal Submission Errors</label>
+                <ToggleButtonGroup
+                  type="radio"
+                  name="filterAccountTransferErrors"
+                  className="btn-group-justified"
+                  value={queryParameters.filterAccountTransferErrors}
+                  onChange={(value) =>
+                    setQueryParam('filterAccountTransferErrors', value)
+                  }
+                >
+                  <ToggleButton value="yes">Show</ToggleButton>
+                  <ToggleButton value="no">Hide</ToggleButton>
+                  <ToggleButton value="only">Only</ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+            )}
+            {showFilter('includeIncomplete') && (
+              <div className="col-sm-3 stacked-spacing-col-sm">
+                <label>Incomplete registrations</label>
+                <ToggleButtonGroup
+                  type="radio"
+                  name="includeIncomplete"
+                  className="btn-group-justified"
+                  value={queryParameters.includeIncomplete}
+                  onChange={(value) =>
+                    setQueryParam('includeIncomplete', value)
+                  }
+                >
+                  <ToggleButton value="yes">Show</ToggleButton>
+                  <ToggleButton value="no">Hide</ToggleButton>
+                  <ToggleButton value="only">Only</ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+            )}
+            {showFilter('includeCheckedin') && (
+              <div className="col-sm-3 stacked-spacing-col-sm">
+                <label>Checked-in registrations</label>
+                <ToggleButtonGroup
+                  type="radio"
+                  name="includeCheckedin"
+                  className="btn-group-justified"
+                  value={queryParameters.includeCheckedin}
+                  onChange={(value) => setQueryParam('includeCheckedin', value)}
+                >
+                  <ToggleButton value="yes">Show</ToggleButton>
+                  <ToggleButton value="no">Hide</ToggleButton>
+                  <ToggleButton value="only">Only</ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+            )}
+            {showFilter('includeWithdrawn') && (
+              <div className="col-sm-3 stacked-spacing-col-sm">
+                <label>Withdrawn registrations</label>
+                <ToggleButtonGroup
+                  type="radio"
+                  name="includeWithdrawn"
+                  className="btn-group-justified"
+                  value={queryParameters.includeWithdrawn}
+                  onChange={(value) => setQueryParam('includeWithdrawn', value)}
+                >
+                  <ToggleButton value="yes">Show</ToggleButton>
+                  <ToggleButton value="no">Hide</ToggleButton>
+                  <ToggleButton value="only">Only</ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+            )}
           </div>
         )}
       </div>

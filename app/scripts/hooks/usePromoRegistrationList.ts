@@ -1,6 +1,6 @@
 import { Conference } from 'conference';
 import { RegistrationQueryParams, JournalUploadService } from 'injectables';
-import { find, uniqWith } from 'lodash';
+import { find } from 'lodash';
 import { Promotion } from 'promotion';
 import { PromotionReport } from 'promotionReport';
 import { useMemo, useState } from 'react';
@@ -62,35 +62,29 @@ export const usePromoRegistrationList = ({
     useState<RegistrationsData>(initialPendingRegistrations);
 
   // Calculate the list of unposted promo registrations from the current page of registrations
-  const pendingPromoRegistrations = useMemo(() => {
-    const promoRegistrations = pendingRegistrations.registrations.flatMap(
-      (registration) =>
-        registration.promotions.map((promotion): PromoRegistration => {
-          const postedInfo = find(
-            pendingRegistrations.meta.promotionRegistrationInfoList,
-            {
-              promotionId: promotion.id,
-              registrationId: registration.id,
-            },
-          );
-          return {
-            promotion,
-            registration,
-            successfullyPosted: Boolean(postedInfo && !postedInfo.error),
-            error: postedInfo?.error,
-          };
-        }),
-    );
-
-    // promoRegistrations will have one element per registrant per promotion, but we only want one
-    // element per registrant group, so filter out the duplicates
-    return uniqWith(
-      promoRegistrations,
-      (item1, item2) =>
-        item1.registration.groupId === item2.registration.groupId &&
-        item1.promotion.id === item2.promotion.id,
-    ).filter((item) => !item.successfullyPosted);
-  }, [report, pendingRegistrations]);
+  const pendingPromoRegistrations = useMemo(
+    () =>
+      pendingRegistrations.registrations
+        .flatMap((registration) =>
+          registration.promotions.map((promotion): PromoRegistration => {
+            const postedInfo = find(
+              pendingRegistrations.meta.promotionRegistrationInfoList,
+              {
+                promotionId: promotion.id,
+                registrationId: registration.id,
+              },
+            );
+            return {
+              promotion,
+              registration,
+              successfullyPosted: Boolean(postedInfo && !postedInfo.error),
+              error: postedInfo?.error,
+            };
+          }),
+        )
+        .filter((item) => !item.successfullyPosted),
+    [report, pendingRegistrations],
+  );
 
   // Calculate the list of promo registrations from the current report if there is one, or null otherwise
   const reportPromoRegistrations = useMemo(() => {

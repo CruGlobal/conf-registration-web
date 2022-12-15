@@ -8,7 +8,7 @@ angular
       modalMessage,
       $http,
       registration,
-      postedPromotionIds,
+      promotionRegistrationInfoList,
       conference,
       payment,
       permissions,
@@ -16,7 +16,6 @@ angular
       expenseTypesConstants,
     ) {
       $scope.registration = registration;
-      $scope.postedPromotionIds = postedPromotionIds;
       $scope.conference = conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.processing = false;
@@ -164,6 +163,17 @@ angular
           payment.paymentType !== 'TRANSFER' &&
           payment.paymentType !== 'SCHOLARSHIP' &&
           $scope.calculateRefundableAmount(payment) > 0
+        );
+      };
+
+      $scope.isPromoPosted = function (promotionId) {
+        return (
+          typeof promotionRegistrationInfoList.find(
+            (info) =>
+              info.registrationId === registration.id &&
+              info.promotionId === promotionId &&
+              !info.error,
+          ) !== 'undefined'
         );
       };
 

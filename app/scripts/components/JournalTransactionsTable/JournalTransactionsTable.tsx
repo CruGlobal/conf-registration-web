@@ -55,7 +55,7 @@ export const JournalTransactionsTable = ({
   title,
   viewPayments,
 }: JournalTransactionsTableProps): JSX.Element => {
-  function getBalanceClassName(balance: number): string {
+  const getBalanceClassName = (balance: number): string => {
     if (balance === 0) {
       return 'btn-success';
     } else if (balance < 0) {
@@ -63,7 +63,7 @@ export const JournalTransactionsTable = ({
     } else {
       return 'btn-default';
     }
-  }
+  };
 
   return (
     <>
