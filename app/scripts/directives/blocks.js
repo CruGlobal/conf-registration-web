@@ -89,26 +89,40 @@ angular
       templateUrl: radioQuestionTemplate,
       restrict: 'E',
       controller: function ($scope) {
-        $scope.$watch('answer.value', function () {
-          if (angular.isDefined($scope.answer)) {
-            //check if answer is not in current choices
-            if (
-              !_.includes(
-                _.map($scope.block.content.choices, 'value'),
-                $scope.answer.value,
-              )
-            ) {
-              $scope.otherAnswer = $scope.answer.value;
-            }
+        $scope.otherSentinel = '__other__';
+
+        $scope.selectOtherAnswer = () => {
+          if ($scope.otherAnswer) {
+            $scope.selectedAnswer = $scope.otherSentinel;
+          }
+        };
+
+        $scope.clearAnswer = () => {
+          $scope.selectedAnswer = '';
+        };
+
+        const answerValue = $scope.answer ? $scope.answer.value : '';
+        if (
+          !$scope.block.content.otherOption.enabled ||
+          answerValue === '' ||
+          _.includes(_.map($scope.block.content.choices, 'value'), answerValue)
+        ) {
+          $scope.selectedAnswer = answerValue;
+          $scope.otherAnswer = '';
+        } else {
+          // An answer is present that isn't in the list of available choices, so it is an "Other" answer
+          $scope.selectedAnswer = $scope.otherSentinel;
+          $scope.otherAnswer = answerValue;
+        }
+
+        $scope.$watchGroup(['selectedAnswer', 'otherAnswer'], () => {
+          if ($scope.answer) {
+            $scope.answer.value =
+              $scope.selectedAnswer === $scope.otherSentinel
+                ? $scope.otherAnswer
+                : $scope.selectedAnswer;
           }
         });
-
-        $scope.selectOtherAnswer = function () {
-          if (!$scope.answer) {
-            return;
-          }
-          $scope.answer.value = $scope.otherAnswer;
-        };
       },
     };
   });
