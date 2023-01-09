@@ -16,7 +16,6 @@
       name="{{ block.id }}"
       ng-required="block.required"
       ng-model="$parent.selectedAnswer"
-      ng-model-options="{ debounce: 1000 }"
       ng-value="choice.value"
     />
     <strong>{{ choice.value }}</strong>
@@ -48,7 +47,6 @@
     name="{{ block.id }}"
     ng-required="block.required"
     ng-model="selectedAnswer"
-    ng-model-options="{ debounce: 1000 }"
     ng-value="otherSentinel"
   />
   <input
@@ -56,7 +54,6 @@
     class="form-control"
     show-errors
     ng-model="otherAnswer"
-    ng-model-options="{ debounce: 1000 }"
     ng-change="selectOtherAnswer()"
     ng-required="selectedAnswer === otherSentinel"
     style="display: inline; width: auto"
