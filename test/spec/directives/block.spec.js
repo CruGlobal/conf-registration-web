@@ -24,6 +24,14 @@ describe('Directive: blocks', () => {
       ];
     }));
 
+    it('handles other option disabled', () => {
+      $scope.block.content.otherOption = undefined;
+      $compile('<radio-question></radio-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.selectedAnswer).toBe('');
+    });
+
     it('has no selection when answer is undefined', () => {
       $scope.answer = undefined;
       $compile('<radio-question></radio-question>')($scope);
