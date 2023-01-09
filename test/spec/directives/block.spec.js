@@ -5,10 +5,17 @@ describe('Directive: blocks', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   describe('radioQuestion', () => {
-    let $compile, $rootScope, $scope;
-    beforeEach(inject((_$compile_, _$rootScope_, $templateCache, testData) => {
+    let $compile, $rootScope, $scope, $timeout;
+    beforeEach(inject((
+      _$compile_,
+      _$rootScope_,
+      _$timeout_,
+      $templateCache,
+      testData,
+    ) => {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
+      $timeout = _$timeout_;
 
       $scope = $rootScope.$new();
       $templateCache.put('views/blocks/radioQuestion.html', '');
@@ -80,13 +87,13 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
 
       $scope.selectedAnswer = 'Option 1';
-      $scope.$digest();
+      $timeout.flush();
 
       expect($scope.answer.value).toBe('Option 1');
 
       $scope.selectedAnswer = '__other__';
       $scope.otherAnswer = 'Other';
-      $scope.$digest();
+      $timeout.flush();
 
       expect($scope.answer.value).toBe('Other');
     });
@@ -116,6 +123,38 @@ describe('Directive: blocks', () => {
       $scope.clearAnswer();
 
       expect($scope.selectedAnswer).toBe('');
+    });
+
+    it('debounces answer updates', () => {
+      $scope.answer = { value: '' };
+      $compile('<radio-question></radio-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.answer.value).toBe('');
+
+      $scope.selectedAnswer = 'Option 1';
+      $scope.$digest();
+
+      expect($scope.answer.value).toBe('');
+
+      $scope.selectedAnswer = 'Option 2';
+      $scope.$digest();
+
+      expect($scope.answer.value).toBe('');
+
+      $scope.otherAnswer = 'Other';
+      $scope.selectOtherAnswer();
+
+      expect($scope.answer.value).toBe('');
+
+      $scope.selectedAnswer = 'Option 1';
+      $scope.$digest();
+
+      expect($scope.answer.value).toBe('');
+
+      $timeout.flush();
+
+      expect($scope.answer.value).toBe('Option 1');
     });
   });
 });

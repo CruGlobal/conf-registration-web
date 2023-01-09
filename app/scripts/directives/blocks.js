@@ -88,7 +88,7 @@ angular
     return {
       templateUrl: radioQuestionTemplate,
       restrict: 'E',
-      controller: function ($scope) {
+      controller: function ($scope, $timeout) {
         $scope.otherSentinel = '__other__';
 
         $scope.selectOtherAnswer = () => {
@@ -116,14 +116,33 @@ angular
           $scope.otherAnswer = '';
         }
 
-        $scope.$watchGroup(['selectedAnswer', 'otherAnswer'], () => {
-          if ($scope.answer) {
-            $scope.answer.value =
-              $scope.selectedAnswer === $scope.otherSentinel
-                ? $scope.otherAnswer
-                : $scope.selectedAnswer;
+        // We would use ng-model-options="{ debounce: 1000 }", but that causes the selection to disappear when
+        // rapidly changing the selected option (https://stackoverflow.com/questions/31254291). To work-around,
+        // we perform the debounce ourselves. We're writing our own debounce function instead of using _.debounce
+        // because lodash's implementation uses setTimeout, but we need to use $timeout so that the timeout can
+        // be manually flushed in tests.
+        let currentTimeout = null;
+        const updateAnswerValueDebounced = () => {
+          if (currentTimeout) {
+            // Cancel the previous timeout and start a new one
+            $timeout.cancel(currentTimeout);
           }
-        });
+
+          // Update the answer after one second
+          currentTimeout = $timeout(() => {
+            if ($scope.answer) {
+              $scope.answer.value =
+                $scope.selectedAnswer === $scope.otherSentinel
+                  ? $scope.otherAnswer
+                  : $scope.selectedAnswer;
+            }
+          }, 1000);
+        };
+
+        $scope.$watchGroup(
+          ['selectedAnswer', 'otherAnswer'],
+          updateAnswerValueDebounced,
+        );
       },
     };
   });
