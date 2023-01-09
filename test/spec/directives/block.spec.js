@@ -82,5 +82,32 @@ describe('Directive: blocks', () => {
 
       expect($scope.answer.value).toBe('Other');
     });
+
+    it('selects the other answer', () => {
+      $scope.answer = { value: 'Option 1' };
+      $compile('<radio-question></radio-question>')($scope);
+      $scope.$digest();
+
+      $scope.selectOtherAnswer();
+
+      expect($scope.selectedAnswer).toBe('Option 1');
+
+      $scope.otherAnswer = 'Other';
+      $scope.selectOtherAnswer();
+
+      expect($scope.selectedAnswer).toBe('__other__');
+    });
+
+    it('clears the answer', () => {
+      $scope.answer = { value: 'Option 1' };
+      $compile('<radio-question></radio-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.selectedAnswer).toBe('Option 1');
+
+      $scope.clearAnswer();
+
+      expect($scope.selectedAnswer).toBe('');
+    });
   });
 });
