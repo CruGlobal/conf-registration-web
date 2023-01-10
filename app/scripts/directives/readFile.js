@@ -32,7 +32,17 @@ angular
         }
 
         el.bind('change', (e) => {
-          getFile((e.srcElement || e.target).files[0]);
+          const file = (e.srcElement || e.target).files[0];
+          // files can be empty if a file was uploaded, then the user clicks the
+          // Choose File button again but closes the dialog without selecting a file
+          if (file) {
+            getFile(file);
+          } else {
+            // Clear the uploaded file if the uploaded file was removed
+            $scope.$apply(() => {
+              $scope.ngModel = '';
+            });
+          }
         });
       },
     };
