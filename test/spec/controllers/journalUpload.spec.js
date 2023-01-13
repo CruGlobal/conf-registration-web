@@ -32,9 +32,12 @@ describe('Controller: journalUploadCtrl', function () {
   it('refresh should call api and refresh scope data', () => {
     scope.accountTransfers = [];
 
-    $httpBackend
-      .whenGET(/^conferences\/.*\/registrations.*/)
-      .respond(201, { registrations: [testData.singleRegistration] });
+    $httpBackend.whenGET(/^conferences\/.*\/registrations.*/).respond(201, {
+      meta: {
+        accountTransferEvents: [],
+      },
+      registrations: [testData.singleRegistration],
+    });
 
     scope.refresh();
     $httpBackend.flush();
