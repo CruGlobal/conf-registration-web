@@ -1,6 +1,6 @@
 import { Conference } from 'conference';
 import { RegistrationQueryParams, JournalUploadService } from 'injectables';
-import { find } from 'lodash';
+import { find, uniqBy } from 'lodash';
 import { Promotion } from 'promotion';
 import { PromotionReport } from 'promotionReport';
 import { useMemo, useState } from 'react';
@@ -64,7 +64,8 @@ export const usePromoRegistrationList = ({
   // Calculate the list of unposted promo registrations from the current page of registrations
   const pendingPromoRegistrations = useMemo(
     () =>
-      pendingRegistrations.registrations
+      // pendingRegistrations has one item per registrant, so remove duplicates to get one item per registration
+      uniqBy(pendingRegistrations.registrations, 'id')
         .flatMap((registration) =>
           registration.promotions.map((promotion): PromoRegistration => {
             const postedInfo = find(
@@ -83,7 +84,7 @@ export const usePromoRegistrationList = ({
           }),
         )
         .filter((item) => !item.successfullyPosted),
-    [report, pendingRegistrations],
+    [pendingRegistrations],
   );
 
   // Calculate the list of promo registrations from the current report if there is one, or null otherwise

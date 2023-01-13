@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { map } from 'lodash';
+import { groupBy } from 'lodash';
 import { Conference } from 'conference';
 import { useEffect, useState } from 'react';
 import classNames from 'classnames';
@@ -155,17 +155,23 @@ const PromoUploadPage = ({
   }, [promoRegistrations]);
 
   const submit = () => {
-    promoReportService
-      .submitPromos(map(registrationsToInclude, 'registration'))
-      .then((report) => {
-        // Load the new list of reports
-        refreshReports();
-        refreshPendingRegistrations();
+    // registrationsToInclude will have multiple entries for the same registration if that
+    // registration has multiple promo codes, so combine them into one entry per registration
+    const registrations = Object.values(
+      groupBy(registrationsToInclude, ({ registration }) => registration.id),
+    ).map((registrations) => ({
+      ...registrations[0].registration,
+      promotions: registrations.map(({ promotion }) => promotion),
+    }));
+    promoReportService.submitPromos(registrations).then((report) => {
+      // Load the new list of reports
+      refreshReports();
+      refreshPendingRegistrations();
 
-        if (report) {
-          viewSubmissionReview(report);
-        }
-      });
+      if (report) {
+        viewSubmissionReview(report);
+      }
+    });
   };
 
   const viewSubmissionReview = (report: PromotionReport) => {
@@ -341,16 +347,11 @@ const PromoUploadPage = ({
                         <a href="#">Project ID</a>
                       </th>
                       <th>
-                        <a href="#">GL Account</a>
-                      </th>
-                      <th>
                         <a href="#">Amount</a>
                       </th>
                       <th>
                         <a href="#">Description</a>
                       </th>
-                      <th></th>
-                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -368,11 +369,8 @@ const PromoUploadPage = ({
                         <td>{conference.operatingUnit}</td>
                         <td>{conference.department}</td>
                         <td>{conference.projectId}</td>
-                        <td>41300</td>
                         <td>{promotion.amount * count}</td>
                         <td>{promotion.code}</td>
-                        <td></td>
-                        <td></td>
                       </tr>
                     ))}
                   </tbody>
@@ -390,7 +388,7 @@ const PromoUploadPage = ({
               currencySymbol={currencySymbol}
               currentReportId={currentReportId}
               localizedCurrency={localizedCurrency}
-              selectedRegistrants={registrationsToIncludeSet}
+              selectedRegistrations={registrationsToIncludeSet}
               setRegistrationSelected={setRegistrationIncluded}
               title="Promo Upload Participant Transactions With Errors"
               viewPayments={viewPayments}
@@ -431,7 +429,7 @@ const PromoUploadPage = ({
               )
             }
             localizedCurrency={localizedCurrency}
-            selectedRegistrants={registrationsToIncludeSet}
+            selectedRegistrations={registrationsToIncludeSet}
             setRegistrationSelected={setRegistrationIncluded}
             title="Promos Upload Participant Transactions"
             viewPayments={viewPayments}

@@ -24,7 +24,7 @@ export interface PromoTransactionsTableProps {
   localizedCurrency: (amount: number) => string;
 
   // The set of registrations that are selected and will be included in a new report
-  selectedRegistrants: Set<PromoRegistration>;
+  selectedRegistrations: Set<PromoRegistration>;
 
   // Handle changes to the selected state of a promo transaction
   setRegistrationSelected: (
@@ -46,7 +46,7 @@ export const PromoTransactionsTable = ({
   emptyMessage,
   headerExtra,
   localizedCurrency,
-  selectedRegistrants,
+  selectedRegistrations,
   setRegistrationSelected,
   title,
   viewPayments,
@@ -61,11 +61,12 @@ export const PromoTransactionsTable = ({
     }
   };
 
-  const entries = useMemo(
+  const rows = useMemo(
     () =>
+      // Expand each registration item into one row per registrant in the registration
       promoRegistrations.flatMap((promoRegistration) =>
-        promoRegistration.registration.registrants
-          // If the promotion doesn't apply to all registrations, filter out the non-primary registrations
+        promoRegistration.registration.groupRegistrants
+          // If the promotion doesn't apply to all registrations, filter out the non-primary registrants
           .filter(
             (registrant) =>
               promoRegistration.promotion.applyToAllRegistrants ||
@@ -91,137 +92,133 @@ export const PromoTransactionsTable = ({
           </h4>
         </div>
         <div className="col-xs-6 text-right">{headerExtra}</div>
-        {entries.length === 0 && (
-          <div className="col-xs-12">{emptyMessage}</div>
-        )}
+        {rows.length === 0 && <div className="col-xs-12">{emptyMessage}</div>}
       </div>
-      {
-        <div className="col-xs-12 table-responsive journal-row">
-          <table className="table table-aligned">
-            <thead>
-              <tr>
-                <th>
-                  <a href="#">First Name</a>
-                </th>
-                <th>
-                  <a href="#">Last Name</a>
-                </th>
-                <th>
-                  Paid{' '}
-                  <OverlayTrigger
-                    trigger={['hover', 'focus']}
-                    placement="top"
-                    overlay={
-                      <Popover id="PromoTransactionsTablePaidPopover">
-                        <RegistrationsPaidPopover />
-                      </Popover>
-                    }
-                  >
-                    <i className="fa fa-question-circle" />
-                  </OverlayTrigger>
-                </th>
-                <th>
-                  <a href="#">Business Unit</a>
-                </th>
-                <th>
-                  <a href="#">Operating Unit</a>
-                </th>
-                <th>
-                  <a href="#">Department ID</a>
-                </th>
-                <th>
-                  <a href="#">Project ID</a>
-                </th>
-                <th>
-                  <a href="#">Amount</a>
-                </th>
+      <div className="col-xs-12 table-responsive journal-row">
+        <table className="table table-aligned">
+          <thead>
+            <tr>
+              <th>
+                <a href="#">First Name</a>
+              </th>
+              <th>
+                <a href="#">Last Name</a>
+              </th>
+              <th>
+                Paid{' '}
+                <OverlayTrigger
+                  trigger={['hover', 'focus']}
+                  placement="top"
+                  overlay={
+                    <Popover id="PromoTransactionsTablePaidPopover">
+                      <RegistrationsPaidPopover />
+                    </Popover>
+                  }
+                >
+                  <i className="fa fa-question-circle" />
+                </OverlayTrigger>
+              </th>
+              <th>
+                <a href="#">Business Unit</a>
+              </th>
+              <th>
+                <a href="#">Operating Unit</a>
+              </th>
+              <th>
+                <a href="#">Department ID</a>
+              </th>
+              <th>
+                <a href="#">Project ID</a>
+              </th>
+              <th>
+                <a href="#">Amount</a>
+              </th>
+              <th className="text-center">
+                <a href="#">Description</a>
+              </th>
+              {!currentReportId && (
                 <th className="text-center">
-                  <a href="#">Description</a>
+                  <a href="#">Include into report</a>
                 </th>
-                {!currentReportId && (
-                  <th className="text-center">
-                    <a href="#">Include into report</a>
-                  </th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {entries.map(
-                (
-                  {
-                    id,
-                    promoRegistration,
-                    registration,
-                    registrant,
-                    promotion,
-                    error,
-                  },
-                  index,
-                ) => (
-                  <tr
-                    key={id}
-                    className={classNames('noselect', {
-                      active: index % 2 === 0,
-                    })}
-                  >
-                    <td>{registrant.firstName}</td>
-                    <td>{registrant.lastName}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className={classNames([
-                          'btn btn-sm btn-bold text-center',
-                          getBalanceClassName(registration.remainingBalance),
-                        ])}
-                        title="View/Edit Payments &amp; Expenses"
-                        onClick={() => viewPayments(registrant.registrationId)}
-                      >
-                        <span className="currency-label">{currencySymbol}</span>
-                      </button>
-                      {error && (
-                        <OverlayTrigger
-                          trigger={['hover', 'focus']}
-                          placement="top"
-                          overlay={
-                            <Popover id="PromoTransactionsTableErrorPopover">
-                              {error}
-                            </Popover>
-                          }
-                        >
-                          <i className="error-popover fa fa-exclamation-triangle" />
-                        </OverlayTrigger>
-                      )}
-                    </td>
-                    <td>{promotion.businessUnit}</td>
-                    <td>{promotion.operatingUnit}</td>
-                    <td>{promotion.departmentId}</td>
-                    <td>{promotion.projectId}</td>
-                    <td>{localizedCurrency(promotion.amount)}</td>
-                    <td className="text-center">
-                      {promotion.code} {registrant.lastName},{' '}
-                      {registrant.firstName}
-                    </td>
-                    <td className="text-center">
-                      {!currentReportId && (
-                        <input
-                          type="checkbox"
-                          checked={selectedRegistrants.has(promoRegistration)}
-                          onChange={(event) =>
-                            setRegistrationSelected(
-                              promoRegistration,
-                              event.target.checked,
-                            )
-                          }
-                        />
-                      )}
-                    </td>
-                  </tr>
-                ),
               )}
-            </tbody>
-          </table>
-        </div>
-      }
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map(
+              (
+                {
+                  id,
+                  promoRegistration,
+                  registration,
+                  registrant,
+                  promotion,
+                  error,
+                },
+                index,
+              ) => (
+                <tr
+                  key={id}
+                  className={classNames('noselect', {
+                    active: index % 2 === 0,
+                  })}
+                >
+                  <td>{registrant.firstName}</td>
+                  <td>{registrant.lastName}</td>
+                  <td>
+                    <button
+                      type="button"
+                      className={classNames([
+                        'btn btn-sm btn-bold text-center',
+                        getBalanceClassName(registration.remainingBalance),
+                      ])}
+                      title="View/Edit Payments &amp; Expenses"
+                      onClick={() => viewPayments(registrant.registrationId)}
+                    >
+                      <span className="currency-label">{currencySymbol}</span>
+                    </button>
+                    {error && (
+                      <OverlayTrigger
+                        trigger={['hover', 'focus']}
+                        placement="top"
+                        overlay={
+                          <Popover id="PromoTransactionsTableErrorPopover">
+                            {error}
+                          </Popover>
+                        }
+                      >
+                        <i className="error-popover fa fa-exclamation-triangle" />
+                      </OverlayTrigger>
+                    )}
+                  </td>
+                  <td>{promotion.businessUnit}</td>
+                  <td>{promotion.operatingUnit}</td>
+                  <td>{promotion.departmentId}</td>
+                  <td>{promotion.projectId}</td>
+                  <td>{localizedCurrency(promotion.amount)}</td>
+                  <td className="text-center">
+                    {promotion.code} {registrant.lastName},{' '}
+                    {registrant.firstName}
+                  </td>
+                  <td className="text-center">
+                    {!currentReportId && (
+                      <input
+                        type="checkbox"
+                        checked={selectedRegistrations.has(promoRegistration)}
+                        onChange={(event) =>
+                          setRegistrationSelected(
+                            promoRegistration,
+                            event.target.checked,
+                          )
+                        }
+                      />
+                    )}
+                  </td>
+                </tr>
+              ),
+            )}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };
