@@ -185,6 +185,7 @@
             <td class="text-center">
               <button
                 ng-click="deletePromotion(p.id)"
+                ng-disabled="{{isPromoPosted(p.id)}}"
                 title="Delete Promotion"
                 class="btn btn-xs btn-danger"
               >

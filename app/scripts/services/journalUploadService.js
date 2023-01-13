@@ -1,3 +1,5 @@
+import { uniqueId } from 'lodash';
+
 angular
   .module('confRegistrationWebApp')
   .service(
@@ -7,33 +9,38 @@ angular
         return `conferences/${id}`;
       };
 
-      this.getRegistrationData = (
-        conferenceId,
-        queryParameters = {
-          page: 1,
-          limit: 20,
-          orderBy: 'last_name',
-          order: 'ASC',
-          filter: '',
-          filterAccountTransferErrors: 'yes',
-          filterAccountTransfersByExpenseType: '',
-          filterAccountTransfersByPaymentType: '',
-          filterPayment: '',
-          filterRegType: '',
-          includeAccountTransfers: true,
-          includeCheckedin: 'yes',
-          includeWithdrawn: 'yes',
-          includeIncomplete: 'yes',
-          primaryRegistrantOnly: true,
-        },
-      ) => {
+      this.getRegistrationData = (conferenceId, queryParameters = {}) => {
         $rootScope.loadingMsg = 'Loading Registrations';
 
         return $http
           .get(`${path(conferenceId)}/registrations`, {
-            params: queryParameters,
+            params: Object.assign(
+              {
+                page: 1,
+                limit: 20,
+                orderBy: 'last_name',
+                order: 'ASC',
+                filter: '',
+                filterAccountTransferErrors: 'yes',
+                filterAccountTransfersByExpenseType: '',
+                filterAccountTransfersByPaymentType: '',
+                filterPayment: '',
+                filterRegType: '',
+                includeAccountTransfers: true,
+                includeCheckedin: 'yes',
+                includeWithdrawn: 'yes',
+                includeIncomplete: 'yes',
+                primaryRegistrantOnly: true,
+                includePromotions: true,
+              },
+              queryParameters,
+            ),
           })
           .then((response) => {
+            response.data.meta.accountTransferEvents.forEach((event) => {
+              // Generate unique ids for the transfer events
+              event.id = uniqueId();
+            });
             $rootScope.loadingMsg = '';
             return response.data;
           })
