@@ -176,7 +176,7 @@ export const RegistrationFilters = (
               active={showMoreFilters}
               onClick={() => setShowMoreFilters(!showMoreFilters)}
             >
-              Filters{' '}
+              <span className="margin-right-xs">Filters</span>
               <i
                 className={classNames(
                   'fa',

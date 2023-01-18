@@ -400,8 +400,11 @@ const PromoUploadPage = ({
           Conference Contact:
         </div>
         <div className="col-xs-6 col-sm-3 details-heading">
-          {conference.contactPersonName}, {conference.contactPersonPhone},{' '}
-          {conference.contactPersonEmail}
+          {[
+            conference.contactPersonName,
+            conference.contactPersonPhone,
+            conference.contactPersonEmail,
+          ].join(', ')}
         </div>
       </div>
       <div className="row form-group">
