@@ -374,6 +374,11 @@ main.journal-upload {
   margin: 10px 0;
 }
 
+.paid-popover {
+  display: flex;
+  gap: 0.5em;
+}
+
 // Bootstrap md-*
 @media (min-width: 992px) {
   .filters-row {
