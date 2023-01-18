@@ -235,6 +235,137 @@ const PromoUploadPage = ({
       });
   };
 
+  const tables = (
+    <>
+      {/* Journal Upload Event Transaction Section */}
+      {metadata.source === 'pending-registrations' && (
+        <div className="row form-group">
+          <div className="col-xs-12 details-heading">
+            <h4>
+              <a href="#">Promo Upload Event Transactions</a>
+            </h4>
+          </div>
+          {promoTransactions.length === 0 ? (
+            <div className="col-xs-12">
+              <p>
+                No transactions have been found to match your filter
+                {metadata.meta.totalPages > 1 ? ' on this page' : ''}.
+              </p>
+            </div>
+          ) : (
+            <div className="col-xs-12 table-responsive journal-row">
+              <table className="table table-aligned">
+                <thead>
+                  <tr>
+                    <th>
+                      <a href="#">Expense Type</a>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                      <a href="#">Business Unit</a>
+                    </th>
+                    <th>
+                      <a href="#">Operating Unit</a>
+                    </th>
+                    <th>
+                      <a href="#">Department ID</a>
+                    </th>
+                    <th>
+                      <a href="#">Project ID</a>
+                    </th>
+                    <th>
+                      <a href="#">Amount</a>
+                    </th>
+                    <th>
+                      <a href="#">Description</a>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {promoTransactions.map(({ promotion, count }, index) => (
+                    <tr
+                      key={promotion.id}
+                      className={classNames('noselect', {
+                        active: index % 2 === 0,
+                      })}
+                    >
+                      <th>PROMOTION</th>
+                      <td></td>
+                      <td></td>
+                      <td>{conference.businessUnit}</td>
+                      <td>{conference.operatingUnit}</td>
+                      <td>{conference.department}</td>
+                      <td>{conference.projectId}</td>
+                      <td>{promotion.amount * count}</td>
+                      <td>{promotion.code}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Promo Upload Participant Transaction Error Section */}
+      {promoRegistrationsWithErrors.length > 0 && (
+        <div className="row form-group">
+          <PromoTransactionsTable
+            promoRegistrations={promoRegistrationsWithErrors}
+            currencySymbol={currencySymbol}
+            currentReportId={currentReportId}
+            localizedCurrency={localizedCurrency}
+            selectedRegistrations={registrationsToIncludeSet}
+            setRegistrationSelected={setRegistrationIncluded}
+            title="Promo Upload Participant Transactions With Errors"
+            viewPayments={viewPayments}
+          />
+        </div>
+      )}
+
+      {/* Promo Upload Participant Transaction Section */}
+      <div className="row form-group">
+        <PromoTransactionsTable
+          promoRegistrations={promoRegistrationsWithoutErrors}
+          currencySymbol={currencySymbol}
+          currentReportId={currentReportId}
+          emptyMessage={
+            metadata.source === 'report'
+              ? 'No successful promotion transfers have been found in this report.'
+              : `No promotion transfers have been found to match your filter${
+                  metadata.meta.totalPages > 1 ? ' on this page' : ''
+                }.`
+          }
+          headerExtra={
+            promoRegistrationsWithoutErrors.length > 0 &&
+            !currentReportId && (
+              <button
+                type="button"
+                className="btn btn-default btn-sm"
+                onClick={() => {
+                  setManyPromosIncluded(
+                    promoRegistrations,
+                    !allRegistrationsIncluded,
+                  );
+                }}
+              >
+                {allRegistrationsIncluded
+                  ? 'Remove All from Promo Report'
+                  : 'Add All To Promo Report'}
+              </button>
+            )
+          }
+          localizedCurrency={localizedCurrency}
+          selectedRegistrations={registrationsToIncludeSet}
+          setRegistrationSelected={setRegistrationIncluded}
+          title="Promos Upload Participant Transactions"
+          viewPayments={viewPayments}
+        />
+      </div>
+    </>
+  );
+
   return (
     <div className="container full">
       <div className="row form-group">
@@ -294,150 +425,29 @@ const PromoUploadPage = ({
         </div>
       </div>
 
-      <RegistrationFilters
-        defaultQueryParams={queryParameters}
-        onQueryChange={(query) => onQueryParametersChange(query)}
-        conference={conference}
-        showPagination={currentReportId === null}
-        pageCount={Math.ceil(
-          (metadata.source === 'pending-registrations'
-            ? metadata.meta.totalRegistrantsFilter
-            : 0) / queryParameters.limit,
-        )}
-        hiddenFilters={[
-          'filterPayment',
-          'filterAccountTransfersByExpenseType',
-          'filterAccountTransfersByPaymentType',
-          'filterAccountTransferErrors',
-        ]}
-      >
-        {/* Journal Upload Event Transaction Section */}
-        {metadata.source === 'pending-registrations' && (
-          <div className="row form-group">
-            <div className="col-xs-12 details-heading">
-              <h4>
-                <a href="#">Promo Upload Event Transactions</a>
-              </h4>
-            </div>
-            {promoTransactions.length === 0 ? (
-              <div className="col-xs-12">
-                <p>
-                  No transactions have been found to match your filter
-                  {metadata.meta.totalPages > 1 ? ' on this page' : ''}.
-                </p>
-              </div>
-            ) : (
-              <div className="col-xs-12 table-responsive journal-row">
-                <table className="table table-aligned">
-                  <thead>
-                    <tr>
-                      <th>
-                        <a href="#">Expense Type</a>
-                      </th>
-                      <th></th>
-                      <th></th>
-                      <th>
-                        <a href="#">Business Unit</a>
-                      </th>
-                      <th>
-                        <a href="#">Operating Unit</a>
-                      </th>
-                      <th>
-                        <a href="#">Department ID</a>
-                      </th>
-                      <th>
-                        <a href="#">Project ID</a>
-                      </th>
-                      <th>
-                        <a href="#">Amount</a>
-                      </th>
-                      <th>
-                        <a href="#">Description</a>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {promoTransactions.map(({ promotion, count }, index) => (
-                      <tr
-                        key={promotion.id}
-                        className={classNames('noselect', {
-                          active: index % 2 === 0,
-                        })}
-                      >
-                        <th>PROMOTION</th>
-                        <td></td>
-                        <td></td>
-                        <td>{conference.businessUnit}</td>
-                        <td>{conference.operatingUnit}</td>
-                        <td>{conference.department}</td>
-                        <td>{conference.projectId}</td>
-                        <td>{promotion.amount * count}</td>
-                        <td>{promotion.code}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Promo Upload Participant Transaction Error Section */}
-        {promoRegistrationsWithErrors.length > 0 && (
-          <div className="row form-group">
-            <PromoTransactionsTable
-              promoRegistrations={promoRegistrationsWithErrors}
-              currencySymbol={currencySymbol}
-              currentReportId={currentReportId}
-              localizedCurrency={localizedCurrency}
-              selectedRegistrations={registrationsToIncludeSet}
-              setRegistrationSelected={setRegistrationIncluded}
-              title="Promo Upload Participant Transactions With Errors"
-              viewPayments={viewPayments}
-            />
-          </div>
-        )}
-
-        {/* Promo Upload Participant Transaction Section */}
-        <div className="row form-group">
-          <PromoTransactionsTable
-            promoRegistrations={promoRegistrationsWithoutErrors}
-            currencySymbol={currencySymbol}
-            currentReportId={currentReportId}
-            emptyMessage={
-              metadata.source === 'report'
-                ? 'No successful promotion transfers have been found in this report.'
-                : `No promotion transfers have been found to match your filter${
-                    metadata.meta.totalPages > 1 ? ' on this page' : ''
-                  }.`
-            }
-            headerExtra={
-              promoRegistrationsWithoutErrors.length > 0 &&
-              !currentReportId && (
-                <button
-                  type="button"
-                  className="btn btn-default btn-sm"
-                  onClick={() => {
-                    setManyPromosIncluded(
-                      promoRegistrations,
-                      !allRegistrationsIncluded,
-                    );
-                  }}
-                >
-                  {allRegistrationsIncluded
-                    ? 'Remove All from Promo Report'
-                    : 'Add All To Promo Report'}
-                </button>
-              )
-            }
-            localizedCurrency={localizedCurrency}
-            selectedRegistrations={registrationsToIncludeSet}
-            setRegistrationSelected={setRegistrationIncluded}
-            title="Promos Upload Participant Transactions"
-            viewPayments={viewPayments}
-          />
-        </div>
-      </RegistrationFilters>
+      {currentReportId === null ? (
+        <RegistrationFilters
+          defaultQueryParams={queryParameters}
+          onQueryChange={(query) => onQueryParametersChange(query)}
+          conference={conference}
+          showPagination={currentReportId === null}
+          pageCount={Math.ceil(
+            (metadata.source === 'pending-registrations'
+              ? metadata.meta.totalRegistrantsFilter
+              : 0) / queryParameters.limit,
+          )}
+          hiddenFilters={[
+            'filterPayment',
+            'filterAccountTransfersByExpenseType',
+            'filterAccountTransfersByPaymentType',
+            'filterAccountTransferErrors',
+          ]}
+        >
+          {tables}
+        </RegistrationFilters>
+      ) : (
+        tables
+      )}
     </div>
   );
 };
