@@ -307,6 +307,7 @@ const PromoUploadPage = ({
         hiddenFilters={[
           'filterPayment',
           'filterAccountTransfersByExpenseType',
+          'filterAccountTransfersByPaymentType',
           'filterAccountTransferErrors',
         ]}
       >
