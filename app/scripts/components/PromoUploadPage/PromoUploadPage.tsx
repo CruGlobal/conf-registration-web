@@ -298,7 +298,9 @@ const PromoUploadPage = ({
                       <td>{conference.department}</td>
                       <td>{conference.projectId}</td>
                       <td>{promotion.amount * count}</td>
-                      <td>{promotion.code}</td>
+                      <td>
+                        {conference.abbreviation}-{promotion.code}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
