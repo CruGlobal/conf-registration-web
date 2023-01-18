@@ -1,4 +1,4 @@
-<form class="crs-form" name="editRegistrationForm">
+<form class="crs-form" name="editRegistrationForm" novalidate>
   <div class="modal-header">
     <button type="button" class="close" ng-click="close()">&times;</button>
     <h4 translate>Edit Registrant</h4>
@@ -41,12 +41,7 @@
       >
         Save &amp; Set as Completed
       </button>
-      <button
-        ng-click="submit()"
-        ng-disabled="!editRegistrationForm.$valid"
-        class="btn btn-primary"
-        translate
-      >
+      <button ng-click="submit()" class="btn btn-primary" translate>
         Save
       </button>
     </div>
