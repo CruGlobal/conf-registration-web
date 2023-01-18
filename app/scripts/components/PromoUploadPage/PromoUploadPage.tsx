@@ -298,7 +298,9 @@ const PromoUploadPage = ({
                       <td>{conference.department}</td>
                       <td>{conference.projectId}</td>
                       <td>{promotion.amount * count}</td>
-                      <td>{promotion.code}</td>
+                      <td>
+                        {conference.abbreviation}-{promotion.code}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -406,7 +408,7 @@ const PromoUploadPage = ({
       </div>
       <div className="row form-group">
         <div className="col-xs-6 col-sm-2 details-heading">
-          <label htmlFor="report-select-id">Report creation date: </label>
+          <label htmlFor="report-select-id">Report creation date:</label>
         </div>
         <div className="col-xs-6 col-sm-3 details-heading">
           <select
