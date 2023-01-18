@@ -26,12 +26,44 @@ export interface RegistrationBlock {
 
 export interface RegistrationPage {}
 
+export interface RegistrantType {
+  id: string;
+  conferenceId: string;
+  name: string;
+  hidden: boolean;
+  eform: boolean;
+  createdTimestamp: string;
+  lastUpdatedTimestamp: string;
+  cost: number;
+  calculatedCurrentCost: number;
+  minimumDeposit?: number;
+  position: number;
+  customConfirmationEmailText: string;
+  description: string;
+  groupSubRegistrantType: boolean;
+  allowGroupRegistrations: boolean;
+  familyStatus: string;
+  numberSlotsLimit: number;
+  useLimit: boolean;
+  availableSlots: number;
+  acceptCreditCards: boolean;
+  acceptTransfers: boolean;
+  acceptScholarships: boolean;
+  acceptChecks: boolean;
+  acceptPayOnSite: boolean;
+  defaultTypeKey?: unknown;
+  earlyRegistrationDiscounts: Array<unknown>;
+  allowedRegistrantTypeSet: unknown;
+  registrationCompleteRedirect?: string;
+}
+
 export interface Conference {
   id: string;
   name: string;
   description: string | null;
   abbreviation: string | null;
   promotions: Array<Promotion>;
+  registrantTypes: Array<RegistrantType>;
   eventStartTime: string;
   eventEndTime: string;
   registrationStartTime: string;

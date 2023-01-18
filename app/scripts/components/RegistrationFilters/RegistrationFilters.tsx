@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { Conference } from 'conference';
 import { RegistrationQueryParams } from 'injectables';
 import { debounce } from 'lodash';
 import { useCallback, useState } from 'react';
@@ -8,6 +9,7 @@ import { Pagination } from '../Pagination/Pagination';
 
 export interface RegistrationFiltersProps {
   defaultQueryParams: RegistrationQueryParams;
+  conference: Conference;
   onQueryChange: (filters: RegistrationQueryParams) => unknown;
   showPagination: boolean;
   pageCount: number;
@@ -111,10 +113,17 @@ export const RegistrationFilters = (
               <label>Registrant type:</label>
               <select
                 className="form-control"
-                ng-model="queryParameters.filterRegType"
-                ng-options="r.id as r.name for r in conference.registrantTypes"
+                value={queryParameters.filterRegType}
+                onChange={(event) =>
+                  setQueryParam('filterRegType', event.target.value)
+                }
               >
                 <option value="">-Any-</option>
+                {props.conference.registrantTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
               </select>
             </div>
           )}

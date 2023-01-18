@@ -297,6 +297,7 @@ const PromoUploadPage = ({
       <RegistrationFilters
         defaultQueryParams={queryParameters}
         onQueryChange={(query) => onQueryParametersChange(query)}
+        conference={conference}
         showPagination={currentReportId === null}
         pageCount={Math.ceil(
           (metadata.source === 'pending-registrations'
