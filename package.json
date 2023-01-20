@@ -29,7 +29,6 @@
     "react-dom": "^18.0.0-rc.0",
     "react2angular": "^4.0.6",
     "rollbar": "^2.0.4",
-    "typescript": "^4.3.5",
     "ui-cropper": "^1.0.9"
   },
   "devDependencies": {
@@ -90,6 +89,7 @@
     "pretty-quick": "^3.1.3",
     "sass": "^1.47.0",
     "sass-loader": "^10.1.1",
+    "typescript": "^4.9.4",
     "webapp-webpack-plugin": "^2.7.0",
     "webpack": "^4.10.1",
     "webpack-bundle-analyzer": "^3.3.2",
