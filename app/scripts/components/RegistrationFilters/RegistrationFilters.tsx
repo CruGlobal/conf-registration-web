@@ -20,9 +20,8 @@ export interface RegistrationFiltersProps {
 export const RegistrationFilters = (
   props: RegistrationFiltersProps,
 ): JSX.Element => {
-  const [queryParameters, setQueryParameters] = useState(
-    props.defaultQueryParams,
-  );
+  const [queryParameters, setQueryParameters] =
+    useState<RegistrationQueryParams>(props.defaultQueryParams);
 
   const setQueryParam = <Key extends keyof RegistrationQueryParams>(
     key: Key,
