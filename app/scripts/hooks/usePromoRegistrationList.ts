@@ -39,11 +39,6 @@ export const usePromoRegistrationList = ({
   // An array of the promo registrations for the report or the pending registrations list
   promoRegistrations: Array<PromoRegistration>;
 
-  // An array of the unposted promo transactions for the registrations
-  // It tracks how many times each promo code has been applied in the current registration set
-  // It will always be empty when there is a report
-  promoTransactions: Array<PromoTransaction>;
-
   // Holds additional data, depending on the source of the promo registrations
   metadata:
     | {
@@ -53,6 +48,10 @@ export const usePromoRegistrationList = ({
     | {
         source: 'pending-registrations';
         meta: RegistrationsData['meta'];
+
+        // An array of the unposted promo transactions for the registrations
+        // It tracks how many times each promo code has been applied in the current registration set
+        promoTransactions: Array<PromoTransaction>;
       };
 
   // Reload the pending registrations with fresh data from the server
@@ -127,26 +126,19 @@ export const usePromoRegistrationList = ({
     }
 
     const promoTransactions = new Map<string, PromoTransaction>();
-    pendingPromoRegistrations.forEach(
-      ({ promotion, registration, successfullyPosted: posted }) => {
-        // Ignore posted promotions
-        if (posted) {
-          return;
-        }
-
-        let promoTransactionsEntry = promoTransactions.get(promotion.id);
-        if (!promoTransactionsEntry) {
-          promoTransactionsEntry = {
-            promotion,
-            count: 0,
-          };
-          promoTransactions.set(promotion.id, promoTransactionsEntry);
-        }
-        promoTransactionsEntry.count += promotion.applyToAllRegistrants
-          ? registration.groupRegistrants.length
-          : 1;
-      },
-    );
+    pendingPromoRegistrations.forEach(({ promotion, registration }) => {
+      let promoTransactionsEntry = promoTransactions.get(promotion.id);
+      if (!promoTransactionsEntry) {
+        promoTransactionsEntry = {
+          promotion,
+          count: 0,
+        };
+        promoTransactions.set(promotion.id, promoTransactionsEntry);
+      }
+      promoTransactionsEntry.count += promotion.applyToAllRegistrants
+        ? registration.groupRegistrants.length
+        : 1;
+    });
     return Array.from(promoTransactions.values());
   }, [pendingRegistrations.registrations, pendingPromoRegistrations]);
 
@@ -170,7 +162,6 @@ export const usePromoRegistrationList = ({
   }, [conference, registrationQueryParams, report]);
 
   return {
-    promoTransactions,
     refreshPendingRegistrations,
     ...(report
       ? {
@@ -185,6 +176,7 @@ export const usePromoRegistrationList = ({
           metadata: {
             source: 'pending-registrations',
             meta: pendingRegistrations.meta,
+            promoTransactions,
           },
         }),
   };

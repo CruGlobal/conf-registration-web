@@ -1,9 +1,7 @@
-import angular from 'angular';
 import { groupBy } from 'lodash';
 import { Conference } from 'conference';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { react2angular } from 'react2angular';
 import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
@@ -29,8 +27,9 @@ import { PromoTransactionsTable } from '../PromoTransactionsTable/PromoTransacti
 import { useWatch } from '../../hooks/useWatch';
 import { PromoReportService } from '../../services/promoReportService';
 import { PromotionReport } from 'promotionReport';
+import { Permissions } from 'permissions';
 
-interface PromoUploadPageProps {
+export interface PromoUploadPageProps {
   $filter: $filter;
   $rootScope: $rootScope;
   $http: $http;
@@ -46,7 +45,7 @@ interface PromoUploadPageProps {
   };
 }
 
-const PromoUploadPage = ({
+export const PromoUploadPage = ({
   $filter,
   $rootScope,
   $http,
@@ -106,18 +105,14 @@ const PromoUploadPage = ({
       primaryRegistrantOnly: false,
     });
 
-  const {
-    promoRegistrations,
-    promoTransactions,
-    refreshPendingRegistrations,
-    metadata,
-  } = usePromoRegistrationList({
-    journalUploadService,
-    conference,
-    initialPendingRegistrations: registrationsData,
-    registrationQueryParams: queryParameters,
-    report,
-  });
+  const { promoRegistrations, refreshPendingRegistrations, metadata } =
+    usePromoRegistrationList({
+      journalUploadService,
+      conference,
+      initialPendingRegistrations: registrationsData,
+      registrationQueryParams: queryParameters,
+      report,
+    });
 
   const {
     selectedItems: registrationsToInclude,
@@ -245,7 +240,7 @@ const PromoUploadPage = ({
               <a href="#">Promo Upload Event Transactions</a>
             </h4>
           </div>
-          {promoTransactions.length === 0 ? (
+          {metadata.promoTransactions.length === 0 ? (
             <div className="col-xs-12">
               <p>
                 No transactions have been found to match your filter
@@ -283,26 +278,28 @@ const PromoUploadPage = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {promoTransactions.map(({ promotion, count }, index) => (
-                    <tr
-                      key={promotion.id}
-                      className={classNames('noselect', {
-                        active: index % 2 === 0,
-                      })}
-                    >
-                      <th>PROMOTION</th>
-                      <td></td>
-                      <td></td>
-                      <td>{conference.businessUnit}</td>
-                      <td>{conference.operatingUnit}</td>
-                      <td>{conference.department}</td>
-                      <td>{conference.projectId}</td>
-                      <td>{promotion.amount * count}</td>
-                      <td>
-                        {conference.abbreviation}-{promotion.code}
-                      </td>
-                    </tr>
-                  ))}
+                  {metadata.promoTransactions.map(
+                    ({ promotion, count }, index) => (
+                      <tr
+                        key={promotion.id}
+                        className={classNames('noselect', {
+                          active: index % 2 === 0,
+                        })}
+                      >
+                        <th>PROMOTION</th>
+                        <td></td>
+                        <td></td>
+                        <td>{conference.businessUnit}</td>
+                        <td>{conference.operatingUnit}</td>
+                        <td>{conference.department}</td>
+                        <td>{conference.projectId}</td>
+                        <td>{promotion.amount * count}</td>
+                        <td>
+                          {conference.abbreviation}-{promotion.code}
+                        </td>
+                      </tr>
+                    ),
+                  )}
                 </tbody>
               </table>
             </div>
@@ -353,7 +350,7 @@ const PromoUploadPage = ({
                 }}
               >
                 {allRegistrationsIncluded
-                  ? 'Remove All from Promo Report'
+                  ? 'Remove All From Promo Report'
                   : 'Add All To Promo Report'}
               </button>
             )
@@ -456,23 +453,3 @@ const PromoUploadPage = ({
     </div>
   );
 };
-
-angular
-  .module('confRegistrationWebApp')
-  .component(
-    'promoUploadPage',
-    react2angular(
-      PromoUploadPage,
-      ['resolve'],
-      [
-        '$filter',
-        '$rootScope',
-        '$http',
-        '$window',
-        '$uibModal',
-        'journalUploadService',
-        'promoReportService',
-        'modalMessage',
-      ],
-    ),
-  );

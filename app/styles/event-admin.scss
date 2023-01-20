@@ -383,6 +383,17 @@ main.journal-upload {
   gap: 0.5em;
 }
 
+.registration-filters {
+  label {
+    width: 100%;
+    & .form-control {
+      display: inline-block;
+      margin-top: 5px;
+      font-weight: initial;
+    }
+  }
+}
+
 // Bootstrap md-*
 @media (min-width: 992px) {
   .filters-row {

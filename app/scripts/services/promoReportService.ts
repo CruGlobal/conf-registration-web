@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { ModalMessage, $rootScope, $http, $q, $route } from 'injectables';
+import { ModalMessage, $rootScope, $http, $route } from 'injectables';
 import { PromotionReport } from 'promotionReport';
 import { Registration } from 'registration';
 
@@ -7,20 +7,17 @@ export class PromoReportService {
   $rootScope: $rootScope;
   $route: $route;
   $http: $http;
-  $q: $q;
   modalMessage: ModalMessage;
 
   constructor(
     $rootScope: $rootScope,
     $route: $route,
     $http: $http,
-    $q: $q,
     modalMessage: ModalMessage,
   ) {
     this.$rootScope = $rootScope;
     this.$route = $route;
     this.$http = $http;
-    this.$q = $q;
     this.modalMessage = modalMessage;
   }
 
