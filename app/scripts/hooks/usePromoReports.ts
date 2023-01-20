@@ -1,8 +1,6 @@
 import { PromotionReport } from 'promotionReport';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PromoReportService } from '../services/promoReportService';
-
-let activeRequest: Promise<Array<PromotionReport>> | null = null;
 
 export const usePromoReports = ({
   conferenceId,
@@ -22,17 +20,17 @@ export const usePromoReports = ({
 } => {
   const [reports, setReports] = useState<Array<PromotionReport>>([]);
   const [loading, setLoading] = useState(false);
+  const activeRequest = useRef<Promise<Array<PromotionReport>> | null>(null);
 
   const refresh = () => {
-    setReports([]);
     setLoading(true);
 
     // To avoid getting confused if there are multiple requests in progress, track the most recent
     // request and ignore the response if a request comes back that isn't the most recent request.
     const currentRequest = promoReportService.loadAllPromoReports(conferenceId);
-    activeRequest = currentRequest;
+    activeRequest.current = currentRequest;
     currentRequest.then((reports) => {
-      if (activeRequest === currentRequest) {
+      if (activeRequest.current === currentRequest) {
         setReports(reports);
         setLoading(false);
       }

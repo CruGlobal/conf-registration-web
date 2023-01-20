@@ -1,7 +1,7 @@
 export interface Promotion {
   id: string;
   conferenceId: string;
-  registrantTypeIds: string[];
+  registrantTypeIds: Array<string>;
   code: string;
   description: string | null;
   businessUnit: string | null;

@@ -1,11 +1,9 @@
 import { Conference } from 'conference';
 import { find } from 'lodash';
 import { PromotionReport } from 'promotionReport';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { PromoReportService } from '../services/promoReportService';
 import { PromoRegistration } from './usePromoRegistrationList';
-
-let activeRequest: Promise<PromotionReport> | null = null;
 
 export const usePromoReport = ({
   conference,
@@ -30,15 +28,13 @@ export const usePromoReport = ({
 } => {
   const [report, setReport] = useState<PromotionReport | null>(null);
   const [loading, setLoading] = useState(false);
+  const activeRequest = useRef<Promise<PromotionReport> | null>(null);
 
   const refresh = () => {
-    setReport(null);
-    setLoading(true);
-
     if (reportId === null) {
       // If the report is null, don't load and keep the report null
       setLoading(false);
-      activeRequest = null;
+      activeRequest.current = null;
     } else {
       // To avoid getting confused if there are multiple requests in progress, track the most recent
       // request and ignore the response if a request comes back that isn't the most recent request.
@@ -46,9 +42,10 @@ export const usePromoReport = ({
         conference.id,
         reportId,
       );
-      activeRequest = currentRequest;
+      setLoading(true);
+      activeRequest.current = currentRequest;
       currentRequest.then((report) => {
-        if (activeRequest === currentRequest) {
+        if (activeRequest.current === currentRequest) {
           setReport(report);
           setLoading(false);
         }
@@ -56,7 +53,7 @@ export const usePromoReport = ({
     }
   };
 
-  // Load the reports initially and whenever the conference changes
+  // Load the report initially and whenever the conference changes
   useEffect(() => {
     refresh();
   }, [conference, reportId]);

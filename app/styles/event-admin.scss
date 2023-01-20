@@ -374,9 +374,24 @@ main.journal-upload {
   margin: 10px 0;
 }
 
+.margin-right-xs {
+  margin-right: 0.25em;
+}
+
 .paid-popover {
   display: flex;
   gap: 0.5em;
+}
+
+.registration-filters {
+  label {
+    width: 100%;
+    & .form-control {
+      display: inline-block;
+      margin-top: 5px;
+      font-weight: initial;
+    }
+  }
 }
 
 // Bootstrap md-*

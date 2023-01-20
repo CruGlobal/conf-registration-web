@@ -105,7 +105,7 @@ export const PromoTransactionsTable = ({
                 <a href="#">Last Name</a>
               </th>
               <th>
-                Paid{' '}
+                <span className="margin-right-xs">Paid</span>
                 <OverlayTrigger
                   trigger={['hover', 'focus']}
                   placement="top"
@@ -196,8 +196,7 @@ export const PromoTransactionsTable = ({
                   <td>{promotion.projectId}</td>
                   <td>{localizedCurrency(promotion.amount)}</td>
                   <td className="text-center">
-                    {promotion.code} {registrant.lastName},{' '}
-                    {registrant.firstName}
+                    {`${promotion.code} ${registrant.lastName}, ${registrant.firstName}`}
                   </td>
                   <td className="text-center">
                     {!currentReportId && (

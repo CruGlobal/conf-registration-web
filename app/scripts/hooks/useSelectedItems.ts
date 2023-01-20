@@ -28,14 +28,17 @@ export function useSelectedItems<Item>(): {
   const setManySelected = useCallback(
     (items: Array<Item>, selected: boolean) => {
       if (selected) {
-        setSelectedItems(new Set([...selectedItems, ...items]));
+        setSelectedItems(
+          (selectedItems) => new Set([...selectedItems, ...items]),
+        );
       } else {
         setSelectedItems(
-          new Set(
-            Array.from(selectedItems).filter((selectedItem) =>
-              items.every((item) => item !== selectedItem),
+          (selectedItems) =>
+            new Set(
+              Array.from(selectedItems).filter((selectedItem) =>
+                items.every((item) => item !== selectedItem),
+              ),
             ),
-          ),
         );
       }
     },

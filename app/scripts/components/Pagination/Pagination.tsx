@@ -37,10 +37,9 @@ export const Pagination = ({
       </BootstrapPagination.Item>
       {currentPaginationPage > 0 && (
         <BootstrapPagination.Item
-          key="pageBack"
-          onClick={() =>
-            onChange((currentPaginationPage - 1) * numPaginationButtons + 1)
-          }
+          data-testid="pagination-page-previous"
+          key="pagePrevious"
+          onClick={() => onChange(currentPaginationPage * numPaginationButtons)}
         >
           …
         </BootstrapPagination.Item>
@@ -62,7 +61,8 @@ export const Pagination = ({
       ))}
       {currentPaginationPage < numPaginationPages - 1 && (
         <BootstrapPagination.Item
-          key="pageForward"
+          data-testid="pagination-page-next"
+          key="pageNext"
           onClick={() =>
             onChange((currentPaginationPage + 1) * numPaginationButtons + 1)
           }
