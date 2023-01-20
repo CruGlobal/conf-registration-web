@@ -20,7 +20,22 @@ describe('Controller: paymentModal', function () {
         $scope: scope,
         $uibModalInstance: modalInstance,
         registration: testData.registration,
-        promotionRegistrationInfoList: [],
+        promotionRegistrationInfoList: [
+          {
+            registrationId: testData.registration.id,
+            promotionId: 'promotion-1',
+            error: '',
+          },
+          {
+            registrationId: 'other-registration-id',
+            promotionId: 'promotion-2',
+          },
+          {
+            registrationId: testData.registration.id,
+            promotionId: 'promotion-3',
+            error: 'Error',
+          },
+        ],
         conference: {},
         permissions: {},
       });
@@ -42,6 +57,20 @@ describe('Controller: paymentModal', function () {
     scope.savePaymentEdits(payment);
 
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
+  });
+
+  describe('isPromoPosted', () => {
+    it('returns true for posted promos', () => {
+      expect(scope.isPromoPosted('promotion-1')).toBe(true);
+    });
+
+    it('returns false for unposted promos', () => {
+      expect(scope.isPromoPosted('promotion-2')).toBe(false);
+    });
+
+    it('returns false for promos with an error during post', () => {
+      expect(scope.isPromoPosted('promotion-3')).toBe(false);
+    });
   });
 
   describe('canEditPayment', () => {
