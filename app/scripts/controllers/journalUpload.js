@@ -238,6 +238,8 @@ angular
               backdrop: 'static',
               resolve: {
                 registration: () => response.data,
+                promotionRegistrationInfoList: () =>
+                  registrationsData.meta.promotionRegistrationInfoList,
                 conference: () => conference,
                 permissions: () => permissions,
               },

@@ -277,6 +277,31 @@ angular
             ),
         },
       })
+      .when('/promoUpload/:conferenceId', {
+        title: gettext('Promo Submission Upload Preview'),
+        template: `<promo-upload-page resolve="$resolve" />`,
+        authorization: {
+          requireLogin: true,
+          eventAdminPermissionLevel: 'VIEW',
+        },
+        resolve: {
+          registrationsData: ($route, journalUploadService) =>
+            journalUploadService.getRegistrationData(
+              $route.current.params.conferenceId,
+              {
+                includeAccountTransfers: false,
+                includeCheckedin: 'only',
+                primaryRegistrantOnly: false,
+              },
+            ),
+          conference: ($route, ConfCache) =>
+            ConfCache.get($route.current.params.conferenceId, true),
+          permissions: ($route, PermissionCache) =>
+            PermissionCache.getForConference(
+              $route.current.params.conferenceId,
+            ),
+        },
+      })
       .when('/eventForm/:conferenceId', {
         title: gettext('Questions'),
         templateUrl: eventFormTemplate,
