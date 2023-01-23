@@ -233,6 +233,36 @@ describe('usePromoReport', () => {
     expect(loadPromoReport).toHaveBeenCalledTimes(2);
   });
 
+  it('removes the loaded report', async () => {
+    let reportId: string | null = null;
+    const report = {
+      promotionRegistrationInfoList: [],
+      registrationList: [],
+    };
+    const loadPromise = Promise.resolve(report);
+    loadPromoReport.mockReturnValueOnce(loadPromise);
+    const { result, rerender } = renderHook(() =>
+      usePromoReport({
+        conference,
+        reportId,
+        promoReportService,
+      }),
+    );
+
+    reportId = 'report-1';
+    rerender();
+    await act(async () => {
+      await loadPromise;
+    });
+
+    expect(result.current.report).toBe(report);
+
+    reportId = null;
+    rerender();
+
+    expect(result.current.report).toBe(null);
+  });
+
   it('calculates promo registrations', async () => {
     let reportId: string | null = null;
     const report = {

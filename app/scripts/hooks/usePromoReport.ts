@@ -32,7 +32,8 @@ export const usePromoReport = ({
 
   const refresh = () => {
     if (reportId === null) {
-      // If the report is null, don't load and keep the report null
+      // If the report id is null, don't load and keep the report null
+      setReport(null);
       setLoading(false);
       activeRequest.current = null;
     } else {
