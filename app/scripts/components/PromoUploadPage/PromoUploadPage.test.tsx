@@ -1,9 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { cloneDeep } from 'lodash';
 import {
   conference,
-  registrationsDataWithoutErrors as registrationsData,
+  promotionRegistrationInfoListAllErrors,
+  registrationsData,
+  registrationsDataWithoutErrors,
 } from '../../../../__tests__/fixtures';
 import { PromoUploadPage, PromoUploadPageProps } from './PromoUploadPage';
 import { PromoReportService } from '../../services/promoReportService';
@@ -37,7 +40,7 @@ describe('PromoUploadPage component', () => {
     promoReportService,
     modalMessage: { error: jest.fn() } as unknown as ModalMessage,
     resolve: {
-      registrationsData,
+      registrationsData: registrationsDataWithoutErrors,
       conference,
       permissions: {} as Permissions,
     },
@@ -53,7 +56,7 @@ describe('PromoUploadPage component', () => {
     expect(getAllByRole('checkbox', { checked: true })).toHaveLength(4);
   });
 
-  it('add all is visible after adding one', async () => {
+  it('add all is still visible after adding one', async () => {
     const { getAllByRole, getByRole } = render(<PromoUploadPage {...props} />);
 
     await userEvent.click(getAllByRole('checkbox')[0]);
@@ -75,6 +78,56 @@ describe('PromoUploadPage component', () => {
     );
 
     expect(getAllByRole('checkbox', { checked: false })).toHaveLength(4);
+  });
+
+  describe('with errors', () => {
+    const propsSomeErrors = cloneDeep(props);
+    propsSomeErrors.resolve.registrationsData = registrationsData;
+
+    it('hides add all when all have errors', async () => {
+      const propsAllErrors = cloneDeep(props);
+      propsAllErrors.resolve.registrationsData.meta.promotionRegistrationInfoList =
+        promotionRegistrationInfoListAllErrors;
+
+      const { queryByRole } = render(<PromoUploadPage {...propsAllErrors} />);
+
+      expect(
+        queryByRole('button', { name: 'Add All To Promo Report' }),
+      ).not.toBeInTheDocument();
+    });
+
+    it('add all only checks registrations without errors', async () => {
+      const { getAllByRole, getByRole } = render(
+        <PromoUploadPage {...propsSomeErrors} />,
+      );
+
+      await userEvent.click(
+        getByRole('button', { name: 'Add All To Promo Report' }),
+      );
+
+      expect(getAllByRole('checkbox', { checked: true })).toHaveLength(4);
+      expect(getAllByRole('checkbox', { checked: false })).toHaveLength(1);
+    });
+
+    it('remove all only unchecks registrations without errors', async () => {
+      const { getAllByRole, getByRole } = render(
+        <PromoUploadPage {...propsSomeErrors} />,
+      );
+
+      expect(getAllByRole('checkbox')).toHaveLength(5);
+      for (const checkbox of getAllByRole('checkbox') as HTMLInputElement[]) {
+        // Skip checking registrants that were already checked by another registrant in the group being added
+        if (!checkbox.checked) {
+          await userEvent.click(checkbox);
+        }
+      }
+      await userEvent.click(
+        getByRole('button', { name: 'Remove All From Promo Report' }),
+      );
+
+      expect(getAllByRole('checkbox', { checked: true })).toHaveLength(1);
+      expect(getAllByRole('checkbox', { checked: false })).toHaveLength(4);
+    });
   });
 
   it('handles submit', async () => {

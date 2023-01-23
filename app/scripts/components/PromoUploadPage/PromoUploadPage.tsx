@@ -113,6 +113,12 @@ export const PromoUploadPage = ({
       registrationQueryParams: queryParameters,
       report,
     });
+  const promoRegistrationsWithErrors = promoRegistrations.filter(
+    (item) => item.error,
+  );
+  const promoRegistrationsWithoutErrors = promoRegistrations.filter(
+    (item) => !item.error,
+  );
 
   const {
     selectedItems: registrationsToInclude,
@@ -122,13 +128,8 @@ export const PromoUploadPage = ({
     setManySelected: setManyPromosIncluded,
     reset: resetSelectedRegistrations,
   } = useSelectedItems<PromoRegistration>();
-  const allRegistrationsIncluded = allRegistrationsSelected(promoRegistrations);
-
-  const promoRegistrationsWithErrors = promoRegistrations.filter(
-    (item) => item.error,
-  );
-  const promoRegistrationsWithoutErrors = promoRegistrations.filter(
-    (item) => !item.error,
+  const allRegistrationsIncluded = allRegistrationsSelected(
+    promoRegistrationsWithoutErrors,
   );
 
   const onQueryParametersChange = (newQueryParams: RegistrationQueryParams) => {
@@ -344,7 +345,7 @@ export const PromoUploadPage = ({
                 className="btn btn-default btn-sm"
                 onClick={() => {
                   setManyPromosIncluded(
-                    promoRegistrations,
+                    promoRegistrationsWithoutErrors,
                     !allRegistrationsIncluded,
                   );
                 }}

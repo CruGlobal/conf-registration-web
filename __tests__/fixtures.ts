@@ -80,6 +80,22 @@ export const promotionRegistrationInfoList: Array<PromotionRegistrationInfo> = [
     reportId: 'report-1',
   },
 ];
+export const promotionRegistrationInfoListAllErrors: Array<PromotionRegistrationInfo> =
+  [
+    [registrationDoe, promotionAll],
+    [registrationDoe, promotionOne],
+    [registrationBright, promotionOne],
+    [registrationMouse, promotionAll],
+    [registrationMouse, promotionOne],
+  ].map(([registration, promotion], index) => ({
+    id: (index + 1).toString(),
+    promotionId: promotion.id,
+    registrationId: registration.id,
+    glAccount: '00000',
+    productCode: null,
+    error: 'Failed to post',
+    reportId: 'report-1',
+  }));
 
 export const registrationsData: RegistrationsData = {
   meta: {
