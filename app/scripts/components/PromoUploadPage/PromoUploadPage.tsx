@@ -1,6 +1,6 @@
 import { groupBy } from 'lodash';
 import { Conference } from 'conference';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
@@ -113,11 +113,13 @@ export const PromoUploadPage = ({
       registrationQueryParams: queryParameters,
       report,
     });
-  const promoRegistrationsWithErrors = promoRegistrations.filter(
-    (item) => item.error,
+  const promoRegistrationsWithErrors = useMemo(
+    () => promoRegistrations.filter((item) => item.error),
+    [promoRegistrations],
   );
-  const promoRegistrationsWithoutErrors = promoRegistrations.filter(
-    (item) => !item.error,
+  const promoRegistrationsWithoutErrors = useMemo(
+    () => promoRegistrations.filter((item) => !item.error),
+    [promoRegistrations],
   );
 
   const {
