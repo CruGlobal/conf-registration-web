@@ -1,9 +1,9 @@
-import React from 'react';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { RegistrationFilters } from './RegistrationFilters';
+import React from 'react';
 import { RegistrationQueryParams } from 'injectables';
 import { conference } from '../../../../__tests__/fixtures';
+import { RegistrationFilters } from './RegistrationFilters';
 
 const defaultQueryParams = {
   filter: '',

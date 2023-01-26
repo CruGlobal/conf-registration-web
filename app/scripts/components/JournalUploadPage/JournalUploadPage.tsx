@@ -1,5 +1,5 @@
-import { groupBy } from 'lodash';
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { AccountTransfer } from 'accountTransfer';
 import { Conference } from 'conference';
 import type {
   $filter,
@@ -11,52 +11,46 @@ import type {
   ModalMessage,
   RegistrationQueryParams,
 } from 'injectables';
-import { Permissions } from 'permissions';
-import { PromoRegistration } from 'promoRegistration';
-import { PromotionReport } from 'promotionReport';
+import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
-import { usePromoRegistrationList } from '../../hooks/usePromoRegistrationList';
-import { usePromoReport } from '../../hooks/usePromoReport';
-import { usePromoReports } from '../../hooks/usePromoReports';
+import { useAccountTransfers } from '../../hooks/useAccountTransfers';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
 import { useWatch } from '../../hooks/useWatch';
-import { PromoReportService } from '../../services/promoReportService';
 import {
-  PromoTransactionsTable,
-  PromoTransactionsTableProps,
-} from '../PromoTransactionsTable/PromoTransactionsTable';
+  JournalTransactionsTable,
+  JournalTransactionsTableProps,
+} from '../JournalTransactionsTable/JournalTransactionsTable';
 import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import { UploadPageHeader } from '../UploadPageHeader/UploadPageHeader';
 
-export interface PromoUploadPageProps {
+interface JournalUploadPageProps {
   $filter: $filter;
   $rootScope: $rootScope;
   $http: $http;
   $window: $window;
   $uibModal: $uibModal;
   journalUploadService: JournalUploadService;
-  promoReportService: PromoReportService;
   modalMessage: ModalMessage;
   resolve: {
     registrationsData: RegistrationsData;
+    reports: Array<JournalReport>;
     conference: Conference;
     permissions: Permissions;
   };
 }
 
-export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
+export const JournalUploadPage = ({
   $filter,
   $rootScope,
   $http,
   $window,
   $uibModal,
   journalUploadService,
-  promoReportService,
   modalMessage,
   resolve,
-}: PromoUploadPageProps) => {
+}: JournalUploadPageProps): JSX.Element => {
   const { registrationsData, conference, permissions } = resolve;
 
   useEffect(() => {
@@ -75,16 +69,15 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
     conference.currency.currencyCode,
   );
 
-  const { reports, refresh: refreshReports } = usePromoReports({
-    conferenceId: conference.id,
-    promoReportService,
-  });
+  const [reports, setReports] = useState(resolve.reports);
   const [currentReportId, setCurrentReportId] = useState<string | null>(null);
-  const { report, refresh: refreshReport } = usePromoReport({
-    conference: conference,
-    reportId: currentReportId,
-    promoReportService,
-  });
+  const selectedReport = useMemo(() => {
+    if (!currentReportId) {
+      return null;
+    }
+
+    return reports.find((report) => report.id === currentReportId) ?? null;
+  }, [reports, currentReportId]);
 
   const [queryParameters, setQueryParameters] =
     useState<RegistrationQueryParams>({
@@ -98,41 +91,41 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
       filterAccountTransfersByPaymentType: '',
       filterPayment: '',
       filterRegType: '',
-      includeAccountTransfers: false,
+      includeAccountTransfers: true,
       includePromotions: true,
-      includeCheckedin: 'only',
-      includeWithdrawn: 'no',
-      includeIncomplete: 'no',
-      primaryRegistrantOnly: false,
+      includeCheckedin: 'yes',
+      includeWithdrawn: 'yes',
+      includeIncomplete: 'yes',
+      primaryRegistrantOnly: true,
     });
 
-  const { promoRegistrations, refreshPendingRegistrations, metadata } =
-    usePromoRegistrationList({
+  const { accountTransfers, refreshPendingRegistrations, metadata } =
+    useAccountTransfers({
       conference,
       initialPendingRegistrations: registrationsData,
       journalUploadService,
       registrationQueryParams: queryParameters,
-      report,
+      report: selectedReport,
     });
-  const promoRegistrationsWithErrors = useMemo(
-    () => promoRegistrations.filter(({ error }) => error),
-    [promoRegistrations],
+  const accountTransfersWithErrors = useMemo(
+    () => accountTransfers.filter(({ error }) => error),
+    [accountTransfers],
   );
-  const promoRegistrationsWithoutErrors = useMemo(
-    () => promoRegistrations.filter(({ error }) => !error),
-    [promoRegistrations],
+  const accountTransfersWithoutErrors = useMemo(
+    () => accountTransfers.filter(({ error }) => !error),
+    [accountTransfers],
   );
 
   const {
-    selectedItems: registrationsToInclude,
-    selectedItemsSet: registrationsToIncludeSet,
-    allSelected: allRegistrationsSelected,
-    setSelected: setRegistrationIncluded,
-    setManySelected: setManyPromosIncluded,
-    reset: resetSelectedRegistrations,
-  } = useSelectedItems<PromoRegistration>();
-  const allRegistrationsIncluded = allRegistrationsSelected(
-    promoRegistrationsWithoutErrors,
+    selectedItems: accountTransfersToInclude,
+    selectedItemsSet: accountTransfersToIncludeSet,
+    allSelected: allTransfersSelected,
+    setSelected: setAccountTransferIncluded,
+    setManySelected: setManyAccountTransfersIncluded,
+    reset: resetSelectedAccountTransfers,
+  } = useSelectedItems<AccountTransfer>();
+  const allAccountTransfersIncluded = allTransfersSelected(
+    accountTransfersWithoutErrors,
   );
 
   const onQueryParametersChange = (newQueryParams: RegistrationQueryParams) => {
@@ -150,28 +143,23 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
   }, [currentReportId]);
 
   useWatch(() => {
-    resetSelectedRegistrations();
-  }, [promoRegistrations]);
+    resetSelectedAccountTransfers();
+  }, [accountTransfers]);
 
   const submit = async () => {
-    // registrationsToInclude will have multiple entries for the same registration if that
-    // registration has multiple promo codes, so combine them into one entry per registration
-    const registrations = Object.values(
-      groupBy(registrationsToInclude, ({ registration }) => registration.id),
-    ).map((registrations) => ({
-      ...registrations[0].registration,
-      promotions: registrations.map(({ promotion }) => promotion),
-    }));
-    const report = await promoReportService.submitPromos(registrations);
+    const report = await journalUploadService.submitAccountTransfers([
+      ...accountTransfersToInclude,
+    ]);
 
-    // Load the new list of reports
-    refreshReports();
-    if (report) {
-      openReviewModal(report);
-    }
+    // Refresh reports list after submitting
+    const reports = await journalUploadService.getAllAccountTransferReports(
+      conference.id,
+    );
+    setReports(reports);
+    viewSubmissionReview(report);
   };
 
-  const openReviewModal = (report: PromotionReport) => {
+  const viewSubmissionReview = (report: JournalReport) => {
     const clonedQueryParams = { ...queryParameters };
     const journalReviewModalOptions = {
       templateUrl: journalUploadReviewModalTemplate,
@@ -193,7 +181,7 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
       if (data) {
         setCurrentReportId(data);
       } else {
-        // If not, refresh promotion list
+        // If not, refresh account transfers
         refreshPendingRegistrations();
       }
     });
@@ -210,21 +198,18 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
           backdrop: 'static',
           resolve: {
             registration: () => response.data,
+            // Once EVENT-810 is resolved, we can replace the empty array with the report's registrations
             promotionRegistrationInfoList: () =>
-              metadata.source === 'report'
-                ? metadata.report.promotionRegistrationInfoList
-                : metadata.meta.promotionRegistrationInfoList ?? [],
+              (metadata.source === 'pending-registrations' &&
+                metadata.meta.promotionRegistrationInfoList) ??
+              [],
             conference: () => conference,
             permissions: () => permissions,
           },
         };
 
         $uibModal.open(paymentModalOptions).result.then(() => {
-          if (metadata.source === 'report') {
-            refreshReport();
-          } else {
-            refreshPendingRegistrations();
-          }
+          refreshPendingRegistrations();
         });
       })
       .catch(() => {
@@ -233,16 +218,21 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
   };
 
   const commonTransactionTableProps: Omit<
-    PromoTransactionsTableProps,
-    'emptyMessage' | 'headerExtra' | 'promoRegistrations' | 'title'
+    JournalTransactionsTableProps,
+    'accountTransfers' | 'emptyMessage' | 'headerExtra' | 'title'
   > = {
     currencySymbol,
     currentReportId,
     localizedCurrency,
+
+    // Bug: because of current API limitations, we don't have access to the registrations associated with a report
+    // Once EVENT-810 is resolved, we can replace the empty array with the report registrations
+    registrationsList:
+      metadata.source === 'pending-registrations' ? metadata.registrations : [],
     selectable: currentReportId === null,
+    selectedTransactions: accountTransfersToIncludeSet,
+    setTransactionSelected: setAccountTransferIncluded,
     viewPayments,
-    selectedTransactions: registrationsToIncludeSet,
-    setTransactionSelected: setRegistrationIncluded,
   };
 
   const tables = (
@@ -252,10 +242,10 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
         <div className="row form-group">
           <div className="col-xs-12 details-heading">
             <h4>
-              <a href="#">Promo Upload Event Transactions</a>
+              <a href="#">Journal Upload Event Transactions</a>
             </h4>
           </div>
-          {metadata.promoTransactions.length === 0 ? (
+          {accountTransfers.length === 0 ? (
             <div className="col-xs-12">
               <p>
                 No transactions have been found to match your filter
@@ -285,34 +275,38 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
                       <a href="#">Project ID</a>
                     </th>
                     <th>
+                      <a href="#">GL Account</a>
+                    </th>
+                    <th>
                       <a href="#">Amount</a>
                     </th>
                     <th>
                       <a href="#">Description</a>
                     </th>
                     <th />
+                    <th />
                   </tr>
                 </thead>
                 <tbody>
-                  {metadata.promoTransactions.map(
-                    ({ promotion, count }, index) => (
+                  {metadata.meta.accountTransferEvents.map(
+                    (transferEvent, index) => (
                       <tr
-                        key={promotion.id}
+                        key={transferEvent.expenseType}
                         className={
                           'noselect ' + (index % 2 === 0 ? 'active' : '')
                         }
                       >
-                        <th>PROMOTION</th>
+                        <th>{transferEvent.expenseType}</th>
                         <td />
                         <td />
-                        <td>{conference.businessUnit}</td>
-                        <td>{conference.operatingUnit}</td>
-                        <td>{conference.department}</td>
-                        <td>{conference.projectId}</td>
-                        <td>{promotion.amount * count}</td>
-                        <td>
-                          {conference.abbreviation}-{promotion.code}
-                        </td>
+                        <td>{transferEvent.businessUnit}</td>
+                        <td>{transferEvent.operatingUnit}</td>
+                        <td>{transferEvent.departmentId}</td>
+                        <td>{transferEvent.projectId}</td>
+                        <td>{transferEvent.glAccount}</td>
+                        <td>{transferEvent.amount}</td>
+                        <td>{transferEvent.description}</td>
+                        <td />
                         <td />
                       </tr>
                     ),
@@ -324,46 +318,47 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
         </div>
       )}
 
-      {/* Promo Upload Participant Transaction Error Section */}
-      {promoRegistrationsWithErrors.length > 0 && (
-        <PromoTransactionsTable
+      {/* Journal Upload Participant Transaction Error Section */}
+      {accountTransfersWithErrors.length > 0 && (
+        <JournalTransactionsTable
           {...commonTransactionTableProps}
-          promoRegistrations={promoRegistrationsWithErrors}
-          title="Promo Upload Participant Transactions With Errors"
+          accountTransfers={accountTransfersWithErrors}
+          title="Journal Upload Participant Transactions With Errors"
+          viewPayments={viewPayments}
         />
       )}
 
-      {/* Promo Upload Participant Transaction Section */}
-      <PromoTransactionsTable
+      {/* Journal Upload Participant Transaction Section */}
+      <JournalTransactionsTable
         {...commonTransactionTableProps}
-        promoRegistrations={promoRegistrationsWithoutErrors}
+        accountTransfers={accountTransfersWithoutErrors}
         emptyMessage={
           metadata.source === 'report'
-            ? 'No successful promotion transfers have been found in this report.'
-            : `No promotion transfers have been found to match your filter${
+            ? 'No successful account transfers have been found in this report.'
+            : `No account transfers have been found to match your filter${
                 metadata.meta.totalPages > 1 ? ' on this page' : ''
               }.`
         }
         headerExtra={
-          promoRegistrationsWithoutErrors.length > 0 &&
+          accountTransfersWithoutErrors.length > 0 &&
           !currentReportId && (
             <button
               type="button"
               className="btn btn-default btn-sm"
               onClick={() => {
-                setManyPromosIncluded(
-                  promoRegistrationsWithoutErrors,
-                  !allRegistrationsIncluded,
+                setManyAccountTransfersIncluded(
+                  accountTransfersWithoutErrors,
+                  !allAccountTransfersIncluded,
                 );
               }}
             >
-              {allRegistrationsIncluded
-                ? 'Remove All From Promo Report'
-                : 'Add All To Promo Report'}
+              {allAccountTransfersIncluded
+                ? 'Remove All From Journal Report'
+                : 'Add All To Journal Report'}
             </button>
           )
         }
-        title="Promo Upload Participant Transactions"
+        title="Journal Upload Participant Transactions"
       />
     </>
   );
@@ -376,8 +371,8 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
         handleSubmit={() => submit()}
         reports={reports}
         setCurrentReportId={setCurrentReportId}
-        submitEnabled={registrationsToInclude.length > 0}
-        uploadType="Promo"
+        submitEnabled={accountTransfersToInclude.length > 0}
+        uploadType="Journal"
       />
 
       {metadata.source === 'pending-registrations' ? (
@@ -389,12 +384,6 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
           pageCount={Math.ceil(
             metadata.meta.totalRegistrantsFilter / queryParameters.limit,
           )}
-          hiddenFilters={[
-            'filterPayment',
-            'filterAccountTransfersByExpenseType',
-            'filterAccountTransfersByPaymentType',
-            'filterAccountTransferErrors',
-          ]}
         >
           {tables}
         </RegistrationFilters>

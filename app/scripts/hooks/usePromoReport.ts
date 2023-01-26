@@ -1,9 +1,10 @@
-import { Conference } from 'conference';
 import { find } from 'lodash';
+import { useMemo } from 'react';
+import { Conference } from 'conference';
+import { PromoRegistration } from 'promoRegistration';
 import { PromotionReport } from 'promotionReport';
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { PromoReportService } from '../services/promoReportService';
-import { PromoRegistration } from './usePromoRegistrationList';
+import { useQuery } from './useQuery';
 
 export const usePromoReport = ({
   conference,
@@ -26,38 +27,20 @@ export const usePromoReport = ({
   // Reload the promo report
   refresh: () => void;
 } => {
-  const [report, setReport] = useState<PromotionReport | null>(null);
-  const [loading, setLoading] = useState(false);
-  const activeRequest = useRef<Promise<PromotionReport> | null>(null);
-
-  const refresh = () => {
-    if (reportId === null) {
-      // If the report id is null, don't load and keep the report null
-      setReport(null);
-      setLoading(false);
-      activeRequest.current = null;
-    } else {
-      // To avoid getting confused if there are multiple requests in progress, track the most recent
-      // request and ignore the response if a request comes back that isn't the most recent request.
-      const currentRequest = promoReportService.loadPromoReport(
-        conference.id,
-        reportId,
-      );
-      setLoading(true);
-      activeRequest.current = currentRequest;
-      currentRequest.then((report) => {
-        if (activeRequest.current === currentRequest) {
-          setReport(report);
-          setLoading(false);
-        }
-      });
-    }
-  };
-
-  // Load the report initially and whenever the conference changes
-  useEffect(() => {
-    refresh();
-  }, [conference, reportId]);
+  const {
+    data: report,
+    loading,
+    refresh,
+  } = useQuery({
+    defaultData: null,
+    enabled: reportId !== null,
+    load: ([conferenceId, reportId]) =>
+      promoReportService.loadPromoReport(conferenceId, reportId),
+    variables: useMemo(
+      () => [conference.id, reportId ?? ''] as const,
+      [conference, reportId],
+    ),
+  });
 
   const promoRegistrations = useMemo(
     () =>
@@ -90,10 +73,5 @@ export const usePromoReport = ({
     [report],
   );
 
-  return {
-    report,
-    promoRegistrations,
-    refresh,
-    loading,
-  };
+  return { report, promoRegistrations, loading, refresh };
 };

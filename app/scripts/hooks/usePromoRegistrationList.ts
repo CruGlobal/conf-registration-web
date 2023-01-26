@@ -3,17 +3,10 @@ import { RegistrationQueryParams, JournalUploadService } from 'injectables';
 import { find, uniqBy } from 'lodash';
 import { Promotion } from 'promotion';
 import { PromotionReport } from 'promotionReport';
+import { PromoRegistration } from 'promoRegistration';
 import { useMemo, useState } from 'react';
-import { Registration } from 'registration';
 import { RegistrationsData } from 'registrations';
 import { useWatch } from './useWatch';
-
-export interface PromoRegistration {
-  promotion: Promotion;
-  registration: Registration;
-  successfullyPosted: boolean;
-  error: string | undefined;
-}
 
 export interface PromoTransaction {
   promotion: Promotion;
@@ -25,14 +18,14 @@ export interface PromoTransaction {
 // pending registrations found using the provided registration query params.
 export const usePromoRegistrationList = ({
   conference,
-  journalUploadService,
   initialPendingRegistrations,
+  journalUploadService,
   registrationQueryParams,
   report,
 }: {
-  journalUploadService: JournalUploadService;
   conference: Conference;
   initialPendingRegistrations: RegistrationsData;
+  journalUploadService: JournalUploadService;
   registrationQueryParams: RegistrationQueryParams;
   report: PromotionReport | null;
 }): {

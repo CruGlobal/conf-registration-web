@@ -9,6 +9,9 @@ import 'scripts/components/FormStatusModal/FormStatusModal';
 import 'scripts/components/FormStatusPopover/FormStatusPopover';
 import 'scripts/components/GoogleLogin/GoogleLogin';
 import 'scripts/components/ExportModal/ExportModal';
+
+// React components
+import 'scripts/components/JournalUploadPage/JournalUploadPage_angular';
 import 'scripts/components/PromoUploadPage/PromoUploadPage_angular';
 
 // Controllers

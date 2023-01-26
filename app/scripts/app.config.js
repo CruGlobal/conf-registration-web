@@ -6,7 +6,6 @@ import eventDashboardTemplate from 'views/eventDashboard.html';
 import eventOverviewTemplate from 'views/eventOverview.html';
 import eventRegistrationsTemplate from 'views/eventRegistrations.html';
 import paymentCashCheckReportTemplate from 'views/paymentCashCheckReport.html';
-import journalUploadTemplate from 'views/journalUpload.html';
 import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
@@ -254,8 +253,7 @@ angular
       })
       .when('/journalUpload/:conferenceId', {
         title: gettext('Journal Submission Upload Preview'),
-        templateUrl: journalUploadTemplate,
-        controller: 'journalUploadCtrl',
+        template: `<journal-upload-page resolve="$resolve" />`,
         authorization: {
           requireLogin: true,
           eventAdminPermissionLevel: 'VIEW',

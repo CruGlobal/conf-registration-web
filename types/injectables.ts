@@ -1,12 +1,12 @@
-import { AccountTransfer } from 'accountTransfer';
 import {
   IHttpService,
   IQService,
   IRootScopeService,
   IWindowService,
 } from 'angular';
+import { AccountTransfer } from 'accountTransfer';
+import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
-import { Report } from 'report';
 
 export type $filter = (filterName: string) => (...args: unknown[]) => string;
 
@@ -88,19 +88,17 @@ export interface JournalUploadService {
   getRegistrationData(
     conferenceId: string,
     query?: RegistrationQueryParams,
-  ): Promise<
-    RegistrationsData & {
-      meta: { accountTransferEvents: Array<AccountTransfer & { id: string }> };
-    }
-  >;
+  ): Promise<RegistrationsData>;
 
-  getAllAccountTransferReports(conferenceId: string): Promise<Array<Report>>;
-  getAccountTransferReport(url: string): Promise<Report>;
+  getAllAccountTransferReports(
+    conferenceId: string,
+  ): Promise<Array<JournalReport>>;
+  getAccountTransferReport(url: string): Promise<JournalReport>;
   getAccountTransferData(data: RegistrationsData): Array<AccountTransfer>;
   getAccountTransferDataWithErrors(
     data: RegistrationsData,
   ): Array<AccountTransfer>;
   submitAccountTransfers(
     accountTransfer: Array<AccountTransfer>,
-  ): Promise<Report>;
+  ): Promise<JournalReport>;
 }

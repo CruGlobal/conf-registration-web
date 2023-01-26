@@ -1,15 +1,7 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { cloneDeep } from 'lodash';
-import {
-  conference,
-  promotionRegistrationInfoListAllErrors,
-  registrationsData,
-  registrationsDataWithoutErrors,
-} from '../../../../__tests__/fixtures';
-import { PromoUploadPage, PromoUploadPageProps } from './PromoUploadPage';
-import { PromoReportService } from '../../services/promoReportService';
+import React from 'react';
 import {
   $http,
   $rootScope,
@@ -18,6 +10,14 @@ import {
   ModalMessage,
 } from 'injectables';
 import { Permissions } from 'permissions';
+import {
+  conference,
+  promotionRegistrationInfoListAllErrors,
+  registrationsData,
+  registrationsDataWithoutErrors,
+} from '../../../../__tests__/fixtures';
+import { PromoReportService } from '../../services/promoReportService';
+import { PromoUploadPage, PromoUploadPageProps } from './PromoUploadPage';
 
 describe('PromoUploadPage component', () => {
   const journalUploadService = {
@@ -25,8 +25,9 @@ describe('PromoUploadPage component', () => {
   } as unknown as JournalUploadService;
 
   const submitPromos = jest.fn().mockReturnValue(new Promise(() => undefined));
+  const loadPromoReportsPromise = Promise.resolve([]);
   const promoReportService = {
-    loadAllPromoReports: jest.fn().mockResolvedValue([]),
+    loadAllPromoReports: jest.fn().mockReturnValue(loadPromoReportsPromise),
     submitPromos,
   } as unknown as PromoReportService;
 
@@ -91,6 +92,10 @@ describe('PromoUploadPage component', () => {
 
       const { queryByRole } = render(<PromoUploadPage {...propsAllErrors} />);
 
+      await act(async () => {
+        await loadPromoReportsPromise;
+      });
+
       expect(
         queryByRole('button', { name: 'Add All To Promo Report' }),
       ).not.toBeInTheDocument();
@@ -100,6 +105,10 @@ describe('PromoUploadPage component', () => {
       const { getAllByRole, getByRole } = render(
         <PromoUploadPage {...propsSomeErrors} />,
       );
+
+      await act(async () => {
+        await loadPromoReportsPromise;
+      });
 
       await userEvent.click(
         getByRole('button', { name: 'Add All To Promo Report' }),
@@ -113,6 +122,10 @@ describe('PromoUploadPage component', () => {
       const { getAllByRole, getByRole } = render(
         <PromoUploadPage {...propsSomeErrors} />,
       );
+
+      await act(async () => {
+        await loadPromoReportsPromise;
+      });
 
       expect(getAllByRole('checkbox')).toHaveLength(5);
       for (const checkbox of getAllByRole('checkbox') as HTMLInputElement[]) {

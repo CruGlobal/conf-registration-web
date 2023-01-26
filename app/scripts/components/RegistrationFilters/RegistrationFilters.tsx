@@ -1,9 +1,8 @@
-import classNames from 'classnames';
-import { Conference } from 'conference';
 import { RegistrationQueryParams } from 'injectables';
 import { debounce } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
+import { Conference } from 'conference';
 import { useWatch } from '../../../scripts/hooks/useWatch';
 import { Pagination } from '../Pagination/Pagination';
 
@@ -187,10 +186,10 @@ export const RegistrationFilters = (
             >
               <span className="margin-right-xs">Filters</span>
               <i
-                className={classNames(
+                className={[
                   'fa',
                   showMoreFilters ? 'fa-chevron-up' : 'fa-chevron-down',
-                )}
+                ].join(' ')}
               />
             </Button>
           </div>

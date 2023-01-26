@@ -1,17 +1,12 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { JournalUploadService, RegistrationQueryParams } from 'injectables';
-import { PromotionReport } from 'promotionReport';
+import { JournalReport } from 'journalReport';
 import {
   conference,
-  promotionAll,
-  promotionOne,
-  registrationBright,
-  registrationMouse,
-  registrationDoe,
   registrationsData as initialPendingRegistrations,
-  promotionRegistrationInfoList,
+  accountTransfer,
 } from '../../../__tests__/fixtures';
-import { usePromoRegistrationList } from './usePromoRegistrationList';
+import { useAccountTransfers } from './useAccountTransfers';
 
 const getRegistrationData = jest
   .fn()
@@ -20,10 +15,10 @@ const journalUploadService = {
   getRegistrationData,
 } as unknown as JournalUploadService;
 
-describe('usePromoRegistrationList', () => {
+describe('useAccountTransfers', () => {
   it('refreshes the transactions', () => {
     const { result } = renderHook(() =>
-      usePromoRegistrationList({
+      useAccountTransfers({
         journalUploadService,
         conference,
         initialPendingRegistrations,
@@ -42,7 +37,7 @@ describe('usePromoRegistrationList', () => {
     let query = { filter: 'Name' } as RegistrationQueryParams;
     let currentConference = conference;
     const { rerender } = renderHook(() =>
-      usePromoRegistrationList({
+      useAccountTransfers({
         journalUploadService,
         conference: currentConference,
         initialPendingRegistrations,
@@ -64,9 +59,9 @@ describe('usePromoRegistrationList', () => {
     expect(getRegistrationData).toHaveBeenCalledTimes(2);
   });
 
-  it('calculates pending promo registrations', () => {
+  it('loads pending account transfers', () => {
     const { result } = renderHook(() =>
-      usePromoRegistrationList({
+      useAccountTransfers({
         journalUploadService,
         conference,
         initialPendingRegistrations,
@@ -76,53 +71,23 @@ describe('usePromoRegistrationList', () => {
     );
 
     expect(result.current).toMatchObject({
-      promoRegistrations: [
-        {
-          promotion: promotionAll,
-          registration: { id: registrationDoe.id },
-          successfullyPosted: false,
-          error: undefined,
-        },
-        {
-          promotion: promotionOne,
-          registration: { id: registrationDoe.id },
-          successfullyPosted: false,
-          error: undefined,
-        },
-        {
-          promotion: promotionOne,
-          registration: { id: registrationBright.id },
-          successfullyPosted: false,
-          error: 'Failed to post',
-        },
-        {
-          promotion: promotionOne,
-          registration: { id: registrationMouse.id },
-          successfullyPosted: false,
-          error: undefined,
-        },
-      ],
+      accountTransfers: initialPendingRegistrations.meta.accountTransferEvents,
       metadata: {
         source: 'pending-registrations',
         meta: initialPendingRegistrations.meta,
-        promoTransactions: [
-          { promotion: promotionAll, count: 2 },
-          { promotion: promotionOne, count: 3 },
-        ],
       },
     });
   });
 
-  it('calculates report promo registrations', () => {
-    const report: PromotionReport = {
+  it('loads account transfers from report', () => {
+    const report: JournalReport = {
       id: 'report-1',
       conferenceId: conference.id,
-      promotionRegistrationInfoList,
-      registrationList: [registrationBright, registrationMouse],
+      accountTransfers: [accountTransfer],
       transactionTimestamp: '',
     };
     const { result } = renderHook(() =>
-      usePromoRegistrationList({
+      useAccountTransfers({
         journalUploadService,
         conference,
         initialPendingRegistrations,
@@ -132,20 +97,7 @@ describe('usePromoRegistrationList', () => {
     );
 
     expect(result.current).toMatchObject({
-      promoRegistrations: [
-        {
-          promotion: promotionOne,
-          registration: { id: registrationBright.id },
-          successfullyPosted: false,
-          error: 'Failed to post',
-        },
-        {
-          promotion: promotionAll,
-          registration: { id: registrationMouse.id },
-          successfullyPosted: true,
-          error: '',
-        },
-      ],
+      accountTransfers: [accountTransfer],
       metadata: {
         source: 'report',
         report,

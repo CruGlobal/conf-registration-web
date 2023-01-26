@@ -386,8 +386,8 @@ main.journal-upload {
 .registration-filters {
   label {
     width: 100%;
-    & .form-control {
-      display: inline-block;
+    & .form-control,
+    & .btn-group {
       margin-top: 5px;
       font-weight: initial;
     }

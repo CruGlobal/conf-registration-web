@@ -1,6 +1,8 @@
+import { AccountTransfer } from 'accountTransfer';
 import { Conference } from 'conference';
 import { Promotion } from 'promotion';
-import { PromotionRegistrationInfo } from 'promotionReport';
+import { PromotionRegistrationInfo, PromotionReport } from 'promotionReport';
+import { PromoRegistration } from 'promoRegistration';
 import { Registration } from 'registration';
 import { RegistrationsData } from 'registrations';
 
@@ -20,9 +22,13 @@ export const promotionOne = {
 
 export const conference = {
   id: 'conference-1',
+  contactPersonName: 'Conference Admin',
+  contactPersonPhone: '123-456-7890',
+  contactPersonEmail: 'conference.admin@cru.org',
   currency: {
     currencyCode: 'USD',
   },
+  name: 'Test Conference',
   promotions: [promotionAll, promotionOne],
   registrantTypes: [
     { id: 'registrant-type-1', name: 'Type 1' },
@@ -39,6 +45,7 @@ export const registrationDoe = {
     { id: 'registrant-jane', firstName: 'Jane', lastName: 'Doe' },
   ],
   primaryRegistrantId: 'registrant-john',
+  remainingBalance: 100,
 } as Registration;
 
 export const registrationBright = {
@@ -59,6 +66,33 @@ export const registrationMouse = {
   ],
   primaryRegistrantId: 'registrant-mickey',
 } as Registration;
+
+export const accountTransfer: AccountTransfer = {
+  id: 'account-transfer-1',
+  registrationId: registrationDoe.id,
+  firstName: registrationDoe.groupRegistrants[0].firstName,
+  lastName: registrationDoe.groupRegistrants[0].lastName,
+  error: '',
+  businessUnit: '',
+  operatingUnit: '',
+  departmentId: '',
+  projectId: null,
+  glAccount: '10000',
+  account: '1234567',
+  amount: 100,
+  description: 'Transfer',
+  expenseType: '',
+  paymentId: 'payment-1',
+  productCode: '',
+  reportId: null,
+};
+
+export const promoRegistration: PromoRegistration = {
+  promotion: promotionAll,
+  registration: registrationDoe,
+  successfullyPosted: false,
+  error: '',
+};
 
 export const promotionRegistrationInfoList: Array<PromotionRegistrationInfo> = [
   {
@@ -125,4 +159,23 @@ export const registrationsDataWithoutErrors: RegistrationsData = {
     ],
   },
   registrations: [registrationDoe, registrationBright, registrationMouse],
+};
+
+export const promoReport: PromotionReport = {
+  id: 'promo-report-1',
+  conferenceId: conference.id,
+  transactionTimestamp: '',
+  promotionRegistrationInfoList: [
+    {
+      promotionId: promotionAll.id,
+      registrationId: registrationDoe.id,
+      error: '',
+    },
+    {
+      promotionId: promotionOne.id,
+      registrationId: registrationDoe.id,
+      error: 'Error',
+    },
+  ] as PromotionRegistrationInfo[],
+  registrationList: [registrationDoe],
 };
