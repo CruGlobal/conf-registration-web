@@ -40,7 +40,7 @@ describe('Service: JournalUpload', () => {
       .expectGET(`conferences/${conferenceId}/account/transfer/reports`)
       .respond(200, testData.accountTransfersReportList);
     journalUploadService
-      .getAllAccountTransferReports(conferenceId)
+      .loadAllAccountTransferReports(conferenceId)
       .then((reports) => {
         reportData = reports;
       });
@@ -59,7 +59,7 @@ describe('Service: JournalUpload', () => {
       .respond(200, testData.accountTransferReport);
 
     journalUploadService
-      .getAccountTransferReport(
+      .loadAccountTransferReportFromUrl(
         `/conferences/${conferenceId}/account/transfer/report/08eb91d4-265c-46f0-a337-f41d904a5757`,
       )
       .then((report) => {
@@ -69,16 +69,5 @@ describe('Service: JournalUpload', () => {
     $httpBackend.flush();
 
     expect(reportData.id).toBe(testData.accountTransferReport.id);
-  });
-
-  it('gets all account transfers with errors', () => {
-    let accountTransfers;
-    accountTransfers = journalUploadService.getAccountTransferDataWithErrors({
-      registrations: [testData.singleRegistration],
-    });
-
-    expect(accountTransfers).toEqual([
-      testData.singleRegistration.accountTransfers[1],
-    ]);
   });
 });

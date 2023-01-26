@@ -7,7 +7,6 @@ import type {
   $rootScope,
   $uibModal,
   $window,
-  JournalUploadService,
   ModalMessage,
   RegistrationQueryParams,
 } from 'injectables';
@@ -18,6 +17,7 @@ import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import { useAccountTransfers } from '../../hooks/useAccountTransfers';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
 import { useWatch } from '../../hooks/useWatch';
+import { JournalUploadService } from '../../services/journalUploadService';
 import {
   JournalTransactionsTable,
   JournalTransactionsTableProps,
@@ -152,11 +152,13 @@ export const JournalUploadPage = ({
     ]);
 
     // Refresh reports list after submitting
-    const reports = await journalUploadService.getAllAccountTransferReports(
+    const reports = await journalUploadService.loadAllAccountTransferReports(
       conference.id,
     );
     setReports(reports);
-    viewSubmissionReview(report);
+    if (report) {
+      viewSubmissionReview(report);
+    }
   };
 
   const viewSubmissionReview = (report: JournalReport) => {

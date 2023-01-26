@@ -1,11 +1,12 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { JournalUploadService, RegistrationQueryParams } from 'injectables';
+import { RegistrationQueryParams } from 'injectables';
 import { JournalReport } from 'journalReport';
 import {
   conference,
   registrationsData as initialPendingRegistrations,
   accountTransfer,
 } from '../../../__tests__/fixtures';
+import { JournalUploadService } from '../services/journalUploadService';
 import { useAccountTransfers } from './useAccountTransfers';
 
 const getRegistrationData = jest

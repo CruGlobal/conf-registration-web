@@ -264,7 +264,7 @@ angular
               $route.current.params.conferenceId,
             ),
           reports: ($route, journalUploadService) =>
-            journalUploadService.getAllAccountTransferReports(
+            journalUploadService.loadAllAccountTransferReports(
               $route.current.params.conferenceId,
             ),
           conference: ($route, ConfCache) =>

@@ -39,7 +39,7 @@ export class PromoReportService {
     }
   }
 
-  // Load a single promo report from the server given it's id
+  // Load a single promo report from the server given its id
   loadPromoReport(
     conferenceId: string,
     reportId: string,
@@ -49,7 +49,7 @@ export class PromoReportService {
     );
   }
 
-  // Load a single promo report from the server given it's URL
+  // Load a single promo report from the server given its URL
   async loadPromoReportFromUrl(reportUrl: string): Promise<PromotionReport> {
     this.$rootScope.loadingMsg = 'Loading Report';
 
@@ -80,7 +80,7 @@ export class PromoReportService {
 
       this.$rootScope.loadingMsg = '';
       this.modalMessage.error({
-        title: error ? 'Error Submitting Promo Reports' : 'Promo Upload Delay',
+        title: error ? 'Error Submitting Promo Report' : 'Promo Upload Delay',
         message:
           error ??
           '<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process. The system is still working to complete your request.</p>' +

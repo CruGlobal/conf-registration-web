@@ -7,7 +7,6 @@ import type {
   $rootScope,
   $uibModal,
   $window,
-  JournalUploadService,
   ModalMessage,
   RegistrationQueryParams,
 } from 'injectables';
@@ -22,6 +21,7 @@ import { usePromoReport } from '../../hooks/usePromoReport';
 import { usePromoReports } from '../../hooks/usePromoReports';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
 import { useWatch } from '../../hooks/useWatch';
+import { JournalUploadService } from '../../services/journalUploadService';
 import { PromoReportService } from '../../services/promoReportService';
 import {
   PromoTransactionsTable,

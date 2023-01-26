@@ -2,13 +2,7 @@ import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { cloneDeep } from 'lodash';
 import React from 'react';
-import {
-  $http,
-  $rootScope,
-  $window,
-  JournalUploadService,
-  ModalMessage,
-} from 'injectables';
+import { $http, $rootScope, $window, ModalMessage } from 'injectables';
 import { Permissions } from 'permissions';
 import {
   conference,
@@ -16,6 +10,7 @@ import {
   registrationsData,
   registrationsDataWithoutErrors,
 } from '../../../../__tests__/fixtures';
+import { JournalUploadService } from '../../services/journalUploadService';
 import { PromoReportService } from '../../services/promoReportService';
 import { PromoUploadPage, PromoUploadPageProps } from './PromoUploadPage';
 

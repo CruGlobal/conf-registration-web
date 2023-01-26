@@ -1,11 +1,12 @@
 import { Conference } from 'conference';
-import { RegistrationQueryParams, JournalUploadService } from 'injectables';
+import { useMemo, useState } from 'react';
 import { find, uniqBy } from 'lodash';
+import { RegistrationQueryParams } from 'injectables';
 import { Promotion } from 'promotion';
 import { PromotionReport } from 'promotionReport';
 import { PromoRegistration } from 'promoRegistration';
-import { useMemo, useState } from 'react';
 import { RegistrationsData } from 'registrations';
+import { JournalUploadService } from '../services/journalUploadService';
 import { useWatch } from './useWatch';
 
 export interface PromoTransaction {

@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { AccountTransfer } from 'accountTransfer';
 import { Conference } from 'conference';
-import { JournalUploadService, RegistrationQueryParams } from 'injectables';
+import { RegistrationQueryParams } from 'injectables';
+import { JournalUploadService } from '../services/journalUploadService';
 import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
 import { useWatch } from './useWatch';
