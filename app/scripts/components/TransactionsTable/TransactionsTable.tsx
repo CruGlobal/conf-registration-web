@@ -188,10 +188,7 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
                         getBalanceClassName(row.remainingBalance)
                       }
                       title="View/Edit Payments &amp; Expenses"
-                      disabled={
-                        currentReportId !== null &&
-                        rowType === 'accountTransfer'
-                      }
+                      disabled={currentReportId !== null}
                       onClick={() => viewPayments(row.registrationId)}
                     >
                       <span className="currency-label">{currencySymbol}</span>

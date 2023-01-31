@@ -88,7 +88,7 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
     promoReportService,
   });
   const [currentReportId, setCurrentReportId] = useState<string | null>(null);
-  const { report, refresh: refreshReport } = usePromoReport({
+  const { report } = usePromoReport({
     conference: conference,
     reportId: currentReportId,
     promoReportService,
@@ -207,15 +207,14 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
   const viewPayments = (registrationId: string) => {
     openPaymentsModal(
       registrationId,
-      metadata.source === 'report'
-        ? metadata.report.promotionRegistrationInfoList
-        : metadata.meta.promotionRegistrationInfoList,
+      // The view payments button is always disabled for reports, so the second ternary branch
+      // will never be taken, but we still need the ternary for type narrowing
+      /* istanbul ignore next */
+      metadata.source === 'pending-registrations'
+        ? metadata.meta.promotionRegistrationInfoList
+        : metadata.report.promotionRegistrationInfoList,
     ).then(() => {
-      if (metadata.source === 'report') {
-        refreshReport();
-      } else {
-        refreshPendingRegistrations();
-      }
+      refreshPendingRegistrations();
     });
   };
 

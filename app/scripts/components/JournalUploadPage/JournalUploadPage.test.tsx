@@ -329,30 +329,25 @@ describe('JournalUploadPage component', () => {
     expect(openModal).not.toHaveBeenCalled();
   });
 
-  describe('payment modal', () => {
-    let openModalPromise: Promise<void>;
-    beforeEach(async () => {
-      // Get the promise from the mock
-      const module = await import('../../hooks/usePaymentsModal');
-      openModalPromise = (module as any).openModalPromise;
+  it('payment modal refreshes the registrations on close', async () => {
+    // Get the promise from the mock
+    const module = await import('../../hooks/usePaymentsModal');
+    const openModalPromise = (module as any).openModalPromise;
+
+    const { getAllByRole } = render(<JournalUploadPage {...props} />);
+
+    expect(getRegistrationData).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(
+      getAllByRole('button', {
+        description: 'View/Edit Payments & Expenses',
+      })[0],
+    );
+
+    await act(async () => {
+      await openModalPromise;
     });
 
-    it('refreshes the registrations on close', async () => {
-      const { getAllByRole } = render(<JournalUploadPage {...props} />);
-
-      expect(getRegistrationData).toHaveBeenCalledTimes(0);
-
-      await userEvent.click(
-        getAllByRole('button', {
-          description: 'View/Edit Payments & Expenses',
-        })[0],
-      );
-
-      await act(async () => {
-        await openModalPromise;
-      });
-
-      expect(getRegistrationData).toHaveBeenCalledTimes(1);
-    });
+    expect(getRegistrationData).toHaveBeenCalledTimes(1);
   });
 });

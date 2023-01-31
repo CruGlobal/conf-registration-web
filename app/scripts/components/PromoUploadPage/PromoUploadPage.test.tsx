@@ -346,63 +346,25 @@ describe('PromoUploadPage component', () => {
     expect(openModal).not.toHaveBeenCalled();
   });
 
-  describe('payment modal', () => {
-    let openModalPromise: Promise<void>;
-    beforeEach(async () => {
-      // Get the promise from the mock
-      const module = await import('../../hooks/usePaymentsModal');
-      openModalPromise = (module as any).openModalPromise;
+  it('payment modal refreshes the registrations on close', async () => {
+    // Get the promise from the mock
+    const module = await import('../../hooks/usePaymentsModal');
+    const openModalPromise = (module as any).openModalPromise;
+
+    const { getAllByRole } = render(<PromoUploadPage {...props} />);
+
+    expect(getRegistrationData).toHaveBeenCalledTimes(0);
+
+    await userEvent.click(
+      getAllByRole('button', {
+        description: 'View/Edit Payments & Expenses',
+      })[0],
+    );
+
+    await act(async () => {
+      await openModalPromise;
     });
 
-    it('refreshes the registrations on close', async () => {
-      const { getAllByRole } = render(<PromoUploadPage {...props} />);
-
-      expect(getRegistrationData).toHaveBeenCalledTimes(0);
-
-      await userEvent.click(
-        getAllByRole('button', {
-          description: 'View/Edit Payments & Expenses',
-        })[0],
-      );
-
-      await act(async () => {
-        await openModalPromise;
-      });
-
-      expect(getRegistrationData).toHaveBeenCalledTimes(1);
-    });
-
-    it('refreshes the report on close', async () => {
-      const { getByRole, getAllByRole } = render(
-        <PromoUploadPage {...props} />,
-      );
-
-      await act(async () => {
-        await loadPromoReportsPromise;
-      });
-
-      await userEvent.selectOptions(
-        getByRole('combobox', { name: 'Report creation date:' }),
-        ['2022-01-01 12:00:00'],
-      );
-
-      await act(async () => {
-        await loadPromoReportPromise;
-      });
-
-      expect(loadPromoReport).toHaveBeenCalledTimes(1);
-
-      await userEvent.click(
-        getAllByRole('button', {
-          description: 'View/Edit Payments & Expenses',
-        })[0],
-      );
-
-      await act(async () => {
-        await openModalPromise;
-      });
-
-      expect(loadPromoReport).toHaveBeenCalledTimes(2);
-    });
+    expect(getRegistrationData).toHaveBeenCalledTimes(1);
   });
 });
