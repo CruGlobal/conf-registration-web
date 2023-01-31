@@ -20,7 +20,7 @@ export interface RegistrationsData {
     currentPage: number;
     totalPages: number;
     accountTransferEvents: Array<AccountTransferEvent>;
-    promotionRegistrationInfoList?: Array<PromotionRegistrationInfo>;
+    promotionRegistrationInfoList: Array<PromotionRegistrationInfo>;
   };
   registrations: Array<Registration>;
 }

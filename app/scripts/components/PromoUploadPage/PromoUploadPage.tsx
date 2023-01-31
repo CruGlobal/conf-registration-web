@@ -1,12 +1,12 @@
 import { groupBy } from 'lodash';
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { Conference } from 'conference';
-import type {
-  $filter,
-  $http,
-  $rootScope,
-  $uibModal,
-  $window,
+import {
+  $Filter,
+  $Http,
+  $RootScope,
+  $UibModal,
+  $Window,
   ModalMessage,
   RegistrationQueryParams,
 } from 'injectables';
@@ -15,8 +15,8 @@ import { PromoRegistration } from 'promoRegistration';
 import { PromotionReport } from 'promotionReport';
 import { RegistrationsData } from 'registrations';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
-import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import { usePromoRegistrationList } from '../../hooks/usePromoRegistrationList';
+import { usePaymentsModal } from '../../hooks/usePaymentsModal';
 import { usePromoReport } from '../../hooks/usePromoReport';
 import { usePromoReports } from '../../hooks/usePromoReports';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
@@ -31,11 +31,11 @@ import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters'
 import { UploadPageHeader } from '../UploadPageHeader/UploadPageHeader';
 
 export interface PromoUploadPageProps {
-  $filter: $filter;
-  $rootScope: $rootScope;
-  $http: $http;
-  $window: $window;
-  $uibModal: $uibModal;
+  $filter: $Filter;
+  $rootScope: $RootScope;
+  $http: $Http;
+  $window: $Window;
+  $uibModal: $UibModal;
   journalUploadService: JournalUploadService;
   promoReportService: PromoReportService;
   modalMessage: ModalMessage;
@@ -74,6 +74,14 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
   const currencySymbol: string = $filter('localizedSymbol')(
     conference.currency.currencyCode,
   );
+
+  const { open: openPaymentsModal } = usePaymentsModal({
+    $http,
+    $uibModal,
+    modalMessage,
+    conference,
+    permissions,
+  });
 
   const { reports, refresh: refreshReports } = usePromoReports({
     conferenceId: conference.id,
@@ -186,50 +194,29 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
     };
 
     $uibModal.open<string>(journalReviewModalOptions).result.then((data) => {
-      // The journal review modal may update the errors filter, so save the changes
-      onQueryParametersChange(clonedQueryParams);
-
       // If data has a value, the user chose to view the report
       if (data) {
         setCurrentReportId(data);
       } else {
-        // If not, refresh promotion list
-        refreshPendingRegistrations();
+        // The journal review modal may update the errors filter, so save the changes
+        onQueryParametersChange(clonedQueryParams);
       }
     });
   };
 
   const viewPayments = (registrationId: string) => {
-    $http
-      .get('registrations/' + registrationId)
-      .then((response) => {
-        const paymentModalOptions = {
-          templateUrl: paymentsModalTemplate,
-          controller: 'paymentModal',
-          size: 'lg',
-          backdrop: 'static',
-          resolve: {
-            registration: () => response.data,
-            promotionRegistrationInfoList: () =>
-              metadata.source === 'report'
-                ? metadata.report.promotionRegistrationInfoList
-                : metadata.meta.promotionRegistrationInfoList ?? [],
-            conference: () => conference,
-            permissions: () => permissions,
-          },
-        };
-
-        $uibModal.open(paymentModalOptions).result.then(() => {
-          if (metadata.source === 'report') {
-            refreshReport();
-          } else {
-            refreshPendingRegistrations();
-          }
-        });
-      })
-      .catch(() => {
-        modalMessage.error('Error: registration data could not be retrieved.');
-      });
+    openPaymentsModal(
+      registrationId,
+      metadata.source === 'report'
+        ? metadata.report.promotionRegistrationInfoList
+        : metadata.meta.promotionRegistrationInfoList,
+    ).then(() => {
+      if (metadata.source === 'report') {
+        refreshReport();
+      } else {
+        refreshPendingRegistrations();
+      }
+    });
   };
 
   const commonTransactionTableProps: Omit<

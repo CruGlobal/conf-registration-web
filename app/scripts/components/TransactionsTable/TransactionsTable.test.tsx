@@ -111,6 +111,18 @@ describe('TransactionsTable component', () => {
     expect(queryByText('No Rows')).not.toBeInTheDocument();
   });
 
+  it('opens the payments modal', async () => {
+    const { getAllByRole } = render(<TransactionsTable {...props} />);
+
+    await userEvent.click(
+      getAllByRole('button', {
+        description: 'View/Edit Payments & Expenses',
+      })[0],
+    );
+
+    expect(props.viewPayments).toHaveBeenCalledWith('registration-doe');
+  });
+
   it('shows the account transfer columns', () => {
     const { getByRole, getAllByRole } = render(
       <TransactionsTable {...props} />,

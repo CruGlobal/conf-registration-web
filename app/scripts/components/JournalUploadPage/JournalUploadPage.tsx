@@ -1,20 +1,21 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AccountTransfer } from 'accountTransfer';
 import { Conference } from 'conference';
-import type {
-  $filter,
-  $http,
-  $rootScope,
-  $uibModal,
-  $window,
+import {
+  $Filter,
+  $Http,
+  $RootScope,
+  $UibModal,
+  $Window,
   ModalMessage,
   RegistrationQueryParams,
 } from 'injectables';
 import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
+import { Permissions } from 'permissions';
 import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
-import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import { useAccountTransfers } from '../../hooks/useAccountTransfers';
+import { usePaymentsModal } from '../../hooks/usePaymentsModal';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
 import { useWatch } from '../../hooks/useWatch';
 import { JournalUploadService } from '../../services/journalUploadService';
@@ -25,12 +26,12 @@ import {
 import { RegistrationFilters } from '../RegistrationFilters/RegistrationFilters';
 import { UploadPageHeader } from '../UploadPageHeader/UploadPageHeader';
 
-interface JournalUploadPageProps {
-  $filter: $filter;
-  $rootScope: $rootScope;
-  $http: $http;
-  $window: $window;
-  $uibModal: $uibModal;
+export interface JournalUploadPageProps {
+  $filter: $Filter;
+  $rootScope: $RootScope;
+  $http: $Http;
+  $window: $Window;
+  $uibModal: $UibModal;
   journalUploadService: JournalUploadService;
   modalMessage: ModalMessage;
   resolve: {
@@ -69,15 +70,20 @@ export const JournalUploadPage = ({
     conference.currency.currencyCode,
   );
 
+  const { open: openPaymentsModal } = usePaymentsModal({
+    $http,
+    $uibModal,
+    modalMessage,
+    conference,
+    permissions,
+  });
+
   const [reports, setReports] = useState(resolve.reports);
   const [currentReportId, setCurrentReportId] = useState<string | null>(null);
-  const selectedReport = useMemo(() => {
-    if (!currentReportId) {
-      return null;
-    }
-
-    return reports.find((report) => report.id === currentReportId) ?? null;
-  }, [reports, currentReportId]);
+  const selectedReport = useMemo(
+    () => reports.find((report) => report.id === currentReportId) ?? null,
+    [reports, currentReportId],
+  );
 
   const [queryParameters, setQueryParameters] =
     useState<RegistrationQueryParams>({
@@ -157,11 +163,11 @@ export const JournalUploadPage = ({
     );
     setReports(reports);
     if (report) {
-      viewSubmissionReview(report);
+      openReviewModal(report);
     }
   };
 
-  const viewSubmissionReview = (report: JournalReport) => {
+  const openReviewModal = (report: JournalReport) => {
     const clonedQueryParams = { ...queryParameters };
     const journalReviewModalOptions = {
       templateUrl: journalUploadReviewModalTemplate,
@@ -176,47 +182,28 @@ export const JournalUploadPage = ({
     };
 
     $uibModal.open<string>(journalReviewModalOptions).result.then((data) => {
-      // The journal review modal may update the errors filter, so save the changes
-      onQueryParametersChange(clonedQueryParams);
-
       // If data has a value, the user chose to view the report
       if (data) {
         setCurrentReportId(data);
       } else {
-        // If not, refresh account transfers
-        refreshPendingRegistrations();
+        // The journal review modal may update the errors filter, so save the changes
+        onQueryParametersChange(clonedQueryParams);
       }
     });
   };
 
   const viewPayments = (registrationId: string) => {
-    $http
-      .get('registrations/' + registrationId)
-      .then((response) => {
-        const paymentModalOptions = {
-          templateUrl: paymentsModalTemplate,
-          controller: 'paymentModal',
-          size: 'lg',
-          backdrop: 'static',
-          resolve: {
-            registration: () => response.data,
-            // Once EVENT-810 is resolved, we can replace the empty array with the report's registrations
-            promotionRegistrationInfoList: () =>
-              (metadata.source === 'pending-registrations' &&
-                metadata.meta.promotionRegistrationInfoList) ??
-              [],
-            conference: () => conference,
-            permissions: () => permissions,
-          },
-        };
-
-        $uibModal.open(paymentModalOptions).result.then(() => {
-          refreshPendingRegistrations();
-        });
-      })
-      .catch(() => {
-        modalMessage.error('Error: registration data could not be retrieved.');
-      });
+    openPaymentsModal(
+      registrationId,
+      // The view payments button is always disabled for reports, so the second ternary branch
+      // will never be taken, but we still need the ternary for type narrowing
+      /* istanbul ignore next */
+      metadata.source === 'pending-registrations'
+        ? metadata.meta.promotionRegistrationInfoList
+        : [],
+    ).then(() => {
+      refreshPendingRegistrations();
+    });
   };
 
   const commonTransactionTableProps: Omit<

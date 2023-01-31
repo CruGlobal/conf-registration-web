@@ -3,24 +3,24 @@ import { omit } from 'lodash';
 import { AccountTransfer } from 'accountTransfer';
 import {
   ModalMessage,
-  $rootScope,
-  $http,
-  $route,
+  $RootScope,
+  $Http,
+  $Route,
   RegistrationQueryParams,
 } from 'injectables';
 import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
 
 export class JournalUploadService {
-  $http: $http;
-  $rootScope: $rootScope;
-  $route: $route;
+  $http: $Http;
+  $rootScope: $RootScope;
+  $route: $Route;
   modalMessage: ModalMessage;
 
   constructor(
-    $http: $http,
-    $rootScope: $rootScope,
-    $route: $route,
+    $http: $Http,
+    $rootScope: $RootScope,
+    $route: $Route,
     modalMessage: ModalMessage,
   ) {
     this.$http = $http;
@@ -37,7 +37,7 @@ export class JournalUploadService {
 
     return this.$http
       .get<RegistrationsData>(`conferences/${conferenceId}/registrations`, {
-        params: queryParameters ?? {
+        params: {
           page: 1,
           limit: 20,
           orderBy: 'last_name',
@@ -54,6 +54,7 @@ export class JournalUploadService {
           includeIncomplete: 'yes',
           primaryRegistrantOnly: true,
           includePromotions: true,
+          ...queryParameters,
         },
       })
       .then((response) => response.data)

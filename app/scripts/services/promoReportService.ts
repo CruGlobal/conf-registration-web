@@ -1,18 +1,18 @@
 import angular from 'angular';
-import { ModalMessage, $rootScope, $http, $route } from 'injectables';
+import { ModalMessage, $RootScope, $Http, $Route } from 'injectables';
 import { PromotionReport } from 'promotionReport';
 import { Registration } from 'registration';
 
 export class PromoReportService {
-  $rootScope: $rootScope;
-  $route: $route;
-  $http: $http;
+  $rootScope: $RootScope;
+  $route: $Route;
+  $http: $Http;
   modalMessage: ModalMessage;
 
   constructor(
-    $rootScope: $rootScope,
-    $route: $route,
-    $http: $http,
+    $rootScope: $RootScope,
+    $route: $Route,
+    $http: $Http,
     modalMessage: ModalMessage,
   ) {
     this.$rootScope = $rootScope;

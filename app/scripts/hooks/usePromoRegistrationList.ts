@@ -115,10 +115,6 @@ export const usePromoRegistrationList = ({
   }, [report]);
 
   const promoTransactions = useMemo(() => {
-    if (!pendingPromoRegistrations) {
-      return [];
-    }
-
     const promoTransactions = new Map<string, PromoTransaction>();
     pendingPromoRegistrations.forEach(({ promotion, registration }) => {
       let promoTransactionsEntry = promoTransactions.get(promotion.id);

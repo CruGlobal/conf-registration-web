@@ -2,9 +2,10 @@ import { renderHook } from '@testing-library/react-hooks';
 import { RegistrationQueryParams } from 'injectables';
 import { JournalReport } from 'journalReport';
 import {
-  conference,
-  registrationsData as initialPendingRegistrations,
   accountTransfer,
+  conference,
+  journalReport,
+  registrationsData as initialPendingRegistrations,
 } from '../../../__tests__/fixtures';
 import { JournalUploadService } from '../services/journalUploadService';
 import { useAccountTransfers } from './useAccountTransfers';
@@ -60,6 +61,24 @@ describe('useAccountTransfers', () => {
     expect(getRegistrationData).toHaveBeenCalledTimes(2);
   });
 
+  it('does not reload when the report is set', () => {
+    let report: JournalReport | null = null;
+    const { rerender } = renderHook(() =>
+      useAccountTransfers({
+        journalUploadService,
+        conference,
+        initialPendingRegistrations,
+        registrationQueryParams: {} as RegistrationQueryParams,
+        report,
+      }),
+    );
+
+    report = journalReport;
+    rerender();
+
+    expect(getRegistrationData).toHaveBeenCalledTimes(0);
+  });
+
   it('loads pending account transfers', () => {
     const { result } = renderHook(() =>
       useAccountTransfers({
@@ -72,7 +91,9 @@ describe('useAccountTransfers', () => {
     );
 
     expect(result.current).toMatchObject({
-      accountTransfers: initialPendingRegistrations.meta.accountTransferEvents,
+      accountTransfers: [1, 2, 3, 4, 5].map((id) => ({
+        id: `account-transfer-${id}`,
+      })),
       metadata: {
         source: 'pending-registrations',
         meta: initialPendingRegistrations.meta,
@@ -81,19 +102,13 @@ describe('useAccountTransfers', () => {
   });
 
   it('loads account transfers from report', () => {
-    const report: JournalReport = {
-      id: 'report-1',
-      conferenceId: conference.id,
-      accountTransfers: [accountTransfer],
-      transactionTimestamp: '',
-    };
     const { result } = renderHook(() =>
       useAccountTransfers({
         journalUploadService,
         conference,
         initialPendingRegistrations,
         registrationQueryParams: {} as RegistrationQueryParams,
-        report,
+        report: journalReport,
       }),
     );
 
@@ -101,7 +116,7 @@ describe('useAccountTransfers', () => {
       accountTransfers: [accountTransfer],
       metadata: {
         source: 'report',
-        report,
+        report: journalReport,
       },
     });
   });

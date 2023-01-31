@@ -79,6 +79,19 @@ describe('UploadPageHeader component', () => {
     expect(setCurrentReportId).toHaveBeenCalledWith('report-2');
   });
 
+  it('calls setCurrentReportId with null', async () => {
+    const { getByRole } = render(<UploadPageHeader {...props} />);
+
+    await act(async () => {
+      const combobox = getByRole('combobox', { name: 'Report creation date:' });
+      await userEvent.selectOptions(combobox, '2022-01-02 12:00:00');
+      setCurrentReportId.mockClear();
+      await userEvent.selectOptions(combobox, 'New Report');
+    });
+
+    expect(setCurrentReportId).toHaveBeenCalledWith(null);
+  });
+
   it('calls submit', async () => {
     const { getByRole } = render(<UploadPageHeader {...props} />);
 

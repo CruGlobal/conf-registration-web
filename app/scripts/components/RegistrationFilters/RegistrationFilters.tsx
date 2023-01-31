@@ -1,6 +1,6 @@
 import { RegistrationQueryParams } from 'injectables';
 import { debounce } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useState } from 'react';
 import { Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { Conference } from 'conference';
 import { useWatch } from '../../../scripts/hooks/useWatch';
@@ -36,8 +36,17 @@ export const RegistrationFilters = (
     props.onQueryChange(newQueryParams);
   };
 
-  const [strFilterInput, setStrFilterInput] = useState('');
-  const [strFilter, setStrFilter] = useState('');
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setQueryParam(
+      event.target.name as keyof RegistrationQueryParams,
+      event.target.value,
+    );
+  };
+
+  const [strFilterInput, setStrFilterInput] = useState(
+    props.defaultQueryParams.filter,
+  );
+  const [strFilter, setStrFilter] = useState(props.defaultQueryParams.filter);
   const setStrFilterDebounced = useCallback(debounce(setStrFilter, 500), []);
   useWatch(() => {
     // When the filter input value changes, update the strFilter but with debouncing
@@ -77,6 +86,7 @@ export const RegistrationFilters = (
                 {strFilterInput && (
                   <span
                     className="form-control-feedback form-control-clear"
+                    data-testid="registration-filters-clear"
                     onClick={() => {
                       setStrFilterInput('');
                     }}
@@ -94,11 +104,9 @@ export const RegistrationFilters = (
                 Payment status:
                 <select
                   className="form-control"
-                  data-testid="registration-filters-payment"
+                  name="filterPayment"
                   value={queryParameters.filterPayment}
-                  onChange={(event) =>
-                    setQueryParam('filterPayment', event.target.value)
-                  }
+                  onChange={handleChange}
                 >
                   <option value="">-Any-</option>
                   <option value="full">Full/Overpaid</option>
@@ -115,11 +123,9 @@ export const RegistrationFilters = (
                 Registrant type:
                 <select
                   className="form-control"
-                  data-testid="registration-filters-registrant-type"
+                  name="filterRegType"
                   value={queryParameters.filterRegType}
-                  onChange={(event) =>
-                    setQueryParam('filterRegType', event.target.value)
-                  }
+                  onChange={handleChange}
                 >
                   <option value="">-Any-</option>
                   {props.conference.registrantTypes.map((type) => (
@@ -137,13 +143,9 @@ export const RegistrationFilters = (
                 Payment type:
                 <select
                   className="form-control"
+                  name="filterAccountTransfersByPaymentType"
                   value={queryParameters.filterAccountTransfersByPaymentType}
-                  onChange={(event) =>
-                    setQueryParam(
-                      'filterAccountTransfersByPaymentType',
-                      event.target.value,
-                    )
-                  }
+                  onChange={handleChange}
                 >
                   <option value="">-Any-</option>
                   <option value="ACCOUNT_TRANSFER">Account Transfer</option>
@@ -158,13 +160,9 @@ export const RegistrationFilters = (
                 Expense type:
                 <select
                   className="form-control"
+                  name="filterAccountTransfersByExpenseType"
                   value={queryParameters.filterAccountTransfersByExpenseType}
-                  onChange={(event) =>
-                    setQueryParam(
-                      'filterAccountTransfersByExpenseType',
-                      event.target.value,
-                    )
-                  }
+                  onChange={handleChange}
                 >
                   <option value="">-Any-</option>
                   <option value="REGISTRATION">Registration</option>
@@ -199,7 +197,7 @@ export const RegistrationFilters = (
             {showFilter('filterAccountTransferErrors') && (
               <div className="col-sm-3 stacked-spacing-col-sm">
                 <label>
-                  Journal Submission Errors
+                  Journal submission errors
                   <ToggleButtonGroup
                     type="radio"
                     name="filterAccountTransferErrors"
@@ -285,6 +283,7 @@ export const RegistrationFilters = (
           <div className="col-sm-4 spacing-xs spacing-above-md">
             <ToggleButtonGroup
               type="radio"
+              data-testid="registration-filters-limit"
               name="limit"
               value={queryParameters.limit}
               onChange={(value) => setQueryParam('limit', value)}
