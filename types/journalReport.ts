@@ -1,6 +1,6 @@
 import { AccountTransfer } from 'accountTransfer';
 
-export interface Report {
+export interface JournalReport {
   id: string;
   conferenceId: string;
   accountTransfers: Array<AccountTransfer>;

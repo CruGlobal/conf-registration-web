@@ -1,16 +1,20 @@
 import { renderHook } from '@testing-library/react-hooks';
-import { JournalUploadService, RegistrationQueryParams } from 'injectables';
+import { RegistrationQueryParams } from 'injectables';
+import { cloneDeep } from 'lodash';
 import { PromotionReport } from 'promotionReport';
 import {
   conference,
+  promoReport as report,
   promotionAll,
   promotionOne,
   registrationBright,
   registrationMouse,
   registrationDoe,
   registrationsData as initialPendingRegistrations,
-  registrationsData,
+  promotionRegistrationInfoList,
+  promoReport,
 } from '../../../__tests__/fixtures';
+import { JournalUploadService } from '../services/journalUploadService';
 import { usePromoRegistrationList } from './usePromoRegistrationList';
 
 const getRegistrationData = jest
@@ -64,6 +68,24 @@ describe('usePromoRegistrationList', () => {
     expect(getRegistrationData).toHaveBeenCalledTimes(2);
   });
 
+  it('does not reload when the report is set', () => {
+    let report: PromotionReport | null = null;
+    const { rerender } = renderHook(() =>
+      usePromoRegistrationList({
+        journalUploadService,
+        conference,
+        initialPendingRegistrations,
+        registrationQueryParams: {} as RegistrationQueryParams,
+        report,
+      }),
+    );
+
+    report = promoReport;
+    rerender();
+
+    expect(getRegistrationData).toHaveBeenCalledTimes(0);
+  });
+
   it('calculates pending promo registrations', () => {
     const { result } = renderHook(() =>
       usePromoRegistrationList({
@@ -114,12 +136,13 @@ describe('usePromoRegistrationList', () => {
   });
 
   it('calculates report promo registrations', () => {
-    const report = {
+    const report: PromotionReport = {
       id: 'report-1',
-      promotionRegistrationInfoList:
-        registrationsData.meta.promotionRegistrationInfoList,
+      conferenceId: conference.id,
+      promotionRegistrationInfoList,
       registrationList: [registrationBright, registrationMouse],
-    } as PromotionReport;
+      transactionTimestamp: '',
+    };
     const { result } = renderHook(() =>
       usePromoRegistrationList({
         journalUploadService,
@@ -150,5 +173,37 @@ describe('usePromoRegistrationList', () => {
         report,
       },
     });
+  });
+
+  it('throws on missing registration', async () => {
+    const reportMissing = cloneDeep(report);
+    reportMissing.promotionRegistrationInfoList[0].registrationId += '-foo';
+    const { result } = renderHook(() =>
+      usePromoRegistrationList({
+        journalUploadService,
+        conference,
+        initialPendingRegistrations,
+        registrationQueryParams: {} as RegistrationQueryParams,
+        report: reportMissing,
+      }),
+    );
+
+    expect(result.error?.message).toMatch(/Couldn't find registration with id/);
+  });
+
+  it('throws on missing promotion', async () => {
+    const reportMissing = cloneDeep(report);
+    reportMissing.promotionRegistrationInfoList[0].promotionId += '-foo';
+    const { result } = renderHook(() =>
+      usePromoRegistrationList({
+        journalUploadService,
+        conference,
+        initialPendingRegistrations,
+        registrationQueryParams: {} as RegistrationQueryParams,
+        report: reportMissing,
+      }),
+    );
+
+    expect(result.error?.message).toMatch(/Couldn't find promotion with id/);
   });
 });

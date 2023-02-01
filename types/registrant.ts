@@ -1,4 +1,4 @@
-import { AnswerType } from './answer';
+import { AnswerType } from 'answer';
 
 export interface RegistrantType {
   answers: Array<AnswerType>;

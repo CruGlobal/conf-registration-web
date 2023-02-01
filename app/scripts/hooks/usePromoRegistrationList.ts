@@ -1,19 +1,13 @@
 import { Conference } from 'conference';
-import { RegistrationQueryParams, JournalUploadService } from 'injectables';
+import { useMemo, useState } from 'react';
 import { find, uniqBy } from 'lodash';
+import { RegistrationQueryParams } from 'injectables';
 import { Promotion } from 'promotion';
 import { PromotionReport } from 'promotionReport';
-import { useMemo, useState } from 'react';
-import { Registration } from 'registration';
+import { PromoRegistration } from 'promoRegistration';
 import { RegistrationsData } from 'registrations';
+import { JournalUploadService } from '../services/journalUploadService';
 import { useWatch } from './useWatch';
-
-export interface PromoRegistration {
-  promotion: Promotion;
-  registration: Registration;
-  successfullyPosted: boolean;
-  error: string | undefined;
-}
 
 export interface PromoTransaction {
   promotion: Promotion;
@@ -25,14 +19,14 @@ export interface PromoTransaction {
 // pending registrations found using the provided registration query params.
 export const usePromoRegistrationList = ({
   conference,
-  journalUploadService,
   initialPendingRegistrations,
+  journalUploadService,
   registrationQueryParams,
   report,
 }: {
-  journalUploadService: JournalUploadService;
   conference: Conference;
   initialPendingRegistrations: RegistrationsData;
+  journalUploadService: JournalUploadService;
   registrationQueryParams: RegistrationQueryParams;
   report: PromotionReport | null;
 }): {
@@ -121,10 +115,6 @@ export const usePromoRegistrationList = ({
   }, [report]);
 
   const promoTransactions = useMemo(() => {
-    if (!pendingPromoRegistrations) {
-      return [];
-    }
-
     const promoTransactions = new Map<string, PromoTransaction>();
     pendingPromoRegistrations.forEach(({ promotion, registration }) => {
       let promoTransactionsEntry = promoTransactions.get(promotion.id);

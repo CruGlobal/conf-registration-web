@@ -1,6 +1,6 @@
 import { range } from 'lodash';
-import { Pagination as BootstrapPagination } from 'react-bootstrap';
 import React from 'react';
+import { Pagination as BootstrapPagination } from 'react-bootstrap';
 
 export interface PaginationProps
   extends Omit<React.HTMLProps<HTMLDivElement>, 'onChange'> {
