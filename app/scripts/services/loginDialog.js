@@ -2,7 +2,7 @@ import template from 'views/modals/loginDialog.html';
 
 angular
   .module('confRegistrationWebApp')
-  .service('loginDialog', function ($injector) {
+  .service('loginDialog', function ($injector, $rootScope) {
     this.show = function (options) {
       var loginDialogOptions = {
         templateUrl: template,
@@ -32,6 +32,9 @@ angular
       };
 
       var $uibModal = $injector.get('$uibModal');
-      $uibModal.open(loginDialogOptions);
+      $rootScope.loginModalOpen = true;
+      $uibModal.open(loginDialogOptions).result.finally(() => {
+        $rootScope.loginModalOpen = false;
+      });
     };
   });
