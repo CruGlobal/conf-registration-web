@@ -9,6 +9,7 @@ const config = {
     '!app/scripts/components/{ExportModal,FormStatusModal,GoogleLogin}/*',
     '!app/scripts/services/*.ts',
   ],
+  coverageDirectory: 'coverage/jest',
   moduleDirectories: ['node_modules', 'views'],
   moduleNameMapper: {
     '\\.(html)$': '<rootDir>/__tests__/templateMock.ts',

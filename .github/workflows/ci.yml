@@ -28,6 +28,7 @@ jobs:
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/karma/lcov.info,./coverage/jest/lcov.info
           fail_ci_if_error: true
   eslint:
     runs-on: ubuntu-latest
