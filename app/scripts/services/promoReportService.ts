@@ -83,11 +83,14 @@ export class PromoReportService {
         title: error ? 'Error Submitting Promo Report' : 'Promo Upload Delay',
         message:
           error ??
-          '<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process. The system is still working to complete your request.</p>' +
-            '<br>' +
-            '<p>The promotions submitted in this report will still be listed on the "New Report" promotions list until this submission is complete. Please DO NOT submit the same promotions again while waiting or charges will be duplicated.</p>' +
-            '<br>' +
-            '<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date." Once your submitted report shows up in the dropdown box all completed promotions will no longer be listed in the "New Report" promotions list.</p>',
+          `<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process.
+The system is still working to complete your request.</p>
+<br>
+<p>The promotions submitted in this report will still be listed on the "New Report" promotions list until this submission is complete.
+Please DO NOT submit the same promotions again while waiting or charges will be duplicated.</p>
+<br>
+<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date."
+Once your submitted report shows up in the dropdown box all completed promotions will no longer be listed in the "New Report" promotions list.</p>`,
       });
       this.$route.reload();
 

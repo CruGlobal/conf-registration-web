@@ -124,11 +124,14 @@ export class JournalUploadService {
             : 'Journal Upload Delay',
           message:
             error ??
-            '<p>Journal Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process. The system is still working to complete your request.</p>' +
-              '<br>' +
-              '<p>The transactions submitted in this Journal will still be listed on the "New Report" transactions list until this submission is complete. Please DO NOT submit the same transactions again while waiting or charges will be duplicated.</p>' +
-              '<br>' +
-              '<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date." Once your submitted report shows up in the dropdown box all completed transactions will no longer be listed in the "New Report" transactions list.</p>',
+            `<p>Journal Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process.
+The system is still working to complete your request.</p>
+<br>
+<p>The transactions submitted in this Journal will still be listed on the "New Report" transactions list until this submission is complete.
+Please DO NOT submit the same transactions again while waiting or charges will be duplicated.</p>
+<br>
+<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date."
+Once your submitted report shows up in the dropdown box all completed transactions will no longer be listed in the "New Report" transactions list.</p>`,
         });
         this.$route.reload();
 
