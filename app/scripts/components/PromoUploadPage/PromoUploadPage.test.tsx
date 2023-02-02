@@ -1,7 +1,6 @@
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { cloneDeep } from 'lodash';
-import React from 'react';
 import { $Http, $RootScope, $Window, ModalMessage } from 'injectables';
 import { Permissions } from 'permissions';
 import {

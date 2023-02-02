@@ -1,6 +1,6 @@
 import { RegistrationQueryParams } from 'injectables';
 import { debounce } from 'lodash';
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { Button, ToggleButton, ToggleButtonGroup } from 'react-bootstrap';
 import { Conference } from 'conference';
 import { useWatch } from '../../../scripts/hooks/useWatch';

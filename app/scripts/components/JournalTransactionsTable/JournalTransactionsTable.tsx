@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { AccountTransfer } from 'accountTransfer';
 import { Registration } from 'registration';
 import {

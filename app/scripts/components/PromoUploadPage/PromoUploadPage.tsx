@@ -1,5 +1,5 @@
 import { groupBy } from 'lodash';
-import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
+import { FunctionComponent, useEffect, useMemo, useState } from 'react';
 import { Conference } from 'conference';
 import {
   $Filter,

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const RegistrationsPaidPopover = (): JSX.Element => {
   return (
     <div className="paid-popover">
