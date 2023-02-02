@@ -27,7 +27,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
         </button>
         <h4 translate="yes">{conference.name} Group</h4>
       </div>
-      {/* <div className="modal-body">
+      <div className="modal-body">
         <table className="table review-breakdown">
           <thead>
             <tr>
@@ -36,11 +36,31 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               <th style={{width: 150}}></th>
             </tr>
           </thead>
+          {/* how to replicate r in with react? 
+              function() {
+
+              var returnItems = r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp' {
+                return (
+                  <li key="{r.firstName, r.lastName}">
+                    <a href="{$ctrl.getRegistrantType(r.registrantTypeId).name}">{r.firstName}</a>
+                    <a href="{$ctrl.getRegistrantType(r.registrantTypeId).name}">{r.lastName}</a>
+                  </li>
+                );
+              };
+
+              return (
+                <ul>
+                    {returnItems}
+                  </ul>
+              );
+              }
+          */}
           <tbody
           ng-repeat="r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp'"
           >
             <tr>
               <td>
+                {/* what would this code look like after replacement? */}
                 {{r.firstName}} {{r.lastName}}
                 <span
                   ng-if="r.id === $ctrl.getRegistration($ctrl.registrationId).primaryRegistrantId"
@@ -134,7 +154,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
         <button ng-click="$ctrl.dismiss()" className="btn btn-default" translate="yes">
           Close
         </button>
-      </div> */}
+      </div>
     </>
   );
 };
