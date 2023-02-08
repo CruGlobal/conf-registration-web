@@ -51,7 +51,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               return (
                 <ul>
                     {returnItems}
-                  </ul>
+                </ul>
               );
               }
           */}
