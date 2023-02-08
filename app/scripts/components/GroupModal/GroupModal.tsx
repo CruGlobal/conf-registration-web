@@ -36,7 +36,20 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               <th style={{width: 150}}></th>
             </tr>
           </thead>
-          {/* how to replicate r in with react? 
+          {groupRegistrants.forEach((value) => {
+            <>
+              <tbody>
+                <tr>
+                  <td>
+                    value.firstName value.lastName
+                    <span></span>
+                  </td>
+                </tr>
+              </tbody>
+            </>
+          })
+
+            /* how to replicate r in with react?
               function() {
 
               var returnItems = r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp' {
