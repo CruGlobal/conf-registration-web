@@ -36,7 +36,12 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               <th style={{width: 150}}></th>
             </tr>
           </thead>
-          {groupRegistrants.forEach((value) => {
+          groupRegistrants.forEach((registrationId) => {
+            let value = [];
+            value.push(getRegistration(registrationId));
+            // order by the created timestamp
+            //let final = _.orderBy('value', 'createdTimestamp', 'asc')
+          }
             <>
               <tbody>
                 <tr>
