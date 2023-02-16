@@ -9,6 +9,8 @@ interface GroupModalProps {
   resolve: {
     conference: any;
     queryParameters: any;
+    registrationId: string;
+    getRegistration: any;
   };
   modalInstance: {
     dismiss: () => void;
@@ -16,8 +18,11 @@ interface GroupModalProps {
 }
 
 const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
-  const { conference, queryParameters } = resolve;
+  const { conference, queryParameters, registrationId, getRegistration } = resolve;
   const handleClose = () => modalInstance.dismiss();
+  const sortByTimestamp = (a, b) => {
+
+  }
 
   return (
     <>
@@ -36,23 +41,17 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               <th style={{width: 150}}></th>
             </tr>
           </thead>
-          groupRegistrants.forEach((registrationId) => {
-            let value = [];
-            value.push(getRegistration(registrationId));
+          <tbody>
+          {
+          resolve.getRegistration(registrationId).groupRegistrants.sort(sortByTimestamp).forEach((groupRegistrant:any) => {
             // order by the created timestamp
             //let final = _.orderBy('value', 'createdTimestamp', 'asc')
-          }
-            <>
-              <tbody>
-                <tr>
-                  <td>
-                    value.firstName value.lastName
-                    <span></span>
-                  </td>
-                </tr>
-              </tbody>
-            </>
+            <tr>
+              <td>groupRegistrant.firstName groupRegistrant.lastName</td>
+            </tr>
           })
+          }
+          </tbody>
 
             /* how to replicate r in with react?
               function() {
