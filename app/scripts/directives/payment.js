@@ -334,9 +334,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       });
 
       function transformEmployeeIdIntoAccountNumber() {
-        let employeeId = $rootScope.globalUser().employeeId.replace(/\D/g, '');
-        employeeId = employeeId.substring(Math.max(0, employeeId.length - 7));
-        return employeeId;
+        const employeeId = $rootScope.globalUser().employeeId;
+        return employeeId ? employeeId.replace(/\D/g, '').slice(-7) : '';
       }
 
       $scope.accountTypeChanged = () => {

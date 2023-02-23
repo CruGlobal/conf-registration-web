@@ -1,20 +1,18 @@
-import { AccountTransfer } from 'accountTransfer';
 import {
   IHttpService,
+  IPromise,
   IQService,
   IRootScopeService,
   IWindowService,
 } from 'angular';
-import { RegistrationsData } from 'registrations';
-import { Report } from 'report';
 
-export type $filter = (filterName: string) => (...args: unknown[]) => string;
+export type $Filter = (filterName: string) => (...args: unknown[]) => string;
 
-export type $http = IHttpService;
+export type $Http = IHttpService;
 
-export type $q = IQService;
+export type $Q = IQService;
 
-export interface $rootScope extends IRootScopeService {
+export interface $RootScope extends IRootScopeService {
   globalPage: {
     type: 'admin' | 'landing' | 'registration';
     mainClass: string;
@@ -25,14 +23,14 @@ export interface $rootScope extends IRootScopeService {
   loadingMsg: string;
 }
 
-export type $window = IWindowService;
+export type $Window = IWindowService;
 
-export interface $route {
+export interface $Route {
   reload(): void;
 }
 
-export interface $uibModal {
-  open<Result = unknown>(options: unknown): { result: Promise<Result> };
+export interface $UibModal {
+  open<Result = unknown>(options: unknown): { result: IPromise<Result> };
 }
 
 interface ModalMessageOptions {
@@ -52,10 +50,10 @@ interface ConfirmModalMessageOptions {
 
 declare function ConfirmModalMessageFunction<Result = unknown>(
   message: string,
-): Promise<Result>;
+): IPromise<Result>;
 declare function ConfirmModalMessageFunction<Result = unknown>(
   options: ConfirmModalMessageOptions,
-): Promise<Result>;
+): IPromise<Result>;
 declare function ModalMessageFunction(message: string): void;
 declare function ModalMessageFunction(options: ModalMessageOptions): void;
 
@@ -82,25 +80,4 @@ export interface RegistrationQueryParams {
   includeIncomplete: string;
   primaryRegistrantOnly: boolean;
   includePromotions: boolean;
-}
-
-export interface JournalUploadService {
-  getRegistrationData(
-    conferenceId: string,
-    query?: RegistrationQueryParams,
-  ): Promise<
-    RegistrationsData & {
-      meta: { accountTransferEvents: Array<AccountTransfer & { id: string }> };
-    }
-  >;
-
-  getAllAccountTransferReports(conferenceId: string): Promise<Array<Report>>;
-  getAccountTransferReport(url: string): Promise<Report>;
-  getAccountTransferData(data: RegistrationsData): Array<AccountTransfer>;
-  getAccountTransferDataWithErrors(
-    data: RegistrationsData,
-  ): Array<AccountTransfer>;
-  submitAccountTransfers(
-    accountTransfer: Array<AccountTransfer>,
-  ): Promise<Report>;
 }

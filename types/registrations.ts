@@ -1,6 +1,17 @@
-import { AccountTransfer } from 'accountTransfer';
 import { PromotionRegistrationInfo } from 'promotionReport';
 import { Registration } from 'registration';
+
+export interface AccountTransferEvent {
+  amount: number;
+  businessUnit: string;
+  departmentId: string;
+  description: string;
+  expenseType: string;
+  glAccount: string;
+  operatingUnit: string;
+  productCode: string;
+  projectId: string;
+}
 
 export interface RegistrationsData {
   meta: {
@@ -8,8 +19,8 @@ export interface RegistrationsData {
     totalRegistrantsFilter: number;
     currentPage: number;
     totalPages: number;
-    accountTransferEvents: Array<AccountTransfer>;
-    promotionRegistrationInfoList?: Array<PromotionRegistrationInfo>;
+    accountTransferEvents: Array<AccountTransferEvent>;
+    promotionRegistrationInfoList: Array<PromotionRegistrationInfo>;
   };
   registrations: Array<Registration>;
 }

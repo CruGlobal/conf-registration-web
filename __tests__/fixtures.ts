@@ -1,6 +1,9 @@
+import { AccountTransfer } from 'accountTransfer';
 import { Conference } from 'conference';
+import { JournalReport } from 'journalReport';
+import { PromoRegistration } from 'promoRegistration';
 import { Promotion } from 'promotion';
-import { PromotionRegistrationInfo } from 'promotionReport';
+import { PromotionRegistrationInfo, PromotionReport } from 'promotionReport';
 import { Registration } from 'registration';
 import { RegistrationsData } from 'registrations';
 
@@ -20,9 +23,13 @@ export const promotionOne = {
 
 export const conference = {
   id: 'conference-1',
+  contactPersonName: 'Conference Admin',
+  contactPersonPhone: '123-456-7890',
+  contactPersonEmail: 'conference.admin@cru.org',
   currency: {
     currencyCode: 'USD',
   },
+  name: 'Test Conference',
   promotions: [promotionAll, promotionOne],
   registrantTypes: [
     { id: 'registrant-type-1', name: 'Type 1' },
@@ -31,18 +38,51 @@ export const conference = {
   ],
 } as Conference;
 
+const makeAccountTransfer = (
+  id: number,
+  registrationId: string,
+  firstName: string,
+  lastName: string,
+): AccountTransfer => ({
+  id: `account-transfer-${id}`,
+  registrationId,
+  firstName,
+  lastName,
+  error: '',
+  businessUnit: '',
+  operatingUnit: '',
+  departmentId: '',
+  projectId: null,
+  glAccount: '10000',
+  account: '1234567',
+  amount: 100,
+  description: 'Transfer',
+  expenseType: '',
+  paymentId: `payment-${id}`,
+  productCode: '',
+  reportId: null,
+});
+
 export const registrationDoe = {
   id: 'registration-doe',
+  accountTransfers: [
+    makeAccountTransfer(1, 'registration-doe', 'John', 'Doe'),
+    makeAccountTransfer(2, 'registration-doe', 'Jane', 'Doe'),
+  ],
   promotions: [promotionAll, promotionOne],
   groupRegistrants: [
     { id: 'registrant-john', firstName: 'John', lastName: 'Doe' },
     { id: 'registrant-jane', firstName: 'Jane', lastName: 'Doe' },
   ],
   primaryRegistrantId: 'registrant-john',
+  remainingBalance: 100,
 } as Registration;
 
 export const registrationBright = {
   id: 'registration-bright',
+  accountTransfers: [
+    makeAccountTransfer(3, 'registration-bright', 'Bill', 'Bright'),
+  ],
   promotions: [promotionOne],
   groupRegistrants: [
     { id: 'registrant-bill', firstName: 'Bill', lastName: 'Bright' },
@@ -52,6 +92,10 @@ export const registrationBright = {
 
 export const registrationMouse = {
   id: 'registration-mouse',
+  accountTransfers: [
+    makeAccountTransfer(4, 'registration-mouse', 'Mickey', 'Mouse'),
+    makeAccountTransfer(5, 'registration-mouse', 'Minnie', 'Mouse'),
+  ],
   promotions: [promotionAll, promotionOne],
   groupRegistrants: [
     { id: 'registrant-mickey', firstName: 'Mickey', lastName: 'Mouse' },
@@ -59,6 +103,23 @@ export const registrationMouse = {
   ],
   primaryRegistrantId: 'registrant-mickey',
 } as Registration;
+
+export const accountTransfer: AccountTransfer =
+  registrationDoe.accountTransfers[0];
+
+export const journalReport: JournalReport = {
+  id: 'report-1',
+  conferenceId: conference.id,
+  accountTransfers: [accountTransfer],
+  transactionTimestamp: '2022-01-01 12:00:00',
+};
+
+export const promoRegistration: PromoRegistration = {
+  promotion: promotionAll,
+  registration: registrationDoe,
+  successfullyPosted: false,
+  error: '',
+};
 
 export const promotionRegistrationInfoList: Array<PromotionRegistrationInfo> = [
   {
@@ -97,25 +158,41 @@ export const promotionRegistrationInfoListAllErrors: Array<PromotionRegistration
     reportId: 'report-1',
   }));
 
+const accountTransferEvent = {
+  amount: 100,
+  businessUnit: 'BUNIT',
+  departmentId: 'DEPID',
+  description: 'Description',
+  expenseType: 'REGISTRATION',
+  glAccount: '12345',
+  operatingUnit: 'OUNIT',
+  productCode: 'Code',
+  projectId: 'PROJID',
+};
+
 export const registrationsData: RegistrationsData = {
   meta: {
     totalRegistrants: 5,
     totalRegistrantsFilter: 5,
     currentPage: 1,
     totalPages: 1,
-    accountTransferEvents: [],
+    accountTransferEvents: [
+      accountTransferEvent,
+      {
+        ...accountTransferEvent,
+        projectId: 'PROJID2',
+        expenseType: 'MISCELLANEOUS_ITEM',
+      },
+    ],
     promotionRegistrationInfoList,
   },
   registrations: [registrationDoe, registrationBright, registrationMouse],
 };
 
 export const registrationsDataWithoutErrors: RegistrationsData = {
+  ...registrationsData,
   meta: {
-    totalRegistrants: 5,
-    totalRegistrantsFilter: 5,
-    currentPage: 1,
-    totalPages: 1,
-    accountTransferEvents: [],
+    ...registrationsData.meta,
     promotionRegistrationInfoList: [
       {
         ...promotionRegistrationInfoList[0],
@@ -124,5 +201,23 @@ export const registrationsDataWithoutErrors: RegistrationsData = {
       ...promotionRegistrationInfoList,
     ],
   },
-  registrations: [registrationDoe, registrationBright, registrationMouse],
+};
+
+export const promoReport: PromotionReport = {
+  id: 'promo-report-1',
+  conferenceId: conference.id,
+  transactionTimestamp: '2022-01-01 12:00:00',
+  promotionRegistrationInfoList: [
+    {
+      promotionId: promotionAll.id,
+      registrationId: registrationDoe.id,
+      error: '',
+    },
+    {
+      promotionId: promotionOne.id,
+      registrationId: registrationDoe.id,
+      error: 'Error',
+    },
+  ] as PromotionRegistrationInfo[],
+  registrationList: [registrationDoe],
 };

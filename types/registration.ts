@@ -1,7 +1,7 @@
 import { AccountTransfer } from 'accountTransfer';
 import { Nullable } from 'helpers';
 import { Promotion } from 'promotion';
-import { RegistrantType } from './registrant';
+import { RegistrantType } from 'registrant';
 
 export type ExpenseType =
   | 'REGISTRATION'

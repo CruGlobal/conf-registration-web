@@ -1,18 +1,18 @@
 import angular from 'angular';
-import { ModalMessage, $rootScope, $http, $route } from 'injectables';
+import { ModalMessage, $RootScope, $Http, $Route } from 'injectables';
 import { PromotionReport } from 'promotionReport';
 import { Registration } from 'registration';
 
 export class PromoReportService {
-  $rootScope: $rootScope;
-  $route: $route;
-  $http: $http;
+  $rootScope: $RootScope;
+  $route: $Route;
+  $http: $Http;
   modalMessage: ModalMessage;
 
   constructor(
-    $rootScope: $rootScope,
-    $route: $route,
-    $http: $http,
+    $rootScope: $RootScope,
+    $route: $Route,
+    $http: $Http,
     modalMessage: ModalMessage,
   ) {
     this.$rootScope = $rootScope;
@@ -39,7 +39,7 @@ export class PromoReportService {
     }
   }
 
-  // Load a single promo report from the server given it's id
+  // Load a single promo report from the server given its id
   loadPromoReport(
     conferenceId: string,
     reportId: string,
@@ -49,7 +49,7 @@ export class PromoReportService {
     );
   }
 
-  // Load a single promo report from the server given it's URL
+  // Load a single promo report from the server given its URL
   async loadPromoReportFromUrl(reportUrl: string): Promise<PromotionReport> {
     this.$rootScope.loadingMsg = 'Loading Report';
 
@@ -80,14 +80,17 @@ export class PromoReportService {
 
       this.$rootScope.loadingMsg = '';
       this.modalMessage.error({
-        title: error ? 'Error Submitting Promo Reports' : 'Promo Upload Delay',
+        title: error ? 'Error Submitting Promo Report' : 'Promo Upload Delay',
         message:
           error ??
-          '<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process. The system is still working to complete your request.</p>' +
-            '<br>' +
-            '<p>The promotions submitted in this report will still be listed on the "New Report" promotions list until this submission is complete. Please DO NOT submit the same promotions again while waiting or charges will be duplicated.</p>' +
-            '<br>' +
-            '<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date." Once your submitted report shows up in the dropdown box all completed promotions will no longer be listed in the "New Report" promotions list.</p>',
+          `<p>Promo Upload process time varies by the size of the list submitted and your submission is taking longer than expected to process.
+The system is still working to complete your request.</p>
+<br>
+<p>The promotions submitted in this report will still be listed on the "New Report" promotions list until this submission is complete.
+Please DO NOT submit the same promotions again while waiting or charges will be duplicated.</p>
+<br>
+<p>Check back in a few minutes to see if your submitted report is in the dropdown box beside "Report Creation Date."
+Once your submitted report shows up in the dropdown box all completed promotions will no longer be listed in the "New Report" promotions list.</p>`,
       });
       this.$route.reload();
 
