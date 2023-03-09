@@ -11,6 +11,7 @@ interface GroupModalProps {
     queryParameters: any;
     registrationId: string;
     getRegistration: any;
+    groupRegistrant: any;
   };
   modalInstance: {
     dismiss: () => void;
@@ -47,16 +48,16 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
             // order by the created timestamp
             //let final = _.orderBy('value', 'createdTimestamp', 'asc')
             <tr>
-              <td>groupRegistrant.firstName groupRegistrant.lastName</td>
+              <td>
+                groupRegistrant.firstName groupRegistrant.lastName
+                {registrationId === getRegistration(registrationId).primaryRegistrantId && true/* Group Creator */}
+              </td>
             </tr>
           })
           }
           </tbody>
-
-            /* how to replicate r in with react?
-              function() {
-
-              var returnItems = r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp' {
+          {/* function() {
+              var returnItems = r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp';
                 return (
                   <li key="{r.firstName, r.lastName}">
                     <a href="{$ctrl.getRegistrantType(r.registrantTypeId).name}">{r.firstName}</a>
@@ -77,7 +78,6 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
           >
             <tr>
               <td>
-                {/* what would this code look like after replacement? */}
                 {{r.firstName}} {{r.lastName}}
                 <span
                   ng-if="r.id === $ctrl.getRegistration($ctrl.registrationId).primaryRegistrantId"
