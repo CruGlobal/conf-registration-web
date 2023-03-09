@@ -11,7 +11,7 @@ interface GroupModalProps {
     queryParameters: any;
     registrationId: string;
     getRegistration: any;
-    groupRegistrant: any;
+    editRegistrant: any;
   };
   modalInstance: {
     dismiss: () => void;
@@ -50,7 +50,10 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
             <tr>
               <td>
                 groupRegistrant.firstName groupRegistrant.lastName
-                {registrationId === getRegistration(registrationId).primaryRegistrantId && true/* Group Creator */}
+                {groupRegistrant.id === getRegistration(registrationId).primaryRegistrantId ?
+                <span translate="yes">
+                  (Group Creator)
+                </span> : ''}
               </td>
             </tr>
           })
@@ -73,6 +76,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               );
               }
           */}
+          {/*
           <tbody
           ng-repeat="r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp'"
           >
@@ -92,7 +96,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
                 <input
                   type="button"
                   className="btn btn-sm btn-default btn-bold"
-                  ng-click="$ctrl.editRegistrant(r)"
+                  onClick={() => resolve.editRegistrant(groupRegistrant)}
                   value="Edit"
                 />
                 <input
@@ -105,8 +109,9 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
               </td>
             </tr>
           </tbody>
+          */}
         </table>
-
+        {/*
         <div
           className="row reg-type-select"
           ng-repeat="type in $ctrl.visibleRegistrantTypes"
@@ -171,6 +176,7 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
         <button ng-click="$ctrl.dismiss()" className="btn btn-default" translate="yes">
           Close
         </button>
+        */}
       </div>
     </>
   );
