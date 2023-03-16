@@ -12,6 +12,7 @@ interface GroupModalProps {
     registrationId: string;
     getRegistration: any;
     editRegistrant: any;
+    deleteRegistrant: any;
   };
   modalInstance: {
     dismiss: () => void;
@@ -45,8 +46,6 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
           <tbody>
           {
           resolve.getRegistration(registrationId).groupRegistrants.sort(sortByTimestamp).forEach((groupRegistrant:any) => {
-            // order by the created timestamp
-            //let final = _.orderBy('value', 'createdTimestamp', 'asc')
             <tr>
               <td>
                 groupRegistrant.firstName groupRegistrant.lastName
@@ -55,28 +54,32 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
                   (Group Creator)
                 </span> : ''}
               </td>
+              {/* NEW CODE */}
+              <td>
+                {/* change syntax from using $ctrl to jsx/react */}
+                <span>resolve.getRegistration(registrationId).primaryRegistrantId</span>
+              </td>
+              <td className="text-right">
+                <input
+                    type="button"
+                    className="btn btn-sm btn-default btn-bold"
+                    onClick={() => resolve.editRegistrant(groupRegistrant)}
+                    value="Edit"
+                  />
+                  <input
+                    type="button"
+                    className="btn btn-sm btn-danger btn-bold"
+                    // translate ng elements "if" and "click"
+                    onClick={() => groupRegistrant.id !== resolve.getRegistration(registrationId).primartRegistrantId ? resolve.deleteRegistrant(groupRegistrant) : ''}
+                    value="Remove"
+                  />
+              </td>
             </tr>
           })
           }
           </tbody>
-          {/* function() {
-              var returnItems = r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp';
-                return (
-                  <li key="{r.firstName, r.lastName}">
-                    <a href="{$ctrl.getRegistrantType(r.registrantTypeId).name}">{r.firstName}</a>
-                    <a href="{$ctrl.getRegistrantType(r.registrantTypeId).name}">{r.lastName}</a>
-                  </li>
-                );
-              };
-
-              return (
-                <ul>
-                    {returnItems}
-                </ul>
-              );
-              }
-          */}
-          {/*
+        </table>
+        {/*
           <tbody
           ng-repeat="r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp'"
           >
@@ -110,7 +113,6 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
             </tr>
           </tbody>
           */}
-        </table>
         {/*
         <div
           className="row reg-type-select"
