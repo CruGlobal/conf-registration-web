@@ -13,6 +13,7 @@ interface GroupModalProps {
     getRegistration: any;
     editRegistrant: any;
     deleteRegistrant: any;
+    getRegistrantType: any;
   };
   modalInstance: {
     dismiss: () => void;
@@ -45,19 +46,18 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
           </thead>
           <tbody>
           {
+            /* r = groupRegistrant */
           resolve.getRegistration(registrationId).groupRegistrants.sort(sortByTimestamp).forEach((groupRegistrant:any) => {
             <tr>
               <td>
                 groupRegistrant.firstName groupRegistrant.lastName
-                {groupRegistrant.id === getRegistration(registrationId).primaryRegistrantId ?
+                {groupRegistrant.id === resolve.getRegistration(registrationId).primaryRegistrantId ?
                 <span translate="yes">
                   (Group Creator)
                 </span> : ''}
               </td>
-              {/* NEW CODE */}
               <td>
-                {/* change syntax from using $ctrl to jsx/react */}
-                <span>resolve.getRegistration(registrationId).primaryRegistrantId</span>
+                <span>resolve.getRegistrantType(groupRegistrant.registrantTypeId).name</span>
               </td>
               <td className="text-right">
                 <input
@@ -66,13 +66,14 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
                     onClick={() => resolve.editRegistrant(groupRegistrant)}
                     value="Edit"
                   />
+                {groupRegistrant.id !== resolve.getRegistration(registrationId).primaryRegistrantId ?
                   <input
                     type="button"
                     className="btn btn-sm btn-danger btn-bold"
-                    // translate ng elements "if" and "click"
-                    onClick={() => groupRegistrant.id !== resolve.getRegistration(registrationId).primartRegistrantId ? resolve.deleteRegistrant(groupRegistrant) : ''}
+                    onClick={() => resolve.deleteRegistrant(groupRegistrant)}
                     value="Remove"
                   />
+                : ''}
               </td>
             </tr>
           })
