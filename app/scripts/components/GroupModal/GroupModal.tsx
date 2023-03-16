@@ -81,40 +81,6 @@ const GroupModal = ({ resolve, modalInstance }: GroupModalProps) => {
           </tbody>
         </table>
         {/*
-          <tbody
-          ng-repeat="r in $ctrl.getRegistration($ctrl.registrationId).groupRegistrants | orderBy: 'createdTimestamp'"
-          >
-            <tr>
-              <td>
-                {{r.firstName}} {{r.lastName}}
-                <span
-                  ng-if="r.id === $ctrl.getRegistration($ctrl.registrationId).primaryRegistrantId"
-                  translate="yes"
-                  >(Group Creator)</span
-                >
-              </td>
-              <td>
-                <span>{{$ctrl.getRegistrantType(r.registrantTypeId).name}}</span>
-              </td>
-              <td className="text-right">
-                <input
-                  type="button"
-                  className="btn btn-sm btn-default btn-bold"
-                  onClick={() => resolve.editRegistrant(groupRegistrant)}
-                  value="Edit"
-                />
-                <input
-                  type="button"
-                  className="btn btn-sm btn-danger btn-bold"
-                  ng-click="$ctrl.deleteRegistrant(r)"
-                  ng-if="r.id !== $ctrl.getRegistration($ctrl.registrationId).primaryRegistrantId"
-                  value="Remove"
-                />
-              </td>
-            </tr>
-          </tbody>
-          */}
-        {/*
         <div
           className="row reg-type-select"
           ng-repeat="type in $ctrl.visibleRegistrantTypes"
