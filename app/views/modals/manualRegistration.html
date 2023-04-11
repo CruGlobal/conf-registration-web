@@ -1,4 +1,9 @@
-<form class="crs-form" name="simpleRegistrationForm" ng-submit="register()">
+<form
+  class="crs-form"
+  name="simpleRegistrationForm"
+  ng-submit="register()"
+  novalidate
+>
   <div class="modal-header">
     <button type="button" class="close" ng-click="$dismiss()">&times;</button>
     <h4 class="modal-title" translate>Add Registration</h4>
@@ -66,12 +71,7 @@
     >
       Close
     </button>
-    <button
-      type="submit"
-      class="btn btn-success"
-      ng-disabled="!simpleRegistrationForm.$valid"
-      translate
-    >
+    <button type="submit" class="btn btn-success" translate>
       Add Registration
     </button>
   </div>
