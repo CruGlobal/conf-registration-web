@@ -185,10 +185,7 @@ angular
           return;
         }
 
-        $scope.savingAnswers = true;
-        $q.all(findAnswersToSave()).then(function () {
-          $scope.savingAnswers = false;
-        });
+        saveAllAnswers(false);
       }, 15000);
 
       //save answers on route change
@@ -198,8 +195,7 @@ angular
           return;
         }
 
-        $scope.savingAnswers = true;
-        $q.all(findAnswersToSave());
+        saveAllAnswers();
 
         //add current page and registrant combo to the visitedPages array
         if ($scope.currentRegistrant) {
@@ -208,46 +204,50 @@ angular
       });
 
       $scope.goToNext = function () {
-        var nextPage = $scope.nextPage();
-        if (angular.isDefined(nextPage)) {
-          $location.path(
-            '/' +
-              $rootScope.registerMode +
+        saveAllAnswers().then(() => {
+          var nextPage = $scope.nextPage();
+          if (angular.isDefined(nextPage)) {
+            $location.path(
               '/' +
-              conference.id +
-              '/page/' +
-              nextPage.id,
-          );
-        } else {
-          $scope.reviewRegistration();
-        }
+                $rootScope.registerMode +
+                '/' +
+                conference.id +
+                '/page/' +
+                nextPage.id,
+            );
+          } else {
+            $scope.reviewRegistration();
+          }
+        });
       };
 
       $scope.previousPage = function () {
-        var visiblePageArray = _.filter($scope.validPages, function (page) {
-          return $scope.pageIsVisible(page);
-        });
+        saveAllAnswers().then(() => {
+          var visiblePageArray = _.filter($scope.validPages, function (page) {
+            return $scope.pageIsVisible(page);
+          });
 
-        var previousPage =
-          visiblePageArray[_.findIndex(visiblePageArray, { id: pageId }) - 1];
-        if (angular.isDefined(previousPage)) {
-          $location.path(
-            '/' +
-              $rootScope.registerMode +
+          var previousPage =
+            visiblePageArray[_.findIndex(visiblePageArray, { id: pageId }) - 1];
+          if (angular.isDefined(previousPage)) {
+            $location.path(
               '/' +
-              conference.id +
-              '/page/' +
-              previousPage.id,
-          );
-        } else if ($scope.currentRegistration.completed) {
-          $location.path('/reviewRegistration/' + conference.id);
-        } else {
-          $location
-            .path(
-              '/' + $rootScope.registerMode + '/' + conference.id + '/page/',
-            )
-            .search('reg', null);
-        }
+                $rootScope.registerMode +
+                '/' +
+                conference.id +
+                '/page/' +
+                previousPage.id,
+            );
+          } else if ($scope.currentRegistration.completed) {
+            $location.path('/reviewRegistration/' + conference.id);
+          } else {
+            $location
+              .path(
+                '/' + $rootScope.registerMode + '/' + conference.id + '/page/',
+              )
+              .search('reg', null);
+          }
+        });
       };
 
       $scope.reviewRegistration = function () {
@@ -259,8 +259,7 @@ angular
           return;
         }
 
-        $scope.savingAnswers = true;
-        $q.all(findAnswersToSave()).then(function () {
+        saveAllAnswers().then(function () {
           $location
             .path('/reviewRegistration/' + conference.id)
             .search('regType', null)
@@ -357,7 +356,7 @@ angular
         );
       };
 
-      function findAnswersToSave() {
+      function saveAllAnswers(showErrorModal = true) {
         var currentRegistrantOriginal = _.find(
           originalCurrentRegistration.registrants,
           { id: $scope.currentRegistrant },
@@ -387,10 +386,32 @@ angular
           },
         );
 
-        //update originalCurrentRegistration
-        originalCurrentRegistration = angular.copy($scope.currentRegistration);
+        $scope.savingAnswers = true;
+        return $q
+          .all(answersToSave)
+          .then((result) => {
+            //update originalCurrentRegistration
+            originalCurrentRegistration = angular.copy(
+              $scope.currentRegistration,
+            );
 
-        return answersToSave;
+            return result;
+          })
+          .catch((response) => {
+            if (
+              showErrorModal &&
+              response.data &&
+              response.data.error &&
+              response.data.error.message
+            ) {
+              modalMessage.error(response.data.error.message);
+            }
+
+            throw response;
+          })
+          .finally(() => {
+            $scope.savingAnswers = false;
+          });
       }
     },
   );

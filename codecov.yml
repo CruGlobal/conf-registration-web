@@ -1,4 +1,1 @@
 comment: off
-coverage:
-  ignore:
-    - 'app/components/*'

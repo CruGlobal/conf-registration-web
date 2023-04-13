@@ -70,7 +70,16 @@ angular
               answersUpdatePromises.push($http.put('answers/' + a.id, a));
             }
           });
-          $q.all(answersUpdatePromises).then(getRegistrantAndClose);
+          $q.all(answersUpdatePromises)
+            .then(getRegistrantAndClose)
+            .catch(function (response) {
+              $scope.saving = false;
+              modalMessage.error(
+                response.data && response.data.error
+                  ? response.data.error.message
+                  : 'An error occurred while saving this registration.',
+              );
+            });
         }
       };
 

@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react';
 import { AccountTransfer } from 'accountTransfer';
-import React from 'react';
 import {
   registrationDoe,
   accountTransfer,

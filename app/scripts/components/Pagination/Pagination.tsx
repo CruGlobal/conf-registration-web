@@ -1,5 +1,4 @@
 import { range } from 'lodash';
-import React from 'react';
 import { Pagination as BootstrapPagination } from 'react-bootstrap';
 
 export interface PaginationProps

@@ -92,6 +92,7 @@ import 'scripts/services/RegistrationCache.js';
 import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
+import 'scripts/services/validationInterceptor.js';
 import 'scripts/services/paymentReportService.js';
 import 'scripts/services/journalUploadService.ts';
 import 'scripts/services/promoReportService.ts';

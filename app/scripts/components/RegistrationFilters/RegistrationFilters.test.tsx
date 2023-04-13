@@ -1,6 +1,5 @@
 import { act, render, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { RegistrationQueryParams } from 'injectables';
 import { conference } from '../../../../__tests__/fixtures';
 import { RegistrationFilters } from './RegistrationFilters';

@@ -32,6 +32,7 @@ angular
     $httpProvider.interceptors.push('authorizationInterceptor');
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
+    $httpProvider.interceptors.push('validationInterceptor');
 
     envServiceProvider.config({
       domains: {

@@ -1,6 +1,5 @@
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { conference } from '../../../../__tests__/fixtures';
 import { UploadPageHeader, UploadPageHeaderProps } from './UploadPageHeader';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const FormStatusPopover = (): JSX.Element => {
   return (
     <div className="text-center">
