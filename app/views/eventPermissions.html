@@ -147,7 +147,7 @@
           type="button"
           class="btn btn-success btn-block"
           ng-click="addPermission(addPermissionsEmail, addPermissionsLevel)"
-          ng-disabled="permissions.$invalid"
+          ng-disabled="!permissions.$valid"
           translate
         >
           Send
