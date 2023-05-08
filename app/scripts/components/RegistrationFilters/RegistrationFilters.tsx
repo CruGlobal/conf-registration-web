@@ -290,7 +290,6 @@ export const RegistrationFilters = (
             >
               <ToggleButton value={20}>20</ToggleButton>
               <ToggleButton value={50}>50</ToggleButton>
-              <ToggleButton value={100}>100</ToggleButton>
               <ToggleButton value={0} disabled>
                 per page
               </ToggleButton>
