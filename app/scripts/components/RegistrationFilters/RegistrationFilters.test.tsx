@@ -305,12 +305,12 @@ describe('RegistrationFilters component', () => {
       </RegistrationFilters>,
     );
 
-    await userEvent.click(getByRole('radio', { name: '100' }));
+    await userEvent.click(getByRole('radio', { name: '50' }));
 
     expect(onQueryChange).toHaveBeenCalledWith({
       filter: '',
       page: 1,
-      limit: 100,
+      limit: 50,
     });
   });
 });
