@@ -25,7 +25,7 @@
           type="submit"
           class="btn btn-success btn-lg"
           ng-click="saveEvent()"
-          ng-disabled="eventDetails.$invalid"
+          ng-disabled="!eventDetails.$valid"
           translate
         >
           Save
