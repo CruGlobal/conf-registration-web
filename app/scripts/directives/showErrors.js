@@ -2,6 +2,9 @@ angular.module('confRegistrationWebApp').directive('showErrors', function () {
   return {
     restrict: 'A',
     require: 'ngModel',
+    scope: {
+      showErrorsInstant: '<',
+    },
     link: function (scope, element, attrs, ngModelCtrl) {
       //Logic to handle groups of inputs in one block
       if (attrs.showErrors === 'group') {
@@ -17,7 +20,7 @@ angular.module('confRegistrationWebApp').directive('showErrors', function () {
             ngModelCtrl.$invalid &&
             (scope.currentPageVisited ||
               ngModelCtrl.$touched ||
-              !!attrs.showErrorsInstant)
+              !!scope.showErrorsInstant)
           );
         },
         function (invalid) {
@@ -28,7 +31,7 @@ angular.module('confRegistrationWebApp').directive('showErrors', function () {
                 currentValue.$invalid &&
                 (scope.currentPageVisited ||
                   currentValue.$touched ||
-                  !!attrs.showErrorsInstant)
+                  !!scope.showErrorsInstant)
               );
             });
             element.toggleClass('has-no-error', !invalid);
