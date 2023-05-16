@@ -2,7 +2,7 @@ import angular from 'angular';
 import 'angular-mocks';
 
 describe('Controller: registration', () => {
-  let scope, testData;
+  let scope, $httpBackend, $location, modalMessage, testData;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -12,10 +12,16 @@ describe('Controller: registration', () => {
         $rootScope,
         $controller,
         $routeParams,
+        _$httpBackend_,
+        _$location_,
+        _modalMessage_,
         _testData_,
         _validateRegistrant_,
       ) => {
+        modalMessage = _modalMessage_;
         testData = _testData_;
+        $httpBackend = _$httpBackend_;
+        $location = _$location_;
         scope = $rootScope.$new();
         scope.conference = testData.conference;
         scope.currentRegistration = testData.registration;
@@ -23,6 +29,7 @@ describe('Controller: registration', () => {
           reg: testData.registration.registrants[0].id,
           pageId: testData.conference.registrationPages[0].id,
         });
+        $rootScope.registerMode = 'register';
 
         $controller('RegistrationCtrl', {
           $rootScope,
@@ -122,5 +129,90 @@ describe('Controller: registration', () => {
     expect(scope.validPages.length).toEqual(2);
 
     expect(nextPage).toEqual(scope.conference.registrationPages[1]);
+  });
+
+  describe('when saveAnswers fails', () => {
+    beforeEach(() => {
+      $httpBackend.expectPUT(/answers\/.+/).respond(500, {
+        parameterViolations: [
+          {
+            message: 'Failed validation',
+          },
+        ],
+      });
+      spyOn($location, 'path');
+      scope.currentRegistration.registrants[0].answers[0].value = 'Changed';
+    });
+
+    it('previousPage does not change the URL', () => {
+      scope.previousPage();
+      $httpBackend.flush();
+
+      expect($location.path).not.toHaveBeenCalledWith(
+        `/reviewRegistration/${scope.conference.id}`,
+      );
+    });
+
+    it('goToNext does not change the URL', () => {
+      scope.goToNext();
+      $httpBackend.flush();
+
+      expect($location.path).not.toHaveBeenCalledWith(
+        `/register/${scope.conference.id}/page/${scope.conference.registrationPages[1].id}`,
+      );
+    });
+
+    it('reviewRegistration does not change the URL', () => {
+      scope.reviewRegistration();
+      $httpBackend.flush();
+
+      expect($location.path).not.toHaveBeenCalledWith(
+        `/reviewRegistration/${scope.conference.id}`,
+      );
+    });
+
+    it('saveAllAnswers shows an error modal', () => {
+      spyOn(modalMessage, 'error');
+
+      scope.reviewRegistration();
+      $httpBackend.flush();
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Failed validation');
+    });
+  });
+
+  describe('when saveAnswers succeeds', () => {
+    beforeEach(() => {
+      $httpBackend.expectPUT(/answers\/.+/).respond(200, {});
+      spyOn($location, 'path');
+      scope.currentRegistration.registrants[0].answers[0].value = 'Changed';
+    });
+
+    it('previousPage changes the URL', () => {
+      scope.previousPage();
+      $httpBackend.flush();
+
+      expect($location.path).toHaveBeenCalledWith(
+        `/reviewRegistration/${scope.conference.id}`,
+      );
+    });
+
+    it('goToNext changes the URL', () => {
+      scope.goToNext();
+      $httpBackend.flush();
+
+      expect($location.path).toHaveBeenCalledWith(
+        `/register/${scope.conference.id}/page/${scope.conference.registrationPages[1].id}`,
+      );
+    });
+
+    it('reviewRegistration changes the URL', () => {
+      scope.reviewRegistration();
+      $httpBackend.flush();
+
+      expect($location.path).toHaveBeenCalledWith(
+        `/reviewRegistration/${scope.conference.id}`,
+      );
+    });
   });
 });
