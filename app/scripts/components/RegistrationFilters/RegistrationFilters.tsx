@@ -290,6 +290,7 @@ export const RegistrationFilters = (
             >
               <ToggleButton value={20}>20</ToggleButton>
               <ToggleButton value={50}>50</ToggleButton>
+              {/* TODO: Add back the 100 option once the API can handle submitting 100 registrations without timing out */}
               <ToggleButton value={0} disabled>
                 per page
               </ToggleButton>
