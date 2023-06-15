@@ -1,22 +1,6 @@
 {
   "name": "ert-web",
   "version": "1.0.0",
-  "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack -p",
-    "build:analyze": "webpack -p --env.analyze",
-    "test": "karma start && jest",
-    "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}'",
-    "lint:ts": "tsc",
-    "angular-gettext-extract": "angular-gettext-cli --files './app/**/*.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
-    "prettier:check": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --list-different",
-    "prettier:write": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --write",
-    "next:dev": "next dev",
-    "next:build": "next build",
-    "next:start": "next start",
-    "next:lint": "next lint",
-    "prepare": "husky install"
-  },
   "dependencies": {
     "angular": "^1.6.4",
     "angular-cookies": "^1.6.4",
@@ -112,5 +96,21 @@
     "webpack-dev-server": "^3.1.4",
     "webpack-inline-manifest-plugin": "^4.0.1",
     "webpack-subresource-integrity": "^1.5.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack -p",
+    "build:analyze": "webpack -p --env.analyze",
+    "test": "karma start && jest",
+    "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}'",
+    "lint:ts": "tsc",
+    "angular-gettext-extract": "angular-gettext-cli --files './app/**/*.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
+    "prettier:check": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --list-different",
+    "prettier:write": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --write",
+    "next:dev": "next dev",
+    "next:build": "next build",
+    "next:start": "next start",
+    "next:lint": "next lint",
+    "prepare": "husky install"
   }
 }
