@@ -21,13 +21,19 @@ angular
         return $q
           .when()
           .then(function () {
+            console.log('tokenizeCreditCardPaymentTsys.loadTsysManifest');
             return loadTsysManifest(payment);
           })
           .then(function (appManifest) {
+            console.log('tokenizeCreditCardPaymentTsys.init');
             cruPayments.init(
               envService.read('tsysEnvironment'),
               appManifest.deviceId,
               appManifest.manifest,
+            );
+            console.log(
+              'tokenizeCreditCardPaymentTsys.payment.creditCard',
+              payment.creditCard,
             );
             return cruPayments
               .encrypt(
@@ -42,6 +48,18 @@ angular
             payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
             payment.creditCard.number = tokenizedCard.tsepToken;
             payment.creditCard.network = tokenizedCard.cardType;
+            console.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.lastFourDigits',
+              tokenizedCard.maskedCardNumber,
+            );
+            console.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.number',
+              tokenizedCard.tsepToken,
+            );
+            console.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.network',
+              tokenizedCard.cardType,
+            );
           })
           .catch(
             error.errorFromResponse(
