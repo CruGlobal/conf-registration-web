@@ -1280,10 +1280,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cruglobal/cru-payments@^1.2.3-beta":
-  version "1.2.3-beta"
-  resolved "https://registry.yarnpkg.com/@cruglobal/cru-payments/-/cru-payments-1.2.3-beta.tgz#566040082e95a60bbc330cad14d85d499b373dc2"
-  integrity sha512-tUW8ZFYi6JPd9ZvCKKFyiOuxwje+hOP0vUA/EKO2FDbFUPPUkG5gGbm8z+FPtY3qHO4NJJdgHVfUJhRB2EygwA==
+"@cruglobal/cru-payments@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@cruglobal/cru-payments/-/cru-payments-1.2.3.tgz#806991323b1913990b5238bd66510648f323172c"
+  integrity sha512-9PMFqct5/jT8LXNOGRp6MkyMDzmjfAPegUMOFFjk0UwavYL4De5H7a/fwCfGN/Xkh+pMjTvBE73jlWpTsC59rw==
   dependencies:
     es6-promise "^4.0.5"
     jsencrypt "3.1.0"
