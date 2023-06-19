@@ -5,7 +5,7 @@ angular
   .module('confRegistrationWebApp')
   .factory(
     'payment',
-    function ($q, $http, $filter, $log, envService, error, gettextCatalog) {
+    function ($q, $http, $filter, envService, error, gettextCatalog) {
       // Load the TSYS manifest
       // Returns a promise that resolves to an object containing the manifest and device id
       function loadTsysManifest(payment) {
