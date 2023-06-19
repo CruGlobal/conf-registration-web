@@ -1,11 +1,11 @@
-import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import * as cruPayments from '@cruglobal/cru-payments/dist/cru-payments-cc';
 import { Rollbar } from 'scripts/errorNotify.js';
 
 angular
   .module('confRegistrationWebApp')
   .factory(
     'payment',
-    function ($q, $http, $filter, envService, error, gettextCatalog) {
+    function ($q, $http, $filter, $log, envService, error, gettextCatalog) {
       // Load the TSYS manifest
       // Returns a promise that resolves to an object containing the manifest and device id
       function loadTsysManifest(payment) {
@@ -21,13 +21,19 @@ angular
         return $q
           .when()
           .then(function () {
+            $log.log('tokenizeCreditCardPaymentTsys.loadTsysManifest');
             return loadTsysManifest(payment);
           })
           .then(function (appManifest) {
+            $log.log('tokenizeCreditCardPaymentTsys.init');
             cruPayments.init(
               envService.read('tsysEnvironment'),
               appManifest.deviceId,
               appManifest.manifest,
+            );
+            $log.log(
+              'tokenizeCreditCardPaymentTsys.payment.creditCard',
+              payment.creditCard,
             );
             return cruPayments
               .encrypt(
@@ -42,6 +48,18 @@ angular
             payment.creditCard.lastFourDigits = tokenizedCard.maskedCardNumber;
             payment.creditCard.number = tokenizedCard.tsepToken;
             payment.creditCard.network = tokenizedCard.cardType;
+            $log.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.lastFourDigits',
+              tokenizedCard.maskedCardNumber,
+            );
+            $log.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.number',
+              tokenizedCard.tsepToken,
+            );
+            $log.log(
+              'tokenizeCreditCardPaymentTsys.creditCard.network',
+              tokenizedCard.cardType,
+            );
           })
           .catch(
             error.errorFromResponse(
