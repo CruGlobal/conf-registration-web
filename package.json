@@ -2,7 +2,7 @@
   "name": "ert-web",
   "version": "1.0.0",
   "dependencies": {
-    "@cruglobal/cru-payments": "^1.2.3-beta",
+    "@cruglobal/cru-payments": "^1.2.4",
     "angular": "^1.6.4",
     "angular-cookies": "^1.6.4",
     "angular-environment": "^1.0.8",
