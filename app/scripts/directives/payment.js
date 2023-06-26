@@ -1,4 +1,4 @@
-import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import * as cruPayments from '@cruglobal/cru-payments/dist/cru-payments-cc';
 import { allCountries } from 'country-region-data';
 
 import template from 'views/components/payment.html';
