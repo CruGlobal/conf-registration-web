@@ -155,7 +155,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '9b83eebd-b064-4edf-92d0-7982a330272a',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
-            title: 'Gender',
+            title: 'Sex',
             exportFieldTitle: null,
             type: 'genderQuestion',
             required: false,

@@ -149,10 +149,10 @@ angular
           },
           {
             id: 'genderQuestion',
-            defaultTitle: 'Gender',
+            defaultTitle: 'Sex',
             defaultProfile: 'GENDER',
             iconClass: 'fa-male',
-            name: 'Gender',
+            name: 'Sex',
           },
           {
             id: 'yearInSchoolQuestion',
