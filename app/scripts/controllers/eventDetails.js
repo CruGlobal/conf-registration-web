@@ -485,6 +485,18 @@ angular
           validationErrorsHint = eventInformationPageHint;
         }
 
+        if (
+          $scope.conference.cruEvent &&
+          $scope.conference.ministry &&
+          $scope.getEventTypes().length !== 0 &&
+          !$scope.conference.eventType
+        ) {
+          validationErrors.push(
+            'Please enter which Event Type is applicable for this event.*',
+          );
+          validationErrorsHint = eventInformationPageHint;
+        }
+
         if ($scope.conference.cruEvent && !$scope.conference.type) {
           validationErrors.push('Please enter Ministry Purpose.*');
           validationErrorsHint = eventInformationPageHint;
@@ -655,11 +667,27 @@ angular
         return currentMinistry ? currentMinistry.activities : [];
       };
 
+      $scope.getEventTypes = () => {
+        const currentMinistry =
+          $scope.ministries &&
+          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
+        const currentPurpose =
+          $scope.ministryPurposes &&
+          $scope.ministryPurposes.find((p) => p.id === $scope.conference.type);
+        return $scope.eventTypes &&
+          (currentMinistry?.name?.includes('Campus') ||
+            currentPurpose?.name?.includes('Mission') ||
+            currentPurpose?.name?.includes('Conference'))
+          ? $scope.eventTypes
+          : [];
+      };
+
       $scope.$watch(
         'conference.ministry',
         function (newVal, oldVal) {
           if (newVal !== oldVal) {
             $scope.conference.strategy = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
           }
         },
@@ -673,6 +701,7 @@ angular
             $scope.conference.ministry = null;
             $scope.conference.strategy = null;
             $scope.conference.type = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
             $scope.conference.workProject = false;
           }
@@ -735,6 +764,13 @@ angular
       $http({
         method: 'GET',
         url: 'types',
+      }).then(function (response) {
+        $scope.ministryPurposes = response.data;
+      });
+
+      $http({
+        method: 'GET',
+        url: 'event/types',
       }).then(function (response) {
         $scope.eventTypes = response.data;
       });

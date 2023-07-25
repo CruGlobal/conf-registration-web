@@ -126,6 +126,7 @@ export interface Conference {
   strategy: string | null;
   ministryActivity: string | null;
   type: string;
+  eventType: string | null;
   eform: boolean;
   workProject: boolean;
   virtual: boolean;
