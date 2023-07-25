@@ -485,6 +485,18 @@ angular
           validationErrorsHint = eventInformationPageHint;
         }
 
+        if (
+          $scope.conference.cruEvent &&
+          $scope.conference.ministry &&
+          $scope.eventTypes().length !== 0 &&
+          !$scope.conference.eventType
+        ) {
+          validationErrors.push(
+            'Please enter which Event Type is applicable for this event.*',
+          );
+          validationErrorsHint = eventInformationPageHint;
+        }
+
         if ($scope.conference.cruEvent && !$scope.conference.type) {
           validationErrors.push('Please enter Ministry Purpose.*');
           validationErrorsHint = eventInformationPageHint;
@@ -653,6 +665,13 @@ angular
           $scope.ministries &&
           $scope.ministries.find((m) => m.id === $scope.conference.ministry);
         return currentMinistry ? currentMinistry.activities : [];
+      };
+
+      $scope.getEventTypes = () => {
+        const currentMinistry =
+          $scope.ministries &&
+          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
+        return currentMinistry ? currentMinistry.eventTypes : [];
       };
 
       $scope.$watch(
