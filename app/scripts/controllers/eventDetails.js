@@ -480,7 +480,19 @@ angular
           !$scope.conference.ministryActivity
         ) {
           validationErrors.push(
-            'Please enter which Ministry Activitiy is applicable for this event.*',
+            'Please enter which Ministry Activity is applicable for this event.*',
+          );
+          validationErrorsHint = eventInformationPageHint;
+        }
+
+        if (
+          $scope.conference.cruEvent &&
+          $scope.conference.ministry &&
+          $scope.getEventTypes().length !== 0 &&
+          !$scope.conference.eventType
+        ) {
+          validationErrors.push(
+            'Please enter which Event Type is applicable for this event.*',
           );
           validationErrorsHint = eventInformationPageHint;
         }
@@ -673,15 +685,11 @@ angular
           $scope.ministries.find((m) => m.id === $scope.conference.ministry);
         const currentPurpose =
           $scope.ministryPurposes &&
-          $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
+          $scope.ministryPurposes.find((p) => p.id === $scope.conference.type);
         return $scope.eventTypes &&
-          ((currentMinistry &&
-            currentMinistry.name &&
-            currentMinistry.name.includes('Campus')) ||
-            (currentPurpose &&
-              ((currentPurpose.name &&
-                currentPurpose.name.includes('Mission')) ||
-                currentPurpose.name.includes('Conference'))))
+          (currentMinistry?.name?.includes('Campus') ||
+            currentPurpose?.name?.includes('Mission') ||
+            currentPurpose?.name?.includes('Conference'))
           ? $scope.eventTypes
           : [];
       };
@@ -691,6 +699,7 @@ angular
         function (newVal, oldVal) {
           if (newVal !== oldVal) {
             $scope.conference.strategy = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
           }
         },
@@ -704,6 +713,7 @@ angular
             $scope.conference.ministry = null;
             $scope.conference.strategy = null;
             $scope.conference.type = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
             $scope.conference.workProject = false;
           }
