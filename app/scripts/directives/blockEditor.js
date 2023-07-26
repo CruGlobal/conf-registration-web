@@ -325,11 +325,19 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             });
           });
           if (profileCount > 1) {
-            modalMessage.error(
-              'Only one ' +
+            if ($scope.block.profileType == 'GENDER') {
+              var pType = 'Sex';
+            } else {
+              pType =
                 $scope.block.profileType.charAt(0).toUpperCase() +
-                $scope.block.profileType.slice(1).toLowerCase() +
-                ' profile block can be used per form.',
+                $scope.block.profileType
+                  .split('_')
+                  .join(' ')
+                  .slice(1)
+                  .toLowerCase();
+            }
+            modalMessage.error(
+              'Only one ' + pType + ' profile block can be used per form.',
             );
             $scope.block.profileType = null;
             $scope.profileCheck = false;
