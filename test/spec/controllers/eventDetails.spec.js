@@ -105,11 +105,14 @@ describe('Controller: paymentModal', function () {
     scope.saveEvent();
 
     expect(scope.notify.message.toString()).toContain(
-      'Please enter Ministry Hosting Event.',
+      'Please enter Ministry Purpose.',
     );
 
+    //Expect that there will be event types given
+    expect(scope.getEventTypes().length).toBeGreaterThan(0);
+
     expect(scope.notify.message.toString()).toContain(
-      'Please enter Ministry Purpose.',
+      'Please enter which Event Type',
     );
   });
 
