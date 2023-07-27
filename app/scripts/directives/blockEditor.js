@@ -324,7 +324,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
               }
             });
           });
-
           if (profileCount > 1) {
             const pType =
               $scope.block.profileType == 'GENDER'
@@ -335,7 +334,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
                     .join(' ')
                     .slice(1)
                     .toLowerCase();
-
             modalMessage.error(
               'Only one ' + pType + ' profile block can be used per form.',
             );
@@ -344,7 +342,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           }
         }
       };
-
       $scope.registrationTypeName = function (id) {
         if (!id) {
           return;
