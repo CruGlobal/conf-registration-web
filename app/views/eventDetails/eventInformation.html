@@ -301,7 +301,7 @@
     <select
       class="form-control"
       ng-model="conference.eventType"
-      ng-options="eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
+      ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
     >
       <option></option>
     </select>
