@@ -507,7 +507,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     accountNumber: null,
     glAccount: null,
     cruEvent: true,
-    ministry: 'string:f6d31fe3-7078-4fac-a37b-9596d57558e9',
+    ministry: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
     eventType: null,
     type: null,
     //eventType: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
