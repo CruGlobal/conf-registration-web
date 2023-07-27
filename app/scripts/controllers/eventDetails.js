@@ -685,7 +685,7 @@ angular
           $scope.ministries.find((m) => m.id === $scope.conference.ministry);
         const currentPurpose =
           $scope.ministryPurposes &&
-          $scope.ministryPurposes.find((p) => p.id === $scope.conference.type);
+          $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
         return $scope.eventTypes &&
           ((currentMinistry &&
             currentMinistry.name &&
