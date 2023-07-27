@@ -107,6 +107,9 @@ describe('Controller: paymentModal', function () {
     expect(scope.notify.message.toString()).toContain(
       'Please enter which Event Type',
     );
+
+    //Expect that there will be event types given
+    expect(scope.getEventTypes().length).toBeGreaterThan(0);
   });
 
   it('setPristine() should pristine the form', () => {
