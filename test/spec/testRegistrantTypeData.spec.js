@@ -7,7 +7,7 @@ angular
       id: '0dc61eeb-6932-4d09-b04f-9def3915fd4c',
       name: 'EVENT 607',
       description: null,
-      abbreviation: null,
+      abbreviation: 'TEST',
       registrationPages: [
         {
           id: 'ca2ea3a4-008b-4a9c-a653-8c5ecd980e82',
@@ -373,7 +373,7 @@ angular
       combineSpouseRegistrations: false,
       loggedInUserPermissionLevel: null,
       cssUrl: null,
-      cruEvent: false,
+      cruEvent: true,
       eventType: null,
     };
 

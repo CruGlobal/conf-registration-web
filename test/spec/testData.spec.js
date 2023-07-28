@@ -5,6 +5,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     id: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
     name: 'Big Event 2015',
     description: '',
+    abbreviation: 'TEST',
     registrationPages: [
       {
         id: '5c69bfcc-9e35-4bd8-8358-fe50fd86052d',
@@ -494,7 +495,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     customPaymentEmailText: null,
     rideshareEnabled: false,
     rideshareEmailContent: null,
-    allowEditRegistrationAfterComplete: true,
+    allowEditRegistrationAfterComplete: false,
     checkPayableTo: 'Test Admin',
     checkMailingAddress: '100 Lake Hart Dr.',
     checkMailingCity: 'Orlando',
@@ -1498,5 +1499,57 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     { code: 'ZWD', name: 'Zimbabwean Dollar (1980-2008) ZWD' },
     { code: 'ZWR', name: 'Zimbabwean Dollar (2008) ZWR' },
     { code: 'ZWL', name: 'Zimbabwean Dollar (2009) ZWL' },
+  ];
+
+  this.eventTypes = [
+    {
+      id: '87b02878-5070-473b-bb07-3b2d899b46d6',
+      strategies: [],
+      activities: [],
+      name: 'Athletes in Action',
+      $$hashKey: 'object:665',
+    },
+    {
+      id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+      strategies: [
+        {
+          id: '9769eb02-1075-45fc-ae03-c7733627a1ef',
+          name: 'N/A',
+        },
+        {
+          id: 'd7d42d11-59b0-4d1f-9906-3ab706c63e8a',
+          name: 'Bridges',
+        },
+      ],
+      activities: [],
+      name: 'Campus - National Team/Strategy',
+      $$hashKey: 'object:666',
+    },
+  ];
+  // Also known as types
+  this.ministryPurposes = [
+    {
+      id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
+      name: 'Ministry Conference/Event',
+      $$hashKey: 'object:687',
+    },
+    {
+      id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
+      name: 'Ministry Mission Trip',
+      $$hashKey: 'object:688',
+    },
+  ];
+
+  this.eventTypes = [
+    {
+      id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
+      name: 'Fall Retreat/Getaway',
+      $$hashKey: 'object:694',
+    },
+    {
+      id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
+      name: 'Mobilization/Recruiting',
+      $$hashKey: 'object:695',
+    },
   ];
 });
