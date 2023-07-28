@@ -675,9 +675,13 @@ angular
           $scope.ministryPurposes &&
           $scope.ministryPurposes.find((p) => p.id === $scope.conference.type);
         return $scope.eventTypes &&
-          (currentMinistry?.name?.includes('Campus') ||
-            currentPurpose?.name?.includes('Mission') ||
-            currentPurpose?.name?.includes('Conference'))
+          ((currentMinistry &&
+            currentMinistry.name &&
+            currentMinistry.name.includes('Campus')) ||
+            (currentPurpose &&
+              ((currentPurpose.name &&
+                currentPurpose.name.includes('Mission')) ||
+                currentPurpose.name.includes('Conference'))))
           ? $scope.eventTypes
           : [];
       };

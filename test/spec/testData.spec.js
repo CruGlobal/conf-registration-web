@@ -507,6 +507,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     accountNumber: null,
     glAccount: null,
     cruEvent: true,
+    eventType: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
     virtual: false,
     image: {
       image:
