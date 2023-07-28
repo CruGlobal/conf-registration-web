@@ -306,19 +306,6 @@
       <option></option>
     </select>
   </div>
-  <div
-    class="col-sm-5"
-    ng-if="conference.cruEvent && getEventTypes().length != 0"
-  >
-    <label translate>Event Type</label>
-    <select
-      class="form-control"
-      ng-model="conference.eventType"
-      ng-options="eventType.id as eventType.name for eventType in getEventType(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
-  </div>
 </div>
 <div
   class="form-group"
