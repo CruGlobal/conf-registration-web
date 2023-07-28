@@ -488,7 +488,7 @@ angular
         if (
           $scope.conference.cruEvent &&
           $scope.conference.ministry &&
-          $scope.eventTypes().length !== 0 &&
+          $scope.getEventTypes().length !== 0 &&
           !$scope.conference.eventType
         ) {
           validationErrors.push(
