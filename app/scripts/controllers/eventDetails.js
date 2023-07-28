@@ -671,7 +671,19 @@ angular
         const currentMinistry =
           $scope.ministries &&
           $scope.ministries.find((m) => m.id === $scope.conference.ministry);
-        return currentMinistry ? currentMinistry.eventTypes : [];
+        const currentPurpose =
+          $scope.ministryPurposes &&
+          $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
+        return $scope.eventTypes &&
+          ((currentMinistry &&
+            currentMinistry.name &&
+            currentMinistry.name.includes('Campus')) ||
+            (currentPurpose &&
+              ((currentPurpose.name &&
+                currentPurpose.name.includes('Mission')) ||
+                currentPurpose.name.includes('Conference'))))
+          ? $scope.eventTypes
+          : [];
       };
 
       $scope.$watch(
@@ -754,6 +766,13 @@ angular
       $http({
         method: 'GET',
         url: 'types',
+      }).then(function (response) {
+        $scope.ministryPurposes = response.data;
+      });
+
+      $http({
+        method: 'GET',
+        url: 'event/types',
       }).then(function (response) {
         $scope.eventTypes = response.data;
       });

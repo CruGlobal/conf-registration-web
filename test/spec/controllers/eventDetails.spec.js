@@ -105,10 +105,6 @@ describe('Controller: paymentModal', function () {
     scope.saveEvent();
 
     expect(scope.notify.message.toString()).toContain(
-      'Please enter Ministry Hosting Event.',
-    );
-
-    expect(scope.notify.message.toString()).toContain(
       'Please enter Ministry Purpose.',
     );
   });

@@ -288,7 +288,20 @@
     <select
       class="form-control"
       ng-model="conference.type"
-      ng-options="type.id as type.name for type in eventTypes | orderBy:'name':false:sortNamesWithNA"
+      ng-options="type.id as type.name for type in ministryPurposes | orderBy:'name':false:sortNamesWithNA"
+    >
+      <option></option>
+    </select>
+  </div>
+  <div
+    class="col-sm-5"
+    ng-if="conference.cruEvent && getEventTypes().length != 0"
+  >
+    <label translate>Event Type</label>
+    <select
+      class="form-control"
+      ng-model="conference.eventType"
+      ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
     >
       <option></option>
     </select>

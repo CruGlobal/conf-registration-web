@@ -374,6 +374,7 @@ angular
       loggedInUserPermissionLevel: null,
       cssUrl: null,
       cruEvent: false,
+      eventType: null,
     };
 
     this.registration = {
