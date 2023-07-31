@@ -163,25 +163,4 @@ angular
 
         return [200, answer];
       });
-
-    $httpBackend.whenGET(/^ministries\/?$/).respond(() => {
-      console.log('ministries', arguments);
-
-      var eventTypes = testData.eventTypes;
-      return [200, eventTypes, {}];
-    });
-
-    $httpBackend.whenGET(/^types\/?$/).respond(() => {
-      console.log('types', arguments);
-
-      var ministryPurposes = testData.ministryPurposes;
-      return [200, ministryPurposes, {}];
-    });
-
-    $httpBackend.whenGET(/^event\/types\/?$/).respond(() => {
-      console.log('eventTypes', arguments);
-
-      var eventTypes = testData.eventTypes;
-      return [200, eventTypes, {}];
-    });
   });
