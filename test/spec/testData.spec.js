@@ -510,7 +510,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     cruEvent: true,
     ministry: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
     eventType: null,
-    type: null,
+    type: '123',
     //eventType: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
     virtual: false,
     image: {
@@ -1501,13 +1501,13 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     { code: 'ZWL', name: 'Zimbabwean Dollar (2009) ZWL' },
   ];
 
-  this.eventTypes = [
+  this.ministries = [
     {
       id: '87b02878-5070-473b-bb07-3b2d899b46d6',
       strategies: [],
       activities: [],
       name: 'Athletes in Action',
-      $$hashKey: 'object:665',
+      $hashKey: 'object:665',
     },
     {
       id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
@@ -1523,7 +1523,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       ],
       activities: [],
       name: 'Campus - National Team/Strategy',
-      $$hashKey: 'object:666',
+      $hashKey: 'object:666',
     },
   ];
   // Also known as types
@@ -1531,12 +1531,12 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
       name: 'Ministry Conference/Event',
-      $$hashKey: 'object:687',
+      $hashKey: 'object:687',
     },
     {
       id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
       name: 'Ministry Mission Trip',
-      $$hashKey: 'object:688',
+      $hashKey: 'object:688',
     },
   ];
 
@@ -1544,12 +1544,12 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
       name: 'Fall Retreat/Getaway',
-      $$hashKey: 'object:694',
+      $hashKey: 'object:694',
     },
     {
       id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
       name: 'Mobilization/Recruiting',
-      $$hashKey: 'object:695',
+      $hashKey: 'object:695',
     },
   ];
 });

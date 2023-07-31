@@ -27,7 +27,7 @@ describe('Controller: eventDetails', function () {
   let testData;
   let $httpBackend;
 
-  describe('Conference with no type', () => {
+  describe('Conference with type', () => {
     beforeEach(
       angular.mock.inject(function (
         $rootScope,
@@ -47,6 +47,10 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
+
+        scope.ministries = testData.ministries;
+        scope.ministryPurposes = testData.ministryPurposes;
+        scope.eventTypes = testData.eventTypes;
       }),
     );
 
@@ -245,16 +249,17 @@ describe('Controller: eventDetails', function () {
       expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
     });
 
-    it('saveEvent() should validate the Ministry Purpose', () => {
+    it('saveEvent() should validate the conference', () => {
       scope.saveEvent();
-
+      //Expect that there will be event types given
+      expect(scope.getEventTypes().length).toBeGreaterThan(0);
       expect(scope.notify.message.toString()).toContain(
-        'Please enter Ministry Purpose.',
+        'Please enter which Event Type',
       );
     });
   });
 
-  describe('Conference with type', function () {
+  describe('Conference without type', function () {
     beforeEach(
       angular.mock.inject(function (
         $rootScope,
@@ -267,7 +272,7 @@ describe('Controller: eventDetails', function () {
         scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
 
-        testData.conference.type = '123';
+        testData.conference.type = null;
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
@@ -279,14 +284,11 @@ describe('Controller: eventDetails', function () {
       }),
     );
 
-    it('saveEvent() should validate the conference', () => {
+    it('saveEvent() should validate the Ministry Purpose', () => {
       scope.saveEvent();
 
-      //Expect that there will be event types given
-      expect(scope.getEventTypes().length).toBeGreaterThan(0);
-
       expect(scope.notify.message.toString()).toContain(
-        'Please enter which Event Type',
+        'Please enter Ministry Purpose.',
       );
     });
   });
