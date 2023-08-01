@@ -64,7 +64,7 @@
       type="text"
       class="form-control"
       ng-model="answer.value.state"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ debounce: 300 }"
       ng-required="block.required && answer.value.country === 'US'"
       ng-disabled="editBlock"
       ng-if="currentRegions(answer.value.country).length <= 1"
@@ -93,7 +93,7 @@
       ng-model="answer.value.country"
       class="form-control"
       ng-required="block.required"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ debounce: 300 }"
       ng-disabled="editBlock"
     >
       <option ng-repeat="country in countries" ng-value="country[1]">
