@@ -108,14 +108,12 @@ angular
               });
               return {
                 id: existingChild ? existingChild.id : uuid(),
-                name: t.name,
+                //name: t.name,
                 childRegistrantTypeId: t.id,
                 numberOfChildRegistrants: existingChild
                   ? existingChild.numberOfChildRegistrants
                   : 0,
-                selected:
-                  existingChild !== undefined &&
-                  existingChild.selected !== false,
+                //selected: existingChild !== undefined && existingChild.selected !== false,
               };
             },
           );
