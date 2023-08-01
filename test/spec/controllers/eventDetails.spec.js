@@ -50,7 +50,6 @@ describe('Controller: eventDetails', function () {
 
         scope.ministries = testData.ministries;
         scope.ministryPurposes = testData.ministryPurposes;
-        scope.eventTypes = testData.eventTypes;
       }),
     );
 
@@ -85,6 +84,7 @@ describe('Controller: eventDetails', function () {
       expect(scope.conference.registrantTypes[3].name).toEqual(
         'Additional Type',
       );
+
       expect(scope.conference.registrantTypes[3].eform).toEqual(true);
     });
 
@@ -107,17 +107,6 @@ describe('Controller: eventDetails', function () {
         testData.conference.paymentGatewayType,
       );
     });
-
-    // it('saveEvent() should validate the conference', () => {
-    //   scope.saveEvent();
-
-    expect(scope.notify.message.toString()).toContain(
-      'Please enter which Event Type',
-    );
-
-    //   //Expect that there will be event types given
-    //   expect(scope.getEventTypes().length).toBeGreaterThan(0);
-    // });
 
     it('setPristine() should pristine the form', () => {
       scope.eventDetails = {

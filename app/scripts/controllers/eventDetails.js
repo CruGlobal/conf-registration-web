@@ -686,15 +686,11 @@ angular
         const currentPurpose =
           $scope.ministryPurposes &&
           $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
-        return $scope.eventTypes &&
-          ((currentMinistry &&
-            currentMinistry.name &&
-            currentMinistry.name.includes('Campus')) ||
-            (currentPurpose &&
-              ((currentPurpose.name &&
-                currentPurpose.name.includes('Mission')) ||
-                currentPurpose.name.includes('Conference'))))
-          ? $scope.eventTypes
+        return currentMinistry.eventTypes &&
+          currentPurpose &&
+          ((currentPurpose.name && currentPurpose.name.includes('Mission')) ||
+            currentPurpose.name.includes('Conference'))
+          ? currentMinistry.eventTypes
           : [];
       };
 
@@ -782,13 +778,6 @@ angular
         url: 'types',
       }).then(function (response) {
         $scope.ministryPurposes = response.data;
-      });
-
-      $http({
-        method: 'GET',
-        url: 'event/types',
-      }).then(function (response) {
-        $scope.eventTypes = response.data;
       });
 
       $scope.resetImage = () => {

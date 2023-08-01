@@ -1535,6 +1535,16 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         },
       ],
       activities: [],
+      eventTypes: [
+        {
+          id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
+          name: 'Fall Retreat/Getaway',
+        },
+        {
+          id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
+          name: 'Mobilization/Recruiting',
+        },
+      ],
       name: 'Campus - National Team/Strategy',
       $hashKey: 'object:666',
     },
@@ -1553,16 +1563,16 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     },
   ];
 
-  this.eventTypes = [
-    {
-      id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
-      name: 'Fall Retreat/Getaway',
-      $hashKey: 'object:694',
-    },
-    {
-      id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
-      name: 'Mobilization/Recruiting',
-      $hashKey: 'object:695',
-    },
-  ];
+  // this.eventTypes = [
+  //   {
+  //     id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
+  //     name: 'Fall Retreat/Getaway',
+  //     $hashKey: 'object:694',
+  //   },
+  //   {
+  //     id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
+  //     name: 'Mobilization/Recruiting',
+  //     $hashKey: 'object:695',
+  //   },
+  // ];
 });
