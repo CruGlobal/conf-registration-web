@@ -263,6 +263,7 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
+        scope.ministries = testData.ministries;
       }),
     );
 
