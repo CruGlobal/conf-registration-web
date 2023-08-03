@@ -175,6 +175,7 @@ angular
             defaultProfile: 'CAMPUS',
             iconClass: 'fa-graduation-cap',
             name: 'Campus',
+            defaultExportFieldTitle: 'Campus',
           },
           {
             id: 'dormitoryQuestion',
