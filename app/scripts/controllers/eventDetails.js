@@ -486,7 +486,7 @@ angular
         if (
           $scope.conference.cruEvent &&
           $scope.conference.ministry &&
-          $scope.getEventTypes().length !== 0 &&
+          $scope.getEventTypes().length &&
           !$scope.conference.eventType
         ) {
           validationErrors.push(
@@ -672,13 +672,24 @@ angular
         const currentPurpose =
           $scope.ministryPurposes &&
           $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
-        return currentMinistry.eventTypes &&
+        return currentMinistry &&
+          currentMinistry.eventTypes &&
           currentPurpose &&
           ((currentPurpose.name && currentPurpose.name.includes('Mission')) ||
             currentPurpose.name.includes('Conference'))
           ? currentMinistry.eventTypes
           : [];
       };
+
+      $scope.$watch(
+        'conference.type',
+        function (newVal, oldVal) {
+          if (newVal !== oldVal) {
+            $scope.conference.eventType = null;
+          }
+        },
+        true,
+      );
 
       $scope.$watch(
         'conference.ministry',

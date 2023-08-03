@@ -293,10 +293,7 @@
       <option></option>
     </select>
   </div>
-  <div
-    class="col-sm-5"
-    ng-if="conference.cruEvent && getEventTypes().length != 0"
-  >
+  <div class="col-sm-5" ng-if="conference.cruEvent && getEventTypes().length">
     <label translate>Event Type</label>
     <select
       class="form-control"

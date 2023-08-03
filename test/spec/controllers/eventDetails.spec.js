@@ -241,7 +241,7 @@ describe('Controller: eventDetails', function () {
     });
   });
 
-  describe('Conference without type', function () {
+  describe('Conference (Cru event) without type', function () {
     beforeEach(
       angular.mock.inject(function (
         $rootScope,
@@ -255,6 +255,7 @@ describe('Controller: eventDetails', function () {
         $httpBackend = _$httpBackend_;
 
         testData.conference.type = null;
+        testData.conference.eventType = null;
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
@@ -272,6 +273,96 @@ describe('Controller: eventDetails', function () {
 
       expect(scope.notify.message.toString()).toContain(
         'Please enter Ministry Purpose.',
+      );
+
+      expect(scope.notify.message.toString()).not.toContain(
+        'Please enter which Event Type',
+      );
+    });
+  });
+
+  describe('Conference (Cru event) without ministry hosting', function () {
+    beforeEach(
+      angular.mock.inject(function (
+        $rootScope,
+        $controller,
+        _$uibModal_,
+        _testData_,
+        _$httpBackend_,
+      ) {
+        testData = _testData_;
+        scope = $rootScope.$new();
+        $httpBackend = _$httpBackend_;
+
+        testData.conference.ministry = null;
+        testData.conference.eventType = null;
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          $uibModal: _$uibModal_,
+          permissions: {},
+        });
+        scope.ministries = testData.ministries;
+      }),
+    );
+
+    it('saveEvent() should validate the Ministry Hosting', () => {
+      scope.saveEvent();
+
+      expect(scope.notify.message.toString()).toContain(
+        'Please enter Ministry Hosting Event.',
+      );
+
+      expect(scope.notify.message.toString()).not.toContain(
+        'Please enter which Event Type',
+      );
+    });
+  });
+
+  describe('Conference that is not a Cru event', function () {
+    beforeEach(
+      angular.mock.inject(function (
+        $rootScope,
+        $controller,
+        _$uibModal_,
+        _testData_,
+        _$httpBackend_,
+      ) {
+        testData = _testData_;
+        scope = $rootScope.$new();
+        $httpBackend = _$httpBackend_;
+
+        testData.conference.cruEvent = null;
+        testData.conference.type = null;
+        testData.conference.ministry = null;
+        testData.conference.eventType = null;
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          $uibModal: _$uibModal_,
+          permissions: {},
+        });
+        scope.ministries = testData.ministries;
+      }),
+    );
+
+    it('saveEvent() should not show errors of missing fields', () => {
+      scope.saveEvent();
+
+      expect(scope.notify.message.toString()).not.toContain(
+        'Please enter Ministry Purpose.',
+      );
+
+      expect(scope.notify.message.toString()).not.toContain(
+        'Please enter Ministry Hosting Event.',
+      );
+
+      expect(scope.notify.message.toString()).not.toContain(
+        'Please enter which Event Type',
       );
     });
   });

@@ -511,7 +511,6 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     ministry: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
     eventType: null,
     type: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
-    //eventType: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
     virtual: false,
     image: {
       image:
@@ -1549,17 +1548,4 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       $hashKey: 'object:688',
     },
   ];
-
-  // this.eventTypes = [
-  //   {
-  //     id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
-  //     name: 'Fall Retreat/Getaway',
-  //     $hashKey: 'object:694',
-  //   },
-  //   {
-  //     id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
-  //     name: 'Mobilization/Recruiting',
-  //     $hashKey: 'object:695',
-  //   },
-  // ];
 });
