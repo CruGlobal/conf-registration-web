@@ -10,6 +10,7 @@ import textQuestionTemplate from 'views/blocks/textQuestion.html';
 import genderQuestionTemplate from 'views/blocks/genderQuestion.html';
 import dateQuestionTemplate from 'views/blocks/dateQuestion.html';
 import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html';
+import opportunitiesQuestionTemplate from 'views/blocks/opportunitiesQuestion.html';
 import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
 import campusQuestionTemplate from 'views/blocks/campusQuestion.html';
 
@@ -232,5 +233,14 @@ angular
           });
         };
       },
+    };
+  });
+
+angular
+  .module('confRegistrationWebApp')
+  .directive('opportunitiesQuestion', function () {
+    return {
+      templateUrl: opportunitiesQuestionTemplate,
+      restrict: 'E',
     };
   });

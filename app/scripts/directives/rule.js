@@ -105,6 +105,7 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
           'dateQuestion',
           'genderQuestion',
           'yearInSchoolQuestion',
+          'opportunitiesQuestion',
         ];
 
         //keep valid block types that can be used in rules
@@ -138,6 +139,13 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
             ];
           case 'numberQuestion':
             return block.content.range;
+          case 'opportunitiesQuestion':
+            return [
+              'Yes, via email',
+              'Yes, via text',
+              'Yes, via email & text',
+              'No',
+            ];
           default:
             return [];
         }
@@ -179,6 +187,8 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
             return 'date';
           case 'numberQuestion':
             return 'number';
+          case 'opportunitiesQuestion':
+            return 'select';
         }
       };
     },

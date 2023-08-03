@@ -1,0 +1,21 @@
+<span class="help-block" translate>
+  Checking yes below will add you to a subscription list to receive monthly
+  updates on the latest Cru opportunities! You can unsubscribe at any time.
+</span>
+<div
+  ng-repeat="choice in ['Yes, via email', 'Yes, via text', 'Yes, via email & text', 'No']"
+  class="radio"
+>
+  <label>
+    <input
+      type="radio"
+      show-errors
+      name="{{ block.id }}"
+      ng-required="block.required"
+      ng-model="answer.value"
+      ng-model-options="{ debounce: 300 }"
+      ng-value="choice"
+    />
+    <strong>{{ choice }}</strong></label
+  >
+</div>

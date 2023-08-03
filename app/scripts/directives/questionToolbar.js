@@ -182,6 +182,15 @@ angular
             iconClass: 'fa-graduation-cap',
             name: 'Dormitory',
           },
+          {
+            id: 'opportunitiesQuestion',
+            defaultTitle:
+              'Would you like to be informed about new opportunities (like conferences, mission trips, career opportunities, etc.) to be involved with Cru around the U.S. & world?',
+            defaultProfile: 'OPPORTUNITIES',
+            defaultExportFieldTitle: 'Cru Opportunities',
+            iconClass: 'fa-envelope-o',
+            name: 'Cru Opportunities',
+          },
         ];
       },
     };
