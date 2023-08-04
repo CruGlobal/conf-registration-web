@@ -227,12 +227,12 @@ angular
       restrict: 'E',
       controller: function ($scope, $http) {
         $scope.searchCampuses = function (val) {
-          const params = {
+          let params = {
             limit: 15,
-            ...($scope.block.content.showInternationalCampuses && {
-              includeInternational: true,
-            }),
           };
+          params = $scope.block.content.showInternationalCampuses
+            ? Object.assign(params, { includeInternational: true })
+            : params;
           return $http
             .get('campuses/' + val, { params: params })
             .then(function (campusNames) {
