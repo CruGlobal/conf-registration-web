@@ -255,6 +255,17 @@
             <translate>Hide "Graduate Student" option</translate></label
           >
         </div>
+        <div class="checkbox" ng-if="block.type === 'campusQuestion'">
+          <label
+            ><input
+              type="checkbox"
+              ng-model="block.content.showInternationalCampuses"
+            />
+            <translate
+              >Include International Campuses in autocomplete list</translate
+            ></label
+          >
+        </div>
 
         <div class="checkbox" ng-if="requiredOption && !block.adminOnly">
           <label

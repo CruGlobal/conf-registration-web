@@ -227,9 +227,17 @@ angular
       restrict: 'E',
       controller: function ($scope, $http) {
         $scope.searchCampuses = function (val) {
-          return $http.get('campuses/' + val).then(function (campusNames) {
-            return campusNames.data;
-          });
+          const params = {
+            limit: 15,
+            ...($scope.block.content.showInternationalCampuses && {
+              includeInternational: true,
+            }),
+          };
+          return $http
+            .get('campuses/' + val, { params: params })
+            .then(function (campusNames) {
+              return campusNames.data;
+            });
         };
       },
     };
