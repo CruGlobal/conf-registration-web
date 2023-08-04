@@ -191,6 +191,13 @@ angular
             iconClass: 'fa-envelope-o',
             name: 'Cru Opportunities',
           },
+          {
+            id: 'graduationDateQuestion',
+            defaultTitle: 'Graduation Date',
+            defaultProfile: 'GRADUATION_DATE',
+            iconClass: 'fa-graduation-cap',
+            name: 'Graduation Date',
+          },
         ];
       },
     };

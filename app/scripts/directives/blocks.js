@@ -13,6 +13,7 @@ import yearInSchoolQuestionTemplate from 'views/blocks/yearInSchoolQuestion.html
 import opportunitiesQuestionTemplate from 'views/blocks/opportunitiesQuestion.html';
 import textareaQuestionTemplate from 'views/blocks/textareaQuestion.html';
 import campusQuestionTemplate from 'views/blocks/campusQuestion.html';
+import graduationDateQuestionTemplate from 'views/blocks/graduationDateQuestion.html';
 
 angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
   return {
@@ -241,6 +242,15 @@ angular
   .directive('opportunitiesQuestion', function () {
     return {
       templateUrl: opportunitiesQuestionTemplate,
+      restrict: 'E',
+    };
+  });
+
+angular
+  .module('confRegistrationWebApp')
+  .directive('graduationDateQuestion', function () {
+    return {
+      templateUrl: graduationDateQuestionTemplate,
       restrict: 'E',
     };
   });
