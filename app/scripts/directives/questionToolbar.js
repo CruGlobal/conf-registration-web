@@ -112,7 +112,7 @@ angular
           {
             id: 'numberQuestion',
             defaultTitle: 'Number',
-            iconClass: 'fa-superscript',
+            iconClass: 'fa-calculator',
             name: 'Number',
           },
           {
@@ -173,7 +173,7 @@ angular
             defaultTitle:
               'Campus- Type the full name of your campus and choose from the list that appears',
             defaultProfile: 'CAMPUS',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-university',
             name: 'Campus',
             defaultExportFieldTitle: 'Campus',
           },
@@ -181,7 +181,7 @@ angular
             id: 'dormitoryQuestion',
             defaultTitle: 'Dormitory',
             defaultProfile: 'DORMITORY',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-building',
             name: 'Dormitory',
           },
         ];
