@@ -171,19 +171,19 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         true,
       );
 
-      var typeToProfile = [];
-      //typeToProfile['emailQuestion'] = 'EMAIL';
-      //typeToProfile['nameQuestion'] = 'NAME';
-      typeToProfile.phoneQuestion = 'PHONE';
-      typeToProfile.addressQuestion = 'ADDRESS';
-      typeToProfile.genderQuestion = 'GENDER';
-      typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
-      typeToProfile.birthDateQuestion = 'BIRTH_DATE';
-      typeToProfile.campusQuestion = 'CAMPUS';
-      typeToProfile.dormitoryQuestion = 'DORMITORY';
+      $scope.typeToProfile = [];
+      //$scope.typeToProfile['emailQuestion'] = 'EMAIL';
+      //$scope.typeToProfile['nameQuestion'] = 'NAME';
+      $scope.typeToProfile.phoneQuestion = 'PHONE';
+      $scope.typeToProfile.addressQuestion = 'ADDRESS';
+      $scope.typeToProfile.genderQuestion = 'GENDER';
+      $scope.typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
+      $scope.typeToProfile.birthDateQuestion = 'BIRTH_DATE';
+      $scope.typeToProfile.campusQuestion = 'CAMPUS';
+      $scope.typeToProfile.dormitoryQuestion = 'DORMITORY';
 
       $scope.profileCheck = !_.isNull($scope.block.profileType);
-      $scope.profileOption = _.has(typeToProfile, $scope.block.type);
+      $scope.profileOption = _.has($scope.typeToProfile, $scope.block.type);
       $scope.requiredOption = !_.includes(
         ['paragraphContent'],
         $scope.block.type,
@@ -315,8 +315,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         if (!value) {
           $scope.block.profileType = null;
         } else {
-          $scope.block.profileType = typeToProfile[$scope.block.type];
-          var profileCount = 0;
+          $scope.block.profileType = $scope.typeToProfile[$scope.block.type];
+          let profileCount = 0;
           $scope.conference.registrationPages.forEach(function (page) {
             page.blocks.forEach(function (block) {
               if ($scope.block.profileType === block.profileType) {
@@ -325,7 +325,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             });
           });
           if (profileCount > 1) {
-            const pType =
+            $scope.pType =
               $scope.block.profileType == 'GENDER'
                 ? 'Sex'
                 : $scope.block.profileType.charAt(0).toUpperCase() +
@@ -335,7 +335,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
                     .slice(1)
                     .toLowerCase();
             modalMessage.error(
-              'Only one ' + pType + ' profile block can be used per form.',
+              'Only one ' +
+                $scope.pType +
+                ' profile block can be used per form.',
             );
             $scope.block.profileType = null;
             $scope.profileCheck = false;
