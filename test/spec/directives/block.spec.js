@@ -157,4 +157,36 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('Option 1');
     });
   });
+
+  describe('campusQuestion', () => {
+    let $compile, $rootScope, $scope;
+    beforeEach(inject((
+      _$compile_,
+      _$rootScope_,
+      _$timeout_,
+      $templateCache,
+      testData,
+    ) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+
+      $scope = $rootScope.$new();
+      $templateCache.put('views/blocks/campusQuestion.html', '');
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[1].blocks[4],
+      );
+      $scope.block.content.showInternationalCampuses = true;
+    }));
+
+    it('searchCampuses params are formed correctly', () => {
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      $scope.searchCampuses('San');
+
+      expect($scope.params.limit).toBeDefined();
+
+      expect($scope.params.includeInternational).toBeDefined();
+    });
+  });
 });
