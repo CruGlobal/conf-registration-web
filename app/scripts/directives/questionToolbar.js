@@ -112,7 +112,7 @@ angular
           {
             id: 'numberQuestion',
             defaultTitle: 'Number',
-            iconClass: 'fa-superscript',
+            iconClass: 'fa-calculator',
             name: 'Number',
           },
           {
@@ -165,21 +165,21 @@ angular
             id: 'birthDateQuestion',
             defaultTitle: 'Date of Birth',
             defaultProfile: 'BIRTH_DATE',
-            iconClass: 'fa-calendar',
+            iconClass: 'fa-birthday-cake',
             name: 'Date of Birth',
           },
           {
             id: 'campusQuestion',
             defaultTitle: 'Campus',
             defaultProfile: 'CAMPUS',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-university',
             name: 'Campus',
           },
           {
             id: 'dormitoryQuestion',
             defaultTitle: 'Dormitory',
             defaultProfile: 'DORMITORY',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-building',
             name: 'Dormitory',
           },
           {
@@ -188,7 +188,7 @@ angular
               'Would you like to be informed about new opportunities (like conferences, mission trips, career opportunities, etc.) to be involved with Cru around the U.S. & world?',
             defaultProfile: 'OPPORTUNITIES',
             defaultExportFieldTitle: 'Cru Opportunities',
-            iconClass: 'fa-envelope-o',
+            iconClass: 'fa-lightbulb-o',
             name: 'Cru Opportunities',
           },
           {
@@ -197,6 +197,13 @@ angular
             defaultProfile: 'GRADUATION_DATE',
             iconClass: 'fa-graduation-cap',
             name: 'Graduation Date',
+          },
+          {
+            id: 'ethnicityQuestion',
+            defaultTitle: 'Ethnicity',
+            defaultProfile: 'ETHNICITY',
+            iconClass: 'fa-globe',
+            name: 'Ethnicity',
           },
         ];
       },
