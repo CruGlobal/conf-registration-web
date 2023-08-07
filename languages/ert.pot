@@ -1392,7 +1392,7 @@ msgid "Move"
 msgstr ""
 
 #: ./app/views/components/blockEditor.html:444
-msgid "Multiple Choice, Dropdown, Number, Date, Gender or Year in School"
+msgid "Multiple Choice, Dropdown, Number, Date, Sex or Year in School"
 msgstr ""
 
 #: ./app/scripts/app.config.js:180
