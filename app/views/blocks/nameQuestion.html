@@ -6,7 +6,7 @@
       class="form-control"
       placeholder="{{ 'First Name' | translate }}"
       ng-model="answer.value.firstName"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ debounce: 300 }"
       ng-required="block.required"
       ng-disabled="editBlock"
     />
@@ -18,7 +18,7 @@
       class="form-control"
       placeholder="{{ 'Last Name' | translate }}"
       ng-model="answer.value.lastName"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ debounce: 300 }"
       ng-required="block.required"
       ng-disabled="editBlock"
     />
