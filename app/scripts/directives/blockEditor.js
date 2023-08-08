@@ -435,16 +435,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.choiceVisible = function () {
         return true;
       };
-
-      //Get possible year values for graduation date. 5 years in the past and 7 years in the future.
-      $scope.getYears = function () {
-        let yearStart = new Date().getFullYear() - 5;
-        let yearEnd = yearStart + 12;
-        let years = Array(yearEnd - yearStart + 1)
-          .fill()
-          .map(() => yearStart++);
-        return years;
-      };
     },
   };
 });
