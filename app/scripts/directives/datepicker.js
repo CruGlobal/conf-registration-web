@@ -35,6 +35,14 @@ angular
               format: 'MMMM YYYY',
               defaultDate: initialDate,
               useCurrent: false,
+              extraFormats: [
+                'MM/YY',
+                'MM/YYYY',
+                'MM-YY',
+                'MM-YYYY',
+                'MMM-YYYY',
+                'MMMM-YYYY',
+              ],
             }
           : {
               defaultDate: initialDate,
@@ -44,6 +52,9 @@ angular
           .on('dp.change', function (ev) {
             scope.updateTimeStamp(ev.date);
           });
+        if (scope.graduationDate) {
+          datePickerElement.find('input')[0].placeholder = 'Month - Year';
+        }
 
         scope.$on('$destroy', function () {
           if (angular.isDefined(datePickerElement.data('DateTimePicker'))) {

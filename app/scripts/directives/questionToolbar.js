@@ -193,17 +193,17 @@ angular
           },
           {
             id: 'graduationDateQuestion',
-            defaultTitle: 'Graduation Date',
+            defaultTitle: 'Expected Graduation Date',
             defaultProfile: 'GRADUATION_DATE',
             iconClass: 'fa-graduation-cap',
             name: 'Graduation Date',
           },
           {
             id: 'ethnicityQuestion',
-            defaultTitle: 'Ethnicity',
+            defaultTitle: 'Racial/Ethnic Identity',
             defaultProfile: 'ETHNICITY',
             iconClass: 'fa-globe',
-            name: 'Ethnicity',
+            name: 'Racial/Ethnic Identity',
           },
         ];
       },
