@@ -1,5 +1,5 @@
 <div
-  ng-repeat="choice in (block.content.hideGradStudent) ? ['Freshman', 'Sophomore', 'Junior', 'Senior'] : ['Freshman', 'Sophomore', 'Junior', 'Senior', 'Graduate Student']"
+  ng-repeat="choice in block.content.hideGradStudent ? block.content.staticChoices.slice(0,-1) : block.content.staticChoices"
   class="radio"
 >
   <label>

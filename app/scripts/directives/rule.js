@@ -106,6 +106,8 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
           'genderQuestion',
           'yearInSchoolQuestion',
           'opportunitiesQuestion',
+          'ethnicityQuestion',
+          'graduationDateQuestion',
         ];
 
         //keep valid block types that can be used in rules
@@ -130,22 +132,13 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
           case 'genderQuestion':
             return ['M', 'F'];
           case 'yearInSchoolQuestion':
-            return [
-              'Freshman',
-              'Sophomore',
-              'Junior',
-              'Senior',
-              'Graduate Student',
-            ];
+            return block.content.staticChoices;
           case 'numberQuestion':
             return block.content.range;
           case 'opportunitiesQuestion':
-            return [
-              'Yes, via email',
-              'Yes, via text',
-              'Yes, via email & text',
-              'No',
-            ];
+            return block.content.staticChoices;
+          case 'ethnicityQuestion':
+            return block.content.staticChoices;
           default:
             return [];
         }
@@ -180,15 +173,16 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
           case 'selectQuestion':
           case 'radioQuestion':
           case 'yearInSchoolQuestion':
+          case 'opportunitiesQuestion':
+          case 'ethnicityQuestion':
             return 'select';
           case 'genderQuestion':
             return 'gender';
           case 'dateQuestion':
+          case 'graduationDateQuestion':
             return 'date';
           case 'numberQuestion':
             return 'number';
-          case 'opportunitiesQuestion':
-            return 'select';
         }
       };
     },

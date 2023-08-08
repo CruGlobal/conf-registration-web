@@ -210,6 +210,15 @@ angular
     return {
       templateUrl: yearInSchoolQuestionTemplate,
       restrict: 'E',
+      controller: function ($scope) {
+        $scope.block.content.staticChoices = [
+          'Freshman',
+          'Sophomore',
+          'Junior',
+          'Senior',
+          'Graduate Student',
+        ];
+      },
     };
   });
 
@@ -244,6 +253,14 @@ angular
     return {
       templateUrl: opportunitiesQuestionTemplate,
       restrict: 'E',
+      controller: function ($scope) {
+        $scope.block.content.staticChoices = [
+          'Yes, via email',
+          'Yes, via text',
+          'Yes, via email & text',
+          'No',
+        ];
+      },
     };
   });
 

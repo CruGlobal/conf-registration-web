@@ -170,6 +170,10 @@ angular
             case 'selectQuestion':
             case 'dateQuestion':
             case 'birthDateQuestion':
+            case 'ethnicityQuestion':
+            case 'campusQuestion':
+            case 'opportunitiesQuestion':
+            case 'graduationDateQuestion':
               return blockDefault || '';
             case 'numberQuestion':
               return blockDefault || null;
