@@ -1,46 +1,23 @@
 <div class="row">
-  <div class="col-sm-2 stacked-spacing-col-sm">
-    <select
-      show-errors="group"
-      ng-required="block.required"
-      ng-model="answer.value.month"
-      class="form-control"
-      uib-tooltip="{{
-    'Selecting an answer displays it as preselected on the registration form.'
-      | translate
-  }}"
-      tooltip-enable="{{ isAdmin }}"
-    >
-      <option value="" translate>Month...</option>
-      <option
-        value="{{ ::$index + 1 }}"
-        ng-repeat="month in ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; track by $index"
-        ng-selected="{{ month === answer.value.month }}"
-      >
-        {{ ::month }}
-      </option>
-    </select>
-  </div>
-  <div class="col-sm-2">
-    <select
-      show-errors="group"
-      ng-required="block.required"
-      ng-model="answer.value.year"
-      class="form-control"
-      uib-tooltip="{{
-    'Selecting an answer displays it as preselected on the registration form.'
-      | translate
-  }}"
-      tooltip-enable="{{ isAdmin }}"
-    >
-      <option value="" translate>Year...</option>
-      <option
-        value="{{ ::year }}"
-        ng-repeat="year in getYears() track by $index"
-        ng-selected="{{ choice === answer.value.year }}"
-      >
-        {{ ::year }}
-      </option>
-    </select>
+  <div class="col-sm-4">
+    <p class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        uib-datepicker-popup="MMMM yyyy"
+        ng-model="answer.value"
+        is-open="opened"
+        datepicker-options="dateOptions"
+        close-text="Close"
+        alt-input-formats="altInputFormats"
+        placeholder="Month - Year"
+        ng-required="block.required"
+      />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="open()">
+          <i class="glyphicon glyphicon-calendar"></i>
+        </button>
+      </span>
+    </p>
   </div>
 </div>
