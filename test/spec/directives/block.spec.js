@@ -191,6 +191,7 @@ describe('Directive: blocks', () => {
     });
 
     it("doesn't add includeInternational", () => {
+      $scope.block.content.showInternationalCampuses = false;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
