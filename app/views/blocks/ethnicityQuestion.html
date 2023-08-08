@@ -18,27 +18,28 @@
     <strong>{{ choice }}</strong>
   </label>
 </div>
-
-<label>
-  <input
-    type="radio"
-    show-errors
-    name="{{ block.id }}"
-    ng-required="block.required"
-    ng-model="selectedAnswer"
-    ng-value="otherSentinel"
-  />
-  <strong>Other</strong>
-  <input
-    type="text"
-    class="form-control"
-    show-errors
-    ng-model="otherAnswer"
-    ng-change="selectOtherAnswer()"
-    ng-required="selectedAnswer === otherSentinel"
-    style="display: inline; width: auto"
-    autocomplete="off"
-    aria-autocomplete="none"
-    ng-show="selectedAnswer == otherSentinel"
-  />
-</label>
+<div class="radio">
+  <label>
+    <input
+      type="radio"
+      show-errors
+      name="{{ block.id }}"
+      ng-required="block.required"
+      ng-model="selectedAnswer"
+      ng-value="otherSentinel"
+    />
+    <strong>Other</strong>
+    <input
+      type="text"
+      class="form-control"
+      show-errors
+      ng-model="otherAnswer"
+      ng-change="selectOtherAnswer()"
+      ng-required="selectedAnswer === otherSentinel"
+      style="display: inline; width: auto"
+      autocomplete="off"
+      aria-autocomplete="none"
+      ng-show="selectedAnswer == otherSentinel"
+    />
+  </label>
+</div>
