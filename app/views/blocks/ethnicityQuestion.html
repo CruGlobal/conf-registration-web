@@ -28,6 +28,7 @@
     ng-model="selectedAnswer"
     ng-value="otherSentinel"
   />
+  <strong>Other</strong>
   <input
     type="text"
     class="form-control"
@@ -38,5 +39,6 @@
     style="display: inline; width: auto"
     autocomplete="off"
     aria-autocomplete="none"
+    ng-show="selectedAnswer == otherSentinel"
   />
 </label>
