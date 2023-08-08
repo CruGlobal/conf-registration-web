@@ -10,22 +10,37 @@ angular
       scope: {
         localModel: '=model',
         ngDisabled: '=',
+        graduationDate: '=graduationDate',
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
           $scope.$apply(function () {
-            $scope.localModel = moment(timestamp).format('YYYY-MM-DD HH:mm:ss');
+            $scope.localModel = moment(new Date(timestamp)).format(
+              'YYYY-MM-DD HH:mm:ss',
+            );
           });
         };
       },
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
-        var initialDate = scope.localModel
-          ? moment(scope.localModel).format('MM/DD/YYYY hh:mm A')
-          : null;
+        var initialDate =
+          scope.localModel && scope.graduationDate
+            ? scope.localModel
+            : scope.localModel
+            ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
+            : null;
+        let dateOptions = scope.graduationDate
+          ? {
+              viewMode: 'years',
+              format: 'MMMM YYYY',
+              defaultDate: initialDate,
+              useCurrent: false,
+            }
+          : {
+              defaultDate: initialDate,
+            };
         datePickerElement
-          .datetimepicker()
-          .datetimepicker('defaultDate', initialDate)
+          .datetimepicker(dateOptions)
           .on('dp.change', function (ev) {
             scope.updateTimeStamp(ev.date);
           });

@@ -270,32 +270,6 @@ angular
     return {
       templateUrl: graduationDateQuestionTemplate,
       restrict: 'E',
-      controller: function ($scope) {
-        $scope.answer.value = $scope.answer.value
-          ? Date.parse($scope.answer.value, 'yyyy-MM-dd')
-          : '';
-
-        $scope.dateOptions = {
-          viewMode: 'years',
-          datepickerMode: 'year',
-          minMode: 'month',
-          yearRows: 3,
-          yearColumns: 4,
-        };
-
-        $scope.altInputFormats = [
-          'dd-MMMM-yyyy',
-          'yyyy/MM/dd',
-          'dd.MM.yyyy',
-          'shortDate',
-          'yyyy-mm-dd',
-          'MMMM yyyy',
-        ];
-
-        $scope.open = function () {
-          $scope.opened = true;
-        };
-      },
     };
   });
 
