@@ -13,6 +13,7 @@
       ng-required="block.required"
       ng-model="$parent.selectedAnswer"
       ng-value="choice"
+      ng-change="clearOther()"
     />
     <strong>{{ choice }}</strong>
   </label>
@@ -38,16 +39,4 @@
     autocomplete="off"
     aria-autocomplete="none"
   />
-</label>
-<label
-  ng-if="showClearBtn && block.content.staticChoices > 0 && answer.value != ''"
->
-  <button
-    type="reset"
-    class="btn btn-info btn-sm"
-    ng-click="clearAnswer()"
-    translate=""
-  >
-    <span class="ng-scope">Clear</span>
-  </button>
 </label>

@@ -307,8 +307,9 @@ angular
           }
         };
 
-        $scope.clearAnswer = () => {
-          $scope.selectedAnswer = '';
+        $scope.clearOther = () => {
+          if ($scope.selectedAnswer != $scope.otherSentinel)
+            $scope.otherAnswer = '';
         };
 
         const answerValue = $scope.answer ? $scope.answer.value : '';
