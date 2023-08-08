@@ -10,7 +10,7 @@ angular
       scope: {
         localModel: '=model',
         ngDisabled: '=',
-        graduationDate: '=graduationDate',
+        monthYearOnly: '=monthYearOnly',
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
@@ -24,17 +24,18 @@ angular
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
         var initialDate =
-          scope.localModel && scope.graduationDate
+          scope.localModel && scope.monthYearOnly
             ? scope.localModel
             : scope.localModel
             ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
             : null;
-        let dateOptions = scope.graduationDate
+        let dateOptions = scope.monthYearOnly
           ? {
               viewMode: 'years',
               format: 'MMMM YYYY',
               defaultDate: initialDate,
               useCurrent: false,
+              keepOpen: false,
               extraFormats: [
                 'MM/YY',
                 'MM/YYYY',
@@ -52,7 +53,7 @@ angular
           .on('dp.change', function (ev) {
             scope.updateTimeStamp(ev.date);
           });
-        if (scope.graduationDate) {
+        if (scope.monthYearOnly) {
           datePickerElement.find('input')[0].placeholder = 'Month - Year';
         }
 
