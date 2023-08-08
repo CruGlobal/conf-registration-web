@@ -1,0 +1,53 @@
+<div class="radio" ng-repeat="choice in block.content.staticChoices">
+  <label
+    uib-tooltip="{{
+      'Selecting an answer displays it as preselected on the registration form.'
+        | translate
+    }}"
+    tooltip-enable="{{ isAdmin }}"
+  >
+    <input
+      type="radio"
+      show-errors
+      name="{{ block.id }}"
+      ng-required="block.required"
+      ng-model="$parent.selectedAnswer"
+      ng-value="choice"
+    />
+    <strong>{{ choice }}</strong>
+  </label>
+</div>
+
+<label>
+  <input
+    type="radio"
+    show-errors
+    name="{{ block.id }}"
+    ng-required="block.required"
+    ng-model="selectedAnswer"
+    ng-value="otherSentinel"
+  />
+  <input
+    type="text"
+    class="form-control"
+    show-errors
+    ng-model="otherAnswer"
+    ng-change="selectOtherAnswer()"
+    ng-required="selectedAnswer === otherSentinel"
+    style="display: inline; width: auto"
+    autocomplete="off"
+    aria-autocomplete="none"
+  />
+</label>
+<label
+  ng-if="showClearBtn && block.content.staticChoices > 0 && answer.value != ''"
+>
+  <button
+    type="reset"
+    class="btn btn-info btn-sm"
+    ng-click="clearAnswer()"
+    translate=""
+  >
+    <span class="ng-scope">Clear</span>
+  </button>
+</label>
