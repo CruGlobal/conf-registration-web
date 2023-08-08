@@ -178,7 +178,8 @@ describe('Directive: blocks', () => {
       $scope.block.content.showInternationalCampuses = true;
     }));
 
-    it('searchCampuses params are formed correctly', () => {
+    it('forms the searchCampuses params correctly', () => {
+      $scope.block.content.showInternationalCampuses = true;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
@@ -187,6 +188,15 @@ describe('Directive: blocks', () => {
       expect($scope.params.limit).toBeDefined();
 
       expect($scope.params.includeInternational).toBeDefined();
+    });
+
+    it("doesn't add includeInternational", () => {
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      $scope.searchCampuses('San');
+
+      expect($scope.params.includeInternational).not.toBeDefined();
     });
   });
 });

@@ -171,7 +171,7 @@ angular
           {
             id: 'campusQuestion',
             defaultTitle:
-              'Campus- Type the full name of your campus and choose from the list that appears',
+              'Campus - Type the full name of your campus and choose from the list that appears',
             defaultProfile: 'CAMPUS',
             iconClass: 'fa-university',
             name: 'Campus',
