@@ -436,14 +436,16 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         return true;
       };
 
-      //Get possible year values for graduation date. 5 years in the past and 7 years in the future.
-      $scope.getYears = function () {
-        let yearStart = new Date().getFullYear() - 5;
-        let yearEnd = yearStart + 12;
-        let years = Array(yearEnd - yearStart + 1)
-          .fill()
-          .map(() => yearStart++);
-        return years;
+      $scope.eventHasQuestionType = function (questionType) {
+        let questionTypeFound = false;
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            if (block.type === questionType) {
+              questionTypeFound = true;
+            }
+          });
+        });
+        return questionTypeFound;
       };
     },
   };
