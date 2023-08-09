@@ -36,6 +36,7 @@ angular
               defaultDate: initialDate,
               useCurrent: false,
               keepOpen: false,
+              allowInputToggle: true,
               extraFormats: [
                 'MM/YY',
                 'MM/YYYY',

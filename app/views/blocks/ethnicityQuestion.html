@@ -1,11 +1,5 @@
 <div class="radio" ng-repeat="choice in block.content.staticChoices">
-  <label
-    uib-tooltip="{{
-      'Selecting an answer displays it as preselected on the registration form.'
-        | translate
-    }}"
-    tooltip-enable="{{ isAdmin }}"
-  >
+  <label>
     <input
       type="radio"
       show-errors
