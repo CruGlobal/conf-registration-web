@@ -435,6 +435,18 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.choiceVisible = function () {
         return true;
       };
+
+      $scope.eventHasQuestionType = function (questionType) {
+        let questionTypeFound = false;
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            if (block.type === questionType) {
+              questionTypeFound = true;
+            }
+          });
+        });
+        return questionTypeFound;
+      };
     },
   };
 });
