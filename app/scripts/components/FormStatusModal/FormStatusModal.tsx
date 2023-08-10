@@ -71,7 +71,7 @@ const FormStatusModal = ({
         >
           &times;
         </button>
-        <h4>Form Status</h4>
+        <h4>Liability Release Form Status</h4>
       </div>
       <div className="modal-body tab-content-spacing-above">
         <div className="row">
@@ -92,8 +92,13 @@ const FormStatusModal = ({
         </div>
         <div className="row">
           <div className="col-sm-4">
-            <label>Form Status:</label>
-            <p>{eformStatus}</p>
+            <label>Status:</label>
+            <p>
+              {eformStatus
+                ? eformStatus.charAt(0).toUpperCase() +
+                  eformStatus.slice(1).toLowerCase()
+                : ''}
+            </p>
           </div>
           <div className="col-sm-5">
             <label>Check Form Status:</label>
