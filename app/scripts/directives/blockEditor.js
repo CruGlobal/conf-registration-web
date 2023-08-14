@@ -178,12 +178,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.typeToProfile.addressQuestion = 'ADDRESS';
       $scope.typeToProfile.genderQuestion = 'GENDER';
       $scope.typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
-      $scope.typeToProfile.opportunitiesQuestion = 'OPPORTUNITIES';
       $scope.typeToProfile.birthDateQuestion = 'BIRTH_DATE';
       $scope.typeToProfile.campusQuestion = 'CAMPUS';
       $scope.typeToProfile.dormitoryQuestion = 'DORMITORY';
-      $scope.typeToProfile.graduationDateQuestion = 'GRADUATION_DATE';
-      $scope.typeToProfile.ethnicityQuestion = 'ETHNICITY';
 
       $scope.profileCheck = !_.isNull($scope.block.profileType);
       $scope.profileOption = _.has($scope.typeToProfile, $scope.block.type);
