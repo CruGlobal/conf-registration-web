@@ -913,13 +913,14 @@ angular
         });
         const payload = angular.copy($scope.conference);
         // Remove unwanted properties from sending to API.
-        payload.registrantTypes = payload.registrantTypes.map((p) => {
-          p.allowedRegistrantTypeSet = p.allowedRegistrantTypeSet.map((t) => {
-            delete t.name;
-            delete t.selected;
-            return t;
-          });
-          return p;
+        payload.registrantTypes = payload.registrantTypes.map((regType) => {
+          regType.allowedRegistrantTypeSet =
+            regType.allowedRegistrantTypeSet.map((set) => {
+              delete set.name;
+              delete set.selected;
+              return set;
+            });
+          return regType;
         });
         $http({
           method: 'PUT',
