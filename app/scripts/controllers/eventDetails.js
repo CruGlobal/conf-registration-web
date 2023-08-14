@@ -108,10 +108,14 @@ angular
               });
               return {
                 id: existingChild ? existingChild.id : uuid(),
+                name: t.name,
                 childRegistrantTypeId: t.id,
                 numberOfChildRegistrants: existingChild
                   ? existingChild.numberOfChildRegistrants
                   : 0,
+                selected:
+                  existingChild !== undefined &&
+                  existingChild.selected !== false,
               };
             },
           );
@@ -908,6 +912,16 @@ angular
           });
         });
         const payload = angular.copy($scope.conference);
+        // Remove unwanted properties from sending to API.
+        payload.registrantTypes = payload.registrantTypes.map((regType) => {
+          regType.allowedRegistrantTypeSet =
+            regType.allowedRegistrantTypeSet.map((set) => {
+              delete set.name;
+              delete set.selected;
+              return set;
+            });
+          return regType;
+        });
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
