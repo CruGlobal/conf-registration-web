@@ -912,6 +912,15 @@ angular
           });
         });
         const payload = angular.copy($scope.conference);
+        // Remove unwanted properties from sending to API.
+        payload.registrantTypes = payload.registrantTypes.map((p) => {
+          p.allowedRegistrantTypeSet = p.allowedRegistrantTypeSet.map((t) => {
+            delete t.name;
+            delete t.selected;
+            return t;
+          });
+          return p;
+        });
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
