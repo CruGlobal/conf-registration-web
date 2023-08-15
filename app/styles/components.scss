@@ -161,3 +161,7 @@ pick-a-time {
 .padding-left-0 {
   padding-left: 0px !important;
 }
+campus-question .dropdown-menu.ng-isolate-scope:not(.ng-hide) {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
