@@ -183,8 +183,6 @@ angular.module('confRegistrationWebApp').directive('rule', function () {
             return 'date';
           case 'numberQuestion':
             return 'number';
-          case 'opportunitiesQuestion':
-            return 'select';
         }
       };
     },
