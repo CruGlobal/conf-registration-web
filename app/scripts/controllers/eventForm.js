@@ -256,6 +256,7 @@ angular
         newPosition,
         title,
         defaultProfile,
+        defaultExportFieldTitle,
       ) {
         var newPageIndex = _.findIndex($scope.conference.registrationPages, {
           id: newPage,
@@ -286,6 +287,7 @@ angular
           profileType: profileType,
           registrantTypes: [],
           rules: [],
+          exportFieldTitle: defaultExportFieldTitle,
         };
 
         $scope.conference.registrationPages[newPageIndex].blocks.splice(

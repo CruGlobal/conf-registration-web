@@ -267,6 +267,15 @@
             <translate>Hide "Graduate Student" option</translate></label
           >
         </div>
+        <div class="checkbox" ng-if="block.type === 'campusQuestion'">
+          <label
+            ><input
+              type="checkbox"
+              ng-model="block.content.showInternationalCampuses"
+            />
+            <translate>Include International Campuses</translate></label
+          >
+        </div>
 
         <div
           class="help-block"
