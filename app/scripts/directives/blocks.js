@@ -291,6 +291,7 @@ angular
           'Multi-racial/Multi-ethnic',
           'Pacific Islander/Native Hawaiian',
           'White/European American',
+          'Prefer not to answer',
         ];
 
         $scope.selectOtherAnswer = () => {
