@@ -202,7 +202,8 @@ angular
           },
           {
             id: 'ethnicityQuestion',
-            defaultTitle: 'Racial/Ethnic Identity',
+            defaultTitle: 'Which race or ethnicity best describes you?',
+            defaultExportFieldTitle: 'Ethnicity',
             defaultProfile: 'ETHNICITY',
             iconClass: 'fa-globe',
             name: 'Racial/Ethnic Identity',
