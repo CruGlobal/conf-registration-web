@@ -203,7 +203,7 @@ angular
           {
             id: 'ethnicityQuestion',
             defaultTitle: 'Which race or ethnicity best describes you?',
-            defaultExportFieldTitle: 'Ethnicity',
+            defaultExportFieldTitle: 'Race/Ethnicity',
             defaultProfile: 'ETHNICITY',
             iconClass: 'fa-globe',
             name: 'Racial/Ethnic Identity',
