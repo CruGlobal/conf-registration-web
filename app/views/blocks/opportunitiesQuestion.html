@@ -1,7 +1,8 @@
-<div
-  ng-repeat="choice in block.content.hideGradStudent ? block.content.staticChoices.slice(0,-1) : block.content.staticChoices"
-  class="radio"
->
+<span class="help-block" translate>
+  Checking yes below will add you to a subscription list to receive monthly
+  updates on the latest Cru opportunities! You can unsubscribe at any time.
+</span>
+<div ng-repeat="choice in block.content.staticChoices" class="radio">
   <label>
     <input
       type="radio"

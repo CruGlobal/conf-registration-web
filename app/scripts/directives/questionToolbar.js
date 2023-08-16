@@ -165,7 +165,7 @@ angular
             id: 'birthDateQuestion',
             defaultTitle: 'Date of Birth',
             defaultProfile: 'BIRTH_DATE',
-            iconClass: 'fa-calendar',
+            iconClass: 'fa-birthday-cake',
             name: 'Date of Birth',
           },
           {
@@ -183,6 +183,30 @@ angular
             defaultProfile: 'DORMITORY',
             iconClass: 'fa-building',
             name: 'Dormitory',
+          },
+          {
+            id: 'opportunitiesQuestion',
+            defaultTitle:
+              'Would you like to be informed about new opportunities (like conferences, mission trips, career opportunities, etc.) to be involved with Cru around the U.S. & world?',
+            defaultProfile: 'OPPORTUNITIES',
+            defaultExportFieldTitle: 'Cru Opportunities',
+            iconClass: 'fa-lightbulb-o',
+            name: 'Cru Opportunities',
+          },
+          {
+            id: 'graduationDateQuestion',
+            defaultTitle: 'Expected Graduation Date',
+            defaultProfile: 'GRADUATION_DATE',
+            iconClass: 'fa-graduation-cap',
+            name: 'Graduation Date',
+          },
+          {
+            id: 'ethnicityQuestion',
+            defaultTitle: 'Which race or ethnicity best describes you?',
+            defaultExportFieldTitle: 'Race/Ethnicity',
+            defaultProfile: 'ETHNICITY',
+            iconClass: 'fa-globe',
+            name: 'Racial/Ethnic Identity',
           },
         ];
       },

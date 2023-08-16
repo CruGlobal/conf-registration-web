@@ -123,6 +123,18 @@
       block="block"
       ng-switch-when="dormitoryQuestion"
     ></text-question>
+    <opportunities-question
+      block="block"
+      ng-switch-when="opportunitiesQuestion"
+    ></opportunities-question>
+    <graduation-date-question
+      block="block"
+      ng-switch-when="graduationDateQuestion"
+    ></graduation-date-question>
+    <ethnicity-question
+      block="block"
+      ng-switch-when="ethnicityQuestion"
+    ></ethnicity-question>
   </ng-switch>
 
   <div class="edit-options" ng-if="editBlock">
@@ -262,6 +274,18 @@
               ng-model="block.content.showInternationalCampuses"
             />
             <translate>Include International Campuses</translate></label
+          >
+        </div>
+
+        <div
+          class="help-block"
+          ng-if="block.type === 'opportunitiesQuestion' && !eventHasQuestionType('phoneQuestion')"
+        >
+          <i
+            ><translate
+              >*Please remember to add a 'Telephone' question to this
+              form.</translate
+            ></i
           >
         </div>
 
