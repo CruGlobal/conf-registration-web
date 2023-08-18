@@ -171,7 +171,7 @@ angular
           {
             id: 'campusQuestion',
             defaultTitle:
-              'Campus- Type the full name of your campus and choose from the list that appears',
+              'Campus - Type the full name of your campus and choose from the list that appears',
             defaultProfile: 'CAMPUS',
             iconClass: 'fa-university',
             name: 'Campus',
@@ -203,7 +203,7 @@ angular
           {
             id: 'ethnicityQuestion',
             defaultTitle: 'Which race or ethnicity best describes you?',
-            defaultExportFieldTitle: 'Ethnicity',
+            defaultExportFieldTitle: 'Race/Ethnicity',
             defaultProfile: 'ETHNICITY',
             iconClass: 'fa-globe',
             name: 'Racial/Ethnic Identity',

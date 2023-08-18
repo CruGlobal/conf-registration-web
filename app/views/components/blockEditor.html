@@ -289,18 +289,6 @@
           >
         </div>
 
-        <div
-          class="help-block"
-          ng-if="block.type === 'opportunitiesQuestion' && !eventHasQuestionType('phoneQuestion')"
-        >
-          <i
-            ><translate
-              >*Please remember to add a 'Telephone' question to this
-              form.</translate
-            ></i
-          >
-        </div>
-
         <div class="checkbox" ng-if="requiredOption && !block.adminOnly">
           <label
             ><input type="checkbox" ng-model="block.required" />

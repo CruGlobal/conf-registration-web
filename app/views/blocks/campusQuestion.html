@@ -2,15 +2,16 @@
   <input
     type="text"
     ng-model="answer.value"
-    ng-model-options="{ debounce: 100 }"
     placeholder=""
+    autocomplete="off"
+    aria-autocomplete="none"
     class="form-control"
     show-errors
     ng-required="block.required"
     uib-typeahead="campus for campus in searchCampuses($viewValue)"
     typeahead-loading="loadingCampuses"
     typeahead-min-length="2"
-    typeahead-wait-ms="100"
+    typeahead-wait-ms="200"
     typeahead-editable="false"
     typeahead-no-results="campusNotFound"
     typeahead-show-hint="true"

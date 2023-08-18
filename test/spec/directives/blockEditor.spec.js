@@ -76,4 +76,15 @@ describe('Directive: blockEditor', function () {
 
     expect(scope.pType).toBe('Sex');
   });
+
+  it('returns whether a question type exists or not using eventHasQuestionType()', function () {
+    const block = _.find(testData.conference.registrationPages[1].blocks, {
+      id: '9b83eebd-b064-4edf-92d0-7982a330272a',
+    });
+    scope.block = block;
+
+    expect(scope.eventHasQuestionType('genderQuestion')).toBe(true);
+
+    expect(scope.eventHasQuestionType('ethnicityQuestion')).toBe(false);
+  });
 });
