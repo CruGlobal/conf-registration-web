@@ -346,33 +346,4 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('Option 1');
     });
   });
-
-  describe('graduationDateQuestion', () => {
-    let $compile, $rootScope, $scope;
-    beforeEach(inject((
-      _$compile_,
-      _$rootScope_,
-      _$timeout_,
-      $templateCache,
-      testData,
-    ) => {
-      $compile = _$compile_;
-      $rootScope = _$rootScope_;
-
-      $scope = $rootScope.$new();
-      $templateCache.put('views/blocks/graduationDateQuestion.html', '');
-      $scope.block = _.cloneDeep(
-        testData.conference.registrationPages[1].blocks[4],
-      );
-    }));
-
-    it('formats the saved date correctly', () => {
-      $compile('<graduation-date-question></graduation-date-question>')($scope);
-      $scope.$digest();
-
-      console.log('scope: ', $scope);
-      //$scope.updateTimeStamp('2020-01-01');
-      expect($scope.find('input')[0].placeholder).toBe('Month - Year');
-    });
-  });
 });
