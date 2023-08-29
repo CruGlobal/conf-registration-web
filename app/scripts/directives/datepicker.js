@@ -15,8 +15,11 @@ angular
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
           $scope.$apply(function () {
+            let dateSaveFormat = $scope.monthYearOnly
+              ? 'YYYY-MM'
+              : 'YYYY-MM-DD HH:mm:ss';
             $scope.localModel = moment(new Date(timestamp)).format(
-              'YYYY-MM-DD HH:mm:ss',
+              dateSaveFormat,
             );
           });
         };
