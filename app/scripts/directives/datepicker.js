@@ -14,9 +14,16 @@ angular
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
+          //For Graduation date question, set the day to 1. The API needs the day but that could change in the future.
+          timestamp = $scope.monthYearOnly
+            ? moment(new Date(timestamp)).set('date', 1)
+            : timestamp;
           $scope.$apply(function () {
+            let dateSaveFormat = $scope.monthYearOnly
+              ? 'YYYY-MM-DD'
+              : 'YYYY-MM-DD HH:mm:ss';
             $scope.localModel = moment(new Date(timestamp)).format(
-              'YYYY-MM-DD HH:mm:ss',
+              dateSaveFormat,
             );
           });
         };
@@ -29,7 +36,7 @@ angular
             : scope.localModel
             ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
             : null;
-        let dateOptions = scope.monthYearOnly
+        scope.dateOptions = scope.monthYearOnly
           ? {
               viewMode: 'years',
               format: 'MMMM YYYY',
@@ -50,7 +57,7 @@ angular
               defaultDate: initialDate,
             };
         datePickerElement
-          .datetimepicker(dateOptions)
+          .datetimepicker(scope.dateOptions)
           .on('dp.change', function (ev) {
             scope.updateTimeStamp(ev.date);
           });
