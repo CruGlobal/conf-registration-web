@@ -367,6 +367,16 @@ angular
         var currentRegistrant = _.find($scope.currentRegistration.registrants, {
           id: $scope.currentRegistrant,
         });
+        const invalidBlocks = _.find(currentRegistration.registrants, {
+          id: currentRegistrant.id,
+        })
+          ? validateRegistrant.validate(
+              conference,
+              _.find(currentRegistration.registrants, {
+                id: currentRegistrant.id,
+              }),
+            )
+          : [];
         var answersToSave = [];
 
         angular.forEach(
@@ -376,8 +386,9 @@ angular
               id: a.id,
             });
             if (
-              angular.isUndefined(savedAnswer) ||
-              !angular.equals(savedAnswer.value, a.value)
+              (angular.isUndefined(savedAnswer) ||
+                !angular.equals(savedAnswer.value, a.value)) &&
+              !invalidBlocks.includes(a.blockId)
             ) {
               if ($scope.registerMode !== 'preview') {
                 answersToSave.push($http.put('answers/' + a.id, a));
