@@ -367,6 +367,16 @@ angular
         var currentRegistrant = _.find($scope.currentRegistration.registrants, {
           id: $scope.currentRegistrant,
         });
+        const invalidBlocks = _.find(currentRegistration.registrants, {
+          id: currentRegistrant.id,
+        })
+          ? validateRegistrant.validate(
+              conference,
+              _.find(currentRegistration.registrants, {
+                id: currentRegistrant.id,
+              }),
+            )
+          : [];
         var answersToSave = [];
 
         angular.forEach(
@@ -375,12 +385,6 @@ angular
             var savedAnswer = _.find(currentRegistrantOriginalAnswers, {
               id: a.id,
             });
-            let invalidBlocks = validateRegistrant.validate(
-              conference,
-              _.find(currentRegistration.registrants, {
-                id: currentRegistrant.id,
-              }),
-            );
             if (
               (angular.isUndefined(savedAnswer) ||
                 !angular.equals(savedAnswer.value, a.value)) &&
