@@ -36,7 +36,7 @@ angular
             : scope.localModel
             ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
             : null;
-        var initialDate = scope.localModel ? scope.localModel : null;
+        let initialDate = scope.localModel ? scope.localModel : null;
         scope.dateOptions = scope.monthYearOnly
           ? {
               viewMode: 'years',

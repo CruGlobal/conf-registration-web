@@ -375,9 +375,16 @@ angular
             var savedAnswer = _.find(currentRegistrantOriginalAnswers, {
               id: a.id,
             });
+            let invalidBlocks = validateRegistrant.validate(
+              conference,
+              _.find(currentRegistration.registrants, {
+                id: currentRegistrant.id,
+              }),
+            );
             if (
-              angular.isUndefined(savedAnswer) ||
-              !angular.equals(savedAnswer.value, a.value)
+              (angular.isUndefined(savedAnswer) ||
+                !angular.equals(savedAnswer.value, a.value)) &&
+              !invalidBlocks.includes(a.blockId)
             ) {
               if ($scope.registerMode !== 'preview') {
                 answersToSave.push($http.put('answers/' + a.id, a));
