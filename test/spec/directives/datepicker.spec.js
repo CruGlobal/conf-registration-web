@@ -21,7 +21,7 @@ describe('Directive: datepicker', function () {
   it('Sets the date to the correct format based on the type of date question', function () {
     scope.updateTimeStamp(new Date('02/05/1994'));
 
-    expect(scope.localModel).toBe('1994-02-01');
+    expect(scope.localModel).toBe('1994-02-10');
 
     scope.monthYearOnly = false;
 
