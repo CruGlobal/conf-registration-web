@@ -14,7 +14,7 @@ angular
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
-          //For Graduation date question, set the day to 1. The API needs the day but that could change in the future.
+          //For the Graduation date question, set the day to 10. The API needs the day but that could change in the future.
           timestamp = $scope.monthYearOnly
             ? moment(new Date(timestamp)).set('date', 10)
             : timestamp;
