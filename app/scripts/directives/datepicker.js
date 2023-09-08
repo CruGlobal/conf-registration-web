@@ -14,9 +14,9 @@ angular
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
-          //For the Graduation date question, set the day to 10. The API needs the day but that could change in the future.
+          //For Graduation date question, set the day to 1. The API needs the day but that could change in the future.
           timestamp = $scope.monthYearOnly
-            ? moment(new Date(timestamp)).set('date', 10)
+            ? moment(new Date(timestamp)).set('date', 1)
             : timestamp;
           $scope.$apply(function () {
             let dateSaveFormat = $scope.monthYearOnly
@@ -30,13 +30,12 @@ angular
       },
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
-        scope.localModel =
+        var initialDate =
           scope.localModel && scope.monthYearOnly
-            ? moment(new Date(scope.localModel)).format('YYYY-MM-DD')
+            ? scope.localModel
             : scope.localModel
             ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
             : null;
-        let initialDate = scope.localModel || null;
         scope.dateOptions = scope.monthYearOnly
           ? {
               viewMode: 'years',
