@@ -30,12 +30,9 @@ angular
       },
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
-        var initialDate =
-          scope.localModel && scope.monthYearOnly
-            ? scope.localModel
-            : scope.localModel
-            ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
-            : null;
+        var initialDate = scope.localModel
+          ? moment(new Date(scope.localModel)).format('YYYY-MM-DD HH:mm:ss')
+          : null;
         scope.dateOptions = scope.monthYearOnly
           ? {
               viewMode: 'years',
