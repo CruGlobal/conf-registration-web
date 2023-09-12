@@ -18,19 +18,23 @@ describe('Directive: datepicker', function () {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('Sets the date to the correct format based on the type of date question', function () {
+  it('Sets the date to the correct format for the graduation date question datepicker', function () {
     scope.updateTimeStamp(new Date('02/05/1994'));
 
     expect(scope.localModel).toBe('1994-02-10');
 
+    scope.updateTimeStamp(new Date('02/05/1994 10:11:12'));
+
+    expect(scope.localModel).toBe('1994-02-10');
+
+    expect(scope.dateOptions.viewMode).toBe('years');
+  });
+
+  it('Sets the date to the correct format for all other types of datepickers', function () {
     scope.monthYearOnly = false;
 
     scope.updateTimeStamp(new Date('02/05/1994'));
 
     expect(scope.localModel).toBe('1994-02-05 00:00:00');
-  });
-
-  it('Sets date options correctly based on type of date', function () {
-    expect(scope.dateOptions.viewMode).toBe('years');
   });
 });
