@@ -27,32 +27,36 @@ angular
             );
           });
         };
+        $scope.getDateOptions = function (model) {
+          let initialDate = model
+            ? moment(model).format('YYYY-MM-DD hh:mm:ss')
+            : null;
+          const dateOptions = $scope.monthYearOnly
+            ? {
+                viewMode: 'years',
+                format: 'MMMM YYYY',
+                defaultDate: initialDate,
+                useCurrent: false,
+                keepOpen: false,
+                allowInputToggle: true,
+                extraFormats: [
+                  'MM/YY',
+                  'MM/YYYY',
+                  'MM-YY',
+                  'MM-YYYY',
+                  'MMM-YYYY',
+                  'MMMM-YYYY',
+                ],
+              }
+            : {
+                defaultDate: initialDate,
+              };
+          return dateOptions;
+        };
       },
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
-        var initialDate = scope.localModel
-          ? moment(new Date(scope.localModel)).format('YYYY-MM-DD HH:mm:ss')
-          : null;
-        scope.dateOptions = scope.monthYearOnly
-          ? {
-              viewMode: 'years',
-              format: 'MMMM YYYY',
-              defaultDate: initialDate,
-              useCurrent: false,
-              keepOpen: false,
-              allowInputToggle: true,
-              extraFormats: [
-                'MM/YY',
-                'MM/YYYY',
-                'MM-YY',
-                'MM-YYYY',
-                'MMM-YYYY',
-                'MMMM-YYYY',
-              ],
-            }
-          : {
-              defaultDate: initialDate,
-            };
+        scope.dateOptions = scope.getDateOptions(scope.localModel);
         datePickerElement
           .datetimepicker(scope.dateOptions)
           .on('dp.change', function (ev) {
