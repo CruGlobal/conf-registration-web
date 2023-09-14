@@ -27,9 +27,9 @@ angular
             );
           });
         };
-        $scope.getDateOptions = function (model) {
-          let initialDate = model
-            ? moment(model).format('YYYY-MM-DD hh:mm:ss')
+        $scope.getDateOptions = function () {
+          let initialDate = $scope.localModel
+            ? moment($scope.localModel).format('YYYY-MM-DD HH:mm:ss')
             : null;
           const dateOptions = $scope.monthYearOnly
             ? {
