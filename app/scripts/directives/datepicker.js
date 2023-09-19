@@ -27,35 +27,36 @@ angular
             );
           });
         };
+        $scope.getDateOptions = function () {
+          let initialDate = $scope.localModel
+            ? moment($scope.localModel).format('YYYY-MM-DD HH:mm:ss')
+            : null;
+          const dateOptions = $scope.monthYearOnly
+            ? {
+                viewMode: 'years',
+                format: 'MMMM YYYY',
+                defaultDate: initialDate,
+                useCurrent: false,
+                keepOpen: false,
+                allowInputToggle: true,
+                extraFormats: [
+                  'MM/YY',
+                  'MM/YYYY',
+                  'MM-YY',
+                  'MM-YYYY',
+                  'MMM-YYYY',
+                  'MMMM-YYYY',
+                ],
+              }
+            : {
+                defaultDate: initialDate,
+              };
+          return dateOptions;
+        };
       },
       link: function (scope, element) {
         var datePickerElement = angular.element(element).find('.datepicker');
-        var initialDate =
-          scope.localModel && scope.monthYearOnly
-            ? scope.localModel
-            : scope.localModel
-            ? moment(new Date(scope.localModel)).format('MM/DD/YYYY hh:mm A')
-            : null;
-        scope.dateOptions = scope.monthYearOnly
-          ? {
-              viewMode: 'years',
-              format: 'MMMM YYYY',
-              defaultDate: initialDate,
-              useCurrent: false,
-              keepOpen: false,
-              allowInputToggle: true,
-              extraFormats: [
-                'MM/YY',
-                'MM/YYYY',
-                'MM-YY',
-                'MM-YYYY',
-                'MMM-YYYY',
-                'MMMM-YYYY',
-              ],
-            }
-          : {
-              defaultDate: initialDate,
-            };
+        scope.dateOptions = scope.getDateOptions(scope.localModel);
         datePickerElement
           .datetimepicker(scope.dateOptions)
           .on('dp.change', function (ev) {
