@@ -253,7 +253,7 @@ angular
         };
         if ($scope.answer.value) {
           $scope.searchCampuses($scope.answer.value).then((data) => {
-            if (data.length < 1) {
+            if (data.length === 0) {
               $scope.answer.value = '';
             }
           });

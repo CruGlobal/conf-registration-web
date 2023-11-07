@@ -91,6 +91,16 @@ describe('Service: validateRegistrant', function () {
     expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
   });
 
+  it('empty campus name should not be valid', function () {
+    const conference = angular.copy(testData.conference);
+    conference.registrationPages[1].blocks[13].required = true;
+
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    registrant.answers[12].value = '';
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
+  });
+
   it('empty address fields should not be valid when missing address1, state, zip or city', function () {
     var conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[7].required = true;
