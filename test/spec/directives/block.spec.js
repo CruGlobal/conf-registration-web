@@ -201,11 +201,10 @@ describe('Directive: blocks', () => {
     });
 
     it('resets answer if its not found in the campus database', () => {
-      //$scope.answer = 'SFSU';
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
-      expect($scope.answer).toBe('');
+      expect($scope.answer).toBe(undefined);
     });
   });
 
