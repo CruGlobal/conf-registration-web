@@ -200,11 +200,14 @@ describe('Directive: blocks', () => {
       expect($scope.params.includeInternational).not.toBeDefined();
     });
 
-    it('resets answer if its not found in the campus database', () => {
+    it('checks the campus database if a answer is present on page load', () => {
+      expect($scope.searchingCampuses).toBe(undefined);
+
+      $scope.answer = { value: 'SFSU' };
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
-      expect($scope.answer).toBe(undefined);
+      expect($scope.searchingCampuses).toBe(true);
     });
   });
 
