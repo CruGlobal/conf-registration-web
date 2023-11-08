@@ -199,6 +199,16 @@ describe('Directive: blocks', () => {
 
       expect($scope.params.includeInternational).not.toBeDefined();
     });
+
+    it('checks the campus database if a answer is present on page load', () => {
+      expect($scope.searchingCampuses).toBe(undefined);
+
+      $scope.answer = { value: 'SFSU' };
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.searchingCampuses).toBe(true);
+    });
   });
 
   describe('ethnicityQuestion', () => {

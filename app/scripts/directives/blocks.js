@@ -251,6 +251,14 @@ angular
               return campusNames.data;
             });
         };
+        if ($scope.answer.value) {
+          $scope.searchingCampuses = true;
+          $scope.searchCampuses($scope.answer.value).then((data) => {
+            if (!data.length) {
+              $scope.answer.value = '';
+            }
+          });
+        }
       },
     };
   });
