@@ -91,7 +91,7 @@ describe('Service: validateRegistrant', function () {
     expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
   });
 
-  it('empty campus name should not be valid', function () {
+  it('marks an empty campus name as invalid', function () {
     const conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[13].required = true;
 
@@ -99,6 +99,16 @@ describe('Service: validateRegistrant', function () {
     registrant.answers[12].value = '';
 
     expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
+  });
+
+  it('doesnt mark as invalid a campusQuestion field that is filled in', function () {
+    const conference = angular.copy(testData.conference);
+    conference.registrationPages[1].blocks[13].required = true;
+
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    registrant.answers[12].value = 'San Francisco State University';
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(0);
   });
 
   it('empty address fields should not be valid when missing address1, state, zip or city', function () {
