@@ -159,16 +159,18 @@ describe('Directive: blocks', () => {
   });
 
   describe('campusQuestion', () => {
-    let $compile, $rootScope, $scope;
+    let $compile, $rootScope, $scope, $httpBackend;
     beforeEach(inject((
       _$compile_,
       _$rootScope_,
       _$timeout_,
       $templateCache,
       testData,
+      _$httpBackend_,
     ) => {
       $compile = _$compile_;
       $rootScope = _$rootScope_;
+      $httpBackend = _$httpBackend_;
 
       $scope = $rootScope.$new();
       $templateCache.put('views/blocks/campusQuestion.html', '');
@@ -198,6 +200,21 @@ describe('Directive: blocks', () => {
       $scope.searchCampuses('San');
 
       expect($scope.params.includeInternational).not.toBeDefined();
+    });
+
+    it('checks the campus database if a answer is present on page load', () => {
+      $httpBackend
+        .whenGET('campuses/SFSU?includeInternational=true&limit=15')
+        .respond(() => [200, []]);
+
+      $scope.answer = { value: 'SFSU' };
+      $compile('<campus-question></campus-question>')($scope);
+
+      $httpBackend.flush();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.answer.value).toBe('');
     });
   });
 
