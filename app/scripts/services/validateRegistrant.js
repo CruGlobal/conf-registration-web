@@ -335,6 +335,12 @@ angular
                 return;
               }
               break;
+            case 'campusQuestion':
+              if (_.isEmpty(answer)) {
+                invalidBlocks.push(block.id);
+                return;
+              }
+              break;
             case 'addressQuestion':
               if (
                 answer.country !== 'US' &&
