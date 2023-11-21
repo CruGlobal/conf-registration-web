@@ -480,7 +480,19 @@ angular
           !$scope.conference.ministryActivity
         ) {
           validationErrors.push(
-            'Please enter which Ministry Activitiy is applicable for this event.*',
+            'Please enter which Ministry Activity is applicable for this event.*',
+          );
+          validationErrorsHint = eventInformationPageHint;
+        }
+
+        if (
+          $scope.conference.cruEvent &&
+          $scope.conference.ministry &&
+          $scope.getEventTypes().length &&
+          !$scope.conference.eventType
+        ) {
+          validationErrors.push(
+            'Please enter which Event Type is applicable for this event.*',
           );
           validationErrorsHint = eventInformationPageHint;
         }
@@ -655,11 +667,38 @@ angular
         return currentMinistry ? currentMinistry.activities : [];
       };
 
+      $scope.getEventTypes = () => {
+        const currentMinistry =
+          $scope.ministries &&
+          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
+        const currentPurpose =
+          $scope.ministryPurposes &&
+          $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
+        return currentMinistry &&
+          currentMinistry.eventTypes &&
+          currentPurpose &&
+          ((currentPurpose.name && currentPurpose.name.includes('Mission')) ||
+            currentPurpose.name.includes('Conference'))
+          ? currentMinistry.eventTypes
+          : [];
+      };
+
+      $scope.$watch(
+        'conference.type',
+        function (newVal, oldVal) {
+          if (newVal !== oldVal) {
+            $scope.conference.eventType = null;
+          }
+        },
+        true,
+      );
+
       $scope.$watch(
         'conference.ministry',
         function (newVal, oldVal) {
           if (newVal !== oldVal) {
             $scope.conference.strategy = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
           }
         },
@@ -673,6 +712,7 @@ angular
             $scope.conference.ministry = null;
             $scope.conference.strategy = null;
             $scope.conference.type = null;
+            $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
             $scope.conference.workProject = false;
           }
@@ -736,7 +776,7 @@ angular
         method: 'GET',
         url: 'types',
       }).then(function (response) {
-        $scope.eventTypes = response.data;
+        $scope.ministryPurposes = response.data;
       });
 
       $scope.resetImage = () => {
@@ -872,6 +912,16 @@ angular
           });
         });
         const payload = angular.copy($scope.conference);
+        // Remove unwanted properties from sending to API.
+        payload.registrantTypes = payload.registrantTypes.map((regType) => {
+          regType.allowedRegistrantTypeSet =
+            regType.allowedRegistrantTypeSet.map((set) => {
+              delete set.name;
+              delete set.selected;
+              return set;
+            });
+          return regType;
+        });
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,

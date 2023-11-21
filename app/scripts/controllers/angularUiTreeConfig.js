@@ -19,6 +19,7 @@ angular
               event.dest.index,
               block.defaultTitle,
               block.defaultProfile,
+              block.defaultExportFieldTitle,
             );
           }
           return false; //cancel regular drop action

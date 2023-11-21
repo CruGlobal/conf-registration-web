@@ -59,6 +59,7 @@ angular
         includeWithdrawn: 'yes',
         includeIncomplete: 'yes',
         includeEFormStatus: 'yes',
+        includePromotions: true,
       };
       $scope.meta = {
         totalPages: 0,
@@ -260,6 +261,9 @@ angular
               resolve: {
                 registration: function () {
                   return response.data;
+                },
+                promotionRegistrationInfoList: function () {
+                  return $scope.meta.promotionRegistrationInfoList;
                 },
                 conference: function () {
                   return conference;

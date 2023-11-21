@@ -1,30 +1,103 @@
 <h2 class="page-title border" translate>Promotions</h2>
+<div ng-if="conference.promotions && conference.promotions.length > 0">
+  <p class="text-muted margin-left-15">
+    <i class="fa fa-info-circle"></i>
+    <span>
+      <translate>
+        Event promo codes now require a chartfield to help document the use of
+        discounts for your event with an ERT account transfer after your event
+        is over.
+      </translate>
+    </span>
+  </p>
+  <ul class="text-muted margin-left-15">
+    <li>
+      <translate
+        >Enter the event chartfield for those promo codes covered by the
+        event.</translate
+      >
+    </li>
+    <li>
+      <translate
+        >Enter another chartfield for promo codes that should be charged to a
+        different account.</translate
+      >
+    </li>
+  </ul>
+</div>
 
 <div ng-repeat="promo in conference.promotions">
   <div class="panel panel-default">
     <div class="panel-heading">
       <div class="row">
         <div class="col-md-3 col-md-push-9 text-right">
-          <a href="" ng-click="openWell[promo.id] = !openWell[promo.id]"
-            ><i
+          <a href="" ng-click="openWell[promo.id] = !openWell[promo.id]">
+            <i
               class="fa fa-inset fa-inset-reg-type"
               ng-class="{'fa-chevron-up': openWell[promo.id], 'fa-chevron-down': !openWell[promo.id]}"
-            ></i
-          ></a>
+            ></i>
+          </a>
         </div>
-        <div class="col-md-6 col-md-pull-3 stacked-spacing-col-md">
+        <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
           <label translate>Code</label>
           <input type="text" class="form-control" ng-model="promo.code" />
         </div>
         <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
           <label translate>Discount Amount</label>
           <div class="input-group">
-            <span class="input-group-addon"
-              ><span class="currency-label"
+            <span class="input-group-addon">
+              <span class="currency-label"
                 >{{conference.currency.currencyCode | localizedSymbol}}</span
-              ></span
-            >
+              >
+            </span>
             <input type="text" class="form-control" ng-model="promo.amount" />
+          </div>
+        </div>
+      </div>
+      <div class="row spacing-above-md">
+        <div class="row spacing-below-sm margin-left-0 margin-right-15">
+          <div class="col-md-3 stacked-spacing-col-md">
+            <label translate>Business Unit</label>
+            <input
+              ng-model="promo.businessUnit"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-3 stacked-spacing-col-md">
+            <label translate>Operating Unit</label>
+            <input
+              ng-model="promo.operatingUnit"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-3 stacked-spacing-col-md">
+            <label translate>Department Id</label>
+            <input
+              ng-model="promo.departmentId"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-3 stacked-spacing-col-md">
+            <label translate>Project Id</label>
+            <i
+              class="fa fa-question-circle"
+              button
+              uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            >
+            </i>
+            <input
+              ng-model="promo.projectId"
+              type="text"
+              class="form-control"
+            />
           </div>
         </div>
       </div>

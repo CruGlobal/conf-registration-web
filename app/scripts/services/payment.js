@@ -1,4 +1,4 @@
-import cruPayments from 'cru-payments/dist/cru-payments-cc';
+import * as cruPayments from '@cruglobal/cru-payments/dist/cru-payments-cc';
 import { Rollbar } from 'scripts/errorNotify.js';
 
 angular

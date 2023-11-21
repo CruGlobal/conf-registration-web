@@ -171,19 +171,22 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         true,
       );
 
-      var typeToProfile = [];
-      //typeToProfile['emailQuestion'] = 'EMAIL';
-      //typeToProfile['nameQuestion'] = 'NAME';
-      typeToProfile.phoneQuestion = 'PHONE';
-      typeToProfile.addressQuestion = 'ADDRESS';
-      typeToProfile.genderQuestion = 'GENDER';
-      typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
-      typeToProfile.birthDateQuestion = 'BIRTH_DATE';
-      typeToProfile.campusQuestion = 'CAMPUS';
-      typeToProfile.dormitoryQuestion = 'DORMITORY';
+      $scope.typeToProfile = [];
+      //$scope.typeToProfile['emailQuestion'] = 'EMAIL';
+      //$scope.typeToProfile['nameQuestion'] = 'NAME';
+      $scope.typeToProfile.phoneQuestion = 'PHONE';
+      $scope.typeToProfile.addressQuestion = 'ADDRESS';
+      $scope.typeToProfile.genderQuestion = 'GENDER';
+      $scope.typeToProfile.yearInSchoolQuestion = 'YEAR_IN_SCHOOL';
+      $scope.typeToProfile.opportunitiesQuestion = 'OPPORTUNITIES';
+      $scope.typeToProfile.birthDateQuestion = 'BIRTH_DATE';
+      $scope.typeToProfile.campusQuestion = 'CAMPUS';
+      $scope.typeToProfile.dormitoryQuestion = 'DORMITORY';
+      $scope.typeToProfile.graduationDateQuestion = 'GRADUATION_DATE';
+      $scope.typeToProfile.ethnicityQuestion = 'ETHNICITY';
 
       $scope.profileCheck = !_.isNull($scope.block.profileType);
-      $scope.profileOption = _.has(typeToProfile, $scope.block.type);
+      $scope.profileOption = _.has($scope.typeToProfile, $scope.block.type);
       $scope.requiredOption = !_.includes(
         ['paragraphContent'],
         $scope.block.type,
@@ -315,8 +318,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         if (!value) {
           $scope.block.profileType = null;
         } else {
-          $scope.block.profileType = typeToProfile[$scope.block.type];
-          var profileCount = 0;
+          $scope.block.profileType = $scope.typeToProfile[$scope.block.type];
+          let profileCount = 0;
           $scope.conference.registrationPages.forEach(function (page) {
             page.blocks.forEach(function (block) {
               if ($scope.block.profileType === block.profileType) {
@@ -325,10 +328,18 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             });
           });
           if (profileCount > 1) {
+            $scope.pType =
+              $scope.block.profileType == 'GENDER'
+                ? 'Sex'
+                : $scope.block.profileType.charAt(0).toUpperCase() +
+                  $scope.block.profileType
+                    .split('_')
+                    .join(' ')
+                    .slice(1)
+                    .toLowerCase();
             modalMessage.error(
               'Only one ' +
-                $scope.block.profileType.charAt(0).toUpperCase() +
-                $scope.block.profileType.slice(1).toLowerCase() +
+                $scope.pType +
                 ' profile block can be used per form.',
             );
             $scope.block.profileType = null;
@@ -336,7 +347,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           }
         }
       };
-
       $scope.registrationTypeName = function (id) {
         if (!id) {
           return;
@@ -424,6 +434,18 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.choiceVisible = function () {
         return true;
+      };
+
+      $scope.eventHasQuestionType = function (questionType) {
+        let questionTypeFound = false;
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            if (block.type === questionType) {
+              questionTypeFound = true;
+            }
+          });
+        });
+        return questionTypeFound;
       };
     },
   };

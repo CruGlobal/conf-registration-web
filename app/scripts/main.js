@@ -6,10 +6,14 @@ import 'scripts/app_enforceAuth.js';
 
 // components
 import 'scripts/components/FormStatusModal/FormStatusModal';
-import 'scripts/components/FormStatusPopover/FormStatusPopover';
+import 'scripts/components/FormStatusPopover/FormStatusPopover_angular';
 import 'scripts/components/GoogleLogin/GoogleLogin';
 import 'scripts/components/ExportModal/ExportModal';
 import 'scripts/components/GroupModal/GroupModal';
+
+// React components
+import 'scripts/components/JournalUploadPage/JournalUploadPage_angular';
+import 'scripts/components/PromoUploadPage/PromoUploadPage_angular';
 
 // Controllers
 import 'scripts/controllers/angularUiTreeConfig.js';
@@ -32,7 +36,6 @@ import 'scripts/controllers/registration.js';
 import 'scripts/controllers/registrationModal.js';
 import 'scripts/controllers/reviewRegistration.js';
 import 'scripts/controllers/paymentCashCheckReport.js';
-import 'scripts/controllers/journalUpload.js';
 import 'scripts/controllers/journalUploadReview.js';
 
 // Directives
@@ -90,5 +93,7 @@ import 'scripts/services/RegistrationCache.js';
 import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';
+import 'scripts/services/validationInterceptor.js';
 import 'scripts/services/paymentReportService.js';
-import 'scripts/services/journalUploadService.js';
+import 'scripts/services/journalUploadService.ts';
+import 'scripts/services/promoReportService.ts';

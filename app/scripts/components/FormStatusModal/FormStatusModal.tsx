@@ -71,37 +71,38 @@ const FormStatusModal = ({
         >
           &times;
         </button>
-        <h4 translate="yes">Form Status</h4>
+        <h4>Liability Release Form Status</h4>
       </div>
       <div className="modal-body tab-content-spacing-above">
         <div className="row">
           <div className="col-sm-4">
-            <label translate="yes">Registrant Name:</label>
+            <label>Registrant Name:</label>
             <p>
               {registrant.firstName} {registrant.lastName}
             </p>
           </div>
           <div className="col-sm-5">
-            <label translate="yes">Registrant Email:</label>
+            <label>Registrant Email:</label>
             <p>{registrant.email}</p>
           </div>
           <div className="col-sm-3">
-            <label translate="yes">Registrant Type:</label>
+            <label>Registrant Type:</label>
             <p>{registrantTypeName}</p>
           </div>
         </div>
         <div className="row">
           <div className="col-sm-4">
-            <label translate="yes">Form Status:</label>
-            <p>{eformStatus}</p>
+            <label>Status:</label>
+            <p>
+              {eformStatus
+                ? eformStatus.charAt(0).toUpperCase() +
+                  eformStatus.slice(1).toLowerCase()
+                : ''}
+            </p>
           </div>
           <div className="col-sm-5">
-            <label translate="yes">Check Form Status:</label>
-            <button
-              className="btn btn-primary"
-              onClick={handleCheckStatus}
-              translate="yes"
-            >
+            <label>Check Form Status:</label>
+            <button className="btn btn-primary" onClick={handleCheckStatus}>
               Check Status
               {loading ? (
                 <i className="fa fa-spinner fa-spin margin-left-10" />
@@ -109,12 +110,8 @@ const FormStatusModal = ({
             </button>
           </div>
           <div className="col-sm-3">
-            <label translate="yes">Resend Form?</label>
-            <button
-              className="btn btn-primary"
-              onClick={handleResend}
-              translate="yes"
-            >
+            <label>Resend Form?</label>
+            <button className="btn btn-primary" onClick={handleResend}>
               Resend
             </button>
           </div>
@@ -125,11 +122,7 @@ const FormStatusModal = ({
         ) : null}
 
         <div className="form-group text-right">
-          <button
-            className="btn btn-success"
-            onClick={handleClose}
-            translate="yes"
-          >
+          <button className="btn btn-success" onClick={handleClose}>
             Close
           </button>
         </div>

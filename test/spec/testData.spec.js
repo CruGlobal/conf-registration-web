@@ -5,6 +5,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     id: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
     name: 'Big Event 2015',
     description: '',
+    abbreviation: 'TEST',
     registrationPages: [
       {
         id: '5c69bfcc-9e35-4bd8-8358-fe50fd86052d',
@@ -155,7 +156,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '9b83eebd-b064-4edf-92d0-7982a330272a',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
-            title: 'Gender',
+            title: 'Sex',
             exportFieldTitle: null,
             type: 'genderQuestion',
             required: false,
@@ -303,6 +304,19 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             ],
           },
           {
+            id: '9b83eebd-b064-4edf-92d0-7982a330272b',
+            pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            title: 'Sex',
+            exportFieldTitle: null,
+            type: 'genderQuestion',
+            required: false,
+            position: 9,
+            content: '',
+            profileType: 'GENDER',
+            registrantTypes: [],
+            rules: [],
+          },
+          {
             adminOnly: 'false',
             content: {
               default: {},
@@ -381,6 +395,19 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             ],
             title: 'Child',
             type: 'checkboxQuestion',
+          },
+          {
+            id: '0556295a-3c4d-45b2-a00e-42b1fe188421',
+            pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            title: 'Campus',
+            exportFieldTitle: null,
+            type: 'campusQuestion',
+            required: false,
+            position: 2,
+            content: '',
+            profileType: null,
+            registrantTypes: [],
+            rules: [],
           },
         ],
       },
@@ -494,7 +521,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     customPaymentEmailText: null,
     rideshareEnabled: false,
     rideshareEmailContent: null,
-    allowEditRegistrationAfterComplete: true,
+    allowEditRegistrationAfterComplete: false,
     checkPayableTo: 'Test Admin',
     checkMailingAddress: '100 Lake Hart Dr.',
     checkMailingCity: 'Orlando',
@@ -507,6 +534,9 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     accountNumber: null,
     glAccount: null,
     cruEvent: true,
+    ministry: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+    eventType: null,
+    type: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
     virtual: false,
     image: {
       image:
@@ -671,6 +701,14 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
             blockId: 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
             value: {},
+            amount: 0.0,
+            lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
+          },
+          {
+            id: '6e52f066-f894-43ac-b9c0-bfbfbfbfdfdf',
+            registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
+            blockId: '0556295a-3c4d-45b2-a00e-42b1fe188421',
+            value: '',
             amount: 0.0,
             lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
           },
@@ -1494,5 +1532,54 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     { code: 'ZWD', name: 'Zimbabwean Dollar (1980-2008) ZWD' },
     { code: 'ZWR', name: 'Zimbabwean Dollar (2008) ZWR' },
     { code: 'ZWL', name: 'Zimbabwean Dollar (2009) ZWL' },
+  ];
+
+  this.ministries = [
+    {
+      id: '87b02878-5070-473b-bb07-3b2d899b46d6',
+      strategies: [],
+      activities: [],
+      name: 'Athletes in Action',
+      $hashKey: 'object:665',
+    },
+    {
+      id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+      strategies: [
+        {
+          id: '9769eb02-1075-45fc-ae03-c7733627a1ef',
+          name: 'N/A',
+        },
+        {
+          id: 'd7d42d11-59b0-4d1f-9906-3ab706c63e8a',
+          name: 'Bridges',
+        },
+      ],
+      activities: [],
+      eventTypes: [
+        {
+          id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
+          name: 'Fall Retreat/Getaway',
+        },
+        {
+          id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
+          name: 'Mobilization/Recruiting',
+        },
+      ],
+      name: 'Campus - National Team/Strategy',
+      $hashKey: 'object:666',
+    },
+  ];
+  // Also known as types
+  this.ministryPurposes = [
+    {
+      id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
+      name: 'Ministry Conference/Event',
+      $hashKey: 'object:687',
+    },
+    {
+      id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
+      name: 'Ministry Mission Trip',
+      $hashKey: 'object:688',
+    },
   ];
 });

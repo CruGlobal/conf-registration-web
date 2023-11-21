@@ -1,10 +1,6 @@
 const path = require('path');
-const {
-  entry,
-  devServer,
-  optimization,
-  ...webpackConfig
-} = require('./webpack.config.js')({ test: true });
+const { entry, devServer, optimization, ...webpackConfig } =
+  require('./webpack.config.js')({ test: true });
 
 const karmaWebpackConfig = {
   ...webpackConfig,
@@ -29,7 +25,7 @@ const karmaWebpackConfig = {
   },
 };
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     singleRun: true,
 
@@ -54,6 +50,7 @@ module.exports = function(config) {
     webpack: karmaWebpackConfig,
 
     coverageIstanbulReporter: {
+      dir: 'coverage/karma',
       reports: ['lcov'],
       fixWebpackSourcePaths: true,
     },

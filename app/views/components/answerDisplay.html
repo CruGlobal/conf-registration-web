@@ -28,4 +28,13 @@
     - {{answer.amount |
     localizedCurrency:conference.currency.currencyCode}}</span
   >
+  <span ng-switch-when="graduationDateQuestion">
+    {{answer.value | date:'MMMM yyyy'}}</span
+  >
+  <span ng-switch-when="dateQuestion">
+    {{answer.value | date:'MMMM dd, yyyy'}}</span
+  >
+  <span ng-switch-when="birthDateQuestion">
+    {{answer.value | date:'MMMM dd, yyyy'}}</span
+  >
 </ng-switch>

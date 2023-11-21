@@ -112,7 +112,7 @@ angular
           {
             id: 'numberQuestion',
             defaultTitle: 'Number',
-            iconClass: 'fa-superscript',
+            iconClass: 'fa-calculator',
             name: 'Number',
           },
           {
@@ -149,10 +149,10 @@ angular
           },
           {
             id: 'genderQuestion',
-            defaultTitle: 'Gender',
+            defaultTitle: 'Sex',
             defaultProfile: 'GENDER',
             iconClass: 'fa-male',
-            name: 'Gender',
+            name: 'Sex',
           },
           {
             id: 'yearInSchoolQuestion',
@@ -165,22 +165,48 @@ angular
             id: 'birthDateQuestion',
             defaultTitle: 'Date of Birth',
             defaultProfile: 'BIRTH_DATE',
-            iconClass: 'fa-calendar',
+            iconClass: 'fa-birthday-cake',
             name: 'Date of Birth',
           },
           {
             id: 'campusQuestion',
-            defaultTitle: 'Campus',
+            defaultTitle:
+              'Campus - Type the full name of your campus and choose from the list that appears',
             defaultProfile: 'CAMPUS',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-university',
             name: 'Campus',
+            defaultExportFieldTitle: 'Campus',
           },
           {
             id: 'dormitoryQuestion',
             defaultTitle: 'Dormitory',
             defaultProfile: 'DORMITORY',
-            iconClass: 'fa-graduation-cap',
+            iconClass: 'fa-building',
             name: 'Dormitory',
+          },
+          {
+            id: 'opportunitiesQuestion',
+            defaultTitle:
+              'Would you like to be informed about new opportunities (like conferences, mission trips, career opportunities, etc.) to be involved with Cru around the U.S. & world?',
+            defaultProfile: 'OPPORTUNITIES',
+            defaultExportFieldTitle: 'Cru Opportunities',
+            iconClass: 'fa-lightbulb-o',
+            name: 'Cru Opportunities',
+          },
+          {
+            id: 'graduationDateQuestion',
+            defaultTitle: 'Expected Graduation Date',
+            defaultProfile: 'GRADUATION_DATE',
+            iconClass: 'fa-graduation-cap',
+            name: 'Graduation Date',
+          },
+          {
+            id: 'ethnicityQuestion',
+            defaultTitle: 'Which race or ethnicity best describes you?',
+            defaultExportFieldTitle: 'Race/Ethnicity',
+            defaultProfile: 'ETHNICITY',
+            iconClass: 'fa-globe',
+            name: 'Racial/Ethnic Identity',
           },
         ];
       },

@@ -123,6 +123,18 @@
       block="block"
       ng-switch-when="dormitoryQuestion"
     ></text-question>
+    <opportunities-question
+      block="block"
+      ng-switch-when="opportunitiesQuestion"
+    ></opportunities-question>
+    <graduation-date-question
+      block="block"
+      ng-switch-when="graduationDateQuestion"
+    ></graduation-date-question>
+    <ethnicity-question
+      block="block"
+      ng-switch-when="ethnicityQuestion"
+    ></ethnicity-question>
   </ng-switch>
 
   <div class="edit-options" ng-if="editBlock">
@@ -253,6 +265,27 @@
           <label
             ><input type="checkbox" ng-model="block.content.hideGradStudent" />
             <translate>Hide "Graduate Student" option</translate></label
+          >
+        </div>
+        <div class="checkbox" ng-if="block.type === 'campusQuestion'">
+          <label
+            ><input
+              type="checkbox"
+              ng-model="block.content.showInternationalCampuses"
+            />
+            <translate>Include International Campuses</translate></label
+          >
+        </div>
+
+        <div
+          class="help-block"
+          ng-if="block.type === 'opportunitiesQuestion' && !eventHasQuestionType('phoneQuestion')"
+        >
+          <i
+            ><translate
+              >*Please remember to add a 'Telephone' question to this
+              form.</translate
+            ></i
           >
         </div>
 
@@ -441,7 +474,7 @@
           <translate>Question Rules can depend on questions of</translate>
           <a
             href=""
-            uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Gender or Year in School' | translate}}"
+            uib-tooltip="{{'Multiple Choice, Dropdown, Number, Date, Sex or Year in School' | translate}}"
             translate
             >these types</a
           >

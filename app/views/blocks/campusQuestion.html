@@ -2,14 +2,20 @@
   <input
     type="text"
     ng-model="answer.value"
-    ng-model-options="{ debounce: 1000 }"
     placeholder=""
+    name="campus"
+    autocomplete="off"
+    aria-autocomplete="none"
     class="form-control"
+    show-errors
     ng-required="block.required"
     uib-typeahead="campus for campus in searchCampuses($viewValue)"
     typeahead-loading="loadingCampuses"
-    typeahead-min-length="4"
-    typeahead-wait-ms="300"
+    typeahead-min-length="2"
+    typeahead-wait-ms="200"
+    typeahead-editable="false"
+    typeahead-no-results="campusNotFound"
+    typeahead-show-hint="true"
   />
   <span
     class="form-control-feedback"
@@ -18,4 +24,7 @@
   >
     <i class="fa fa-spinner fa-spin"></i>
   </span>
+  <span ng-if="campusNotFound" class="help-block" translate
+    >*Campus not found. Type the full name of your campus.</span
+  >
 </div>

@@ -15,8 +15,7 @@
       show-errors
       name="{{ block.id }}"
       ng-required="block.required"
-      ng-model="answer.value"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model="$parent.selectedAnswer"
       ng-value="choice.value"
     />
     <strong>{{ choice.value }}</strong>
@@ -35,7 +34,7 @@
   <button
     type="reset"
     class="btn btn-info btn-sm"
-    ng-click="answer.value=''"
+    ng-click="clearAnswer()"
     translate=""
   >
     <span class="ng-scope">Clear</span>
@@ -44,15 +43,19 @@
 <label ng-show="block.content.otherOption.enabled">
   <input
     type="radio"
-    ng-checked="answer.value === otherAnswer && answer.value !== ''"
-    ng-click="selectOtherAnswer()"
+    show-errors
+    name="{{ block.id }}"
+    ng-required="block.required"
+    ng-model="selectedAnswer"
+    ng-value="otherSentinel"
   />
   <input
     type="text"
     class="form-control"
+    show-errors
     ng-model="otherAnswer"
-    ng-model-options="{ debounce: 1000 }"
     ng-change="selectOtherAnswer()"
+    ng-required="selectedAnswer === otherSentinel"
     style="display: inline; width: auto"
   />
 </label>

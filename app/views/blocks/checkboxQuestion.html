@@ -20,7 +20,7 @@
         show-errors
         ng-required="block.required && !atLeastOneChecked()"
         ng-model="answer.value[choice.value]"
-        ng-model-options="{ debounce: 1000 }"
+        ng-model-options="{ debounce: 300 }"
         ng-disabled="block.content.forceSelections[choice.value] == true && (checkForceRule(block,'') || isAdmin)"
         ng-value="true"
       />
@@ -48,7 +48,7 @@
       <input
         type="checkbox"
         ng-model="block.content.forceSelections[choice.value]"
-        ng-model-options="{ debounce: 1000 }"
+        ng-model-options="{ debounce: 300 }"
         ng-value="true"
       />
       <strong translate>Force selection</strong>

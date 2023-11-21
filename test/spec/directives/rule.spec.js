@@ -18,6 +18,7 @@ describe('Directive: rule', function () {
     $templateCache.put('views/components/rule.html', '');
 
     scope.conference = testData.conference;
+    scope.conference.registrationPages = testData.conference.registrationPages;
 
     const block = _.find(testData.conference.registrationPages[1].blocks, {
       id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
@@ -37,5 +38,14 @@ describe('Directive: rule', function () {
 
     expect(choiceCCC.operand).toBe('OR');
     expect(choiceDDD.operand).toBe('OR');
+  });
+
+  it('chooses correct options for rule questions using ruleValues()', function () {
+    scope.conference = testData.conference;
+    let expectedChoices = ['AAA', 'BBB', 'CCC', 'DDD'];
+
+    expect(scope.ruleValues('18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb')).toEqual(
+      expectedChoices,
+    );
   });
 });

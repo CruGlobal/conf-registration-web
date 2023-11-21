@@ -17,12 +17,16 @@
       ng-model="conference.contactPersonName"
     />
   </div>
-  <div class="col-sm-6 stacked-spacing-col-sm">
+  <div
+    class="col-sm-6 stacked-spacing-col-sm"
+    ng-class="{ 'has-error': eventDetails.email.$dirty && eventDetails.email.$invalid }"
+  >
     <label translate>Email</label>
     <input
       type="email"
+      name="email"
       class="form-control"
-      placeholder="example@email.com"
+      placeholder="example@example.com"
       ng-model="conference.contactPersonEmail"
     />
   </div>

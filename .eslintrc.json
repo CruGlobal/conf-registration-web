@@ -29,6 +29,16 @@
     "require": true,
     "_": true
   },
+  "overrides": [
+    {
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "files": ["app/**/*.{ts,tsx}", "types/*.ts"],
+      "rules": {
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    }
+  ],
   "rules": {
     "no-alert": "error",
     "no-array-constructor": "off",
