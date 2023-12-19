@@ -107,10 +107,10 @@ angular
 
       // Return a boolean indicating whether the register button(s) should be disabled
       $scope.registerDisabled = function () {
-        return (
+        return Boolean(
           $scope.registerMode === 'preview' ||
-          !$scope.allRegistrantsValid() ||
-          $scope.submittingRegistration
+            !$scope.allRegistrantsValid() ||
+            $scope.submittingRegistration,
         );
       };
 
