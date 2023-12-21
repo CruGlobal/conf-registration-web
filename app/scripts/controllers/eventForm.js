@@ -5,7 +5,6 @@ angular
     function (
       $rootScope,
       $scope,
-      $uibModal,
       modalMessage,
       $location,
       $anchorScroll,
@@ -46,14 +45,13 @@ angular
       var formSavingNotifyTimeout;
 
       function saveForm() {
+        $timeout.cancel(formSavingTimeout);
         if (formSaving) {
-          $timeout.cancel(formSavingTimeout);
           formSavingTimeout = $timeout(function () {
             saveForm();
           }, 600);
           return;
         }
-        $timeout.cancel(formSavingTimeout);
 
         formSaving = true;
         let conferenceWithoutImage = angular.copy($scope.conference);
@@ -210,28 +208,29 @@ angular
           });
       };
 
-      var makePositionArray = function () {
-        var tempPositionArray = [];
+      // Generate a map of blockIds to their page and index within the page
+      var makeBlockPositionMap = function () {
+        var positionMap = {};
         $scope.conference.registrationPages.forEach(function (page, pageIndex) {
           page.blocks.forEach(function (block, blockIndex) {
-            tempPositionArray[block.id] = {
-              page: pageIndex,
-              block: blockIndex,
+            positionMap[block.id] = {
+              pageIndex,
+              blockIndex,
             };
           });
         });
-        return tempPositionArray;
+        return positionMap;
       };
 
       $scope.copyBlock = function (blockId) {
-        var tempPositionArray = makePositionArray();
-        var origPageIndex = tempPositionArray[blockId].page;
+        var previousBlockPositions = makeBlockPositionMap();
+        var origPageIndex = previousBlockPositions[blockId].pageIndex;
         var newBlock = angular.copy(
           $scope.conference.registrationPages[origPageIndex].blocks[
-            tempPositionArray[blockId].block
+            previousBlockPositions[blockId].blockIndex
           ],
         );
-        var newPosition = tempPositionArray[blockId].block + 1;
+        var newPosition = previousBlockPositions[blockId].blockIndex + 1;
         newBlock.id = uuid();
         newBlock.profileType = null;
         newBlock.position = newPosition;
@@ -330,20 +329,20 @@ angular
           return;
         }
 
+        var previousBlockPositions = makeBlockPositionMap();
         if (growl) {
-          var t = makePositionArray();
           var block =
-            $scope.conference.registrationPages[t[blockId].page].blocks[
-              t[blockId].block
-            ];
+            $scope.conference.registrationPages[
+              previousBlockPositions[blockId].pageIndex
+            ].blocks[previousBlockPositions[blockId].blockIndex];
           var message = '"' + block.title + '" has been deleted.';
           GrowlService.growl($scope, 'conference', $scope.conference, message);
         }
 
-        var tempPositionArray = makePositionArray();
         _.remove(
-          $scope.conference.registrationPages[tempPositionArray[blockId].page]
-            .blocks,
+          $scope.conference.registrationPages[
+            previousBlockPositions[blockId].pageIndex
+          ].blocks,
           { id: blockId },
         );
       };
