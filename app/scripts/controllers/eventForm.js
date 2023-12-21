@@ -264,6 +264,7 @@ angular
 
         var profileType = null;
         if (angular.isDefined(defaultProfile)) {
+          // Check whether a block with this profile type exists already on any page
           var profileCount = 0;
           $scope.conference.registrationPages.forEach(function (page) {
             page.blocks.forEach(function (block) {
