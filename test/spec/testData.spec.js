@@ -545,6 +545,92 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     },
   };
 
+  this.waiverPage = {
+    id: 'aee6734c-17c2-4e60-9506-b5670b95367e',
+    conferenceId: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
+    title: 'Waiver',
+    position: 2,
+    blocks: [
+      {
+        id: 'f9c33761-4cfc-47ae-99b4-04557b8ac375',
+        pageId: 'aee6734c-17c2-4e60-9506-b5670b95367e',
+        title: 'Are you under 18?',
+        exportFieldTitle: null,
+        type: 'selectQuestion',
+        required: true,
+        position: 0,
+        adminOnly: false,
+        content: {
+          forceSelectionRuleOperand: 'AND',
+          forceSelections: {},
+          ruleoperand: 'AND',
+          choices: [
+            {
+              value: 'Yes',
+              desc: '',
+              operand: 'OR',
+            },
+            {
+              value: 'No',
+              desc: '',
+              operand: 'OR',
+            },
+          ],
+        },
+        profileType: null,
+        tag: 'EFORM',
+        registrantTypes: [],
+        rules: [],
+        expenseType: null,
+        startDateBlockId: null,
+        endDateBlockId: null,
+      },
+    ],
+  };
+
+  this.rulesPage = {
+    id: '36f0fb55-b8af-4889-818f-a36a78b278a6',
+    conferenceId: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
+    title: 'Rules',
+    position: 3,
+    blocks: [
+      {
+        id: '98ba802c-50a6-43b0-b04c-5e32fe3c7867',
+        pageId: '36f0fb55-b8af-4889-818f-a36a78b278a6',
+        title: 'Question',
+        exportFieldTitle: null,
+        type: 'textQuestion',
+        required: false,
+        position: 0,
+        adminOnly: false,
+        content: {
+          default: '',
+          ruleoperand: 'OR',
+          forceSelections: {},
+          forceSelectionRuleOperand: 'AND',
+        },
+        profileType: null,
+        tag: null,
+        registrantTypes: [],
+        rules: [
+          {
+            id: 'f0ee3bda-fe1f-425f-b22c-ef48f2c5b35e',
+            blockId: '98ba802c-50a6-43b0-b04c-5e32fe3c7867',
+            parentBlockId: '0b876382-5fd1-46af-b778-10fc9b1b530d',
+            operator: '=',
+            value: '12',
+            position: 0,
+            blockEntityOption: '',
+            ruleType: 'SHOW_QUESTION',
+          },
+        ],
+        expenseType: null,
+        startDateBlockId: null,
+        endDateBlockId: null,
+      },
+    ],
+  };
+
   this.registration = {
     id: '709738ff-da79-4eed-aacd-d9f005fc7f4e',
     userId: '0c3a1826-9a81-444f-9299-1f6f5288a0cc',
