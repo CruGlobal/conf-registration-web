@@ -52,20 +52,21 @@ angular
       );
 
       $scope.blocks = [];
-      $scope.regValidate = [];
+      $scope.regValidate = {};
+
+      $scope.getRegistrantType = function (id) {
+        return _.find(conference.registrantTypes, { id });
+      };
 
       //check if group registration is allowed based on registrants already in registration
-      if (!_.isEmpty(currentRegistration.registrants)) {
-        $scope.allowGroupRegistration = false;
-        angular.forEach(currentRegistration.registrants, function (r) {
-          if ($scope.allowGroupRegistration) {
-            return;
-          }
-          var regType = getRegistrantType(r.registrantTypeId);
-          $scope.allowGroupRegistration = regType.allowGroupRegistrations;
-        });
-      }
+      $scope.allowGroupRegistration = currentRegistration.registrants.some(
+        (registrant) =>
+          $scope.getRegistrantType(registrant.registrantTypeId)
+            .allowGroupRegistrations,
+      );
 
+      // TODO: $scope.currentPayment is always undefined and conference.accept* is also undefined
+      // We need to need to use $scope.acceptedPaymentMethods() to calculate the initial payment type
       if (angular.isUndefined($scope.currentPayment)) {
         var paymentType;
         if (conference.acceptCreditCards) {
@@ -107,10 +108,10 @@ angular
 
       // Return a boolean indicating whether the register button(s) should be disabled
       $scope.registerDisabled = function () {
-        return (
+        return Boolean(
           $scope.registerMode === 'preview' ||
-          !$scope.allRegistrantsValid() ||
-          $scope.submittingRegistration
+            !$scope.allRegistrantsValid() ||
+            $scope.submittingRegistration,
         );
       };
 
@@ -128,17 +129,11 @@ angular
         });
       }
 
-      function getRegistrantType(typeId) {
-        return _.find(conference.registrantTypes, {
-          id: typeId,
-        });
-      }
-
       function primaryRegType(currentRegistration) {
         let primaryRegistrant = _.find(currentRegistration.registrants, {
           id: currentRegistration.primaryRegistrantId,
         });
-        return getRegistrantType(primaryRegistrant.registrantTypeId);
+        return $scope.getRegistrantType(primaryRegistrant.registrantTypeId);
       }
 
       // Navigate to the correct page after completing a registration
@@ -204,12 +199,12 @@ angular
       };
 
       $scope.pageIsVisible = (page, registrantId) =>
-        page.blocks.filter((block) =>
+        page.blocks.some((block) =>
           validateRegistrant.blockVisible(
             block,
             currentRegistration.registrants.find((r) => r.id === registrantId),
           ),
-        ).length > 0;
+        );
 
       $scope.removeRegistrant = function (id) {
         modalMessage
@@ -234,10 +229,6 @@ angular
                 });
               });
           });
-      };
-
-      $scope.getRegistrantType = function (id) {
-        return _.find(conference.registrantTypes, { id: id });
       };
 
       $scope.isBlockInvalid = function (rId, bId) {
@@ -301,7 +292,7 @@ angular
         var groupRegistrants = 0,
           noGroupRegistrants = 0;
         angular.forEach(currentRegistration.registrants, function (r) {
-          var regType = getRegistrantType(r.registrantTypeId);
+          var regType = $scope.getRegistrantType(r.registrantTypeId);
           if (regType.allowGroupRegistrations) {
             groupRegistrants++;
           } else {
@@ -309,7 +300,7 @@ angular
           }
         });
 
-        var regType = getRegistrantType(r.registrantTypeId);
+        var regType = $scope.getRegistrantType(r.registrantTypeId);
         if (
           regType.allowGroupRegistrations &&
           groupRegistrants === 1 &&

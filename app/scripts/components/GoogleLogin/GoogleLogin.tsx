@@ -40,6 +40,7 @@ const GoogleLogin = ({ $http, $document, envService }: GoogleLoginProps) => {
       <>
         <div
           id="g_id_onload"
+          data-use_fedcm_for_prompt="true"
           data-client_id={clientId}
           data-auto_prompt="true"
           data-nonce={googleNonce}

@@ -103,7 +103,7 @@ angular
       });
 
       //turn on visible blocks
-      var visibleBlocks = localStorage.getItem(
+      var visibleBlocks = $window.localStorage.getItem(
         'visibleBlocks:' + conference.id,
       );
       if (!_.isNull(visibleBlocks)) {
@@ -121,7 +121,7 @@ angular
       $scope.toggleColumn = function (block) {
         $scope.blocks[block].visible = !$scope.blocks[block].visible;
         visibleBlocks = _.map(_.filter($scope.blocks, { visible: true }), 'id');
-        localStorage.setItem(
+        $window.localStorage.setItem(
           'visibleBlocks:' + conference.id,
           JSON.stringify(visibleBlocks),
         );
@@ -129,7 +129,7 @@ angular
       };
 
       //turn on visible built in columns
-      var builtInColumnsVisibleInStorage = localStorage.getItem(
+      var builtInColumnsVisibleInStorage = $window.localStorage.getItem(
         'builtInColumnsVisibleStorage',
       );
       if (
@@ -154,7 +154,7 @@ angular
       $scope.toggleBuiltInColumn = function (columnName) {
         $scope.builtInColumnsVisible[columnName] =
           !$scope.builtInColumnsVisible[columnName];
-        localStorage.setItem(
+        $window.localStorage.setItem(
           'builtInColumnsVisibleStorage',
           JSON.stringify($scope.builtInColumnsVisible),
         );
