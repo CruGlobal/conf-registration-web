@@ -27,7 +27,7 @@
     "react-bootstrap": "^0.33.1",
     "react-dom": "^18.0.0-rc.0",
     "react2angular": "^4.0.6",
-    "rollbar": "^2.0.4",
+    "rollbar": "^2.26.4",
     "ui-cropper": "^1.0.9"
   },
   "devDependencies": {
