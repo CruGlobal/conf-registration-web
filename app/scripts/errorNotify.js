@@ -6,6 +6,7 @@ const rollbarConfig = {
     "undefined is not an object (evaluating '__gCrWeb.autofill.extractForms')",
   ],
   scrubFields: ['creditCard'],
+  scrubTelemetryInputs: true,
   captureUncaught: true,
   captureUnhandledRejections: false,
   payload: {
