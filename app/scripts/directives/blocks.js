@@ -20,10 +20,15 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
   return {
     templateUrl: nameQuestionTemplate,
     restrict: 'E',
-    controller: function ($scope) {
+    controller: function ($rootScope, $scope) {
       if (!$scope.answer && !$scope.answer.value) {
         $scope.answer.value = {};
       }
+
+      const user = $rootScope.globalUser();
+      $scope.lockedStaffProfileBlock = Boolean(
+        user && user.employeeId && $scope.block.profileType === 'NAME',
+      );
     },
   };
 });
@@ -64,6 +69,12 @@ angular
     return {
       templateUrl: emailQuestionTemplate,
       restrict: 'E',
+      controller: function ($rootScope, $scope) {
+        const user = $rootScope.globalUser();
+        $scope.lockedStaffProfileBlock = Boolean(
+          user && user.employeeId && $scope.block.profileType === 'EMAIL',
+        );
+      },
     };
   });
 
