@@ -27,7 +27,10 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
 
       const user = $rootScope.globalUser();
       $scope.lockedStaffProfileBlock = Boolean(
-        user && user.employeeId && $scope.block.profileType === 'NAME',
+        !$scope.adminEditRegistrant &&
+          user &&
+          user.employeeId &&
+          $scope.block.profileType === 'NAME',
       );
     },
   };
@@ -72,7 +75,10 @@ angular
       controller: function ($rootScope, $scope) {
         const user = $rootScope.globalUser();
         $scope.lockedStaffProfileBlock = Boolean(
-          user && user.employeeId && $scope.block.profileType === 'EMAIL',
+          !$scope.adminEditRegistrant &&
+            user &&
+            user.employeeId &&
+            $scope.block.profileType === 'EMAIL',
         );
       },
     };
