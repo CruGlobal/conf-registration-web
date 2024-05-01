@@ -8,7 +8,7 @@
       ng-model="answer.value.firstName"
       ng-model-options="{ debounce: 300 }"
       ng-required="block.required"
-      ng-disabled="editBlock"
+      ng-disabled="editBlock || lockedStaffProfileBlock"
     />
   </div>
   <div class="col-sm-6">
@@ -20,7 +20,7 @@
       ng-model="answer.value.lastName"
       ng-model-options="{ debounce: 300 }"
       ng-required="block.required"
-      ng-disabled="editBlock"
+      ng-disabled="editBlock || lockedStaffProfileBlock"
     />
   </div>
 </div>
