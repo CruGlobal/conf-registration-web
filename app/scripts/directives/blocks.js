@@ -25,9 +25,10 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
         $scope.answer.value = {};
       }
 
-      $scope.lockedStaffProfileBlock =
-        !!$rootScope.globalUser().employeeId &&
-        $scope.block.profileType === 'NAME';
+      const user = $rootScope.globalUser();
+      $scope.lockedStaffProfileBlock = Boolean(
+        user && user.employeeId && $scope.block.profileType === 'NAME',
+      );
     },
   };
 });
@@ -69,9 +70,10 @@ angular
       templateUrl: emailQuestionTemplate,
       restrict: 'E',
       controller: function ($rootScope, $scope) {
-        $scope.lockedStaffProfileBlock =
-          !!$rootScope.globalUser().employeeId &&
-          $scope.block.profileType === 'EMAIL';
+        const user = $rootScope.globalUser();
+        $scope.lockedStaffProfileBlock = Boolean(
+          user && user.employeeId && $scope.block.profileType === 'EMAIL',
+        );
       },
     };
   });
