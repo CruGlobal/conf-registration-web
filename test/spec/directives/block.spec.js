@@ -4,6 +4,129 @@ import _ from 'lodash';
 describe('Directive: blocks', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
+  describe('nameQuestion', () => {
+    let $compile, $rootScope, $scope;
+    beforeEach(inject((_$compile_, _$rootScope_, $templateCache, testData) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+
+      $scope = $rootScope.$new();
+      $scope.answer = {};
+      $templateCache.put('views/blocks/nameQuestion.html', '');
+
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[1].blocks[1],
+      );
+    }));
+
+    describe('lockedStaffProfileBlock', () => {
+      describe('for staff', () => {
+        beforeEach(() => {
+          spyOn($rootScope, 'globalUser').and.returnValue({
+            employeeId: '0123456',
+          });
+        });
+
+        it('is true when the profile type is NAME', () => {
+          $compile('<name-question></name-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(true);
+        });
+
+        it('is false when the profile type is not NAME', () => {
+          $scope.block.profileType = null;
+          $compile('<name-question></name-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+      });
+
+      describe('for non-staff', () => {
+        beforeEach(() => {
+          spyOn($rootScope, 'globalUser').and.returnValue({ employeeId: null });
+        });
+
+        it('is false when the profile type is NAME', () => {
+          $compile('<name-question></name-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+
+        it('is false when the profile type is not NAME', () => {
+          $scope.block.profileType = null;
+          $compile('<name-question></name-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+      });
+    });
+  });
+
+  describe('emailQuestion', () => {
+    let $compile, $rootScope, $scope;
+    beforeEach(inject((_$compile_, _$rootScope_, $templateCache, testData) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+
+      $scope = $rootScope.$new();
+      $templateCache.put('views/blocks/emailQuestion.html', '');
+
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[0].blocks[0],
+      );
+    }));
+
+    describe('lockedStaffProfileBlock', () => {
+      describe('for staff', () => {
+        beforeEach(() => {
+          spyOn($rootScope, 'globalUser').and.returnValue({
+            employeeId: '0123456',
+          });
+        });
+
+        it('is true when the profile type is EMAIL', () => {
+          $compile('<email-question></email-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(true);
+        });
+
+        it('is false when the profile type is not EMAIL', () => {
+          $scope.block.profileType = null;
+          $compile('<email-question></email-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+      });
+
+      describe('for non-staff', () => {
+        beforeEach(() => {
+          spyOn($rootScope, 'globalUser').and.returnValue({ employeeId: null });
+        });
+
+        it('is false when the profile type is EMAIL', () => {
+          $compile('<email-question></email-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+
+        it('is false when the profile type is not EMAIL', () => {
+          $scope.block.profileType = null;
+          $compile('<email-question></email-question>')($scope);
+          $scope.$digest();
+
+          expect($scope.lockedStaffProfileBlock).toBe(false);
+        });
+      });
+    });
+  });
+
   describe('radioQuestion', () => {
     let $compile, $rootScope, $scope, $timeout;
     beforeEach(inject((
