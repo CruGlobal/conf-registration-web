@@ -11,6 +11,7 @@ describe('Directive: blocks', () => {
       $rootScope = _$rootScope_;
 
       $scope = $rootScope.$new();
+      $scope.currentRegistration = testData.registration;
       $scope.answer = {};
       $templateCache.put('views/blocks/nameQuestion.html', '');
 
@@ -20,93 +21,57 @@ describe('Directive: blocks', () => {
     }));
 
     describe('lockedStaffProfileBlock', () => {
-      describe('for staff', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue({
-            employeeId: '0123456',
-          });
+      let globalUserSpy;
+      beforeEach(() => {
+        globalUserSpy = spyOn($rootScope, 'globalUser').and.returnValue({
+          employeeId: '0123456',
         });
-
-        it('is true when the profile type is NAME', () => {
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(true);
-        });
-
-        it('is false when the profile type is not NAME', () => {
-          $scope.block.profileType = null;
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        $scope.adminEditRegistrant = null;
+        $scope.currentRegistrant =
+          $scope.currentRegistration.primaryRegistrantId;
       });
 
-      describe('for non-staff', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue({ employeeId: null });
-        });
+      it('is true when staff are editing a NAME field on the primary registrant', () => {
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
 
-        it('is false when the profile type is NAME', () => {
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
-
-        it('is false when the profile type is not NAME', () => {
-          $scope.block.profileType = null;
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(true);
       });
 
-      describe('with no profile', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue(null);
-        });
+      it('is false for non-staff', () => {
+        globalUserSpy.and.returnValue({ employeeId: null });
 
-        it('is false when the profile type is NAME', () => {
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
-
-        it('is false when the profile type is not NAME', () => {
-          $scope.block.profileType = null;
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(false);
       });
 
-      describe('when an admin is editing', () => {
-        beforeEach(() => {
-          $scope.adminEditRegistrant = {};
-          spyOn($rootScope, 'globalUser').and.returnValue({
-            employeeId: '0123456',
-          });
-        });
+      it('is false when an admin is editing', () => {
+        $scope.adminEditRegistrant = {};
 
-        it('is false when the profile type is NAME', () => {
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(false);
+      });
 
-        it('is false when the profile type is not NAME', () => {
-          $scope.block.profileType = null;
-          $compile('<name-question></name-question>')($scope);
-          $scope.$digest();
+      it('is false when the profile type is not NAME', () => {
+        $scope.block.profileType = null;
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
+      });
+
+      it('is false when editing a secondary registrant', () => {
+        $scope.currentRegistrant = 'other';
+
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
       });
     });
   });
@@ -118,6 +83,7 @@ describe('Directive: blocks', () => {
       $rootScope = _$rootScope_;
 
       $scope = $rootScope.$new();
+      $scope.currentRegistration = testData.registration;
       $templateCache.put('views/blocks/emailQuestion.html', '');
 
       $scope.block = _.cloneDeep(
@@ -126,93 +92,57 @@ describe('Directive: blocks', () => {
     }));
 
     describe('lockedStaffProfileBlock', () => {
-      describe('for staff', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue({
-            employeeId: '0123456',
-          });
+      let globalUserSpy;
+      beforeEach(() => {
+        globalUserSpy = spyOn($rootScope, 'globalUser').and.returnValue({
+          employeeId: '0123456',
         });
-
-        it('is true when the profile type is EMAIL', () => {
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(true);
-        });
-
-        it('is false when the profile type is not EMAIL', () => {
-          $scope.block.profileType = null;
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        $scope.adminEditRegistrant = null;
+        $scope.currentRegistrant =
+          $scope.currentRegistration.primaryRegistrantId;
       });
 
-      describe('for non-staff', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue({ employeeId: null });
-        });
+      it('is true when staff are editing an EMAIL field on the primary registrant', () => {
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
 
-        it('is false when the profile type is EMAIL', () => {
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
-
-        it('is false when the profile type is not EMAIL', () => {
-          $scope.block.profileType = null;
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(true);
       });
 
-      describe('when an admin is editing', () => {
-        beforeEach(() => {
-          $scope.adminEditRegistrant = {};
-          spyOn($rootScope, 'globalUser').and.returnValue({
-            employeeId: '0123456',
-          });
-        });
+      it('is false for non-staff', () => {
+        globalUserSpy.and.returnValue({ employeeId: null });
 
-        it('is false when the profile type is EMAIL', () => {
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
-
-        it('is false when the profile type is not EMAIL', () => {
-          $scope.block.profileType = null;
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
-
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(false);
       });
 
-      describe('with no profile', () => {
-        beforeEach(() => {
-          spyOn($rootScope, 'globalUser').and.returnValue(null);
-        });
+      it('is false when an admin is editing', () => {
+        $scope.adminEditRegistrant = {};
 
-        it('is false when the profile type is EMAIL', () => {
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        expect($scope.lockedStaffProfileBlock).toBe(false);
+      });
 
-        it('is false when the profile type is not EMAIL', () => {
-          $scope.block.profileType = null;
-          $compile('<email-question></email-question>')($scope);
-          $scope.$digest();
+      it('is false when the profile type is not EMAIL', () => {
+        $scope.block.profileType = null;
 
-          expect($scope.lockedStaffProfileBlock).toBe(false);
-        });
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
+      });
+
+      it('is false when editing a secondary registrant', () => {
+        $scope.currentRegistrant = 'other';
+
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
       });
     });
   });
