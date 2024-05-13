@@ -38,6 +38,15 @@ describe('Directive: blocks', () => {
         expect($scope.lockedStaffProfileBlock).toBe(true);
       });
 
+      it('is false when profile has not loaded', () => {
+        globalUserSpy.and.returnValue(null);
+
+        $compile('<name-question></name-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
+      });
+
       it('is false for non-staff', () => {
         globalUserSpy.and.returnValue({ employeeId: null });
 
@@ -107,6 +116,15 @@ describe('Directive: blocks', () => {
         $scope.$digest();
 
         expect($scope.lockedStaffProfileBlock).toBe(true);
+      });
+
+      it('is false when profile has not loaded', () => {
+        globalUserSpy.and.returnValue(null);
+
+        $compile('<email-question></email-question>')($scope);
+        $scope.$digest();
+
+        expect($scope.lockedStaffProfileBlock).toBe(false);
       });
 
       it('is false for non-staff', () => {
