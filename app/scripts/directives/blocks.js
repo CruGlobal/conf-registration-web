@@ -30,7 +30,6 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
         !$scope.adminEditRegistrant &&
           user &&
           user.employeeId &&
-          $scope.currentRegistration &&
           $scope.currentRegistrant ===
             $scope.currentRegistration.primaryRegistrantId &&
           $scope.block.profileType === 'NAME',
@@ -81,7 +80,6 @@ angular
           !$scope.adminEditRegistrant &&
             user &&
             user.employeeId &&
-            $scope.currentRegistration &&
             $scope.currentRegistrant ===
               $scope.currentRegistration.primaryRegistrantId &&
             $scope.block.profileType === 'EMAIL',

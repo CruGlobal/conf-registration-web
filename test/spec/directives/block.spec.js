@@ -47,16 +47,6 @@ describe('Directive: blocks', () => {
         expect($scope.lockedStaffProfileBlock).toBe(false);
       });
 
-      it('is false when currentRegistration is null', () => {
-        $scope.currentRegistration = null;
-        globalUserSpy.and.returnValue(null);
-
-        $compile('<name-question></name-question>')($scope);
-        $scope.$digest();
-
-        expect($scope.lockedStaffProfileBlock).toBe(false);
-      });
-
       it('is false for non-staff', () => {
         globalUserSpy.and.returnValue({ employeeId: null });
 
