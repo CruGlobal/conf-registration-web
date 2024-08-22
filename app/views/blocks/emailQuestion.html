@@ -5,7 +5,7 @@
   class="form-control"
   placeholder="example@example.com"
   ng-model="answer.value"
-  ng-model-options="{ debounce: 1000 }"
+  ng-model-options="{ allowInvalid: adminEditing, debounce: 1000 }"
   ng-required="block.required"
   ng-disabled="editBlock || lockedStaffProfileBlock"
 />
