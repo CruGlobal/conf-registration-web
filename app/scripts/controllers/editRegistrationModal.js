@@ -15,6 +15,7 @@ angular
     ) {
       $scope.conference = angular.copy(conference);
       $scope.registration = angular.copy(registration);
+      $scope.adminEditing = true; // Used in emailQuestion.html to prevent converting invalid email addresses to undefined
       $scope.adminEditRegistrant = _.find($scope.registration.registrants, {
         id: registrantId,
       });
