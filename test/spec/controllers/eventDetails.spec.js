@@ -279,6 +279,22 @@ describe('Controller: eventDetails', function () {
         'Please enter which Event Type',
       );
     });
+
+    it('saveEvent() should validate the Event Name', () => {
+      scope.conference.name = 'Men & Women Conference';
+      scope.saveEvent();
+
+      expect(scope.notify.message.toString()).toContain(
+        'Please remove double quotes (") and ampersands (&) from the event name.',
+      );
+
+      scope.conference.name = '"Cru" Conference';
+      scope.saveEvent();
+
+      expect(scope.notify.message.toString()).toContain(
+        'Please remove double quotes (") and ampersands (&) from the event name.',
+      );
+    });
   });
 
   describe('Conference (Cru event) without ministry hosting', function () {
