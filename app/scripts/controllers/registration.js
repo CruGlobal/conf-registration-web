@@ -63,6 +63,8 @@ angular
                     currentRegistration.registrants.find(
                       (r) => r.id === registrantId,
                     ),
+                    false,
+                    $scope.conference,
                   ),
                 ).length > 0
               );
@@ -83,6 +85,8 @@ angular
                   currentRegistration.registrants.find(
                     (r) => r.id === registrantId,
                   ),
+                  false,
+                  $scope.conference,
                 ),
               ).length > 0
             );
@@ -113,6 +117,8 @@ angular
                 currentRegistration.registrants.find(
                   (r) => r.id === registrantId,
                 ),
+                false,
+                $scope.conference,
               ),
             ).length > 0,
         )[0];
@@ -350,6 +356,8 @@ angular
               _.find($scope.currentRegistration.registrants, {
                 id: $scope.currentRegistrant,
               }),
+              false,
+              conference,
             );
           }),
           true,
