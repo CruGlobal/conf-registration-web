@@ -5,7 +5,16 @@ angular
   .service(
     'validateRegistrant',
     function validateRegistrant($window, ruleTypeConstants, $filter) {
-      const blockVisibleRuleCheck = (block, registrant, ruleType) => {
+      const blockVisibleRuleCheck = (
+        block,
+        registrant,
+        ruleType,
+        conference,
+      ) => {
+        const blocks = conference
+          ? _.flatten(_.map(conference.registrationPages, 'blocks'))
+          : undefined;
+
         let answers = registrant.answers;
         let ruleOperand = '';
         let validRuleCount = 0;
@@ -73,15 +82,24 @@ angular
                 ? parseFloat(rule.value)
                 : rule.value;
             }
-
-            if (rule.operator === '=' && answerValue === ruleValue) {
-              validRuleCount++;
-            } else if (rule.operator === '!=' && answerValue !== ruleValue) {
-              validRuleCount++;
-            } else if (rule.operator === '>' && answerValue > ruleValue) {
-              validRuleCount++;
-            } else if (rule.operator === '<' && answerValue < ruleValue) {
-              validRuleCount++;
+            if (
+              conference &&
+              blockVisibleRuleCheck(
+                _.find(blocks, { id: rule.parentBlockId }),
+                registrant,
+                ruleType,
+                conference,
+              )
+            ) {
+              if (rule.operator === '=' && answerValue === ruleValue) {
+                validRuleCount++;
+              } else if (rule.operator === '!=' && answerValue !== ruleValue) {
+                validRuleCount++;
+              } else if (rule.operator === '>' && answerValue > ruleValue) {
+                validRuleCount++;
+              } else if (rule.operator === '<' && answerValue < ruleValue) {
+                validRuleCount++;
+              }
             }
           }
           if (
@@ -214,13 +232,14 @@ angular
         return false;
       };
 
-      this.blockVisible = (block, registrant, isAdmin) => {
+      this.blockVisible = (block, registrant, isAdmin, conference) => {
         const visible =
           angular.isDefined(registrant) &&
           blockVisibleRuleCheck(
             block,
             registrant,
             ruleTypeConstants.SHOW_QUESTION,
+            conference,
           ) &&
           blockInRegistrantType(block, registrant) &&
           this.isAnyChoiceVisible(block, registrant);
