@@ -46,7 +46,7 @@ describe('Controller: registration', () => {
   it('should have validPages based on current registrant', () => {
     let validPages = scope.validPages;
 
-    expect(validPages.length).toEqual(2);
+    expect(validPages.length).toEqual(3);
   });
 
   it('should getFirstValidPage', () => {
@@ -104,7 +104,7 @@ describe('Controller: registration', () => {
       },
     ];
 
-    expect(scope.validPages.length).toEqual(2);
+    expect(scope.validPages.length).toEqual(3);
     scope.currentRegistrant = testData.registration.registrants[1].id;
     scope.checkValidPages();
 
@@ -126,7 +126,7 @@ describe('Controller: registration', () => {
 
     expect(checkValidPagesSpy).toHaveBeenCalledWith();
 
-    expect(scope.validPages.length).toEqual(2);
+    expect(scope.validPages.length).toEqual(3);
 
     expect(nextPage).toEqual(scope.conference.registrationPages[1]);
   });

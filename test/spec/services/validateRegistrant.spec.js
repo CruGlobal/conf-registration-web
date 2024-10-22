@@ -14,6 +14,8 @@ describe('Service: validateRegistrant', function () {
       validateRegistrant.blockVisible(
         testData.conference.registrationPages[1].blocks[0],
         testData.registration.registrants[0],
+        false,
+        testData.conference,
       ),
     ).toBe(true);
   });
@@ -285,9 +287,14 @@ describe('Service: validateRegistrant', function () {
     };
 
     // at least one choice is visible
-    expect(validateRegistrant.blockVisible(block, registrant, false)).toBe(
-      true,
-    );
+    expect(
+      validateRegistrant.blockVisible(
+        block,
+        registrant,
+        false,
+        testData.conference,
+      ),
+    ).toBe(true);
   });
 
   it('no choices are visible, block should be hidden', function () {
@@ -306,8 +313,150 @@ describe('Service: validateRegistrant', function () {
     };
 
     // no choices are visible
-    expect(validateRegistrant.blockVisible(block, registrant, false)).toBe(
-      false,
-    );
+    expect(
+      validateRegistrant.blockVisible(
+        block,
+        registrant,
+        false,
+        testData.conference,
+      ),
+    ).toBe(false);
+  });
+
+  describe('blockVisible()', function () {
+    const blockIds = [
+      'd6f1b12a-8c98-4e83-8857-1111111',
+      '38f8ece0-adf7-423d-9588-2222222',
+      'a7acefb9-72ef-4195-9b14-3333333',
+    ];
+    const Q1Multiple = _.find(testData.conference.registrationPages[2].blocks, {
+      id: blockIds[0],
+    });
+    const Q2Multiple = _.find(testData.conference.registrationPages[2].blocks, {
+      id: blockIds[1],
+    });
+    const Q3Dropdown = _.find(testData.conference.registrationPages[2].blocks, {
+      id: blockIds[2],
+    });
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    const answerParent =
+      registrant.answers[
+        _.findIndex(registrant.answers, {
+          blockId: blockIds[0],
+        })
+      ];
+    const answerChild =
+      registrant.answers[
+        _.findIndex(registrant.answers, {
+          blockId: blockIds[1],
+        })
+      ];
+    const answerGrandchild =
+      registrant.answers[
+        _.findIndex(registrant.answers, {
+          blockId: blockIds[2],
+        })
+      ];
+
+    it('should only show the parent question when its answer is empty', function () {
+      answerParent.value = '';
+      answerChild.value = '';
+      answerGrandchild.value = '';
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q1Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(true);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q2Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q3Dropdown,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+    });
+
+    it('should show child and grandchild questions when answers are selected', function () {
+      // all are visible
+      answerParent.value = 'radio option - show child';
+      answerChild.value = 'radio option - show grandchild';
+      answerGrandchild.value = '';
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q1Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(true);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q2Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(true);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q3Dropdown,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(true);
+    });
+
+    it('should hide the child and grandchild questions when the parent answer change and the child is hidden', function () {
+      // all are visible
+      answerParent.value = 'radio option - hide child';
+      answerChild.value = 'radio option - show grandchild';
+      answerGrandchild.value = '1';
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q1Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(true);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q2Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q3Dropdown,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+    });
   });
 });
