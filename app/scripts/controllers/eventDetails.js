@@ -263,6 +263,11 @@ angular
         if (_.isEmpty($scope.conference.name)) {
           validationErrors.push('Please enter an event name.');
         }
+        if (/[&"]/.test($scope.conference.name)) {
+          validationErrors.push(
+            'Please remove double quotes (") and ampersands (&) from the event name.',
+          );
+        }
 
         if (_.isEmpty($scope.conference.abbreviation)) {
           validationErrors.push('Please enter an event abbreviation.');
