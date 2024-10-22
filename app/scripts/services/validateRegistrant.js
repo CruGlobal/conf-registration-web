@@ -12,7 +12,7 @@ angular
         conference,
       ) => {
         const blocks = conference
-          ? _.flatten(_.map(conference.registrationPages, 'blocks'))
+          ? _.flatMap(conference.registrationPages, 'blocks')
           : undefined;
 
         let answers = registrant.answers;
@@ -82,24 +82,28 @@ angular
                 ? parseFloat(rule.value)
                 : rule.value;
             }
+            // Hide this block if the question that the rule is based on (parentBlock) is hidden.
+            let parentBlock = _.find(blocks, { id: rule.parentBlockId });
             if (
               conference &&
-              blockVisibleRuleCheck(
-                _.find(blocks, { id: rule.parentBlockId }),
+              !blockVisibleRuleCheck(
+                parentBlock,
                 registrant,
                 ruleType,
                 conference,
               )
             ) {
-              if (rule.operator === '=' && answerValue === ruleValue) {
-                validRuleCount++;
-              } else if (rule.operator === '!=' && answerValue !== ruleValue) {
-                validRuleCount++;
-              } else if (rule.operator === '>' && answerValue > ruleValue) {
-                validRuleCount++;
-              } else if (rule.operator === '<' && answerValue < ruleValue) {
-                validRuleCount++;
-              }
+              return false;
+            }
+
+            if (rule.operator === '=' && answerValue === ruleValue) {
+              validRuleCount++;
+            } else if (rule.operator === '!=' && answerValue !== ruleValue) {
+              validRuleCount++;
+            } else if (rule.operator === '>' && answerValue > ruleValue) {
+              validRuleCount++;
+            } else if (rule.operator === '<' && answerValue < ruleValue) {
+              validRuleCount++;
             }
           }
           if (
