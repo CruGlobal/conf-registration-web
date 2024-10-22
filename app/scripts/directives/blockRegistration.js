@@ -196,7 +196,12 @@ angular
           var registrant = _.find($scope.currentRegistration.registrants, {
             id: $scope.currentRegistrant,
           });
-          return validateRegistrant.blockVisible(block, registrant);
+          return validateRegistrant.blockVisible(
+            block,
+            registrant,
+            false,
+            $scope.conference,
+          );
         };
 
         function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {

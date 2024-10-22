@@ -292,14 +292,14 @@ describe('Controller: eventForm', function () {
 
   describe('addNewPage', () => {
     it('adds a new page', () => {
-      expect(scope.conference.registrationPages.length).toBe(2);
+      expect(scope.conference.registrationPages.length).toBe(3);
 
       scope.addNewPage();
-      const newPage = scope.conference.registrationPages[2];
+      const newPage = scope.conference.registrationPages[3];
 
-      expect(scope.conference.registrationPages.length).toBe(3);
-      expect(newPage.title).toBe('Page 3');
-      expect($location.hash()).toBe('page3');
+      expect(scope.conference.registrationPages.length).toBe(4);
+      expect(newPage.title).toBe('Page 4');
+      expect($location.hash()).toBe('page4');
     });
   });
 
