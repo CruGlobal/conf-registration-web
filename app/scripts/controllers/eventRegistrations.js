@@ -202,7 +202,12 @@ angular
       };
 
       $scope.blockIsVisible = function (block, registrant) {
-        return validateRegistrant.blockVisible(block, registrant, true);
+        return validateRegistrant.blockVisible(
+          block,
+          registrant,
+          true,
+          $scope.conference,
+        );
       };
 
       var findAnswer = function (registration, blockId) {
