@@ -93,7 +93,7 @@ angular
                 conference,
               )
             ) {
-              return false;
+              return;
             }
 
             if (rule.operator === '=' && answerValue === ruleValue) {
