@@ -128,7 +128,7 @@ angular
           block.type !== 'paragraphContent' &&
           block.profileType !== 'NAME' &&
           block.profileType !== 'EMAIL' &&
-          validateRegistrant.blockVisible(block, registrant, true)
+          validateRegistrant.blockVisible(block, registrant, true, conference)
         );
       };
     },

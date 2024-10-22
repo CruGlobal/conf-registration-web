@@ -5,7 +5,16 @@ angular
   .service(
     'validateRegistrant',
     function validateRegistrant($window, ruleTypeConstants, $filter) {
-      const blockVisibleRuleCheck = (block, registrant, ruleType) => {
+      const blockVisibleRuleCheck = (
+        block,
+        registrant,
+        ruleType,
+        conference,
+      ) => {
+        const blocks = conference
+          ? _.flatMap(conference.registrationPages, 'blocks')
+          : undefined;
+
         let answers = registrant.answers;
         let ruleOperand = '';
         let validRuleCount = 0;
@@ -72,6 +81,19 @@ angular
               ruleValue = !isNaN(rule.value)
                 ? parseFloat(rule.value)
                 : rule.value;
+            }
+            // Hide this block if the question that the rule is based on (parentBlock) is hidden.
+            let parentBlock = _.find(blocks, { id: rule.parentBlockId });
+            if (
+              conference &&
+              !blockVisibleRuleCheck(
+                parentBlock,
+                registrant,
+                ruleType,
+                conference,
+              )
+            ) {
+              return false;
             }
 
             if (rule.operator === '=' && answerValue === ruleValue) {
@@ -214,13 +236,14 @@ angular
         return false;
       };
 
-      this.blockVisible = (block, registrant, isAdmin) => {
+      this.blockVisible = (block, registrant, isAdmin, conference) => {
         const visible =
           angular.isDefined(registrant) &&
           blockVisibleRuleCheck(
             block,
             registrant,
             ruleTypeConstants.SHOW_QUESTION,
+            conference,
           ) &&
           blockInRegistrantType(block, registrant) &&
           this.isAnyChoiceVisible(block, registrant);

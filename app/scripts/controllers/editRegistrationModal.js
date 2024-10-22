@@ -29,7 +29,12 @@ angular
       $scope.blockIsVisible = function (block, registrant) {
         return (
           block.type !== 'paragraphContent' &&
-          validateRegistrant.blockVisible(block, registrant, true)
+          validateRegistrant.blockVisible(
+            block,
+            registrant,
+            true,
+            $scope.conference,
+          )
         );
       };
 

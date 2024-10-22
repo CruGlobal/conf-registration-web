@@ -203,6 +203,8 @@ angular
           validateRegistrant.blockVisible(
             block,
             currentRegistration.registrants.find((r) => r.id === registrantId),
+            false,
+            $scope.conference,
           ),
         );
 
@@ -250,7 +252,12 @@ angular
       };
 
       $scope.blockVisibleForRegistrant = function (block, registrant) {
-        return validateRegistrant.blockVisible(block, registrant);
+        return validateRegistrant.blockVisible(
+          block,
+          registrant,
+          false,
+          $scope.conference,
+        );
       };
 
       $scope.acceptedPaymentMethods = function () {
