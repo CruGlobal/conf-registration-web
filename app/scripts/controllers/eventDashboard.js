@@ -41,10 +41,6 @@ angular
             templateUrl: createEventModalTemplate,
           })
           .result.then(function (conferenceName) {
-            if (!conferenceName) {
-              return;
-            }
-
             ConfCache.create(conferenceName).then(function (conference) {
               $location.path('/eventDetails/' + conference.id);
             });
