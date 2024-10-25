@@ -2,25 +2,46 @@
   <button type="button" class="close" ng-click="$dismiss()">&times;</button>
   <h3 translate>Create Event</h3>
 </div>
-<div class="modal-body">
+<div class="modal-body" ng-form="form">
   <p>
     <translate>First things, first.</translate><br />
     <translate>Let's give this event a name:</translate>
   </p>
-  <input
-    type="text"
-    class="form-control"
-    placeholder="Example: Fall Retreat 2017"
-    ng-model="name"
-    ng-enter="$close(name)"
-    auto-focus
-  />
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Example: Fall Retreat 2017"
+      name="name"
+      ng-model="name"
+      ng-required="true"
+      ng-pattern='/^[^&"]+$/'
+      ng-enter="$close(name)"
+      auto-focus
+    />
+  </div>
+  <div
+    class="alert alert-danger"
+    ng-if="form.name.$invalid && form.name.$touched"
+  >
+    <p ng-if="form.name.$error.required" translate>
+      Please choose an event name.
+    </p>
+    <p ng-if="form.name.$error.pattern" translate>
+      Please choose an event name without quotes (") or ampersands (&).
+    </p>
+  </div>
 </div>
 <div class="modal-footer">
   <button ng-click="$dismiss()" class="btn btn-default" translate>
     Cancel
   </button>
-  <button ng-click="$close(name)" class="btn btn-primary" translate>
+  <button
+    ng-disabled="form.$invalid"
+    ng-click="$close(name)"
+    class="btn btn-primary"
+    translate
+  >
     Create
   </button>
 </div>
