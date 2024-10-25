@@ -282,35 +282,40 @@ describe('Controller: eventDetails', function () {
       });
 
       it('should validate the Event Name', () => {
+        const errorMessage =
+          'Please remove double quotes (") and ampersands (&) from the event name.';
+
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).not.toContain(errorMessage);
+
         scope.conference.name = 'Men & Women Conference';
         scope.saveEvent();
 
-        expect(scope.notify.message.toString()).toContain(
-          'Please remove double quotes (") and ampersands (&) from the event name.',
-        );
+        expect(scope.notify.message.toString()).toContain(errorMessage);
 
         scope.conference.name = '"Cru" Conference';
         scope.saveEvent();
 
-        expect(scope.notify.message.toString()).toContain(
-          'Please remove double quotes (") and ampersands (&) from the event name.',
-        );
+        expect(scope.notify.message.toString()).toContain(errorMessage);
       });
 
       it('should validate the Event Abbreviation', () => {
+        const errorMessage =
+          'Please remove double quotes (") and ampersands (&) from the event abbreviation.';
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).not.toContain(errorMessage);
+
         scope.conference.abbreviation = 'men&women';
         scope.saveEvent();
 
-        expect(scope.notify.message.toString()).toContain(
-          'Please remove double quotes (") and ampersands (&) from the event abbreviation.',
-        );
+        expect(scope.notify.message.toString()).toContain(errorMessage);
 
         scope.conference.abbreviation = '"cru"conf';
         scope.saveEvent();
 
-        expect(scope.notify.message.toString()).toContain(
-          'Please remove double quotes (") and ampersands (&) from the event abbreviation.',
-        );
+        expect(scope.notify.message.toString()).toContain(errorMessage);
       });
     });
   });
