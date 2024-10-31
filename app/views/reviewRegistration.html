@@ -344,31 +344,30 @@
             </tr>
           </table>
 
-          <a
-            href=""
-            ng-click="showPromoInput = true"
-            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length && !showPromoInput"
+          <div
+            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length"
           >
-            <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
-          </a>
-          <div class="input-group" ng-show="showPromoInput">
-            <input
-              type="text"
-              class="form-control"
-              ng-model="promoInput"
-              ng-enter="validatePromo(promoInput)"
-            />
-            <span class="input-group-btn">
-              <button
-                type="button"
-                class="btn btn-default"
-                ng-click="validatePromo(promoInput)"
-                ng-disabled="addingPromoCode"
-                translate
-              >
-                Validate
-              </button>
-            </span>
+            <label translate for="promo-code">Add Promotion Code</label>
+            <div class="input-group">
+              <input
+                id="promo-code"
+                type="text"
+                class="form-control"
+                ng-model="promoInput"
+                ng-enter="validatePromo(promoInput)"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  ng-click="validatePromo(promoInput)"
+                  ng-disabled="addingPromoCode"
+                  translate
+                >
+                  Validate
+                </button>
+              </span>
+            </div>
           </div>
         </div>
       </div>
