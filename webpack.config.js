@@ -4,7 +4,9 @@ const concat = require('lodash/concat');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
+const {
+  HtmlWebpackSkipAssetsPlugin,
+} = require('html-webpack-skip-assets-plugin');
 const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
@@ -101,7 +103,7 @@ module.exports = (env = {}) => {
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
             }),
-            new HtmlWebpackExcludeAssetsPlugin(),
+            new HtmlWebpackSkipAssetsPlugin(),
             new WebpackInlineManifestPlugin({
               name: 'webpackManifest',
             }),
