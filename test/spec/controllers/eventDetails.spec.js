@@ -40,6 +40,8 @@ describe('Controller: eventDetails', function () {
         scope = $rootScope.$new();
         $httpBackend = _$httpBackend_;
 
+        $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
+
         $controller('eventDetailsCtrl', {
           $scope: scope,
           conference: testData.conference,

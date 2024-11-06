@@ -18,6 +18,13 @@ describe('Controller: paymentCashCheckReportCtrl', function () {
       $httpBackend = _$httpBackend_;
       scope = $rootScope.$new();
 
+      $httpBackend
+        .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new\.*/)
+        .respond(201, testData.report);
+      $httpBackend
+        .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report/)
+        .respond(201, testData.reports);
+
       $controller('paymentCashCheckReportCtrl', {
         $scope: scope,
         report: testData.report,
@@ -32,12 +39,6 @@ describe('Controller: paymentCashCheckReportCtrl', function () {
   it('refresh should call api and refresh scope data', function () {
     scope.report = {};
     scope.reports = [];
-    $httpBackend
-      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new\.*/)
-      .respond(201, testData.report);
-    $httpBackend
-      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\.*/)
-      .respond(201, testData.reports);
 
     scope.refresh();
     $httpBackend.flush();
@@ -99,6 +100,9 @@ describe('Controller: paymentCashCheckReportCtrl', function () {
       .whenPOST(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/lock\.*/, {})
       .respond(201, 'locked-id');
     scope.lock();
+    // Flush the lock request
+    $httpBackend.flush();
+    // Flush the refresh request triggered by lock updating the query parameters
     $httpBackend.flush();
 
     $httpBackend.verifyNoOutstandingExpectation();
@@ -114,14 +118,8 @@ describe('Controller: paymentCashCheckReportCtrl', function () {
     $httpBackend
       .expectGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new.*page=1.*/)
       .respond(201, testData.report);
-    $httpBackend
-      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\.*/)
-      .respond(201, testData.reports);
     $httpBackend.flush();
     scope.queryParameters.page = 2;
-    $httpBackend
-      .whenGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report.*/)
-      .respond(201, testData.reports);
     $httpBackend
       .expectGET(/^conferences\/[-a-zA-Z0-9]+\/payments\/report\/new.*page=2.*/)
       .respond(201, testData.reports);
