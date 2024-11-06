@@ -33,6 +33,7 @@
   "devDependencies": {
     "@babel/cli": "^7.25.9",
     "@babel/core": "^7.25.9",
+    "@babel/eslint-parser": "^7.25.9",
     "@babel/node": "^7.25.9",
     "@babel/plugin-transform-runtime": "^7.25.9",
     "@babel/preset-env": "^7.25.9",
@@ -53,7 +54,6 @@
     "@typescript-eslint/parser": "^4.33.0",
     "angular-gettext-cli": "^1.2.0",
     "angular-mocks": "^1.6.4",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-angularjs-annotate": "^0.10.0",
     "css-loader": "^0.28.4",
