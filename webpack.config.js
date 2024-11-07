@@ -7,7 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
   HtmlWebpackSkipAssetsPlugin,
 } = require('html-webpack-skip-assets-plugin');
-const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -96,17 +95,16 @@ module.exports = (env = {}) => {
               filename: 'browserUnsupported.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
+              chunks: ['manifest'],
             }),
             new HtmlWebpackPlugin({
               template: 'app/maintenanceMode.ejs',
               filename: 'maintenanceMode.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
+              chunks: ['manifest'],
             }),
             new HtmlWebpackSkipAssetsPlugin(),
-            new WebpackInlineManifestPlugin({
-              name: 'webpackManifest',
-            }),
             new WebappWebpackPlugin('./app/img/favicon.png'),
             new SubresourceIntegrityPlugin({
               hashFuncNames: ['sha512'],
