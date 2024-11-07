@@ -2646,10 +2646,10 @@ angular-gettext-tools@^2:
     typescript "~2.0.3"
     typescript-eslint-parser "^1.0.2"
 
-angular-gettext@^2.3.8:
-  version "2.3.10"
-  resolved "https://registry.yarnpkg.com/angular-gettext/-/angular-gettext-2.3.10.tgz#f7125bf1a27b767037c204de352f3b144db9697c"
-  integrity sha1-9xJb8aJ7dnA3wgTeNS87FE25aXw=
+angular-gettext@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/angular-gettext/-/angular-gettext-2.4.2.tgz#e5dde8df91493f826fd7eb8b5d6125a10cc0b681"
+  integrity sha512-J9Zy76VmN5otw6GyIqJjoLjl+0wwsZSCUPgPfQwM4Mx//hP3leqyS/fgf2MDiMLLyKgoHWkMMzzWbP4iH3+5vQ==
 
 angular-mocks@^1.8.3:
   version "1.8.3"

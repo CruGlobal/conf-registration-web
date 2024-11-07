@@ -6,7 +6,7 @@
     "angular": "^1.8.3",
     "angular-cookies": "^1.8.3",
     "angular-environment": "^1.0.8",
-    "angular-gettext": "^2.3.8",
+    "angular-gettext": "^2.4.2",
     "angular-route": "^1.8.3",
     "angular-sanitize": "^1.8.3",
     "angular-ui-bootstrap": "^2.5.0",
