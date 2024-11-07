@@ -13927,13 +13927,6 @@ webpack-dev-server@^5.1.0:
     webpack-dev-middleware "^7.4.2"
     ws "^8.18.0"
 
-webpack-inline-manifest-plugin@^4.0.1:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/webpack-inline-manifest-plugin/-/webpack-inline-manifest-plugin-4.0.1.tgz#4fc843fcf076e8512f167dc705108b3eacafc098"
-  integrity sha512-A6VRqhSDEUsqf6bJmrfNDmlVr+nkI2gfPsRC2/VorUeRMqyrSVvT7ltOjUcIG0VIigTNAcN2LbE83YwFH8VTHg==
-  dependencies:
-    source-map-url "0.4.0"
-
 webpack-merge@^4.1.5:
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.2.2.tgz#a27c52ea783d1398afd2087f547d7b9d2f43634d"

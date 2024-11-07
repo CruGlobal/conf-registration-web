@@ -7,7 +7,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
   HtmlWebpackSkipAssetsPlugin,
 } = require('html-webpack-skip-assets-plugin');
-const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
 const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const ESLintPlugin = require('eslint-webpack-plugin');
@@ -104,9 +103,6 @@ module.exports = (env = {}) => {
               minify: htmlMinDefaults,
             }),
             new HtmlWebpackSkipAssetsPlugin(),
-            new WebpackInlineManifestPlugin({
-              name: 'webpackManifest',
-            }),
             new WebappWebpackPlugin('./app/img/favicon.png'),
             new SubresourceIntegrityPlugin({
               hashFuncNames: ['sha512'],
