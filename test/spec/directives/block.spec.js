@@ -258,12 +258,14 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
 
       $scope.selectedAnswer = 'Option 1';
+      $scope.$digest();
       $timeout.flush();
 
       expect($scope.answer.value).toBe('Option 1');
 
       $scope.selectedAnswer = '__other__';
       $scope.otherAnswer = 'Other';
+      $scope.$digest();
       $timeout.flush();
 
       expect($scope.answer.value).toBe('Other');
@@ -464,12 +466,14 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
 
       $scope.selectedAnswer = 'Option 1';
+      $scope.$digest();
       $timeout.flush();
 
       expect($scope.answer.value).toBe('Option 1');
 
       $scope.selectedAnswer = '__other__';
       $scope.otherAnswer = 'Other';
+      $scope.$digest();
       $timeout.flush();
 
       expect($scope.answer.value).toBe('Other');
