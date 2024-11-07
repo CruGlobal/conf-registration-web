@@ -45,6 +45,7 @@ module.exports = (env = {}) => {
       crossOriginLoading: 'anonymous',
     },
     optimization: {
+      moduleIds: isBuild ? 'named' : undefined,
       splitChunks: {
         cacheGroups: {
           commons: {
@@ -89,7 +90,6 @@ module.exports = (env = {}) => {
         : [],
       isBuild
         ? [
-            new webpack.NamedModulesPlugin(),
             new HtmlWebpackPlugin({
               template: 'app/browserUnsupported.ejs',
               filename: 'browserUnsupported.html',
@@ -123,9 +123,7 @@ module.exports = (env = {}) => {
             {
               loader: 'babel-loader',
               options: {
-                configFile: `${path.resolve(
-                  __dirname,
-                )}/babel-angular.config.js`,
+                configFile: path.resolve(__dirname, 'babel-angular.config.js'),
                 plugins: !isTest ? ['angularjs-annotate'] : [],
               },
             },
@@ -173,7 +171,6 @@ module.exports = (env = {}) => {
             },
           ],
         },
-
         {
           test: /\.(svg|png|jpe?g|gif)/,
           use: [
