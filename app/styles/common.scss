@@ -1,3 +1,7 @@
+@use '~bootstrap-sass/assets/stylesheets/bootstrap';
+@use 'variables';
+@use 'typography';
+
 /***** GLOBALS *****/
 * {
   @extend .sans-serif;
@@ -5,7 +9,7 @@
 
 /*** Buttons ***/
 .btn-primary {
-  background: $blue;
+  background: variables.$blue;
   border-color: #2f84cd;
 }
 .btn-primary:hover,
@@ -18,7 +22,7 @@
   border-color: #2969a0;
 }
 .btn-info {
-  background-color: $lightblue;
+  background-color: variables.$lightblue;
   border-color: #318fc2;
 }
 .btn-info:hover,
@@ -76,16 +80,16 @@ a.disabled {
 .warning-popover {
   cursor: pointer;
   margin-left: 8px;
-  color: $brand-warning;
+  color: bootstrap.$brand-warning;
   &:hover {
-    color: $brand-warning;
+    color: bootstrap.$brand-warning;
   }
 }
 
 .error-popover {
   cursor: pointer;
   margin-left: 8px;
-  color: $red;
+  color: variables.$red;
 }
 
 /*** Text Styles ***/
@@ -122,22 +126,22 @@ h2.page-title {
 
 /*** Dividers ***/
 .divider-left-col-sm {
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: bootstrap.$screen-sm-min) {
     border-left: 2px solid #cccccc;
   }
 }
 .divider-right-col-sm {
-  @media (min-width: $screen-sm-min) {
+  @media (min-width: bootstrap.$screen-sm-min) {
     border-right: 2px solid #cccccc;
   }
 }
 .divider-left-col-md {
-  @media (min-width: $screen-md-min) {
+  @media (min-width: bootstrap.$screen-md-min) {
     border-left: 2px solid #cccccc;
   }
 }
 .divider-right-col-md {
-  @media (min-width: $screen-md-min) {
+  @media (min-width: bootstrap.$screen-md-min) {
     border-right: 2px solid #cccccc;
   }
 }
@@ -162,7 +166,7 @@ h2.page-title {
   margin-bottom: 1.5em;
 }
 .stacked-spacing-col-sm {
-  @media (max-width: $screen-xs-max) {
+  @media (max-width: bootstrap.$screen-xs-max) {
     margin-bottom: 1em;
     &.spacing-xs {
       margin-bottom: 0.5em;
@@ -170,7 +174,7 @@ h2.page-title {
   }
 }
 .stacked-spacing-above-col-sm {
-  @media (max-width: $screen-xs-max) {
+  @media (max-width: bootstrap.$screen-xs-max) {
     margin-top: 1em;
     &.spacing-xs {
       margin-top: 0.5em;
@@ -178,7 +182,7 @@ h2.page-title {
   }
 }
 .stacked-spacing-col-md {
-  @media (max-width: $screen-sm-max) {
+  @media (max-width: bootstrap.$screen-sm-max) {
     margin-bottom: 1em;
     &.spacing-xs {
       margin-bottom: 0.5em;
@@ -186,7 +190,7 @@ h2.page-title {
   }
 }
 .stacked-spacing-above-col-md {
-  @media (max-width: $screen-sm-max) {
+  @media (max-width: bootstrap.$screen-sm-max) {
     margin-top: 1em;
     &.spacing-xs {
       margin-top: 0.5em;

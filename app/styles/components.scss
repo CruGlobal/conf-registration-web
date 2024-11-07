@@ -1,3 +1,5 @@
+@use 'variables';
+
 /***** COMPONENTS *****/
 
 [ng\:cloak],
@@ -56,9 +58,9 @@ pick-a-time {
   z-index: 10000;
   td {
     a.btn {
-      background: $lightgray;
+      background: variables.$lightgray;
       &:hover {
-        background: $lightgrayaccent;
+        background: variables.$lightgrayaccent;
       }
     }
     span:hover {
@@ -72,13 +74,13 @@ pick-a-time {
 /* Default Overrides */
 .label-success,
 .btn-success {
-  background: $green;
+  background: variables.$green;
 }
 .label-primary {
-  background: $blue;
+  background: variables.$blue;
 }
 .nav-pills .active a {
-  background: $darkerblue;
+  background: variables.$darkerblue;
 }
 
 /* Additional Features */

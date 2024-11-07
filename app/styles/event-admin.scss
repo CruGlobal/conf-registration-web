@@ -1,16 +1,20 @@
+@use '~bootstrap-sass/assets/stylesheets/bootstrap';
+@use 'variables';
+@use 'typography';
+
 /***** BACK END (Event Administration) *****/
 
 /*** Template Styles ***/
 #masthead {
-  background: $blue;
-  border-bottom: 7px solid $darkblue;
+  background: variables.$blue;
+  border-bottom: 7px solid variables.$darkblue;
   padding-top: 26px;
   a.logo,
   a.logo:hover {
     color: white;
     font-size: 36px;
     text-decoration: none;
-    @media (max-width: $screen-xs-max) {
+    @media (max-width: bootstrap.$screen-xs-max) {
       font-size: 22px;
     }
   }
@@ -24,13 +28,17 @@
       }
     }
     .btn-primary.dropdown-toggle {
-      background-image: linear-gradient(to bottom, $blue 0px, $darkblue 100%);
+      background-image: linear-gradient(
+        to bottom,
+        variables.$blue 0px,
+        variables.$darkblue 100%
+      );
     }
   }
 }
 
 section#pagetitle {
-  background: $creme;
+  background: variables.$creme;
   padding-top: 25px;
   padding-bottom: 5px;
   border-bottom: 1px solid #ece8d8;
@@ -73,8 +81,8 @@ main {
 }
 
 #pagefooter {
-  background: $paleblue;
-  box-shadow: 0px 500px 0px 500px $paleblue;
+  background: variables.$paleblue;
+  box-shadow: 0px 500px 0px 500px variables.$paleblue;
   border-top: 1px solid #c7ecff;
   padding: 22px 0 0;
   min-height: 75px;
@@ -99,7 +107,7 @@ main.dashboard {
       font-weight: 600;
       text-shadow: 2px 2px #000011;
     }
-    @media (max-width: $screen-xs-max) {
+    @media (max-width: bootstrap.$screen-xs-max) {
       padding: 30px 0px;
     }
     .search-toolbar {
@@ -134,7 +142,7 @@ main.dashboard {
 }
 main.event-dashboard {
   aside.welcome {
-    color: $sixgray;
+    color: variables.$sixgray;
     h3 {
       font-size: 20px;
       text-transform: uppercase;
@@ -165,7 +173,7 @@ main.event-dashboard {
       width: 130px;
     }
     .btn.btn-reg-count {
-      background: $white;
+      background: variables.$white;
       @extend .mediumgray;
     }
     li {
@@ -222,7 +230,7 @@ main.event-overview {
 }
 main.event-registrations {
   .rowdetails .well {
-    background: $verylightgray;
+    background: variables.$verylightgray;
     border-radius: 0;
     .details-heading {
       text-align: right;
@@ -306,7 +314,7 @@ main.event-questions {
   }
   .dropNewTarget {
     text-align: center;
-    color: $mediumlightgray;
+    color: variables.$mediumlightgray;
     .fa {
       font-size: 800%;
     }
@@ -317,7 +325,7 @@ main.event-questions {
   .panel {
     .list-group-item:hover,
     .list-group-item:focus {
-      background-color: $hover-highlight;
+      background-color: variables.$hover-highlight;
     }
   }
 
@@ -326,16 +334,16 @@ main.event-questions {
     > li.active > a,
     > li.active > a:hover,
     > li.active > a:focus {
-      background-color: $tab-bkgd-color;
+      background-color: variables.$tab-bkgd-color;
     }
   }
   .tab-content {
-    border-left: 1px solid $tab-border-color;
-    border-right: 1px solid $tab-border-color;
-    border-bottom: 1px solid $tab-border-color;
+    border-left: 1px solid variables.$tab-border-color;
+    border-right: 1px solid variables.$tab-border-color;
+    border-bottom: 1px solid variables.$tab-border-color;
     border-radius: 0 0 4px 4px;
     padding: 10px;
-    background-color: $tab-bkgd-color;
+    background-color: variables.$tab-bkgd-color;
     .form-group {
       margin-right: 0;
       margin-left: 0;
@@ -349,7 +357,7 @@ main.journal-upload {
   }
   .table-aligned {
     table-layout: fixed;
-    @media (max-width: $screen-xs-max) {
+    @media (max-width: bootstrap.$screen-xs-max) {
       table-layout: auto;
     }
   }
