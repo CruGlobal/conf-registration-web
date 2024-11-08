@@ -40,6 +40,7 @@ module.exports = (env = {}) => {
     output: {
       filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
+      clean: true,
       devtoolModuleFilenameTemplate: (info) =>
         info.resourcePath.replace(/^\.\//, ''),
       crossOriginLoading: 'anonymous',
