@@ -17,6 +17,7 @@ describe('Directive: blockRegistration', function () {
     scope = $rootScope.$new();
     $templateCache.put('views/components/blockRegistration.html', '');
 
+    scope.conference = testData.conference;
     scope.adminEditRegistrant = testData.registration.registrants[0];
     scope.block = testData.conference.registrationPages[1].blocks[4];
 
