@@ -191,6 +191,7 @@ describe('Directive: blocks', () => {
       $scope = $rootScope.$new();
       $templateCache.put('views/blocks/radioQuestion.html', '');
 
+      $scope.conference = testData.conference;
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[4],
       );

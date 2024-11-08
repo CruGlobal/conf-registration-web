@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     name: 'Big Event 2015',
     description: '',
     abbreviation: 'TEST',
+    currency: {
+      currencyCode: 'USD',
+    },
     registrationPages: [
       {
         id: '5c69bfcc-9e35-4bd8-8358-fe50fd86052d',
