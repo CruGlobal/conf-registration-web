@@ -287,6 +287,7 @@ angular
               block,
               registrant,
               ruleTypeConstants.SHOW_QUESTION,
+              conference,
             ) ||
             !blockInRegistrantType(block, registrant)
           ) {
