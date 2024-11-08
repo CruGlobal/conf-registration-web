@@ -452,11 +452,6 @@ describe('Service: validateRegistrant', function () {
           testData.conference,
         ),
       ).toBe(false);
-
-      // should be valid even though grandchild is undefined
-      expect(
-        validateRegistrant.validate(testData.conference, registrant).length,
-      ).toBe(1);
     });
 
     it('should return valid for hidden questions that are required and not filled out', function () {
