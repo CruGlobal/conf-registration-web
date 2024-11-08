@@ -26,7 +26,9 @@ describe('Directive: rule', function () {
 
     scope.block = block;
 
-    element = $compile('<rule rule-type="SHOW_OPTION" block="block" />')(scope);
+    element = $compile(
+      '<rule conference="conference" rule-type="SHOW_OPTION" block="block" />',
+    )(scope);
     scope.$digest();
 
     scope = element.isolateScope() || element.scope();

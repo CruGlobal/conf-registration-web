@@ -4,14 +4,17 @@ describe('Directive: ertPayment', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var scope, $rootScope, element, $compile;
-  beforeEach(inject((_$rootScope_, $templateCache, _$compile_) => {
+  beforeEach(inject((_$rootScope_, $templateCache, _$compile_, testData) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
 
     scope = $rootScope.$new();
+    scope.registration = testData.registration;
     $templateCache.put('views/components/payment.html', '');
 
-    element = $compile('<div ert-payment></div>')(scope);
+    element = $compile('<div ert-payment registration="registration"></div>')(
+      scope,
+    );
     scope.$digest();
     scope = element.isolateScope() || element.scope();
   }));
