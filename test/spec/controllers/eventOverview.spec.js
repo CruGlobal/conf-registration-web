@@ -18,4 +18,8 @@ describe('Controller: eventOverview', () => {
       });
     }),
   );
+
+  it('sets registrationUrl', () => {
+    expect(scope.registrationUrl).toBeDefined();
+  });
 });
