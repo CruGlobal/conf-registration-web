@@ -132,8 +132,11 @@ describe('Controller: ReviewRegistrationCtrl', function () {
   });
 
   describe('isBlockInvalid', () => {
-    const registrantId = testData.registrants[0].id;
     const blockId = 'block-1';
+    let registrantId;
+    beforeEach(() => {
+      registrantId = testData.registration.registrants[0].id;
+    });
 
     it('returns false when there are no errors', () => {
       initController({
