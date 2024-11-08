@@ -420,7 +420,7 @@ describe('Service: validateRegistrant', function () {
       ).toBe(true);
     });
 
-    it('should hide the child and grandchild questions when the parent answer change and the child is hidden', function () {
+    it('should hide the child and grandchild questions when the parent answer changes and the child is hidden', function () {
       // all are visible
       answerParent.value = 'radio option - hide child';
       answerChild.value = 'radio option - show grandchild';
@@ -452,6 +452,40 @@ describe('Service: validateRegistrant', function () {
           testData.conference,
         ),
       ).toBe(false);
+
+      // should be valid even though grandchild is undefined
+      expect(
+        validateRegistrant.validate(testData.conference, registrant).length,
+      ).toBe(1);
+    });
+
+    it('should return valid for hidden questions that are required and not filled out', function () {
+      answerParent.value = 'radio option - hide child';
+      answerChild.value = undefined;
+      answerGrandchild.value = undefined;
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q2Multiple,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+
+      expect(
+        validateRegistrant.blockVisible(
+          Q3Dropdown,
+          registrant,
+          false,
+          testData.conference,
+        ),
+      ).toBe(false);
+
+      // should be valid even though child and grandchild is undefined
+      expect(
+        validateRegistrant.validate(testData.conference, registrant).length,
+      ).toBe(1);
     });
   });
 });

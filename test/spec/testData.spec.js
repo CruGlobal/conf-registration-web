@@ -469,7 +469,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             title: 'Q2 Multiple Choice Question',
             exportFieldTitle: null,
             type: 'radioQuestion',
-            required: false,
+            required: true,
             position: 5,
             adminOnly: false,
             content: {
@@ -523,7 +523,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             title: 'Q3 Dropdown Question',
             exportFieldTitle: null,
             type: 'selectQuestion',
-            required: false,
+            required: true,
             position: 6,
             adminOnly: false,
             content: {
