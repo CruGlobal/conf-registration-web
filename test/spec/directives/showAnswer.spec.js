@@ -17,9 +17,13 @@ describe('Directive: showAnswer', function () {
     scope = $rootScope.$new();
     $templateCache.put('views/components/answerDisplay.html', '');
 
+    scope.conference = testData.conference;
+    scope.registrant = testData.registration.registrants[0];
     scope.block = testData.conference.registrationPages[1].blocks[4];
 
-    element = $compile('<show-answer></show-answer>')(scope);
+    element = $compile(
+      '<show-answer conference="conference" registrant="registrant" block="block"></show-answer>',
+    )(scope);
 
     scope.$digest();
   }));

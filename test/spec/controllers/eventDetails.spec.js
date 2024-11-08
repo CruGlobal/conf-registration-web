@@ -138,7 +138,7 @@ describe('Controller: eventDetails', function () {
       scope.image.includeImageToAllPages = false;
       scope.image.image = 'new-image';
       $httpBackend
-        .whenPUT(/^conferences\/[-a-zA-Z0-9]+\/image\.*/)
+        .expectPUT(/^conferences\/[-a-zA-Z0-9]+\/image\.*/)
         .respond((verb, url, data) => {
           return [200, data, {}];
         });
@@ -157,7 +157,7 @@ describe('Controller: eventDetails', function () {
 
     it('deleteImage should delete image and set includeImageToAllPages to false', () => {
       $httpBackend
-        .whenPUT(/^conferences\/[-a-zA-Z0-9]+\/image\.*/)
+        .expectPUT(/^conferences\/[-a-zA-Z0-9]+\/image$/)
         .respond((verb, url, data) => {
           return [200, data, {}];
         });

@@ -2,13 +2,13 @@ const webpack = require('webpack');
 const path = require('path');
 const concat = require('lodash/concat');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
-const WebpackInlineManifestPlugin = require('webpack-inline-manifest-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
-const SriPlugin = require('webpack-subresource-integrity');
+const {
+  HtmlWebpackSkipAssetsPlugin,
+} = require('html-webpack-skip-assets-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
@@ -38,19 +38,21 @@ module.exports = (env = {}) => {
       app: ['scripts/main.js', 'styles/style.scss'],
     },
     output: {
-      filename: '[name].[chunkhash].js',
+      filename: '[name].[contenthash].js',
       path: path.resolve(__dirname, 'dist'),
+      clean: true,
       devtoolModuleFilenameTemplate: (info) =>
         info.resourcePath.replace(/^\.\//, ''),
       crossOriginLoading: 'anonymous',
     },
     optimization: {
+      moduleIds: isBuild ? 'named' : undefined,
       splitChunks: {
         cacheGroups: {
           commons: {
             name: 'vendor',
             test: /[\\/]node_modules[\\/]/,
-            chunks: 'initial',
+            chunks: 'all',
           },
         },
       },
@@ -89,25 +91,23 @@ module.exports = (env = {}) => {
         : [],
       isBuild
         ? [
-            new webpack.NamedModulesPlugin(),
             new HtmlWebpackPlugin({
               template: 'app/browserUnsupported.ejs',
               filename: 'browserUnsupported.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
+              chunks: ['manifest'],
             }),
             new HtmlWebpackPlugin({
               template: 'app/maintenanceMode.ejs',
               filename: 'maintenanceMode.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
+              chunks: ['manifest'],
             }),
-            new HtmlWebpackExcludeAssetsPlugin(),
-            new WebpackInlineManifestPlugin({
-              name: 'webpackManifest',
-            }),
-            new WebappWebpackPlugin('./app/img/favicon.png'),
-            new SriPlugin({
+            new HtmlWebpackSkipAssetsPlugin(),
+            new FaviconsWebpackPlugin('./app/img/favicon.png'),
+            new SubresourceIntegrityPlugin({
               hashFuncNames: ['sha512'],
             }),
           ]
@@ -123,9 +123,7 @@ module.exports = (env = {}) => {
             {
               loader: 'babel-loader',
               options: {
-                configFile: `${path.resolve(
-                  __dirname,
-                )}/babel-angular.config.js`,
+                configFile: path.resolve(__dirname, 'babel-angular.config.js'),
                 plugins: !isTest ? ['angularjs-annotate'] : [],
               },
             },
@@ -134,9 +132,12 @@ module.exports = (env = {}) => {
         {
           test: /\.html$/,
           use: [
-            'ngtemplate-loader?relativeTo=' +
-              path.resolve(__dirname, './app') +
-              '/',
+            {
+              loader: 'ngtemplate-loader',
+              options: {
+                relativeTo: path.resolve(__dirname, './app'),
+              },
+            },
             'html-loader',
           ],
         },
@@ -164,25 +165,18 @@ module.exports = (env = {}) => {
         },
         {
           test: /\.(woff|ttf|eot|ico)/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[hash].[ext]',
-              },
-            },
-          ],
+          type: 'asset/resource',
+          generator: {
+            filename: '[name].[contenthash][ext]',
+          },
         },
-
         {
           test: /\.(svg|png|jpe?g|gif)/,
+          type: 'asset/resource',
+          generator: {
+            filename: '[name].[contenthash][ext]',
+          },
           use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[hash].[ext]',
-              },
-            },
             {
               loader: 'image-webpack-loader',
               options: {},

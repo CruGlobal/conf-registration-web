@@ -264,7 +264,10 @@ describe('Controller: eventForm', function () {
   });
 
   describe('deleteBlock', () => {
-    const block = testData.conference.registrationPages[1].blocks[4];
+    var block;
+    beforeEach(() => {
+      block = testData.conference.registrationPages[1].blocks[4];
+    });
 
     it('deletes a block', () => {
       spyOn(GrowlService, 'growl');

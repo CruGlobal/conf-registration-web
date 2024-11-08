@@ -6,6 +6,9 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     name: 'Big Event 2015',
     description: '',
     abbreviation: 'TEST',
+    currency: {
+      currencyCode: 'USD',
+    },
     registrationPages: [
       {
         id: '5c69bfcc-9e35-4bd8-8358-fe50fd86052d',
@@ -959,14 +962,14 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '6e52f066-f894-43ac-b9c0-2222222',
             registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
-            blockId: 'd6f1b12a-8c98-4e83-8857-2222222',
+            blockId: '38f8ece0-adf7-423d-9588-2222222',
             value: '1',
             amount: 0.0,
           },
           {
             id: '6e52f066-f894-43ac-b9c0-3333333',
             registrantId: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
-            blockId: 'd6f1b12a-8c98-4e83-8857-3333333',
+            blockId: 'a7acefb9-72ef-4195-9b14-3333333',
             value: '2',
             amount: 0.0,
           },
