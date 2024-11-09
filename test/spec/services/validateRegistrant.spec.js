@@ -329,34 +329,29 @@ describe('Service: validateRegistrant', function () {
       '38f8ece0-adf7-423d-9588-2222222',
       'a7acefb9-72ef-4195-9b14-3333333',
     ];
-    const Q1Multiple = _.find(testData.conference.registrationPages[2].blocks, {
-      id: blockIds[0],
+    let Q1Multiple,
+      Q2Multiple,
+      Q3Dropdown,
+      registrant,
+      answerParent,
+      answerChild,
+      answerGrandchild;
+
+    beforeEach(() => {
+      Q1Multiple = _.find(testData.conference.registrationPages[2].blocks, {
+        id: blockIds[0],
+      });
+      Q2Multiple = _.find(testData.conference.registrationPages[2].blocks, {
+        id: blockIds[1],
+      });
+      Q3Dropdown = _.find(testData.conference.registrationPages[2].blocks, {
+        id: blockIds[2],
+      });
+      registrant = angular.copy(testData.registration.registrants[0]);
+      answerParent = _.find(registrant.answers, { blockId: blockIds[0] });
+      answerChild = _.find(registrant.answers, { blockId: blockIds[1] });
+      answerGrandchild = _.find(registrant.answers, { blockId: blockIds[2] });
     });
-    const Q2Multiple = _.find(testData.conference.registrationPages[2].blocks, {
-      id: blockIds[1],
-    });
-    const Q3Dropdown = _.find(testData.conference.registrationPages[2].blocks, {
-      id: blockIds[2],
-    });
-    const registrant = angular.copy(testData.registration.registrants[0]);
-    const answerParent =
-      registrant.answers[
-        _.findIndex(registrant.answers, {
-          blockId: blockIds[0],
-        })
-      ];
-    const answerChild =
-      registrant.answers[
-        _.findIndex(registrant.answers, {
-          blockId: blockIds[1],
-        })
-      ];
-    const answerGrandchild =
-      registrant.answers[
-        _.findIndex(registrant.answers, {
-          blockId: blockIds[2],
-        })
-      ];
 
     it('should only show the parent question when its answer is empty', function () {
       answerParent.value = '';
@@ -485,7 +480,7 @@ describe('Service: validateRegistrant', function () {
       // should be valid even though child and grandchild is undefined
       expect(
         validateRegistrant.validate(testData.conference, registrant).length,
-      ).toBe(1);
+      ).toBe(0);
     });
   });
 });
