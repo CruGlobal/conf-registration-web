@@ -480,7 +480,7 @@ describe('Service: validateRegistrant', function () {
       // should be valid even though child and grandchild is undefined
       expect(
         validateRegistrant.validate(testData.conference, registrant).length,
-      ).toBe(1);
+      ).toBe(0);
     });
   });
 });
