@@ -96,14 +96,12 @@ module.exports = (env = {}) => {
               filename: 'browserUnsupported.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
-              chunks: ['manifest'],
             }),
             new HtmlWebpackPlugin({
               template: 'app/maintenanceMode.ejs',
               filename: 'maintenanceMode.html',
               excludeAssets: /.*\.js/, // Only import CSS
               minify: htmlMinDefaults,
-              chunks: ['manifest'],
             }),
             new HtmlWebpackSkipAssetsPlugin(),
             new FaviconsWebpackPlugin('./app/img/favicon.png'),
