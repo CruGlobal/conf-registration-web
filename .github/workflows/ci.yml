@@ -17,9 +17,9 @@ jobs:
     name: tests
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache
       - name: 🧪 Run Tests
@@ -34,9 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache
       - name: 💨 ESLint
@@ -45,9 +45,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache
       - name: ✅ TypeScript lint
@@ -56,9 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache
       - name: 💅 Prettier Check
@@ -67,9 +67,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache --check-cache
   deploy:
@@ -80,9 +80,9 @@ jobs:
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16.10.0
+          node-version-file: .node-version
       - name: 📦 Install Dependencies
         run: yarn install --immutable --immutable-cache
       - name: 🔨 Build

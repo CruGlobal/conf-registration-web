@@ -1,16 +1,19 @@
+@use 'variables';
+@use 'typography';
+
 /***** FRONT END (User Registration) *****/
 body.user-registration {
-  background: url('../img/rough_diagonal.png') $lightgray;
+  background: url('../img/rough_diagonal.png') variables.$lightgray;
   .container {
     max-width: 612px;
   }
   #frontheader {
-    background: $blue;
-    border-bottom: 4px solid $darkblue;
+    background: variables.$blue;
+    border-bottom: 4px solid variables.$darkblue;
     padding-top: 12px;
   }
   section#frontpagetitle {
-    background: $darkerblue;
+    background: variables.$darkerblue;
     h1 {
       font-size: 24px;
       @extend .sans-serif-semi;
@@ -45,7 +48,7 @@ body.user-registration {
           width: 20px;
           height: 20px;
           border-radius: 55px;
-          border: 2px solid $white;
+          border: 2px solid variables.$white;
           text-align: center;
           line-height: 17px;
         }
@@ -56,7 +59,7 @@ body.user-registration {
         font-size: 14px;
         width: 26px;
         height: 26px;
-        border: 2px solid $white;
+        border: 2px solid variables.$white;
         line-height: 20px;
         margin-right: 5px;
       }
@@ -68,7 +71,7 @@ body.user-registration {
     }
     .well {
       &.well-creme2 {
-        background: $creme2;
+        background: variables.$creme2;
         border-radius: 0;
         border: 0;
       }
@@ -108,7 +111,7 @@ body.user-registration {
       li:not(.active):not(.invalid) a {
         @extend .darkerblue;
         .circle {
-          border-color: $darkerblue;
+          border-color: variables.$darkerblue;
         }
       }
       li.invalid:not(.active) {
@@ -147,7 +150,7 @@ body.user-registration {
     }
   }
   .form-content {
-    background: $white;
+    background: variables.$white;
     padding-top: 15px;
     padding-bottom: 15px;
   }

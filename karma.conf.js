@@ -15,7 +15,7 @@ const karmaWebpackConfig = {
               test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
               include: path.resolve('app/'),
               loader: 'istanbul-instrumenter-loader',
-              query: {
+              options: {
                 esModules: true,
               },
             },
