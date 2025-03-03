@@ -191,7 +191,7 @@ describe('Controller: eventDetails', function () {
         scope.conference.registrationPages[0].blocks[
           scope.conference.registrationPages[0].blocks.length - 3
         ].title,
-      ).toEqual('Are you under 18?');
+      ).toEqual('Are you (the participant) under 18 years old?');
     });
 
     it('updateLiabilityQuestions() should delete liability related questions', () => {
@@ -214,7 +214,7 @@ describe('Controller: eventDetails', function () {
       );
 
       expect(scope.conference.registrationPages[0].blocks[1].title).toEqual(
-        'Are you under 18?',
+        'Are you (the participant) under 18 years old?',
       );
 
       expect(scope.conference.registrationPages[0].blocks[1].tag).toEqual(
