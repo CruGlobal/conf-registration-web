@@ -28,7 +28,6 @@
       ng-if="!editBlock"
       class="btn btn-default"
       ng-click="toggleBlockEdit()"
-      ng-disabled="!canEdit"
     >
       <i class="fa fa-pencil-square-o"></i> <translate>Edit</translate>
     </button>
@@ -138,8 +137,26 @@
   </ng-switch>
 
   <div class="edit-options" ng-if="editBlock">
+    <!-- Only the title in Eform questions can be edited -->
+    <div class="form-group popup-custom-width" ng-if="eform">
+      <label class="inline-label" translate>Title</label>
+      <i
+        uib-popover-template="popup.titleTemplateUrl"
+        popover-trigger="'mouseenter'"
+        popover-placement="right"
+        class="fa fa-question-circle question-popover"
+      >
+      </i>
+      <input
+        type="text"
+        class="form-control field-label"
+        placeholder="Label"
+        ng-model="block.title"
+      />
+    </div>
+
     <!-- Tab panes -->
-    <uib-tabset>
+    <uib-tabset ng-if="!eform">
       <uib-tab heading="Options">
         <div class="form-group popup-custom-width">
           <label class="inline-label" translate>Title</label>
