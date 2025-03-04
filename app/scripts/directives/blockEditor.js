@@ -203,7 +203,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       );
       const notEform = $scope.block.tag !== 'EFORM';
       $scope.canDelete = notNameOrEmail && notEform;
-      $scope.canEdit = notEform;
+      $scope.eform = !notEform;
       $scope.canCopy = notEform;
       $scope.canHaveRules = notNameOrEmail;
       $scope.canHaveAnswerRules = notNameOrEmail && $scope.hasOptions;

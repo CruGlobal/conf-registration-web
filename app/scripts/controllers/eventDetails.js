@@ -849,7 +849,7 @@ angular
             },
             pageId: $scope.conference.registrationPages[0].id,
             required: true,
-            title: 'Are you under 18?',
+            title: 'Are you (the participant) under 18 years old?',
             type: 'selectQuestion',
             profileType: null,
             registrantTypes: [],
