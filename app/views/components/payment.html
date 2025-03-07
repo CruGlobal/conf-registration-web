@@ -58,7 +58,7 @@
   ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'"
   ng-if="!isAdminPayment"
 >
-  <dt translate>Amount</dt>
+  <dt id="payment-amount" translate>Amount</dt>
   <dd
     ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue"
   >
@@ -73,6 +73,7 @@
         ng-model="currentPayment.amount"
         ng-value="currentRegistration.calculatedTotalDue"
         class="form-control marginless"
+        aria-labelledby="payment-amount"
       />
     </div>
     <span
