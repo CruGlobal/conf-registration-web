@@ -11,7 +11,7 @@ describe('Directive: datepicker', function () {
     scope = $rootScope.$new();
     $templateCache.put('views/components/graduationDateQuestion.html', '');
     element = $compile(
-      '<crs-datetimepicker model="answer.value"></crs-datetimepicker>',
+      '<crs-datetimepicker model="answer.value" input-id="input-{{1}}"</crs-datetimepicker>',
     )(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
@@ -61,5 +61,9 @@ describe('Directive: datepicker', function () {
     dateOptions = scope.getDateOptions();
 
     expect(dateOptions.defaultDate).toBe('2023-01-30 00:00:00');
+  });
+
+  it("sets the input's id", function () {
+    expect(element.find('input').attr('id')).toBe('input-1');
   });
 });
