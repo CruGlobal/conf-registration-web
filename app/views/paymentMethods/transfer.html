@@ -1,14 +1,16 @@
 <div class="form-group">
-  <label translate>Account Type</label>
-  <select
-    ng-model="currentPayment.transfer.accountType"
-    ng-change="accountTypeChanged()"
-    class="form-control"
-  >
-    <option value="STAFF" translate>Staff</option>
-    <option value="MINISTRY" translate>Ministry</option>
-    <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
-  </select>
+  <label translate>
+    <span translate>Account Type</span>
+    <select
+      ng-model="currentPayment.transfer.accountType"
+      ng-change="accountTypeChanged()"
+      class="form-control"
+    >
+      <option value="STAFF" translate>Staff</option>
+      <option value="MINISTRY" translate>Ministry</option>
+      <option value="NON_US_STAFF" translate>Non-U.S. Staff</option>
+    </select>
+  </label>
 </div>
 
 <div
@@ -16,49 +18,58 @@
   ng-show="currentPayment.transfer.accountType === 'MINISTRY' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
 >
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label translate>Business Unit</label>
-    <input
-      ng-model="currentPayment.transfer.businessUnit"
-      type="text"
-      class="form-control"
-      ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
-    />
+    <label>
+      <span translate>Business Unit</span>
+      <input
+        ng-model="currentPayment.transfer.businessUnit"
+        type="text"
+        class="form-control"
+        ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
+      />
+    </label>
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label translate>Operating Unit</label>
-    <input
-      ng-model="currentPayment.transfer.operatingUnit"
-      type="text"
-      class="form-control"
-    />
+    <label>
+      <span translate>Operating Unit</span>
+      <input
+        ng-model="currentPayment.transfer.operatingUnit"
+        type="text"
+        class="form-control"
+      />
+    </label>
   </div>
 
   <div class="col-sm-3 stacked-spacing-col-sm">
-    <label translate>Department</label>
-    <input
-      ng-model="currentPayment.transfer.department"
-      type="text"
-      class="form-control"
-      ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
-    />
+    <label>
+      <span translate>Department</span>
+      <input
+        ng-model="currentPayment.transfer.department"
+        type="text"
+        class="form-control"
+        ng-disabled="currentPayment.transfer.accountType === 'NON_US_STAFF'"
+      />
+    </label>
   </div>
 
   <div class="col-sm-3">
-    <label translate>Project Id</label>
-    <i
-      class="fa fa-question-circle"
-      button
-      uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-      popover-trigger="'mouseenter'"
-      popover-append-to-body="true"
-    >
-    </i>
-    <input
-      ng-model="currentPayment.transfer.projectId"
-      type="text"
-      class="form-control"
-    />
+    <label>
+      <span>
+        <span translate>Project Id</span>
+        <i
+          class="fa fa-question-circle"
+          button
+          uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+          popover-trigger="'mouseenter'"
+          popover-append-to-body="true"
+        ></i>
+      </span>
+      <input
+        ng-model="currentPayment.transfer.projectId"
+        type="text"
+        class="form-control"
+      />
+    </label>
   </div>
 </div>
 
@@ -67,11 +78,13 @@
   ng-show="currentPayment.transfer.accountType === 'STAFF' || currentPayment.transfer.accountType === 'NON_US_STAFF'"
 >
   <div class="col-sm-12">
-    <label translate>Account Number</label>
-    <input
-      ng-model="currentPayment.transfer.accountNumber"
-      type="text"
-      class="form-control"
-    />
+    <label>
+      <span translate>Account Number</span>
+      <input
+        ng-model="currentPayment.transfer.accountNumber"
+        type="text"
+        class="form-control"
+      />
+    </label>
   </div>
 </div>

@@ -29,6 +29,8 @@ angular
         },
         backdrop: 'static',
         keyboard: false,
+        // aria-labelled-by is not announced for dialogs in Chrome on macOS https://issues.chromium.org/issues/41487406
+        ariaLabelledBy: 'login-header',
       };
 
       var $uibModal = $injector.get('$uibModal');

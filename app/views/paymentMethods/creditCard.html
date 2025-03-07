@@ -1,124 +1,147 @@
 <div class="form-horizontal">
-  <div class="form-group">
-    <div class="col-sm-12">
-      <label translate>Name on Card</label>
-      <input
-        type="text"
-        ng-model="currentPayment.creditCard.nameOnCard"
-        class="form-control"
-      />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-8 stacked-spacing-col-sm">
-      <label translate>Card Number</label>
-      <input
-        type="text"
-        ng-model="currentPayment.creditCard.number"
-        autocomplete="off"
-        class="form-control"
-      />
-    </div>
-    <div class="col-sm-4">
-      <label translate>Card Security Code</label>
-      <input
-        class="form-control"
-        type="text"
-        maxlength="4"
-        ng-model="currentPayment.creditCard.cvvNumber"
-        autocomplete="off"
-      />
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-sm-8 stacked-spacing-col-sm">
-      <label translate>Expiration Month</label>
-      <select
-        ng-model="currentPayment.creditCard.expirationMonth"
-        class="form-control"
-      >
-        <option value="" translate>Month</option>
-        <option value="01">01 - January</option>
-        <option value="02">02 - February</option>
-        <option value="03">03 - March</option>
-        <option value="04">04 - April</option>
-        <option value="05">05 - May</option>
-        <option value="06">06 - June</option>
-        <option value="07">07 - July</option>
-        <option value="08">08 - August</option>
-        <option value="09">09 - September</option>
-        <option value="10">10 - October</option>
-        <option value="11">11 - November</option>
-        <option value="12">12 - December</option>
-      </select>
-    </div>
-    <div class="col-sm-4">
-      <label translate>Expiration Year</label>
-      <select
-        ng-model="currentPayment.creditCard.expirationYear"
-        class="form-control"
-      >
-        <option value="" translate>Year</option>
-        <option
-          value="{{currentYear+$index}}"
-          ng-repeat="t in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
-        >
-          {{currentYear+$index}}
-        </option>
-      </select>
-    </div>
-  </div>
-
-  <div ng-if="!isAdminPayment">
-    <hr />
-    <h4 translate>Billing Address</h4>
+  <fieldset>
+    <legend class="sr-only">Credit Card</legend>
 
     <div class="form-group">
       <div class="col-sm-12">
-        <label translate>Address</label>
-        <input
-          type="text"
-          ng-model="currentPayment.creditCard.billingAddress"
-          class="form-control"
-        />
+        <label>
+          <span translate>Name on Card</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.nameOnCard"
+            class="form-control"
+          />
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-8 stacked-spacing-col-sm">
+        <label>
+          <span translate>Card Number</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.number"
+            autocomplete="off"
+            class="form-control"
+          />
+        </label>
+      </div>
+      <div class="col-sm-4">
+        <label>
+          <span translate>Card Security Code</span>
+          <input
+            class="form-control"
+            type="text"
+            maxlength="4"
+            ng-model="currentPayment.creditCard.cvvNumber"
+            autocomplete="off"
+          />
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-8 stacked-spacing-col-sm">
+        <label>
+          <span translate>Expiration Month</span>
+          <select
+            ng-model="currentPayment.creditCard.expirationMonth"
+            class="form-control"
+          >
+            <option value="" translate>Month</option>
+            <option value="01">01 - January</option>
+            <option value="02">02 - February</option>
+            <option value="03">03 - March</option>
+            <option value="04">04 - April</option>
+            <option value="05">05 - May</option>
+            <option value="06">06 - June</option>
+            <option value="07">07 - July</option>
+            <option value="08">08 - August</option>
+            <option value="09">09 - September</option>
+            <option value="10">10 - October</option>
+            <option value="11">11 - November</option>
+            <option value="12">12 - December</option>
+          </select></label
+        >
+      </div>
+      <div class="col-sm-4">
+        <label>
+          <span translate>Expiration Year</span>
+          <select
+            ng-model="currentPayment.creditCard.expirationYear"
+            class="form-control"
+          >
+            <option value="" translate>Year</option>
+            <option
+              value="{{currentYear+$index}}"
+              ng-repeat="t in [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]"
+            >
+              {{currentYear+$index}}
+            </option>
+          </select></label
+        >
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset ng-if="!isAdminPayment">
+    <legend><h4 translate>Billing Address</h4></legend>
+
+    <div class="form-group">
+      <div class="col-sm-12">
+        <label>
+          <span translate>Address</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.billingAddress"
+            class="form-control"
+          />
+        </label>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-5 stacked-spacing-col-sm">
-        <label translate>City</label>
-        <input
-          type="text"
-          ng-model="currentPayment.creditCard.billingCity"
-          class="form-control"
-        />
+        <label>
+          <span translate>City</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.billingCity"
+            class="form-control"
+          />
+        </label>
       </div>
 
       <div class="col-sm-4 stacked-spacing-col-sm">
-        <label translate>State/Region</label>
-        <input
-          type="text"
-          ng-model="currentPayment.creditCard.billingState"
-          class="form-control"
-        />
+        <label>
+          <span translate>State/Region</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.billingState"
+            class="form-control"
+          />
+        </label>
       </div>
       <div class="col-sm-3">
-        <label translate>Zip</label>
-        <input
-          type="text"
-          ng-model="currentPayment.creditCard.billingZip"
-          class="form-control"
-        />
+        <label>
+          <span translate>Zip</span>
+          <input
+            type="text"
+            ng-model="currentPayment.creditCard.billingZip"
+            class="form-control"
+          />
+        </label>
       </div>
     </div>
     <div class="form-group">
       <div class="col-sm-12">
-        <label translate>Country</label>
-        <select ng-model="creditCardCountry" class="form-control">
-          <option ng-repeat="country in countries" ng-value="country[1]">
-            {{country[0]}}
-          </option>
-        </select>
+        <label>
+          <span translate>Country</span>
+          <select ng-model="creditCardCountry" class="form-control">
+            <option ng-repeat="country in countries" ng-value="country[1]">
+              {{country[0]}}
+            </option>
+          </select>
+        </label>
       </div>
     </div>
-  </div>
+  </fieldset>
 </div>

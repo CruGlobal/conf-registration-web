@@ -11,6 +11,7 @@ angular
         localModel: '=model',
         ngDisabled: '=',
         monthYearOnly: '=monthYearOnly',
+        inputId: '@',
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {

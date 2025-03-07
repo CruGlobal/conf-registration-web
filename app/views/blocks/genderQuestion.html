@@ -1,14 +1,16 @@
-<div ng-repeat="choice in ['Male','Female']" class="radio">
-  <label>
-    <input
-      type="radio"
-      show-errors
-      name="{{ block.id }}"
-      ng-required="block.required"
-      ng-model="answer.value"
-      ng-model-options="{ debounce: 300 }"
-      ng-value="choice.charAt(0)"
-    />
-    <strong>{{ choice }}</strong></label
-  >
+<div role="radiogroup" aria-labelledby="block-label-{{block.id}}">
+  <div ng-repeat="choice in ['Male','Female']" class="radio">
+    <label>
+      <input
+        type="radio"
+        show-errors
+        name="{{ block.id }}"
+        ng-required="block.required"
+        ng-model="answer.value"
+        ng-model-options="{ debounce: 300 }"
+        ng-value="choice.charAt(0)"
+      />
+      <strong>{{ choice }}</strong>
+    </label>
+  </div>
 </div>
