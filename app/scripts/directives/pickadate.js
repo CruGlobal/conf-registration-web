@@ -13,6 +13,7 @@ angular
         disabled: '=pickerDisabled',
         minDate: '=?pickerMinDate',
         maxDate: '=?pickerMaxDate',
+        ariaLabelledBy: '@pickerLabelledBy',
       },
       link: function (scope, element, attr, ngModelController) {
         //load date value from model into datepicker
@@ -166,6 +167,10 @@ angular
             }
           },
         );
+
+        scope.$watch('ariaLabelledBy', (ariaLabelledBy) => {
+          scope.picker.$node.attr('aria-labelledby', ariaLabelledBy);
+        });
 
         //open datepicker when icon is clicked
         scope.open = function (event) {

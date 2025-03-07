@@ -1,13 +1,19 @@
 <input
   show-errors
   type="tel"
+  id="block-input-{{block.id}}"
+  class="form-control"
+  aria-describedby="phone-help-{{block.id}}"
   ng-model="answer.value"
   ng-model-options="{allowInvalid: true, debounce: 1000}"
   ng-required="block.required"
-  class="form-control"
   ng-disabled="editBlock"
   ng-pattern="/^(\D*\d\D*){10,15}$/"
 />
-<span class="help-block help-block-hidden" translate
-  >Phone number must have 10-15 digits</span
+<span
+  id="phone-help-{{block.id}}"
+  class="help-block help-block-hidden"
+  translate
 >
+  Phone number must have 10-15 digits
+</span>

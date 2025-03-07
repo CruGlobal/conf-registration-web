@@ -79,17 +79,6 @@ body.user-registration {
     form label {
       margin-top: 0;
     }
-    label:has(.form-control) {
-      width: 100%;
-      /* Override Bootstrap's global style and only bold the span, not the form control */
-      font-weight: unset;
-
-      > span {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-      }
-    }
     .invalidBlock {
       @extend .red;
     }

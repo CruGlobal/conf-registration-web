@@ -1,8 +1,9 @@
 <select
   show-errors
+  id="block-input-{{block.id}}"
+  class="form-control"
   ng-required="block.required"
   ng-model="answer.value"
-  class="form-control"
   uib-tooltip="{{
     'Selecting an answer displays it as preselected on the registration form.'
       | translate
