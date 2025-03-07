@@ -1,9 +1,14 @@
-<dl class="dl-horizontal" ng-if="!isAdminPayment">
-  <dt translate>Payment method</dt>
+<dl
+  class="dl-horizontal"
+  aria-labelledby="payment-method"
+  ng-if="!isAdminPayment"
+>
+  <dt id="payment-method" translate>Payment method</dt>
   <dd>
     <label ng-show="paymentMethods().acceptCreditCards">
       <input
         type="radio"
+        name="payment-method"
         ng-model="currentPayment.paymentType"
         ng-value="'CREDIT_CARD'"
         translate
@@ -14,6 +19,7 @@
     <label ng-show="paymentMethods().acceptChecks">
       <input
         type="radio"
+        name="payment-method"
         ng-model="currentPayment.paymentType"
         ng-value="'CHECK'"
         translate
@@ -24,6 +30,7 @@
     <label ng-show="paymentMethods().acceptTransfers">
       <input
         type="radio"
+        name="payment-method"
         ng-model="currentPayment.paymentType"
         ng-value="'TRANSFER'"
         translate
@@ -34,6 +41,7 @@
     <label ng-show="paymentMethods().acceptScholarships">
       <input
         type="radio"
+        name="payment-method"
         ng-model="currentPayment.paymentType"
         ng-value="'SCHOLARSHIP'"
         translate
@@ -44,6 +52,7 @@
     <label ng-show="paymentMethods().acceptPayOnSite">
       <input
         type="radio"
+        name="payment-method"
         ng-model="currentPayment.paymentType"
         ng-value="'PAY_ON_SITE'"
         translate
@@ -93,6 +102,7 @@
   >
     <input
       type="radio"
+      name="payment-method"
       ng-model="currentPayment.amount"
       ng-value="currentRegistration.remainingBalance"
     />
