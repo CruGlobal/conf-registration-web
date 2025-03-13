@@ -26,6 +26,7 @@
           type="submit"
           ng-disabled="savingAnswers || !pageIsValid(page.id)"
           ng-click="goToNext()"
+          aria-live="assertive"
         >
           <span ng-if="!savingAnswers && !nextPage()" translate>Continue</span>
           <span ng-if="!savingAnswers && nextPage()" translate>Next Page</span>

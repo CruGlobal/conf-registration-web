@@ -3,6 +3,7 @@
     <input
       show-errors="group"
       type="text"
+      id="block-input-{{block.id}}"
       class="form-control"
       placeholder="{{ 'Address Line 1' | translate }}"
       ng-model="answer.value.address1"
@@ -36,10 +37,11 @@
   <div class="col-sm-3 stacked-spacing-col-sm">
     <select
       show-errors="group"
+      class="form-control"
+      aria-label="{{'State/Region' | translate}}"
       ng-model="answer.value.state"
       ng-model-options="{ debounce: 1000 }"
       ng-required="block.required"
-      class="form-control"
       ng-disabled="editBlock"
       uib-tooltip="{{ answer.value.country !== 'US' ?
       'Fill out only if applicable based on your address.' : ''
@@ -92,6 +94,7 @@
       show-errors="group"
       ng-model="answer.value.country"
       class="form-control"
+      aria-label="{{'Country' | translate}}"
       ng-required="block.required"
       ng-model-options="{ debounce: 300 }"
       ng-disabled="editBlock"

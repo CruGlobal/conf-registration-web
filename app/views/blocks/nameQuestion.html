@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-sm-6 stacked-spacing-col-sm">
     <input
+      id="block-input-{{block.id}}"
       show-errors="group"
       type="text"
       class="form-control"
@@ -17,6 +18,7 @@
       type="text"
       class="form-control"
       placeholder="{{ 'Last Name' | translate }}"
+      aria-label="{{ 'Last Name' | translate }}"
       ng-model="answer.value.lastName"
       ng-model-options="{ debounce: 300 }"
       ng-required="block.required"
