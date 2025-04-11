@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface QueryArgs<Data, DefaultData, LoadVariables extends unknown> {
+interface QueryArgs<Data, DefaultData, LoadVariables> {
   // The value of data when no data is loading or the query is skipped
   defaultData: DefaultData;
 

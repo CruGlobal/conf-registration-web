@@ -5,23 +5,50 @@ https://www.eventregistrationtool.com | https://stage.eventregistrationtool.com
 
 ## Development
 
-### Installing yarn
+### Setting up Node
 
-Use yarn for faster installs and to update the yarn lock file: https://yarnpkg.com/en/docs/install
+First, make sure that you have a suitable version of Node.js. This project uses node v22.14.0. To check your node version, run `node --version`. If you don't have node v22.14.0 installed or a suitable version, the recommended way to install it is with [asdf](https://asdf-vm.com/), a development tool version manager.
 
-### Install & Run
+```bash
+# Install asdf and the node plugin
+brew install asdf
+asdf plugin add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 
-1. `yarn` or `npm install`
-2. `yarn start` or `npm start`
-3. Browse to [`http://localhost:9000`](http://localhost:9000)
+# Integrate it with your shell
+# ZSH shell integration is shown here, but for installation instructions for other shells, go to https://asdf-vm.com/guide/getting-started.html#_3-install-asdf
+echo -e "\n. $(brew --prefix asdf)/libexec/asdf.sh" >> ${ZDOTDIR:-~}/.zshrc
+
+# IMPORTANT: Close that terminal tab/window and open another one to apply the changes to your shell configuration file
+
+# Install the version of node defined in this project's .tool-versions file
+asdf install nodejs
+
+# Check that the node version is now 22.14.0
+node --version
+```
+
+### Running the local server
+
+If you haven't installed yarn, please install it here: https://yarnpkg.com/en/docs/install.
+We use yarn over npm, as yarn for faster installs and to update the yarn lock file
+
+```bash
+# Install dependencies
+yarn
+
+# Start the server
+yarn start
+```
+
+Open [`http://localhost:9000`](http://localhost:9000) with your browser to see the result.
 
 ### Development Tasks
 
-- `yarn run test` or `npm run test` to run karma tests
-- `yarn run lint` or `npm run lint` to run eslint
-- `yarn run build` or `npm run build` to generate minified output files. These files are output to `/dist`.
-- `yarn run build:analyze` or `npm run build:analyze` to open a visualization of bundle sizes after building
-- `yarn run angular-gettext-extract` or `npm run angular-gettext-extract` to extract strings to `languages/ert.pot` for translation
+- `yarn test` to run karma tests
+- `yarn lint` to run eslint
+- `yarn build` to generate minified output files. These files are output to `/dist`.
+- `yarn build:analyze` to open a visualization of bundle sizes after building
+- `yarn angular-gettext-extract` to extract strings to `languages/ert.pot` for translation
 
 ### Deployment
 
@@ -30,8 +57,8 @@ Use yarn for faster installs and to update the yarn lock file: https://yarnpkg.c
 
 ### Adding dependencies
 
-- Use `yarn add <package-name>` or `npm install <package-name> --save` to install app dependencies
-- Use `yarn add <package-name> -dev` `npm install <package-name> --save-dev` to install tooling dependencies
+- Use `yarn add <package-name>` to install app dependencies
+- Use `yarn add <package-name> --dev` to install tooling dependencies
 
 ### Localhost API
 
