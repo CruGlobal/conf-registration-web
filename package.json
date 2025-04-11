@@ -112,5 +112,6 @@
     "next:start": "next start",
     "next:lint": "next lint",
     "prepare": "husky install"
-  }
+  },
+  "packageManager": "yarn@4.7.0"
 }
