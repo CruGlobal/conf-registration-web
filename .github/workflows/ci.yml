@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     name: tests
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
       - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: 🧪 Run Tests
         run: yarn test
       - name: Codecov
@@ -33,34 +33,34 @@ jobs:
   eslint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
       - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: 💨 ESLint
         run: yarn lint
   typescript:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
       - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: ✅ TypeScript lint
         run: yarn lint:ts
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
       - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: 💅 Prettier Check
         run: yarn prettier:check
   yarn-check-cache:
@@ -79,12 +79,12 @@ jobs:
     needs: [test, eslint, typescript, prettier]
     if: github.event_name == 'push'
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version-file: .tool-versions
       - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache
+        run: yarn install --immutable
       - name: 🔨 Build
         run: yarn build
         env:
