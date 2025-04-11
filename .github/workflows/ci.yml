@@ -63,15 +63,6 @@ jobs:
         run: yarn install --immutable
       - name: 💅 Prettier Check
         run: yarn prettier:check
-  yarn-check-cache:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v4
-        with:
-          node-version-file: .node-version
-      - name: 📦 Install Dependencies
-        run: yarn install --immutable --immutable-cache --check-cache
   deploy:
     runs-on: ubuntu-latest
     environment:
