@@ -207,9 +207,15 @@ export const RegistrationFilters = (
                       setQueryParam('filterAccountTransferErrors', value)
                     }
                   >
-                    <ToggleButton id="filter-yes" value="yes">Show</ToggleButton>
-                    <ToggleButton id="filter-no" value="no">Hide</ToggleButton>
-                    <ToggleButton id="filter-only" value="only">Only</ToggleButton>
+                    <ToggleButton id="filter-yes" value="yes">
+                      Show
+                    </ToggleButton>
+                    <ToggleButton id="filter-no" value="no">
+                      Hide
+                    </ToggleButton>
+                    <ToggleButton id="filter-only" value="only">
+                      Only
+                    </ToggleButton>
                   </ToggleButtonGroup>
                 </label>
               </div>
@@ -227,9 +233,15 @@ export const RegistrationFilters = (
                       setQueryParam('includeIncomplete', value)
                     }
                   >
-                    <ToggleButton id="incomplete-yes" value="yes">Show</ToggleButton>
-                    <ToggleButton id="incomplete-no" value="no">Hide</ToggleButton>
-                    <ToggleButton id="incomplete-only" value="only">Only</ToggleButton>
+                    <ToggleButton id="incomplete-yes" value="yes">
+                      Show
+                    </ToggleButton>
+                    <ToggleButton id="incomplete-no" value="no">
+                      Hide
+                    </ToggleButton>
+                    <ToggleButton id="incomplete-only" value="only">
+                      Only
+                    </ToggleButton>
                   </ToggleButtonGroup>
                 </label>
               </div>
@@ -247,9 +259,15 @@ export const RegistrationFilters = (
                       setQueryParam('includeCheckedin', value)
                     }
                   >
-                    <ToggleButton id="checkin-yes" value="yes">Show</ToggleButton>
-                    <ToggleButton id="checkin-no" value="no">Hide</ToggleButton>
-                    <ToggleButton id="checkin-only" value="only">Only</ToggleButton>
+                    <ToggleButton id="checkin-yes" value="yes">
+                      Show
+                    </ToggleButton>
+                    <ToggleButton id="checkin-no" value="no">
+                      Hide
+                    </ToggleButton>
+                    <ToggleButton id="checkin-only" value="only">
+                      Only
+                    </ToggleButton>
                   </ToggleButtonGroup>
                 </label>
               </div>
@@ -267,9 +285,15 @@ export const RegistrationFilters = (
                       setQueryParam('includeWithdrawn', value)
                     }
                   >
-                    <ToggleButton id="withdraw-yes" value="yes">Show</ToggleButton>
-                    <ToggleButton id="withdraw-no" value="no">Hide</ToggleButton>
-                    <ToggleButton id="withdraw-only" value="only">Only</ToggleButton>
+                    <ToggleButton id="withdraw-yes" value="yes">
+                      Show
+                    </ToggleButton>
+                    <ToggleButton id="withdraw-no" value="no">
+                      Hide
+                    </ToggleButton>
+                    <ToggleButton id="withdraw-only" value="only">
+                      Only
+                    </ToggleButton>
                   </ToggleButtonGroup>
                 </label>
               </div>
@@ -288,8 +312,12 @@ export const RegistrationFilters = (
               value={queryParameters.limit}
               onChange={(value) => setQueryParam('limit', value)}
             >
-              <ToggleButton id="limit-20" value={20}>20</ToggleButton>
-              <ToggleButton id="limit-50" value={50}>50</ToggleButton>
+              <ToggleButton id="limit-20" value={20}>
+                20
+              </ToggleButton>
+              <ToggleButton id="limit-50" value={50}>
+                50
+              </ToggleButton>
               {/* TODO: Add back the 100 option once the API can handle submitting 100 registrations without timing out */}
               <ToggleButton id="limit-0" value={0} disabled>
                 per page
