@@ -648,9 +648,13 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['SPOUSE', 'CHILD'],
+          groupSubRegistrantType: ['SPOUSE', 'CHILD', 'COUPLE'],
         };
-        return _.includes(fields[field], defaultTypeKey);
+        // Check defaultTypeKey as before
+        const isDefaultType = _.includes(fields[field], defaultTypeKey);
+        const isCoupleName = false;
+
+        return isDefaultType || isCoupleName;
       };
 
       $scope.wysiwygButtons = [
