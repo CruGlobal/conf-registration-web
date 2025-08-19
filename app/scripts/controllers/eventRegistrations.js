@@ -526,7 +526,7 @@ angular
         });
       };
 
-      $scope.buildWithdrawMessage = function (registrantInfo, value) {
+      $scope.buildWithdrawMessage = function (value) {
         const title = value
           ? 'Withdraw Couple/Spouse'
           : 'Reinstate Couple/Spouse';
