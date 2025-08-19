@@ -111,8 +111,34 @@ angular
         return Boolean(
           $scope.registerMode === 'preview' ||
             !$scope.allRegistrantsValid() ||
-            $scope.submittingRegistration,
+            $scope.submittingRegistration ||
+            $scope.requireSpouseRegistration(),
         );
+      };
+
+      $scope.requireSpouseRegistration = function () {
+        const primaryRegistrantType = primaryRegType(currentRegistration);
+
+        if (
+          primaryRegistrantType.defaultTypeKey !== 'COUPLE' &&
+          primaryRegistrantType.name !== 'Couple'
+        ) {
+          return false;
+        }
+
+        // Check if a spouse registrant is present
+        const spouseTypeObj = _.find(conference.registrantTypes, {
+          defaultTypeKey: 'SPOUSE',
+        });
+        if (!spouseTypeObj) {
+          return false;
+        }
+
+        const spousePresent = _.find(currentRegistration.registrants, {
+          registrantTypeId: spouseTypeObj.id,
+        });
+
+        return !spousePresent;
       };
 
       // Display an error that occurred during registration completion
@@ -377,6 +403,11 @@ angular
 
       $scope.hasPendingCheckPayment = function (payments) {
         return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
+      };
+
+      $scope.isSpouse = function (registrant) {
+        const type = $scope.getRegistrantType(registrant.registrantTypeId);
+        return type && type.defaultTypeKey === 'SPOUSE';
       };
     },
   );
