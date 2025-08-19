@@ -127,7 +127,7 @@
                     type="radio"
                     ng-model="type.familyStatus"
                     value="DISABLED"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                   />
                   <translate>No</translate>
                 </label>
@@ -145,7 +145,7 @@
                     type="radio"
                     ng-model="type.familyStatus"
                     value="ENABLED"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                   />
                   <translate>Yes - Primary</translate>
                 </label>
@@ -163,7 +163,7 @@
                     type="radio"
                     ng-model="type.familyStatus"
                     value="FAMILY_ONLY"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                   />
                   <translate>Yes - Dependent</translate>
                 </label>
