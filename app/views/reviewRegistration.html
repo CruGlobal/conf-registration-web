@@ -202,7 +202,10 @@
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
               ></i>
             </td>
-            <td>{{r.firstName}} {{r.lastName}}</td>
+            <td>
+              {{r.firstName}} {{r.lastName}}
+              <span ng-if="isSpouse(r)">(Cost included in couple)</span>
+            </td>
             <td>
               <span ng-if="!expandRegistrantCost[r.id]"
                 >{{r.calculatedTotalDue |
@@ -412,6 +415,9 @@
     >
       <p ng-if="!allRegistrantsValid()" style="color: red" translate>
         Please fill in all required fields in red before submitting.
+      </p>
+      <p ng-if="requireSpouseRegistration()">
+        Please register your spouse before continuing.
       </p>
       <button
         class="btn btn-lg btn-success btn-important confirm-registration"

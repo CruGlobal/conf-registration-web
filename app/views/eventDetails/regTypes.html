@@ -49,7 +49,10 @@
                 ><translate>Cost</translate>
                 <em class="required" aria-hidden="true">*</em></label
               >
-              <div class="input-group">
+              <p ng-if="isSpouseType(type)" class="text-muted">
+                Cost reflected in Couple
+              </p>
+              <div class="input-group" ng-if="!isSpouseType(type)">
                 <span class="input-group-addon"
                   ><span class="currency-label"
                     >{{conference.currency.currencyCode |
@@ -110,7 +113,11 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input type="checkbox" ng-model="type.useLimit" />
+                  <input
+                    type="checkbox"
+                    ng-model="type.useLimit"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
                   <translate>Limit the number of registrants</translate>
                 </label>
                 <input
@@ -118,6 +125,7 @@
                   class="form-control"
                   ng-show="type.useLimit"
                   ng-model="type.numberSlotsLimit"
+                  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                 />
               </div>
               <h4 translate>Group Registration</h4>
@@ -127,7 +135,7 @@
                     type="radio"
                     ng-model="type.familyStatus"
                     value="DISABLED"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                   />
                   <translate>No</translate>
                 </label>
@@ -245,7 +253,7 @@
               </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6" ng-if="!isSpouseType(type)">
               <h4>
                 <span translate>Payment</span>
                 <i
