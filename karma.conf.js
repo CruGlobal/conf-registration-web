@@ -7,21 +7,7 @@ const karmaWebpackConfig = {
   devtool: 'inline-source-map',
   module: {
     ...webpackConfig.module,
-    rules: [
-      ...webpackConfig.module.rules,
-      ...(process.env.npm_lifecycle_event !== 'test-debug'
-        ? [
-            {
-              test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
-              include: path.resolve('app/'),
-              loader: 'istanbul-instrumenter-loader',
-              options: {
-                esModules: true,
-              },
-            },
-          ]
-        : []),
-    ],
+    rules: [...webpackConfig.module.rules],
   },
 };
 
