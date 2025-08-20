@@ -1509,15 +1509,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cruglobal/cru-payments@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "@cruglobal/cru-payments@npm:1.2.4"
+"@cruglobal/cru-payments@npm:1.3.0":
+  version: 1.3.0
+  resolution: "@cruglobal/cru-payments@npm:1.3.0"
   dependencies:
     es6-promise: "npm:^4.0.5"
     jsencrypt: "npm:3.1.0"
     rxjs: "npm:^5.0.3"
     whatwg-fetch: "npm:^2.0.1"
-  checksum: 10c0/d480bd4a6fe45b2f9b557b24f0ebe515caffee47dad8a71f9c50bf4a41ec6d69ac1a2c303d90f2763506267e5486bf6e416991d4f7209a4a9bd0a84af6a82fb3
+  checksum: 10c0/84829f14c3d0bdec4002afcd34a4c0298118e5c5b9e542bae117bb11babdf6961716a054711c428acd8bcb68cb9ea1b70605ccbe39ffe05d2e32c8076ddfb6a4
   languageName: node
   linkType: hard
 
@@ -6420,7 +6420,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.25.9"
     "@babel/preset-typescript": "npm:^7.25.9"
     "@babel/runtime": "npm:^7.25.9"
-    "@cruglobal/cru-payments": "npm:^1.2.4"
+    "@cruglobal/cru-payments": "npm:1.3.0"
     "@testing-library/jest-dom": "npm:^5.16.5"
     "@testing-library/react": "npm:^12.1.5"
     "@testing-library/react-hooks": "npm:^8.0.1"
