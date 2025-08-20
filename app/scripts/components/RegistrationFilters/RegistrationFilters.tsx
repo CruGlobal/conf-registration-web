@@ -203,7 +203,7 @@ export const RegistrationFilters = (
                     name="filterAccountTransferErrors"
                     className="btn-group-justified"
                     value={queryParameters.filterAccountTransferErrors}
-                    onChange={(value) =>
+                    onChange={(value: string) =>
                       setQueryParam('filterAccountTransferErrors', value)
                     }
                   >
@@ -229,7 +229,7 @@ export const RegistrationFilters = (
                     name="includeIncomplete"
                     className="btn-group-justified"
                     value={queryParameters.includeIncomplete}
-                    onChange={(value) =>
+                    onChange={(value: string) =>
                       setQueryParam('includeIncomplete', value)
                     }
                   >
@@ -255,7 +255,7 @@ export const RegistrationFilters = (
                     name="includeCheckedin"
                     className="btn-group-justified"
                     value={queryParameters.includeCheckedin}
-                    onChange={(value) =>
+                    onChange={(value: string) =>
                       setQueryParam('includeCheckedin', value)
                     }
                   >
@@ -281,7 +281,7 @@ export const RegistrationFilters = (
                     name="includeWithdrawn"
                     className="btn-group-justified"
                     value={queryParameters.includeWithdrawn}
-                    onChange={(value) =>
+                    onChange={(value: string) =>
                       setQueryParam('includeWithdrawn', value)
                     }
                   >
@@ -310,7 +310,7 @@ export const RegistrationFilters = (
               data-testid="registration-filters-limit"
               name="limit"
               value={queryParameters.limit}
-              onChange={(value) => setQueryParam('limit', value)}
+              onChange={(value: number) => setQueryParam('limit', value)}
             >
               <ToggleButton id="limit-20" value={20}>
                 20
