@@ -14,8 +14,10 @@ angular
       RegistrationCache,
       modalMessage,
       validateRegistrant,
+      openedFromGroupModal,
     ) {
       $scope.conference = conference;
+      $scope.fromGroupModal = openedFromGroupModal;
       $scope.form = {
         type: typeId || _.first(conference.registrantTypes).id,
       };
