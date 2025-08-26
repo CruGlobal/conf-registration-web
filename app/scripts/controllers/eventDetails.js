@@ -1,3 +1,4 @@
+/* eslint-disable angular/log, no-console */
 import moment from 'moment';
 import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
 import regOptionsTemplate from 'views/eventDetails/regOptions.html';
@@ -183,6 +184,7 @@ angular
         var modalInstance = $uibModal.open({
           templateUrl: addRegistrantTypeModalTemplate,
           controller: function ($scope, $uibModalInstance, registrantTypes) {
+            console.log(registrantTypes);
             $scope.types = registrantTypes.data;
 
             $scope.selectType = function (type) {
@@ -648,13 +650,10 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['SPOUSE', 'CHILD', 'COUPLE'],
+          groupSubRegistrantType: ['COUPLE', 'SPOUSE', 'CHILD'],
         };
-        // Check defaultTypeKey as before
         const isDefaultType = _.includes(fields[field], defaultTypeKey);
-        const isCoupleName = false;
-
-        return isDefaultType || isCoupleName;
+        return isDefaultType;
       };
 
       $scope.wysiwygButtons = [
@@ -956,6 +955,10 @@ angular
             };
             throw err;
           });
+      };
+
+      $scope.isSpouseType = function (type) {
+        return type.defaultTypeKey === 'SPOUSE';
       };
     },
   );
