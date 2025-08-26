@@ -84,7 +84,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
-    needs: [test, eslint, typescript, prettier]
+    needs: [build]
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
