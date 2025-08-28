@@ -133,5 +133,10 @@ angular
           validateRegistrant.blockVisible(block, registrant, true, conference)
         );
       };
+
+      $scope.nonAllowedTypeKeys = ['SPOUSE'];
+      $scope.excludeNonAllowedType = function (type) {
+        return $scope.nonAllowedTypeKeys.indexOf(type.defaultTypeKey) === -1;
+      };
     },
   );
