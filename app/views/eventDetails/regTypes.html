@@ -11,7 +11,10 @@
 
 <div ui-tree>
   <div ui-tree-nodes="" ng-model="conference.registrantTypes">
-    <div ui-tree-node ng-repeat="type in conference.registrantTypes">
+    <div
+      ui-tree-node
+      ng-repeat="type in conference.registrantTypes | filter:isNotSpouseType"
+    >
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row">
