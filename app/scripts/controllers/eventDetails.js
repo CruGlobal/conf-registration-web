@@ -1,4 +1,3 @@
-/* eslint-disable angular/log, no-console */
 import moment from 'moment';
 import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
 import regOptionsTemplate from 'views/eventDetails/regOptions.html';
@@ -184,7 +183,6 @@ angular
         var modalInstance = $uibModal.open({
           templateUrl: addRegistrantTypeModalTemplate,
           controller: function ($scope, $uibModalInstance, registrantTypes) {
-            console.log(registrantTypes);
             $scope.types = registrantTypes.data;
 
             $scope.selectType = function (type) {
@@ -959,6 +957,10 @@ angular
 
       $scope.isSpouseType = function (type) {
         return type.defaultTypeKey === 'SPOUSE';
+      };
+      // required for filtering in ng-repeat
+      $scope.isNotSpouseType = function (type) {
+        return type.defaultTypeKey !== 'SPOUSE';
       };
     },
   );
