@@ -962,5 +962,24 @@ angular
       $scope.isNotSpouseType = function (type) {
         return type.defaultTypeKey !== 'SPOUSE';
       };
+      // required for filtering in ng-repeat
+      $scope.isNotSelf = function (childType, type) {
+        return childType.name !== type.name;
+      };
+
+      // Both of these functions search by ids provided
+      // in allowedRegistrantTypeSet
+      $scope.findParentTypeKey = function (type) {
+        const parentType = _.find($scope.conference.registrantTypes, {
+          id: type.parentRegistrantTypeId,
+        });
+        return parentType ? parentType.defaultTypeKey : null;
+      };
+      $scope.findChildTypeKey = function (type) {
+        const childType = _.find($scope.conference.registrantTypes, {
+          id: type.childRegistrantTypeId,
+        });
+        return childType ? childType.defaultTypeKey : null;
+      };
     },
   );

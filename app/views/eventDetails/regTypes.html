@@ -11,7 +11,10 @@
 
 <div ui-tree>
   <div ui-tree-nodes="" ng-model="conference.registrantTypes">
-    <div ui-tree-node ng-repeat="type in conference.registrantTypes">
+    <div
+      ui-tree-node
+      ng-repeat="type in conference.registrantTypes | filter:isNotSpouseType"
+    >
       <div class="panel panel-default">
         <div class="panel-heading">
           <div class="row">
@@ -49,10 +52,7 @@
                 ><translate>Cost</translate>
                 <em class="required" aria-hidden="true">*</em></label
               >
-              <p ng-if="isSpouseType(type)" class="text-muted">
-                Cost reflected in Couple
-              </p>
-              <div class="input-group" ng-if="!isSpouseType(type)">
+              <div class="input-group">
                 <span class="input-group-addon"
                   ><span class="currency-label"
                     >{{conference.currency.currencyCode |
@@ -159,7 +159,7 @@
                 </label>
                 <i
                   class="question-popover fa fa-question-circle"
-                  uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a spouse, child, student) to the registration.' | translate}}"
+                  uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a volunteer, child, student) to the registration.' | translate}}"
                   popover-trigger="'mouseenter'"
                   popover-append-to-body="true"
                 >
@@ -198,6 +198,7 @@
                 <div
                   class="checkbox"
                   ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
+                  ng-if="(findChildTypeKey(childType) !== 'SPOUSE' || type.defaultTypeKey === 'COUPLE') && findChildTypeKey(childType) !== type.defaultTypeKey"
                 >
                   <div class="row">
                     <div class="col-md-6">
@@ -205,6 +206,7 @@
                         <input
                           type="checkbox"
                           ng-model="type.allowedRegistrantTypeSet[$index].selected"
+                          ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                         />
                         {{childType.name}}
                       </label>
@@ -218,6 +220,7 @@
                         <select
                           ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants"
                           class="form-control"
+                          ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                         >
                           <option ng-value="0">Unlimited</option>
                           <option
@@ -253,7 +256,7 @@
               </div>
             </div>
 
-            <div class="col-md-6" ng-if="!isSpouseType(type)">
+            <div class="col-md-6">
               <h4>
                 <span translate>Payment</span>
                 <i
