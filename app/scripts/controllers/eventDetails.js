@@ -183,7 +183,6 @@ angular
         var modalInstance = $uibModal.open({
           templateUrl: addRegistrantTypeModalTemplate,
           controller: function ($scope, $uibModalInstance, registrantTypes) {
-            console.log(registrantTypes);
             $scope.types = registrantTypes.data;
 
             $scope.selectType = function (type) {
