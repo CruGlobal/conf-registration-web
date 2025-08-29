@@ -11,7 +11,8 @@
         class="form-control"
         ng-model="form.type"
         ng-change="adminEditRegistrant.registrantTypeId = form.type"
-        ng-options="t.id as t.name for t in conference.registrantTypes"
+        ng-options="t.id as t.name for t in conference.registrantTypes | filter:excludeNonAllowedType"
+        ng-disabled="fromGroupModal"
       ></select>
     </div>
     <div class="form-group">
