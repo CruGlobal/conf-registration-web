@@ -183,7 +183,10 @@
                 >
                 </i>
               </div>
-              <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
+              <div
+                ng-if="type.familyStatus == 'ENABLED' && type.defaultTypeKey !== 'COUPLE'"
+                class="bt12"
+              >
                 <label translate class="pt12"
                   >Associated Registrant Types</label
                 >
@@ -198,7 +201,9 @@
                 <div
                   class="checkbox"
                   ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
-                  ng-if="(findChildTypeKey(childType) !== 'SPOUSE' || type.defaultTypeKey === 'COUPLE') && findChildTypeKey(childType) !== type.defaultTypeKey"
+                  ng-if="findChildTypeKey(childType) !== 'SPOUSE' &&
+                         findChildTypeKey(childType) !== 'COUPLE' &&
+                         findChildTypeKey(childType) !== type.defaultTypeKey"
                 >
                   <div class="row">
                     <div class="col-md-6">
