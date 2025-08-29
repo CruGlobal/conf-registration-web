@@ -17,6 +17,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     templateUrl: template,
     restrict: 'A',
     scope: {
+      currency: '=currency',
       currentPayment: '=payment',
       currentRegistration: '=registration',
       paymentMethods: '=paymentMethods',
@@ -29,7 +30,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       expenseTypesConstants,
       gettextCatalog,
     ) {
-      $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';

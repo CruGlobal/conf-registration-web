@@ -50,9 +50,8 @@
               </td>
               <td>
                 <strong
-                  >{{ remainingBalanceTotal |
-                  localizedCurrency:cartRegistrations[0].conference.currency.currencyCode
-                  }}</strong
+                  >{{ remainingBalanceTotal | localizedCurrency:(currency ||
+                  'USD') }}</strong
                 >
               </td>
               <td></td>
@@ -71,6 +70,17 @@
           >
             Proceed to Checkout
           </button>
+        </div>
+
+        <h2 class="page-title border" translate>Payment</h2>
+        <div class="payment">
+          <div
+            ert-payment
+            currency="currency"
+            payment="currentPayment"
+            registration="currentRegistration"
+            payment-methods="acceptedPaymentMethods"
+          ></div>
         </div>
       </div>
 

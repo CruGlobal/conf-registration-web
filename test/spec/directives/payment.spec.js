@@ -9,13 +9,12 @@ describe('Directive: ertPayment', function () {
     $rootScope = _$rootScope_;
 
     scope = $rootScope.$new();
-    scope.conference = testData.conference;
     scope.registration = testData.registration;
     $templateCache.put('views/components/payment.html', '');
 
-    element = $compile('<div ert-payment registration="registration"></div>')(
-      scope,
-    );
+    element = $compile(
+      '<div ert-payment currency="USD" registration="registration"></div>',
+    )(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
   }));

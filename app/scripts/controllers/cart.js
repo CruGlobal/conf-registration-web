@@ -13,6 +13,7 @@ angular
       RegistrationCache,
     ) {
       $rootScope.globalPage = {
+        bodyClass: 'cart',
         mainClass: 'container',
         footer: true,
       };
@@ -42,6 +43,42 @@ angular
             $scope.cartRegistrations = registrations.filter(
               (item) => item !== null && item.registration.remainingBalance > 0,
             );
+            $scope.registrantTypes = $scope.cartRegistrations.flatMap(
+              ({ conference }) => conference.registrantTypes,
+            );
+            $scope.registrantTypeIds = _.uniq(
+              _.map(
+                $scope.cartRegistrations.flatMap(
+                  ({ registration }) => registration.registrants,
+                ),
+                'registrantTypeId',
+              ),
+            );
+            $scope.currentRegistration = Object.fromEntries(
+              [
+                'calculatedMinimumDeposit',
+                'calculatedTotalDue',
+                'remainingBalance',
+              ].map((field) => [
+                field,
+                $scope.cartRegistrations.reduce(
+                  (total, { registration }) => total + registration[field],
+                  0,
+                ),
+              ]),
+            );
+            $scope.pastPayments = [];
+
+            const currencies = _.uniq(
+              $scope.cartRegistrations.map(
+                ({ conference }) => conference.currency.currencyCode,
+              ),
+            );
+            if (currencies.length > 2) {
+              throw new Error('Multiple conference currencies detected');
+            }
+            $scope.currency = currencies[0];
+
             calculateTotal();
           })
           .catch(() => {
@@ -57,6 +94,7 @@ angular
           (total, { registration }) => total + registration.remainingBalance,
           0,
         );
+        $scope.currentPayment.remainingBalance = $scope.remainingBalanceTotal;
       }
 
       $scope.removeFromCart = function (registrationId) {
@@ -80,6 +118,33 @@ angular
 
       $scope.addEvent = function () {
         $location.path('/');
+      };
+
+      $scope.currentPayment = {
+        amount: $scope.remainingBalanceTotal,
+        paymentType: 'CREDIT_CARD',
+      };
+
+      $scope.acceptedPaymentMethods = function () {
+        var registeredRegistrantTypes = $scope.registrantTypeIds.map(
+          (registrantTypeId) =>
+            $scope.registrantTypes.find((type) => type.id === registrantTypeId),
+        );
+
+        var paymentMethods = {
+          acceptCreditCards: _.some(
+            registeredRegistrantTypes,
+            'acceptCreditCards',
+          ),
+          acceptChecks: _.some(registeredRegistrantTypes, 'acceptChecks'),
+          acceptTransfers: _.some(registeredRegistrantTypes, 'acceptTransfers'),
+          acceptScholarships: _.some(
+            registeredRegistrantTypes,
+            'acceptScholarships',
+          ),
+          acceptPayOnSite: _.some(registeredRegistrantTypes, 'acceptPayOnSite'),
+        };
+        return _.some(paymentMethods) ? paymentMethods : false;
       };
 
       $scope.proceedToCheckout = function () {
