@@ -188,7 +188,10 @@ angular.module('confRegistrationWebApp').controller(
 
     // Called when the user clicks the add to cart button
     $scope.addToCart = () => {
+      // Remember the registration and go back to the search page so the user can register for
+      // another event
       cart.addRegistrationId(currentRegistration.id);
+      $location.path('/');
     };
 
     $scope.editRegistrant = (registrantId) => {
