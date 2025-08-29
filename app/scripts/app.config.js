@@ -1,4 +1,5 @@
 import landingTemplate from 'views/landing.html';
+import cartTemplate from 'views/cart.html';
 import registrationTemplate from 'views/registration.html';
 import paymentApprovalTemplate from 'views/paymentApproval.html';
 import reviewRegistrationTemplate from 'views/reviewRegistration.html';
@@ -76,6 +77,11 @@ angular
         title: gettext('Search for event'),
         templateUrl: landingTemplate,
         controller: 'landingCtrl',
+      })
+      .when('/cart', {
+        title: gettext('Cart'),
+        templateUrl: cartTemplate,
+        controller: 'cartCtrl',
       })
       .when('/register/:conferenceId', {
         title: gettext('Register'),

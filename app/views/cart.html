@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <h1 translate>Cart ({{ cartRegistrationIds.length }})</h1>
+
+      <div
+        class="cart-content"
+        ng-if="cartRegistrationIds.length > 0 && !loading"
+      >
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th translate>Event Name</th>
+              <th translate>Balance Due</th>
+              <th translate>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="registration in cartRegistrations">
+              <td>{{ registration.conferenceName }}</td>
+              <td>
+                {{ registration.remainingBalance |
+                localizedCurrency:registration.currencyCode }}
+              </td>
+              <td>
+                <button
+                  class="btn btn-sm btn-danger"
+                  ng-click="removeFromCart(registration.id)"
+                  translate
+                >
+                  Remove
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="1" class="text-right">
+                <strong translate>Total:</strong>
+              </td>
+              <td>
+                <strong
+                  >{{ cartTotal |
+                  localizedCurrency:cartRegistrations[0].currencyCode }}</strong
+                >
+              </td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div class="row">
+          <div class="col-xs-12 text-right">
+            <button class="btn btn-default" ng-click="addEvent()" translate>
+              Register for Another Event
+            </button>
+            <button
+              class="btn btn-primary"
+              ng-click="proceedToCheckout()"
+              translate
+            >
+              Proceed to Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div ng-if="cartRegistrationIds.length > 0 && loading">Loading...</div>
+
+      <div class="empty-cart" ng-if="cartRegistrationIds.length === 0">
+        <div class="text-center">
+          <h3 translate>Your cart is empty</h3>
+          <p translate>Browse events and add registrations to your cart.</p>
+          <button class="btn btn-primary" ng-click="addEvent()" translate>
+            Browse Events
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

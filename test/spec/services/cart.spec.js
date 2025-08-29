@@ -42,4 +42,23 @@ describe('Service: Cart', () => {
     expect(cart.getRegistrationIds()).toEqual(['123', '456']);
     expect($window.localStorage.getItem('cartRegistrationIds')).toBe('123,456');
   });
+
+  it('should remove a registration id', () => {
+    cart.addRegistrationId('123');
+    cart.addRegistrationId('456');
+
+    cart.removeRegistrationId('456');
+
+    expect(cart.getRegistrationIds()).toEqual(['123']);
+  });
+
+  it('should handle removing non-existent id gracefully', () => {
+    cart.addRegistrationId('123');
+    cart.addRegistrationId('456');
+
+    cart.removeRegistrationId('999');
+
+    expect(cart.getRegistrationIds()).toEqual(['123', '456']);
+    expect($window.localStorage.getItem('cartRegistrationIds')).toBe('123,456');
+  });
 });

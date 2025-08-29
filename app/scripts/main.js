@@ -18,6 +18,7 @@ import 'scripts/components/PromoUploadPage/PromoUploadPage_angular';
 import 'scripts/controllers/angularUiTreeConfig.js';
 import 'scripts/controllers/accessEvent.js';
 import 'scripts/controllers/activatePermission.js';
+import 'scripts/controllers/cart.js';
 import 'scripts/controllers/cloneEvent.js';
 import 'scripts/controllers/editRegistrationModal.js';
 import 'scripts/controllers/eventDashboard.js';

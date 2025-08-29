@@ -31,6 +31,11 @@ export class CartService {
       this.setIds([...ids, id]);
     }
   }
+
+  removeRegistrationId(id: string): void {
+    const ids = this.getIds();
+    this.setIds(ids.filter((registrationId) => registrationId !== id));
+  }
 }
 
 angular.module('confRegistrationWebApp').service('cart', CartService);
