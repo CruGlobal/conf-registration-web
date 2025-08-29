@@ -73,6 +73,7 @@ import 'scripts/filters/eventAddressFormat.js';
 // Services
 import 'scripts/services/analytics.service.js';
 import 'scripts/services/authorizationInterceptor.js';
+import 'scripts/services/cart.service.ts';
 import 'scripts/services/ConfCache.js';
 import 'scripts/services/constants.js';
 import 'scripts/services/currentRegistrationInterceptor.js';
