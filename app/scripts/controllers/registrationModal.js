@@ -14,8 +14,10 @@ angular
       RegistrationCache,
       modalMessage,
       validateRegistrant,
+      openedFromGroupModal,
     ) {
       $scope.conference = conference;
+      $scope.fromGroupModal = openedFromGroupModal;
       $scope.form = {
         type: typeId || _.first(conference.registrantTypes).id,
       };
@@ -130,6 +132,11 @@ angular
           block.profileType !== 'EMAIL' &&
           validateRegistrant.blockVisible(block, registrant, true, conference)
         );
+      };
+
+      $scope.nonAllowedTypeKeys = ['SPOUSE'];
+      $scope.excludeNonAllowedType = function (type) {
+        return $scope.nonAllowedTypeKeys.indexOf(type.defaultTypeKey) === -1;
       };
     },
   );

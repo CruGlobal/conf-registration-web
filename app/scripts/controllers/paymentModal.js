@@ -473,5 +473,10 @@ angular
         );
         return !_.includes(registrationPromoCodes, p.id);
       };
+
+      $scope.isSpouse = function (registrant) {
+        const type = $scope.getRegistrantType(registrant.registrantTypeId);
+        return type && type.defaultTypeKey === 'SPOUSE';
+      };
     },
   );
