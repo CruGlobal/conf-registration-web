@@ -966,6 +966,9 @@ angular
       $scope.isNotSelf = function (childType, type) {
         return childType.name !== type.name;
       };
+
+      // Both of these functions search by ids provided
+      // in allowedRegistrantTypeSet
       $scope.findParentTypeKey = function (type) {
         const parentType = _.find($scope.conference.registrantTypes, {
           id: type.parentRegistrantTypeId,
