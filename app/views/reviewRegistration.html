@@ -414,6 +414,14 @@
         Please fill in all required fields in red before submitting.
       </p>
       <button
+        class="btn btn-lg btn-important"
+        ng-if="!registrationInCart()"
+        ng-click="addToCart()"
+        ng-disabled="registerDisabled()"
+      >
+        <translate>Add to Cart</translate>
+      </button>
+      <button
         class="btn btn-lg btn-success btn-important confirm-registration"
         ng-click="confirmRegistration()"
         ng-disabled="registerDisabled()"
