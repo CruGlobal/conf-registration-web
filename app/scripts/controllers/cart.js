@@ -11,6 +11,9 @@ angular
       modalMessage,
       ConfCache,
       RegistrationCache,
+      registration,
+      payment,
+      analytics,
     ) {
       $rootScope.globalPage = {
         bodyClass: 'cart',
@@ -20,6 +23,20 @@ angular
 
       $scope.cartRegistrations = [];
       $scope.remainingBalanceTotal = 0;
+      $scope.submittingRegistrations = false;
+
+      function handleRegistrationError(error) {
+        if (!error) {
+          return;
+        }
+
+        modalMessage.error({
+          message:
+            error.message ||
+            'An error occurred while attempting to complete your registrations.',
+          forceAction: true,
+        });
+      }
 
       function loadCartRegistrations() {
         const registrationIds = cart.getRegistrationIds();
@@ -147,8 +164,60 @@ angular
         return _.some(paymentMethods) ? paymentMethods : false;
       };
 
-      $scope.proceedToCheckout = function () {
-        // Not implemented
+      $scope.submitRegistrations = function () {
+        if (!$scope.cartRegistrations.length) {
+          return;
+        }
+
+        $scope.submittingRegistrations = true;
+
+        $q.when()
+          .then(function () {
+            const validationPromises = $scope.cartRegistrations.map((item) =>
+              registration.validatePayment(
+                $scope.currentPayment,
+                item.registration,
+                item.conference,
+              ),
+            );
+            return $q.all(validationPromises);
+          })
+          .then(function () {
+            const paymentPromises = $scope.cartRegistrations.map((item) =>
+              payment.pay(
+                $scope.currentPayment,
+                item.registration,
+                item.conference,
+                $scope.acceptedPaymentMethods(),
+              ),
+            );
+            return $q.all(paymentPromises);
+          })
+          .then(function () {
+            const completionPromises = $scope.cartRegistrations.map((item) =>
+              registration.completeRegistration(item.registration),
+            );
+            return $q.all(completionPromises);
+          })
+          .then(function () {
+            $scope.cartRegistrations.forEach(({ conference: conf }) => {
+              analytics.track('registration', {
+                eventID: conf.id,
+                registeredEventName: conf.name,
+              });
+            });
+
+            $scope.cartRegistrations.forEach((item) => {
+              cart.removeRegistrationId(item.registration.id);
+            });
+            $location.path('/');
+          })
+          .catch(function (response) {
+            handleRegistrationError((response && response.data) || response);
+          })
+          .finally(() => {
+            $scope.submittingRegistrations = true;
+          });
       };
 
       loadCartRegistrations();

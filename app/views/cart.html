@@ -63,13 +63,6 @@
           <button class="btn btn-default" ng-click="addEvent()" translate>
             Register for Another Event
           </button>
-          <button
-            class="btn btn-primary"
-            ng-click="proceedToCheckout()"
-            translate
-          >
-            Proceed to Checkout
-          </button>
         </div>
 
         <h2 class="page-title border" translate>Payment</h2>
@@ -81,6 +74,13 @@
             registration="currentRegistration"
             payment-methods="acceptedPaymentMethods"
           ></div>
+          <button
+            class="btn btn-lg btn-success"
+            ng-click="submitRegistrations()"
+            translate
+          >
+            Pay for All Registrations
+          </button>
         </div>
       </div>
 
