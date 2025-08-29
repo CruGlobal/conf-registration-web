@@ -18,7 +18,7 @@ angular
       };
 
       $scope.cartRegistrations = [];
-      $scope.cartTotal = 0;
+      $scope.remainingBalanceTotal = 0;
 
       function loadCartRegistrations() {
         const registrationIds = cart.getRegistrationIds();
@@ -30,28 +30,19 @@ angular
 
         const promises = registrationIds.map((id) =>
           RegistrationCache.get(id)
-            .catch(() => null)
-            .then(({ conferenceId, remainingBalance }) => {
-              return ConfCache.get(conferenceId)
-                .catch(() => null)
-                .then(
-                  (conference) =>
-                    conference && {
-                      remainingBalance,
-                      conferenceId,
-                      conferenceName: conference.name,
-                      currencyCode: conference.currency.currencyCode,
-                    },
-                );
-            }),
+            .then((registration) => {
+              return ConfCache.get(registration.conferenceId).then(
+                (conference) => ({ registration, conference }),
+              );
+            })
+            .catch(() => null),
         );
         $q.all(promises)
           .then((registrations) => {
             $scope.cartRegistrations = registrations.filter(
-              (registration) =>
-                registration !== null && registration.remainingBalance > 0,
+              (item) => item !== null && item.registration.remainingBalance > 0,
             );
-            calculateCartTotal();
+            calculateTotal();
           })
           .catch(() => {
             modalMessage.error('Error loading registrations');
@@ -61,9 +52,9 @@ angular
           });
       }
 
-      function calculateCartTotal() {
-        $scope.cartTotal = $scope.cartRegistrations.reduce(
-          (total, registration) => total + registration.remainingBalance,
+      function calculateTotal() {
+        $scope.remainingBalanceTotal = $scope.cartRegistrations.reduce(
+          (total, { registration }) => total + registration.remainingBalance,
           0,
         );
       }
@@ -83,7 +74,7 @@ angular
             $scope.cartRegistrations = $scope.cartRegistrations.filter(
               (registration) => registration.id !== registrationId,
             );
-            calculateCartTotal();
+            calculateTotal();
           });
       };
 

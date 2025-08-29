@@ -19,23 +19,23 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="registration in cartRegistrations">
+            <tr ng-repeat="item in cartRegistrations">
               <td>
                 <a
-                  ng-href="/reviewRegistration/{{ registration.conferenceId }}"
+                  ng-href="/reviewRegistration/{{ item.registration.conferenceId }}"
                   target="_blank"
                 >
-                  {{ registration.conferenceName }}
+                  {{ item.conference.name }}
                 </a>
               </td>
               <td>
-                {{ registration.remainingBalance |
-                localizedCurrency:registration.currencyCode }}
+                {{ item.registration.remainingBalance |
+                localizedCurrency:item.conference.currency.currencyCode }}
               </td>
               <td>
                 <button
                   class="btn btn-sm btn-danger"
-                  ng-click="removeFromCart(registration.id)"
+                  ng-click="removeFromCart(item.conference.id)"
                   translate
                 >
                   Remove
@@ -50,8 +50,9 @@
               </td>
               <td>
                 <strong
-                  >{{ cartTotal |
-                  localizedCurrency:cartRegistrations[0].currencyCode }}</strong
+                  >{{ remainingBalanceTotal |
+                  localizedCurrency:cartRegistrations[0].conference.currency.currencyCode
+                  }}</strong
                 >
               </td>
               <td></td>
