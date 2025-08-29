@@ -9,6 +9,8 @@ angular
     analytics,
     $timeout,
   ) {
+    $rootScope.getAuthToken = () => $cookies.get('crsToken');
+
     $rootScope.year = new Date().getFullYear();
 
     // eslint-disable-next-line angular/on-watch
