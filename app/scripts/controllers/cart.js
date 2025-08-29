@@ -38,6 +38,7 @@ angular
                   (conference) =>
                     conference && {
                       remainingBalance,
+                      conferenceId,
                       conferenceName: conference.name,
                       currencyCode: conference.currency.currencyCode,
                     },

@@ -20,7 +20,14 @@
           </thead>
           <tbody>
             <tr ng-repeat="registration in cartRegistrations">
-              <td>{{ registration.conferenceName }}</td>
+              <td>
+                <a
+                  ng-href="/reviewRegistration/{{ registration.conferenceId }}"
+                  target="_blank"
+                >
+                  {{ registration.conferenceName }}
+                </a>
+              </td>
               <td>
                 {{ registration.remainingBalance |
                 localizedCurrency:registration.currencyCode }}
