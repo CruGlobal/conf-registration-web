@@ -17,18 +17,18 @@ angular
         footer: true,
       };
 
-      $scope.cartRegistrationIds = cart.getRegistrationIds();
       $scope.cartRegistrations = [];
       $scope.cartTotal = 0;
 
       function loadCartRegistrations() {
-        if (!$scope.cartRegistrationIds.length) {
+        const registrationIds = cart.getRegistrationIds();
+        if (!registrationIds.length) {
           return;
         }
 
         $scope.loading = true;
 
-        const promises = $scope.cartRegistrationIds.map((id) =>
+        const promises = registrationIds.map((id) =>
           RegistrationCache.get(id)
             .catch(() => null)
             .then(({ conferenceId, remainingBalance }) => {
@@ -47,7 +47,8 @@ angular
         $q.all(promises)
           .then((registrations) => {
             $scope.cartRegistrations = registrations.filter(
-              (registration) => registration !== null,
+              (registration) =>
+                registration !== null && registration.remainingBalance > 0,
             );
             calculateCartTotal();
           })

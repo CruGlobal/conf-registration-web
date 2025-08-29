@@ -1,12 +1,15 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12">
-      <h1 translate>Cart ({{ cartRegistrationIds.length }})</h1>
+    <div class="col-xs-12" ng-if="loading">
+      <h1 translate>Loading cart...</h1>
+    </div>
+    <div class="col-xs-12" ng-if="!loading">
+      <h1 translate>
+        Cart {{ cartRegistrations.length ? '(' + cartRegistrations.length + ')'
+        : '' }}
+      </h1>
 
-      <div
-        class="cart-content"
-        ng-if="cartRegistrationIds.length > 0 && !loading"
-      >
+      <div class="cart-content" ng-if="cartRegistrations.length > 0">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -65,9 +68,7 @@
         </div>
       </div>
 
-      <div ng-if="cartRegistrationIds.length > 0 && loading">Loading...</div>
-
-      <div class="empty-cart" ng-if="cartRegistrationIds.length === 0">
+      <div class="empty-cart" ng-if="cartRegistrations.length === 0">
         <div class="text-center">
           <h3 translate>Your cart is empty</h3>
           <p translate>Browse events and add registrations to your cart.</p>
