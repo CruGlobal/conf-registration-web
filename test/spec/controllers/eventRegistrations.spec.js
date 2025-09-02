@@ -1,3 +1,4 @@
+/* eslint-disable angular/log, no-console */
 import 'angular-mocks';
 
 describe('Controller: eventRegistrations', function () {
@@ -434,10 +435,6 @@ describe('Controller: eventRegistrations', function () {
       spyOn(scope, 'showModal').and.returnValue($q.resolve());
 
       $httpBackend
-        .expectGET(/^registrations\/.+$/)
-        .respond(200, testData.registration);
-
-      $httpBackend
         .expectPUT(/^registrants\/.+$/, (raw) => {
           const data = JSON.parse(raw);
           return data.withdrawn && angular.isString(data.withdrawnTimestamp);
@@ -453,15 +450,11 @@ describe('Controller: eventRegistrations', function () {
       scope.withdrawRegistrant(registrant, true);
       scope.$digest();
 
-      // flush GET
-      $httpBackend.flush(1);
-
       expect(registrant.withdrawn).toBe(true);
       expect(registrant.withdrawnTimestamp).not.toBeNull();
       expect(scope.loadingMsg).toBe(`Withdrawing ${registrant.firstName}`);
 
-      // flush PUT
-      $httpBackend.flush(1);
+      $httpBackend.flush();
 
       expect(scope.loadingMsg).toBe('');
     });
@@ -469,9 +462,6 @@ describe('Controller: eventRegistrations', function () {
     it('reinstates a registrant', () => {
       spyOn(scope, 'showModal').and.returnValue($q.resolve());
 
-      $httpBackend
-        .expectGET(/^registrations\/.+$/)
-        .respond(200, testData.registration);
       $httpBackend
         .expectPUT(/^registrants\/.+$/, (data) => !JSON.parse(data).withdrawn)
         .respond(204, '');
@@ -484,39 +474,34 @@ describe('Controller: eventRegistrations', function () {
 
       scope.withdrawRegistrant(registrant, false);
       scope.$digest();
-      // flush GET
-      $httpBackend.flush(1);
 
       expect(registrant.withdrawn).toBe(false);
       expect(scope.loadingMsg).toBe(`Reinstating ${registrant.firstName}`);
 
-      // flush PUT
-      $httpBackend.flush(1);
+      $httpBackend.flush();
 
       expect(scope.loadingMsg).toBe('');
     });
 
-    // NOTE: Revisit
-    // it('reverts changes to withdrawn on failure', () => {
-    //   spyOn(scope, 'showModal').and.returnValue($q.resolve());
-    //   $httpBackend
-    //     .expectGET(/^registrations\/.+$/)
-    //     .respond(200, testData.registration);
-    //   $httpBackend
-    //     .expectPUT(/^registrants\/.+$/, (data) => JSON.parse(data).withdrawn)
-    //     .respond(500, '');
+    it('reverts changes to withdrawn on failure', () => {
+      spyOn(scope, 'showModal').and.returnValue($q.resolve());
 
-    //   const registrant = {
-    //     ...testData.registration.registrants[0],
-    //     withdrawn: false,
-    //     withdrawnTimestamp: null,
-    //   };
-    //   scope.withdrawRegistrant(registrant, true);
-    //   scope.digest();
-    //   $httpBackend.flush();
+      $httpBackend
+        .expectPUT(/^registrants\/.+$/, (data) => JSON.parse(data).withdrawn)
+        .respond(500, '');
 
-    //   expect(registrant.withdrawn).toBe(false);
-    // });
+      const registrant = {
+        ...testData.registration.registrants[0],
+        withdrawn: false,
+        withdrawnTimestamp: null,
+      };
+      scope.withdrawRegistrant(registrant, true);
+      scope.$digest();
+
+      $httpBackend.flush();
+
+      expect(registrant.withdrawn).toBe(false);
+    });
   });
 
   describe('checkInRegistrant', () => {
@@ -625,6 +610,34 @@ describe('Controller: eventRegistrations', function () {
 
       scope.deleteRegistrant(scope.registrants[0]);
       scope.$digest();
+      $httpBackend.flush();
+      $httpBackend.flush();
+
+      expect(scope.registrants.length).toBe(0);
+    });
+
+    it('deletes couple-spouse pairs together', () => {
+      spyOn(scope, 'showModal').and.returnValue($q.resolve());
+
+      RegistrationCache.getAllForConference.and.returnValue(
+        $q.resolve({
+          registrations: [testData.coupleRegistration],
+        }),
+      );
+      scope.refreshRegistrations();
+      scope.$digest();
+
+      $httpBackend
+        .expectGET(/^registrations\/.+$/)
+        .respond(200, testData.coupleRegistration);
+
+      $httpBackend
+        .expectDELETE('registrations/709738ff-da79-4eed-aacd-d9f005fc7f4e')
+        .respond(204, '');
+
+      const registrant = scope.registrants[0];
+      scope.deleteRegistrant(registrant);
+
       $httpBackend.flush();
       $httpBackend.flush();
 

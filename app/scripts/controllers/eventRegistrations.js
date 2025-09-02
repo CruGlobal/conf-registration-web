@@ -1,3 +1,4 @@
+/* eslint-disable angular/log, no-console */
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
@@ -526,7 +527,7 @@ angular
         });
       };
 
-      $scope.buildWithdrawMessage = function (value) {
+      $scope.buildCoupleWithdrawMessage = function (value) {
         const title = value
           ? 'Withdraw Couple/Spouse'
           : 'Reinstate Couple/Spouse';
@@ -540,72 +541,54 @@ angular
       };
 
       $scope.withdrawRegistrant = function (registrant, value) {
-        const registrantTypeInfo = $scope.getRegistrantTypeInfo(registrant);
-        const isCouple =
-          registrantTypeInfo.isCoupleType || registrantTypeInfo.isSpouseType;
+        if (!hasPermission()) {
+          return;
+        }
+        const isCouple = $scope.isCouple(registrant);
 
         function handleWithdraw() {
           $rootScope.loadingMsg =
             (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
 
-          $http
-            .get('registrations/' + registrant.registrationId)
-            .then(function (response) {
-              const registration = response.data;
+          let registrantsToWithdraw = [registrant];
+          if (isCouple) {
+            registrantsToWithdraw = $scope.findCoupleRegistrants(
+              registrant,
+              $scope.getRegistration(registrant.registrationId),
+            );
+          }
+          registrantsToWithdraw.forEach(function (registrantToWithdraw) {
+            registrantToWithdraw.withdrawn = value;
+            if (value) {
+              //used to update front view only, backend generates its own timestamp
+              registrantToWithdraw.withdrawnTimestamp = new Date();
+            }
 
-              let registrantsToWithdraw = [registrant];
-              if (isCouple) {
-                registrantsToWithdraw = $scope.findCoupleRegistrants(
-                  registrant,
-                  registration,
-                );
-              }
-
-              let completedRequests = 0;
-              let totalRequests = registrantsToWithdraw.length;
-
-              registrantsToWithdraw.forEach(function (registrantToWithdraw) {
-                registrantToWithdraw.withdrawn = value;
-                if (value) {
-                  registrantToWithdraw.withdrawnTimestamp = new Date();
-                }
-
-                $http
-                  .put(
-                    'registrants/' + registrantToWithdraw.id,
-                    registrantToWithdraw,
-                  )
-                  .then(function () {
-                    completedRequests++;
-                    if (completedRequests === totalRequests) {
-                      $scope.refreshRegistrations();
-                      $rootScope.loadingMsg = '';
-                    }
-                  })
-                  .catch(function (err) {
-                    // Revert change if error occurs
-                    registrantToWithdraw.withdrawn = !value;
-                    modalMessage.error({
-                      message:
-                        err.data && err.data.error
-                          ? err.data.error.message
-                          : 'An error occurred while updating this registrant.',
-                    });
-                    completedRequests++;
-                    if (completedRequests === totalRequests) {
-                      $rootScope.loadingMsg = '';
-                    }
-                  });
+            $http
+              .put(
+                'registrants/' + registrantToWithdraw.id,
+                registrantToWithdraw,
+              )
+              .catch(function (err) {
+                // Revert change if error occurs
+                registrantToWithdraw.withdrawn = !value;
+                modalMessage.error({
+                  message:
+                    err.data && err.data.error
+                      ? err.data.error.message
+                      : 'An error occurred while withdrawing this registrant.',
+                });
+              })
+              .finally(function () {
+                $scope.refreshRegistrations();
+                $rootScope.loadingMsg = '';
               });
-            })
-            .catch(function () {
-              $rootScope.loadingMsg = '';
-            });
+          });
         }
 
         if (isCouple) {
           const { title, yesString, warningMessage } =
-            $scope.buildWithdrawMessage(value);
+            $scope.buildCoupleWithdrawMessage(value);
           $scope
             .showModal(title, warningMessage, yesString)
             .then(handleWithdraw);
@@ -641,29 +624,22 @@ angular
       };
 
       // Helper function to determine registrant types. Finding by name is temporary until API updated.
-      $scope.getRegistrantTypeInfo = function (registrant) {
+      $scope.isCouple = function (registrant) {
         const registrantType = $scope.getRegistrantType(
           registrant.registrantTypeId,
         );
-        return {
-          type: registrantType,
-          isCoupleType:
-            registrantType.defaultTypeKey === 'COUPLE' ||
-            (registrantType.name &&
-              registrantType.name.toLowerCase() === 'couple'),
-          isSpouseType:
-            registrantType.defaultTypeKey === 'SPOUSE' ||
-            (registrantType.name &&
-              registrantType.name.toLowerCase() === 'spouse'),
-        };
+        return (
+          registrantType.defaultTypeKey === 'COUPLE' ||
+          registrantType.defaultTypeKey === 'SPOUSE'
+        );
       };
 
       // Helper function to build warning message
-      $scope.buildDeletionWarningMessage = function (registrantInfo) {
+      $scope.buildDeletionWarningMessage = function (isCouple) {
         let title = 'Delete Registrant';
         let yesString = 'Delete';
         let warningMessage = 'Are you sure you want to delete this registrant?';
-        if (registrantInfo.isCoupleType || registrantInfo.isSpouseType) {
+        if (isCouple) {
           title = 'Delete Couple/Spouse Registrants';
           yesString = 'Delete Both';
           warningMessage =
@@ -693,8 +669,7 @@ angular
         return coupleRegistrants;
       };
 
-      // Helper function to update UI after successful deletion
-      $scope.updateUIAfterDeletion = function (registrantsToDelete) {
+      $scope.updateAfterDelete = function (registrantsToDelete) {
         registrantsToDelete.forEach(function (registrantToDelete) {
           _.remove($scope.registrants, function (registrant) {
             return registrant.id === registrantToDelete.id;
@@ -710,7 +685,6 @@ angular
             });
           }
         });
-
         if (registrantsToDelete.length > 1) {
           const deletedCount = registrantsToDelete.length;
           modalMessage.info({
@@ -720,9 +694,12 @@ angular
       };
 
       $scope.deleteRegistrant = function (registrant) {
-        const registrantInfo = $scope.getRegistrantTypeInfo(registrant);
+        if (!hasPermission()) {
+          return;
+        }
+        const isCouple = $scope.isCouple(registrant);
         const { title, yesString, warningMessage } =
-          $scope.buildDeletionWarningMessage(registrantInfo);
+          $scope.buildDeletionWarningMessage(isCouple);
 
         $scope
           .showModal(title, warningMessage, yesString)
@@ -731,46 +708,26 @@ angular
           })
           .then(function (response) {
             const registration = response.data;
-            let registrantsToDelete = [registrant];
 
-            if (registrantInfo.isCoupleType || registrantInfo.isSpouseType) {
+            let registrantsToDelete = [registrant];
+            if (isCouple) {
               registrantsToDelete = $scope.findCoupleRegistrants(
                 registrant,
                 registration,
               );
             }
 
-            function deleteNext(index) {
-              if (index >= registrantsToDelete.length) {
-                $scope.updateUIAfterDeletion(registrantsToDelete);
-                $scope.refreshRegistrations();
-                return;
-              }
-
-              const registrantToDelete = registrantsToDelete[index];
-              const reg = $scope.getRegistration(
-                registrantToDelete.registrationId,
-              );
-              const url =
-                reg && reg.registrants.length === 1
-                  ? 'registrations/' + registration.id
-                  : 'registrants/' + registrantToDelete.id;
-
-              $http
-                .delete(url)
-                .then(function () {
-                  deleteNext(index + 1);
-                })
-                .catch(function () {
-                  modalMessage.error({
-                    message:
-                      'An error occurred while deleting this registration.',
-                  });
-                  deleteNext(index + 1);
-                });
+            const reg = $scope.getRegistration(registrant.registrationId);
+            let url;
+            if (reg.registrants.length === 1 || isCouple) {
+              url = 'registrations/' + registration.id;
+            } else {
+              url = 'registrants/' + registrant.id;
             }
-
-            deleteNext(0);
+            $http.delete(url).then(function () {
+              $scope.refreshRegistrations();
+              $scope.updateAfterDelete(registrantsToDelete);
+            });
           });
       };
     },
