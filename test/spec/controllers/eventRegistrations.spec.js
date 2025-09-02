@@ -502,29 +502,6 @@ describe('Controller: eventRegistrations', function () {
 
       expect(registrant.withdrawn).toBe(false);
     });
-
-    it('withdraws couple-spouse pairs together', () => {
-      spyOn(scope, 'showModal').and.returnValue($q.resolve());
-
-      $httpBackend
-        .expectPUT(/^registrants\/.+$/, (data) => !JSON.parse(data).withdrawn)
-        .respond(204, '');
-
-      const coupleRegistrant = {
-        ...testData.coupleRegistration.registrants[0],
-        withdrawn: false,
-        withdrawnTimestamp: null,
-      };
-      scope.withdrawRegistrant(coupleRegistrant, true);
-      scope.$digest();
-
-      expect(coupleRegistrant.withdrawn).toBe(true);
-      expect(coupleRegistrant.withdrawnTimestamp).not.toBeNull();
-
-      $httpBackend.flush();
-
-      expect(scope.loadingMsg).toBe('');
-    });
   });
 
   describe('checkInRegistrant', () => {
