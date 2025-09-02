@@ -198,7 +198,7 @@
                 <div
                   class="checkbox"
                   ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
-                  ng-if="(findChildTypeKey(childType) !== 'SPOUSE' || type.defaultTypeKey === 'COUPLE') && findChildTypeKey(childType) !== type.defaultTypeKey"
+                  ng-if="shouldShowChildType(childType, type)"
                 >
                   <div class="row">
                     <div class="col-md-6">
