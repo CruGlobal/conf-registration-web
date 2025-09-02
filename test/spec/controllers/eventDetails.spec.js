@@ -83,10 +83,11 @@ describe('Controller: eventDetails', function () {
       });
 
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
-      const addedType = scope.conference.registrantTypes.find(
-        (type) => type.name === 'Additional Type',
+      expect(scope.conference.registrantTypes[3].name).toEqual(
+        'Additional Type',
       );
-      expect(addedType.eform).toEqual(true);
+
+      expect(scope.conference.registrantTypes[3].eform).toEqual(true);
     });
 
     it('deleteRegType should remove reg type', function () {

@@ -30,7 +30,7 @@ describe('Controller: registrationModal', function () {
         conference: testData.conference,
         primaryRegistration: null,
         typeId: null,
-        openedFromGroupModal: null,
+        openedFromGroupModal: false,
       });
     }),
   );
