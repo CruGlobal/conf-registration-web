@@ -981,5 +981,31 @@ angular
         });
         return childType ? childType.defaultTypeKey : null;
       };
+
+      $scope.shouldShowChildType = function (childType, type) {
+        const childTypeKey = $scope.findChildTypeKey(childType);
+
+        // For custom types (empty defaultTypeKey), only check SPOUSE rule
+        if (childTypeKey === '') {
+          if (childType.name === type.name) {
+            return false;
+          }
+          return true;
+        }
+
+        if (childTypeKey === type.defaultTypeKey) {
+          return false;
+        }
+
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        if (childTypeKey === 'SPOUSE' && type.defaultTypeKey !== 'COUPLE') {
+          return false;
+        }
+
+        return true;
+      };
     },
   );
