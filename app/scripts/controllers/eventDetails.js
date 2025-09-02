@@ -984,8 +984,6 @@ angular
 
       $scope.shouldShowChildType = function (childType, type) {
         const childTypeKey = $scope.findChildTypeKey(childType);
-
-        // For custom types (empty defaultTypeKey), only check SPOUSE rule
         if (childTypeKey === '') {
           if (childType.name === type.name) {
             return false;
