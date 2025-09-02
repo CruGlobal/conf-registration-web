@@ -183,7 +183,10 @@
                 >
                 </i>
               </div>
-              <div ng-if="type.familyStatus == 'ENABLED'" class="bt12">
+              <div
+                ng-if="type.familyStatus == 'ENABLED' && type.defaultTypeKey !== 'COUPLE'"
+                class="bt12"
+              >
                 <label translate class="pt12"
                   >Associated Registrant Types</label
                 >
