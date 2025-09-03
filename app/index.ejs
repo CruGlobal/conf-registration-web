@@ -132,7 +132,7 @@
           <li>
             <a href="https://www.eventregistrationtool.com">Go to Production</a>
           </li>
-          <li>
+          <li ng-if="isStaging">
             <a ng-href="http://localhost:9000/auth/{{ getAuthToken() }}"
               >Log in to localhost</a
             >
