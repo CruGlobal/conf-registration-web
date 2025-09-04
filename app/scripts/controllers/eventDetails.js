@@ -1005,5 +1005,92 @@ angular
 
         return true;
       };
+
+      $scope.shouldShowRegistrantType = function (type) {
+        if (type.defaultTypeKey !== 'SPOUSE') {
+          return true;
+        }
+
+        if (
+          $scope.pendingCoupleSpouseAssociation &&
+          $scope.pendingCoupleSpouseAssociation.spouseId === type.id
+        ) {
+          return false;
+        }
+
+        const isThisSpouseAssociatedWithCouple =
+          $scope.conference.registrantTypes.some((regType) => {
+            if (regType.defaultTypeKey !== 'COUPLE') {
+              return false;
+            }
+            if (!regType.allowedRegistrantTypeSet) {
+              return false;
+            }
+
+            const spouseAssociation = regType.allowedRegistrantTypeSet.find(
+              (association) => association.childRegistrantTypeId === type.id,
+            );
+
+            return spouseAssociation && spouseAssociation.selected === true;
+          });
+
+        return !isThisSpouseAssociatedWithCouple;
+      };
+
+      /*
+       * Users were unable to differentiate between multiple couple-spouse types
+       * when creating form questions. This adds the details field of any couple to the spouse,
+       * since the user has no way of modifying the spouse description.
+       */
+
+      $scope.$watch(
+        'conference.registrantTypes',
+        function (newVal, oldVal) {
+          if (newVal && oldVal && newVal !== oldVal) {
+            // Check if any couple type description changed
+            const coupleDescriptionChanged = newVal.some((newType, index) => {
+              if (newType.defaultTypeKey !== 'COUPLE') return false;
+
+              const oldType = oldVal[index];
+              if (!oldType) return false;
+
+              // Check if description changed
+              return newType.description !== oldType.description;
+            });
+
+            if (coupleDescriptionChanged) {
+              // Sync couple descriptions to associated spouses
+              $scope.conference.registrantTypes.forEach((coupleType) => {
+                if (
+                  coupleType.defaultTypeKey === 'COUPLE' &&
+                  coupleType.allowedRegistrantTypeSet
+                ) {
+                  coupleType.allowedRegistrantTypeSet.forEach((association) => {
+                    if (
+                      association.selected === true &&
+                      association.numberOfChildRegistrants > 0
+                    ) {
+                      const spouseType = _.find(
+                        $scope.conference.registrantTypes,
+                        {
+                          id: association.childRegistrantTypeId,
+                        },
+                      );
+
+                      if (
+                        spouseType &&
+                        spouseType.defaultTypeKey === 'SPOUSE'
+                      ) {
+                        spouseType.description = coupleType.description;
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          }
+        },
+        true,
+      );
     },
   );
