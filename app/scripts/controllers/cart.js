@@ -96,7 +96,6 @@ angular
           (total, { registration }) => total + registration.remainingBalance,
           0,
         );
-        $scope.currentPayment.remainingBalance = $scope.remainingBalanceTotal;
       }
 
       $scope.removeFromCart = function (registrationId) {
@@ -123,7 +122,6 @@ angular
       };
 
       $scope.currentPayment = {
-        amount: $scope.remainingBalanceTotal,
         paymentType: 'CREDIT_CARD',
       };
 
@@ -152,12 +150,16 @@ angular
       $scope.submitRegistrations = function () {
         $scope.submittingRegistrations = true;
 
+        const registrations = $scope.cartRegistrations.map((item) => ({
+          ...item,
+          payment: {
+            ...$scope.currentPayment,
+            amount: item.registration.remainingBalance,
+          },
+        }));
+
         registration
-          .processRegistrations(
-            $scope.cartRegistrations,
-            $scope.currentPayment,
-            $scope.acceptedPaymentMethods(),
-          )
+          .processRegistrations(registrations, $scope.acceptedPaymentMethods())
           .then(function () {
             $scope.cartRegistrations.forEach((item) => {
               cart.removeRegistrationId(item.registration.id);

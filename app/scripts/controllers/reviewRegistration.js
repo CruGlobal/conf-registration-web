@@ -131,12 +131,15 @@ angular.module('confRegistrationWebApp').controller(
       $scope.submittingRegistration = true;
 
       const registrationItems = [
-        { registration: currentRegistration, conference },
+        {
+          registration: currentRegistration,
+          conference,
+          payment: $scope.currentPayment,
+        },
       ];
       registration
         .processRegistrations(
           registrationItems,
-          $scope.currentPayment,
           $scope.acceptedPaymentMethods(),
         )
         .then(function () {

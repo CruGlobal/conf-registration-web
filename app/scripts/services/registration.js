@@ -67,17 +67,13 @@ angular
 
       return {
         // Process complete registration flow for one or more registrations
-        processRegistrations: function (
-          registrations,
-          currentPayment,
-          acceptedPaymentMethods,
-        ) {
+        processRegistrations: function (registrations, acceptedPaymentMethods) {
           return $q
             .when()
             .then(function () {
               const validationPromises = registrations.map((item) =>
                 validatePayment(
-                  currentPayment,
+                  item.payment,
                   item.registration,
                   item.conference,
                 ),
@@ -87,7 +83,7 @@ angular
             .then(function () {
               const paymentPromises = registrations.map((item) =>
                 payment.pay(
-                  currentPayment,
+                  item.payment,
                   item.conference,
                   item.registration,
                   acceptedPaymentMethods,
