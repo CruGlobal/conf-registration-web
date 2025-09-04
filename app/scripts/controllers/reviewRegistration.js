@@ -9,14 +9,10 @@ angular.module('confRegistrationWebApp').controller(
     $window,
     modalMessage,
     $http,
-    $q,
     currentRegistration,
     conference,
-    error,
     registration,
-    payment,
     validateRegistrant,
-    analytics,
     /** @type {import('../services/cart.service').CartService} */
     cart,
   ) {
@@ -115,20 +111,6 @@ angular.module('confRegistrationWebApp').controller(
       );
     };
 
-    // Display an error that occurred during registration completion
-    function handleRegistrationError(error) {
-      if (!error) {
-        return;
-      }
-
-      modalMessage.error({
-        message:
-          error.message ||
-          'An error occurred while attempting to complete your registration.',
-        forceAction: true,
-      });
-    }
-
     function primaryRegType(currentRegistration) {
       let primaryRegistrant = _.find(currentRegistration.registrants, {
         id: currentRegistration.primaryRegistrantId,
@@ -148,37 +130,19 @@ angular.module('confRegistrationWebApp').controller(
     $scope.confirmRegistration = function () {
       $scope.submittingRegistration = true;
 
-      $q.when()
+      const registrationItems = [
+        { registration: currentRegistration, conference },
+      ];
+      registration
+        .processRegistrations(
+          registrationItems,
+          $scope.currentPayment,
+          $scope.acceptedPaymentMethods(),
+        )
         .then(function () {
-          // Validate the payment client-side first to catch any errors as soon as possible
-          return registration.validatePayment(
-            $scope.currentPayment,
-            currentRegistration,
-            $scope.conference,
-          );
-        })
-        .then(function () {
-          return payment.pay(
-            $scope.currentPayment,
-            conference,
-            currentRegistration,
-            $scope.acceptedPaymentMethods(),
-          );
-        })
-        .then(function () {
-          return registration.completeRegistration(currentRegistration);
-        })
-        .then(function () {
-          analytics.track('registration', {
-            eventID: conference.id,
-            registeredEventName: conference.name,
-          });
-
           $scope.navigateToPostRegistrationPage();
         })
-        .catch(function (response) {
-          handleRegistrationError((response && response.data) || response);
-
+        .finally(function () {
           $scope.submittingRegistration = false;
         });
     };
