@@ -427,6 +427,10 @@
                   ng-model="$parent.visibleRegTypes[type.id]"
                 />
                 {{type.name}}
+                <span
+                  ng-if="type.description !== '' && type.description !== null"
+                  >- {{type.description}}</span
+                >
               </label>
             </div>
           </div>

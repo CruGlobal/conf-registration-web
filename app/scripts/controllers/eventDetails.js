@@ -106,12 +106,16 @@ angular
               const existingChild = _.find(type.allowedRegistrantTypeSet, {
                 childRegistrantTypeId: t.id,
               });
+
               return {
                 id: existingChild ? existingChild.id : uuid(),
                 name: t.name,
                 childRegistrantTypeId: t.id,
                 numberOfChildRegistrants: existingChild
                   ? existingChild.numberOfChildRegistrants
+                  : type.defaultTypeKey === 'COUPLE' &&
+                    t.defaultTypeKey === 'SPOUSE'
+                  ? 1
                   : 0,
                 selected:
                   existingChild !== undefined &&
@@ -199,19 +203,97 @@ angular
         modalInstance.result.then(function (type) {
           type.id = uuid();
           type.eform = $scope.conference.eform;
-          $scope.conference.registrantTypes.push(type);
+          if (type.defaultTypeKey !== 'COUPLE') {
+            $scope.conference.registrantTypes.push(type);
+            $scope.refreshAllowedRegistrantTypes();
+          } else {
+            type.familyStatus = 'ENABLED';
+            type.allowGroupRegistrations = true;
+            $http
+              .get('registranttypes', { cache: true })
+              .then(function (response) {
+                const spouseType = _.find(response.data, {
+                  defaultTypeKey: 'SPOUSE',
+                });
+                if (spouseType) {
+                  spouseType.id = uuid();
+                  spouseType.familyStatus = 'ENABLED';
+                  spouseType.eform = $scope.conference.eform;
+                  spouseType.allowGroupRegistrations = true;
+                  $scope.conference.registrantTypes.push(type);
+                  $scope.conference.registrantTypes.push(spouseType);
+
+                  $scope.pendingCoupleSpouseAssociation = {
+                    coupleId: type.id,
+                    spouseId: spouseType.id,
+                  };
+
+                  $scope.refreshAllowedRegistrantTypes();
+                }
+              });
+          }
         });
 
         return modalInstance;
       };
 
+      $scope.associateCoupleSpouse = function (coupleId, spouseId) {
+        const coupleType = _.find($scope.conference.registrantTypes, {
+          id: coupleId,
+        });
+
+        if (coupleType && coupleType.allowedRegistrantTypeSet) {
+          const spouseAssociation = _.find(
+            coupleType.allowedRegistrantTypeSet,
+            {
+              childRegistrantTypeId: spouseId,
+            },
+          );
+          if (spouseAssociation) {
+            spouseAssociation.selected = true;
+            spouseAssociation.numberOfChildRegistrants = 1;
+          }
+        }
+      };
+
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
+          const typeToDelete = _.find(
+            $scope.conference.registrantTypes,
+            function (type) {
+              return type.id === id;
+            },
+          );
+
+          if (typeToDelete.defaultTypeKey === 'COUPLE') {
+            const spouse = _.find(typeToDelete.allowedRegistrantTypeSet, {
+              selected: true,
+            });
+            if (spouse) {
+              typeToDelete.allowedRegistrantTypeSet =
+                typeToDelete.allowedRegistrantTypeSet.map((association) => {
+                  if (
+                    association.childRegistrantTypeId ===
+                    spouse.childRegistrantTypeId
+                  ) {
+                    return {
+                      ...association,
+                      selected: false,
+                      numberOfChildRegistrants: 0,
+                    };
+                  }
+                  return association;
+                });
+
+              $scope.deleteRegType(spouse.childRegistrantTypeId);
+            }
+          }
+
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
-          $scope.conference.registrantTypes.forEach((t) => {
-            _.remove(t.allowedRegistrantTypeSet, function (childType) {
+          $scope.conference.registrantTypes.forEach((type) => {
+            _.remove(type.allowedRegistrantTypeSet, function (childType) {
               return childType.childRegistrantTypeId === id;
             });
           });
@@ -578,6 +660,30 @@ angular
                 );
                 $scope.refreshAllowedRegistrantTypes();
               });
+
+              if ($scope.pendingCoupleSpouseAssociation) {
+                const { coupleId, spouseId } =
+                  $scope.pendingCoupleSpouseAssociation;
+
+                const coupleType = _.find($scope.conference.registrantTypes, {
+                  id: coupleId,
+                });
+                if (coupleType && coupleType.allowedRegistrantTypeSet) {
+                  const spouseAssociation = _.find(
+                    coupleType.allowedRegistrantTypeSet,
+                    {
+                      childRegistrantTypeId: spouseId,
+                    },
+                  );
+                  if (spouseAssociation) {
+                    spouseAssociation.selected = true;
+                    spouseAssociation.numberOfChildRegistrants = 1;
+                    $scope.pendingCoupleSpouseAssociation = null;
+
+                    $scope.saveEvent();
+                  }
+                }
+              }
 
               //Clear cache
               ConfCache.empty();
@@ -1005,5 +1111,92 @@ angular
 
         return true;
       };
+
+      $scope.shouldShowRegistrantType = function (type) {
+        if (type.defaultTypeKey !== 'SPOUSE') {
+          return true;
+        }
+
+        if (
+          $scope.pendingCoupleSpouseAssociation &&
+          $scope.pendingCoupleSpouseAssociation.spouseId === type.id
+        ) {
+          return false;
+        }
+
+        const isThisSpouseAssociatedWithCouple =
+          $scope.conference.registrantTypes.some((regType) => {
+            if (regType.defaultTypeKey !== 'COUPLE') {
+              return false;
+            }
+            if (!regType.allowedRegistrantTypeSet) {
+              return false;
+            }
+
+            const spouseAssociation = regType.allowedRegistrantTypeSet.find(
+              (association) => association.childRegistrantTypeId === type.id,
+            );
+
+            return spouseAssociation && spouseAssociation.selected === true;
+          });
+
+        return !isThisSpouseAssociatedWithCouple;
+      };
+
+      /*
+       * Users were unable to differentiate between multiple couple-spouse types
+       * when creating form questions. This adds the details field of any couple to the spouse,
+       * since the user has no way of modifying the spouse description.
+       */
+
+      $scope.$watch(
+        'conference.registrantTypes',
+        function (newVal, oldVal) {
+          if (newVal && oldVal && newVal !== oldVal) {
+            // Check if any couple type description changed
+            const coupleDescriptionChanged = newVal.some((newType, index) => {
+              if (newType.defaultTypeKey !== 'COUPLE') return false;
+
+              const oldType = oldVal[index];
+              if (!oldType) return false;
+
+              // Check if description changed
+              return newType.description !== oldType.description;
+            });
+
+            if (coupleDescriptionChanged) {
+              // Sync couple descriptions to associated spouses
+              $scope.conference.registrantTypes.forEach((coupleType) => {
+                if (
+                  coupleType.defaultTypeKey === 'COUPLE' &&
+                  coupleType.allowedRegistrantTypeSet
+                ) {
+                  coupleType.allowedRegistrantTypeSet.forEach((association) => {
+                    if (
+                      association.selected === true &&
+                      association.numberOfChildRegistrants > 0
+                    ) {
+                      const spouseType = _.find(
+                        $scope.conference.registrantTypes,
+                        {
+                          id: association.childRegistrantTypeId,
+                        },
+                      );
+
+                      if (
+                        spouseType &&
+                        spouseType.defaultTypeKey === 'SPOUSE'
+                      ) {
+                        spouseType.description = coupleType.description;
+                      }
+                    }
+                  });
+                }
+              });
+            }
+          }
+        },
+        true,
+      );
     },
   );
