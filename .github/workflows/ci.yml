@@ -13,8 +13,8 @@ permissions:
 
 jobs:
   test:
+    name: ✅ Tests
     runs-on: ubuntu-latest
-    name: tests
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -31,6 +31,7 @@ jobs:
           files: ./coverage/karma/lcov.info,./coverage/jest/lcov.info
           fail_ci_if_error: true
   eslint:
+    name: 🧹 ESLint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,6 +43,7 @@ jobs:
       - name: 💨 ESLint
         run: yarn lint
   typescript:
+    name: 🔍 TypeScript
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +55,7 @@ jobs:
       - name: ✅ TypeScript lint
         run: yarn lint:ts
   prettier:
+    name: 🎨 Prettier
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -63,11 +66,25 @@ jobs:
         run: yarn install --immutable
       - name: 💅 Prettier Check
         run: yarn prettier:check
+  build:
+    name: 🏗️ Build app
+    runs-on: ubuntu-latest
+    needs: [test, eslint, typescript, prettier]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .tool-versions
+      - name: 📦 Install Dependencies
+        run: yarn install --immutable
+      - name: 🔨 Build
+        run: yarn build
   deploy:
+    name: 🚀 Deploy app
     runs-on: ubuntu-latest
     environment:
       name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
-    needs: [test, eslint, typescript, prettier]
+    needs: [build]
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
