@@ -6,6 +6,9 @@ angular
     return {
       templateUrl: template,
       restrict: 'E',
+      link: function (scope, element, attrs) {
+        scope.shouldFilterSpouses = attrs.shouldFilter !== 'false';
+      },
       controller: function (
         $scope,
         $rootScope,
@@ -15,6 +18,9 @@ angular
         uuid,
         modalMessage,
       ) {
+        if ($scope.shouldFilter === undefined) {
+          $scope.shouldFilter = true;
+        }
         $scope.visibleRegistrantTypes = angular.copy(
           $scope.conference.registrantTypes,
         );
@@ -152,6 +158,44 @@ angular
           ) {
             return true;
           }
+        };
+
+        $scope.nonAllowedTypeKeys = ['SPOUSE'];
+        $scope.excludeNonAllowedType = function (type) {
+          if (!$scope.shouldFilterSpouses) {
+            return true;
+          }
+          if (type.defaultTypeKey === 'SPOUSE') {
+            // Fix: Use $scope.conference.registrantTypes instead of $scope.current.registrantTypes
+            const coupleTypes = _.filter($scope.conference.registrantTypes, {
+              defaultTypeKey: 'COUPLE',
+            });
+
+            // Check if this spouse is associated with any couple
+            const spouseIsAssociated = coupleTypes.some((coupleType) => {
+              if (
+                !coupleType.allowedRegistrantTypeSet ||
+                coupleType.allowedRegistrantTypeSet.length === 0
+              ) {
+                return false;
+              }
+
+              const hasAssociation = coupleType.allowedRegistrantTypeSet.some(
+                (association) => {
+                  const isMatch = association.childRegistrantTypeId === type.id;
+                  const hasChildRegistrants =
+                    association.numberOfChildRegistrants > 0;
+
+                  return isMatch && hasChildRegistrants;
+                },
+              );
+              return hasAssociation;
+            });
+
+            return !spouseIsAssociated;
+          }
+
+          return true;
         };
       },
     };

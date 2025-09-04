@@ -1,6 +1,6 @@
 <div
   class="row reg-type-select"
-  ng-repeat="type in visibleRegistrantTypes"
+  ng-repeat="type in visibleRegistrantTypes | filter:excludeNonAllowedType"
   ng-if="visibleRegistrantTypes.length > 1 || isGroupRegistration"
 >
   <div
