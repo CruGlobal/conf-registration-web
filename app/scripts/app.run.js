@@ -7,8 +7,12 @@ angular
     $window,
     ProfileCache,
     analytics,
+    envService,
     $timeout,
   ) {
+    $rootScope.isStaging = envService.is('staging');
+    $rootScope.getAuthToken = () => $cookies.get('crsToken');
+
     $rootScope.year = new Date().getFullYear();
 
     // eslint-disable-next-line angular/on-watch
