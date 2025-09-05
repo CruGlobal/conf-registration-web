@@ -17,6 +17,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     templateUrl: template,
     restrict: 'A',
     scope: {
+      // The `conference` binding is only used by the `check.html` template
+      conference: '=',
       currency: '=currency',
       currentPayment: '=payment',
       currentRegistration: '=registration',
