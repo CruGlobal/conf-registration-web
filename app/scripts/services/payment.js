@@ -108,16 +108,26 @@ angular
 
         tokenizeCreditCardPayment: tokenizeCreditCardPayment,
 
+        // Determine the accepted payment methods for an array of registrant types
+        getAcceptedPaymentMethods: function (registrantTypes, isCompleted) {
+          return {
+            acceptCreditCards: _.some(registrantTypes, 'acceptCreditCards'),
+            acceptChecks: _.some(registrantTypes, 'acceptChecks'),
+            acceptTransfers: _.some(registrantTypes, 'acceptTransfers'),
+            acceptScholarships: _.some(registrantTypes, 'acceptScholarships'),
+            acceptPayOnSite:
+              _.some(registrantTypes, 'acceptPayOnSite') && !isCompleted,
+          };
+        },
+
         // Submit payment for a current registration
-        pay: function (
-          payment,
-          conference,
-          registration,
-          acceptedPaymentMethods,
-        ) {
+        // BREAKING CHANGE: removed acceptedPaymentMethods parameter
+        // ASSUMPTION: it is impossible for payment.pay to be called when there aren't any accepted payment methods
+        pay: function (payment, conference, registration) {
           if (
             Number(payment.amount) === 0 ||
-            !acceptedPaymentMethods ||
+            // The paymentType can be undefined if the conference has no accepted payment methods
+            typeof payment.paymentType === 'undefined' ||
             payment.paymentType === 'PAY_ON_SITE'
           ) {
             // No payment is necessary, so no work needs to be done here

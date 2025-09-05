@@ -11,6 +11,7 @@ angular
       modalMessage,
       ConfCache,
       RegistrationCache,
+      payment,
       registration,
     ) {
       $rootScope.globalPage = {
@@ -131,19 +132,13 @@ angular
             $scope.registrantTypes.find((type) => type.id === registrantTypeId),
         );
 
-        var paymentMethods = {
-          acceptCreditCards: _.some(
-            registeredRegistrantTypes,
-            'acceptCreditCards',
-          ),
-          acceptChecks: _.some(registeredRegistrantTypes, 'acceptChecks'),
-          acceptTransfers: _.some(registeredRegistrantTypes, 'acceptTransfers'),
-          acceptScholarships: _.some(
-            registeredRegistrantTypes,
-            'acceptScholarships',
-          ),
-          acceptPayOnSite: _.some(registeredRegistrantTypes, 'acceptPayOnSite'),
-        };
+        const paymentMethods = payment.getAcceptedPaymentMethods(
+          registeredRegistrantTypes,
+          false,
+        );
+        // Users may not pay by check because the check mailing address may be different for
+        // different conferences
+        paymentMethods.acceptChecks = false;
         return _.some(paymentMethods) ? paymentMethods : false;
       };
 
@@ -159,7 +154,7 @@ angular
         }));
 
         registration
-          .processRegistrations(registrations, $scope.acceptedPaymentMethods())
+          .processRegistrations(registrations)
           .then(function () {
             $scope.cartRegistrations.forEach((item) => {
               cart.removeRegistrationId(item.registration.id);

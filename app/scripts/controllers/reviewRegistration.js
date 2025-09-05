@@ -9,12 +9,13 @@ angular.module('confRegistrationWebApp').controller(
     $window,
     modalMessage,
     $http,
-    currentRegistration,
-    conference,
-    registration,
-    validateRegistrant,
     /** @type {import('../services/cart.service').CartService} */
     cart,
+    currentRegistration,
+    conference,
+    payment,
+    registration,
+    validateRegistrant,
   ) {
     $rootScope.globalPage = {
       type: 'registration',
@@ -138,10 +139,7 @@ angular.module('confRegistrationWebApp').controller(
         },
       ];
       registration
-        .processRegistrations(
-          registrationItems,
-          $scope.acceptedPaymentMethods(),
-        )
+        .processRegistrations(registrationItems)
         .then(function () {
           $scope.navigateToPostRegistrationPage();
         })
@@ -245,19 +243,10 @@ angular.module('confRegistrationWebApp').controller(
         return $scope.getRegistrantType(registrantTypeId);
       });
 
-      var paymentMethods = {
-        acceptCreditCards: _.some(regTypesInRegistration, 'acceptCreditCards'),
-        acceptChecks: _.some(regTypesInRegistration, 'acceptChecks'),
-        acceptTransfers: _.some(regTypesInRegistration, 'acceptTransfers'),
-        acceptScholarships: _.some(
-          regTypesInRegistration,
-          'acceptScholarships',
-        ),
-        acceptPayOnSite:
-          _.some(regTypesInRegistration, 'acceptPayOnSite') &&
-          !currentRegistration.completed,
-      };
-      return !_.some(paymentMethods) ? false : paymentMethods;
+      return payment.getAcceptedPaymentMethods(
+        regTypesInRegistration,
+        currentRegistration.completed,
+      );
     };
 
     $scope.registrantDeletable = function (r) {
