@@ -250,7 +250,7 @@ angular.module('confRegistrationWebApp').controller(
         // Pay on site is not a valid payment method for payments after completing the registration
         acceptedPaymentMethods.acceptPayOnSite = false;
       }
-      return acceptedPaymentMethods;
+      return _.some(acceptedPaymentMethods) ? acceptedPaymentMethods : false;
     };
 
     $scope.registrantDeletable = function (r) {
