@@ -106,16 +106,12 @@ angular
               const existingChild = _.find(type.allowedRegistrantTypeSet, {
                 childRegistrantTypeId: t.id,
               });
-
               return {
                 id: existingChild ? existingChild.id : uuid(),
                 name: t.name,
                 childRegistrantTypeId: t.id,
                 numberOfChildRegistrants: existingChild
                   ? existingChild.numberOfChildRegistrants
-                  : type.defaultTypeKey === 'COUPLE' &&
-                    t.defaultTypeKey === 'SPOUSE'
-                  ? 1
                   : 0,
                 selected:
                   existingChild !== undefined &&
@@ -203,97 +199,19 @@ angular
         modalInstance.result.then(function (type) {
           type.id = uuid();
           type.eform = $scope.conference.eform;
-          if (type.defaultTypeKey !== 'COUPLE') {
-            $scope.conference.registrantTypes.push(type);
-            $scope.refreshAllowedRegistrantTypes();
-          } else {
-            type.familyStatus = 'ENABLED';
-            type.allowGroupRegistrations = true;
-            $http
-              .get('registranttypes', { cache: true })
-              .then(function (response) {
-                const spouseType = _.find(response.data, {
-                  defaultTypeKey: 'SPOUSE',
-                });
-                if (spouseType) {
-                  spouseType.id = uuid();
-                  spouseType.familyStatus = 'ENABLED';
-                  spouseType.eform = $scope.conference.eform;
-                  spouseType.allowGroupRegistrations = true;
-                  $scope.conference.registrantTypes.push(type);
-                  $scope.conference.registrantTypes.push(spouseType);
-
-                  $scope.pendingCoupleSpouseAssociation = {
-                    coupleId: type.id,
-                    spouseId: spouseType.id,
-                  };
-
-                  $scope.refreshAllowedRegistrantTypes();
-                }
-              });
-          }
+          $scope.conference.registrantTypes.push(type);
         });
 
         return modalInstance;
       };
 
-      $scope.associateCoupleSpouse = function (coupleId, spouseId) {
-        const coupleType = _.find($scope.conference.registrantTypes, {
-          id: coupleId,
-        });
-
-        if (coupleType && coupleType.allowedRegistrantTypeSet) {
-          const spouseAssociation = _.find(
-            coupleType.allowedRegistrantTypeSet,
-            {
-              childRegistrantTypeId: spouseId,
-            },
-          );
-          if (spouseAssociation) {
-            spouseAssociation.selected = true;
-            spouseAssociation.numberOfChildRegistrants = 1;
-          }
-        }
-      };
-
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
-          const typeToDelete = _.find(
-            $scope.conference.registrantTypes,
-            function (type) {
-              return type.id === id;
-            },
-          );
-
-          if (typeToDelete.defaultTypeKey === 'COUPLE') {
-            const spouse = _.find(typeToDelete.allowedRegistrantTypeSet, {
-              selected: true,
-            });
-            if (spouse) {
-              typeToDelete.allowedRegistrantTypeSet =
-                typeToDelete.allowedRegistrantTypeSet.map((association) => {
-                  if (
-                    association.childRegistrantTypeId ===
-                    spouse.childRegistrantTypeId
-                  ) {
-                    return {
-                      ...association,
-                      selected: false,
-                      numberOfChildRegistrants: 0,
-                    };
-                  }
-                  return association;
-                });
-
-              $scope.deleteRegType(spouse.childRegistrantTypeId);
-            }
-          }
-
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
-          $scope.conference.registrantTypes.forEach((type) => {
-            _.remove(type.allowedRegistrantTypeSet, function (childType) {
+          $scope.conference.registrantTypes.forEach((t) => {
+            _.remove(t.allowedRegistrantTypeSet, function (childType) {
               return childType.childRegistrantTypeId === id;
             });
           });
@@ -660,30 +578,6 @@ angular
                 );
                 $scope.refreshAllowedRegistrantTypes();
               });
-
-              if ($scope.pendingCoupleSpouseAssociation) {
-                const { coupleId, spouseId } =
-                  $scope.pendingCoupleSpouseAssociation;
-
-                const coupleType = _.find($scope.conference.registrantTypes, {
-                  id: coupleId,
-                });
-                if (coupleType && coupleType.allowedRegistrantTypeSet) {
-                  const spouseAssociation = _.find(
-                    coupleType.allowedRegistrantTypeSet,
-                    {
-                      childRegistrantTypeId: spouseId,
-                    },
-                  );
-                  if (spouseAssociation) {
-                    spouseAssociation.selected = true;
-                    spouseAssociation.numberOfChildRegistrants = 1;
-                    $scope.pendingCoupleSpouseAssociation = null;
-
-                    $scope.saveEvent();
-                  }
-                }
-              }
 
               //Clear cache
               ConfCache.empty();

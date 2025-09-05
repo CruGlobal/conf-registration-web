@@ -101,7 +101,7 @@
         </div>
       </div>
       <div
-        ng-repeat="type in conference.registrantTypes | filter:{ groupSubRegistrantType: false }"
+        ng-repeat="type in (conference.registrantTypes | filter:{ groupSubRegistrantType: false } | filter:excludeNonAllowedType)"
         ng-if="conference.registrantTypes.length > 1"
       >
         <br />
