@@ -134,7 +134,6 @@ angular
 
         const paymentMethods = payment.getAcceptedPaymentMethods(
           registeredRegistrantTypes,
-          false,
         );
         // Users may not pay by check because the check mailing address may be different for
         // different conferences

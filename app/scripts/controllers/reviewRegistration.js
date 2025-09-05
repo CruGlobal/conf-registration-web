@@ -243,10 +243,14 @@ angular.module('confRegistrationWebApp').controller(
         return $scope.getRegistrantType(registrantTypeId);
       });
 
-      return payment.getAcceptedPaymentMethods(
+      const acceptedPaymentMethods = payment.getAcceptedPaymentMethods(
         regTypesInRegistration,
-        currentRegistration.completed,
       );
+      if (currentRegistration.completed) {
+        // Pay on site is not a valid payment method for payments after completing the registration
+        acceptedPaymentMethods.acceptPayOnSite = false;
+      }
+      return acceptedPaymentMethods;
     };
 
     $scope.registrantDeletable = function (r) {

@@ -109,14 +109,13 @@ angular
         tokenizeCreditCardPayment: tokenizeCreditCardPayment,
 
         // Determine the accepted payment methods for an array of registrant types
-        getAcceptedPaymentMethods: function (registrantTypes, isCompleted) {
+        getAcceptedPaymentMethods: function (registrantTypes) {
           return {
             acceptCreditCards: _.some(registrantTypes, 'acceptCreditCards'),
             acceptChecks: _.some(registrantTypes, 'acceptChecks'),
             acceptTransfers: _.some(registrantTypes, 'acceptTransfers'),
             acceptScholarships: _.some(registrantTypes, 'acceptScholarships'),
-            acceptPayOnSite:
-              _.some(registrantTypes, 'acceptPayOnSite') && !isCompleted,
+            acceptPayOnSite: _.some(registrantTypes, 'acceptPayOnSite'),
           };
         },
 
