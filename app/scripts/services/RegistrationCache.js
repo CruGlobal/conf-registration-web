@@ -13,17 +13,17 @@ angular
         $rootScope.$broadcast(path, object);
       };
 
-      var checkCache = function (path, callback, catchErrors) {
+      var checkCache = function (path) {
         var cachedObject = cache.get(path);
         if (angular.isDefined(cachedObject)) {
-          callback(cachedObject, path);
+          return $q.resolve(cachedObject);
         } else {
-          $http
+          return $http
             .get(path)
             .then(function (response) {
               var data = response.data;
               update(path, data);
-              callback(data, path);
+              return data;
             })
             .catch(function (response) {
               const errorMessage =
@@ -31,36 +31,26 @@ angular
                   ? response.data.error.message
                   : 'An error occurred while creating registration.';
 
-              if (catchErrors) {
-                callback(null, path, errorMessage);
-              } else {
-                throw errorMessage;
-              }
+              return $q.reject(errorMessage);
             });
         }
       };
 
-      this.update = function (path, registration, cb, errorCallback) {
+      this.update = function (path, registration) {
         if ($rootScope.registerMode === 'preview') {
           $rootScope.previewRegCache = registration;
-          if (cb) {
-            cb();
-          }
-          return;
+          return $q.resolve();
         }
 
         var cachedReg = cache.get(path);
         if (angular.equals(registration, cachedReg)) {
           //do nothing
+          return $q.resolve();
         } else {
-          $http.put(path, registration).then(function () {
-            //update cache
+          //update cache
+          return $http.put(path, registration).then(function () {
             cache.put(path, angular.copy(registration));
-
-            if (cb) {
-              cb();
-            }
-          }, errorCallback);
+          });
         }
       };
 
@@ -69,35 +59,24 @@ angular
       };
 
       this.get = function (id) {
-        var defer = $q.defer();
-        checkCache(path(id), defer.resolve);
-        return defer.promise;
+        return checkCache(path(id));
       };
 
       this.getCurrent = function (conferenceId) {
-        var defer = $q.defer();
-
-        checkCache(
+        return checkCache(
           'conferences/' + conferenceId + '/registrations/current',
-          function (registration, _path_, error) {
-            if (registration === null) defer.reject(error);
-
-            if ($rootScope.registerMode === 'preview') {
-              if (angular.isUndefined($rootScope.previewRegCache)) {
-                registration.completed = false;
-                registration.registrants = [];
-                $rootScope.previewRegCache = registration;
-              } else {
-                registration = $rootScope.previewRegCache;
-              }
+        ).then(function (registration) {
+          if ($rootScope.registerMode === 'preview') {
+            if (angular.isUndefined($rootScope.previewRegCache)) {
+              registration.completed = false;
+              registration.registrants = [];
+              $rootScope.previewRegCache = registration;
+            } else {
+              registration = $rootScope.previewRegCache;
             }
-            update(path(registration.id), registration);
-            defer.resolve(registration);
-          },
-          true,
-        );
-
-        return defer.promise;
+          }
+          return registration;
+        });
       };
 
       this.updateCurrent = function (conferenceId, currentRegistration) {

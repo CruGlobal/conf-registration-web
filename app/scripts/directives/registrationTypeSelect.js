@@ -113,7 +113,8 @@ angular
           RegistrationCache.update(
             'registrations/' + $scope.currentRegistration.id,
             $scope.currentRegistration,
-            function () {
+          )
+            .then(function () {
               RegistrationCache.emptyCache();
               $location
                 .path(
@@ -124,14 +125,13 @@ angular
                     validPages[0].id,
                 )
                 .search('reg', newId);
-            },
-            function () {
+            })
+            .catch(function () {
               modalMessage.error({
                 title: 'Error',
                 message: 'An error occurred while updating your registration.',
               });
-            },
-          );
+            });
         };
 
         $scope.registrationTypeFull = function (type) {

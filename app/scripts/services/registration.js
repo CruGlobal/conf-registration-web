@@ -36,33 +36,27 @@ angular
 
       // Mark a current registration as completed
       function completeRegistration(currentRegistration) {
-        return $q(function (resolve, reject) {
-          var registration = angular.copy(currentRegistration);
+        var registration = angular.copy(currentRegistration);
 
-          if (registration.completed) {
-            // The registration is already completed, so nothing needs to be done
-            resolve();
-            return;
-          }
+        if (registration.completed) {
+          // The registration is already completed, so nothing needs to be done
+          return $q.resolve();
+        }
 
-          registration.completed = true;
-          RegistrationCache.update(
-            'registrations/' + registration.id,
-            registration,
-            function () {
-              RegistrationCache.emptyCache();
-              resolve();
-            },
-            function (response) {
-              currentRegistration.completed = false;
-              reject(response);
-            },
-          );
-        }).catch(
-          error.errorFromResponse(
-            'An error occurred while completing your registration.',
-          ),
-        );
+        registration.completed = true;
+        return RegistrationCache.update(
+          'registrations/' + registration.id,
+          registration,
+        )
+          .then(function () {
+            RegistrationCache.emptyCache();
+          })
+          .catch(function () {
+            currentRegistration.completed = false;
+            error.errorFromResponse(
+              'An error occurred while completing your registration.',
+            );
+          });
       }
 
       return {

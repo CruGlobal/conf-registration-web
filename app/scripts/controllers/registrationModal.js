@@ -90,18 +90,18 @@ angular
           RegistrationCache.update(
             `registrations/${registration.id}`,
             registration,
-            function () {
+          )
+            .then(function () {
               RegistrationCache.emptyCache();
               $route.reload();
-            },
-            function (response) {
+            })
+            .catch(function (response) {
               modalMessage.error(
                 response.data && response.data.error
                   ? response.data.error.message
                   : 'An error occurred while creating registration.',
               );
-            },
-          );
+            });
         } else {
           $http
             .post(`conferences/${conference.id}/registrations`, registration, {
