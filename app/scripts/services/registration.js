@@ -24,7 +24,7 @@ angular
         conference,
       ) {
         if (payment.validate(currentPayment, currentRegistration, conference)) {
-          return $q.when();
+          return $q.resolve();
         } else {
           modalMessage.error({
             title: 'Please correct the following errors:',

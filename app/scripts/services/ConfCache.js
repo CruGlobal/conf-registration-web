@@ -19,7 +19,6 @@ angular
       };
 
       this.get = function (id, logLastAccess) {
-        var defer = $q.defer();
         if (id && logLastAccess) {
           localStorage.setItem(
             'lastAccess:' + id,
@@ -30,25 +29,20 @@ angular
         var eventUrl = path(id);
         var cachedConferences = cache.get(eventUrl);
         if (angular.isDefined(cachedConferences)) {
-          defer.resolve(cachedConferences);
+          return $q.resolve(cachedConferences);
         } else {
           $rootScope.loadingMsg = 'Loading Event Details';
-          $http
+          return $http
             .get(eventUrl)
             .then(function (response) {
               var conferences = response.data;
               cache.put(eventUrl, conferences);
-              defer.resolve(conferences);
-            })
-            .catch(function (error) {
-              defer.reject(error);
+              return conferences;
             })
             .finally(function () {
               $rootScope.loadingMsg = '';
             });
         }
-
-        return defer.promise;
       };
 
       this.update = function (id, conference) {

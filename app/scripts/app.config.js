@@ -107,13 +107,13 @@ angular
           },
           currentRegistration: function (
             $route,
-            $q,
             $location,
             $rootScope,
             RegistrationCache,
           ) {
-            var q = $q.defer();
-            RegistrationCache.getCurrent($route.current.params.conferenceId)
+            return RegistrationCache.getCurrent(
+              $route.current.params.conferenceId,
+            )
               .then(function (registration) {
                 if (
                   registration.completed &&
@@ -123,14 +123,13 @@ angular
                     '/reviewRegistration/' + $route.current.params.conferenceId,
                   );
                 } else {
-                  q.resolve(registration);
+                  return registration;
                 }
               })
               .catch(function (error) {
                 $rootScope.currentRegistrationErrorMessage = error;
-                q.resolve(null);
+                return null;
               });
-            return q.promise;
           },
         },
       })

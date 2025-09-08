@@ -91,23 +91,18 @@ angular
       };
 
       this.getAllForConference = function (conferenceId, queryParameters) {
-        var defer = $q.defer();
         $rootScope.loadingMsg = 'Loading Registrations';
 
-        $http
+        return $http
           .get('conferences/' + conferenceId + '/registrations', {
             params: queryParameters,
           })
           .then(function (response) {
-            $rootScope.loadingMsg = '';
-            defer.resolve(response.data);
+            return response.data;
           })
-          .catch(function () {
+          .finally(function () {
             $rootScope.loadingMsg = '';
-            defer.reject();
           });
-
-        return defer.promise;
       };
     },
   );

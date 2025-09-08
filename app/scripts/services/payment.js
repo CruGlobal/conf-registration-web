@@ -130,7 +130,7 @@ angular
             payment.paymentType === 'PAY_ON_SITE'
           ) {
             // No payment is necessary, so no work needs to be done here
-            return $q.when();
+            return $q.resolve();
           }
 
           // Prepare the payment object
