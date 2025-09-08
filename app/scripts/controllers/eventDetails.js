@@ -205,8 +205,19 @@ angular
         return modalInstance;
       };
 
+      // NOTE: Change to pass in type instead of id
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
+          const typeToDelete = _.find($scope.conference.registrantTypes, {
+            id,
+          });
+
+          if (typeToDelete.defaultTypeKey === 'COUPLE') {
+            const spouseType = $scope.findSpouseForCouple(id);
+            if (spouseType) {
+              $scope.deleteSpouseType(spouseType.id);
+            }
+          }
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
@@ -955,33 +966,6 @@ angular
           });
       };
 
-      $scope.isSpouseType = function (type) {
-        return type.defaultTypeKey === 'SPOUSE';
-      };
-      // required for filtering in ng-repeat
-      $scope.isNotSpouseType = function (type) {
-        return type.defaultTypeKey !== 'SPOUSE';
-      };
-      // required for filtering in ng-repeat
-      $scope.isNotSelf = function (childType, type) {
-        return childType.name !== type.name;
-      };
-
-      // Both of these functions search by ids provided
-      // in allowedRegistrantTypeSet
-      $scope.findParentTypeKey = function (type) {
-        const parentType = _.find($scope.conference.registrantTypes, {
-          id: type.parentRegistrantTypeId,
-        });
-        return parentType ? parentType.defaultTypeKey : null;
-      };
-      $scope.findChildTypeKey = function (type) {
-        const childType = _.find($scope.conference.registrantTypes, {
-          id: type.childRegistrantTypeId,
-        });
-        return childType ? childType.defaultTypeKey : null;
-      };
-
       $scope.shouldShowChildType = function (childType, type) {
         const childTypeKey = $scope.findChildTypeKey(childType);
         if (childTypeKey === '') {
@@ -990,19 +974,15 @@ angular
           }
           return true;
         }
-
         if (childTypeKey === type.defaultTypeKey) {
           return false;
         }
-
         if (childTypeKey === 'COUPLE') {
           return false;
         }
-
         if (childTypeKey === 'SPOUSE' && type.defaultTypeKey !== 'COUPLE') {
           return false;
         }
-
         return true;
       };
 
@@ -1017,24 +997,71 @@ angular
         ) {
           return false;
         }
-
-        const isThisSpouseAssociatedWithCouple =
-          $scope.conference.registrantTypes.some((regType) => {
-            if (regType.defaultTypeKey !== 'COUPLE') {
-              return false;
-            }
-            if (!regType.allowedRegistrantTypeSet) {
-              return false;
-            }
-
-            const spouseAssociation = regType.allowedRegistrantTypeSet.find(
-              (association) => association.childRegistrantTypeId === type.id,
-            );
-
-            return spouseAssociation && spouseAssociation.selected === true;
-          });
-
+        const isThisSpouseAssociatedWithCouple = !!$scope.findCoupleForSpouse(
+          type.id,
+        );
         return !isThisSpouseAssociatedWithCouple;
+      };
+
+      $scope.deleteSpouseType = function (spouseId) {
+        _.remove(
+          $scope.conference.registrantTypes,
+          (type) => type.id === spouseId,
+        );
+
+        $scope.conference.registrantTypes.forEach((t) => {
+          _.remove(
+            t.allowedRegistrantTypeSet,
+            (childType) => childType.childRegistrantTypeId === spouseId,
+          );
+        });
+      };
+
+      /**
+       * Finds the couple type that is associated with the given spouse type.
+       * Returns the couple registrant type object, or null if not found.
+       */
+      $scope.findCoupleForSpouse = function (spouseId) {
+        return (
+          $scope.conference.registrantTypes.find((regType) => {
+            if (
+              regType.defaultTypeKey !== 'COUPLE' ||
+              !regType.allowedRegistrantTypeSet
+            ) {
+              return false;
+            }
+            return regType.allowedRegistrantTypeSet.some(
+              (association) =>
+                association.childRegistrantTypeId === spouseId &&
+                association.selected === true,
+            );
+          }) || null
+        );
+      };
+
+      /**
+       * Finds the spouse type that is associated with the given couple type.
+       * Returns the spouse registrant type object, or null if not found.
+       */
+      $scope.findSpouseForCouple = function (coupleId) {
+        const coupleType = $scope.conference.registrantTypes.find(
+          (regType) =>
+            regType.id === coupleId && regType.defaultTypeKey === 'COUPLE',
+        );
+        if (!coupleType || !coupleType.allowedRegistrantTypeSet) {
+          return null;
+        }
+        const association = coupleType.allowedRegistrantTypeSet.find(
+          (assoc) => assoc.selected === true,
+        );
+        if (!association) {
+          return null;
+        }
+        return (
+          $scope.conference.registrantTypes.find(
+            (regType) => regType.id === association.childRegistrantTypeId,
+          ) || null
+        );
       };
 
       /*
