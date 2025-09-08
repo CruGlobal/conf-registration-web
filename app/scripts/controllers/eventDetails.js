@@ -1,3 +1,4 @@
+/* eslint-disable angular/log, no-console */
 import moment from 'moment';
 import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
 import regOptionsTemplate from 'views/eventDetails/regOptions.html';
@@ -9,6 +10,13 @@ import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html'
 import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
+import {
+  findCoupleForSpouse,
+  findSpouseForCouple,
+  deleteSpouseType,
+  syncCoupleDescriptions,
+  shouldShowRegistrantType,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -66,6 +74,17 @@ angular
 
       $scope.descriptionPopup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
+      };
+
+      // Couple type related functions
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
+      $scope.findSpouseForCouple = findSpouseForCouple;
+      $scope.deleteSpouseType = deleteSpouseType;
+      $scope.shouldShowRegistrantType = function (type) {
+        return shouldShowRegistrantType(
+          type,
+          $scope.conference.registrantTypes,
+        );
       };
 
       $scope.changeTab = function (tab) {
@@ -205,8 +224,25 @@ angular
         return modalInstance;
       };
 
+      // NOTE: Change to pass in type instead of id
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
+          const typeToDelete = _.find($scope.conference.registrantTypes, {
+            id,
+          });
+
+          if (typeToDelete.defaultTypeKey === 'COUPLE') {
+            const spouseType = $scope.findSpouseForCouple(
+              id,
+              $scope.conference.registrantTypes,
+            );
+            if (spouseType) {
+              $scope.deleteSpouseType(
+                spouseType.id,
+                $scope.conference.registrantTypes,
+              );
+            }
+          }
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
@@ -955,86 +991,51 @@ angular
           });
       };
 
-      $scope.isSpouseType = function (type) {
-        return type.defaultTypeKey === 'SPOUSE';
-      };
-      // required for filtering in ng-repeat
-      $scope.isNotSpouseType = function (type) {
-        return type.defaultTypeKey !== 'SPOUSE';
-      };
-      // required for filtering in ng-repeat
-      $scope.isNotSelf = function (childType, type) {
-        return childType.name !== type.name;
+      $scope.findChildType = function (type) {
+        return _.find($scope.conference.registrantTypes, function (t) {
+          return t.id === type.childRegistrantTypeId;
+        });
       };
 
-      // Both of these functions search by ids provided
-      // in allowedRegistrantTypeSet
-      $scope.findParentTypeKey = function (type) {
-        const parentType = _.find($scope.conference.registrantTypes, {
-          id: type.parentRegistrantTypeId,
-        });
-        return parentType ? parentType.defaultTypeKey : null;
-      };
-      $scope.findChildTypeKey = function (type) {
-        const childType = _.find($scope.conference.registrantTypes, {
-          id: type.childRegistrantTypeId,
-        });
-        return childType ? childType.defaultTypeKey : null;
-      };
-
+      // childType is an allowedRegistrantTypeSet object
       $scope.shouldShowChildType = function (childType, type) {
-        const childTypeKey = $scope.findChildTypeKey(childType);
-        if (childTypeKey === '') {
-          if (childType.name === type.name) {
-            return false;
-          }
-          return true;
-        }
+        const child = $scope.findChildType(childType);
+        const childTypeKey = child ? child.defaultTypeKey : null;
+        const parentTypeKey = type.defaultTypeKey;
 
-        if (childTypeKey === type.defaultTypeKey) {
+        if (
+          childTypeKey === 'SPOUSE' &&
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes) !==
+            null
+        ) {
           return false;
         }
-
         if (childTypeKey === 'COUPLE') {
           return false;
         }
 
-        if (childTypeKey === 'SPOUSE' && type.defaultTypeKey !== 'COUPLE') {
+        // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
+        if (parentTypeKey === '' || parentTypeKey === null) {
+          // Also hide if the names are the same (prevent self-association)
+          return childType.name !== type.name;
+        }
+
+        // Hide self-association
+        if (childTypeKey === parentTypeKey) {
+          return false;
+        }
+
+        // Never show couple as a child type
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        // Only allow spouse as a child of couple
+        if (childTypeKey === 'SPOUSE' && parentTypeKey !== 'COUPLE') {
           return false;
         }
 
         return true;
-      };
-
-      $scope.shouldShowRegistrantType = function (type) {
-        if (type.defaultTypeKey !== 'SPOUSE') {
-          return true;
-        }
-
-        if (
-          $scope.pendingCoupleSpouseAssociation &&
-          $scope.pendingCoupleSpouseAssociation.spouseId === type.id
-        ) {
-          return false;
-        }
-
-        const isThisSpouseAssociatedWithCouple =
-          $scope.conference.registrantTypes.some((regType) => {
-            if (regType.defaultTypeKey !== 'COUPLE') {
-              return false;
-            }
-            if (!regType.allowedRegistrantTypeSet) {
-              return false;
-            }
-
-            const spouseAssociation = regType.allowedRegistrantTypeSet.find(
-              (association) => association.childRegistrantTypeId === type.id,
-            );
-
-            return spouseAssociation && spouseAssociation.selected === true;
-          });
-
-        return !isThisSpouseAssociatedWithCouple;
       };
 
       /*
@@ -1042,53 +1043,21 @@ angular
        * when creating form questions. This adds the details field of any couple to the spouse,
        * since the user has no way of modifying the spouse description.
        */
-
       $scope.$watch(
         'conference.registrantTypes',
-        function (newVal, oldVal) {
-          if (newVal && oldVal && newVal !== oldVal) {
-            // Check if any couple type description changed
-            const coupleDescriptionChanged = newVal.some((newType, index) => {
-              if (newType.defaultTypeKey !== 'COUPLE') return false;
-
-              const oldType = oldVal[index];
-              if (!oldType) return false;
-
-              // Check if description changed
-              return newType.description !== oldType.description;
-            });
-
-            if (coupleDescriptionChanged) {
-              // Sync couple descriptions to associated spouses
-              $scope.conference.registrantTypes.forEach((coupleType) => {
-                if (
-                  coupleType.defaultTypeKey === 'COUPLE' &&
-                  coupleType.allowedRegistrantTypeSet
-                ) {
-                  coupleType.allowedRegistrantTypeSet.forEach((association) => {
-                    if (
-                      association.selected === true &&
-                      association.numberOfChildRegistrants > 0
-                    ) {
-                      const spouseType = _.find(
-                        $scope.conference.registrantTypes,
-                        {
-                          id: association.childRegistrantTypeId,
-                        },
-                      );
-
-                      if (
-                        spouseType &&
-                        spouseType.defaultTypeKey === 'SPOUSE'
-                      ) {
-                        spouseType.description = coupleType.description;
-                      }
-                    }
-                  });
-                }
-              });
-            }
+        function (currentRegistrantTypes, previousRegistrantTypes) {
+          if (
+            !angular.isArray(currentRegistrantTypes) ||
+            !angular.isArray(previousRegistrantTypes) ||
+            currentRegistrantTypes === previousRegistrantTypes
+          ) {
+            return;
           }
+
+          syncCoupleDescriptions(
+            currentRegistrantTypes,
+            previousRegistrantTypes,
+          );
         },
         true,
       );

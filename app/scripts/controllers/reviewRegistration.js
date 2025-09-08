@@ -119,26 +119,10 @@ angular
       $scope.requireSpouseRegistration = function () {
         const primaryRegistrantType = primaryRegType(currentRegistration);
 
-        if (
-          primaryRegistrantType.defaultTypeKey !== 'COUPLE' &&
-          primaryRegistrantType.name !== 'Couple'
-        ) {
+        if (primaryRegistrantType.defaultTypeKey !== 'COUPLE') {
           return false;
         }
-
-        // Check if a spouse registrant is present
-        const spouseTypeObj = _.find(conference.registrantTypes, {
-          defaultTypeKey: 'SPOUSE',
-        });
-        if (!spouseTypeObj) {
-          return false;
-        }
-
-        const spousePresent = _.find(currentRegistration.registrants, {
-          registrantTypeId: spouseTypeObj.id,
-        });
-
-        return !spousePresent;
+        return true;
       };
 
       // Display an error that occurred during registration completion
