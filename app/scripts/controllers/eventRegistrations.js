@@ -4,6 +4,10 @@ import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
+import {
+  findCoupleRegistrants,
+  isRegistrantCouple,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -74,6 +78,10 @@ angular
         'name',
       );
       var expandedRegistrations = {};
+
+      // Couple type utility functions
+      $scope.findCoupleRegistrants = findCoupleRegistrants;
+      $scope.isRegistrantCouple = isRegistrantCouple;
 
       $scope.$watch(
         'queryParameters',
@@ -544,7 +552,9 @@ angular
         if (!hasPermission()) {
           return;
         }
-        const isCouple = $scope.isCouple(registrant);
+        const isCouple = $scope.isRegistrantCouple(
+          $scope.getRegistrantType(registrant.registrantTypeId),
+        );
 
         function handleWithdraw() {
           $rootScope.loadingMsg =
@@ -623,17 +633,6 @@ angular
           });
       };
 
-      // Helper function to determine registrant types. Finding by name is temporary until API updated.
-      $scope.isCouple = function (registrant) {
-        const registrantType = $scope.getRegistrantType(
-          registrant.registrantTypeId,
-        );
-        return (
-          registrantType.defaultTypeKey === 'COUPLE' ||
-          registrantType.defaultTypeKey === 'SPOUSE'
-        );
-      };
-
       // Helper function to build warning message
       $scope.buildDeletionWarningMessage = function (isCouple) {
         let title = 'Delete Registrant';
@@ -647,26 +646,6 @@ angular
             warningMessage;
         }
         return { title, yesString, warningMessage };
-      };
-
-      // Helper function to find Couple-Spouse pair to delete using registration.groups
-      // At this point, we know that registrant is either a couple or spouse type
-      $scope.findCoupleRegistrants = function (registrant, registration) {
-        const coupleRegistrants = [];
-        if (registration.groupRegistrants && registrant.groupId) {
-          const group = _.filter(
-            registration.groupRegistrants,
-            function (coupleRegistrant) {
-              return coupleRegistrant.groupId === registrant.groupId;
-            },
-          );
-          if (group) {
-            coupleRegistrants.push(...group);
-          }
-        } else {
-          coupleRegistrants.push(registrant);
-        }
-        return coupleRegistrants;
       };
 
       $scope.updateAfterDelete = function (registrantsToDelete) {
@@ -697,7 +676,9 @@ angular
         if (!hasPermission()) {
           return;
         }
-        const isCouple = $scope.isCouple(registrant);
+        const isCouple = $scope.isRegistrantCouple(
+          $scope.getRegistrantType(registrant.registrantTypeId),
+        );
         const { title, yesString, warningMessage } =
           $scope.buildDeletionWarningMessage(isCouple);
 

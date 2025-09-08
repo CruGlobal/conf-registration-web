@@ -1,3 +1,5 @@
+/* --- eventDetails.js helpers --- */
+
 export function deleteSpouseType(spouseId, registrantTypes) {
   _.remove(registrantTypes, {
     id: spouseId,
@@ -101,4 +103,50 @@ export function shouldShowRegistrantType(type, registrantTypes) {
     registrantTypes,
   );
   return !isThisSpouseAssociatedWithCouple;
+}
+
+/* --- eventRegistrations.js helpers --- */
+
+/* Helper function to find Couple-Spouse pair to delete using registration.groups
+ * At this point, we know that registrant is either a couple or spouse type
+ */
+export function findCoupleRegistrants(registrant, registration) {
+  const coupleRegistrants = [];
+  if (registration.groupRegistrants && registrant.groupId) {
+    const group = _.filter(
+      registration.groupRegistrants,
+      function (coupleRegistrant) {
+        return coupleRegistrant.groupId === registrant.groupId;
+      },
+    );
+    if (group) {
+      coupleRegistrants.push(...group);
+    }
+  } else {
+    coupleRegistrants.push(registrant);
+  }
+  return coupleRegistrants;
+}
+
+export function isRegistrantCouple(registrantType) {
+  return (
+    registrantType.defaultTypeKey === 'COUPLE' ||
+    registrantType.defaultTypeKey === 'SPOUSE'
+  );
+}
+
+/* --- coupleSpouse.js filter helper --- */
+
+export function filterCoupleSpouse(registrantTypes, allRegistrantTypes) {
+  return registrantTypes.filter(function (type) {
+    if (type.defaultTypeKey === 'SPOUSE') {
+      const associatedCouple = findCoupleForSpouse(type, allRegistrantTypes);
+      return !associatedCouple;
+    }
+    if (type.defaultTypeKey === 'COUPLE') {
+      const associatedSpouse = findSpouseForCouple(type, allRegistrantTypes);
+      return !associatedSpouse;
+    }
+    return true;
+  });
 }
