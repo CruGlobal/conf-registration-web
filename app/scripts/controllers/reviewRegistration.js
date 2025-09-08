@@ -122,7 +122,16 @@ angular
         if (primaryRegistrantType.defaultTypeKey !== 'COUPLE') {
           return false;
         }
-        return true;
+        return !$scope.spouseIsRegistered();
+      };
+
+      $scope.spouseIsRegistered = function () {
+        return $scope.currentRegistration.registrants.some(function (
+          registrant,
+        ) {
+          const regType = $scope.getRegistrantType(registrant.registrantTypeId);
+          return regType && regType.defaultTypeKey === 'SPOUSE';
+        });
       };
 
       // Display an error that occurred during registration completion
