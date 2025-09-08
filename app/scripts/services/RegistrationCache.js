@@ -64,12 +64,6 @@ angular
         }
       };
 
-      this.query = function (id) {
-        checkCache(path(id), function (conferences, path) {
-          $rootScope.$broadcast(path, conferences);
-        });
-      };
-
       this.emptyCache = function () {
         cache.removeAll();
       };
