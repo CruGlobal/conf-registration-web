@@ -13,7 +13,7 @@ describe('Directive: ertPayment', function () {
     $templateCache.put('views/components/payment.html', '');
 
     element = $compile(
-      '<div ert-payment currency="USD" registration="registration"></div>',
+      `<div ert-payment currency="'USD'" registration="registration"></div>`,
     )(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
