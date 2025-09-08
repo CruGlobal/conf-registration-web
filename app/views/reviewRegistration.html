@@ -405,7 +405,7 @@
       </p>
       <button
         class="btn btn-lg btn-important"
-        ng-if="!registrationInCart() && paymentRequired()"
+        ng-if="isValidCartRegistration()"
         ng-click="addToCart()"
         ng-disabled="registerDisabled()"
       >

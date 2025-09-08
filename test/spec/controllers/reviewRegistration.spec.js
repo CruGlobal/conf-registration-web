@@ -220,20 +220,6 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         expect(scope.acceptedPaymentMethods().acceptPayOnSite).toBe(false);
       });
     });
-
-    it('returns false when no payment methods are accepted', () => {
-      testData.conference.registrantTypes.forEach((registrantType) => {
-        Object.assign(registrantType, {
-          acceptCreditCards: false,
-          acceptTransfers: false,
-          acceptScholarships: false,
-          acceptChecks: false,
-        });
-      });
-      initController();
-
-      expect(scope.acceptedPaymentMethods()).toBe(false);
-    });
   });
 
   it('registrantDeletable should be possible when allowEditRegistrationAfterComplete set to true', function () {

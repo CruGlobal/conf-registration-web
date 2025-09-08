@@ -148,8 +148,21 @@ angular.module('confRegistrationWebApp').controller(
         });
     };
 
-    $scope.registrationInCart = () =>
-      cart.hasRegistrationId(currentRegistration.id);
+    $scope.isValidCartRegistration = () => {
+      if (cart.hasRegistrationId(currentRegistration.id)) {
+        return false;
+      }
+
+      // Users cannot checkout registrations in the cart with checks or pay on site, so don't allow
+      // those registrations to be added to the cart
+      const acceptedPaymentMethods = $scope.acceptedPaymentMethods();
+      acceptedPaymentMethods.acceptChecks = false;
+      acceptedPaymentMethods.acceptPayOnSite = false;
+      return (
+        $scope.currentRegistration.remainingBalance > 0 &&
+        _.some(acceptedPaymentMethods)
+      );
+    };
 
     // Called when the user clicks the add to cart button
     $scope.addToCart = () => {
@@ -250,12 +263,12 @@ angular.module('confRegistrationWebApp').controller(
         // Pay on site is not a valid payment method for payments after completing the registration
         acceptedPaymentMethods.acceptPayOnSite = false;
       }
-      return _.some(acceptedPaymentMethods) ? acceptedPaymentMethods : false;
+      return acceptedPaymentMethods;
     };
 
     $scope.paymentRequired = function () {
       return (
-        $scope.acceptedPaymentMethods() &&
+        _.some($scope.acceptedPaymentMethods()) &&
         $scope.currentRegistration.remainingBalance > 0
       );
     };

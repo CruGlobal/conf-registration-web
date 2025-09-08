@@ -138,6 +138,8 @@ angular
         // Users may not pay by check because the check mailing address may be different for
         // different conferences
         paymentMethods.acceptChecks = false;
+        // Users may not pay on site
+        paymentMethods.acceptPayOnSite = false;
         return _.some(paymentMethods) ? paymentMethods : false;
       };
 
