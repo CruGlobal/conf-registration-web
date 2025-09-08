@@ -134,19 +134,3 @@ export function isRegistrantCouple(registrantType) {
     registrantType.defaultTypeKey === 'SPOUSE'
   );
 }
-
-/* --- coupleSpouse.js filter helper --- */
-
-export function filterCoupleSpouse(registrantTypes, allRegistrantTypes) {
-  return registrantTypes.filter(function (type) {
-    if (type.defaultTypeKey === 'SPOUSE') {
-      const associatedCouple = findCoupleForSpouse(type, allRegistrantTypes);
-      return !associatedCouple;
-    }
-    if (type.defaultTypeKey === 'COUPLE') {
-      const associatedSpouse = findSpouseForCouple(type, allRegistrantTypes);
-      return !associatedSpouse;
-    }
-    return true;
-  });
-}
