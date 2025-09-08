@@ -253,6 +253,13 @@ angular.module('confRegistrationWebApp').controller(
       return _.some(acceptedPaymentMethods) ? acceptedPaymentMethods : false;
     };
 
+    $scope.paymentRequired = function () {
+      return (
+        $scope.acceptedPaymentMethods() &&
+        $scope.currentRegistration.remainingBalance > 0
+      );
+    };
+
     $scope.registrantDeletable = function (r) {
       if (
         currentRegistration.completed &&

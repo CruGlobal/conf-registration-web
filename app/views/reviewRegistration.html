@@ -16,10 +16,7 @@
         {{currentRegistration.remainingBalance |
         localizedCurrency:conference.currency.currencyCode}}
       </p>
-      <p
-        ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
-        translate
-      >
+      <p ng-if="paymentRequired()" translate>
         Please enter your payment information below. Then click Confirm. That's
         it!
       </p>
@@ -66,17 +63,11 @@
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
       <h3><translate>Your registration is not complete</translate>...</h3>
       <br />
-      <p
-        ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0"
-        translate
-      >
+      <p ng-if="!paymentRequired()" translate>
         Almost done. Please review your registration details below and click
         Confirm if correct. That's it!
       </p>
-      <p
-        ng-if="acceptedPaymentMethods() && currentRegistration.calculatedTotalDue > 0"
-        translate
-      >
+      <p ng-if="paymentRequired()" translate>
         Almost done. Please review your registration details and enter your
         payment information below. Then click Confirm. That's it!
       </p>
@@ -392,10 +383,7 @@
         </ol>
       </div>
 
-      <div
-        ng-if="acceptedPaymentMethods() && currentRegistration.remainingBalance > 0"
-        class="hidden-print"
-      >
+      <div ng-if="paymentRequired()" class="hidden-print">
         <h2 class="page-title border" translate>Payment</h2>
         <div
           ert-payment
@@ -410,14 +398,14 @@
 
     <section
       class="text-center spacing-above-md hidden-print"
-      ng-if="!currentRegistration.completed || (acceptedPaymentMethods() && currentRegistration.remainingBalance > 0)"
+      ng-if="!currentRegistration.completed || paymentRequired()"
     >
       <p ng-if="!allRegistrantsValid()" style="color: red" translate>
         Please fill in all required fields in red before submitting.
       </p>
       <button
         class="btn btn-lg btn-important"
-        ng-if="!registrationInCart()"
+        ng-if="!registrationInCart() && paymentRequired()"
         ng-click="addToCart()"
         ng-disabled="registerDisabled()"
       >
