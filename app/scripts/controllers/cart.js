@@ -70,7 +70,9 @@ angular
                 ),
               ]),
             );
-            $scope.pastPayments = [];
+            $scope.currentRegistration.pastPayments = [];
+            $scope.currentPayment.amount =
+              $scope.currentRegistration.remainingBalance;
 
             const currencies = _.uniq(
               $scope.cartRegistrations.map(
