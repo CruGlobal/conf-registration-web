@@ -1,4 +1,3 @@
-/* eslint-disable angular/log, no-console */
 import moment from 'moment';
 import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
 import regOptionsTemplate from 'views/eventDetails/regOptions.html';

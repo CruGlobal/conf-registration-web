@@ -1,4 +1,3 @@
-/* eslint-disable angular/log, no-console */
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
