@@ -1003,23 +1003,21 @@ angular
         const childTypeKey = child ? child.defaultTypeKey : null;
         const parentTypeKey = type.defaultTypeKey;
 
+        if (
+          childTypeKey === 'SPOUSE' &&
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes) !==
+            null
+        ) {
+          return false;
+        }
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
         // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
-        if (parentTypeKey === '') {
-          if (childTypeKey === 'COUPLE') {
-            return false;
-          }
-          if (
-            childTypeKey === 'SPOUSE' &&
-            findCoupleForSpouse(child.id, $scope.conference.registrantTypes) !==
-              null
-          ) {
-            return false;
-          }
+        if (parentTypeKey === '' || parentTypeKey === null) {
           // Also hide if the names are the same (prevent self-association)
-          if (childType.name === type.name) {
-            return false;
-          }
-          return true;
+          return childType.name !== type.name;
         }
 
         // Hide self-association
