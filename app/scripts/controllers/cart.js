@@ -50,6 +50,8 @@ angular
                     // Users may not pay on site
                     acceptPayOnSite: false,
                   },
+                  checked: true,
+                  disabled: false,
                 }),
               );
             })
@@ -75,7 +77,32 @@ angular
           });
       }
 
+      function updateTotals() {
+        const selectedRegistrations = $scope.cartRegistrations.filter(
+          (item) => item.checked,
+        );
+        $scope.selectedCount = selectedRegistrations.length;
+
+        $scope.currentRegistration = Object.fromEntries(
+          [
+            'calculatedMinimumDeposit',
+            'calculatedTotalDue',
+            'remainingBalance',
+          ].map((field) => [
+            field,
+            selectedRegistrations.reduce(
+              (total, { registration }) => total + registration[field],
+              0,
+            ),
+          ]),
+        );
+        $scope.currentRegistration.pastPayments = [];
+        $scope.currentPayment.amount =
+          $scope.currentRegistration.remainingBalance;
+      }
+
       function updateCart() {
+        $scope.totalCount = $scope.cartRegistrations.length;
         $scope.registrantTypes = $scope.cartRegistrations.flatMap(
           ({ conference }) => conference.registrantTypes,
         );
@@ -87,22 +114,6 @@ angular
             'registrantTypeId',
           ),
         );
-        $scope.currentRegistration = Object.fromEntries(
-          [
-            'calculatedMinimumDeposit',
-            'calculatedTotalDue',
-            'remainingBalance',
-          ].map((field) => [
-            field,
-            $scope.cartRegistrations.reduce(
-              (total, { registration }) => total + registration[field],
-              0,
-            ),
-          ]),
-        );
-        $scope.currentRegistration.pastPayments = [];
-        $scope.currentPayment.amount =
-          $scope.currentRegistration.remainingBalance;
 
         // Assume that all registrations in the cart are for the same currency
         $scope.currency =
@@ -123,7 +134,14 @@ angular
             'acceptedPaymentMethods.acceptScholarships',
           ),
         };
+
+        updateTotals();
       }
+
+      $scope.toggleRegistration = function (item) {
+        item.checked = !item.checked;
+        updateTotals();
+      };
 
       $scope.removeFromCart = function (registrationId) {
         modalMessage
@@ -156,18 +174,20 @@ angular
       $scope.submitRegistrations = function () {
         $scope.submittingRegistrations = true;
 
-        const registrations = $scope.cartRegistrations.map((item) => ({
-          ...item,
-          payment: {
-            ...$scope.currentPayment,
-            amount: item.registration.remainingBalance,
-          },
-        }));
+        const registrations = $scope.cartRegistrations
+          .filter((item) => item.checked)
+          .map((item) => ({
+            ...item,
+            payment: {
+              ...$scope.currentPayment,
+              amount: item.registration.remainingBalance,
+            },
+          }));
 
         registration
           .processRegistrations(registrations)
           .then(function () {
-            $scope.cartRegistrations.forEach((item) => {
+            registrations.forEach((item) => {
               cart.removeRegistrationId(item.registration.id);
             });
             $location.path('/');
@@ -176,6 +196,34 @@ angular
             $scope.submittingRegistrations = false;
           });
       };
+
+      function getPaymentMethodKey(paymentType) {
+        const mapping = {
+          CREDIT_CARD: 'acceptCreditCards',
+          CHECK: 'acceptChecks',
+          TRANSFER: 'acceptTransfers',
+          SCHOLARSHIP: 'acceptScholarships',
+          PAY_ON_SITE: 'acceptPayOnSite',
+        };
+        return mapping[paymentType];
+      }
+
+      $scope.$watch(
+        'currentPayment.paymentType',
+        function (newPaymentType, oldPaymentType) {
+          if (!newPaymentType || newPaymentType === oldPaymentType) {
+            return;
+          }
+
+          $scope.cartRegistrations.forEach((item) => {
+            const methodKey = getPaymentMethodKey(newPaymentType);
+            item.disabled = !item.acceptedPaymentMethods[methodKey];
+            item.checked = !item.disabled;
+          });
+
+          updateTotals();
+        },
+      );
 
       loadCartRegistrations();
     },

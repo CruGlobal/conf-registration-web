@@ -4,22 +4,32 @@
       <h1 translate>Loading cart...</h1>
     </div>
     <div class="col-xs-12" ng-if="!loading">
-      <h1 translate>
-        Cart {{ cartRegistrations.length ? '(' + cartRegistrations.length + ')'
-        : '' }}
-      </h1>
+      <h1 translate>Cart</h1>
 
       <div class="cart-content" ng-if="cartRegistrations.length > 0">
         <table class="table table-striped">
           <thead>
             <tr>
+              <th></th>
               <th translate>Event Name</th>
               <th translate>Balance Due</th>
               <th translate>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="item in cartRegistrations">
+            <tr
+              ng-repeat="item in cartRegistrations"
+              ng-class="{'text-muted': item.disabled}"
+            >
+              <td>
+                <input
+                  type="checkbox"
+                  ng-model="item.checked"
+                  ng-disabled="item.disabled"
+                  ng-click="toggleRegistration(item)"
+                  title="{{item.disabled && 'This registration does not support the selected payment method'}}"
+                />
+              </td>
               <td>
                 <a
                   ng-href="/reviewRegistration/{{ item.registration.conferenceId }}"
@@ -45,7 +55,7 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="1" class="text-right">
+              <td colspan="2" class="text-right">
                 <strong translate>Total:</strong>
               </td>
               <td>
@@ -59,29 +69,45 @@
           </tfoot>
         </table>
 
-        <div class="text-right">
-          <button class="btn btn-default" ng-click="addEvent()" translate>
-            Register for Another Event
-          </button>
+        <div class="row">
+          <div class="col-xs-6">
+            <p ng-if="selectedCount !== totalCount">
+              <span class="text-muted" ng-if="selectedCount > 0">
+                Checking out {{ selectedCount }} of {{ totalCount }}
+                registrations
+              </span>
+              <span class="text-danger" ng-if="selectedCount === 0">
+                Please select at least one registration to checkout
+              </span>
+            </p>
+          </div>
+          <div class="col-xs-6 text-right">
+            <button class="btn btn-default" ng-click="addEvent()" translate>
+              Register for Another Event
+            </button>
+          </div>
         </div>
 
-        <h2 class="page-title border" translate>Payment</h2>
-        <div class="payment">
-          <!-- We can omit the conference because checks aren't a valid payment -->
-          <div
-            ert-payment
-            currency="currency"
-            payment="currentPayment"
-            registration="currentRegistration"
-            payment-methods="acceptedPaymentMethods"
-          ></div>
-          <button
-            class="btn btn-lg btn-success"
-            ng-click="submitRegistrations()"
-            translate
-          >
-            Pay for All Registrations
-          </button>
+        <div ng-if="selectedCount > 0">
+          <h2 class="page-title border" translate>Payment</h2>
+          <div class="payment">
+            <!-- We can omit the conference because checks aren't a valid payment -->
+            <div
+              ert-payment
+              currency="currency"
+              payment="currentPayment"
+              registration="currentRegistration"
+              payment-methods="acceptedPaymentMethods"
+            ></div>
+            <button
+              class="btn btn-lg btn-success"
+              ng-click="submitRegistrations()"
+              ng-disabled="submittingRegistrations"
+              translate
+            >
+              Pay for All Registrations
+            </button>
+          </div>
         </div>
       </div>
 
