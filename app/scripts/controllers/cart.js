@@ -111,7 +111,7 @@ angular
             cart.removeRegistrationId(registrationId);
 
             $scope.cartRegistrations = $scope.cartRegistrations.filter(
-              (registration) => registration.id !== registrationId,
+              ({ registration }) => registration.id !== registrationId,
             );
             calculateTotal();
           });
