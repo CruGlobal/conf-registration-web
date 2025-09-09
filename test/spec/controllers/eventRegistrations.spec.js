@@ -643,5 +643,32 @@ describe('Controller: eventRegistrations', function () {
 
       expect(scope.registrants.length).toBe(0);
     });
+
+    it('withdraws couple-spouse pairs together', () => {
+      spyOn(scope, 'showModal').and.returnValue($q.resolve());
+      RegistrationCache.getAllForConference.and.returnValue(
+        $q.resolve({
+          registrations: [testData.coupleRegistration],
+        }),
+      );
+      scope.refreshRegistrations();
+      scope.$digest();
+
+      $httpBackend
+        .expectPUT(
+          'registrants/c0855056-efc8-4ea7-81aa-4b0902376db1',
+          (data) => JSON.parse(data).withdrawn,
+        )
+        .respond(204, '');
+      $httpBackend
+        .expectPUT(
+          'registrants/d9855056-efc8-4ea7-81aa-4b0902376xyz',
+          (data) => JSON.parse(data).withdrawn,
+        )
+        .respond(204, '');
+
+      scope.withdrawRegistrant(scope.registrants[1], true);
+      $httpBackend.flush();
+    });
   });
 });

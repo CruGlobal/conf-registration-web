@@ -75,10 +75,12 @@ angular
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
 
-      // Couple type related functions
+      /* Couple type related functions */
       $scope.findCoupleForSpouse = findCoupleForSpouse;
       $scope.findSpouseForCouple = findSpouseForCouple;
       $scope.deleteSpouseType = deleteSpouseType;
+      // exposed to scope for testing
+      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
       $scope.shouldShowRegistrantType = function (type) {
         return shouldShowRegistrantType(
           type,

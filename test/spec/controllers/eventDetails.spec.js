@@ -405,5 +405,75 @@ describe('Controller: eventDetails', function () {
         'Please enter which Event Type',
       );
     });
+
+    it('should delete spouse type when couple type is deleted', function () {
+      const coupleType = _.find(
+        testData.conference.registrantTypes,
+        (type) => type.defaultTypeKey === 'COUPLE',
+      );
+      const spouseType = _.find(
+        testData.conference.registrantTypes,
+        (type) => type.defaultTypeKey === 'SPOUSE',
+      );
+
+      const initialLength = scope.conference.registrantTypes.length;
+
+      expect(coupleType).toBeDefined();
+      expect(spouseType).toBeDefined();
+
+      scope.deleteRegType(coupleType.id);
+
+      const remainingTypes = scope.conference.registrantTypes;
+
+      expect(
+        remainingTypes.every(
+          (type) =>
+            type.defaultTypeKey !== 'COUPLE' &&
+            type.defaultTypeKey !== 'SPOUSE',
+        ),
+      ).toBeTrue();
+
+      expect(remainingTypes).toHaveSize(initialLength - 2);
+    });
+  });
+
+  it('should give spouse type a description when couple type description is changed', function () {
+    inject(function ($controller, $rootScope) {
+      scope = $rootScope.$new();
+
+      const conference = angular.copy(testData.conference);
+      const coupleType = _.find(
+        conference.registrantTypes,
+        (type) => type.defaultTypeKey === 'COUPLE',
+      );
+      const spouseType = _.find(
+        conference.registrantTypes,
+        (type) => type.defaultTypeKey === 'SPOUSE',
+      );
+
+      coupleType.description = 'Old Description';
+      spouseType.description = 'Old Description';
+
+      $controller('eventDetailsCtrl', {
+        $scope: scope,
+        conference,
+        currencies: testData.currencies,
+        permissions: {},
+      });
+
+      expect(coupleType).toBeDefined();
+      expect(spouseType).toBeDefined();
+
+      const newDescription = 'New Couple Description';
+      coupleType.description = newDescription;
+
+      scope.syncCoupleDescriptions(conference.registrantTypes, [
+        { ...coupleType, description: 'Old Description' },
+        { ...spouseType, description: 'Old Description' },
+      ]);
+
+      expect(coupleType.description).toBe(newDescription);
+      expect(spouseType.description).toBe(newDescription);
+    });
   });
 });
