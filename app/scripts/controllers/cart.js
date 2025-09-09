@@ -36,7 +36,21 @@ angular
           RegistrationCache.get(id)
             .then((registration) => {
               return ConfCache.get(registration.conferenceId).then(
-                (conference) => ({ registration, conference }),
+                (conference) => ({
+                  registration,
+                  conference,
+                  acceptedPaymentMethods: {
+                    ...payment.getAcceptedPaymentMethods(
+                      registration,
+                      conference,
+                    ),
+                    // Users may not pay by check because the check mailing address may be different
+                    // for different conferences
+                    acceptChecks: false,
+                    // Users may not pay on site
+                    acceptPayOnSite: false,
+                  },
+                }),
               );
             })
             // If any registrations or conferences can't be found, ignore them
@@ -47,6 +61,7 @@ angular
             $scope.cartRegistrations = registrations.filter(
               (item) =>
                 item !== null &&
+                _.some(item.acceptedPaymentMethods) &&
                 !item.registration.completed &&
                 item.registration.remainingBalance > 0,
             );
@@ -92,6 +107,22 @@ angular
         // Assume that all registrations in the cart are for the same currency
         $scope.currency =
           $scope.cartRegistrations[0].conference.currency.currencyCode;
+
+        // A payment method is accepted if any registration accepts it
+        $scope.combinedAcceptedPaymentMethods = {
+          acceptCreditCards: _.some(
+            $scope.cartRegistrations,
+            'acceptedPaymentMethods.acceptCreditCards',
+          ),
+          acceptTransfers: _.some(
+            $scope.cartRegistrations,
+            'acceptedPaymentMethods.acceptTransfers',
+          ),
+          acceptScholarships: _.some(
+            $scope.cartRegistrations,
+            'acceptedPaymentMethods.acceptScholarships',
+          ),
+        };
       }
 
       $scope.removeFromCart = function (registrationId) {
@@ -119,20 +150,7 @@ angular
       $scope.currentPayment = {};
 
       $scope.acceptedPaymentMethods = function () {
-        var registeredRegistrantTypes = $scope.registrantTypeIds.map(
-          (registrantTypeId) =>
-            $scope.registrantTypes.find((type) => type.id === registrantTypeId),
-        );
-
-        const paymentMethods = payment.getAcceptedPaymentMethods(
-          registeredRegistrantTypes,
-        );
-        // Users may not pay by check because the check mailing address may be different for
-        // different conferences
-        paymentMethods.acceptChecks = false;
-        // Users may not pay on site
-        paymentMethods.acceptPayOnSite = false;
-        return _.some(paymentMethods) ? paymentMethods : false;
+        return $scope.combinedAcceptedPaymentMethods;
       };
 
       $scope.submitRegistrations = function () {

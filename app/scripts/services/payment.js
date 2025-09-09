@@ -108,8 +108,14 @@ angular
 
         tokenizeCreditCardPayment: tokenizeCreditCardPayment,
 
-        // Determine the accepted payment methods for an array of registrant types
-        getAcceptedPaymentMethods: function (registrantTypes) {
+        // Determine the accepted payment methods for a registration and conference
+        getAcceptedPaymentMethods: function (registration, conference) {
+          const registrantTypes = registration.registrants.map((registrant) =>
+            _.find(conference.registrantTypes, {
+              id: registrant.registrantTypeId,
+            }),
+          );
+
           return {
             acceptCreditCards: _.some(registrantTypes, 'acceptCreditCards'),
             acceptChecks: _.some(registrantTypes, 'acceptChecks'),

@@ -234,14 +234,9 @@ angular.module('confRegistrationWebApp').controller(
     };
 
     $scope.acceptedPaymentMethods = function () {
-      var regTypesInRegistration = _.uniq(
-        _.map(currentRegistration.registrants, 'registrantTypeId'),
-      ).map(function (registrantTypeId) {
-        return $scope.getRegistrantType(registrantTypeId);
-      });
-
       const acceptedPaymentMethods = payment.getAcceptedPaymentMethods(
-        regTypesInRegistration,
+        currentRegistration,
+        $scope.conference,
       );
       if (currentRegistration.completed) {
         // Pay on site is not a valid payment method for payments after completing the registration
