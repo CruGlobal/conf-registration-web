@@ -44,7 +44,10 @@ angular
         $q.all(promises)
           .then((registrations) => {
             $scope.cartRegistrations = registrations.filter(
-              (item) => item !== null && item.registration.remainingBalance > 0,
+              (item) =>
+                item !== null &&
+                !item.registration.completed &&
+                item.registration.remainingBalance > 0,
             );
             $scope.registrantTypes = $scope.cartRegistrations.flatMap(
               ({ conference }) => conference.registrantTypes,
