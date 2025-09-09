@@ -39,6 +39,7 @@ angular
                 (conference) => ({ registration, conference }),
               );
             })
+            // If any registrations or conferences can't be found, ignore them
             .catch(() => null),
         );
         $q.all(promises)
@@ -49,39 +50,7 @@ angular
                 !item.registration.completed &&
                 item.registration.remainingBalance > 0,
             );
-            $scope.registrantTypes = $scope.cartRegistrations.flatMap(
-              ({ conference }) => conference.registrantTypes,
-            );
-            $scope.registrantTypeIds = _.uniq(
-              _.map(
-                $scope.cartRegistrations.flatMap(
-                  ({ registration }) => registration.registrants,
-                ),
-                'registrantTypeId',
-              ),
-            );
-            $scope.currentRegistration = Object.fromEntries(
-              [
-                'calculatedMinimumDeposit',
-                'calculatedTotalDue',
-                'remainingBalance',
-              ].map((field) => [
-                field,
-                $scope.cartRegistrations.reduce(
-                  (total, { registration }) => total + registration[field],
-                  0,
-                ),
-              ]),
-            );
-            $scope.currentRegistration.pastPayments = [];
-            $scope.currentPayment.amount =
-              $scope.currentRegistration.remainingBalance;
-
-            // Assume that all registrations in the cart are for the same currency
-            $scope.currency =
-              $scope.cartRegistrations[0].conference.currency.currencyCode;
-
-            calculateTotal();
+            updateCart();
           })
           .catch(() => {
             modalMessage.error('Error loading registrations');
@@ -91,11 +60,38 @@ angular
           });
       }
 
-      function calculateTotal() {
-        $scope.remainingBalanceTotal = $scope.cartRegistrations.reduce(
-          (total, { registration }) => total + registration.remainingBalance,
-          0,
+      function updateCart() {
+        $scope.registrantTypes = $scope.cartRegistrations.flatMap(
+          ({ conference }) => conference.registrantTypes,
         );
+        $scope.registrantTypeIds = _.uniq(
+          _.map(
+            $scope.cartRegistrations.flatMap(
+              ({ registration }) => registration.registrants,
+            ),
+            'registrantTypeId',
+          ),
+        );
+        $scope.currentRegistration = Object.fromEntries(
+          [
+            'calculatedMinimumDeposit',
+            'calculatedTotalDue',
+            'remainingBalance',
+          ].map((field) => [
+            field,
+            $scope.cartRegistrations.reduce(
+              (total, { registration }) => total + registration[field],
+              0,
+            ),
+          ]),
+        );
+        $scope.currentRegistration.pastPayments = [];
+        $scope.currentPayment.amount =
+          $scope.currentRegistration.remainingBalance;
+
+        // Assume that all registrations in the cart are for the same currency
+        $scope.currency =
+          $scope.cartRegistrations[0].conference.currency.currencyCode;
       }
 
       $scope.removeFromCart = function (registrationId) {
@@ -109,11 +105,10 @@ angular
           })
           .then(() => {
             cart.removeRegistrationId(registrationId);
-
             $scope.cartRegistrations = $scope.cartRegistrations.filter(
               ({ registration }) => registration.id !== registrationId,
             );
-            calculateTotal();
+            updateCart();
           });
       };
 
