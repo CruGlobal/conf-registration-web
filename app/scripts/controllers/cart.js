@@ -74,15 +74,9 @@ angular
             $scope.currentPayment.amount =
               $scope.currentRegistration.remainingBalance;
 
-            const currencies = _.uniq(
-              $scope.cartRegistrations.map(
-                ({ conference }) => conference.currency.currencyCode,
-              ),
-            );
-            if (currencies.length > 2) {
-              throw new Error('Multiple conference currencies detected');
-            }
-            $scope.currency = currencies[0];
+            // Assume that all registrations in the cart are for the same currency
+            $scope.currency =
+              $scope.cartRegistrations[0].conference.currency.currencyCode;
 
             calculateTotal();
           })
