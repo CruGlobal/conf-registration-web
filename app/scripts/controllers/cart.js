@@ -118,9 +118,7 @@ angular
         $location.path('/');
       };
 
-      $scope.currentPayment = {
-        paymentType: 'CREDIT_CARD',
-      };
+      $scope.currentPayment = {};
 
       $scope.acceptedPaymentMethods = function () {
         var registeredRegistrantTypes = $scope.registrantTypeIds.map(

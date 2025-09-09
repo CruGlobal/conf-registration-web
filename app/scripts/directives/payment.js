@@ -353,6 +353,25 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
             ? ['INTLM', 'GENL']
             : ['', ''];
       };
+
+      $scope.initializePaymentType = () => {
+        if (!$scope.currentPayment.paymentType) {
+          const paymentMethods = $scope.paymentMethods();
+          if (paymentMethods.acceptCreditCards) {
+            $scope.currentPayment.paymentType = 'CREDIT_CARD';
+          } else if (paymentMethods.acceptChecks) {
+            $scope.currentPayment.paymentType = 'CHECK';
+          } else if (paymentMethods.acceptTransfers) {
+            $scope.currentPayment.paymentType = 'TRANSFER';
+          } else if (paymentMethods.acceptScholarships) {
+            $scope.currentPayment.paymentType = 'SCHOLARSHIP';
+          } else if (paymentMethods.acceptPayOnSite) {
+            $scope.currentPayment.paymentType = 'PAY_ON_SITE';
+          }
+        }
+      };
+
+      $scope.initializePaymentType();
     },
   };
 });

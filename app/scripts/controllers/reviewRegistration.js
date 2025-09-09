@@ -62,25 +62,9 @@ angular.module('confRegistrationWebApp').controller(
           .allowGroupRegistrations,
     );
 
-    // TODO: $scope.currentPayment is always undefined and conference.accept* is also undefined
-    // We need to need to use $scope.acceptedPaymentMethods() to calculate the initial payment type
-    if (angular.isUndefined($scope.currentPayment)) {
-      var paymentType;
-      if (conference.acceptCreditCards) {
-        paymentType = 'CREDIT_CARD';
-      } else if (conference.acceptChecks) {
-        paymentType = 'CHECK';
-      } else if (conference.acceptTransfers) {
-        paymentType = 'TRANSFER';
-      } else if (conference.acceptScholarships) {
-        paymentType = 'SCHOLARSHIP';
-      }
-
-      $scope.currentPayment = {
-        amount: currentRegistration.remainingBalance,
-        paymentType: paymentType,
-      };
-    }
+    $scope.currentPayment = {
+      amount: currentRegistration.remainingBalance,
+    };
 
     angular.forEach(
       _.flatten(_.map(conference.registrationPages, 'blocks')),

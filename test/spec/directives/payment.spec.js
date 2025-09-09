@@ -106,4 +106,36 @@ describe('Directive: ertPayment', function () {
       'Please fill in Operating Unit and Account Number fields.',
     );
   });
+
+  describe('initializePaymentType', () => {
+    it('should initialize payment type to CREDIT_CARD when accepted', () => {
+      scope.currentPayment = {};
+      scope.paymentMethods = () => ({ acceptCreditCards: true });
+
+      scope.initializePaymentType();
+
+      expect(scope.currentPayment.paymentType).toBe('CREDIT_CARD');
+    });
+
+    it('should initialize payment type to CHECK when credit cards not accepted', () => {
+      scope.currentPayment = {};
+      scope.paymentMethods = () => ({
+        acceptCreditCards: false,
+        acceptChecks: true,
+      });
+
+      scope.initializePaymentType();
+
+      expect(scope.currentPayment.paymentType).toBe('CHECK');
+    });
+
+    it('should not override existing payment type', () => {
+      scope.currentPayment = { paymentType: 'CHECK' };
+      scope.paymentMethods = () => ({ acceptCreditCards: true });
+
+      scope.initializePaymentType();
+
+      expect(scope.currentPayment.paymentType).toBe('CHECK');
+    });
+  });
 });
