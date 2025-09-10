@@ -3,7 +3,7 @@ import angular from 'angular';
 export class CartService {
   private static STORAGE_KEY = 'cartRegistrationIds';
 
-  constructor(private $window: Window) {}
+  constructor(private $window: Window, private $rootScope: any) {}
 
   private getIds(): string[] {
     const ids = this.$window.localStorage.getItem(CartService.STORAGE_KEY);
@@ -15,6 +15,7 @@ export class CartService {
 
   private setIds(ids: string[]): void {
     this.$window.localStorage.setItem(CartService.STORAGE_KEY, ids.join(','));
+    this.$rootScope.$broadcast('cartUpdated');
   }
 
   getRegistrationIds(): string[] {

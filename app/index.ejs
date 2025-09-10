@@ -176,6 +176,17 @@
               </a>
             </div>
             <div class="col-sm-4 text-right" ng-if="globalUser()">
+              <span ng-controller="cartIconCtrl">
+                <a
+                  href="/cart"
+                  class="cart-icon"
+                  ng-if="cartItemCount > 0"
+                  aria-label="View cart with {{ cartItemCount }} items"
+                >
+                  <i class="fa fa-shopping-cart"></i>
+                  <span class="cart-count">{{ cartItemCount }}</span>
+                </a>
+              </span>
               <div class="btn-group usr-greeting spacing-below-xs" uib-dropdown>
                 <button type="button" class="btn btn-default name-btn">
                   Hello <strong ng-bind="globalGreetingName()"></strong>
