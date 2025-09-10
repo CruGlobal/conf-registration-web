@@ -25,14 +25,9 @@ angular
       $scope.submittingRegistrations = false;
 
       function loadCartRegistrations() {
-        const registrationIds = cart.getRegistrationIds();
-        if (!registrationIds.length) {
-          return;
-        }
-
         $scope.loading = true;
 
-        const promises = registrationIds.map((id) =>
+        const promises = cart.getRegistrationIds().map((id) =>
           RegistrationCache.get(id)
             .then((registration) => {
               return ConfCache.get(registration.conferenceId).then(
@@ -102,7 +97,6 @@ angular
       }
 
       function updateCart() {
-        $scope.totalCount = $scope.cartRegistrations.length;
         $scope.registrantTypes = $scope.cartRegistrations.flatMap(
           ({ conference }) => conference.registrantTypes,
         );
@@ -176,11 +170,12 @@ angular
 
         const registrations = $scope.cartRegistrations
           .filter((item) => item.checked)
-          .map((item) => ({
-            ...item,
+          .map(({ registration, conference }) => ({
+            registration,
+            conference,
             payment: {
               ...$scope.currentPayment,
-              amount: item.registration.remainingBalance,
+              amount: registration.remainingBalance,
             },
           }));
 
