@@ -64,9 +64,6 @@ angular
             );
             updateCart();
           })
-          .catch(() => {
-            modalMessage.error('Error loading registrations');
-          })
           .finally(() => {
             $scope.loading = false;
           });
@@ -109,9 +106,10 @@ angular
           ),
         );
 
-        // Assume that all registrations in the cart are for the same currency
-        $scope.currency =
-          $scope.cartRegistrations[0].conference.currency.currencyCode;
+        // Assume that all registrations in the cart have the same currency
+        $scope.currency = $scope.cartRegistrations[0]
+          ? $scope.cartRegistrations[0].conference.currency.currencyCode
+          : null;
 
         // A payment method is accepted if any registration accepts it
         $scope.combinedAcceptedPaymentMethods = {
