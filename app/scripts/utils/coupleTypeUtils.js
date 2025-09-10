@@ -131,9 +131,7 @@ export function findCoupleRegistrants(registrant, registration) {
   return coupleRegistrants;
 }
 
-export function isRegistrantCouple(registrantType) {
-  return (
-    registrantType.defaultTypeKey === 'COUPLE' ||
-    registrantType.defaultTypeKey === 'SPOUSE'
-  );
+export function isRegistrantCouple(registrant, registration) {
+  const coupleRegistrants = findCoupleRegistrants(registrant, registration);
+  return coupleRegistrants.length > 1;
 }
