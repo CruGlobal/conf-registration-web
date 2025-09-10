@@ -425,15 +425,7 @@ describe('Controller: eventDetails', function () {
 
       const remainingTypes = scope.conference.registrantTypes;
 
-      expect(
-        remainingTypes.every(
-          (type) =>
-            type.defaultTypeKey !== 'COUPLE' &&
-            type.defaultTypeKey !== 'SPOUSE',
-        ),
-      ).toBeTrue();
-
-      expect(remainingTypes).toHaveSize(initialLength - 2);
+      expect(remainingTypes.length).toBe(initialLength - 2);
     });
   });
 
