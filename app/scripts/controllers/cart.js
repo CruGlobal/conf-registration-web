@@ -191,6 +191,10 @@ angular
             );
             updateCart();
           })
+          .catch(() => {
+            // Reload the registrations in case some of them errored and some completed successfully
+            loadCartRegistrations();
+          })
           .finally(() => {
             $scope.submittingRegistrations = false;
           });
