@@ -182,10 +182,16 @@ angular
         registration
           .processRegistrations(registrations)
           .then(function () {
-            registrations.forEach((item) => {
-              cart.removeRegistrationId(item.registration.id);
+            const registrationIds = registrations.map(
+              (item) => item.registration.id,
+            );
+            registrationIds.forEach((id) => {
+              cart.removeRegistrationId(id);
             });
-            $location.path('/');
+            $scope.cartRegistrations = $scope.cartRegistrations.filter(
+              (item) => !registrationIds.includes(item.registration.id),
+            );
+            updateCart();
           })
           .finally(() => {
             $scope.submittingRegistrations = false;

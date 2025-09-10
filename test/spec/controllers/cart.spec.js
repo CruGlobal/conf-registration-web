@@ -355,7 +355,16 @@ describe('Controller: cartCtrl', () => {
         },
       ]);
 
+      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
+        mockRegistration.id,
+      );
+
+      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
+        mockRegistration2.id,
+      );
+
       expect(scope.submittingRegistrations).toBe(false);
+      expect(scope.cartRegistrations).toEqual([]);
     });
 
     it('should process only checked registrations', () => {
@@ -377,23 +386,14 @@ describe('Controller: cartCtrl', () => {
       ]);
 
       expect(scope.submittingRegistrations).toBe(false);
-    });
-
-    it('should remove processed registrations', () => {
-      registration.processRegistrations.and.returnValue($q.resolve());
-
-      scope.submitRegistrations();
-      scope.$digest();
-
-      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
-        mockRegistration.id,
-      );
 
       expect(cart.removeRegistrationId).toHaveBeenCalledWith(
         mockRegistration2.id,
       );
 
-      expect($location.path).toHaveBeenCalledWith('/');
+      expect(
+        scope.cartRegistrations.map((item) => item.registration.id),
+      ).toEqual([mockRegistration.id]);
     });
 
     it('should clear submitting flag on error', () => {
