@@ -84,13 +84,14 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
         return false;
       }
 
-      const allowedDependentsAmount = _.find(
+      const dependent = _.find(
         primaryRegistrantType.allowedRegistrantTypeSet,
         (set) => set.childRegistrantTypeId === type.id,
-      ).numberOfChildRegistrants;
+      );
 
+      const maxAllowedDependents = dependent.numberOfChildRegistrants;
       // numberOfChildRegistrants === 0 means no limit
-      if (allowedDependentsAmount === 0) {
+      if (!maxAllowedDependents) {
         return false;
       }
 
@@ -103,7 +104,7 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
       }).length;
 
       // Return true if the group has reached the allowed limit for this dependent type
-      return currentCount >= allowedDependentsAmount;
+      return currentCount >= maxAllowedDependents;
     };
   },
 });
