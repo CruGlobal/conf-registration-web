@@ -699,12 +699,12 @@ angular
               );
             }
 
-            const reg = $scope.getRegistration(registrant.registrationId);
             let url;
-            if (reg.registrants.length === 1 || isCouple) {
-              url = 'registrations/' + registration.id;
-            } else {
+
+            if (registration.registrants.length > 1 && !isCouple) {
               url = 'registrants/' + registrant.id;
+            } else {
+              url = 'registrations/' + registration.id;
             }
             $http.delete(url).then(function () {
               $scope.refreshRegistrations();
