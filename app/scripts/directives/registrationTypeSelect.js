@@ -6,7 +6,7 @@ angular
     return {
       templateUrl: template,
       restrict: 'E',
-      link: function (scope, element, attrs) {
+      link: function (scope, _element, attrs) {
         scope.shouldFilterSpouses = attrs.shouldFilter !== 'false';
       },
       controller: function (
