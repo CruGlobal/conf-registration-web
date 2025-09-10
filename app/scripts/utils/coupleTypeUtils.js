@@ -98,11 +98,14 @@ export function shouldShowRegistrantType(type, registrantTypes) {
     return true;
   }
 
-  const isThisSpouseAssociatedWithCouple = !!findCoupleForSpouse(
-    type.id,
-    registrantTypes,
-  );
-  return !isThisSpouseAssociatedWithCouple;
+  const associatedCoupleFound = findCoupleForSpouse(type.id, registrantTypes);
+
+  // If no associated couple type is found, hide this spouse type
+  if (associatedCoupleFound) {
+    return false;
+  }
+  // Show spouse type if no associated couple type is found
+  return true;
 }
 
 /* --- eventRegistrations.js helpers --- */
