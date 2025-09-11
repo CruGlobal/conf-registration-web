@@ -5,7 +5,7 @@ export function deleteSpouseType(spouseId, registrantTypes) {
     id: spouseId,
   });
 
-  _.forEach(registrantTypes, (type) => {
+  registrantTypes.forEach((type) => {
     _.remove(type.allowedRegistrantTypeSet, {
       childRegistrantTypeId: spouseId,
     });
@@ -17,21 +17,18 @@ export function deleteSpouseType(spouseId, registrantTypes) {
  * Returns the couple registrant type object, or null if not found.
  */
 export function findCoupleForSpouse(spouseId, registrantTypes) {
-  const couple = _.find(registrantTypes, (regType) => {
+  const couple = registrantTypes.find((regType) => {
     if (
       regType.defaultTypeKey !== 'COUPLE' ||
-      !regType.allowedRegistrantTypeSet
+      !angular.isArray(regType.allowedRegistrantTypeSet)
     ) {
       return false;
     }
-
-    const isCouple = _.some(regType.allowedRegistrantTypeSet, (association) => {
-      return (
+    return regType.allowedRegistrantTypeSet.some(
+      (association) =>
         association.childRegistrantTypeId === spouseId &&
-        association.selected === true
-      );
-    });
-    return isCouple;
+        association.selected === true,
+    );
   });
   return couple || null;
 }
@@ -41,28 +38,51 @@ export function findCoupleForSpouse(spouseId, registrantTypes) {
  * Returns the spouse registrant type object, or null if not found.
  */
 export function findSpouseForCouple(coupleId, registrantTypes) {
-  const coupleType = _.find(registrantTypes, {
-    id: coupleId,
-    defaultTypeKey: 'COUPLE',
-  });
+  const coupleType = registrantTypes.find(
+    (type) => type.id === coupleId && type.defaultTypeKey === 'COUPLE',
+  );
 
-  if (!coupleType || !coupleType.allowedRegistrantTypeSet) {
+  if (!coupleType || !angular.isArray(coupleType.allowedRegistrantTypeSet)) {
     return null;
   }
 
-  const association = _.find(coupleType.allowedRegistrantTypeSet, {
-    selected: true,
-  });
+  const association = coupleType.allowedRegistrantTypeSet.find(
+    (assoc) => assoc.selected === true,
+  );
 
   if (!association) {
     return null;
   }
 
-  const spouse = _.find(registrantTypes, {
-    id: association.childRegistrantTypeId,
-  });
+  const spouse = registrantTypes.find(
+    (type) => type.id === association.childRegistrantTypeId,
+  );
 
   return spouse || null;
+}
+
+/**
+ * These two functions check the property defaultTypeKey on a registrant type
+ */
+export function isCoupleType(type) {
+  return type.defaultTypeKey === 'COUPLE';
+}
+export function isSpouseType(type) {
+  return type.defaultTypeKey === 'SPOUSE';
+}
+
+/**
+ * Returns true if the given typeId corresponds to either a couple or spouse type.
+ * Unlike isCoupleType or isSpouseType, this function checks Primary-Dependent association.
+ */
+export function isCoupleOrSpouseType(typeId, registrantTypes) {
+  if (findSpouseForCouple(typeId, registrantTypes)) {
+    return true;
+  }
+  if (findCoupleForSpouse(typeId, registrantTypes)) {
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -71,13 +91,13 @@ export function findSpouseForCouple(coupleId, registrantTypes) {
  */
 export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
   const oldCoupleDescMap = {};
-  _.forEach(oldRegistrantTypes, (type) => {
+  oldRegistrantTypes.forEach((type) => {
     if (type.defaultTypeKey === 'COUPLE') {
       oldCoupleDescMap[type.id] = type.description;
     }
   });
 
-  _.forEach(registrantTypes, (type) => {
+  registrantTypes.forEach((type) => {
     if (type.defaultTypeKey !== 'COUPLE') {
       return;
     }
@@ -90,7 +110,7 @@ export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
   });
 }
 
-/*
+/**
  * Specifically for hiding spouse types in the UI when they are not associated with any couple type.
  */
 export function shouldShowRegistrantType(type, registrantTypes) {
@@ -98,16 +118,20 @@ export function shouldShowRegistrantType(type, registrantTypes) {
     return true;
   }
 
-  const isThisSpouseAssociatedWithCouple = !!findCoupleForSpouse(
-    type.id,
-    registrantTypes,
-  );
-  return !isThisSpouseAssociatedWithCouple;
+  const associatedCoupleFound = findCoupleForSpouse(type.id, registrantTypes);
+
+  // If no associated couple type is found, hide this spouse type
+  if (associatedCoupleFound) {
+    return false;
+  }
+  // Show spouse type if no associated couple type is found
+  return true;
 }
 
 /* --- eventRegistrations.js helpers --- */
 
-/* Helper function to find Couple-Spouse pair to delete using registration.groups
+/**
+ * Helper function to find Couple-Spouse pair to delete using registration.groups
  * At this point, we know that registrant is either a couple or spouse type
  */
 export function findCoupleRegistrants(registrant, registration) {
@@ -128,9 +152,10 @@ export function findCoupleRegistrants(registrant, registration) {
   return coupleRegistrants;
 }
 
-export function isRegistrantCouple(registrantType) {
-  return (
-    registrantType.defaultTypeKey === 'COUPLE' ||
-    registrantType.defaultTypeKey === 'SPOUSE'
-  );
+/**
+ * Returns true if the given registrant is part of a couple (either couple or spouse type)
+ */
+export function isRegistrantCouple(registrant, registration) {
+  const coupleRegistrants = findCoupleRegistrants(registrant, registration);
+  return coupleRegistrants.length > 1;
 }

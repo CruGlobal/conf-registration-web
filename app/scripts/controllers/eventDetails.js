@@ -15,6 +15,9 @@ import {
   deleteSpouseType,
   syncCoupleDescriptions,
   shouldShowRegistrantType,
+  isCoupleOrSpouseType,
+  isCoupleType,
+  isSpouseType,
 } from '../utils/coupleTypeUtils';
 
 angular
@@ -75,10 +78,15 @@ angular
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
 
-      // Couple type related functions
+      /* Couple type related functions */
       $scope.findCoupleForSpouse = findCoupleForSpouse;
       $scope.findSpouseForCouple = findSpouseForCouple;
       $scope.deleteSpouseType = deleteSpouseType;
+      $scope.isCoupleOrSpouseType = isCoupleOrSpouseType;
+      $scope.isCoupleType = isCoupleType;
+      $scope.isSpouseType = isSpouseType;
+      // exposed to scope for testing
+      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
       $scope.shouldShowRegistrantType = function (type) {
         return shouldShowRegistrantType(
           type,
@@ -683,7 +691,7 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['COUPLE', 'SPOUSE', 'CHILD'],
+          groupSubRegistrantType: ['CHILD'],
         };
         const isDefaultType = _.includes(fields[field], defaultTypeKey);
         return isDefaultType;
@@ -1004,8 +1012,7 @@ angular
 
         if (
           childTypeKey === 'SPOUSE' &&
-          findCoupleForSpouse(child.id, $scope.conference.registrantTypes) !==
-            null
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes)
         ) {
           return false;
         }
@@ -1014,7 +1021,7 @@ angular
         }
 
         // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
-        if (parentTypeKey === '' || parentTypeKey === null) {
+        if (!parentTypeKey) {
           // Also hide if the names are the same (prevent self-association)
           return childType.name !== type.name;
         }
@@ -1026,11 +1033,6 @@ angular
 
         // Never show couple as a child type
         if (childTypeKey === 'COUPLE') {
-          return false;
-        }
-
-        // Only allow spouse as a child of couple
-        if (childTypeKey === 'SPOUSE' && parentTypeKey !== 'COUPLE') {
           return false;
         }
 

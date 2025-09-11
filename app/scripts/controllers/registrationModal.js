@@ -141,16 +141,13 @@ angular
             defaultTypeKey: 'COUPLE',
           });
 
-          if (coupleTypes.length === 0) {
+          if (!coupleTypes.length) {
             return true;
           }
 
           // Check if this spouse is associated with any couple
           const spouseIsAssociated = coupleTypes.some((coupleType) => {
-            if (
-              !coupleType.allowedRegistrantTypeSet ||
-              coupleType.allowedRegistrantTypeSet.length === 0
-            ) {
+            if (!coupleType.allowedRegistrantTypeSet) {
               return false;
             }
 
@@ -159,6 +156,7 @@ angular
                 const isMatch = association.childRegistrantTypeId === type.id;
 
                 const hasChildRegistrants =
+                  association.numberOfChildRegistrants &&
                   association.numberOfChildRegistrants > 0;
 
                 return isMatch && hasChildRegistrants;

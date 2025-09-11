@@ -6,9 +6,6 @@ angular
     return {
       templateUrl: template,
       restrict: 'E',
-      link: function (scope, element, attrs) {
-        scope.shouldFilterSpouses = attrs.shouldFilter !== 'false';
-      },
       controller: function (
         $scope,
         $rootScope,
@@ -18,9 +15,6 @@ angular
         uuid,
         modalMessage,
       ) {
-        if ($scope.shouldFilter === undefined) {
-          $scope.shouldFilter = true;
-        }
         $scope.visibleRegistrantTypes = angular.copy(
           $scope.conference.registrantTypes,
         );

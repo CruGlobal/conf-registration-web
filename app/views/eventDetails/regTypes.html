@@ -78,6 +78,26 @@
           <div class="row">
             <div class="col-md-6">
               <h4 translate>Registration Form</h4>
+              <div
+                class="alert alert-info"
+                ng-if="isCoupleOrSpouseType(type.id, conference.registrantTypes)"
+              >
+                <em class="fa fa-info-circle"
+                  >&nbsp;Adding a Couple type automatically creates an
+                  associated Spouse dependent type when saving. Only one Spouse
+                  registrant can be registered per Couple registrant.</em
+                >
+              </div>
+              <div
+                class="alert alert-info"
+                ng-if="!isCoupleOrSpouseType(type.id, conference.registrantTypes) && isSpouseType(type)"
+              >
+                <em class="fa fa-info-circle"
+                  >&nbsp;This is the default Spouse type, which is not related
+                  to the Couple type. If you want to easily manage Couple (two
+                  people) registrations, use the Couple type instead.</em
+                >
+              </div>
               <div class="input-group">
                 <label translate>Description</label>
                 <textarea
@@ -111,128 +131,132 @@
                 >
                 </i>
               </div>
-              <div class="checkbox">
-                <label>
-                  <input
-                    type="checkbox"
-                    ng-model="type.useLimit"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                  />
-                  <translate>Limit the number of registrants</translate>
-                </label>
-                <input
-                  type="number"
-                  class="form-control"
-                  ng-show="type.useLimit"
-                  ng-model="type.numberSlotsLimit"
-                  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                />
-              </div>
-              <h4 translate>Group Registration</h4>
-              <div class="radio">
-                <label>
-                  <input
-                    type="radio"
-                    ng-model="type.familyStatus"
-                    value="DISABLED"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                  />
-                  <translate>No</translate>
-                </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
-                >
-                </i>
-              </div>
-              <div class="radio">
-                <label>
-                  <input
-                    type="radio"
-                    ng-model="type.familyStatus"
-                    value="ENABLED"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
-                  />
-                  <translate>Yes - Primary</translate>
-                </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a volunteer, child, student) to the registration.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
-                >
-                </i>
-              </div>
-              <div class="radio">
-                <label>
-                  <input
-                    type="radio"
-                    ng-model="type.familyStatus"
-                    value="FAMILY_ONLY"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
-                  />
-                  <translate>Yes - Dependent</translate>
-                </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
-                >
-                </i>
-              </div>
               <div
-                ng-if="type.familyStatus == 'ENABLED' && type.defaultTypeKey !== 'COUPLE'"
-                class="bt12"
+                ng-if="!isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
-                <label translate class="pt12"
-                  >Associated Registrant Types</label
-                >
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
-                >
-                </i>
-
+                <div class="checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      ng-model="type.useLimit"
+                      ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                    />
+                    <translate>Limit the number of registrants</translate>
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    ng-show="type.useLimit"
+                    ng-model="type.numberSlotsLimit"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
+                </div>
+                <h4 translate>Group Registration</h4>
+                <div class="radio">
+                  <label>
+                    <input
+                      type="radio"
+                      ng-model="type.familyStatus"
+                      value="DISABLED"
+                      ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                    />
+                    <translate>No</translate>
+                  </label>
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input
+                      type="radio"
+                      ng-model="type.familyStatus"
+                      value="ENABLED"
+                      ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                    />
+                    <translate>Yes - Primary</translate>
+                  </label>
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a volunteer, child, student) to the registration.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input
+                      type="radio"
+                      ng-model="type.familyStatus"
+                      value="FAMILY_ONLY"
+                      ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                    />
+                    <translate>Yes - Dependent</translate>
+                  </label>
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+                </div>
                 <div
-                  class="checkbox"
-                  ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
-                  ng-if="shouldShowChildType(childType, type)"
+                  ng-if="type.familyStatus == 'ENABLED' && !isCoupleType(type)"
+                  class="bt12"
                 >
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label class="control-label text-left">
-                        <input
-                          type="checkbox"
-                          ng-model="type.allowedRegistrantTypeSet[$index].selected"
-                          ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
-                        />
-                        {{childType.name}}
-                      </label>
-                    </div>
-                    <div
-                      class="col-md-6 row pull-right"
-                      ng-if="type.allowedRegistrantTypeSet[$index].selected"
-                    >
-                      <label class="col-md-4 control-label"> Limit:</label>
-                      <div class="col-md-8">
-                        <select
-                          ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants"
-                          class="form-control"
-                          ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
-                        >
-                          <option ng-value="0">Unlimited</option>
-                          <option
-                            ng-repeat="x in [].constructor(20) track by $index"
-                            ng-value="$index+1"
+                  <label translate class="pt12"
+                    >Associated Registrant Types</label
+                  >
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+
+                  <div
+                    class="checkbox"
+                    ng-repeat="childType in type.allowedRegistrantTypeSet track by $index"
+                    ng-if="shouldShowChildType(childType, type)"
+                  >
+                    <div class="row">
+                      <div class="col-md-6">
+                        <label class="control-label text-left">
+                          <input
+                            type="checkbox"
+                            ng-model="type.allowedRegistrantTypeSet[$index].selected"
+                            ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                          />
+                          {{childType.name}}
+                        </label>
+                      </div>
+                      <div
+                        class="col-md-6 row pull-right"
+                        ng-if="type.allowedRegistrantTypeSet[$index].selected"
+                      >
+                        <label class="col-md-4 control-label"> Limit:</label>
+                        <div class="col-md-8">
+                          <select
+                            ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants"
+                            class="form-control"
+                            ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
                           >
-                            {{$index+1}}
-                          </option>
-                        </select>
+                            <option ng-value="0">Unlimited</option>
+                            <option
+                              ng-repeat="x in [].constructor(20) track by $index"
+                              ng-value="$index+1"
+                            >
+                              {{$index+1}}
+                            </option>
+                          </select>
+                        </div>
                       </div>
                     </div>
                   </div>
