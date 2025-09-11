@@ -1,9 +1,5 @@
 import * as coupleTypeUtils from '../../../app/scripts/utils/coupleTypeUtils';
-import _ from 'lodash';
 import 'angular-mocks';
-
-// Make lodash globally available for the coupleTypeUtils module
-global._ = _;
 
 describe('coupleTypeUtils', () => {
   let testData;
@@ -50,6 +46,7 @@ describe('coupleTypeUtils', () => {
         'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeTruthy();
       expect(result.id).toBe('b2c3d4e5-f6a7-8901-bcde-234567890abc');
     });
@@ -59,6 +56,7 @@ describe('coupleTypeUtils', () => {
         'nonexistent',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeNull();
     });
 
@@ -72,6 +70,7 @@ describe('coupleTypeUtils', () => {
         'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeNull();
     });
   });
@@ -79,11 +78,12 @@ describe('coupleTypeUtils', () => {
   describe('findSpouseForCouple', () => {
     it('should find spouse type for given couple', () => {
       const result = coupleTypeUtils.findSpouseForCouple(
-        'b2c3d4e5-f6a7-8901-bcde-234567890abc', // Couple ID from testData
+        'b2c3d4e5-f6a7-8901-bcde-234567890abc',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeTruthy();
-      expect(result.id).toBe('a1b2c3d4-e5f6-7890-abcd-1234567890ef'); // Spouse ID from testData
+      expect(result.id).toBe('a1b2c3d4-e5f6-7890-abcd-1234567890ef');
     });
 
     it('should return null if couple not found', () => {
@@ -91,6 +91,7 @@ describe('coupleTypeUtils', () => {
         'nonexistent',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeNull();
     });
 
@@ -104,6 +105,7 @@ describe('coupleTypeUtils', () => {
         'b2c3d4e5-f6a7-8901-bcde-234567890abc',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeNull();
     });
 
@@ -117,6 +119,7 @@ describe('coupleTypeUtils', () => {
         'b2c3d4e5-f6a7-8901-bcde-234567890abc',
         testData.conference.registrantTypes,
       );
+
       expect(result).toBeNull();
     });
   });
@@ -147,6 +150,7 @@ describe('coupleTypeUtils', () => {
           t.defaultTypeKey === 'SPOUSE' &&
           t.id === 'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
       );
+
       expect(spouse.description).toBe('New Description');
     });
 
