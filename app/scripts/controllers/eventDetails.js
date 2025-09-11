@@ -15,6 +15,9 @@ import {
   deleteSpouseType,
   syncCoupleDescriptions,
   shouldShowRegistrantType,
+  isCoupleOrSpouseType,
+  isCoupleType,
+  isSpouseType,
 } from '../utils/coupleTypeUtils';
 
 angular
@@ -79,6 +82,9 @@ angular
       $scope.findCoupleForSpouse = findCoupleForSpouse;
       $scope.findSpouseForCouple = findSpouseForCouple;
       $scope.deleteSpouseType = deleteSpouseType;
+      $scope.isCoupleOrSpouseType = isCoupleOrSpouseType;
+      $scope.isCoupleType = isCoupleType;
+      $scope.isSpouseType = isSpouseType;
       // exposed to scope for testing
       $scope.syncCoupleDescriptions = syncCoupleDescriptions;
       $scope.shouldShowRegistrantType = function (type) {
@@ -685,7 +691,7 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['COUPLE', 'SPOUSE', 'CHILD'],
+          groupSubRegistrantType: ['CHILD'],
         };
         const isDefaultType = _.includes(fields[field], defaultTypeKey);
         return isDefaultType;

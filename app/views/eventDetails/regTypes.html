@@ -78,6 +78,25 @@
           <div class="row">
             <div class="col-md-6">
               <h4 translate>Registration Form</h4>
+              <div
+                class="alert alert-info"
+                ng-if="isTypeCouple(type.id, conference.registrantTypes)"
+              >
+                <em class="fa fa-info-circle"
+                  >&nbsp;Adding a Couple type automatically creates an associated Spouse dependent type when saving.
+                  Only one Spouse registrant can be registered per Couple
+                  registrant.</em
+                >
+              </div>
+              <div
+                class="alert alert-info"
+                ng-if="!isTypeCouple(type.id, conference.registrantTypes) && isSpouseType(type)"
+              >
+                <em class="fa fa-info-circle"
+                  >&nbsp;This is the default Spouse type, which is not related to the Couple type.
+                  If you want to easily manage Couple (two people) registrations, use the Couple type instead.</em
+                >
+              </div>
               <div class="input-group">
                 <label translate>Description</label>
                 <textarea
