@@ -459,10 +459,22 @@ describe('Controller: eventDetails', function () {
       const newDescription = 'New Couple Description';
       coupleType.description = newDescription;
 
-      scope.syncCoupleDescriptions(conference.registrantTypes, [
-        { ...coupleType, description: 'Old Description' },
-        { ...spouseType, description: 'Old Description' },
-      ]);
+      const oldRegistrantTypes = angular.copy(conference.registrantTypes);
+      const coupleTypeOld = _.find(
+        oldRegistrantTypes,
+        (type) => type.defaultTypeKey === 'COUPLE',
+      );
+      const spouseTypeOld = _.find(
+        oldRegistrantTypes,
+        (type) => type.defaultTypeKey === 'SPOUSE',
+      );
+      coupleTypeOld.description = 'Old Description';
+      spouseTypeOld.description = 'Old Description';
+
+      scope.syncCoupleDescriptions(
+        conference.registrantTypes,
+        oldRegistrantTypes,
+      );
 
       expect(coupleType.description).toBe(newDescription);
       expect(spouseType.description).toBe(newDescription);
