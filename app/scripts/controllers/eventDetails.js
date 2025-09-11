@@ -1036,11 +1036,6 @@ angular
           return false;
         }
 
-        // Only allow spouse as a child of couple
-        if (childTypeKey === 'SPOUSE' && parentTypeKey !== 'COUPLE') {
-          return false;
-        }
-
         return true;
       };
 
