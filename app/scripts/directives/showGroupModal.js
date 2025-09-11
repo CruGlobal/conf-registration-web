@@ -1,4 +1,3 @@
-/* eslint angular/log: "off" */
 import template from 'views/components/showGroupModal.html';
 
 angular.module('confRegistrationWebApp').component('showGroupModal', {
