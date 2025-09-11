@@ -88,6 +88,9 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
         primaryRegistrantType.allowedRegistrantTypeSet,
         (set) => set.childRegistrantTypeId === type.id,
       );
+      if (!dependent) {
+        return false;
+      }
 
       const maxAllowedDependents = dependent.numberOfChildRegistrants;
       // numberOfChildRegistrants === 0 means no limit
