@@ -264,11 +264,13 @@ describe('coupleTypeUtils', () => {
     describe('isCoupleType', () => {
       it('should return true for couple type', () => {
         const coupleType = { defaultTypeKey: 'COUPLE' };
+
         expect(coupleTypeUtils.isCoupleType(coupleType)).toBe(true);
       });
 
       it('should return false for non-couple type', () => {
         const spouseType = { defaultTypeKey: 'SPOUSE' };
+
         expect(coupleTypeUtils.isCoupleType(spouseType)).toBe(false);
       });
     });
@@ -276,11 +278,13 @@ describe('coupleTypeUtils', () => {
     describe('isSpouseType', () => {
       it('should return true for spouse type', () => {
         const spouseType = { defaultTypeKey: 'SPOUSE' };
+
         expect(coupleTypeUtils.isSpouseType(spouseType)).toBe(true);
       });
 
       it('should return false for non-spouse type', () => {
         const coupleType = { defaultTypeKey: 'COUPLE' };
+
         expect(coupleTypeUtils.isSpouseType(coupleType)).toBe(false);
       });
     });
