@@ -31,23 +31,10 @@ describe('Service: Cart', () => {
     RegistrationCache = _RegistrationCache_;
     ConfCache = _ConfCache_;
 
-    mockConference = angular.copy(testData.conference);
-    mockRegistration = {
-      ...angular.copy(testData.registration),
-      completed: false,
-      remainingBalance: 100,
-    };
-    mockConference2 = {
-      ...angular.copy(testData.conference),
-      id: 'conf2',
-    };
-    mockRegistration2 = {
-      ...angular.copy(testData.registration),
-      id: 'reg2',
-      conferenceId: mockConference2.id,
-      completed: false,
-      remainingBalance: 150,
-    };
+    mockConference = testData.conference;
+    mockRegistration = testData.incompleteRegistration;
+    mockConference2 = testData.conference2;
+    mockRegistration2 = testData.incompleteRegistration2;
 
     $window.localStorage.getItem(
       'cartRegistrationIds',

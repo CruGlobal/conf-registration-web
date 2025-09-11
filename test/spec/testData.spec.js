@@ -1843,4 +1843,22 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       $hashKey: 'object:688',
     },
   ];
+
+  this.incompleteRegistration = {
+    ...angular.copy(this.registration),
+    completed: false,
+  };
+
+  this.incompleteRegistration2 = {
+    ...angular.copy(this.registration),
+    id: 'reg2',
+    conferenceId: 'conf2',
+    completed: false,
+    remainingBalance: this.incompleteRegistration.remainingBalance + 100,
+  };
+
+  this.conference2 = {
+    ...angular.copy(this.conference),
+    id: 'conf2',
+  };
 });
