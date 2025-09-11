@@ -1006,8 +1006,7 @@ angular
 
         if (
           childTypeKey === 'SPOUSE' &&
-          findCoupleForSpouse(child.id, $scope.conference.registrantTypes) !==
-            null
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes)
         ) {
           return false;
         }
@@ -1016,7 +1015,7 @@ angular
         }
 
         // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
-        if (parentTypeKey === '' || parentTypeKey === null) {
+        if (!parentTypeKey) {
           // Also hide if the names are the same (prevent self-association)
           return childType.name !== type.name;
         }
