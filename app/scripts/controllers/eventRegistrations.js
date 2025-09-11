@@ -586,7 +586,9 @@ angular
                   message:
                     err.data && err.data.error
                       ? err.data.error.message
-                      : 'An error occurred while withdrawing this registrant.',
+                      : `An error occurred while ${
+                          value ? 'withdrawing' : 'reinstating'
+                        } this registrant.`,
                 });
               })
               .finally(function () {
@@ -706,10 +708,19 @@ angular
             } else {
               url = 'registrations/' + registration.id;
             }
-            $http.delete(url).then(function () {
-              $scope.refreshRegistrations();
-              $scope.updateAfterDelete(registrantsToDelete);
-            });
+            $http
+              .delete(url)
+              .then(function () {
+                $scope.refreshRegistrations();
+                $scope.updateAfterDelete(registrantsToDelete);
+              })
+              .catch(function (response) {
+                modalMessage.error(
+                  response.data && response.data.error
+                    ? response.data.error.message
+                    : 'An error occurred while deleting this registrant.',
+                );
+              });
           });
       };
     },
