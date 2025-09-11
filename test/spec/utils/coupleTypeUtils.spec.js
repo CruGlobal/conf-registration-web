@@ -260,5 +260,65 @@ describe('coupleTypeUtils', () => {
         expect(result).toBe(false);
       });
     });
+
+    describe('isCoupleType', () => {
+      it('should return true for couple type', () => {
+        const coupleType = { defaultTypeKey: 'COUPLE' };
+        expect(coupleTypeUtils.isCoupleType(coupleType)).toBe(true);
+      });
+
+      it('should return false for non-couple type', () => {
+        const spouseType = { defaultTypeKey: 'SPOUSE' };
+        expect(coupleTypeUtils.isCoupleType(spouseType)).toBe(false);
+      });
+    });
+
+    describe('isSpouseType', () => {
+      it('should return true for spouse type', () => {
+        const spouseType = { defaultTypeKey: 'SPOUSE' };
+        expect(coupleTypeUtils.isSpouseType(spouseType)).toBe(true);
+      });
+
+      it('should return false for non-spouse type', () => {
+        const coupleType = { defaultTypeKey: 'COUPLE' };
+        expect(coupleTypeUtils.isSpouseType(coupleType)).toBe(false);
+      });
+    });
+
+    describe('isCoupleOrSpouseType', () => {
+      it('should return true for couple/spouse types that are associated', () => {
+        expect(
+          coupleTypeUtils.isCoupleOrSpouseType(
+            'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+            testData.conference.registrantTypes,
+          ),
+        ).toBe(true);
+
+        expect(
+          coupleTypeUtils.isCoupleOrSpouseType(
+            'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+            testData.conference.registrantTypes,
+          ),
+        ).toBe(true);
+      });
+
+      it('should return false for unassociated type', () => {
+        expect(
+          coupleTypeUtils.isCoupleOrSpouseType(
+            '67c70823-35bd-9262-416f-150e35a03514',
+            testData.conference.registrantTypes,
+          ),
+        ).toBe(false);
+      });
+
+      it('should return false for a Spouse type with no relation to a Couple type', () => {
+        expect(
+          coupleTypeUtils.isCoupleOrSpouseType(
+            'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe',
+            testData.conference.registrantTypes,
+          ),
+        ).toBe(false);
+      });
+    });
   });
 });
