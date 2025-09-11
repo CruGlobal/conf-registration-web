@@ -62,6 +62,30 @@ export function findSpouseForCouple(coupleId, registrantTypes) {
 }
 
 /**
+ * These two functions check the property defaultTypeKey on a registrant type
+ */
+export function isCoupleType(type) {
+  return type.defaultTypeKey === 'COUPLE';
+}
+export function isSpouseType(type) {
+  return type.defaultTypeKey === 'SPOUSE';
+}
+
+/**
+ * Returns true if the given typeId corresponds to either a couple or spouse type.
+ * Unlike isCoupleType or isSpouseType, this function checks Primary-Dependent association.
+ */
+export function isCoupleOrSpouseType(typeId, registrantTypes) {
+  if (findSpouseForCouple(typeId, registrantTypes)) {
+    return true;
+  }
+  if (findCoupleForSpouse(typeId, registrantTypes)) {
+    return true;
+  }
+  return false;
+}
+
+/**
  * Syncs spouse descriptions to match their associated couple's description.
  * Modifies the registrantTypes array in place.
  */
@@ -128,6 +152,9 @@ export function findCoupleRegistrants(registrant, registration) {
   return coupleRegistrants;
 }
 
+/**
+ * Returns true if the given registrant is part of a couple (either couple or spouse type)
+ */
 export function isRegistrantCouple(registrant, registration) {
   const coupleRegistrants = findCoupleRegistrants(registrant, registration);
   return coupleRegistrants.length > 1;
