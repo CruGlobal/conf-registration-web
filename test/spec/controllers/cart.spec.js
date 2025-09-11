@@ -8,14 +8,11 @@ describe('Controller: cartCtrl', () => {
     $location,
     $q,
     modalMessage,
-    testData,
     mockConference,
     mockConference2,
     mockRegistration,
     mockRegistration2,
     cart,
-    ConfCache,
-    RegistrationCache,
     registration;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -28,10 +25,8 @@ describe('Controller: cartCtrl', () => {
         _$rootScope_,
         _$q_,
         _modalMessage_,
-        _testData_,
+        testData,
         _cart_,
-        _ConfCache_,
-        _RegistrationCache_,
         _registration_,
       ) => {
         $controller = _$controller_;
@@ -39,10 +34,7 @@ describe('Controller: cartCtrl', () => {
         $rootScope = _$rootScope_;
         $q = _$q_;
         modalMessage = _modalMessage_;
-        testData = _testData_;
         cart = _cart_;
-        ConfCache = _ConfCache_;
-        RegistrationCache = _RegistrationCache_;
         registration = _registration_;
         mockConference = angular.copy(testData.conference);
         mockRegistration = {
@@ -61,17 +53,7 @@ describe('Controller: cartCtrl', () => {
           completed: false,
           remainingBalance: 150,
         };
-
-        spyOn(cart, 'getRegistrationIds').and.returnValue([
-          mockRegistration.id,
-          mockRegistration2.id,
-        ]);
-        spyOn(ConfCache, 'get').and.callFake((id) =>
-          $q.resolve(_.find([mockConference, mockConference2], { id })),
-        );
-        spyOn(RegistrationCache, 'get').and.callFake((id) =>
-          $q.resolve(_.find([mockRegistration, mockRegistration2], { id })),
-        );
+        spyOn(cart, 'loadRegistrations').and.returnValue($q.resolve());
         spyOn(registration, 'processRegistrations');
         spyOn(modalMessage, 'error');
         spyOn(modalMessage, 'confirm');
@@ -79,32 +61,46 @@ describe('Controller: cartCtrl', () => {
 
         scope = $rootScope.$new();
         $controller('cartCtrl', { $scope: scope });
+
+        scope.$digest();
+        cart.registrations = [
+          {
+            registration: mockRegistration,
+            conference: mockConference,
+            acceptedPaymentMethods: {
+              acceptCreditCards: true,
+              acceptTransfers: false,
+              acceptScholarships: false,
+              acceptChecks: false,
+              acceptPayOnSite: false,
+            },
+          },
+          {
+            registration: mockRegistration2,
+            conference: mockConference2,
+            acceptedPaymentMethods: {
+              acceptCreditCards: false,
+              acceptTransfers: true,
+              acceptScholarships: false,
+              acceptChecks: false,
+              acceptPayOnSite: false,
+            },
+          },
+        ];
+        $rootScope.$broadcast('cartUpdated');
       },
     ),
   );
 
-  describe('initialization', () => {
-    it('should set default values', () => {
-      expect(scope.cartRegistrations).toEqual([]);
-      expect(scope.remainingBalanceTotal).toBe(0);
-      expect(scope.submittingRegistrations).toBe(false);
-      expect(scope.currentPayment).toEqual({});
-    });
-  });
-
   describe('loadCartRegistrations', () => {
     it('should set empty cart when no registrations in cart', () => {
-      cart.getRegistrationIds.and.returnValue([]);
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
+      cart.registrations = [];
+      $rootScope.$broadcast('cartUpdated');
 
       expect(scope.cartRegistrations).toEqual([]);
     });
 
     it('should calculate totals and payment', () => {
-      scope.$digest();
-
       expect(scope.cartRegistrations.length).toBe(2);
       expect(scope.cartRegistrations[0].registration.id).toBe(
         mockRegistration.id,
@@ -128,94 +124,15 @@ describe('Controller: cartCtrl', () => {
       );
 
       expect(scope.currency).toBe(mockConference.currency.currencyCode);
-      expect(scope.combinedAcceptedPaymentMethods).toBeDefined();
-      expect(scope.combinedAcceptedPaymentMethods.acceptCreditCards).toBe(true);
-    });
-
-    it('should filter out completed registrations', () => {
-      mockRegistration.completed = true;
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
-      scope.$digest();
-
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration2.id]);
-    });
-
-    it('should filter out registrations with no remaining balance', () => {
-      mockRegistration.remainingBalance = 0;
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
-      scope.$digest();
-
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration2.id]);
-    });
-
-    it('should filter out registrations with no valid accepted payment methods', () => {
-      mockConference.registrantTypes.forEach((registrantType) => {
-        Object.assign(registrantType, {
-          acceptChecks: true,
-          acceptCreditCards: false,
-          acceptTransfers: false,
-          acceptPayOnSite: true,
-          acceptScholarships: false,
-        });
+      expect(scope.combinedAcceptedPaymentMethods).toEqual({
+        acceptCreditCards: true,
+        acceptTransfers: true,
+        acceptScholarships: false,
       });
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
-      scope.$digest();
-
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration2.id]);
-    });
-
-    it('should handle registration loading errors', () => {
-      RegistrationCache.get.and.callFake((id) => {
-        return id === mockRegistration.id
-          ? $q.reject('error')
-          : $q.resolve(mockRegistration2);
-      });
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
-      scope.$digest();
-
-      expect(scope.loading).toBe(false);
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration2.id]);
-    });
-
-    it('should handle conference loading errors', () => {
-      ConfCache.get.and.callFake((id) => {
-        return id === mockConference.id
-          ? $q.reject('error')
-          : $q.resolve(mockConference2);
-      });
-
-      scope = $rootScope.$new();
-      $controller('cartCtrl', { $scope: scope });
-      scope.$digest();
-
-      expect(scope.loading).toBe(false);
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration2.id]);
     });
   });
 
   describe('toggleRegistration', () => {
-    beforeEach(() => {
-      scope.$digest();
-    });
-
     it('should uncheck item and update totals', () => {
       const item = scope.cartRegistrations[0];
 
@@ -257,8 +174,7 @@ describe('Controller: cartCtrl', () => {
 
   describe('removeFromCart', () => {
     beforeEach(() => {
-      spyOn(cart, 'removeRegistrationId');
-      scope.$digest();
+      spyOn(cart, 'removeRegistration').and.callThrough();
     });
 
     it('should remove registration and update cart totals when confirmed', () => {
@@ -273,10 +189,7 @@ describe('Controller: cartCtrl', () => {
         }),
       );
 
-      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
-        mockRegistration.id,
-      );
-
+      expect(cart.removeRegistration).toHaveBeenCalledWith(mockRegistration.id);
       expect(
         scope.cartRegistrations.map((item) => item.registration.id),
       ).toEqual([mockRegistration2.id]);
@@ -297,7 +210,7 @@ describe('Controller: cartCtrl', () => {
       scope.removeFromCart(mockRegistration.id);
       scope.$digest();
 
-      expect(cart.removeRegistrationId).not.toHaveBeenCalled();
+      expect(cart.removeRegistration).not.toHaveBeenCalled();
       expect(scope.cartRegistrations.length).toBe(2);
       expect(scope.selectedCount).toBe(2);
 
@@ -317,9 +230,8 @@ describe('Controller: cartCtrl', () => {
 
   describe('submitRegistrations', () => {
     beforeEach(() => {
-      scope.$digest();
       scope.currentPayment = { paymentType: 'CREDIT_CARD' };
-      spyOn(cart, 'removeRegistrationId');
+      spyOn(cart, 'removeRegistration');
     });
 
     it('should set submitting flag', () => {
@@ -355,16 +267,13 @@ describe('Controller: cartCtrl', () => {
         },
       ]);
 
-      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
-        mockRegistration.id,
-      );
+      expect(cart.removeRegistration).toHaveBeenCalledWith(mockRegistration.id);
 
-      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
+      expect(cart.removeRegistration).toHaveBeenCalledWith(
         mockRegistration2.id,
       );
 
       expect(scope.submittingRegistrations).toBe(false);
-      expect(scope.cartRegistrations).toEqual([]);
     });
 
     it('should process only checked registrations', () => {
@@ -387,13 +296,9 @@ describe('Controller: cartCtrl', () => {
 
       expect(scope.submittingRegistrations).toBe(false);
 
-      expect(cart.removeRegistrationId).toHaveBeenCalledWith(
+      expect(cart.removeRegistration).toHaveBeenCalledWith(
         mockRegistration2.id,
       );
-
-      expect(
-        scope.cartRegistrations.map((item) => item.registration.id),
-      ).toEqual([mockRegistration.id]);
     });
 
     it('should clear submitting flag on error', () => {
@@ -406,43 +311,7 @@ describe('Controller: cartCtrl', () => {
     });
   });
 
-  describe('acceptedPaymentMethods', () => {
-    it('should return combined accepted payment methods', () => {
-      scope.combinedAcceptedPaymentMethods = {
-        acceptCreditCards: true,
-        acceptTransfers: false,
-      };
-
-      const result = scope.acceptedPaymentMethods();
-
-      expect(result).toEqual({
-        acceptCreditCards: true,
-        acceptTransfers: false,
-      });
-    });
-  });
-
   describe('payment method selection', () => {
-    beforeEach(() => {
-      mockConference.registrantTypes.forEach((registrantType) => {
-        Object.assign(registrantType, {
-          acceptCreditCards: true,
-          acceptTransfers: false,
-          acceptScholarships: false,
-        });
-      });
-
-      mockConference2.registrantTypes.forEach((registrantType) => {
-        Object.assign(registrantType, {
-          acceptCreditCards: false,
-          acceptTransfers: true,
-          acceptScholarships: false,
-        });
-      });
-
-      scope.$digest();
-    });
-
     it('should disable incompatible registrations and update totals', () => {
       scope.currentPayment.paymentType = 'CREDIT_CARD';
       scope.$digest();

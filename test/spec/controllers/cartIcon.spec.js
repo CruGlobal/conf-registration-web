@@ -12,24 +12,22 @@ describe('Controller: cartIconCtrl', () => {
       $rootScope = _$rootScope_;
       cart = _cart_;
 
-      spyOn(cart, 'getRegistrationIds').and.returnValue([
-        'reg1',
-        'reg2',
-        'reg3',
-      ]);
-
       scope = $rootScope.$new();
       $controller('cartIconCtrl', { $scope: scope });
+
+      scope.$digest();
+      cart.registrations = [{}, {}, {}];
+      $rootScope.$broadcast('cartUpdated');
     }),
   );
 
   it('should set cartItemCount', () => {
-    expect(cart.getRegistrationIds).toHaveBeenCalledWith();
     expect(scope.cartItemCount).toBe(3);
   });
 
   it('should handle empty cart', () => {
-    cart.getRegistrationIds.and.returnValue([]);
+    cart.registrations = [];
+    $rootScope.$broadcast('cartUpdated');
 
     scope = $rootScope.$new();
     $controller('cartIconCtrl', { $scope: scope });
@@ -38,12 +36,9 @@ describe('Controller: cartIconCtrl', () => {
   });
 
   it('should update cart count when cartUpdated event is broadcast', () => {
-    expect(scope.cartItemCount).toBe(3);
-
-    cart.getRegistrationIds.and.returnValue(['reg1', 'reg2']);
+    cart.registrations = [{}];
     $rootScope.$broadcast('cartUpdated');
 
-    expect(scope.cartItemCount).toBe(2);
-    expect(cart.getRegistrationIds).toHaveBeenCalledTimes(2);
+    expect(scope.cartItemCount).toBe(1);
   });
 });

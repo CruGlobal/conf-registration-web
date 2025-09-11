@@ -2,18 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .controller(
     'cartCtrl',
-    function (
-      $scope,
-      $rootScope,
-      $location,
-      $q,
-      cart,
-      modalMessage,
-      ConfCache,
-      RegistrationCache,
-      payment,
-      registration,
-    ) {
+    function ($scope, $rootScope, $location, cart, modalMessage, registration) {
       $rootScope.globalPage = {
         bodyClass: 'cart',
         mainClass: 'container',
@@ -21,79 +10,34 @@ angular
       };
 
       $scope.cartRegistrations = [];
-      $scope.remainingBalanceTotal = 0;
       $scope.submittingRegistrations = false;
+
+      $scope.$on('cartUpdated', function () {
+        setCartItems(cart.registrations);
+      });
 
       function loadCartRegistrations() {
         $scope.loading = true;
-
-        const promises = cart.getRegistrationIds().map((id) =>
-          RegistrationCache.get(id)
-            .then((registration) => {
-              return ConfCache.get(registration.conferenceId).then(
-                (conference) => ({
-                  registration,
-                  conference,
-                  acceptedPaymentMethods: {
-                    ...payment.getAcceptedPaymentMethods(
-                      registration,
-                      conference,
-                    ),
-                    // Users may not pay by check because the check mailing address may be different
-                    // for different conferences
-                    acceptChecks: false,
-                    // Users may not pay on site
-                    acceptPayOnSite: false,
-                  },
-                  checked: true,
-                  disabled: false,
-                }),
-              );
-            })
-            // If any registrations or conferences can't be found, ignore them
-            .catch(() => null),
-        );
-        $q.all(promises)
-          .then((registrations) => {
-            $scope.cartRegistrations = registrations.filter(
-              (item) =>
-                item !== null &&
-                _.some(item.acceptedPaymentMethods) &&
-                !item.registration.completed &&
-                item.registration.remainingBalance > 0,
-            );
-            updateCart();
-          })
-          .finally(() => {
-            $scope.loading = false;
-          });
+        // When the cart loads, it will trigger a "cartUpdated" event that will update $scope.cartRegistrations
+        cart.loadRegistrations().finally(() => {
+          $scope.loading = false;
+        });
       }
 
-      function updateTotals() {
-        const selectedRegistrations = $scope.cartRegistrations.filter(
-          (item) => item.checked,
-        );
-        $scope.selectedCount = selectedRegistrations.length;
+      function setCartItems(registrations) {
+        $scope.cartRegistrations = registrations.map((item) => {
+          const existingRegistration = $scope.cartRegistrations.find(
+            ({ registration }) => registration === item.registration,
+          );
+          return (
+            existingRegistration || {
+              ...item,
+              checked: true,
+              disabled: false,
+            }
+          );
+        });
 
-        $scope.currentRegistration = Object.fromEntries(
-          [
-            'calculatedMinimumDeposit',
-            'calculatedTotalDue',
-            'remainingBalance',
-          ].map((field) => [
-            field,
-            selectedRegistrations.reduce(
-              (total, { registration }) => total + registration[field],
-              0,
-            ),
-          ]),
-        );
-        $scope.currentRegistration.pastPayments = [];
-        $scope.currentPayment.amount =
-          $scope.currentRegistration.remainingBalance;
-      }
-
-      function updateCart() {
         $scope.registrantTypes = $scope.cartRegistrations.flatMap(
           ({ conference }) => conference.registrantTypes,
         );
@@ -130,6 +74,30 @@ angular
         updateTotals();
       }
 
+      function updateTotals() {
+        const selectedRegistrations = $scope.cartRegistrations.filter(
+          (item) => item.checked,
+        );
+        $scope.selectedCount = selectedRegistrations.length;
+
+        $scope.currentRegistration = Object.fromEntries(
+          [
+            'calculatedMinimumDeposit',
+            'calculatedTotalDue',
+            'remainingBalance',
+          ].map((field) => [
+            field,
+            selectedRegistrations.reduce(
+              (total, { registration }) => total + registration[field],
+              0,
+            ),
+          ]),
+        );
+        $scope.currentRegistration.pastPayments = [];
+        $scope.currentPayment.amount =
+          $scope.currentRegistration.remainingBalance;
+      }
+
       $scope.toggleRegistration = function (item) {
         item.checked = !item.checked;
         updateTotals();
@@ -145,11 +113,7 @@ angular
             noString: 'Cancel',
           })
           .then(() => {
-            cart.removeRegistrationId(registrationId);
-            $scope.cartRegistrations = $scope.cartRegistrations.filter(
-              ({ registration }) => registration.id !== registrationId,
-            );
-            updateCart();
+            cart.removeRegistration(registrationId);
           });
       };
 
@@ -184,12 +148,8 @@ angular
               (item) => item.registration.id,
             );
             registrationIds.forEach((id) => {
-              cart.removeRegistrationId(id);
+              cart.removeRegistration(id);
             });
-            $scope.cartRegistrations = $scope.cartRegistrations.filter(
-              (item) => !registrationIds.includes(item.registration.id),
-            );
-            updateCart();
           })
           .catch(() => {
             // Reload the registrations in case some of them errored and some completed successfully
@@ -200,16 +160,13 @@ angular
           });
       };
 
-      function getPaymentMethodKey(paymentType) {
-        const mapping = {
-          CREDIT_CARD: 'acceptCreditCards',
-          CHECK: 'acceptChecks',
-          TRANSFER: 'acceptTransfers',
-          SCHOLARSHIP: 'acceptScholarships',
-          PAY_ON_SITE: 'acceptPayOnSite',
-        };
-        return mapping[paymentType];
-      }
+      const paymentMethodMapping = {
+        CREDIT_CARD: 'acceptCreditCards',
+        CHECK: 'acceptChecks',
+        TRANSFER: 'acceptTransfers',
+        SCHOLARSHIP: 'acceptScholarships',
+        PAY_ON_SITE: 'acceptPayOnSite',
+      };
 
       $scope.$watch(
         'currentPayment.paymentType',
@@ -219,7 +176,7 @@ angular
           }
 
           $scope.cartRegistrations.forEach((item) => {
-            const methodKey = getPaymentMethodKey(newPaymentType);
+            const methodKey = paymentMethodMapping[newPaymentType];
             item.disabled = !item.acceptedPaymentMethods[methodKey];
             item.checked = !item.disabled;
           });

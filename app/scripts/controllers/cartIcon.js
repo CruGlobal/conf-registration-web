@@ -2,7 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .controller('cartIconCtrl', function ($scope, cart) {
     function updateCartCount() {
-      $scope.cartItemCount = cart.getRegistrationIds().length;
+      $scope.cartItemCount = cart.registrations.length;
     }
 
     updateCartCount();

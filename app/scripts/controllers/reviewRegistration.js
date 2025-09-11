@@ -133,7 +133,7 @@ angular.module('confRegistrationWebApp').controller(
     };
 
     $scope.isValidCartRegistration = () => {
-      if (cart.hasRegistrationId(currentRegistration.id)) {
+      if (cart.hasRegistration(currentRegistration.id)) {
         return false;
       }
 
@@ -152,7 +152,7 @@ angular.module('confRegistrationWebApp').controller(
     $scope.addToCart = () => {
       // Remember the registration and go back to the search page so the user can register for
       // another event
-      cart.addRegistrationId(currentRegistration.id);
+      cart.addRegistration(currentRegistration, conference);
       $location.path('/');
     };
 
