@@ -357,3 +357,22 @@
     </label>
   </div>
 </div>
+<div class="form-group">
+  <div class="col-sm-5">
+    <label>
+      <input
+        type="checkbox"
+        ng-model="hasRegistrantLimit"
+        ng-change="conference.registrantLimit = hasRegistrantLimit ? 0 : null"
+      />
+      <translate>Limit the total number of registrants</translate>
+    </label>
+    <input
+      type="number"
+      aria-label="{{'Registrant limit' | translate}}"
+      class="form-control"
+      ng-show="hasRegistrantLimit"
+      ng-model="conference.registrantLimit"
+    />
+  </div>
+</div>

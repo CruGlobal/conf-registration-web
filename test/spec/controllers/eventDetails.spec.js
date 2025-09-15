@@ -233,6 +233,24 @@ describe('Controller: eventDetails', function () {
       expect(scope.conference.registrationPages[0].blocks[2].tag).toEqual(null);
     });
 
+    it('should initialize hasRegistrantLimit to false when registrantLimit is null', () => {
+      expect(scope.hasRegistrantLimit).toBe(false);
+    });
+
+    it('should initialize hasRegistrantLimit to true when registrantLimit is a number', function () {
+      angular.mock.inject(function ($rootScope, $controller, testData) {
+        scope = $rootScope.$new();
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: { ...testData.conference, registrantLimit: 100 },
+          currencies: testData.currencies,
+        });
+      });
+
+      expect(scope.hasRegistrantLimit).toBe(true);
+    });
+
     it('saveEvent() should validate the conference', () => {
       scope.saveEvent();
       //Expect that there will be event types given

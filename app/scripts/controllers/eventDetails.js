@@ -115,6 +115,9 @@ angular
 
       $scope.originalConference = conference;
       $scope.conference = angular.copy(conference);
+      $scope.hasRegistrantLimit = angular.isNumber(
+        $scope.conference.registrantLimit,
+      );
       $scope.currencies = currencies;
       $scope.countries = allCountries;
       $scope.conference.locationCountry = conference.locationCountry
