@@ -44,4 +44,11 @@ describe('Directive: registrationTypeSelect', function () {
 
     expect(scope.registrationTypeFull(registrationType)).toBe(false);
   });
+
+  it('registrationTypeFull should return true when conference has no remaining registrations', function () {
+    const registrationType = testData.conference.registrantTypes[1];
+    scope.conference.registrantsRemaining = 0;
+
+    expect(scope.registrationTypeFull(registrationType)).toBe(true);
+  });
 });

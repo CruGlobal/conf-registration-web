@@ -139,6 +139,10 @@ angular
         };
 
         $scope.registrationTypeFull = function (type) {
+          if ($scope.conference.registrantsRemaining === 0) {
+            return true;
+          }
+
           if (!type.useLimit) {
             return false;
           }
