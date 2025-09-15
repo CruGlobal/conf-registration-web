@@ -1,3 +1,10 @@
+<div
+  ng-if="conference.registrantsRemaining > 0 && conference.registrantsRemaining <= 5"
+  class="alert alert-warning"
+  translate
+>
+  Only {{ conference.registrantsRemaining }} spots remaining!
+</div>
 <table ng-if="visibleRegistrantTypes.length > 1 || isGroupRegistration">
   <thead>
     <tr class="sr-only">
