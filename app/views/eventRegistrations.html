@@ -4,6 +4,12 @@
       <h2 class="page-title" translate>Registrations</h2>
     </div>
     <div class="col-sm-5 text-right">
+      <span class="text-muted" ng-if="conference.registrantLimit">
+        {{((conference.registrantLimit - conference.registrantsRemaining) /
+        conference.registrantLimit * 100) | number:0}}% full
+        ({{conference.registrantsRemaining}} of {{conference.registrantLimit}}
+        registrants remaining)
+      </span>
       <button
         class="btn btn-success btn-sm"
         type="button"
