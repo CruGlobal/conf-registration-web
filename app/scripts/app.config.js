@@ -331,13 +331,9 @@ angular
             return ConfCache.get($route.current.params.conferenceId, true);
           },
           currencies: function (ConfCache) {
-            return ConfCache.initCurrencies()
-              .then(function (data) {
-                return data;
-              })
-              .catch(function () {
-                return [];
-              });
+            return ConfCache.initCurrencies().catch(function () {
+              return [];
+            });
           },
         },
       })
