@@ -231,7 +231,6 @@ angular
         return modalInstance;
       };
 
-      // NOTE: Change to pass in type instead of id
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
           const typeToDelete = _.find($scope.conference.registrantTypes, {
