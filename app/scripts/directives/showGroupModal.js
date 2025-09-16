@@ -65,6 +65,9 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
      * */
     this.registrationTypeFull = function (type) {
       const registration = this.getRegistration(this.registrationId);
+      if (!registration || !registration.groupRegistrants) {
+        return false;
+      }
 
       const primaryRegistrant = _.find(registration.groupRegistrants, {
         id: registration.primaryRegistrantId,
