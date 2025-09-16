@@ -127,20 +127,24 @@ angular
           $scope.selectedAnswer = '';
         };
 
+        $scope.setAnswer = (value) => {
+          if (
+            $scope.block.content.otherOption &&
+            $scope.block.content.otherOption.enabled &&
+            value &&
+            !_.includes(_.map($scope.block.content.choices, 'value'), value)
+          ) {
+            // An answer is present that isn't in the list of available choices, so it is an "Other" answer
+            $scope.selectedAnswer = $scope.otherSentinel;
+            $scope.otherAnswer = value;
+          } else {
+            $scope.selectedAnswer = value;
+            $scope.otherAnswer = '';
+          }
+        };
+
         const answerValue = $scope.answer ? $scope.answer.value : '';
-        if (
-          $scope.block.content.otherOption &&
-          $scope.block.content.otherOption.enabled &&
-          answerValue &&
-          !_.includes(_.map($scope.block.content.choices, 'value'), answerValue)
-        ) {
-          // An answer is present that isn't in the list of available choices, so it is an "Other" answer
-          $scope.selectedAnswer = $scope.otherSentinel;
-          $scope.otherAnswer = answerValue;
-        } else {
-          $scope.selectedAnswer = answerValue;
-          $scope.otherAnswer = '';
-        }
+        $scope.setAnswer(answerValue);
 
         // We would use ng-model-options="{ debounce: 1000 }", but that causes the selection to disappear when
         // rapidly changing the selected option (https://stackoverflow.com/questions/31254291). To work-around,
@@ -169,6 +173,13 @@ angular
           ['selectedAnswer', 'otherAnswer'],
           updateAnswerValueDebounced,
         );
+
+        // Watch for changes to answer.value and update selectedAnswer accordingly
+        $scope.$watch('answer.value', function (newValue, oldValue) {
+          if (newValue !== oldValue && newValue !== undefined) {
+            $scope.setAnswer(newValue);
+          }
+        });
       },
     };
   });
