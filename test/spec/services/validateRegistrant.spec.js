@@ -483,4 +483,32 @@ describe('Service: validateRegistrant', function () {
       ).toBe(0);
     });
   });
+
+  describe('shouldShowForRegistrantType()', function () {
+    const registrant = { id: 'reg1', registrantTypeId: 'type1' };
+
+    it('should return true if the block is for all registrant types', function () {
+      const block = { id: 'block1', registrantTypes: [] };
+
+      expect(
+        validateRegistrant.shouldShowForRegistrantType(block, registrant),
+      ).toBe(true);
+    });
+
+    it('should return false if the registrant type is included in the block registrantTypes', function () {
+      const block = { id: 'block1', registrantTypes: ['type1', 'type2'] };
+
+      expect(
+        validateRegistrant.shouldShowForRegistrantType(block, registrant),
+      ).toBe(false);
+    });
+
+    it('should return true if the registrant type is not included in the block registrantTypes', function () {
+      const block = { id: 'block1', registrantTypes: ['type2', 'type3'] };
+
+      expect(
+        validateRegistrant.shouldShowForRegistrantType(block, registrant),
+      ).toBe(true);
+    });
+  });
 });
