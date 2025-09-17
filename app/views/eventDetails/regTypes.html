@@ -131,26 +131,26 @@
                 >
                 </i>
               </div>
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    ng-model="type.useLimit"
+                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                  />
+                  <translate>Limit the number of registrants</translate>
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  ng-show="type.useLimit"
+                  ng-model="type.numberSlotsLimit"
+                  ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
+                />
+              </div>
               <div
                 ng-if="!isCoupleType(type) && !isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
-                <div class="checkbox">
-                  <label>
-                    <input
-                      type="checkbox"
-                      ng-model="type.useLimit"
-                      ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                    />
-                    <translate>Limit the number of registrants</translate>
-                  </label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    ng-show="type.useLimit"
-                    ng-model="type.numberSlotsLimit"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                  />
-                </div>
                 <h4 translate>Group Registration</h4>
                 <div class="radio">
                   <label>
