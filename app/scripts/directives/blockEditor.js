@@ -146,6 +146,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
       angular.forEach($scope.conference.registrantTypes, function (type) {
+        // We store the registrantTypes on the block that should NOT show the question.
+        // Which is why the value is inverted here.
         $scope.visibleRegTypes[type.id] = !_.includes(
           $scope.block.registrantTypes,
           type.id,
