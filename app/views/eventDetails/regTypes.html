@@ -80,7 +80,7 @@
               <h4 translate>Registration Form</h4>
               <div
                 class="alert alert-info"
-                ng-if="isCoupleOrSpouseType(type.id, conference.registrantTypes)"
+                ng-if="isCoupleType(type) || isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
                 <em class="fa fa-info-circle"
                   >&nbsp;Adding a Couple type automatically creates an
@@ -132,7 +132,7 @@
                 </i>
               </div>
               <div
-                ng-if="!isCoupleOrSpouseType(type.id, conference.registrantTypes)"
+                ng-if="!isCoupleType(type) && !isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
                 <div class="checkbox">
                   <label>
