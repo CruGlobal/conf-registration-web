@@ -123,10 +123,20 @@
           <button
             ng-click="selectEvent(e, 'register')"
             class="btn btn-primary spacing-above-xs"
+            ng-if="e.registrantsRemaining !== 0"
             aria-describedby="title-{{e.id}}"
             translate
           >
             Register
+          </button>
+          <button
+            class="btn btn-danger spacing-above-xs"
+            ng-if="e.registrantsRemaining === 0"
+            aria-describedby="title-{{e.id}}"
+            disabled
+            translate
+          >
+            Full
           </button>
         </div>
       </div>
