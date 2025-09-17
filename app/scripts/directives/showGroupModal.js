@@ -35,7 +35,9 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
 
       // Get dependent registrant types
       const primaryRegistrantTypeSet =
-        primaryRegistrantType.allowedRegistrantTypeSet;
+        primaryRegistrantType && primaryRegistrantType.allowedRegistrantTypeSet
+          ? primaryRegistrantType.allowedRegistrantTypeSet
+          : [];
 
       // Filter visibleRegistrantTypes to only include those
       // that are children of the primary registrant type
