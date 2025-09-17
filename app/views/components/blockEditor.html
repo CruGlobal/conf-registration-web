@@ -206,7 +206,8 @@
                 ng-model="block.content.choices[$index].value"
                 type="text"
                 class="form-control"
-                ng-keyup="onChoiceOptionChange()"
+                ng-focus="storePreviousValue($index)"
+                ng-keyup="onChoiceOptionChange($index)"
               />
               <span class="input-group-btn">
                 <button

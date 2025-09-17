@@ -210,7 +210,9 @@ angular
         );
       };
 
-      const blockInRegistrantType = (block, registrant) => {
+      this.shouldShowForRegistrantType = (block, registrant) => {
+        // We store the registrantTypes on the block that should NOT show the question.
+        // Which is why the value is inverted here.
         return !_.includes(block.registrantTypes, registrant.registrantTypeId);
       };
 
@@ -245,7 +247,7 @@ angular
             ruleTypeConstants.SHOW_QUESTION,
             conference,
           ) &&
-          blockInRegistrantType(block, registrant) &&
+          this.shouldShowForRegistrantType(block, registrant) &&
           this.isAnyChoiceVisible(block, registrant);
 
         return block.adminOnly && !isAdmin ? false : visible;
@@ -289,7 +291,7 @@ angular
               ruleTypeConstants.SHOW_QUESTION,
               conference,
             ) ||
-            !blockInRegistrantType(block, registrant)
+            !this.shouldShowForRegistrantType(block, registrant)
           ) {
             return;
           }

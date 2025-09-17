@@ -169,6 +169,28 @@ angular
           ['selectedAnswer', 'otherAnswer'],
           updateAnswerValueDebounced,
         );
+
+        // Watch for changes to answer.value and update selectedAnswer accordingly
+        $scope.$watch('answer.value', function (newValue, oldValue) {
+          if (newValue !== oldValue && newValue !== undefined) {
+            if (
+              $scope.block.content.otherOption &&
+              $scope.block.content.otherOption.enabled &&
+              newValue &&
+              !_.includes(
+                _.map($scope.block.content.choices, 'value'),
+                newValue,
+              )
+            ) {
+              // The new answer is an "Other" answer
+              $scope.selectedAnswer = $scope.otherSentinel;
+              $scope.otherAnswer = newValue;
+            } else {
+              $scope.selectedAnswer = newValue;
+              $scope.otherAnswer = '';
+            }
+          }
+        });
       },
     };
   });
