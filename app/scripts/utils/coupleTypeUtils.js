@@ -16,13 +16,22 @@ export function deleteSpouseType(spouseId, registrantTypes) {
  * Finds the couple type that is associated with the given spouse type.
  * Returns the couple registrant type object, or null if not found.
  */
-export function findCoupleForSpouse(spouseId, registrantTypes) {
+export function findCoupleForSpouse(
+  spouseId,
+  registrantTypes,
+  checkSelected = true,
+) {
   const couple = registrantTypes.find((regType) => {
     if (
       regType.defaultTypeKey !== 'COUPLE' ||
       !angular.isArray(regType.allowedRegistrantTypeSet)
     ) {
       return false;
+    }
+    if (!checkSelected) {
+      return regType.allowedRegistrantTypeSet.some(
+        (association) => association.childRegistrantTypeId === spouseId,
+      );
     }
     return regType.allowedRegistrantTypeSet.some(
       (association) =>
@@ -155,6 +164,7 @@ export function findCoupleRegistrants(
   const foundCoupleOrSpouse = group.find((groupRegistrant) => {
     const registrantType = getRegistrantType(groupRegistrant.registrantTypeId);
     // We only really care if a couple type exists, since other types can have a spouse
+    // but no group should be able to have a couple
     return registrantType && registrantType.defaultTypeKey === 'COUPLE';
   });
 
@@ -178,6 +188,6 @@ export function isRegistrantCouple(
     getRegistrantType,
   );
 
-  // Must have more than one registrant to be considered a couple
-  return coupleRegistrants.length > 1;
+  // Final check
+  return coupleRegistrants.length === 2;
 }
