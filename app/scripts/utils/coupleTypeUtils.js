@@ -114,6 +114,7 @@ export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
       const spouseType = findSpouseForCouple(type.id, registrantTypes);
       if (spouseType) {
         spouseType.description = type.description;
+        spouseType.eform = type.eform;
       }
     }
   });
