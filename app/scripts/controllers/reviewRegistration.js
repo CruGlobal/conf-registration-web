@@ -1,3 +1,7 @@
+/* eslint-disable no-console, angular/log */
+
+import { isSpouseType, isRegistrantCouple } from '../utils/coupleTypeUtils';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -28,6 +32,10 @@ angular
         confId: conference.id,
         footer: false,
       };
+
+      // Couple-spouse related utility functions
+      $scope.isSpouseType = isSpouseType;
+      $scope.isRegistrantCouple = isRegistrantCouple;
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
@@ -315,6 +323,20 @@ angular
         if (currentRegistration.primaryRegistrantId === r.id) {
           return false;
         }
+
+        // Couple/spouse in particular should not be removable if registration is completed
+        // The user would have to notify staff to make changes
+        if (currentRegistration.completed) {
+          // Check if this registrant is part of a couple/spouse group
+          const isCoupleRegistrant = $scope.isRegistrantCouple(
+            r,
+            currentRegistration,
+            $scope.getRegistrantType,
+          );
+          // return false is registrant is a couple or spouse type
+          return !isCoupleRegistrant;
+        }
+
         var groupRegistrants = 0,
           noGroupRegistrants = 0;
         angular.forEach(currentRegistration.registrants, function (r) {
@@ -400,7 +422,11 @@ angular
 
       $scope.isSpouse = function (registrant) {
         const type = $scope.getRegistrantType(registrant.registrantTypeId);
-        return type && type.defaultTypeKey === 'SPOUSE';
+        return (
+          type &&
+          $scope.isSpouseType(type) &&
+          $scope.findCoupleForSpouse(type.id, conference.registrantTypes, false)
+        );
       };
     },
   );
