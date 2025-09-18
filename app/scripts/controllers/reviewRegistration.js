@@ -1,5 +1,3 @@
-/* eslint-disable no-console, angular/log */
-
 import {
   isSpouseType,
   isRegistrantCouple,
