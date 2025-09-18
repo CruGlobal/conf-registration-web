@@ -690,7 +690,7 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['CHILD'],
+          groupSubRegistrantType: ['SPOUSE', 'CHILD'],
         };
         const isDefaultType = _.includes(fields[field], defaultTypeKey);
         return isDefaultType;
