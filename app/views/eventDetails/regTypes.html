@@ -133,11 +133,7 @@
               </div>
               <div class="checkbox">
                 <label>
-                  <input
-                    type="checkbox"
-                    ng-model="type.useLimit"
-                    ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
-                  />
+                  <input type="checkbox" ng-model="type.useLimit" />
                   <translate>Limit the number of registrants</translate>
                 </label>
                 <input
@@ -232,7 +228,7 @@
                           <input
                             type="checkbox"
                             ng-model="type.allowedRegistrantTypeSet[$index].selected"
-                            ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                            ng-disabled="isCoupleType(type)"
                           />
                           {{childType.name}}
                         </label>
@@ -246,7 +242,7 @@
                           <select
                             ng-model="type.allowedRegistrantTypeSet[$index].numberOfChildRegistrants"
                             class="form-control"
-                            ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey, type.name)"
+                            ng-disabled="isCoupleType(type)"
                           >
                             <option ng-value="0">Unlimited</option>
                             <option
