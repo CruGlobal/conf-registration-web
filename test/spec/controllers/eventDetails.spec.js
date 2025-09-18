@@ -439,12 +439,14 @@ describe('Controller: eventDetails', function () {
 
         // Add couple type to another registrant type's allowedRegistrantTypeSet
         const otherType = scope.conference.registrantTypes[0];
-        otherType.allowedRegistrantTypeSet = [{
-          id: 'test-id',
-          childRegistrantTypeId: coupleType.id,
-          numberOfChildRegistrants: 2,
-          selected: true
-        }];
+        otherType.allowedRegistrantTypeSet = [
+          {
+            id: 'test-id',
+            childRegistrantTypeId: coupleType.id,
+            numberOfChildRegistrants: 2,
+            selected: true,
+          },
+        ];
 
         expect(otherType.allowedRegistrantTypeSet.length).toBe(1);
 
@@ -465,12 +467,14 @@ describe('Controller: eventDetails', function () {
 
         // Add spouse type to another registrant type's allowedRegistrantTypeSet
         const otherType = scope.conference.registrantTypes[0];
-        otherType.allowedRegistrantTypeSet = [{
-          id: 'test-id-spouse',
-          childRegistrantTypeId: spouseType.id,
-          numberOfChildRegistrants: 1,
-          selected: true
-        }];
+        otherType.allowedRegistrantTypeSet = [
+          {
+            id: 'test-id-spouse',
+            childRegistrantTypeId: spouseType.id,
+            numberOfChildRegistrants: 1,
+            selected: true,
+          },
+        ];
 
         expect(otherType.allowedRegistrantTypeSet.length).toBe(1);
 
@@ -483,7 +487,9 @@ describe('Controller: eventDetails', function () {
       it('should not delete spouse type when regular registrant type is deleted', function () {
         const regularType = _.find(
           scope.conference.registrantTypes,
-          (type) => type.defaultTypeKey !== 'COUPLE' && type.defaultTypeKey !== 'SPOUSE',
+          (type) =>
+            type.defaultTypeKey !== 'COUPLE' &&
+            type.defaultTypeKey !== 'SPOUSE',
         );
         const spouseType = _.find(
           scope.conference.registrantTypes,
@@ -510,7 +516,7 @@ describe('Controller: eventDetails', function () {
           id: 'lone-couple-id',
           name: 'Lone Couple',
           defaultTypeKey: 'COUPLE',
-          allowedRegistrantTypeSet: []
+          allowedRegistrantTypeSet: [],
         });
 
         const initialLength = scope.conference.registrantTypes.length;
@@ -540,20 +546,20 @@ describe('Controller: eventDetails', function () {
             id: 'entry-1',
             childRegistrantTypeId: coupleType.id,
             numberOfChildRegistrants: 2,
-            selected: true
+            selected: true,
           },
           {
             id: 'entry-2',
             childRegistrantTypeId: spouseType.id,
             numberOfChildRegistrants: 1,
-            selected: true
+            selected: true,
           },
           {
             id: 'entry-3',
             childRegistrantTypeId: 'some-other-id',
             numberOfChildRegistrants: 3,
-            selected: true
-          }
+            selected: true,
+          },
         ];
 
         expect(regularType.allowedRegistrantTypeSet.length).toBe(3);
@@ -562,12 +568,16 @@ describe('Controller: eventDetails', function () {
 
         // Should remove both couple and spouse entries, keeping only the other entry
         expect(regularType.allowedRegistrantTypeSet.length).toBe(1);
-        expect(regularType.allowedRegistrantTypeSet[0].childRegistrantTypeId).toBe('some-other-id');
+        expect(
+          regularType.allowedRegistrantTypeSet[0].childRegistrantTypeId,
+        ).toBe('some-other-id');
       });
 
       it('should prevent deletion when only one registrant type remains', function () {
         // Remove all but one registrant type
-        scope.conference.registrantTypes = [scope.conference.registrantTypes[0]];
+        scope.conference.registrantTypes = [
+          scope.conference.registrantTypes[0],
+        ];
 
         const singleType = scope.conference.registrantTypes[0];
 
@@ -576,7 +586,9 @@ describe('Controller: eventDetails', function () {
         // Should not delete the type and should show error notification
         expect(scope.conference.registrantTypes.length).toBe(1);
         expect(scope.notify.class).toBe('alert-danger');
-        expect(scope.notify.message.toString()).toContain('You must have at least one registrant type per event');
+        expect(scope.notify.message.toString()).toContain(
+          'You must have at least one registrant type per event',
+        );
       });
     });
   });

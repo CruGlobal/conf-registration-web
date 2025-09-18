@@ -198,12 +198,20 @@ describe('coupleTypeUtils', () => {
 
     describe('findCoupleRegistrants', () => {
       it('should return group registrants when groupId exists and couple type found', () => {
-        const mockRegistrant = { id: 'reg1', groupId: 'group1', registrantTypeId: 'coupleTypeId' };
+        const mockRegistrant = {
+          id: 'reg1',
+          groupId: 'group1',
+          registrantTypeId: 'coupleTypeId',
+        };
         const mockRegistration = {
           groupRegistrants: [
             { id: 'reg1', groupId: 'group1', registrantTypeId: 'coupleTypeId' },
             { id: 'reg2', groupId: 'group1', registrantTypeId: 'spouseTypeId' },
-            { id: 'reg3', groupId: 'group2', registrantTypeId: 'individualTypeId' },
+            {
+              id: 'reg3',
+              groupId: 'group2',
+              registrantTypeId: 'individualTypeId',
+            },
           ],
         };
         const mockGetRegistrantType = (id) => {
@@ -223,11 +231,23 @@ describe('coupleTypeUtils', () => {
       });
 
       it('should return single registrant when no couple type found in group', () => {
-        const mockRegistrant = { id: 'reg1', groupId: 'group1', registrantTypeId: 'individualTypeId' };
+        const mockRegistrant = {
+          id: 'reg1',
+          groupId: 'group1',
+          registrantTypeId: 'individualTypeId',
+        };
         const mockRegistration = {
           groupRegistrants: [
-            { id: 'reg1', groupId: 'group1', registrantTypeId: 'individualTypeId' },
-            { id: 'reg2', groupId: 'group1', registrantTypeId: 'individualTypeId' },
+            {
+              id: 'reg1',
+              groupId: 'group1',
+              registrantTypeId: 'individualTypeId',
+            },
+            {
+              id: 'reg2',
+              groupId: 'group1',
+              registrantTypeId: 'individualTypeId',
+            },
           ],
         };
         const mockGetRegistrantType = () => {
@@ -261,7 +281,11 @@ describe('coupleTypeUtils', () => {
 
     describe('isRegistrantCouple', () => {
       it('should return true when registrant has couple group', () => {
-        const mockRegistrant = { id: 'reg1', groupId: 'group1', registrantTypeId: 'coupleTypeId' };
+        const mockRegistrant = {
+          id: 'reg1',
+          groupId: 'group1',
+          registrantTypeId: 'coupleTypeId',
+        };
         const mockRegistration = {
           groupRegistrants: [
             { id: 'reg1', groupId: 'group1', registrantTypeId: 'coupleTypeId' },
