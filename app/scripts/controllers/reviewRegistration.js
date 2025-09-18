@@ -1,6 +1,10 @@
 /* eslint-disable no-console, angular/log */
 
-import { isSpouseType, isRegistrantCouple } from '../utils/coupleTypeUtils';
+import {
+  isSpouseType,
+  isRegistrantCouple,
+  findCoupleForSpouse,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -36,6 +40,7 @@ angular
       // Couple-spouse related utility functions
       $scope.isSpouseType = isSpouseType;
       $scope.isRegistrantCouple = isRegistrantCouple;
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
