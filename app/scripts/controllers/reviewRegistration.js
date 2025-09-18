@@ -1,3 +1,11 @@
+/* eslint-disable no-console, angular/log */
+
+import {
+  isSpouseType,
+  isRegistrantCouple,
+  findCoupleForSpouse,
+} from '../utils/coupleTypeUtils';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -29,6 +37,11 @@ angular
         footer: false,
       };
 
+      // Couple-spouse related utility functions
+      $scope.isSpouseType = isSpouseType;
+      $scope.isRegistrantCouple = isRegistrantCouple;
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
+
       if (
         _.isEmpty(currentRegistration.registrants) &&
         !currentRegistration.completed
@@ -58,13 +71,31 @@ angular
         return _.find(conference.registrantTypes, { id });
       };
 
-      //check if group registration is allowed based on registrants already in registration
-      $scope.allowGroupRegistration = currentRegistration.registrants.some(
-        (registrant) =>
-          $scope.getRegistrantType(registrant.registrantTypeId)
-            .allowGroupRegistrations,
-      );
+      // Helper function to check if couple-spouse pair exists
+      const coupleSpousePairExists = () => {
+        return currentRegistration.registrants.some((registrant) => {
+          return $scope.isRegistrantCouple(
+            registrant,
+            currentRegistration,
+            $scope.getRegistrantType,
+          );
+        });
+      };
 
+      //check if group registration is allowed based on registrants already in registration
+      $scope.allowGroupRegistration = () => {
+        // If registration is completed and couple-spouse pair exists, prevent group registration
+        if (currentRegistration.completed && coupleSpousePairExists()) {
+          return false;
+        }
+
+        const allow = currentRegistration.registrants.some(
+          (registrant) =>
+            $scope.getRegistrantType(registrant.registrantTypeId)
+              .allowGroupRegistrations,
+        );
+        return allow;
+      };
       // TODO: $scope.currentPayment is always undefined and conference.accept* is also undefined
       // We need to need to use $scope.acceptedPaymentMethods() to calculate the initial payment type
       if (angular.isUndefined($scope.currentPayment)) {
@@ -315,6 +346,20 @@ angular
         if (currentRegistration.primaryRegistrantId === r.id) {
           return false;
         }
+
+        // Couple/spouse in particular should not be removable if registration is completed
+        // The user would have to notify staff to make changes
+        if (currentRegistration.completed) {
+          // Check if this registrant is part of a couple/spouse group
+          const isCoupleRegistrant = $scope.isRegistrantCouple(
+            r,
+            currentRegistration,
+            $scope.getRegistrantType,
+          );
+          // return false is registrant is a couple or spouse type
+          return !isCoupleRegistrant;
+        }
+
         var groupRegistrants = 0,
           noGroupRegistrants = 0;
         angular.forEach(currentRegistration.registrants, function (r) {
@@ -400,7 +445,11 @@ angular
 
       $scope.isSpouse = function (registrant) {
         const type = $scope.getRegistrantType(registrant.registrantTypeId);
-        return type && type.defaultTypeKey === 'SPOUSE';
+        return (
+          type &&
+          $scope.isSpouseType(type) &&
+          $scope.findCoupleForSpouse(type.id, conference.registrantTypes, false)
+        );
       };
     },
   );

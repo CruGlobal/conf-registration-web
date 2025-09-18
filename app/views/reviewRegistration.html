@@ -161,7 +161,8 @@
       </table>
     </section>
     <section
-      ng-if="allowGroupRegistration && (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)"
+      ng-if="allowGroupRegistration() &&
+       (!currentRegistration.completed || conference.allowEditRegistrationAfterComplete)"
       class="hidden-print"
     >
       <h2

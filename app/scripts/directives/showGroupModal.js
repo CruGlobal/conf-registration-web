@@ -35,7 +35,9 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
 
       // Get dependent registrant types
       const primaryRegistrantTypeSet =
-        primaryRegistrantType.allowedRegistrantTypeSet;
+        primaryRegistrantType && primaryRegistrantType.allowedRegistrantTypeSet
+          ? primaryRegistrantType.allowedRegistrantTypeSet
+          : [];
 
       // Filter visibleRegistrantTypes to only include those
       // that are children of the primary registrant type
@@ -65,6 +67,9 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
      * */
     this.registrationTypeFull = function (type) {
       const registration = this.getRegistration(this.registrationId);
+      if (!registration || !registration.groupRegistrants) {
+        return false;
+      }
 
       const primaryRegistrant = _.find(registration.groupRegistrants, {
         id: registration.primaryRegistrantId,

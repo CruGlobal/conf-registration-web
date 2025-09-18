@@ -554,6 +554,7 @@ angular
         const isCouple = $scope.isRegistrantCouple(
           registrant,
           $scope.getRegistration(registrant.registrationId),
+          $scope.getRegistrantType,
         );
 
         function handleWithdraw() {
@@ -565,6 +566,7 @@ angular
             registrantsToWithdraw = $scope.findCoupleRegistrants(
               registrant,
               $scope.getRegistration(registrant.registrationId),
+              $scope.getRegistrantType,
             );
           }
           registrantsToWithdraw.forEach(function (registrantToWithdraw) {
@@ -681,6 +683,7 @@ angular
         const isCouple = $scope.isRegistrantCouple(
           registrant,
           $scope.getRegistration(registrant.registrationId),
+          $scope.getRegistrantType,
         );
         const { title, yesString, warningMessage } =
           $scope.buildDeletionWarningMessage(isCouple);
@@ -698,6 +701,7 @@ angular
               registrantsToDelete = $scope.findCoupleRegistrants(
                 registrant,
                 registration,
+                $scope.getRegistrantType,
               );
             }
 

@@ -16,13 +16,22 @@ export function deleteSpouseType(spouseId, registrantTypes) {
  * Finds the couple type that is associated with the given spouse type.
  * Returns the couple registrant type object, or null if not found.
  */
-export function findCoupleForSpouse(spouseId, registrantTypes) {
+export function findCoupleForSpouse(
+  spouseId,
+  registrantTypes,
+  checkSelected = true,
+) {
   const couple = registrantTypes.find((regType) => {
     if (
       regType.defaultTypeKey !== 'COUPLE' ||
       !angular.isArray(regType.allowedRegistrantTypeSet)
     ) {
       return false;
+    }
+    if (!checkSelected) {
+      return regType.allowedRegistrantTypeSet.some(
+        (association) => association.childRegistrantTypeId === spouseId,
+      );
     }
     return regType.allowedRegistrantTypeSet.some(
       (association) =>
@@ -105,6 +114,7 @@ export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
       const spouseType = findSpouseForCouple(type.id, registrantTypes);
       if (spouseType) {
         spouseType.description = type.description;
+        spouseType.eform = type.eform;
       }
     }
   });
@@ -134,28 +144,51 @@ export function shouldShowRegistrantType(type, registrantTypes) {
  * Helper function to find Couple-Spouse pair to delete using registration.groups
  * At this point, we know that registrant is either a couple or spouse type
  */
-export function findCoupleRegistrants(registrant, registration) {
-  const coupleRegistrants = [];
-  if (registration.groupRegistrants && registrant.groupId) {
-    const group = _.filter(
-      registration.groupRegistrants,
-      function (coupleRegistrant) {
-        return coupleRegistrant.groupId === registrant.groupId;
-      },
-    );
-    if (group) {
-      coupleRegistrants.push(...group);
-    }
-  } else {
-    coupleRegistrants.push(registrant);
+export function findCoupleRegistrants(
+  registrant,
+  registration,
+  getRegistrantType,
+) {
+  if (!registration || !registration.groupRegistrants) {
+    return [registrant];
   }
-  return coupleRegistrants;
+
+  const group = registration.groupRegistrants.filter(
+    (groupRegistrant) => groupRegistrant.groupId === registrant.groupId,
+  );
+
+  if (!group || group.length === 0) {
+    return [registrant];
+  }
+
+  // Check if any registrant in the group is a couple or spouse type
+  const foundCoupleOrSpouse = group.find((groupRegistrant) => {
+    const registrantType = getRegistrantType(groupRegistrant.registrantTypeId);
+    // We only really care if a couple type exists, since other types can have a spouse
+    // but no group should be able to have a couple
+    return registrantType && registrantType.defaultTypeKey === 'COUPLE';
+  });
+
+  if (!foundCoupleOrSpouse) {
+    return [registrant];
+  }
+  return group;
 }
 
 /**
  * Returns true if the given registrant is part of a couple (either couple or spouse type)
  */
-export function isRegistrantCouple(registrant, registration) {
-  const coupleRegistrants = findCoupleRegistrants(registrant, registration);
-  return coupleRegistrants.length > 1;
+export function isRegistrantCouple(
+  registrant,
+  registration,
+  getRegistrantType,
+) {
+  const coupleRegistrants = findCoupleRegistrants(
+    registrant,
+    registration,
+    getRegistrantType,
+  );
+
+  // Final check
+  return coupleRegistrants.length === 2;
 }

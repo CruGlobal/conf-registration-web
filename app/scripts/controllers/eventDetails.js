@@ -231,7 +231,6 @@ angular
         return modalInstance;
       };
 
-      // NOTE: Change to pass in type instead of id
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
           const typeToDelete = _.find($scope.conference.registrantTypes, {
@@ -691,7 +690,7 @@ angular
 
       $scope.disableField = function (field, defaultTypeKey) {
         var fields = {
-          groupSubRegistrantType: ['CHILD'],
+          groupSubRegistrantType: ['SPOUSE', 'CHILD'],
         };
         const isDefaultType = _.includes(fields[field], defaultTypeKey);
         return isDefaultType;

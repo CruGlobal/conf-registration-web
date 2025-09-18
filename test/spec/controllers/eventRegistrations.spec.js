@@ -635,6 +635,7 @@ describe('Controller: eventRegistrations', function () {
         .expectDELETE('registrations/709738ff-da79-4eed-aacd-d9f005fc7f4e')
         .respond(204, '');
 
+      expect(scope.registrants.length).toBe(2);
       const registrant = scope.registrants[0];
       scope.deleteRegistrant(registrant);
 

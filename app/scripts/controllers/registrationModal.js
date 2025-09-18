@@ -33,11 +33,112 @@ angular
         answers: [],
       };
 
+      // Initialize spouse form
+      $scope.spouseForm = {};
+
+      // Watch for changes in registration type to show/hide spouse fields
+      $scope.$watch('form.type', function (newTypeId) {
+        if (newTypeId) {
+          const selectedType = _.find(conference.registrantTypes, {
+            id: newTypeId,
+          });
+          $scope.showSpouseFields =
+            selectedType && selectedType.defaultTypeKey === 'COUPLE';
+
+          // Reset spouse form when switching away from couple type
+          if (!$scope.showSpouseFields) {
+            $scope.spouseForm = {};
+          }
+        }
+      });
+
+      // Helper function to create spouse registrant for couple types
+      function createSpouseRegistrant(registrationId) {
+        const selectedType = _.find(conference.registrantTypes, {
+          id: $scope.form.type,
+        });
+
+        const spouseAssociation = selectedType.allowedRegistrantTypeSet[0];
+
+        if (spouseAssociation) {
+          const spouseType = _.find(conference.registrantTypes, {
+            id: spouseAssociation.childRegistrantTypeId,
+          });
+          if (spouseType) {
+            const groupId = uuid();
+
+            // Set groupId on couple registrant
+            $scope.adminEditRegistrant.groupId = groupId;
+
+            return {
+              id: uuid(),
+              registrationId: primaryRegistration
+                ? primaryRegistration.id
+                : registrationId,
+              registrantTypeId: spouseType.id,
+              firstName: $scope.spouseForm.first,
+              lastName: $scope.spouseForm.last,
+              email: $scope.spouseForm.email,
+              groupId: groupId,
+              answers: [],
+            };
+          }
+        }
+        return null;
+      }
+
+      // Helper function to populate profile answers for a registrant
+      function populateProfileAnswers(
+        registration,
+        registrant,
+        formData,
+        registrantIndex,
+      ) {
+        angular.forEach(
+          _.flatten(_.map(conference.registrationPages, 'blocks')),
+          function (block) {
+            if (block.profileType === 'EMAIL' || block.profileType === 'NAME') {
+              const answer = {
+                id: uuid(),
+                registrantId: registrant.id,
+                blockId: block.id,
+              };
+
+              if (block.profileType === 'EMAIL') {
+                answer.value = formData.email;
+              } else if (block.profileType === 'NAME') {
+                answer.value = {
+                  firstName: formData.first,
+                  lastName: formData.last,
+                };
+              }
+
+              if (
+                registration.registrants[registrantIndex] &&
+                registration.registrants[registrantIndex].answers
+              ) {
+                registration.registrants[registrantIndex].answers.push(answer);
+              }
+            }
+          },
+        );
+      }
+
       $scope.register = function () {
         $scope.adminEditRegistrant.registrantTypeId = $scope.form.type;
         $scope.adminEditRegistrant.firstName = $scope.form.first;
         $scope.adminEditRegistrant.lastName = $scope.form.last;
         $scope.adminEditRegistrant.email = $scope.form.email;
+
+        let registrantsToAdd = [$scope.adminEditRegistrant];
+
+        // If couple type is selected, create spouse registrant
+        if ($scope.showSpouseFields) {
+          const spouseRegistrant = createSpouseRegistrant(registrationId);
+          if (spouseRegistrant) {
+            registrantsToAdd.push(spouseRegistrant);
+          }
+        }
 
         const registration = primaryRegistration
           ? primaryRegistration
@@ -45,48 +146,43 @@ angular
               id: registrationId,
               conferenceId: conference.id,
               completed: true,
-              registrants: [$scope.adminEditRegistrant],
+              registrants: [...registrantsToAdd],
             };
-
-        const registrantIndex = primaryRegistration
-          ? primaryRegistration.registrants.length
-          : 0;
 
         if (primaryRegistration) {
           registration.registrants = [
             ...registration.registrants,
-            $scope.adminEditRegistrant,
+            ...registrantsToAdd,
           ];
           registration.groupRegistrants = [
             ...registration.groupRegistrants,
-            $scope.adminEditRegistrant,
+            ...registrantsToAdd,
           ];
         }
 
         // populate registration answers from form
-        angular.forEach(
-          _.flatten(_.map(conference.registrationPages, 'blocks')),
-          function (block) {
-            if (block.profileType === 'EMAIL' || block.profileType === 'NAME') {
-              var answer = {
-                id: uuid(),
-                registrantId: registration.id,
-                blockId: block.id,
-              };
-
-              if (block.profileType === 'EMAIL') {
-                answer.value = $scope.form.email;
-              } else if (block.profileType === 'NAME') {
-                answer.value = {
-                  firstName: $scope.form.first,
-                  lastName: $scope.form.last,
-                };
-              }
-
-              registration.registrants[registrantIndex].answers.push(answer);
-            }
-          },
+        const primaryRegistrantIndex = primaryRegistration
+          ? primaryRegistration.registrants.length
+          : 0;
+        populateProfileAnswers(
+          registration,
+          $scope.adminEditRegistrant,
+          $scope.form,
+          primaryRegistrantIndex,
         );
+
+        // Add spouse answers if spouse registrant exists
+        if (registrantsToAdd.length > 1) {
+          const spouseRegistrantIndex = primaryRegistration
+            ? primaryRegistration.registrants.length + 1
+            : 1;
+          populateProfileAnswers(
+            registration,
+            registrantsToAdd[1],
+            $scope.spouseForm,
+            spouseRegistrantIndex,
+          );
+        }
 
         if (primaryRegistration) {
           RegistrationCache.update(
