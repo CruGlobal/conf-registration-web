@@ -9,8 +9,7 @@ angular
       $scope,
       $location,
       $filter,
-      $route,
-      ConfCache,
+      RegistrationCache,
       conference,
     ) {
       $rootScope.globalPage = {
@@ -22,6 +21,23 @@ angular
       };
 
       $scope.conference = conference;
+
+      RegistrationCache.getAllForConference($scope.conference.id, {
+        includeCheckedin: 'yes',
+        includeWithdrawn: 'no',
+        includeIncomplete: 'yes',
+      }).then(function (data) {
+        if (data && data.registrations) {
+          const completedCount = data.registrations.filter(function (
+            registration,
+          ) {
+            return registration.completed === true;
+          }).length;
+
+          $scope.conference.completedRegistrationCount = completedCount;
+          $scope.conference.registrationCount = data.registrations.length;
+        }
+      });
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
         $scope.conference.locationState,
