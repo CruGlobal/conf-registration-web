@@ -22,3 +22,6 @@ coverage
 package-lock.json
 .next
 .vs
+
+# Claude files
+.ai-review.json
