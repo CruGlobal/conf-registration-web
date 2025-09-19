@@ -11,7 +11,8 @@
         class="form-control"
         ng-model="form.type"
         ng-change="adminEditRegistrant.registrantTypeId = form.type"
-        ng-options="t.id as t.name for t in conference.registrantTypes"
+        ng-options="t.id as t.name for t in conference.registrantTypes | filter:excludeNonAllowedType"
+        ng-disabled="fromGroupModal"
       ></select>
     </div>
     <div class="form-group">
@@ -48,6 +49,45 @@
       >
     </div>
 
+    <!-- Spouse Registration Fields -->
+    <div ng-if="showSpouseFields" class="spouse-registration-section">
+      <hr />
+      <h5 translate>Spouse Registration (Required)</h5>
+      <div class="form-group">
+        <label class="control-label" translate>Spouse First Name</label>
+        <input
+          show-errors
+          class="form-control"
+          type="text"
+          ng-required="showSpouseFields"
+          ng-model="spouseForm.first"
+        />
+      </div>
+      <div class="form-group">
+        <label class="control-label" translate>Spouse Last Name</label>
+        <input
+          show-errors
+          class="form-control"
+          type="text"
+          ng-required="showSpouseFields"
+          ng-model="spouseForm.last"
+        />
+      </div>
+      <div class="form-group">
+        <label class="control-label" translate>Spouse Email</label>
+        <input
+          show-errors
+          class="form-control"
+          type="email"
+          ng-required="showSpouseFields"
+          ng-model="spouseForm.email"
+        />
+        <span class="help-block help-block-hidden" translate
+          >Please enter a valid email such as: example@example.com</span
+        >
+      </div>
+    </div>
+
     <div ng-repeat="page in conference.registrationPages">
       <div
         ng-repeat="block in page.blocks"
@@ -69,7 +109,7 @@
     <button
       type="submit"
       class="btn btn-success"
-      ng-disabled="!simpleRegistrationForm.$valid"
+      ng-disabled="!simpleRegistrationForm.$valid || (showSpouseFields && (!spouseForm.first || !spouseForm.last || !spouseForm.email))"
       translate
     >
       Add Registration

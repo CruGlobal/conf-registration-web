@@ -38,18 +38,18 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       testData.registration.registrants = [];
       initController();
 
-      expect(scope.allowGroupRegistration).toBe(false);
+      expect(scope.allowGroupRegistration()).toBe(false);
     });
 
     it('is false when allowGroupRegistrations is false for all registrant types', () => {
       testData.conference.registrantTypes[1].allowGroupRegistrations = false;
       initController();
 
-      expect(scope.allowGroupRegistration).toBe(false);
+      expect(scope.allowGroupRegistration()).toBe(false);
     });
 
     it('is true when allowGroupRegistrations is true for one registrant type', () => {
-      expect(scope.allowGroupRegistration).toBe(true);
+      expect(scope.allowGroupRegistration()).toBe(true);
     });
   });
 
