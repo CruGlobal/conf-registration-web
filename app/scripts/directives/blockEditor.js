@@ -146,6 +146,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       //generate a map of regTypes where the keys are the type ids and the values are booleans indicating whether the regType is shown (false means hidden)
       angular.forEach($scope.conference.registrantTypes, function (type) {
+        // We store the registrantTypes on the block that should NOT show the question.
+        // Which is why the value is inverted here.
         $scope.visibleRegTypes[type.id] = !_.includes(
           $scope.block.registrantTypes,
           type.id,
@@ -354,7 +356,15 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         return _.find($scope.conference.registrantTypes, { id: id }).name;
       };
 
-      $scope.onChoiceOptionChange = function () {
+      $scope.storePreviousValue = function (optionIndex) {
+        if (!$scope.previousChoiceValues) {
+          $scope.previousChoiceValues = {};
+        }
+        $scope.previousChoiceValues[optionIndex] =
+          $scope.block.content.choices[optionIndex].value;
+      };
+
+      $scope.onChoiceOptionChange = function (optionIndex) {
         if ($scope.block.type === 'checkboxQuestion') {
           var keyName, key;
 
@@ -380,6 +390,32 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
                 $scope.block.content.forceSelections[key] = undefined;
               }
             }
+          }
+        }
+
+        // if radio, update the selected answer if the selected option was edited
+        if (
+          $scope.block.type === 'radioQuestion' &&
+          angular.isDefined(optionIndex)
+        ) {
+          const previousValue =
+            $scope.previousChoiceValues &&
+            $scope.previousChoiceValues[optionIndex];
+          const currentSelectedValue = $scope.block.content.default;
+
+          // If the previous value matches the currently selected value,
+          // update the selected value to the new edited value
+          if (previousValue && previousValue === currentSelectedValue) {
+            const editedOption = $scope.block.content.choices[optionIndex];
+            $scope.block.content.default = editedOption.value;
+
+            // Also update the answer model
+            if ($scope.answer) {
+              $scope.answer.value = editedOption.value;
+            }
+
+            // Update the stored previous value to the new value for next edit
+            $scope.previousChoiceValues[optionIndex] = editedOption.value;
           }
         }
       };
