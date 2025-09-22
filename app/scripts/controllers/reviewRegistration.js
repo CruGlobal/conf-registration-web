@@ -398,7 +398,7 @@ angular
                   ? 'The promo code you have entered is invalid or does not apply to your registration.'
                   : msg,
               title: 'Invalid Code',
-              forceAction: true,
+              forceAction: false,
             });
           });
       };
