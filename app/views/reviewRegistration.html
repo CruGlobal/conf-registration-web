@@ -106,7 +106,12 @@
           ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0"
         >
           <tr>
-            <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
+            <td
+              aria-label="Show registrant details"
+              tabindex="0"
+              ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
+              ng-keydown="$event.key === 'Enter' && (expandRegistrant[r.id] = !expandRegistrant[r.id])"
+            >
               <i
                 class="fa"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
