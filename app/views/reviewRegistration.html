@@ -110,7 +110,8 @@
               aria-label="Show registrant details"
               tabindex="0"
               ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
-              ng-keydown="$event.key === 'Enter' && (expandRegistrant[r.id] = !expandRegistrant[r.id])"
+              ng-keydown="($event.key === 'Enter' || $event.key === ' ') &&
+                         (expandRegistrant[r.id] = !expandRegistrant[r.id])"
             >
               <i
                 class="fa"
