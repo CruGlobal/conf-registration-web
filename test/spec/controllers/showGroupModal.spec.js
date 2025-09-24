@@ -60,7 +60,7 @@ describe('Component: showGroupModal', function () {
     it('should return false when allowedRegistrantTypeSet is undefined', function () {
       controller.getRegistrantType.and.returnValue({
         id: 'primary-type-id',
-        allowedRegistrantTypeSet: null,
+        allowedRegistrantTypeSet: undefined,
       });
 
       expect(controller.registrationTypeFull({ id: 'any-type-id' })).toBe(
@@ -71,7 +71,7 @@ describe('Component: showGroupModal', function () {
     it('should return false when allowedRegistrantTypeSet is null', function () {
       controller.getRegistrantType.and.returnValue({
         id: 'primary-type-id',
-        allowedRegistrantTypeSet: null,
+        allowedRegistrantTypeSet: undefined,
       });
 
       expect(controller.registrationTypeFull({ id: 'any-type-id' })).toBe(
@@ -115,6 +115,55 @@ describe('Component: showGroupModal', function () {
 
       expect(controller.registrationTypeFull({ id: 'any-type-id' })).toBe(
         false,
+      );
+    });
+
+    it('should return true when allowedRegistrantTypeSet length is equal to numberOfChildRegistrants', function () {
+      controller.getRegistrantType.and.returnValue({
+        id: 'primary-type-id',
+        allowedRegistrantTypeSet: [
+          {
+            childRegistrantTypeId: 'child-type-id',
+            numberOfChildRegistrants: 2,
+          },
+        ],
+      });
+      controller.getRegistration.and.returnValue({
+        groupRegistrants: [
+          { id: 'primary-id', registrantTypeId: 'primary-type-id' },
+          { id: 'child-id-1', registrantTypeId: 'child-type-id' },
+          { id: 'child-id-2', registrantTypeId: 'child-type-id' },
+        ],
+        primaryRegistrantId: 'primary-id',
+      });
+
+      expect(controller.registrationTypeFull({ id: 'child-type-id' })).toBe(
+        true,
+      );
+    });
+
+    it('should return true when allowedRegistrantTypeSet length > numberOfChildRegistrants', function () {
+      controller.getRegistrantType.and.returnValue({
+        id: 'primary-type-id',
+        allowedRegistrantTypeSet: [
+          {
+            childRegistrantTypeId: 'child-type-id',
+            numberOfChildRegistrants: 2,
+          },
+        ],
+      });
+      controller.getRegistration.and.returnValue({
+        groupRegistrants: [
+          { id: 'primary-id', registrantTypeId: 'primary-type-id' },
+          { id: 'child-id-1', registrantTypeId: 'child-type-id' },
+          { id: 'child-id-2', registrantTypeId: 'child-type-id' },
+          { id: 'child-id-3', registrantTypeId: 'child-type-id' },
+        ],
+        primaryRegistrantId: 'primary-id',
+      });
+
+      expect(controller.registrationTypeFull({ id: 'child-type-id' })).toBe(
+        true,
       );
     });
   });

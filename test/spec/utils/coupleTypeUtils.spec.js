@@ -3,6 +3,9 @@ import 'angular-mocks';
 
 describe('coupleTypeUtils', () => {
   let testData;
+  // Matches couple and spouse in testData
+  const spouseTypeId = 'a1b2c3d4-e5f6-7890-abcd-1234567890ef';
+  const coupleTypeId = 'b2c3d4e5-f6a7-8901-bcde-234567890abc';
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -15,25 +18,25 @@ describe('coupleTypeUtils', () => {
   describe('deleteSpouseType', () => {
     it('should remove spouse type from registrant types', () => {
       coupleTypeUtils.deleteSpouseType(
-        'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+        spouseTypeId,
         testData.conference.registrantTypes,
       );
 
       expect(
         testData.conference.registrantTypes.find(
-          (type) => type.id === 'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+          (type) => type.id === spouseTypeId,
         ),
       ).toBeUndefined();
     });
 
     it('should remove spouse associations from all registrant types', () => {
       coupleTypeUtils.deleteSpouseType(
-        'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+        spouseTypeId,
         testData.conference.registrantTypes,
       );
 
       const coupleType = testData.conference.registrantTypes.find(
-        (type) => type.id === 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        (type) => type.id === coupleTypeId,
       );
 
       expect(coupleType.allowedRegistrantTypeSet.length).toBe(0);
@@ -48,7 +51,7 @@ describe('coupleTypeUtils', () => {
       );
 
       expect(result).toBeTruthy();
-      expect(result.id).toBe('b2c3d4e5-f6a7-8901-bcde-234567890abc');
+      expect(result.id).toBe(coupleTypeId);
     });
 
     it('should return null if no couple found for spouse', () => {
@@ -62,12 +65,12 @@ describe('coupleTypeUtils', () => {
 
     it('should return null if couple type has no allowedRegistrantTypeSet', () => {
       const coupleType = testData.conference.registrantTypes.find(
-        (type) => type.id === 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        (type) => type.id === coupleTypeId,
       );
       coupleType.allowedRegistrantTypeSet = null;
 
       const result = coupleTypeUtils.findCoupleForSpouse(
-        'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+        spouseTypeId,
         testData.conference.registrantTypes,
       );
 
@@ -78,12 +81,12 @@ describe('coupleTypeUtils', () => {
   describe('findSpouseForCouple', () => {
     it('should find spouse type for given couple', () => {
       const result = coupleTypeUtils.findSpouseForCouple(
-        'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        coupleTypeId,
         testData.conference.registrantTypes,
       );
 
       expect(result).toBeTruthy();
-      expect(result.id).toBe('a1b2c3d4-e5f6-7890-abcd-1234567890ef');
+      expect(result.id).toBe(spouseTypeId);
     });
 
     it('should return null if couple not found', () => {
@@ -97,12 +100,12 @@ describe('coupleTypeUtils', () => {
 
     it('should return null if couple has no allowedRegistrantTypeSet', () => {
       const coupleType = testData.conference.registrantTypes.find(
-        (type) => type.id === 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        (type) => type.id === coupleTypeId,
       );
       coupleType.allowedRegistrantTypeSet = null;
 
       const result = coupleTypeUtils.findSpouseForCouple(
-        'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        coupleTypeId,
         testData.conference.registrantTypes,
       );
 
@@ -111,12 +114,12 @@ describe('coupleTypeUtils', () => {
 
     it('should return null if no selected association found', () => {
       const coupleType = testData.conference.registrantTypes.find(
-        (type) => type.id === 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        (type) => type.id === coupleTypeId,
       );
       coupleType.allowedRegistrantTypeSet[0].selected = false;
 
       const result = coupleTypeUtils.findSpouseForCouple(
-        'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+        coupleTypeId,
         testData.conference.registrantTypes,
       );
 
@@ -146,9 +149,7 @@ describe('coupleTypeUtils', () => {
       );
 
       const spouse = newRegistrantTypes.find(
-        (t) =>
-          t.defaultTypeKey === 'SPOUSE' &&
-          t.id === 'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+        (t) => t.defaultTypeKey === 'SPOUSE' && t.id === spouseTypeId,
       );
 
       expect(spouse.description).toBe('New Description');
@@ -170,7 +171,7 @@ describe('coupleTypeUtils', () => {
 
       it('should return false for spouse type with associated couple', () => {
         const spouseType = testData.conference.registrantTypes.find(
-          (type) => type.id === 'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+          (type) => type.id === spouseTypeId,
         );
 
         const result = coupleTypeUtils.shouldShowRegistrantType(

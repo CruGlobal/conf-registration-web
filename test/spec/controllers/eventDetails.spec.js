@@ -593,47 +593,45 @@ describe('Controller: eventDetails', function () {
     });
   });
 
-  it('should give spouse type a description when couple type description is changed', function () {
-    inject(function ($controller, $rootScope) {
-      scope = $rootScope.$new();
+  describe('couple/spouse data syncing', function () {
+    it('should give spouse type a description when couple type description is changed', inject(function (
+      $controller,
+      $rootScope,
+    ) {
+      $rootScope.$new();
 
-      const conference = angular.copy(testData.conference);
+      $controller('eventDetailsCtrl', {
+        $scope: scope,
+        conference: testData.conference,
+        currencies: testData.currencies,
+        permissions: {},
+      });
+
+      const conference = scope.conference;
       const coupleType = _.find(
         conference.registrantTypes,
-        (type) => type.defaultTypeKey === 'COUPLE',
+        (t) => t.defaultTypeKey === 'COUPLE',
       );
       const spouseType = _.find(
         conference.registrantTypes,
-        (type) => type.defaultTypeKey === 'SPOUSE',
+        (t) => t.defaultTypeKey === 'SPOUSE',
       );
 
       coupleType.description = 'Old Description';
       spouseType.description = 'Old Description';
 
-      $controller('eventDetailsCtrl', {
-        $scope: scope,
-        conference,
-        currencies: testData.currencies,
-        permissions: {},
-      });
-
-      expect(coupleType).toBeDefined();
-      expect(spouseType).toBeDefined();
-
       const newDescription = 'New Couple Description';
       coupleType.description = newDescription;
 
       const oldRegistrantTypes = angular.copy(conference.registrantTypes);
-      const coupleTypeOld = _.find(
+      _.find(
         oldRegistrantTypes,
-        (type) => type.defaultTypeKey === 'COUPLE',
-      );
-      const spouseTypeOld = _.find(
+        (t) => t.defaultTypeKey === 'COUPLE',
+      ).description = 'Old Description';
+      _.find(
         oldRegistrantTypes,
-        (type) => type.defaultTypeKey === 'SPOUSE',
-      );
-      coupleTypeOld.description = 'Old Description';
-      spouseTypeOld.description = 'Old Description';
+        (t) => t.defaultTypeKey === 'SPOUSE',
+      ).description = 'Old Description';
 
       scope.syncCoupleDescriptions(
         conference.registrantTypes,
@@ -642,6 +640,6 @@ describe('Controller: eventDetails', function () {
 
       expect(coupleType.description).toBe(newDescription);
       expect(spouseType.description).toBe(newDescription);
-    });
+    }));
   });
 });
