@@ -1,5 +1,3 @@
-/* eslint-disable angular/log */
-/* eslint-disable no-console */
 import {
   isRegistrantCouple,
   findCoupleForSpouse,
