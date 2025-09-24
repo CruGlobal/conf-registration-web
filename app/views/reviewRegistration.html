@@ -106,17 +106,14 @@
           ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0"
         >
           <tr>
-            <td
-              aria-label="Show registrant details"
-              tabindex="0"
-              ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
-              ng-keydown="($event.key === 'Enter' || $event.key === ' ') &&
-                         (expandRegistrant[r.id] = !expandRegistrant[r.id])"
-            >
-              <i
-                class="fa"
+            <td>
+              <button
+                aria-label="Show registrant details"
+                ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
+                class="fa btn-unstyled"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
-              ></i>
+                style="border: none; background: none"
+              ></button>
             </td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
               {{r.firstName}} {{r.lastName}}
@@ -199,14 +196,15 @@
         <tbody
           ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'"
         >
-          <tr
-            ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
-          >
+          <tr>
             <td>
-              <i
-                class="fa"
+              <button
+                aria-label="Show registrant details"
+                ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
+                class="fa btn-unstyled"
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
-              ></i>
+                style="border: none; background: none"
+              ></button>
             </td>
             <td>{{r.firstName}} {{r.lastName}}</td>
             <td>
