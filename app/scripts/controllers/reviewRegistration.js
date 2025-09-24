@@ -1,5 +1,6 @@
+/* eslint-disable angular/log */
+/* eslint-disable no-console */
 import {
-  isSpouseType,
   isRegistrantCouple,
   findCoupleForSpouse,
 } from '../utils/coupleTypeUtils';
@@ -36,7 +37,6 @@ angular
       };
 
       // Couple-spouse related utility functions
-      $scope.isSpouseType = isSpouseType;
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
 
@@ -155,11 +155,10 @@ angular
       };
 
       $scope.spouseIsRegistered = function () {
-        return $scope.currentRegistration.registrants.some(function (
+        return $scope.currentRegistration.registrants.find(function (
           registrant,
         ) {
-          const regType = $scope.getRegistrantType(registrant.registrantTypeId);
-          return regType && regType.defaultTypeKey === 'SPOUSE';
+          return $scope.isSpouse(registrant);
         });
       };
 
@@ -354,7 +353,7 @@ angular
             currentRegistration,
             $scope.getRegistrantType,
           );
-          // return false is registrant is a couple or spouse type
+          // return false if registrant is a couple or spouse type
           return !isCoupleRegistrant;
         }
 
@@ -445,8 +444,11 @@ angular
         const type = $scope.getRegistrantType(registrant.registrantTypeId);
         return (
           type &&
-          $scope.isSpouseType(type) &&
-          $scope.findCoupleForSpouse(type.id, conference.registrantTypes, false)
+          !!$scope.findCoupleForSpouse(
+            type.id,
+            conference.registrantTypes,
+            false,
+          )
         );
       };
     },
