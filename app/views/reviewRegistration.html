@@ -416,6 +416,9 @@
       <p ng-if="!allRegistrantsValid()" style="color: red" translate>
         Please fill in all required fields in red before submitting.
       </p>
+      <p ng-if="requireSpouseRegistration()">
+        Please register your spouse before continuing.
+      </p>
       <button
         class="btn btn-lg btn-success btn-important confirm-registration"
         ng-click="confirmRegistration()"

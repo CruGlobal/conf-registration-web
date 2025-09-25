@@ -124,6 +124,23 @@ angular
         );
       };
 
+      $scope.requireSpouseRegistration = function () {
+        const primaryRegistrantType = primaryRegType(currentRegistration);
+
+        if (primaryRegistrantType.defaultTypeKey !== 'COUPLE') {
+          return false;
+        }
+        return !$scope.spouseIsRegistered();
+      };
+
+      $scope.spouseIsRegistered = function () {
+        return $scope.currentRegistration.registrants.find(function (
+          registrant,
+        ) {
+          return $scope.isSpouse(registrant);
+        });
+      };
+
       // Display an error that occurred during registration completion
       function handleRegistrationError(error) {
         if (!error) {
