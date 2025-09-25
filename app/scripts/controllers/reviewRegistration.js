@@ -1,3 +1,8 @@
+import {
+  isRegistrantCouple,
+  findCoupleForSpouse,
+} from '../utils/coupleTypeUtils';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -28,6 +33,10 @@ angular
         confId: conference.id,
         footer: false,
       };
+
+      // Couple-spouse related utility functions
+      $scope.isRegistrantCouple = isRegistrantCouple;
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
