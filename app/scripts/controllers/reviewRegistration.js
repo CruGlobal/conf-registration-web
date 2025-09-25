@@ -387,5 +387,17 @@ angular
       $scope.hasPendingCheckPayment = function (payments) {
         return _.some(payments, { paymentType: 'CHECK', status: 'PENDING' });
       };
+
+      $scope.isSpouse = function (registrant) {
+        const type = $scope.getRegistrantType(registrant.registrantTypeId);
+        return (
+          type &&
+          !!$scope.findCoupleForSpouse(
+            type.id,
+            conference.registrantTypes,
+            false,
+          )
+        );
+      };
     },
   );

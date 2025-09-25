@@ -202,7 +202,10 @@
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
               ></i>
             </td>
-            <td>{{r.firstName}} {{r.lastName}}</td>
+            <td>
+              {{r.firstName}} {{r.lastName}}
+              <span ng-if="isSpouse(r)">(Cost included in couple price)</span>
+            </td>
             <td>
               <span ng-if="!expandRegistrantCost[r.id]"
                 >{{r.calculatedTotalDue |
