@@ -130,54 +130,59 @@ angular
         $scope.adminEditRegistrant.lastName = $scope.form.last;
         $scope.adminEditRegistrant.email = $scope.form.email;
 
+        let registrantsToAdd = [$scope.adminEditRegistrant];
+
+        // If couple type is selected, create spouse registrant
+        if ($scope.showSpouseFields) {
+          const spouseRegistrant = createSpouseRegistrant(registrationId);
+          if (spouseRegistrant) {
+            registrantsToAdd.push(spouseRegistrant);
+          }
+        }
+
         const registration = primaryRegistration
           ? primaryRegistration
           : {
               id: registrationId,
               conferenceId: conference.id,
               completed: true,
-              registrants: [$scope.adminEditRegistrant],
+              registrants: [...registrantsToAdd],
             };
-
-        const registrantIndex = primaryRegistration
-          ? primaryRegistration.registrants.length
-          : 0;
 
         if (primaryRegistration) {
           registration.registrants = [
             ...registration.registrants,
-            $scope.adminEditRegistrant,
+            ...registrantsToAdd,
           ];
           registration.groupRegistrants = [
             ...registration.groupRegistrants,
-            $scope.adminEditRegistrant,
+            ...registrantsToAdd,
           ];
         }
 
         // populate registration answers from form
-        angular.forEach(
-          _.flatten(_.map(conference.registrationPages, 'blocks')),
-          function (block) {
-            if (block.profileType === 'EMAIL' || block.profileType === 'NAME') {
-              var answer = {
-                id: uuid(),
-                registrantId: registration.id,
-                blockId: block.id,
-              };
-
-              if (block.profileType === 'EMAIL') {
-                answer.value = $scope.form.email;
-              } else if (block.profileType === 'NAME') {
-                answer.value = {
-                  firstName: $scope.form.first,
-                  lastName: $scope.form.last,
-                };
-              }
-
-              registration.registrants[registrantIndex].answers.push(answer);
-            }
-          },
+        const primaryRegistrantIndex = primaryRegistration
+          ? primaryRegistration.registrants.length
+          : 0;
+        populateProfileAnswers(
+          registration,
+          $scope.adminEditRegistrant,
+          $scope.form,
+          primaryRegistrantIndex,
         );
+
+        // Add spouse answers if spouse registrant exists
+        if (registrantsToAdd.length > 1) {
+          const spouseRegistrantIndex = primaryRegistration
+            ? primaryRegistration.registrants.length + 1
+            : 1;
+          populateProfileAnswers(
+            registration,
+            registrantsToAdd[1],
+            $scope.spouseForm,
+            spouseRegistrantIndex,
+          );
+        }
 
         if (primaryRegistration) {
           RegistrationCache.update(
