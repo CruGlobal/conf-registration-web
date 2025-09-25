@@ -33,6 +33,97 @@ angular
         answers: [],
       };
 
+      // Initialize spouse form
+      $scope.spouseForm = {};
+
+      // Watch for changes in registration type to show/hide spouse fields
+      $scope.$watch('form.type', function (newTypeId) {
+        if (newTypeId) {
+          const selectedType = _.find(conference.registrantTypes, {
+            id: newTypeId,
+          });
+          $scope.showSpouseFields =
+            selectedType && selectedType.defaultTypeKey === 'COUPLE';
+
+          // Reset spouse form when switching away from couple type
+          if (!$scope.showSpouseFields) {
+            $scope.spouseForm = {};
+          }
+        }
+      });
+
+      // Helper function to create spouse registrant for couple types
+      function createSpouseRegistrant(registrationId) {
+        const selectedType = _.find(conference.registrantTypes, {
+          id: $scope.form.type,
+        });
+
+        const spouseAssociation = selectedType.allowedRegistrantTypeSet[0];
+
+        if (spouseAssociation) {
+          const spouseType = _.find(conference.registrantTypes, {
+            id: spouseAssociation.childRegistrantTypeId,
+          });
+          if (spouseType) {
+            const groupId = uuid();
+
+            // Set groupId on couple registrant
+            $scope.adminEditRegistrant.groupId = groupId;
+
+            return {
+              id: uuid(),
+              registrationId: primaryRegistration
+                ? primaryRegistration.id
+                : registrationId,
+              registrantTypeId: spouseType.id,
+              firstName: $scope.spouseForm.first,
+              lastName: $scope.spouseForm.last,
+              email: $scope.spouseForm.email,
+              groupId: groupId,
+              answers: [],
+            };
+          }
+        }
+        return null;
+      }
+
+      // Helper function to populate profile answers for a registrant
+      function populateProfileAnswers(
+        registration,
+        registrant,
+        formData,
+        registrantIndex,
+      ) {
+        angular.forEach(
+          _.flatten(_.map(conference.registrationPages, 'blocks')),
+          function (block) {
+            if (block.profileType === 'EMAIL' || block.profileType === 'NAME') {
+              const answer = {
+                id: uuid(),
+                registrantId: registrant.id,
+                blockId: block.id,
+              };
+
+              if (block.profileType === 'EMAIL') {
+                answer.value = formData.email;
+              } else if (block.profileType === 'NAME') {
+                answer.value = {
+                  firstName: formData.first,
+                  lastName: formData.last,
+                };
+              }
+
+              if (
+                registration.registrants[registrantIndex] &&
+                registration.registrants[registrantIndex].answers
+              ) {
+                registration.registrants[registrantIndex].answers.push(answer);
+              }
+            }
+          },
+        );
+      }
+
       $scope.register = function () {
         $scope.adminEditRegistrant.registrantTypeId = $scope.form.type;
         $scope.adminEditRegistrant.firstName = $scope.form.first;
