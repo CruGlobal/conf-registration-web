@@ -67,13 +67,31 @@ angular
         return _.find(conference.registrantTypes, { id });
       };
 
-      //check if group registration is allowed based on registrants already in registration
-      $scope.allowGroupRegistration = currentRegistration.registrants.some(
-        (registrant) =>
-          $scope.getRegistrantType(registrant.registrantTypeId)
-            .allowGroupRegistrations,
-      );
+      // Helper function to check if couple-spouse pair exists
+      const coupleSpousePairExists = () => {
+        return currentRegistration.registrants.some((registrant) => {
+          return $scope.isRegistrantCouple(
+            registrant,
+            currentRegistration,
+            $scope.getRegistrantType,
+          );
+        });
+      };
 
+      //check if group registration is allowed based on registrants already in registration
+      $scope.allowGroupRegistration = () => {
+        // If registration is completed and couple-spouse pair exists, prevent group registration
+        if (currentRegistration.completed && coupleSpousePairExists()) {
+          return false;
+        }
+
+        const allow = currentRegistration.registrants.some(
+          (registrant) =>
+            $scope.getRegistrantType(registrant.registrantTypeId)
+              .allowGroupRegistrations,
+        );
+        return allow;
+      };
       // TODO: $scope.currentPayment is always undefined and conference.accept* is also undefined
       // We need to need to use $scope.acceptedPaymentMethods() to calculate the initial payment type
       if (angular.isUndefined($scope.currentPayment)) {
