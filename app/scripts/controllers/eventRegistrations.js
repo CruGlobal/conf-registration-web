@@ -3,6 +3,10 @@ import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
+import {
+  findCoupleRegistrants,
+  isRegistrantCouple,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -73,6 +77,10 @@ angular
         'name',
       );
       var expandedRegistrations = {};
+
+      // Couple type utility functions
+      $scope.findCoupleRegistrants = findCoupleRegistrants;
+      $scope.isRegistrantCouple = isRegistrantCouple;
 
       $scope.$watch(
         'queryParameters',
