@@ -138,7 +138,8 @@ angular
         return Boolean(
           $scope.registerMode === 'preview' ||
             !$scope.allRegistrantsValid() ||
-            $scope.submittingRegistration,
+            $scope.submittingRegistration ||
+            $scope.requireSpouseRegistration(),
         );
       };
 
