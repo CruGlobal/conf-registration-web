@@ -524,6 +524,29 @@ angular
         return _.find(conference.registrantTypes, { id: id });
       };
 
+      $scope.showModal = function (title, question, yesMessage, noMessage) {
+        return modalMessage.confirm({
+          title: title,
+          question: question,
+          yesString: yesMessage,
+          noString: noMessage || 'Cancel',
+          normalSize: true,
+        });
+      };
+
+      $scope.buildCoupleWithdrawMessage = function (value) {
+        const title = value
+          ? 'Withdraw Couple/Spouse'
+          : 'Reinstate Couple/Spouse';
+        const yesString = value ? 'Withdraw Both' : 'Reinstate Both';
+        const warningMessage =
+          (value ? 'Withdrawing' : 'Reinstating') +
+          ' this registrant will also ' +
+          (value ? 'withdraw' : 'reinstate') +
+          ' their spouse.<br><br>';
+        return { title, yesString, warningMessage };
+      };
+
       $scope.withdrawRegistrant = function (registrant, value) {
         if (!hasPermission()) {
           return;
@@ -577,6 +600,22 @@ angular
             $rootScope.loadingMsg = '';
           });
       };
+
+      // Helper function to build warning message
+      $scope.buildDeletionWarningMessage = function (isCouple) {
+        let title = 'Delete Registrant';
+        let yesString = 'Delete';
+        let warningMessage = 'Are you sure you want to delete this registrant?';
+        if (isCouple) {
+          title = 'Delete Couple/Spouse Registrants';
+          yesString = 'Delete Both';
+          warningMessage =
+            'Deleting this registrant will also delete their spouse and any associated registrations.<br><br>' +
+            warningMessage;
+        }
+        return { title, yesString, warningMessage };
+      };
+
 
       $scope.deleteRegistrant = function (registrant) {
         if (!hasPermission()) {
