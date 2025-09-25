@@ -83,11 +83,10 @@ describe('Controller: eventDetails', function () {
       });
 
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
-      expect(scope.conference.registrantTypes[3].name).toEqual(
-        'Additional Type',
+      const addedType = scope.conference.registrantTypes.find(
+        (type) => type.name === 'Additional Type',
       );
-
-      expect(scope.conference.registrantTypes[3].eform).toEqual(true);
+      expect(addedType.eform).toEqual(true);
     });
 
     it('deleteRegType should remove reg type', function () {
@@ -406,5 +405,241 @@ describe('Controller: eventDetails', function () {
         'Please enter which Event Type',
       );
     });
+
+    describe('couple/spouse deletion cascading', function () {
+      it('should delete spouse type when couple type is deleted', function () {
+        const coupleType = _.find(
+          testData.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'COUPLE',
+        );
+        const spouseType = _.find(
+          testData.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'SPOUSE',
+        );
+
+        const initialLength = scope.conference.registrantTypes.length;
+
+        expect(coupleType).toBeDefined();
+        expect(spouseType).toBeDefined();
+
+        scope.deleteRegType(coupleType.id);
+
+        const remainingTypes = scope.conference.registrantTypes;
+
+        expect(remainingTypes.length).toBe(initialLength - 2);
+        expect(_.find(remainingTypes, { id: coupleType.id })).toBeUndefined();
+        expect(_.find(remainingTypes, { id: spouseType.id })).toBeUndefined();
+      });
+
+      it('should remove deleted couple type from all allowedRegistrantTypeSet arrays', function () {
+        const coupleType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'COUPLE',
+        );
+
+        // Add couple type to another registrant type's allowedRegistrantTypeSet
+        const otherType = scope.conference.registrantTypes[0];
+        otherType.allowedRegistrantTypeSet = [
+          {
+            id: 'test-id',
+            childRegistrantTypeId: coupleType.id,
+            numberOfChildRegistrants: 2,
+            selected: true,
+          },
+        ];
+
+        expect(otherType.allowedRegistrantTypeSet.length).toBe(1);
+
+        scope.deleteRegType(coupleType.id);
+
+        expect(otherType.allowedRegistrantTypeSet.length).toBe(0);
+      });
+
+      it('should remove deleted spouse type from all allowedRegistrantTypeSet arrays when couple is deleted', function () {
+        const coupleType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'COUPLE',
+        );
+        const spouseType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'SPOUSE',
+        );
+
+        // Add spouse type to another registrant type's allowedRegistrantTypeSet
+        const otherType = scope.conference.registrantTypes[0];
+        otherType.allowedRegistrantTypeSet = [
+          {
+            id: 'test-id-spouse',
+            childRegistrantTypeId: spouseType.id,
+            numberOfChildRegistrants: 1,
+            selected: true,
+          },
+        ];
+
+        expect(otherType.allowedRegistrantTypeSet.length).toBe(1);
+
+        scope.deleteRegType(coupleType.id);
+
+        // Both couple and spouse should be removed from allowedRegistrantTypeSet
+        expect(otherType.allowedRegistrantTypeSet.length).toBe(0);
+      });
+
+      it('should not delete spouse type when regular registrant type is deleted', function () {
+        const regularType = _.find(
+          scope.conference.registrantTypes,
+          (type) =>
+            type.defaultTypeKey !== 'COUPLE' &&
+            type.defaultTypeKey !== 'SPOUSE',
+        );
+        const spouseType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'SPOUSE',
+        );
+
+        const initialLength = scope.conference.registrantTypes.length;
+
+        expect(regularType).toBeDefined();
+        expect(spouseType).toBeDefined();
+
+        scope.deleteRegType(regularType.id);
+
+        const remainingTypes = scope.conference.registrantTypes;
+
+        expect(remainingTypes.length).toBe(initialLength - 1);
+        expect(_.find(remainingTypes, { id: regularType.id })).toBeUndefined();
+        expect(_.find(remainingTypes, { id: spouseType.id })).toBeDefined();
+      });
+
+      it('should handle deletion when spouse type is not found for couple', function () {
+        // Create a couple type without an associated spouse
+        scope.conference.registrantTypes.push({
+          id: 'lone-couple-id',
+          name: 'Lone Couple',
+          defaultTypeKey: 'COUPLE',
+          allowedRegistrantTypeSet: [],
+        });
+
+        const initialLength = scope.conference.registrantTypes.length;
+
+        // Should not throw error when no spouse is found
+        expect(() => {
+          scope.deleteRegType('lone-couple-id');
+        }).not.toThrow();
+
+        expect(scope.conference.registrantTypes.length).toBe(initialLength - 1);
+      });
+
+      it('should handle multiple allowedRegistrantTypeSet entries correctly during deletion', function () {
+        const coupleType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'COUPLE',
+        );
+        const spouseType = _.find(
+          scope.conference.registrantTypes,
+          (type) => type.defaultTypeKey === 'SPOUSE',
+        );
+        const regularType = scope.conference.registrantTypes[0];
+
+        // Add multiple entries to allowedRegistrantTypeSet
+        regularType.allowedRegistrantTypeSet = [
+          {
+            id: 'entry-1',
+            childRegistrantTypeId: coupleType.id,
+            numberOfChildRegistrants: 2,
+            selected: true,
+          },
+          {
+            id: 'entry-2',
+            childRegistrantTypeId: spouseType.id,
+            numberOfChildRegistrants: 1,
+            selected: true,
+          },
+          {
+            id: 'entry-3',
+            childRegistrantTypeId: 'some-other-id',
+            numberOfChildRegistrants: 3,
+            selected: true,
+          },
+        ];
+
+        expect(regularType.allowedRegistrantTypeSet.length).toBe(3);
+
+        scope.deleteRegType(coupleType.id);
+
+        // Should remove both couple and spouse entries, keeping only the other entry
+        expect(regularType.allowedRegistrantTypeSet.length).toBe(1);
+        expect(
+          regularType.allowedRegistrantTypeSet[0].childRegistrantTypeId,
+        ).toBe('some-other-id');
+      });
+
+      it('should prevent deletion when only one registrant type remains', function () {
+        // Remove all but one registrant type
+        scope.conference.registrantTypes = [
+          scope.conference.registrantTypes[0],
+        ];
+
+        const singleType = scope.conference.registrantTypes[0];
+
+        scope.deleteRegType(singleType.id);
+
+        // Should not delete the type and should show error notification
+        expect(scope.conference.registrantTypes.length).toBe(1);
+        expect(scope.notify.class).toBe('alert-danger');
+        expect(scope.notify.message.toString()).toContain(
+          'You must have at least one registrant type per event',
+        );
+      });
+    });
+  });
+
+  describe('couple/spouse data syncing', function () {
+    it('should give spouse type a description when couple type description is changed', inject(function (
+      $controller,
+      $rootScope,
+    ) {
+      $rootScope.$new();
+
+      $controller('eventDetailsCtrl', {
+        $scope: scope,
+        conference: testData.conference,
+        currencies: testData.currencies,
+        permissions: {},
+      });
+
+      const conference = scope.conference;
+      const coupleType = _.find(
+        conference.registrantTypes,
+        (t) => t.defaultTypeKey === 'COUPLE',
+      );
+      const spouseType = _.find(
+        conference.registrantTypes,
+        (t) => t.defaultTypeKey === 'SPOUSE',
+      );
+
+      coupleType.description = 'Old Description';
+      spouseType.description = 'Old Description';
+
+      const newDescription = 'New Couple Description';
+      coupleType.description = newDescription;
+
+      const oldRegistrantTypes = angular.copy(conference.registrantTypes);
+      _.find(
+        oldRegistrantTypes,
+        (t) => t.defaultTypeKey === 'COUPLE',
+      ).description = 'Old Description';
+      _.find(
+        oldRegistrantTypes,
+        (t) => t.defaultTypeKey === 'SPOUSE',
+      ).description = 'Old Description';
+
+      scope.syncCoupleDescriptions(
+        conference.registrantTypes,
+        oldRegistrantTypes,
+      );
+
+      expect(coupleType.description).toBe(newDescription);
+      expect(spouseType.description).toBe(newDescription);
+    }));
   });
 });
