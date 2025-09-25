@@ -340,6 +340,20 @@ angular
         if (currentRegistration.primaryRegistrantId === r.id) {
           return false;
         }
+
+        // Couple/spouse in particular should not be removable if registration is completed
+        // The user would have to notify staff to make changes
+        if (currentRegistration.completed) {
+          // Check if this registrant is part of a couple/spouse group
+          const isCoupleRegistrant = $scope.isRegistrantCouple(
+            r,
+            currentRegistration,
+            $scope.getRegistrantType,
+          );
+          // return false if registrant is a couple or spouse type
+          return !isCoupleRegistrant;
+        }
+
         var groupRegistrants = 0,
           noGroupRegistrants = 0;
         angular.forEach(currentRegistration.registrants, function (r) {
