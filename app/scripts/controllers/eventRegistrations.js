@@ -652,59 +652,78 @@ angular
         return { title, yesString, warningMessage };
       };
 
+      $scope.updateAfterDelete = function (registrantsToDelete) {
+        registrantsToDelete.forEach(function (registrantToDelete) {
+          _.remove($scope.registrants, function (registrant) {
+            return registrant.id === registrantToDelete.id;
+          });
+
+          const reg = $scope.getRegistration(registrantToDelete.registrationId);
+          if (angular.isDefined(reg)) {
+            _.remove(reg.registrants, function (registrant) {
+              return registrant.id === registrantToDelete.id;
+            });
+            _.remove(reg.groupRegistrants, function (registrant) {
+              return registrant.id === registrantToDelete.id;
+            });
+          }
+        });
+        if (registrantsToDelete.length > 1) {
+          const deletedCount = registrantsToDelete.length;
+          modalMessage.info({
+            message: `Successfully deleted ${deletedCount} related registrant(s).`,
+          });
+        }
+      };
 
       $scope.deleteRegistrant = function (registrant) {
         if (!hasPermission()) {
           return;
         }
+        const isCouple = $scope.isRegistrantCouple(
+          registrant,
+          $scope.getRegistration(registrant.registrationId),
+          $scope.getRegistrantType,
+        );
+        const { title, yesString, warningMessage } =
+          $scope.buildDeletionWarningMessage(isCouple);
 
-        modalMessage
-          .confirm({
-            title: 'Delete Registration',
-            question:
-              'Are you sure you want to delete this registration?<br>There is no recovering the data once deleted.',
-            yesString: 'Delete',
-            noString: 'Cancel',
-            normalSize: true,
-          })
+        $scope
+          .showModal(title, warningMessage, yesString)
           .then(function () {
+            return $http.get('registrations/' + registrant.registrationId);
+          })
+          .then(function (response) {
+            const registration = response.data;
+
+            let registrantsToDelete = [registrant];
+            if (isCouple) {
+              registrantsToDelete = $scope.findCoupleRegistrants(
+                registrant,
+                registration,
+                $scope.getRegistrantType,
+              );
+            }
+
+            let url;
+
+            if (registration.registrants.length > 1 && !isCouple) {
+              url = 'registrants/' + registrant.id;
+            } else {
+              url = 'registrations/' + registration.id;
+            }
             $http
-              .get('registrations/' + registrant.registrationId)
-              .then(function (response) {
-                var registration = response.data;
-                var url = 'registrations/' + registration.id;
-
-                if (registration.registrants.length > 1) {
-                  //Delete Registrant
-                  url = 'registrants/' + registrant.id;
-                }
-
-                $http({
-                  method: 'DELETE',
-                  url: url,
-                })
-                  .then(function () {
-                    _.remove($scope.registrants, function (r) {
-                      return r.id === registrant.id;
-                    });
-                    var reg = $scope.getRegistration(registrant.registrationId);
-                    if (angular.isDefined(reg)) {
-                      _.remove(reg.registrants, function (r) {
-                        return r.id === registrant.id;
-                      });
-                      _.remove(reg.groupRegistrants, function (r) {
-                        return r.id === registrant.id;
-                      });
-                    }
-                  })
-                  .catch(function (response) {
-                    modalMessage.error({
-                      message:
-                        response.data && response.data.error
-                          ? response.data.error.message
-                          : 'An error has occurred while deleting this registration.',
-                    });
-                  });
+              .delete(url)
+              .then(function () {
+                $scope.refreshRegistrations();
+                $scope.updateAfterDelete(registrantsToDelete);
+              })
+              .catch(function (response) {
+                modalMessage.error(
+                  response.data && response.data.error
+                    ? response.data.error.message
+                    : 'An error occurred while deleting this registrant.',
+                );
               });
           });
       };
