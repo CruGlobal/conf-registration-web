@@ -460,7 +460,11 @@ angular
         });
       };
 
-      $scope.registerUser = function (primaryRegistration, typeId) {
+      $scope.registerUser = function (
+        primaryRegistration,
+        typeId,
+        openedFromGroupModal,
+      ) {
         if (!hasPermission()) {
           return;
         }
@@ -477,6 +481,9 @@ angular
             },
             typeId: function () {
               return typeId;
+            },
+            openedFromGroupModal: function () {
+              return openedFromGroupModal || false;
             },
           },
         });
