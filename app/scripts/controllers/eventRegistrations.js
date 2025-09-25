@@ -551,28 +551,64 @@ angular
         if (!hasPermission()) {
           return;
         }
+        const isCouple = $scope.isRegistrantCouple(
+          registrant,
+          $scope.getRegistration(registrant.registrationId),
+          $scope.getRegistrantType,
+        );
 
-        registrant.withdrawn = value;
-        if (value) {
-          //used to update front view only, backend generates its own timestamp
-          registrant.withdrawnTimestamp = new Date();
+        function handleWithdraw() {
+          $rootScope.loadingMsg =
+            (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
+
+          let registrantsToWithdraw = [registrant];
+          if (isCouple) {
+            registrantsToWithdraw = $scope.findCoupleRegistrants(
+              registrant,
+              $scope.getRegistration(registrant.registrationId),
+              $scope.getRegistrantType,
+            );
+          }
+          registrantsToWithdraw.forEach(function (registrantToWithdraw) {
+            registrantToWithdraw.withdrawn = value;
+            if (value) {
+              //used to update front view only, backend generates its own timestamp
+              registrantToWithdraw.withdrawnTimestamp = new Date();
+            }
+
+            $http
+              .put(
+                'registrants/' + registrantToWithdraw.id,
+                registrantToWithdraw,
+              )
+              .catch(function (err) {
+                // Revert change if error occurs
+                registrantToWithdraw.withdrawn = !value;
+                modalMessage.error({
+                  message:
+                    err.data && err.data.error
+                      ? err.data.error.message
+                      : `An error occurred while ${
+                          value ? 'withdrawing' : 'reinstating'
+                        } this registrant.`,
+                });
+              })
+              .finally(function () {
+                $scope.refreshRegistrations();
+                $rootScope.loadingMsg = '';
+              });
+          });
         }
 
-        $rootScope.loadingMsg =
-          (value ? 'Withdrawing ' : 'Reinstating ') + registrant.firstName;
-        $http
-          .put('registrants/' + registrant.id, registrant)
-          .catch(function (response) {
-            registrant.withdrawn = !value;
-            modalMessage.error(
-              response.data && response.data.error
-                ? response.data.error.message
-                : 'An error occurred while withdrawing this registrant.',
-            );
-          })
-          .finally(function () {
-            $rootScope.loadingMsg = '';
-          });
+        if (isCouple) {
+          const { title, yesString, warningMessage } =
+            $scope.buildCoupleWithdrawMessage(value);
+          $scope
+            .showModal(title, warningMessage, yesString)
+            .then(handleWithdraw);
+        } else {
+          handleWithdraw();
+        }
       };
 
       $scope.checkInRegistrant = function (registrant, value) {
