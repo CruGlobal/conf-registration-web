@@ -9,6 +9,16 @@ import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html'
 import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
+import {
+  findCoupleForSpouse,
+  findSpouseForCouple,
+  deleteSpouseType,
+  syncCoupleDescriptions,
+  shouldShowRegistrantType,
+  isCoupleOrSpouseType,
+  isCoupleType,
+  isSpouseType,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -66,6 +76,22 @@ angular
 
       $scope.descriptionPopup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
+      };
+
+      /* Couple type related functions */
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
+      $scope.findSpouseForCouple = findSpouseForCouple;
+      $scope.deleteSpouseType = deleteSpouseType;
+      $scope.isCoupleOrSpouseType = isCoupleOrSpouseType;
+      $scope.isCoupleType = isCoupleType;
+      $scope.isSpouseType = isSpouseType;
+      // exposed to scope for testing
+      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
+      $scope.shouldShowRegistrantType = function (type) {
+        return shouldShowRegistrantType(
+          type,
+          $scope.conference.registrantTypes,
+        );
       };
 
       $scope.changeTab = function (tab) {
