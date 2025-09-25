@@ -224,5 +224,41 @@ angular
           validateRegistrant.blockVisible(block, registrant, true, conference)
         );
       };
+
+      $scope.nonAllowedTypeKeys = ['SPOUSE'];
+      $scope.excludeNonAllowedType = function (type) {
+        if (type.defaultTypeKey === 'SPOUSE') {
+          const coupleTypes = _.filter(conference.registrantTypes, {
+            defaultTypeKey: 'COUPLE',
+          });
+
+          if (!coupleTypes.length) {
+            return true;
+          }
+
+          // Check if this spouse is associated with any couple
+          const spouseIsAssociated = coupleTypes.some((coupleType) => {
+            if (!coupleType.allowedRegistrantTypeSet) {
+              return false;
+            }
+
+            const hasAssociation = coupleType.allowedRegistrantTypeSet.some(
+              (association) => {
+                const isMatch = association.childRegistrantTypeId === type.id;
+
+                const hasChildRegistrants =
+                  association.numberOfChildRegistrants &&
+                  association.numberOfChildRegistrants > 0;
+
+                return isMatch && hasChildRegistrants;
+              },
+            );
+            return hasAssociation;
+          });
+          return !spouseIsAssociated;
+        }
+
+        return $scope.nonAllowedTypeKeys.indexOf(type.defaultTypeKey) === -1;
+      };
     },
   );
