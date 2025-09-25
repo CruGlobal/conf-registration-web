@@ -995,5 +995,70 @@ angular
             throw err;
           });
       };
+
+      $scope.findChildType = function (type) {
+        return _.find($scope.conference.registrantTypes, function (t) {
+          return t.id === type.childRegistrantTypeId;
+        });
+      };
+
+      // childType is an allowedRegistrantTypeSet object
+      $scope.shouldShowChildType = function (childType, type) {
+        const child = $scope.findChildType(childType);
+        const childTypeKey = child ? child.defaultTypeKey : null;
+        const parentTypeKey = type.defaultTypeKey;
+
+        if (
+          childTypeKey === 'SPOUSE' &&
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes)
+        ) {
+          return false;
+        }
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
+        if (!parentTypeKey) {
+          // Also hide if the names are the same (prevent self-association)
+          return childType.name !== type.name;
+        }
+
+        // Hide self-association
+        if (childTypeKey === parentTypeKey) {
+          return false;
+        }
+
+        // Never show couple as a child type
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        return true;
+      };
+
+      /*
+       * Users were unable to differentiate between multiple couple-spouse types
+       * when creating form questions. This adds the details field of any couple to the spouse,
+       * since the user has no way of modifying the spouse description.
+       */
+      $scope.$watch(
+        'conference.registrantTypes',
+        function (currentRegistrantTypes, previousRegistrantTypes) {
+          if (
+            !angular.isArray(currentRegistrantTypes) ||
+            !angular.isArray(previousRegistrantTypes) ||
+            currentRegistrantTypes === previousRegistrantTypes
+          ) {
+            return;
+          }
+
+          syncCoupleDescriptions(
+            currentRegistrantTypes,
+            previousRegistrantTypes,
+          );
+        },
+        true,
+      );
     },
   );
