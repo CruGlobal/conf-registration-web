@@ -46,6 +46,9 @@
             </td>
             <td ng-class="{'strike-through':r.withdrawn}">
               {{r.firstName}} {{r.lastName}}
+              <span ng-if="isSpouse(r)">
+                (Spouse cost included in couple price)
+              </span>
             </td>
             <td ng-show="!expandRegistrantCost[r.id]">
               {{r.calculatedTotalDue |
