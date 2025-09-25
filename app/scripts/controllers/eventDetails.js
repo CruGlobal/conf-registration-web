@@ -233,6 +233,22 @@ angular
 
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
+          const typeToDelete = _.find($scope.conference.registrantTypes, {
+            id,
+          });
+
+          if (typeToDelete.defaultTypeKey === 'COUPLE') {
+            const spouseType = $scope.findSpouseForCouple(
+              id,
+              $scope.conference.registrantTypes,
+            );
+            if (spouseType) {
+              $scope.deleteSpouseType(
+                spouseType.id,
+                $scope.conference.registrantTypes,
+              );
+            }
+          }
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
