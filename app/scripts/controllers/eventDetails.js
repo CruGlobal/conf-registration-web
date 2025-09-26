@@ -9,6 +9,16 @@ import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html'
 import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
+import {
+  findCoupleForSpouse,
+  findSpouseForCouple,
+  deleteSpouseType,
+  syncCoupleDescriptions,
+  shouldShowRegistrantType,
+  isCoupleOrSpouseType,
+  isCoupleType,
+  isSpouseType,
+} from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -66,6 +76,22 @@ angular
 
       $scope.descriptionPopup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
+      };
+
+      /* Couple type related functions */
+      $scope.findCoupleForSpouse = findCoupleForSpouse;
+      $scope.findSpouseForCouple = findSpouseForCouple;
+      $scope.deleteSpouseType = deleteSpouseType;
+      $scope.isCoupleOrSpouseType = isCoupleOrSpouseType;
+      $scope.isCoupleType = isCoupleType;
+      $scope.isSpouseType = isSpouseType;
+      // exposed to scope for testing
+      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
+      $scope.shouldShowRegistrantType = function (type) {
+        return shouldShowRegistrantType(
+          type,
+          $scope.conference.registrantTypes,
+        );
       };
 
       $scope.changeTab = function (tab) {
@@ -207,6 +233,22 @@ angular
 
       $scope.deleteRegType = function (id) {
         if ($scope.conference.registrantTypes.length > 1) {
+          const typeToDelete = _.find($scope.conference.registrantTypes, {
+            id,
+          });
+
+          if (typeToDelete.defaultTypeKey === 'COUPLE') {
+            const spouseType = $scope.findSpouseForCouple(
+              id,
+              $scope.conference.registrantTypes,
+            );
+            if (spouseType) {
+              $scope.deleteSpouseType(
+                spouseType.id,
+                $scope.conference.registrantTypes,
+              );
+            }
+          }
           _.remove($scope.conference.registrantTypes, function (type) {
             return type.id === id;
           });
@@ -953,5 +995,70 @@ angular
             throw err;
           });
       };
+
+      $scope.findChildType = function (type) {
+        return _.find($scope.conference.registrantTypes, function (t) {
+          return t.id === type.childRegistrantTypeId;
+        });
+      };
+
+      // childType is an allowedRegistrantTypeSet object
+      $scope.shouldShowChildType = function (childType, type) {
+        const child = $scope.findChildType(childType);
+        const childTypeKey = child ? child.defaultTypeKey : null;
+        const parentTypeKey = type.defaultTypeKey;
+
+        if (
+          childTypeKey === 'SPOUSE' &&
+          findCoupleForSpouse(child.id, $scope.conference.registrantTypes)
+        ) {
+          return false;
+        }
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
+        if (!parentTypeKey) {
+          // Also hide if the names are the same (prevent self-association)
+          return childType.name !== type.name;
+        }
+
+        // Hide self-association
+        if (childTypeKey === parentTypeKey) {
+          return false;
+        }
+
+        // Never show couple as a child type
+        if (childTypeKey === 'COUPLE') {
+          return false;
+        }
+
+        return true;
+      };
+
+      /*
+       * Users were unable to differentiate between multiple couple-spouse types
+       * when creating form questions. This adds the details field of any couple to the spouse,
+       * since the user has no way of modifying the spouse description.
+       */
+      $scope.$watch(
+        'conference.registrantTypes',
+        function (currentRegistrantTypes, previousRegistrantTypes) {
+          if (
+            !angular.isArray(currentRegistrantTypes) ||
+            !angular.isArray(previousRegistrantTypes) ||
+            currentRegistrantTypes === previousRegistrantTypes
+          ) {
+            return;
+          }
+
+          syncCoupleDescriptions(
+            currentRegistrantTypes,
+            previousRegistrantTypes,
+          );
+        },
+        true,
+      );
     },
   );
