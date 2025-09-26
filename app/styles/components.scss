@@ -76,6 +76,10 @@ pick-a-time {
 .btn-success {
   background: variables.$green;
 }
+.btn-unstyled {
+  border: none;
+  background: none;
+}
 .label-primary {
   background: variables.$blue;
 }
