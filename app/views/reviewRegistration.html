@@ -108,11 +108,10 @@
           <tr>
             <td>
               <button
+                class="fa btn-unstyled"
                 aria-label="Show registrant details"
                 ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
-                class="fa btn-unstyled"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
-                style="border: none; background: none"
               />
             </td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
@@ -199,11 +198,10 @@
           <tr>
             <td>
               <button
+                class="fa btn-unstyled"
                 aria-label="Show registrant details"
                 ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
-                class="fa btn-unstyled"
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
-                style="border: none; background: none"
               />
             </td>
             <td>{{r.firstName}} {{r.lastName}}</td>
