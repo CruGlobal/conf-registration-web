@@ -106,11 +106,13 @@
           ng-init="expandRegistrant[r.id] = regValidate[r.id].length > 0"
         >
           <tr>
-            <td ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]">
-              <i
-                class="fa"
+            <td>
+              <button
+                class="fa btn-unstyled"
+                aria-label="Show registrant details"
+                ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
-              ></i>
+              />
             </td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
               {{r.firstName}} {{r.lastName}}
@@ -194,14 +196,14 @@
         <tbody
           ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'"
         >
-          <tr
-            ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
-          >
+          <tr>
             <td>
-              <i
-                class="fa"
+              <button
+                class="fa btn-unstyled"
+                aria-label="Show registrant details"
+                ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
-              ></i>
+              />
             </td>
             <td>
               {{r.firstName}} {{r.lastName}}
@@ -364,6 +366,7 @@
                 <button
                   type="button"
                   class="btn btn-default"
+                  aria-label="Validate promotion code"
                   ng-click="validatePromo(promoInput)"
                   ng-disabled="addingPromoCode"
                   translate
@@ -422,6 +425,7 @@
       </p>
       <button
         class="btn btn-lg btn-success btn-important confirm-registration"
+        aria-label="Confirm registration"
         ng-click="confirmRegistration()"
         ng-disabled="registerDisabled()"
       >
