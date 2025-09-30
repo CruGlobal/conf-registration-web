@@ -1,1 +1,4 @@
+# When updating the nodejs version here, also update it in .node-version. Netlify ignores
+# .tool-versions and uses .node-version when deciding which nodejs version to use in builds, so we
+# have to have the nodejs version in both files.
 nodejs 24.3.0
