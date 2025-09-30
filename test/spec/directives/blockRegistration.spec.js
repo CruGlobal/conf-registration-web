@@ -195,6 +195,7 @@ describe('Directive: blockRegistration', function () {
 
   it('should initialize answers to questions/blocks that show for a registrant', function () {
     setupRegistrantTypeTest(true);
+
     expect(scope.answer).toBeDefined();
     expect(scope.answer.blockId).toBe('test-block-id');
     expect(scope.answer.registrantId).toBe('test-registrant-id');
