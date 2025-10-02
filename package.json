@@ -102,7 +102,7 @@
     "build": "webpack --mode=production",
     "build:analyze": "webpack --mode=production --env analyze",
     "test": "karma start && jest",
-    "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}'",
+    "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}' --max-warnings=0",
     "lint:ts": "tsc",
     "angular-gettext-extract": "angular-gettext-cli --files './app/**/*.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
     "prettier:check": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --list-different",

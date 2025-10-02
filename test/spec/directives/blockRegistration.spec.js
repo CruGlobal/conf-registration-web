@@ -158,46 +158,51 @@ describe('Directive: blockRegistration', function () {
     expect(scope.answer.value['4']).toBeUndefined();
   });
 
-  function setupRegistrantTypeTest(shouldShow) {
-    scope = $rootScope.$new();
-    scope.conference = testData.conference;
-    scope.currentRegistration = {
-      registrants: [
-        {
-          id: 'test-registrant-id',
-          registrantTypeId: 'test-type',
-          answers: [],
-        },
-      ],
-    };
-    scope.block = {
-      id: 'test-block-id',
-      type: 'textQuestion',
-      registrantTypes: ['testRegistrantTypeId'],
-    };
+  let validateRegistrant;
+  describe('shouldShowForRegistrantType', function () {
+    beforeEach(function () {
+      inject(function ($routeParams, _validateRegistrant_) {
+        scope = $rootScope.$new();
+        scope.conference = testData.conference;
+        scope.currentRegistration = {
+          registrants: [
+            {
+              id: 'test-registrant-id',
+              registrantTypeId: 'test-type',
+              answers: [],
+            },
+          ],
+        };
+        scope.block = {
+          id: 'test-block-id',
+          type: 'textQuestion',
+          registrantTypes: ['testRegistrantTypeId'],
+        };
 
-    inject(function ($routeParams, validateRegistrant) {
-      $routeParams.reg = 'test-registrant-id';
-      spyOn(validateRegistrant, 'shouldShowForRegistrantType').and.returnValue(
-        shouldShow,
-      );
-      element = $compile('<div block-registration></div>')(scope);
-      scope.$digest();
+        $routeParams.reg = 'test-registrant-id';
+        validateRegistrant = _validateRegistrant_;
+        spyOn(validateRegistrant, 'shouldShowForRegistrantType');
+      });
     });
-  }
 
-  it('should not initialize answers to questions/blocks that do not show for a registrant', function () {
-    setupRegistrantTypeTest(false);
+    it('should not initialize answers to questions/blocks that do not show for a registrant', function () {
+      validateRegistrant.shouldShowForRegistrantType.and.returnValue(false);
+      $compile('<div block-registration></div>')(scope);
+      scope.$digest();
 
-    expect(scope.answer).toBeUndefined();
-    expect(scope.currentRegistration.registrants[0].answers.length).toBe(0);
-  });
+      expect(scope.answer).toBeUndefined();
+      expect(scope.currentRegistration.registrants[0].answers.length).toBe(0);
+    });
 
-  it('should initialize answers to questions/blocks that show for a registrant', function () {
-    setupRegistrantTypeTest(true);
-    expect(scope.answer).toBeDefined();
-    expect(scope.answer.blockId).toBe('test-block-id');
-    expect(scope.answer.registrantId).toBe('test-registrant-id');
-    expect(scope.currentRegistration.registrants[0].answers.length).toBe(1);
+    it('should initialize answers to questions/blocks that show for a registrant', function () {
+      validateRegistrant.shouldShowForRegistrantType.and.returnValue(true);
+      $compile('<div block-registration></div>')(scope);
+      scope.$digest();
+
+      expect(scope.answer).toBeDefined();
+      expect(scope.answer.blockId).toBe('test-block-id');
+      expect(scope.answer.registrantId).toBe('test-registrant-id');
+      expect(scope.currentRegistration.registrants[0].answers.length).toBe(1);
+    });
   });
 });
