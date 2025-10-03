@@ -86,6 +86,7 @@ describe('Controller: eventDetails', function () {
       const addedType = scope.conference.registrantTypes.find(
         (type) => type.name === 'Additional Type',
       );
+
       expect(addedType.eform).toEqual(true);
     });
 
