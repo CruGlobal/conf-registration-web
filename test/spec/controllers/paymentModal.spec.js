@@ -116,37 +116,34 @@ describe('Controller: paymentModal', function () {
   });
 
   describe('isSpouse', () => {
-    it('returns true when registrant type is associated with a Couple type', () => {
-      const spouseTypeId = 'a1b2c3d4-e5f6-7890-abcd-1234567890ef';
-      const registrant = {
-        registrantTypeId: spouseTypeId,
+    let registrant;
+
+    beforeEach(() => {
+      registrant = {
+        registrantTypeId: null,
       };
+    });
+
+    it('returns true when registrant type is associated with a Couple type', () => {
+      registrant.registrantTypeId = 'a1b2c3d4-e5f6-7890-abcd-1234567890ef';
 
       expect(scope.isSpouse(registrant)).toBe(true);
     });
 
     it('returns false when registrant type is a Spouse but not associated with a Couple type', () => {
-      const unrelatedSpouseTypeId = 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe';
-      const registrant = {
-        registrantTypeId: unrelatedSpouseTypeId,
-      };
+      registrant.registrantTypeId = 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe';
 
       expect(scope.isSpouse(registrant)).toBe(false);
     });
 
     it('returns false when registrant type is a Couple type', () => {
-      const registrant = {
-        registrantTypeId: 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
-      };
+      registrant.registrantTypeId = 'b2c3d4e5-f6a7-8901-bcde-234567890abc';
 
       expect(scope.isSpouse(registrant)).toBe(false);
     });
 
     it('returns false for unrelated registrant type', () => {
-      const staffTypeId = '47de2c40-19dc-45b3-9663-5c005bd6464b';
-      const registrant = {
-        registrantTypeId: staffTypeId,
-      };
+      registrant.registrantTypeId = '47de2c40-19dc-45b3-9663-5c005bd6464b';
 
       expect(scope.isSpouse(registrant)).toBe(false);
     });
