@@ -598,8 +598,10 @@ describe('Controller: eventDetails', function () {
     it('should give spouse type a description when couple type description is changed', inject(function (
       $controller,
       $rootScope,
+      _testData_,
     ) {
-      $rootScope.$new();
+      scope = $rootScope.$new();
+      testData = _testData_;
 
       $controller('eventDetailsCtrl', {
         $scope: scope,
