@@ -1,3 +1,5 @@
+import { findCoupleForSpouse } from '../utils/coupleTypeUtils';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -25,6 +27,11 @@ angular
         amount: 0,
         sendEmailReceipt: false,
       };
+
+      $scope.findCoupleForSpouse = function (id) {
+        return findCoupleForSpouse(id, conference.registrantTypes, false);
+      };
+
       var permissionRequiredMsg =
         'You do not have permission to perform this action. Please contact an event administrator to request permission.';
 
@@ -475,8 +482,7 @@ angular
       };
 
       $scope.isSpouse = function (registrant) {
-        const type = $scope.getRegistrantType(registrant.registrantTypeId);
-        return type && type.defaultTypeKey === 'SPOUSE';
+        return !!$scope.findCoupleForSpouse(registrant.registrantTypeId);
       };
     },
   );
