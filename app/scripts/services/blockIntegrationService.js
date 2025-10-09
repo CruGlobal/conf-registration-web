@@ -38,5 +38,30 @@ angular
       integrationTypes: function () {
         return integrationTypes;
       },
+
+      validateFieldSelection: function (integrationTypeId, blockIntegrations) {
+        const integrationType = integrationTypes.find(
+          (type) => type.id === integrationTypeId,
+        );
+        if (!integrationType) {
+          return { valid: false, message: 'Invalid integration type.' };
+        }
+        // No validation needed for 'None'
+        if (integrationType.id === 'NONE') {
+          return { valid: true, message: '' };
+        }
+
+        const currentBlockIntegration = blockIntegrations.find(
+          (block) => block.integrationTypeId === integrationTypeId,
+        );
+
+        if (currentBlockIntegration) {
+          return {
+            valid: false,
+            message: `${integrationType.name} has already been selected on ${currentBlockIntegration.title}.`,
+          };
+        }
+        return { valid: true, message: '' };
+      },
     };
   });
