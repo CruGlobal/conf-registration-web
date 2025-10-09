@@ -373,17 +373,37 @@ angular
         }
       };
 
+      $scope.getBlockIntegrationData = function () {
+        $scope.blockIntegrations = [];
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            $scope.blockIntegrations.push({
+              blockId: block.id,
+              title: block.title,
+              integrationTypeId: block.integrationTypeId,
+            });
+          });
+        });
+        return $scope.blockIntegrations;
+      };
+
       // Request integration types, so we only do 1 HTTP request for them
       // Then we can use them in the $child controller blockEditor.js
       blockIntegrationService
         .getIntegrationTypes($scope.conference.id)
         .then(function (types) {
           $scope.integrationTypes = types;
+          $scope.getBlockIntegrationData();
           $scope.$broadcast('integrationTypesLoaded', types);
         });
 
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
       };
+
+      // Clear integration cache when controller is destroyed (e.g., navigating away)
+      $scope.$on('$destroy', function () {
+        blockIntegrationService.clearCache();
+      });
     },
   );

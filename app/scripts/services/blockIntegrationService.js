@@ -16,7 +16,10 @@ angular
           return $q.resolve([defaultIntegrationType]);
         }
 
-        if (integrationTypes.length && previousConferenceId === conferenceId) {
+        if (
+          integrationTypes.length > 1 &&
+          previousConferenceId === conferenceId
+        ) {
           return $q.resolve(integrationTypes);
         }
 
@@ -37,6 +40,47 @@ angular
 
       integrationTypes: function () {
         return integrationTypes;
+      },
+
+      validateFieldSelection: function (
+        integrationTypeId,
+        blockIntegrations,
+        blockId,
+      ) {
+        const integrationType = integrationTypes.find(
+          (type) => type.id === integrationTypeId,
+        );
+        if (!integrationType) {
+          return { valid: false, message: 'Invalid integration type.' };
+        }
+        // No validation needed for 'None'
+        if (integrationType.id === 'NONE') {
+          return { valid: true, message: '' };
+        }
+
+        const currentBlockIntegration = blockIntegrations.find(
+          (block) => block.integrationTypeId === integrationTypeId,
+        );
+
+        if (
+          currentBlockIntegration &&
+          currentBlockIntegration.blockId === blockId
+        ) {
+          return { valid: true, message: '' };
+        }
+
+        if (currentBlockIntegration) {
+          return {
+            valid: false,
+            message: `${integrationType.prettyName} has already been selected on ${currentBlockIntegration.title}.`,
+          };
+        }
+        return { valid: true, message: '' };
+      },
+
+      clearCache: function () {
+        integrationTypes = [defaultIntegrationType];
+        previousConferenceId = null;
       },
     };
   });
