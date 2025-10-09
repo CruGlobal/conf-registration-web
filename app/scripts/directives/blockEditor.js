@@ -15,6 +15,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       uuid,
       expenseTypesConstants,
       ruleTypeConstants,
+      blockIntegrationService,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -32,6 +33,12 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
+      $scope.integrationTypes = blockIntegrationService.integrationTypes();
+
+      // Listen for integration types loaded event
+      $scope.$on('integrationTypesLoaded', function () {
+        $scope.integrationTypes = $scope.$parent.integrationTypes;
+      });
 
       if (!$scope.answer) {
         $scope.answer = {};

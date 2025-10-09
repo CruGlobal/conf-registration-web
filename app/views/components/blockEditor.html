@@ -482,6 +482,28 @@
             <option value="" translate>None</option>
           </select>
         </div>
+        <div class="form-group">
+          <label class="inline-label" translate>Integrate into Celigo</label>
+          <i
+            uib-popover="Selecting this will integrate this field into Celigo. You can only select one field per type."
+            popover-trigger="'mouseenter'"
+            class="fa fa-question-circle question-popover"
+          ></i>
+
+          <select
+            ng-model="block.blockIntegrationId"
+            ng-options="type.id as type.prettyName for type in integrationTypes"
+            ng-change="integrationTypeChanged(block.blockIntegrationId)"
+            class="form-control"
+            ng-class="{'has-error': integrationValidation && !integrationValidation.valid}"
+          ></select>
+          <div
+            ng-if="integrationValidation && !integrationValidation.valid"
+            class="text-danger"
+          >
+            <small>{{ integrationValidation.message }}</small>
+          </div>
+        </div>
       </uib-tab>
       <uib-tab heading="Question Rules" ng-if="canHaveRules">
         <p class="text-muted">
