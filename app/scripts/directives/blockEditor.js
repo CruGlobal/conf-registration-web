@@ -15,6 +15,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       uuid,
       expenseTypesConstants,
       ruleTypeConstants,
+      blockIntegrationService,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -31,6 +32,26 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.countries = allCountries;
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
+      };
+      $scope.integrationTypes = blockIntegrationService.integrationTypes();
+
+      // Listen for integration types loaded event
+      $scope.$on('integrationTypesLoaded', function () {
+        $scope.integrationTypes = $scope.$parent.integrationTypes;
+        $scope.blockIntegrations = $scope.$parent.blockIntegrations;
+      });
+
+      $scope.integrationTypeChanged = function (selectedIntegrationId) {
+        const validation = blockIntegrationService.validateFieldSelection(
+          selectedIntegrationId,
+          $scope.blockIntegrations,
+        );
+        // Store validation result for display
+        $scope.integrationValidation = validation;
+        // If not valid, reset selection
+        if (!validation.valid) {
+          $scope.block.blockIntegrationId = 'NONE';
+        }
       };
 
       if (!$scope.answer) {
@@ -422,7 +443,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.disableForceSelectionRule = function () {
         if (
-          $scope.block.content.forceSelections === {} ||
+          _.isEmpty($scope.block.content.forceSelections) ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
         ) {
           //$scope.block.additionalRules = [];
