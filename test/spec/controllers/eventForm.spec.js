@@ -43,6 +43,10 @@ describe('Controller: eventForm', function () {
         $controller('eventFormCtrl', {
           $scope: scope,
           conference: { ...testData.conference },
+          blockIntegrationService: {
+            getIntegrationTypes: () => $q.resolve([]),
+            clearCache: () => {},
+          },
           ...injected,
         });
       };
