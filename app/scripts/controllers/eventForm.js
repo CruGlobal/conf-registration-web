@@ -375,8 +375,8 @@ angular
 
       $scope.getBlockIntegrationData = function () {
         $scope.blockIntegrations = [];
-        $scope.conference.registrationPages.map(function (page) {
-          page.blocks.map(function (block) {
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
             $scope.blockIntegrations.push({
               blockId: block.id,
               title: block.title,
@@ -400,5 +400,10 @@ angular
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
       };
+
+      // Clear integration cache when controller is destroyed (e.g., navigating away)
+      $scope.$on('$destroy', function () {
+        blockIntegrationService.clearCache();
+      });
     },
   );

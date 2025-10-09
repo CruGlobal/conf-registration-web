@@ -16,7 +16,10 @@ angular
           return $q.resolve([defaultIntegrationType]);
         }
 
-        if (integrationTypes.length && previousConferenceId === conferenceId) {
+        if (
+          integrationTypes.length > 1 &&
+          previousConferenceId === conferenceId
+        ) {
           return $q.resolve(integrationTypes);
         }
 
@@ -39,7 +42,11 @@ angular
         return integrationTypes;
       },
 
-      validateFieldSelection: function (integrationTypeId, blockIntegrations) {
+      validateFieldSelection: function (
+        integrationTypeId,
+        blockIntegrations,
+        blockId,
+      ) {
         const integrationType = integrationTypes.find(
           (type) => type.id === integrationTypeId,
         );
@@ -55,6 +62,10 @@ angular
           (block) => block.integrationTypeId === integrationTypeId,
         );
 
+        if (currentBlockIntegration?.id === blockId) {
+          return { valid: true, message: '' };
+        }
+
         if (currentBlockIntegration) {
           return {
             valid: false,
@@ -62,6 +73,11 @@ angular
           };
         }
         return { valid: true, message: '' };
+      },
+
+      clearCache: function () {
+        integrationTypes = [defaultIntegrationType];
+        previousConferenceId = null;
       },
     };
   });
