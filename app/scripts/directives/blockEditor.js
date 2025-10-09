@@ -38,7 +38,21 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       // Listen for integration types loaded event
       $scope.$on('integrationTypesLoaded', function () {
         $scope.integrationTypes = $scope.$parent.integrationTypes;
+        $scope.blockIntegrations = $scope.$parent.blockIntegrations;
       });
+
+      $scope.integrationTypeChanged = function (selectedIntegrationId) {
+        const validation = blockIntegrationService.validateFieldSelection(
+          selectedIntegrationId,
+          $scope.blockIntegrations,
+        );
+        // Store validation result for display
+        $scope.integrationValidation = validation;
+        // If not valid, reset selection
+        if (!validation.valid) {
+          $scope.block.integrationTypeId = 'NONE';
+        }
+      };
 
       if (!$scope.answer) {
         $scope.answer = {};
