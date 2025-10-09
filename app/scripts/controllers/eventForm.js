@@ -16,6 +16,7 @@ angular
       GrowlService,
       ConfCache,
       uuid,
+      blockIntegrationService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -371,6 +372,15 @@ angular
           hiddenPages.push(id);
         }
       };
+
+      // Request integration types, so we only do 1 HTTP request for them
+      // Then we can use them in the $child controller blockEditor.js
+      blockIntegrationService
+        .getIntegrationTypes($scope.conference.id)
+        .then(function (types) {
+          $scope.integrationTypes = types;
+          $scope.$broadcast('integrationTypesLoaded', types);
+        });
 
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
