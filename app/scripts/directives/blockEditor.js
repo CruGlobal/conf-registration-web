@@ -50,7 +50,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         $scope.integrationValidation = validation;
         // If not valid, reset selection
         if (!validation.valid) {
-          $scope.block.integrationTypeId = 'NONE';
+          $scope.block.blockIntegrationId = 'NONE';
         }
       };
 
