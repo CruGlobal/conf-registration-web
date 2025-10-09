@@ -491,9 +491,9 @@
           ></i>
 
           <select
-            ng-model="block.integrationId"
+            ng-model="block.blockIntegrationId"
             ng-options="type.id as type.prettyName for type in integrationTypes"
-            ng-change="integrationTypeChanged(block.integrationId)"
+            ng-change="integrationTypeChanged(block.blockIntegrationId)"
             class="form-control"
             ng-class="{'has-error': integrationValidation && !integrationValidation.valid}"
           ></select>
