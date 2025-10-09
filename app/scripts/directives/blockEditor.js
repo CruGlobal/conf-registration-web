@@ -443,7 +443,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.disableForceSelectionRule = function () {
         if (
-          $scope.block.content.forceSelections === {} ||
+          _.isEmpty($scope.block.content.forceSelections) ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
         ) {
           //$scope.block.additionalRules = [];
