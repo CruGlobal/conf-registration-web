@@ -62,7 +62,7 @@ angular
           (block) => block.integrationTypeId === integrationTypeId,
         );
 
-        if (currentBlockIntegration?.id === blockId) {
+        if (currentBlockIntegration && currentBlockIntegration.id === blockId) {
           return { valid: true, message: '' };
         }
 
