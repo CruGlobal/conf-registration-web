@@ -44,7 +44,8 @@ describe('Controller: eventForm', function () {
           $scope: scope,
           conference: { ...testData.conference },
           blockIntegrationService: {
-            getIntegrationTypes: () => $q.resolve([]),
+            getIntegrationTypes: () =>
+              $q.resolve(testData.blockIntegrationsTypes),
             clearCache: () => {},
           },
           ...injected,
@@ -321,6 +322,109 @@ describe('Controller: eventForm', function () {
       scope.togglePage(pageId);
 
       expect(scope.isPageHidden(pageId)).toBe(false);
+    });
+  });
+
+  describe('getBlockIntegrationData', () => {
+    it('returns the correct integration data for a block', () => {
+      const integrationData = scope.getBlockIntegrationData();
+
+      const pageOneBlocks = scope.conference.registrationPages[0].blocks;
+      const pageTwoBlocks = scope.conference.registrationPages[1].blocks;
+      const pageThreeBlocks = scope.conference.registrationPages[2].blocks;
+
+      expect(integrationData).toEqual([
+        {
+          blockId: pageOneBlocks[0].id,
+          title: pageOneBlocks[0].title,
+          integrationTypeId: testData.blockIntegrationsTypes[0].id,
+        },
+        {
+          blockId: pageTwoBlocks[0].id,
+          title: pageTwoBlocks[0].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[1].id,
+          title: pageTwoBlocks[1].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[2].id,
+          title: pageTwoBlocks[2].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[3].id,
+          title: pageTwoBlocks[3].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[4].id,
+          title: pageTwoBlocks[4].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[5].id,
+          title: pageTwoBlocks[5].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[6].id,
+          title: pageTwoBlocks[6].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[7].id,
+          title: pageTwoBlocks[7].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[8].id,
+          title: pageTwoBlocks[8].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[9].id,
+          title: pageTwoBlocks[9].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[10].id,
+          title: pageTwoBlocks[10].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[11].id,
+          title: pageTwoBlocks[11].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[12].id,
+          title: pageTwoBlocks[12].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[13].id,
+          title: pageTwoBlocks[13].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[0].id,
+          title: pageThreeBlocks[0].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[1].id,
+          title: pageThreeBlocks[1].title,
+          integrationTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[2].id,
+          title: pageThreeBlocks[2].title,
+          integrationTypeId: testData.blockIntegrationsTypes[2].id,
+        },
+      ]);
     });
   });
 });
