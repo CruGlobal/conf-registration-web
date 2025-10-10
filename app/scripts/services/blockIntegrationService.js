@@ -69,7 +69,7 @@ angular
         if (currentBlockIntegration) {
           return {
             valid: false,
-            message: `${integrationType.name} has already been selected on ${currentBlockIntegration.title}.`,
+            message: `${integrationType.prettyName} has already been selected on ${currentBlockIntegration.title}.`,
           };
         }
         return { valid: true, message: '' };
