@@ -4,14 +4,7 @@ angular
   .module('confRegistrationWebApp')
   .controller(
     'eventOverviewCtrl',
-    function (
-      $rootScope,
-      $scope,
-      $location,
-      $filter,
-      RegistrationCache,
-      conference,
-    ) {
+    function ($rootScope, $scope, $location, $filter, conference) {
       $rootScope.globalPage = {
         type: 'admin',
         mainClass: 'container event-overview',
@@ -21,19 +14,6 @@ angular
       };
 
       $scope.conference = conference;
-
-      RegistrationCache.getAllForConference($scope.conference.id, {
-        includeCheckedin: 'yes',
-        includeWithdrawn: 'no',
-        includeIncomplete: 'no',
-      }).then(function (data) {
-        if (!data || !data.registrations) {
-          return;
-        }
-
-        $scope.conference.completedRegistrationCount =
-          data.registrations.length;
-      });
 
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
