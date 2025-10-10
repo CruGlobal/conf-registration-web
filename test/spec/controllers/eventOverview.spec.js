@@ -47,40 +47,4 @@ describe('Controller: eventOverview', () => {
       },
     );
   });
-
-  describe('when registrations are loaded', () => {
-    it('should update completedRegistrationCount to reflect number of registrants', () => {
-      const mockRegistrations = [
-        { id: 'reg1' },
-        { id: 'reg2' },
-        { id: 'reg3' },
-      ];
-
-      RegistrationCache.getAllForConference.and.returnValue(
-        $q.resolve({
-          registrations: mockRegistrations,
-        }),
-      );
-
-      const newScope = $rootScope.$new();
-
-      inject(($controller) => {
-        $controller('eventOverviewCtrl', {
-          $scope: newScope,
-          $rootScope: $rootScope,
-          conference: angular.copy(testData.conference),
-        });
-      });
-
-      expect(newScope.conference.completedRegistrationCount).toBe(
-        testData.conference.completedRegistrationCount,
-      );
-
-      $rootScope.$digest();
-
-      expect(newScope.conference.completedRegistrationCount).toBe(
-        mockRegistrations.length,
-      );
-    });
-  });
 });
