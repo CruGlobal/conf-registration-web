@@ -1,10 +1,6 @@
-<dl
-  class="dl-horizontal"
-  aria-labelledby="payment-method"
-  ng-if="!isAdminPayment"
->
-  <dt id="payment-method" translate>Payment method</dt>
-  <dd>
+<fieldset class="payment-fieldset" ng-if="!isAdminPayment">
+  <legend translate>Payment method</legend>
+  <div>
     <label ng-show="paymentMethods().acceptCreditCards">
       <input
         type="radio"
@@ -59,18 +55,21 @@
       />
       Pay on site
     </label>
-  </dd>
-</dl>
+  </div>
+</fieldset>
 
-<dl
-  class="dl-horizontal"
+<fieldset
+  class="payment-fieldset"
   ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'"
   ng-if="!isAdminPayment"
 >
-  <dt id="payment-amount" translate>Amount</dt>
-  <dd
+  <legend translate>Amount</legend>
+  <div
     ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue"
   >
+    <label for="payment-amount-input" class="sr-only" translate
+      >Payment Amount</label
+    >
     <div class="input-group">
       <span class="input-group-addon"
         ><span class="currency-label"
@@ -78,14 +77,16 @@
         ></span
       >
       <input
+        id="payment-amount-input"
         type="text"
         ng-model="currentPayment.amount"
         ng-value="currentRegistration.calculatedTotalDue"
         class="form-control marginless"
-        aria-labelledby="payment-amount"
+        aria-describedby="payment-amount"
       />
     </div>
     <span
+      id="payment-amount"
       class="text-muted"
       ng-if="currentRegistration.calculatedMinimumDeposit > 0 && currentRegistration.pastPayments.length === 0"
     >
@@ -96,19 +97,22 @@
       {{currentRegistration.calculatedMinimumDeposit |
       localizedCurrency:conference.currency.currencyCode}}
     </span>
-  </dd>
-  <dd
+  </div>
+  <div
     ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue"
   >
-    <input
-      type="radio"
-      name="payment-amount"
-      ng-model="currentPayment.amount"
-      ng-value="currentRegistration.remainingBalance"
-    />
-    {{currentRegistration.remainingBalance |
-    localizedCurrency:conference.currency.currencyCode}}
-  </dd>
-</dl>
+    <label>
+      <input
+        type="radio"
+        name="payment-amount"
+        ng-model="currentPayment.amount"
+        ng-value="currentRegistration.remainingBalance"
+      />
+      <span class="sr-only" translate>Pay full balance:</span>
+      {{currentRegistration.remainingBalance |
+      localizedCurrency:conference.currency.currencyCode}}
+    </label>
+  </div>
+</fieldset>
 
 <ng-include src="paymentMethodsViews[currentPayment.paymentType]"></ng-include>
