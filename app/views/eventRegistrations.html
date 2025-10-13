@@ -628,11 +628,16 @@
                 role="group"
                 aria-label="Options"
               >
+                <span id="registrant-name-{{r.id}}" class="sr-only">
+                  {{r.firstName}} {{r.lastName}}
+                </span>
                 <button
                   type="button"
                   class="btn btn-default"
                   ng-click="editRegistrant(r)"
                   title="Edit Registrant"
+                  aria-label="Edit registrant"
+                  ng-attr-aria-describedby="registrant-name-{{r.id}}"
                 >
                   <i class="fa fa-edit"></i>
                 </button>
@@ -641,6 +646,8 @@
                   class="btn btn-default"
                   ng-click="withdrawRegistrant(r, !r.withdrawn)"
                   ng-attr-title="{{!r.withdrawn ? 'Withdraw Registration' : 'Reinstate Registration'}}"
+                  ng-attr-aria-label="{{!r.withdrawn ? 'Withdraw registrant' : 'Reinstate registrant'}}"
+                  ng-attr-aria-describedby="registrant-name-{{r.id}}"
                 >
                   <i ng-if="!r.withdrawn" class="fa fa-sign-out"></i>
                   <i ng-if="r.withdrawn" class="fa fa-sign-in"></i>
@@ -651,6 +658,8 @@
                   ng-if="!isRegistrantReported(r)"
                   ng-click="deleteRegistrant(r)"
                   title="Delete Registration"
+                  aria-label="Delete registrant"
+                  ng-attr-aria-describedby="registrant-name-{{r.id}}"
                 >
                   <i class="fa fa-trash-o"></i>
                 </button>
@@ -659,6 +668,8 @@
                   class="btn btn-default"
                   ng-click="expandRegistration(r.id)"
                   title="Expand Registration"
+                  aria-label="Expand registrant"
+                  ng-attr-aria-describedby="registrant-name-{{r.id}}"
                 >
                   <i
                     class="fa"
