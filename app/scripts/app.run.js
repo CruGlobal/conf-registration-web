@@ -3,6 +3,7 @@ angular
   .run(function (
     $rootScope,
     $cookies,
+    $document,
     $location,
     $window,
     ProfileCache,
@@ -37,6 +38,14 @@ angular
         analytics.firePageViewEvent();
       });
     });
+
+    $rootScope.skipToMainContent = () => {
+      const mainContent = $document[0].querySelector('main');
+      if (mainContent) {
+        mainContent.focus();
+        mainContent.scrollIntoView();
+      }
+    };
 
     $rootScope.globalUser = function () {
       return ProfileCache.globalUser();

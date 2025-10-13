@@ -96,6 +96,14 @@
   </head>
 
   <body ng-class="globalPage.bodyClass" ng-cloak>
+    <button
+      type="button"
+      ng-click="skipToMainContent()"
+      class="sr-only sr-only-focusable btn btn-primary skip-link"
+      translate
+    >
+      Skip to content
+    </button>
     <% if(htmlWebpackPlugin.options.prod) { %>
     <!-- Google Tag Manager (noscript) -->
     <noscript
@@ -338,7 +346,7 @@
       </div>
     </div>
 
-    <main ng-class="globalPage.mainClass" ng-view></main>
+    <main ng-class="globalPage.mainClass" ng-view tabindex="-1"></main>
 
     <footer id="pagefooter" ng-if="globalPage.footer">
       <div class="container">

@@ -7,6 +7,11 @@
   @extend .sans-serif;
 }
 
+/*** Accessibility ***/
+.skip-link:focus {
+  position: absolute;
+}
+
 /*** Buttons ***/
 .btn-primary {
   background: variables.$blue;
