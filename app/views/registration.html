@@ -3,7 +3,7 @@
   ng-if="currentRegistration.registrants.length > 1"
 >
   <div class="col-xs-12">
-    <h4 translate>Registrants</h4>
+    <h2 translate>Registrants</h2>
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
       <li
         ng-repeat="r in currentRegistration.registrants | orderBy: 'createdTimestamp'"
