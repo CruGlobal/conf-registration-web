@@ -43,15 +43,15 @@
   ng-if="visibleRegistrantTypes.length === 1 && !isGroupRegistration"
 >
   <div class="col-xs-12 text-center">
-    <a
-      href
+    <button
+      type="button"
       ng-click="newRegistrant(visibleRegistrantTypes[0].id)"
       class="btn btn-success btn-important btn-lg"
       ng-if="!registrationTypeFull(visibleRegistrantTypes[0])"
       translate
     >
       Register
-    </a>
+    </button>
     <p ng-if="registrationTypeFull(visibleRegistrantTypes[0])" translate>
       Sorry, this event is full.
     </p>
