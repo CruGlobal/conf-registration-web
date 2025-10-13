@@ -74,11 +74,7 @@ pick-a-time {
 /* Default Overrides */
 .label-success,
 .btn-success {
-  color: black;
   background: variables.$green;
-}
-.btn-success:hover {
-  color: black;
 }
 .btn-unstyled {
   border: none;
