@@ -33,7 +33,14 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
-      $scope.integrationTypes = blockIntegrationService.integrationTypes();
+      $scope.integrationTypes =
+        blockIntegrationService.integrationTypes() || [];
+      $scope.blockIntegrations = $scope.$parent.blockIntegrations || [];
+
+      // Ensure blockIntegrationId is initialized correctly
+      if (!$scope.block.blockIntegrationId) {
+        $scope.block.blockIntegrationId = null;
+      }
 
       // Listen for integration types loaded event
       $scope.$on('integrationTypesLoaded', function () {
@@ -49,9 +56,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         );
         // Store validation result for display
         $scope.integrationValidation = validation;
-        // If not valid, reset selection
+        // If not valid, reset selection to null (which shows as 'None' in the dropdown)
         if (!validation.valid) {
-          $scope.block.blockIntegrationId = 'NONE';
+          $scope.block.blockIntegrationId = null;
+        } else {
+          $scope.block.blockIntegrationId = selectedIntegrationId;
         }
       };
 

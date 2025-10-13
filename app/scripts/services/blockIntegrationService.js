@@ -2,7 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .factory('blockIntegrationService', function ($http, $q) {
     const defaultIntegrationType = {
-      id: 'NONE',
+      id: null,
       ministryId: null,
       name: 'None',
       prettyName: 'None',
@@ -53,8 +53,8 @@ angular
         if (!integrationType) {
           return { valid: false, message: 'Invalid integration type.' };
         }
-        // No validation needed for 'None'
-        if (integrationType.id === 'NONE') {
+        // No validation needed for option 'None'
+        if (integrationType.id === null) {
           return { valid: true, message: '' };
         }
 
