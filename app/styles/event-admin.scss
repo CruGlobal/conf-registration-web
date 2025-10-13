@@ -21,6 +21,7 @@
 
   .usr-greeting {
     .name-btn {
+      color: black;
       text-transform: uppercase;
       @extend .blue;
       strong {
@@ -163,7 +164,6 @@ main.event-dashboard {
     padding: 10px 10px 10px 14px;
     margin-bottom: 10px;
     cursor: pointer;
-    h2,
     h3 {
       @extend .green;
       line-height: 20px;
@@ -198,7 +198,6 @@ main.event-dashboard {
       }
     }
     &.expired {
-      h2,
       h3,
       .green,
       p,
@@ -416,4 +415,9 @@ main.journal-upload {
       flex: 1;
     }
   }
+}
+
+/*** eventDetails form styles ***/
+.reg-types-subheading {
+  font-size: 1.75rem;
 }
