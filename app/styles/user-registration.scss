@@ -135,9 +135,14 @@ body.user-registration {
       + .reg-type-select {
         border-top: 1px solid #ddd;
       }
-      padding: 10px 5px;
-      h4 {
-        margin-top: 0;
+      td {
+        padding: 10px 5px;
+      }
+      td:first-child {
+        width: 100%;
+      }
+      .name {
+        font-size: 20px;
       }
       .cost {
         font-size: 16px;
