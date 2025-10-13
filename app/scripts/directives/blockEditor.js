@@ -56,11 +56,10 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         );
         // Store validation result for display
         $scope.integrationValidation = validation;
-        // If not valid, reset selection to null (which shows as 'None' in the dropdown)
-        if (!validation.valid) {
-          $scope.block.blockIntegrationId = null;
-        } else {
+        if (validation.valid) {
           $scope.block.blockIntegrationId = selectedIntegrationId;
+          // We also need to update the parent controller to refetch the data
+          $scope.$parent.fetchBlockIntegrations();
         }
       };
 
