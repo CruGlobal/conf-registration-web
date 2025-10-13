@@ -163,10 +163,7 @@ body.user-registration {
     font-style: normal;
     color: #c00;
   }
-  .dl-horizontal label {
-    //Used for Payment Radio Buttons
-    display: block;
-  }
+
   .review-breakdown {
     td {
       border-top: none;
@@ -182,5 +179,24 @@ body.user-registration {
   }
   img {
     max-width: min(582px, 100%);
+  }
+  .payment-fieldset {
+    padding-block: 10px;
+
+    label {
+      display: block;
+      font-weight: 700;
+    }
+
+    input[type='radio'] {
+      margin-left: 2em;
+      margin-right: 0.5em;
+    }
+
+    legend {
+      font-weight: bold;
+      margin-bottom: 1rem;
+      font-size: 1.2em;
+    }
   }
 }
