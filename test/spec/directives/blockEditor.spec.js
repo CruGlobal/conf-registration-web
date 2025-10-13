@@ -87,4 +87,145 @@ describe('Directive: blockEditor', function () {
 
     expect(scope.eventHasQuestionType('ethnicityQuestion')).toBe(false);
   });
+
+  describe('integrationTypesLoaded', function () {
+    it('should set integrationTypes & blockIntegrations upon integrationTypesLoaded event', function () {
+      // Set up parent scope with test data
+      const mockIntegrationTypes = [
+        { id: 'TYPE1', name: 'Integration Type 1' },
+        { id: 'TYPE2', name: 'Integration Type 2' },
+      ];
+      const mockBlockIntegrations = [
+        { blockId: 'block1', title: 'Block 1', integrationTypeId: 'TYPE1' },
+        { blockId: 'block2', title: 'Block 2', integrationTypeId: null },
+      ];
+
+      // Verify that the variables have initial values before the event is broadcast
+      // integrationTypes starts with the default type from blockIntegrationService
+      expect(scope.integrationTypes).toEqual([
+        { id: null, ministryId: null, name: 'None', prettyName: 'None' },
+      ]);
+
+      expect(scope.blockIntegrations).toEqual([]);
+
+      scope.$parent.integrationTypes = mockIntegrationTypes;
+      scope.$parent.blockIntegrations = mockBlockIntegrations;
+
+      // Broadcast the event
+      scope.$broadcast('integrationTypesLoaded', mockIntegrationTypes);
+
+      // Verify that the child scope received the data from parent
+      expect(scope.integrationTypes).toEqual(mockIntegrationTypes);
+      expect(scope.blockIntegrations).toEqual(mockBlockIntegrations);
+    });
+  });
+
+  describe('integrationTypeChanged', function () {
+    var blockIntegrationService, $httpBackend;
+
+    beforeEach(inject(function (_blockIntegrationService_, _$httpBackend_) {
+      blockIntegrationService = _blockIntegrationService_;
+      $httpBackend = _$httpBackend_;
+
+      // Mock HTTP response to populate the service's internal integrationTypes
+      const mockIntegrationTypesResponse = [
+        {
+          id: 'TYPE1',
+          ministryId: null,
+          name: 'Integration_Type_1',
+          prettyName: 'Integration Type 1',
+        },
+        {
+          id: 'TYPE2',
+          ministryId: null,
+          name: 'Integration_Type_2',
+          prettyName: 'Integration Type 2',
+        },
+        {
+          id: 'TYPE3',
+          ministryId: null,
+          name: 'Integration_Type_3',
+          prettyName: 'Integration Type 3',
+        },
+      ];
+
+      $httpBackend
+        .whenGET(/^integrations\/.+$/)
+        .respond(200, mockIntegrationTypesResponse);
+
+      // Call getIntegrationTypes to populate the service's internal state
+      blockIntegrationService.getIntegrationTypes('test-conference-id');
+      $httpBackend.flush();
+
+      // Set up blockIntegrations with test data
+      scope.blockIntegrations = [
+        { id: 'block1', title: 'Question 1', integrationTypeId: 'TYPE1' },
+        { id: 'block2', title: 'Question 2', integrationTypeId: 'TYPE2' },
+        { id: 'block3', title: 'Question 3', integrationTypeId: null },
+      ];
+      scope.block.id = 'block3';
+
+      // Spy on the service method to verify it's called correctly
+      spyOn(
+        blockIntegrationService,
+        'validateFieldSelection',
+      ).and.callThrough();
+    }));
+
+    afterEach(function () {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('should store validation result when integration type is valid', function () {
+      // Select an integration type that is not already used
+      scope.integrationTypeChanged('TYPE3');
+
+      expect(scope.integrationValidation).toBeDefined();
+      expect(scope.integrationValidation.valid).toBe(true);
+      expect(scope.integrationValidation.message).toBe('');
+    });
+
+    it('should store validation result and reset to NONE when integration type is already used', function () {
+      // Set the block's integration ID to something other than NONE
+      scope.block.blockIntegrationId = 'TYPE1';
+
+      // Try to select TYPE1 which is already used by block1
+      scope.integrationTypeChanged('TYPE1');
+
+      expect(scope.integrationValidation).toBeDefined();
+      expect(scope.integrationValidation.valid).toBe(false);
+      expect(scope.integrationValidation.message).toEqual(
+        `Integration Type 1 has already been selected on Question 1.`,
+      );
+      // Should reset to null because validation failed
+      expect(scope.block.blockIntegrationId).toBe(null);
+    });
+
+    it('should save correctly with no validation errors when selecting null integration type', function () {
+      scope.block.blockIntegrationId = 'TYPE1';
+
+      scope.integrationTypeChanged(null);
+
+      expect(scope.integrationValidation).toBeDefined();
+      expect(scope.integrationValidation.valid).toBe(true);
+      expect(scope.integrationValidation.message).toBe('');
+      expect(scope.block.blockIntegrationId).toBe(null);
+    });
+
+    it('should allow re-selecting the same integration type for the same block', function () {
+      // block3 currently has no integration type
+      scope.block.blockIntegrationId = 'TYPE3';
+      scope.blockIntegrations[2].integrationTypeId = 'TYPE3';
+
+      // Re-select TYPE3 for the same block
+      scope.integrationTypeChanged('TYPE3');
+
+      expect(scope.integrationValidation).toBeDefined();
+      expect(scope.integrationValidation.valid).toBe(true);
+      expect(scope.integrationValidation.message).toBe('');
+      // Should not reset because it's the same block
+      expect(scope.block.blockIntegrationId).toBe('TYPE3');
+    });
+  });
 });
