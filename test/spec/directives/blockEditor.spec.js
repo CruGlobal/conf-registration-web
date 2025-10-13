@@ -165,9 +165,9 @@ describe('Directive: blockEditor', function () {
 
       // Set up blockIntegrations with test data
       scope.blockIntegrations = [
-        { id: 'block1', title: 'Question 1', integrationTypeId: 'TYPE1' },
-        { id: 'block2', title: 'Question 2', integrationTypeId: 'TYPE2' },
-        { id: 'block3', title: 'Question 3', integrationTypeId: null },
+        { blockId: 'block1', title: 'Question 1', integrationTypeId: 'TYPE1' },
+        { blockId: 'block2', title: 'Question 2', integrationTypeId: 'TYPE2' },
+        { blockId: 'block3', title: 'Question 3', integrationTypeId: null },
       ];
       scope.block.id = 'block3';
 
