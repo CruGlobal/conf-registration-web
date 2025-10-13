@@ -19,6 +19,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: 'e088fefc-eb9c-4904-b849-017facc9e063',
             pageId: '5c69bfcc-9e35-4bd8-8358-fe50fd86052d',
+            blockIntegrationId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
             title: 'Email',
             exportFieldTitle: null,
             type: 'emailQuestion',
@@ -40,6 +41,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '26c09fa0-f62e-4dc4-a568-b061da6fdb09',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Email',
             exportFieldTitle: null,
             type: 'emailQuestion',
@@ -53,6 +55,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '122a15bf-0608-4813-834a-0d31a8c44c64',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Name',
             exportFieldTitle: null,
             type: 'nameQuestion',
@@ -66,6 +69,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '0556295a-3c4d-45b2-a00e-42b1fe199421',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Number',
             exportFieldTitle: null,
             type: 'numberQuestion',
@@ -79,6 +83,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '2764e22b-8623-4c2b-81e5-f625574521f2',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Dropdown Question',
             exportFieldTitle: null,
             type: 'selectQuestion',
@@ -101,6 +106,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '0b876382-5fd1-46af-b778-10fc9b1b530d',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Multiple Choice Question',
             exportFieldTitle: null,
             type: 'radioQuestion',
@@ -130,6 +136,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '18ccfb09-3006-4981-ab5e-405ccf2aad1c',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Checkbox Question',
             exportFieldTitle: null,
             type: 'checkboxQuestion',
@@ -159,6 +166,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '9b83eebd-b064-4edf-92d0-7982a330272a',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Sex',
             exportFieldTitle: null,
             type: 'genderQuestion',
@@ -186,6 +194,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             exportFieldTitle: null,
             id: '6a525ff7-8999-4e45-9fbe-da33a73128c8',
             pageId: '95899b98-4258-41f1-b9fb-8f55fd7cbb50',
+            blockIntegrationId: null,
             position: 7,
             profileType: 'ADDRESS',
             registrantTypes: [],
@@ -198,6 +207,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '18ccfb09-3006-4981-ab5e-aaaaaaaaaaaa',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Checkbox Parent',
             exportFieldTitle: null,
             type: 'checkboxQuestion',
@@ -218,6 +228,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '18ccfb09-3006-4981-ab5e-bbbbbbbbbbbb',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Checkbox Rules',
             exportFieldTitle: null,
             type: 'checkboxQuestion',
@@ -309,6 +320,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '9b83eebd-b064-4edf-92d0-7982a330272b',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Sex',
             exportFieldTitle: null,
             type: 'genderQuestion',
@@ -334,6 +346,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             ],
             id: '1f8b4b56-22ac-417b-ada1-d2096b782ddd',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             position: '2',
             registrantTypes: [],
             required: 'false',
@@ -360,6 +373,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             exportFieldTitle: 'null',
             id: 'bd6cb777-563f-4975-a0c5-58030ee6c36c',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             position: '3',
             profileType: 'null',
             registrantTypes: [],
@@ -402,6 +416,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '0556295a-3c4d-45b2-a00e-42b1fe188421',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
+            blockIntegrationId: null,
             title: 'Campus',
             exportFieldTitle: null,
             type: 'campusQuestion',
@@ -423,6 +438,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: 'd6f1b12a-8c98-4e83-8857-1111111',
             pageId: '6090fccc-4f01-491b-b53f-f35b2ed3258a',
+            blockIntegrationId: null,
             title: 'Q1 Multiple Choice Question',
             exportFieldTitle: null,
             type: 'radioQuestion',
@@ -466,6 +482,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '38f8ece0-adf7-423d-9588-2222222',
             pageId: '6090fccc-4f01-491b-b53f-f35b2ed3258a',
+            blockIntegrationId: null,
             title: 'Q2 Multiple Choice Question',
             exportFieldTitle: null,
             type: 'radioQuestion',
@@ -520,6 +537,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: 'a7acefb9-72ef-4195-9b14-3333333',
             pageId: '6090fccc-4f01-491b-b53f-f35b2ed3258a',
+            blockIntegrationId: '896c6c02-8285-4d1d-9b1a-e1c6fffa8179',
             title: 'Q3 Dropdown Question',
             exportFieldTitle: null,
             type: 'selectQuestion',
@@ -2045,6 +2063,27 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
       name: 'Ministry Mission Trip',
       $hashKey: 'object:688',
+    },
+  ];
+
+  this.blockIntegrationsTypes = [
+    {
+      id: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+      ministryId: '9f63db46-6ca9-43b0-868a-23326b3c4d9',
+      name: 'test_name',
+      prettyName: 'Pretty Name',
+    },
+    {
+      id: '1e0d6222-49d9-4718-9d29-1815f3b34562',
+      ministryId: '9f63db46-6ca9-43b0-868a-23326b3c4d91',
+      name: 'test_name_2',
+      prettyName: 'Pretty Name 2',
+    },
+    {
+      id: '896c6c02-8285-4d1d-9b1a-e1c6fffa8179',
+      ministryId: null,
+      name: 'test_name_3',
+      prettyName: 'Pretty Name 3',
     },
   ];
 });

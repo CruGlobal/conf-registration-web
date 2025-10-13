@@ -2,7 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .factory('blockIntegrationService', function ($http, $q) {
     const defaultIntegrationType = {
-      id: 'NONE',
+      id: null,
       ministryId: null,
       name: 'None',
       prettyName: 'None',
@@ -53,8 +53,8 @@ angular
         if (!integrationType) {
           return { valid: false, message: 'Invalid integration type.' };
         }
-        // No validation needed for 'None'
-        if (integrationType.id === 'NONE') {
+        // No validation needed for option 'None'
+        if (integrationType.id === null) {
           return { valid: true, message: '' };
         }
 
@@ -62,14 +62,17 @@ angular
           (block) => block.integrationTypeId === integrationTypeId,
         );
 
-        if (currentBlockIntegration && currentBlockIntegration.id === blockId) {
+        if (
+          currentBlockIntegration &&
+          currentBlockIntegration.blockId === blockId
+        ) {
           return { valid: true, message: '' };
         }
 
         if (currentBlockIntegration) {
           return {
             valid: false,
-            message: `${integrationType.name} has already been selected on ${currentBlockIntegration.title}.`,
+            message: `${integrationType.prettyName} has already been selected on ${currentBlockIntegration.title}.`,
           };
         }
         return { valid: true, message: '' };
