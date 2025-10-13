@@ -19,16 +19,17 @@
         >
       </td>
       <td>
-        <a
-          href=""
+        <button
+          type="button"
           ng-click="newRegistrant(type.id)"
           class="btn btn-sm btn-success btn-important"
           ng-if="!registrationTypeFull(type)"
           translate
         >
           Register
-        </a>
+        </button>
         <button
+          type="button"
           class="btn btn-sm btn-success btn-important btn-full"
           disabled
           ng-if="registrationTypeFull(type)"
@@ -45,15 +46,15 @@
   ng-if="visibleRegistrantTypes.length === 1 && !isGroupRegistration"
 >
   <div class="col-xs-12 text-center">
-    <a
-      href
+    <button
+      type="button"
       ng-click="newRegistrant(visibleRegistrantTypes[0].id)"
       class="btn btn-success btn-important btn-lg"
       ng-if="!registrationTypeFull(visibleRegistrantTypes[0])"
       translate
     >
       Register
-    </a>
+    </button>
     <p ng-if="registrationTypeFull(visibleRegistrantTypes[0])" translate>
       Sorry, this event is full.
     </p>
