@@ -21,7 +21,6 @@
 
   .usr-greeting {
     .name-btn {
-      color: black;
       text-transform: uppercase;
       @extend .blue;
       strong {
@@ -263,6 +262,9 @@ main.event-registrations {
 main.event-details {
   section {
     padding-bottom: 20px;
+  }
+  h3 {
+    font-size: 1.75rem;
   }
   .reg-type-delete {
     position: absolute;
