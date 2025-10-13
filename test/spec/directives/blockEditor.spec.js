@@ -190,7 +190,7 @@ describe('Directive: blockEditor', function () {
       expect(scope.integrationValidation).toBeDefined();
       expect(scope.integrationValidation.valid).toBe(true);
       expect(scope.integrationValidation.message).toBe('');
-      expect(scope.$parent.fetchBlockIntegrations).toHaveBeenCalled();
+      expect(scope.$parent.fetchBlockIntegrations).toHaveBeenCalledWith();
     });
 
     it('should not save new integration type when integration type is already used', function () {
