@@ -9,7 +9,6 @@
 
 /*** Buttons ***/
 .btn-primary {
-  color: black;
   background: variables.$blue;
   border-color: #2f84cd;
 }
@@ -39,6 +38,7 @@
   @extend .sans-serif-semi;
 }
 .btn-important {
+  color: black !important;
   text-transform: uppercase;
   @extend .btn-bold;
 }
