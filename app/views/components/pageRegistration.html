@@ -1,7 +1,11 @@
 <article>
-  <h2 class="page-title border" ng-bind="page.title"></h2>
+  <h2
+    class="page-title border"
+    ng-bind="page.title"
+    id="page-title-{{page.id}}"
+  ></h2>
 
-  <form novalidate>
+  <form novalidate aria-labelledby="page-title-{{page.id}}">
     <div
       ng-repeat="block in page.blocks track by $index"
       block="block"
