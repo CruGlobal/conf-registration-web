@@ -199,6 +199,9 @@ angular
         },
         resolve: {
           conference: function ($route, ConfCache) {
+            // Always reload the conference and never use the cache to ensure that we show the
+            // most-recent completed counts
+            ConfCache.empty();
             return ConfCache.get($route.current.params.conferenceId, true);
           },
         },
