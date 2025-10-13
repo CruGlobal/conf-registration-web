@@ -23,6 +23,12 @@ describe('Directive: blockEditor', function () {
     element = $compile('<div block-editor></div>')(scope);
     scope.$digest();
 
+    const parentScope = $rootScope.$new();
+    parentScope.fetchBlockIntegrations = jasmine.createSpy(
+      'fetchBlockIntegrations',
+    );
+    scope.$parent = parentScope;
+
     scope = element.isolateScope() || element.scope();
   }));
 
@@ -184,11 +190,12 @@ describe('Directive: blockEditor', function () {
       expect(scope.integrationValidation).toBeDefined();
       expect(scope.integrationValidation.valid).toBe(true);
       expect(scope.integrationValidation.message).toBe('');
+      expect(scope.$parent.fetchBlockIntegrations).toHaveBeenCalled();
     });
 
-    it('should store validation result and reset to NONE when integration type is already used', function () {
+    it('should not save new integration type when integration type is already used', function () {
       // Set the block's integration ID to something other than NONE
-      scope.block.blockIntegrationId = 'TYPE1';
+      scope.block.blockIntegrationId = 'TYPE2';
 
       // Try to select TYPE1 which is already used by block1
       scope.integrationTypeChanged('TYPE1');
@@ -199,7 +206,7 @@ describe('Directive: blockEditor', function () {
         `Integration Type 1 has already been selected on Question 1.`,
       );
       // Should reset to null because validation failed
-      expect(scope.block.blockIntegrationId).toBe(null);
+      expect(scope.block.blockIntegrationId).toBe('TYPE2');
     });
 
     it('should save correctly with no validation errors when selecting null integration type', function () {

@@ -380,22 +380,26 @@ angular
             $scope.blockIntegrations.push({
               blockId: block.id,
               title: block.title,
-              integrationTypeId: block.integrationTypeId,
+              integrationTypeId: block.blockIntegrationId,
             });
           });
         });
         return $scope.blockIntegrations;
       };
 
-      // Request integration types, so we only do 1 HTTP request for them
-      // Then we can use them in the $child controller blockEditor.js
-      blockIntegrationService
-        .getIntegrationTypes($scope.conference.id)
-        .then(function (types) {
-          $scope.integrationTypes = types;
-          $scope.getBlockIntegrationData();
-          $scope.$broadcast('integrationTypesLoaded', types);
-        });
+      $scope.fetchBlockIntegrations = function () {
+        // Request integration types, so we only do 1 HTTP request for them
+        // Then we can use them in the $child controller blockEditor.js
+        blockIntegrationService
+          .getIntegrationTypes($scope.conference.id)
+          .then(function (types) {
+            $scope.integrationTypes = types;
+            $scope.getBlockIntegrationData();
+            $scope.$broadcast('integrationTypesLoaded', types);
+          });
+      };
+
+      $scope.fetchBlockIntegrations();
 
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
