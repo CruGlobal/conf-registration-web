@@ -1,16 +1,12 @@
 import 'angular-mocks';
 
-describe('Service: BlockIntegrationService', () => {
+describe('Service: BlockTagTypeService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let blockIntegrationService, $httpBackend, $rootScope;
+  let blockTagTypeService, $httpBackend, $rootScope;
 
-  beforeEach(inject((
-    _blockIntegrationService_,
-    _$httpBackend_,
-    _$rootScope_,
-  ) => {
-    blockIntegrationService = _blockIntegrationService_;
+  beforeEach(inject((_blockTagTypeService_, _$httpBackend_, _$rootScope_) => {
+    blockTagTypeService = _blockTagTypeService_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
   }));
@@ -21,13 +17,13 @@ describe('Service: BlockIntegrationService', () => {
   });
 
   const conferenceId = 'test-conference-123';
-  const defaultIntegrationType = {
+  const defaultBlockTagType = {
     id: null,
     ministryId: null,
     name: 'None',
     prettyName: 'None',
   };
-  const mockIntegrationTypes = [
+  const mockBlockTagTypes = [
     {
       id: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
       ministryId: null,
@@ -48,12 +44,12 @@ describe('Service: BlockIntegrationService', () => {
     },
   ];
 
-  describe('loadIntegrationTypes', () => {
-    it('should return default integration type when no conferenceId provided', (done) => {
-      blockIntegrationService
-        .loadIntegrationTypes()
+  describe('loadBlockTagTypes', () => {
+    it('should return default block tag type when no conferenceId provided', (done) => {
+      blockTagTypeService
+        .loadBlockTagTypes()
         .then((types) => {
-          expect(types).toEqual([defaultIntegrationType]);
+          expect(types).toEqual([defaultBlockTagType]);
           done();
         })
         .catch(done.fail);
@@ -61,13 +57,13 @@ describe('Service: BlockIntegrationService', () => {
       $rootScope.$digest();
     });
 
-    it('should fetch integration types from API for a conference', (done) => {
+    it('should fetch block tag types from API for a conference', (done) => {
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
-        .respond(200, mockIntegrationTypes);
+        .respond(200, mockBlockTagTypes);
 
-      blockIntegrationService
-        .loadIntegrationTypes(conferenceId)
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId)
         .then((types) => {
           // Should include the default "None" option plus the fetched types
           expect(types.length).toBe(4);
@@ -82,20 +78,20 @@ describe('Service: BlockIntegrationService', () => {
       $httpBackend.flush();
     });
 
-    it('should cache integration types and not make duplicate API calls', (done) => {
+    it('should cache block tag types and not make duplicate API calls', (done) => {
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
-        .respond(200, mockIntegrationTypes);
+        .respond(200, mockBlockTagTypes);
 
       // First call - should hit the API
-      blockIntegrationService
-        .loadIntegrationTypes(conferenceId)
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId)
         .then((types) => {
           expect(types.length).toBe(4);
 
           // Second call - should use cache, no new API call
-          blockIntegrationService
-            .loadIntegrationTypes(conferenceId)
+          blockTagTypeService
+            .loadBlockTagTypes(conferenceId)
             .then((cachedTypes) => {
               expect(cachedTypes.length).toBe(4);
               expect(cachedTypes).toEqual(types);
@@ -108,15 +104,15 @@ describe('Service: BlockIntegrationService', () => {
       $httpBackend.flush();
     });
 
-    it('should return default integration type on API error', (done) => {
+    it('should return default block tag type on API error', (done) => {
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
         .respond(500, 'Internal Server Error');
 
-      blockIntegrationService
-        .loadIntegrationTypes(conferenceId)
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId)
         .then((types) => {
-          expect(types).toEqual([defaultIntegrationType]);
+          expect(types).toEqual([defaultBlockTagType]);
           done();
         })
         .catch(done.fail);
@@ -124,7 +120,7 @@ describe('Service: BlockIntegrationService', () => {
       $httpBackend.flush();
     });
 
-    it('should fetch new integration types for a different conference', () => {
+    it('should fetch new block tag types for a different conference', () => {
       const otherConferenceId = 'other-conference-456';
       const otherMockTypes = [
         {
@@ -138,14 +134,12 @@ describe('Service: BlockIntegrationService', () => {
       // First load conference
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
-        .respond(200, mockIntegrationTypes);
+        .respond(200, mockBlockTagTypes);
 
       let firstResult;
-      blockIntegrationService
-        .loadIntegrationTypes(conferenceId)
-        .then((types) => {
-          firstResult = types;
-        });
+      blockTagTypeService.loadBlockTagTypes(conferenceId).then((types) => {
+        firstResult = types;
+      });
 
       $httpBackend.flush();
 
@@ -157,8 +151,8 @@ describe('Service: BlockIntegrationService', () => {
         .respond(200, otherMockTypes);
 
       let secondResult;
-      blockIntegrationService
-        .loadIntegrationTypes(otherConferenceId)
+      blockTagTypeService
+        .loadBlockTagTypes(otherConferenceId)
         .then((otherTypes) => {
           secondResult = otherTypes;
         });
@@ -170,23 +164,23 @@ describe('Service: BlockIntegrationService', () => {
     });
   });
 
-  describe('integrationTypes', () => {
+  describe('blockTagTypes', () => {
     it('should return only default type before any load', () => {
-      blockIntegrationService.clearCache();
-      const types = blockIntegrationService.integrationTypes();
+      blockTagTypeService.clearCache();
+      const types = blockTagTypeService.blockTagTypes();
 
-      expect(types).toEqual([defaultIntegrationType]);
+      expect(types).toEqual([defaultBlockTagType]);
     });
   });
 
   describe('validateFieldSelection', () => {
     beforeEach((done) => {
-      // Load some integration types for validation tests
+      // Load some block tag types for validation tests
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
-        .respond(200, mockIntegrationTypes);
+        .respond(200, mockBlockTagTypes);
 
-      blockIntegrationService.loadIntegrationTypes(conferenceId).then(() => {
+      blockTagTypeService.loadBlockTagTypes(conferenceId).then(() => {
         done();
       });
 
@@ -194,78 +188,78 @@ describe('Service: BlockIntegrationService', () => {
     });
 
     it('should return valid for "None" selection', () => {
-      const blockIntegrations = [];
-      const result = blockIntegrationService.validateFieldSelection(
+      const blockTagTypeMapping = [];
+      const result = blockTagTypeService.validateFieldSelection(
         null,
-        blockIntegrations,
+        blockTagTypeMapping,
         'block-1',
       );
 
       expect(result).toEqual({ valid: true, message: '' });
     });
 
-    it('should return invalid if integration type not found', () => {
-      const blockIntegrations = [];
-      const result = blockIntegrationService.validateFieldSelection(
-        'non-existent-integration',
-        blockIntegrations,
+    it('should return invalid if block tag type not found', () => {
+      const blockTagTypeMapping = [];
+      const result = blockTagTypeService.validateFieldSelection(
+        'non-existent-block-tag',
+        blockTagTypeMapping,
         'block-1',
       );
 
       expect(result).toEqual({
         valid: false,
-        message: 'Invalid integration type.',
+        message: 'Invalid block tag type.',
       });
     });
 
-    it('should return valid if integration type is not yet assigned', () => {
-      const blockIntegrations = [
+    it('should return valid if block tag type is not yet assigned', () => {
+      const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'First Name Question',
-          integrationTypeId: mockIntegrationTypes[0].id,
+          blockTagTypeId: mockBlockTagTypes[0].id,
         },
       ];
 
-      const result = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[1].id,
-        blockIntegrations,
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[1].id,
+        blockTagTypeMapping,
         'block-2',
       );
 
       expect(result).toEqual({ valid: true, message: '' });
     });
 
-    it('should return valid if same block is selecting the same integration', () => {
-      const blockIntegrations = [
+    it('should return valid if same block is selecting the same block tag type', () => {
+      const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'Question 1',
-          integrationTypeId: mockIntegrationTypes[0].id,
+          blockTagTypeId: mockBlockTagTypes[0].id,
         },
       ];
 
-      const result = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[0].id,
-        blockIntegrations,
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[0].id,
+        blockTagTypeMapping,
         'block-1',
       );
 
       expect(result).toEqual({ valid: true, message: '' });
     });
 
-    it('should return invalid if integration type is already assigned to another block', () => {
-      const blockIntegrations = [
+    it('should return invalid if block tag type is already assigned to another block', () => {
+      const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'First Name Question',
-          integrationTypeId: mockIntegrationTypes[0].id,
+          blockTagTypeId: mockBlockTagTypes[0].id,
         },
       ];
 
-      const result = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[0].id,
-        blockIntegrations,
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[0].id,
+        blockTagTypeMapping,
         'block-2',
       );
 
@@ -275,29 +269,29 @@ describe('Service: BlockIntegrationService', () => {
       });
     });
 
-    it('should handle multiple blocks with different integrations', () => {
-      const blockIntegrations = [
+    it('should handle multiple blocks with different block tag types', () => {
+      const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'First Name Question',
-          integrationTypeId: mockIntegrationTypes[0].id,
+          blockTagTypeId: mockBlockTagTypes[0].id,
         },
         {
           blockId: 'block-2',
           title: 'Last Name Question',
-          integrationTypeId: mockIntegrationTypes[1].id,
+          blockTagTypeId: mockBlockTagTypes[1].id,
         },
         {
           blockId: 'block-3',
           title: 'Email Question',
-          integrationTypeId: mockIntegrationTypes[2].id,
+          blockTagTypeId: mockBlockTagTypes[2].id,
         },
       ];
 
-      // Try to assign integration-2 to block-4 (should fail)
-      const result1 = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[1].id,
-        blockIntegrations,
+      // Try to assign block-tag-2 to block-4 (should fail)
+      const result1 = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[1].id,
+        blockTagTypeMapping,
         'block-4',
       );
 
@@ -306,29 +300,29 @@ describe('Service: BlockIntegrationService', () => {
         message: 'Last Name has already been selected on Last Name Question.',
       });
 
-      // Try to assign integration-1 to block-1 itself (should succeed)
-      const result2 = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[0].id,
-        blockIntegrations,
+      // Try to assign block-tag-1 to block-1 itself (should succeed)
+      const result2 = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[0].id,
+        blockTagTypeMapping,
         'block-1',
       );
 
       expect(result2).toEqual({ valid: true, message: '' });
     });
 
-    it('should handle blocks switching from one integration to another', () => {
-      const blockIntegrations = [
+    it('should handle blocks switching from one block tag type to another', () => {
+      const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'Name Question',
-          integrationTypeId: mockIntegrationTypes[0].id,
+          blockTagTypeId: mockBlockTagTypes[0].id,
         },
       ];
 
-      // Block-1 switching to integration-2 should be valid
-      const result = blockIntegrationService.validateFieldSelection(
-        mockIntegrationTypes[1].id,
-        blockIntegrations,
+      // Block-1 switching to block-tag-2 should be valid
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[1].id,
+        blockTagTypeMapping,
         'block-1',
       );
 
@@ -337,25 +331,25 @@ describe('Service: BlockIntegrationService', () => {
   });
 
   describe('clearCache', () => {
-    it('should clear cached integration types', (done) => {
+    it('should clear cached block tag types', (done) => {
       $httpBackend
         .expectGET(`blockTagTypes/${conferenceId}`)
-        .respond(200, mockIntegrationTypes);
+        .respond(200, mockBlockTagTypes);
 
-      blockIntegrationService
-        .loadIntegrationTypes(conferenceId)
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId)
         .then(() => {
-          let types = blockIntegrationService.integrationTypes();
+          let types = blockTagTypeService.blockTagTypes();
 
           expect(types.length).toBe(4);
 
           // Clear cache
-          blockIntegrationService.clearCache();
+          blockTagTypeService.clearCache();
 
           // Should now only have default type
-          types = blockIntegrationService.integrationTypes();
+          types = blockTagTypeService.blockTagTypes();
 
-          expect(types).toEqual([defaultIntegrationType]);
+          expect(types).toEqual([defaultBlockTagType]);
           done();
         })
         .catch(done.fail);

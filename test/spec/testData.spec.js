@@ -2066,7 +2066,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     },
   ];
 
-  this.blockIntegrationsTypes = [
+  this.blockTagTypes = [
     {
       id: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
       ministryId: '9f63db46-6ca9-43b0-868a-23326b3c4d9',

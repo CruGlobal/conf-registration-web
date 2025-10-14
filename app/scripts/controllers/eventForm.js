@@ -16,7 +16,7 @@ angular
       GrowlService,
       ConfCache,
       uuid,
-      blockIntegrationService,
+      blockTagTypeService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -373,40 +373,40 @@ angular
         }
       };
 
-      $scope.getBlockIntegrationData = function () {
-        $scope.blockIntegrations = [];
+      $scope.buildBlockTagTypeMappings = function () {
+        $scope.blockTagTypeMapping = [];
         $scope.conference.registrationPages.forEach(function (page) {
           page.blocks.forEach(function (block) {
-            $scope.blockIntegrations.push({
+            $scope.blockTagTypeMapping.push({
               blockId: block.id,
               title: block.title,
-              integrationTypeId: block.blockTagTypeId,
+              blockTagTypeId: block.blockTagTypeId,
             });
           });
         });
       };
 
-      $scope.fetchBlockIntegrations = function () {
-        // Request integration types, so we only do 1 HTTP request for them
+      $scope.fetchBlockTagTypeMapping = function () {
+        // Request block tag types, so we only do 1 HTTP request for them
         // Then we can use them in the $child controller blockEditor.js
-        blockIntegrationService
-          .loadIntegrationTypes($scope.conference.id)
+        blockTagTypeService
+          .loadBlockTagTypes($scope.conference.id)
           .then(function (types) {
-            $scope.integrationTypes = types;
-            $scope.getBlockIntegrationData();
-            $scope.$broadcast('integrationTypesLoaded', types);
+            $scope.blockTagTypes = types;
+            $scope.buildBlockTagTypeMappings();
+            $scope.$broadcast('blockTagTypesLoaded', types);
           });
       };
 
-      $scope.fetchBlockIntegrations();
+      $scope.fetchBlockTagTypeMapping();
 
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
       };
 
-      // Clear integration cache when controller is destroyed (e.g., navigating away)
+      // Clear block tag types service cache when controller is destroyed (e.g., navigating away)
       $scope.$on('$destroy', function () {
-        blockIntegrationService.clearCache();
+        blockTagTypeService.clearCache();
       });
     },
   );

@@ -25,8 +25,8 @@ describe('Directive: blockEditor', function () {
     scope.$digest();
 
     const parentScope = $rootScope.$new();
-    parentScope.fetchBlockIntegrations = jasmine.createSpy(
-      'fetchBlockIntegrations',
+    parentScope.fetchBlockTagTypeMapping = jasmine.createSpy(
+      'fetchBlockTagTypeMapping',
     );
     scope.$parent = parentScope;
 
@@ -95,88 +95,85 @@ describe('Directive: blockEditor', function () {
     expect(scope.eventHasQuestionType('ethnicityQuestion')).toBe(false);
   });
 
-  describe('integrationTypesLoaded', function () {
-    it('should set integrationTypes & blockIntegrations upon integrationTypesLoaded event', function () {
+  describe('blockTagTypesLoaded', function () {
+    it('should set blockTagTypes & blockTagTypeMapping upon blockTagTypesLoaded event', function () {
       // Set up parent scope with test data
-      const mockIntegrationTypes = [
-        { id: 'TYPE1', name: 'Integration Type 1' },
-        { id: 'TYPE2', name: 'Integration Type 2' },
+      const mockBlockTagTypes = [
+        { id: 'TYPE1', name: 'Block Tag Type 1' },
+        { id: 'TYPE2', name: 'Block Tag Type 2' },
       ];
-      const mockBlockIntegrations = [
-        { blockId: 'block1', title: 'Block 1', integrationTypeId: 'TYPE1' },
-        { blockId: 'block2', title: 'Block 2', integrationTypeId: null },
+      const mockBlockTagTypeMapping = [
+        { blockId: 'block1', title: 'Block 1', blockTagTypeId: 'TYPE1' },
+        { blockId: 'block2', title: 'Block 2', blockTagTypeId: null },
       ];
 
       // Verify that the variables have initial values before the event is broadcast
-      // integrationTypes starts with the default type from blockIntegrationService
-      expect(scope.integrationTypes).toEqual([
+      // blockTagTypes starts with the default type from blockTagTypeService
+      expect(scope.blockTagTypes).toEqual([
         { id: null, ministryId: null, name: 'None', prettyName: 'None' },
       ]);
 
-      expect(scope.blockIntegrations).toEqual([]);
+      expect(scope.blockTagTypeMapping).toEqual([]);
 
-      scope.$parent.integrationTypes = mockIntegrationTypes;
-      scope.$parent.blockIntegrations = mockBlockIntegrations;
+      scope.$parent.blockTagTypes = mockBlockTagTypes;
+      scope.$parent.blockTagTypeMapping = mockBlockTagTypeMapping;
 
       // Broadcast the event
-      scope.$broadcast('integrationTypesLoaded', mockIntegrationTypes);
+      scope.$broadcast('blockTagTypesLoaded', mockBlockTagTypes);
 
       // Verify that the child scope received the data from parent
-      expect(scope.integrationTypes).toEqual(mockIntegrationTypes);
-      expect(scope.blockIntegrations).toEqual(mockBlockIntegrations);
+      expect(scope.blockTagTypes).toEqual(mockBlockTagTypes);
+      expect(scope.blockTagTypeMapping).toEqual(mockBlockTagTypeMapping);
     });
   });
 
-  describe('integrationTypeChanged', function () {
-    var blockIntegrationService, $httpBackend;
+  describe('blockTagTypeTypeChanged', function () {
+    let blockTagTypeService, $httpBackend;
 
-    beforeEach(inject(function (_blockIntegrationService_, _$httpBackend_) {
-      blockIntegrationService = _blockIntegrationService_;
+    beforeEach(inject(function (_blockTagTypeService_, _$httpBackend_) {
+      blockTagTypeService = _blockTagTypeService_;
       $httpBackend = _$httpBackend_;
 
-      // Mock HTTP response to populate the service's internal integrationTypes
-      const mockIntegrationTypesResponse = [
+      // Mock HTTP response to populate the service's internal blockTagTypes
+      const mockBlockTagTypesResponse = [
         {
           id: 'TYPE1',
           ministryId: null,
-          name: 'Integration_Type_1',
-          prettyName: 'Integration Type 1',
+          name: 'Tag_Type_1',
+          prettyName: 'Block Tag Type 1',
         },
         {
           id: 'TYPE2',
           ministryId: null,
-          name: 'Integration_Type_2',
-          prettyName: 'Integration Type 2',
+          name: 'Tag_Type_2',
+          prettyName: 'Block Tag Type 2',
         },
         {
           id: 'TYPE3',
           ministryId: null,
-          name: 'Integration_Type_3',
-          prettyName: 'Integration Type 3',
+          name: 'Tag_Type_3',
+          prettyName: 'Block Tag Type 3',
         },
       ];
 
       $httpBackend
         .whenGET(/^blockTagTypes\/.+$/)
-        .respond(200, mockIntegrationTypesResponse);
+        .respond(200, mockBlockTagTypesResponse);
 
-      // Call loadIntegrationTypes to populate the service's internal state
-      blockIntegrationService.loadIntegrationTypes('test-conference-id');
+      // Call loadBlockTagTypes to populate the service's internal state
+      blockTagTypeService.loadBlockTagTypes('test-conference-id');
       $httpBackend.flush();
 
-      // Set up blockIntegrations with test data
-      scope.blockIntegrations = [
-        { blockId: 'block1', title: 'Question 1', integrationTypeId: 'TYPE1' },
-        { blockId: 'block2', title: 'Question 2', integrationTypeId: 'TYPE2' },
-        { blockId: 'block3', title: 'Question 3', integrationTypeId: null },
+      // Set up blockTagTypeMapping with test data
+      scope.blockTagTypeMapping = [
+        { blockId: 'block1', title: 'Question 1', blockTagTypeId: 'TYPE1' },
+        { blockId: 'block2', title: 'Question 2', blockTagTypeId: 'TYPE2' },
+        { blockId: 'block3', title: 'Question 3', blockTagTypeId: null },
       ];
       scope.block.id = 'block3';
 
       // Spy on the service method to verify it's called correctly
-      spyOn(
-        blockIntegrationService,
-        'validateFieldSelection',
-      ).and.callThrough();
+      spyOn(blockTagTypeService, 'validateFieldSelection').and.callThrough();
     }));
 
     afterEach(function () {
@@ -184,63 +181,74 @@ describe('Directive: blockEditor', function () {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('should store validation result when integration type is valid', function () {
-      // Select an integration type that is not already used
-      scope.integrationTypeChanged('TYPE3');
+    it('should store validation result when block tag type is valid', function () {
+      // Select a block tag type that is not already used
+      scope.blockTagTypeTypeChanged('TYPE3');
 
-      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
-      expect(scope.$parent.fetchBlockIntegrations).toHaveBeenCalledWith();
+      expect(scope.blockTagTypeValidation).toEqual({
+        valid: true,
+        message: '',
+      });
+
+      expect(scope.$parent.fetchBlockTagTypeMapping).toHaveBeenCalledWith();
     });
 
-    it('should not save new integration type when integration type is already used', function () {
-      // Set the block's integration ID to something other than NONE
+    it('should not save new block tag type when block tag type is already used', function () {
+      // Set the block's block tag type ID to something other than NONE
       scope.block.blockTagTypeId = 'TYPE2';
 
       // Try to select TYPE1 which is already used by block1
-      scope.integrationTypeChanged('TYPE1');
+      scope.blockTagTypeTypeChanged('TYPE1');
 
-      expect(scope.integrationValidation).toEqual({
+      expect(scope.blockTagTypeValidation).toEqual({
         valid: false,
-        message: `Integration Type 1 has already been selected on Question 1.`,
+        message: `Block Tag Type 1 has already been selected on Question 1.`,
       });
       // Should reset to null because validation failed
       expect(scope.block.blockTagTypeId).toBe('TYPE2');
     });
 
-    it('should save correctly with no validation errors when selecting null integration type', function () {
+    it('should save correctly with no validation errors when selecting null block tag type', function () {
       scope.block.blockTagTypeId = 'TYPE1';
 
-      scope.integrationTypeChanged(null);
+      scope.blockTagTypeTypeChanged(null);
 
-      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
+      expect(scope.blockTagTypeValidation).toEqual({
+        valid: true,
+        message: '',
+      });
+
       expect(scope.block.blockTagTypeId).toBe(null);
     });
 
-    it('should allow re-selecting the same integration type for the same block', function () {
-      // block3 currently has no integration type
+    it('should allow re-selecting the same block tag type for the same block', function () {
+      // block3 currently has no block tag type
       scope.block.blockTagTypeId = 'TYPE3';
-      scope.blockIntegrations[2].integrationTypeId = 'TYPE3';
+      scope.blockTagTypeMapping[2].blockTagTypeId = 'TYPE3';
 
       // Re-select TYPE3 for the same block
-      scope.integrationTypeChanged('TYPE3');
+      scope.blockTagTypeTypeChanged('TYPE3');
 
-      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
+      expect(scope.blockTagTypeValidation).toEqual({
+        valid: true,
+        message: '',
+      });
       // Should not reset because it's the same block
       expect(scope.block.blockTagTypeId).toBe('TYPE3');
     });
   });
 
-  describe('showIntegrationDropdown', function () {
-    it('should not show the integration dropdown when only "None" is available', function () {
+  describe('showBlockTagTypeDropdown', function () {
+    it('should not show the block tag type dropdown when only "None" is available', function () {
       scope.conference.ministry = 'other-ministry-id';
 
-      expect(scope.showIntegrationDropdown()).toBe(false);
+      expect(scope.showBlockTagTypeDropdown()).toBe(false);
     });
 
-    it('should show the integration dropdown when more than "None" is available', function () {
+    it('should show the block tag type dropdown when more than "None" is available', function () {
       scope.conference.ministry = familyLifeMinistryId;
 
-      expect(scope.showIntegrationDropdown()).toBe(true);
+      expect(scope.showBlockTagTypeDropdown()).toBe(true);
     });
   });
 });
