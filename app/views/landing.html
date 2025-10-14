@@ -96,7 +96,7 @@
       ng-repeat="e in filteredEvents = filterSearchResults() | orderBy: 'name'"
     >
       <div class="bs-callout">
-        <h3 class="list-group-item-heading">{{e.name}}</h3>
+        <h3 id="title-{{e.id}}" class="list-group-item-heading">{{e.name}}</h3>
         <p class="spacing-above-md list-group-item-text">
           <i class="fa fa-calendar fa-fw"></i>
           {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY
@@ -116,6 +116,7 @@
           <button
             ng-click="selectEvent(e, 'register')"
             class="btn btn-primary spacing-above-xs"
+            aria-describedby="title-{{e.id}}"
             translate
           >
             Register
