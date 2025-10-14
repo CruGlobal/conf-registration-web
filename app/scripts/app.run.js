@@ -3,7 +3,6 @@ angular
   .run(function (
     $rootScope,
     $cookies,
-    $document,
     $location,
     $window,
     ProfileCache,
@@ -13,6 +12,7 @@ angular
   ) {
     $rootScope.isStaging = envService.is('staging');
     $rootScope.getAuthToken = () => $cookies.get('crsToken');
+    $rootScope.getMainContentUrl = () => $location.path() + '#main';
 
     $rootScope.year = new Date().getFullYear();
 
@@ -38,14 +38,6 @@ angular
         analytics.firePageViewEvent();
       });
     });
-
-    $rootScope.skipToMainContent = () => {
-      const mainContent = $document[0].querySelector('main');
-      if (mainContent) {
-        mainContent.focus();
-        mainContent.scrollIntoView();
-      }
-    };
 
     $rootScope.globalUser = function () {
       return ProfileCache.globalUser();
