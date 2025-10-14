@@ -107,8 +107,8 @@
         name="payment-amount"
         ng-model="currentPayment.amount"
         ng-value="currentRegistration.remainingBalance"
-        aria-label="{{'Pay full amount' | translate}}"
       />
+      <span class="sr-only" translate>Pay full balance:</span>
       {{currentRegistration.remainingBalance |
       localizedCurrency:conference.currency.currencyCode}}
     </label>
