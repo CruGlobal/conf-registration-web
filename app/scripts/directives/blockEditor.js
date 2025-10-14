@@ -4,6 +4,8 @@ import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
 
+export const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {
     templateUrl: template,
@@ -41,27 +43,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       if (!$scope.block.blockIntegrationId) {
         $scope.block.blockIntegrationId = null;
       }
-
-      // Listen for integration types loaded event
-      $scope.$on('integrationTypesLoaded', function () {
-        $scope.integrationTypes = $scope.$parent.integrationTypes;
-        $scope.blockIntegrations = $scope.$parent.blockIntegrations;
-      });
-
-      $scope.integrationTypeChanged = function (selectedIntegrationId) {
-        const validation = blockIntegrationService.validateFieldSelection(
-          selectedIntegrationId,
-          $scope.blockIntegrations,
-          $scope.block.id,
-        );
-        // Store validation result for display
-        $scope.integrationValidation = validation;
-        if (validation.valid) {
-          $scope.block.blockIntegrationId = selectedIntegrationId;
-          // We also need to update the parent controller to refetch the data
-          $scope.$parent.fetchBlockIntegrations();
-        }
-      };
 
       if (!$scope.answer) {
         $scope.answer = {};
@@ -513,6 +494,31 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           });
         });
         return questionTypeFound;
+      };
+
+      // Listen for integration types loaded event
+      $scope.$on('integrationTypesLoaded', function () {
+        $scope.integrationTypes = $scope.$parent.integrationTypes;
+        $scope.blockIntegrations = $scope.$parent.blockIntegrations;
+      });
+
+      $scope.integrationTypeChanged = function (selectedIntegrationId) {
+        const validation = blockIntegrationService.validateFieldSelection(
+          selectedIntegrationId,
+          $scope.blockIntegrations,
+          $scope.block.id,
+        );
+        // Store validation result for display
+        $scope.integrationValidation = validation;
+        if (validation.valid) {
+          $scope.block.blockIntegrationId = selectedIntegrationId;
+          // We also need to update the parent controller to refetch the data
+          $scope.$parent.fetchBlockIntegrations();
+        }
+      };
+
+      $scope.showIntegrationDropdown = function () {
+        return $scope.conference.ministry === familyLifeMinistryId;
       };
     },
   };

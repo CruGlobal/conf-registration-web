@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
 
 describe('Directive: blockEditor', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -233,6 +234,20 @@ describe('Directive: blockEditor', function () {
       expect(scope.integrationValidation.message).toBe('');
       // Should not reset because it's the same block
       expect(scope.block.blockIntegrationId).toBe('TYPE3');
+    });
+  });
+
+  describe('integrationTypeChanged', function () {
+    it('should not show the integration dropdown when only "None" is available', function () {
+      scope.conference.ministry = 'other-ministry-id';
+
+      expect(scope.showIntegrationDropdown()).toBe(false);
+    });
+
+    it('should show the integration dropdown when more than "None" is available', function () {
+      scope.conference.ministry = familyLifeMinistryId;
+
+      expect(scope.showIntegrationDropdown()).toBe(true);
     });
   });
 });
