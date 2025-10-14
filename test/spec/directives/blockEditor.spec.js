@@ -237,7 +237,7 @@ describe('Directive: blockEditor', function () {
     });
   });
 
-  describe('integrationTypeChanged', function () {
+  describe('showIntegrationDropdown', function () {
     it('should not show the integration dropdown when only "None" is available', function () {
       scope.conference.ministry = 'other-ministry-id';
 
