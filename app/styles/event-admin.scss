@@ -163,7 +163,7 @@ main.event-dashboard {
     padding: 10px 10px 10px 14px;
     margin-bottom: 10px;
     cursor: pointer;
-    h3 {
+    h2 {
       @extend .green;
       line-height: 20px;
       font-size: 20px;
@@ -197,7 +197,7 @@ main.event-dashboard {
       }
     }
     &.expired {
-      h3,
+      h2,
       .green,
       p,
       strong {
@@ -262,9 +262,6 @@ main.event-registrations {
 main.event-details {
   section {
     padding-bottom: 20px;
-  }
-  h3 {
-    font-size: 1.75rem;
   }
   .reg-type-delete {
     position: absolute;
