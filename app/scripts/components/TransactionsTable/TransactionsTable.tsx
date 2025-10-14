@@ -104,9 +104,9 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
     <div className="row form-group">
       <div>
         <div className="col-xs-6 details-heading">
-          <h4>
+          <h3>
             <a href="#">{title}</a>
-          </h4>
+          </h3>
         </div>
         <div className="col-xs-6 text-right">{headerExtra}</div>
         {rows.length === 0 && <div className="col-xs-12">{emptyMessage}</div>}
