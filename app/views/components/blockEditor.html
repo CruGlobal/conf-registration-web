@@ -482,7 +482,7 @@
             <option value="" translate>None</option>
           </select>
         </div>
-        <div class="form-group" ng-if="showIntegrationDropdown()">
+        <div class="form-group" ng-if="showBlockTagTypeDropdown()">
           <label class="inline-label" translate>Integrate into Celigo</label>
           <i
             uib-popover="Selecting this will integrate this field into Celigo. You can only select one field per type."
@@ -492,18 +492,18 @@
 
           <select
             ng-model="selectedBlockTagTypeId"
-            ng-options="type.id as type.prettyName for type in integrationTypes"
-            ng-change="integrationTypeChanged(selectedBlockTagTypeId)"
+            ng-options="type.id as type.prettyName for type in blockTagTypes"
+            ng-change="blockTagTypeTypeChanged(selectedBlockTagTypeId)"
             class="form-control"
-            ng-class="{'has-error': integrationValidation && !integrationValidation.valid}"
-            aria-invalid="{{integrationValidation && !integrationValidation.valid}}"
-            aria-describedby="integration-error-{{block.id}}"
+            ng-class="{'has-error': blockTagTypeValidation && !blockTagTypeValidation.valid}"
+            aria-invalid="{{blockTagTypeValidation && !blockTagTypeValidation.valid}}"
+            aria-describedby="blockTagType-error-{{block.id}}"
           ></select>
           <div
-            ng-if="integrationValidation && !integrationValidation.valid"
+            ng-if="blockTagTypeValidation && !blockTagTypeValidation.valid"
             class="text-danger"
           >
-            <small>{{ integrationValidation.message }}</small>
+            <small>{{ blockTagTypeValidation.message }}</small>
           </div>
         </div>
       </uib-tab>

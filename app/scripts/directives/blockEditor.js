@@ -17,7 +17,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       uuid,
       expenseTypesConstants,
       ruleTypeConstants,
-      blockIntegrationService,
+      blockTagTypeService,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -35,9 +35,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
-      $scope.integrationTypes =
-        blockIntegrationService.integrationTypes() || [];
-      $scope.blockIntegrations = $scope.$parent.blockIntegrations || [];
+      $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
+      $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping || [];
 
       // Ensure blockTagTypeId is initialized correctly
       if (!$scope.block.blockTagTypeId) {
@@ -494,37 +493,37 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         return questionTypeFound;
       };
 
-      // On load, create a temporary block integration model to prevent
+      // On load, create a temporary block tag type model to prevent
       // ng-model from directly updating block.blockTagTypeId before validation occurs
       // This is necessary to prevent server errors.
       $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
 
-      // Listen for integration types loaded event
-      $scope.$on('integrationTypesLoaded', function () {
-        $scope.integrationTypes = $scope.$parent.integrationTypes;
-        $scope.blockIntegrations = $scope.$parent.blockIntegrations;
+      // Listen for block tag types loaded event
+      $scope.$on('blockTagTypesLoaded', function () {
+        $scope.blockTagTypes = $scope.$parent.blockTagTypes;
+        $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping;
       });
 
-      $scope.integrationTypeChanged = function (selectedBlockTagTypeId) {
-        const validation = blockIntegrationService.validateFieldSelection(
+      $scope.blockTagTypeTypeChanged = function (selectedBlockTagTypeId) {
+        const validation = blockTagTypeService.validateFieldSelection(
           selectedBlockTagTypeId,
-          $scope.blockIntegrations,
+          $scope.blockTagTypeMapping,
           $scope.block.id,
         );
         // Store validation result for display
-        $scope.integrationValidation = validation;
+        $scope.blockTagTypeValidation = validation;
         if (validation.valid) {
           // Update the blockTagTypeId property if validation passes
           $scope.block.blockTagTypeId = selectedBlockTagTypeId;
           // We also need to update the parent controller to refetch the data
-          $scope.$parent.fetchBlockIntegrations();
+          $scope.$parent.fetchBlockTagTypeMapping();
         } else {
           // Revert the dropdown selection to the previous valid blockTagTypeId
           $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
         }
       };
 
-      $scope.showIntegrationDropdown = function () {
+      $scope.showBlockTagTypeDropdown = function () {
         return $scope.conference.ministry === familyLifeMinistryId;
       };
     },
