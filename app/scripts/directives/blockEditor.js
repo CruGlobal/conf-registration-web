@@ -496,6 +496,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         return questionTypeFound;
       };
 
+      // On load, create a temporary block integration model to prevent
+      // ng-model from directly updating block.blockIntegrationId before validation occurs
+      // This is necessary to prevent server errors.
+      $scope.selectedIntegrationId = $scope.block.blockIntegrationId;
+
       // Listen for integration types loaded event
       $scope.$on('integrationTypesLoaded', function () {
         $scope.integrationTypes = $scope.$parent.integrationTypes;
@@ -511,9 +516,13 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         // Store validation result for display
         $scope.integrationValidation = validation;
         if (validation.valid) {
+          // Update the blockIntegrationId property if validation passes
           $scope.block.blockIntegrationId = selectedIntegrationId;
           // We also need to update the parent controller to refetch the data
           $scope.$parent.fetchBlockIntegrations();
+        } else {
+          // Revert the dropdown selection to the previous valid blockIntegrationId
+          $scope.selectedIntegrationId = $scope.block.blockIntegrationId;
         }
       };
 
