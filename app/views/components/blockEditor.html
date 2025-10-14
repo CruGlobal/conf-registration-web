@@ -496,6 +496,8 @@
             ng-change="integrationTypeChanged(selectedIntegrationId)"
             class="form-control"
             ng-class="{'has-error': integrationValidation && !integrationValidation.valid}"
+            aria-invalid="{{integrationValidation && !integrationValidation.valid}}"
+            aria-describedby="integration-error-{{block.id}}"
           ></select>
           <div
             ng-if="integrationValidation && !integrationValidation.valid"
