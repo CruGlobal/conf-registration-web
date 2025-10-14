@@ -482,7 +482,7 @@
             <option value="" translate>None</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-if="showIntegrationDropdown()">
           <label class="inline-label" translate>Integrate into Celigo</label>
           <i
             uib-popover="Selecting this will integrate this field into Celigo. You can only select one field per type."
