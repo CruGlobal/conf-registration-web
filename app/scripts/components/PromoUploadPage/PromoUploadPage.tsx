@@ -237,7 +237,7 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
       {metadata.source === 'pending-registrations' && (
         <div className="row form-group">
           <div className="col-xs-12 details-heading">
-            <h3>
+            <h3 className="h4">
               <a href="#">Promo Upload Event Transactions</a>
             </h3>
           </div>
