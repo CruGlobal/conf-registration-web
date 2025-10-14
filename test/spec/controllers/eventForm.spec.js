@@ -44,7 +44,7 @@ describe('Controller: eventForm', function () {
           $scope: scope,
           conference: { ...testData.conference },
           blockIntegrationService: {
-            getIntegrationTypes: () =>
+            loadIntegrationTypes: () =>
               $q.resolve(testData.blockIntegrationsTypes),
             clearCache: () => {},
           },
@@ -327,13 +327,13 @@ describe('Controller: eventForm', function () {
 
   describe('getBlockIntegrationData', () => {
     it('returns the correct integration data for a block', () => {
-      const integrationData = scope.getBlockIntegrationData();
+      scope.getBlockIntegrationData();
 
       const pageOneBlocks = scope.conference.registrationPages[0].blocks;
       const pageTwoBlocks = scope.conference.registrationPages[1].blocks;
       const pageThreeBlocks = scope.conference.registrationPages[2].blocks;
 
-      expect(integrationData).toEqual([
+      expect(scope.blockIntegrations).toEqual([
         {
           blockId: pageOneBlocks[0].id,
           title: pageOneBlocks[0].title,

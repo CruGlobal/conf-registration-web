@@ -433,7 +433,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.disableForceSelectionRule = function () {
         if (
-          !$scope.block.content.forceSelections ||
           _.isEmpty($scope.block.content.forceSelections) ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
         ) {
@@ -442,9 +441,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             ruleType: ruleTypeConstants.FORCE_SELECTION,
           });
           return true;
-        } else {
-          return false;
         }
+        return false;
       };
 
       $scope.daysForBlock = function () {

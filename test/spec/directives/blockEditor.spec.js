@@ -157,11 +157,11 @@ describe('Directive: blockEditor', function () {
       ];
 
       $httpBackend
-        .whenGET(/^integrations\/.+$/)
+        .whenGET(/^blockTagTypes\/.+$/)
         .respond(200, mockIntegrationTypesResponse);
 
-      // Call getIntegrationTypes to populate the service's internal state
-      blockIntegrationService.getIntegrationTypes('test-conference-id');
+      // Call loadIntegrationTypes to populate the service's internal state
+      blockIntegrationService.loadIntegrationTypes('test-conference-id');
       $httpBackend.flush();
 
       // Set up blockIntegrations with test data
@@ -188,9 +188,7 @@ describe('Directive: blockEditor', function () {
       // Select an integration type that is not already used
       scope.integrationTypeChanged('TYPE3');
 
-      expect(scope.integrationValidation).toBeDefined();
-      expect(scope.integrationValidation.valid).toBe(true);
-      expect(scope.integrationValidation.message).toBe('');
+      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
       expect(scope.$parent.fetchBlockIntegrations).toHaveBeenCalledWith();
     });
 
@@ -201,11 +199,10 @@ describe('Directive: blockEditor', function () {
       // Try to select TYPE1 which is already used by block1
       scope.integrationTypeChanged('TYPE1');
 
-      expect(scope.integrationValidation).toBeDefined();
-      expect(scope.integrationValidation.valid).toBe(false);
-      expect(scope.integrationValidation.message).toEqual(
-        `Integration Type 1 has already been selected on Question 1.`,
-      );
+      expect(scope.integrationValidation).toEqual({
+        valid: false,
+        message: `Integration Type 1 has already been selected on Question 1.`,
+      });
       // Should reset to null because validation failed
       expect(scope.block.blockIntegrationId).toBe('TYPE2');
     });
@@ -215,9 +212,7 @@ describe('Directive: blockEditor', function () {
 
       scope.integrationTypeChanged(null);
 
-      expect(scope.integrationValidation).toBeDefined();
-      expect(scope.integrationValidation.valid).toBe(true);
-      expect(scope.integrationValidation.message).toBe('');
+      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
       expect(scope.block.blockIntegrationId).toBe(null);
     });
 
@@ -229,9 +224,7 @@ describe('Directive: blockEditor', function () {
       // Re-select TYPE3 for the same block
       scope.integrationTypeChanged('TYPE3');
 
-      expect(scope.integrationValidation).toBeDefined();
-      expect(scope.integrationValidation.valid).toBe(true);
-      expect(scope.integrationValidation.message).toBe('');
+      expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
       // Should not reset because it's the same block
       expect(scope.block.blockIntegrationId).toBe('TYPE3');
     });

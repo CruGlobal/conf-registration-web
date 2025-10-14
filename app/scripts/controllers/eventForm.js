@@ -384,14 +384,13 @@ angular
             });
           });
         });
-        return $scope.blockIntegrations;
       };
 
       $scope.fetchBlockIntegrations = function () {
         // Request integration types, so we only do 1 HTTP request for them
         // Then we can use them in the $child controller blockEditor.js
         blockIntegrationService
-          .getIntegrationTypes($scope.conference.id)
+          .loadIntegrationTypes($scope.conference.id)
           .then(function (types) {
             $scope.integrationTypes = types;
             $scope.getBlockIntegrationData();
