@@ -1,10 +1,10 @@
-<dl
+<fieldset
   class="dl-horizontal"
   aria-labelledby="payment-method"
   ng-if="!isAdminPayment"
 >
-  <dt id="payment-method" translate>Payment method</dt>
-  <dd>
+  <legend id="payment-method" translate>Payment method</legend>
+  <div>
     <label ng-show="paymentMethods().acceptCreditCards">
       <input
         type="radio"
@@ -59,16 +59,16 @@
       />
       Pay on site
     </label>
-  </dd>
-</dl>
+  </div>
+</fieldset>
 
-<dl
+<fieldset
   class="dl-horizontal"
   ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'"
   ng-if="!isAdminPayment"
 >
-  <dt id="payment-amount" translate>Amount</dt>
-  <dd
+  <legend id="payment-amount" translate>Amount</legend>
+  <div
     ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue"
   >
     <div class="input-group">
@@ -96,8 +96,8 @@
       {{currentRegistration.calculatedMinimumDeposit |
       localizedCurrency:conference.currency.currencyCode}}
     </span>
-  </dd>
-  <dd
+  </div>
+  <div
     ng-if="currentRegistration.calculatedMinimumDeposit === currentRegistration.calculatedTotalDue"
   >
     <input
@@ -108,7 +108,7 @@
     />
     {{currentRegistration.remainingBalance |
     localizedCurrency:conference.currency.currencyCode}}
-  </dd>
-</dl>
+  </div>
+</fieldset>
 
 <ng-include src="paymentMethodsViews[currentPayment.paymentType]"></ng-include>
