@@ -39,9 +39,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         blockIntegrationService.integrationTypes() || [];
       $scope.blockIntegrations = $scope.$parent.blockIntegrations || [];
 
-      // Ensure blockIntegrationId is initialized correctly
-      if (!$scope.block.blockIntegrationId) {
-        $scope.block.blockIntegrationId = null;
+      // Ensure blockTagTypeId is initialized correctly
+      if (!$scope.block.blockTagTypeId) {
+        $scope.block.blockTagTypeId = null;
       }
 
       if (!$scope.answer) {
@@ -495,9 +495,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       };
 
       // On load, create a temporary block integration model to prevent
-      // ng-model from directly updating block.blockIntegrationId before validation occurs
+      // ng-model from directly updating block.blockTagTypeId before validation occurs
       // This is necessary to prevent server errors.
-      $scope.selectedIntegrationId = $scope.block.blockIntegrationId;
+      $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
 
       // Listen for integration types loaded event
       $scope.$on('integrationTypesLoaded', function () {
@@ -505,22 +505,22 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         $scope.blockIntegrations = $scope.$parent.blockIntegrations;
       });
 
-      $scope.integrationTypeChanged = function (selectedIntegrationId) {
+      $scope.integrationTypeChanged = function (selectedBlockTagTypeId) {
         const validation = blockIntegrationService.validateFieldSelection(
-          selectedIntegrationId,
+          selectedBlockTagTypeId,
           $scope.blockIntegrations,
           $scope.block.id,
         );
         // Store validation result for display
         $scope.integrationValidation = validation;
         if (validation.valid) {
-          // Update the blockIntegrationId property if validation passes
-          $scope.block.blockIntegrationId = selectedIntegrationId;
+          // Update the blockTagTypeId property if validation passes
+          $scope.block.blockTagTypeId = selectedBlockTagTypeId;
           // We also need to update the parent controller to refetch the data
           $scope.$parent.fetchBlockIntegrations();
         } else {
-          // Revert the dropdown selection to the previous valid blockIntegrationId
-          $scope.selectedIntegrationId = $scope.block.blockIntegrationId;
+          // Revert the dropdown selection to the previous valid blockTagTypeId
+          $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
         }
       };
 

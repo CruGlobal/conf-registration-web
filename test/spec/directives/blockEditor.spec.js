@@ -194,7 +194,7 @@ describe('Directive: blockEditor', function () {
 
     it('should not save new integration type when integration type is already used', function () {
       // Set the block's integration ID to something other than NONE
-      scope.block.blockIntegrationId = 'TYPE2';
+      scope.block.blockTagTypeId = 'TYPE2';
 
       // Try to select TYPE1 which is already used by block1
       scope.integrationTypeChanged('TYPE1');
@@ -204,21 +204,21 @@ describe('Directive: blockEditor', function () {
         message: `Integration Type 1 has already been selected on Question 1.`,
       });
       // Should reset to null because validation failed
-      expect(scope.block.blockIntegrationId).toBe('TYPE2');
+      expect(scope.block.blockTagTypeId).toBe('TYPE2');
     });
 
     it('should save correctly with no validation errors when selecting null integration type', function () {
-      scope.block.blockIntegrationId = 'TYPE1';
+      scope.block.blockTagTypeId = 'TYPE1';
 
       scope.integrationTypeChanged(null);
 
       expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
-      expect(scope.block.blockIntegrationId).toBe(null);
+      expect(scope.block.blockTagTypeId).toBe(null);
     });
 
     it('should allow re-selecting the same integration type for the same block', function () {
       // block3 currently has no integration type
-      scope.block.blockIntegrationId = 'TYPE3';
+      scope.block.blockTagTypeId = 'TYPE3';
       scope.blockIntegrations[2].integrationTypeId = 'TYPE3';
 
       // Re-select TYPE3 for the same block
@@ -226,7 +226,7 @@ describe('Directive: blockEditor', function () {
 
       expect(scope.integrationValidation).toEqual({ valid: true, message: '' });
       // Should not reset because it's the same block
-      expect(scope.block.blockIntegrationId).toBe('TYPE3');
+      expect(scope.block.blockTagTypeId).toBe('TYPE3');
     });
   });
 

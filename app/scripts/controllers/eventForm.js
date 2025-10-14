@@ -380,7 +380,7 @@ angular
             $scope.blockIntegrations.push({
               blockId: block.id,
               title: block.title,
-              integrationTypeId: block.blockIntegrationId,
+              integrationTypeId: block.blockTagTypeId,
             });
           });
         });
