@@ -64,7 +64,9 @@
       </div>
     </section>
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
-      <h3><translate>Your registration is not complete</translate>...</h3>
+      <h2 class="h3">
+        <translate>Your registration is not complete</translate>...
+      </h2>
       <br />
       <p
         ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0"
