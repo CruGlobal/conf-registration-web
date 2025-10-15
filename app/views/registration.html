@@ -88,9 +88,16 @@
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading" translate>Event Dates</h2>
         <p>
-          {{ conference.eventStartTime | evtDateFormat: conference.eventTimezone
-          }} - {{ conference.eventEndTime | evtDateFormat:
-          conference.eventTimezone }}
+          <time datetime="{{ conference.eventStartTime }}">
+            {{ conference.eventStartTime | evtDateFormat:
+            conference.eventTimezone }}
+          </time>
+          <span aria-hidden="true">-</span>
+          <span class="sr-only" translate>to</span>
+          <time datetime="{{ conference.eventEndTime }}">
+            {{ conference.eventEndTime | evtDateFormat: conference.eventTimezone
+            }}
+          </time>
         </p>
       </div>
       <div class="well well-creme2" ng-show="conference.locationName">
@@ -111,9 +118,16 @@
           Registration Window
         </h2>
         <p>
-          {{ conference.registrationStartTime | evtDateFormat:
-          conference.registrationTimezone }} - {{ conference.registrationEndTime
-          | evtDateFormat: conference.registrationTimezone }}
+          <time datetime="{{ conference.registrationStartTime }}">
+            {{ conference.registrationStartTime | evtDateFormat:
+            conference.registrationTimezone }}
+          </time>
+          <span aria-hidden="true">-</span>
+          <span class="sr-only" translate>to</span>
+          <time datetime="{{ conference.registrationEndTime }}">
+            {{ conference.registrationEndTime | evtDateFormat:
+            conference.registrationTimezone }}
+          </time>
         </p>
       </div>
       <div
