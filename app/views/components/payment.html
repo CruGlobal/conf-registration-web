@@ -1,61 +1,59 @@
 <fieldset class="payment-fieldset" ng-if="!isAdminPayment">
   <legend translate>Payment method</legend>
-  <div>
-    <label ng-show="paymentMethods().acceptCreditCards">
-      <input
-        type="radio"
-        name="payment-method"
-        ng-model="currentPayment.paymentType"
-        ng-value="'CREDIT_CARD'"
-        translate
-      />
-      Credit Card
-    </label>
+  <label ng-show="paymentMethods().acceptCreditCards">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'CREDIT_CARD'"
+      translate
+    />
+    Credit Card
+  </label>
 
-    <label ng-show="paymentMethods().acceptChecks">
-      <input
-        type="radio"
-        name="payment-method"
-        ng-model="currentPayment.paymentType"
-        ng-value="'CHECK'"
-        translate
-      />
-      Check
-    </label>
+  <label ng-show="paymentMethods().acceptChecks">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'CHECK'"
+      translate
+    />
+    Check
+  </label>
 
-    <label ng-show="paymentMethods().acceptTransfers">
-      <input
-        type="radio"
-        name="payment-method"
-        ng-model="currentPayment.paymentType"
-        ng-value="'TRANSFER'"
-        translate
-      />
-      Cru Staff / Ministry Account Transfer
-    </label>
+  <label ng-show="paymentMethods().acceptTransfers">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'TRANSFER'"
+      translate
+    />
+    Cru Staff / Ministry Account Transfer
+  </label>
 
-    <label ng-show="paymentMethods().acceptScholarships">
-      <input
-        type="radio"
-        name="payment-method"
-        ng-model="currentPayment.paymentType"
-        ng-value="'SCHOLARSHIP'"
-        translate
-      />
-      Scholarship
-    </label>
+  <label ng-show="paymentMethods().acceptScholarships">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'SCHOLARSHIP'"
+      translate
+    />
+    Scholarship
+  </label>
 
-    <label ng-show="paymentMethods().acceptPayOnSite">
-      <input
-        type="radio"
-        name="payment-method"
-        ng-model="currentPayment.paymentType"
-        ng-value="'PAY_ON_SITE'"
-        translate
-      />
-      Pay on site
-    </label>
-  </div>
+  <label ng-show="paymentMethods().acceptPayOnSite">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'PAY_ON_SITE'"
+      translate
+    />
+    Pay on site
+  </label>
 </fieldset>
 
 <fieldset
@@ -63,13 +61,10 @@
   ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'"
   ng-if="!isAdminPayment"
 >
-  <legend translate>Amount</legend>
+  <legend id="payment-amount-legend" translate>Amount</legend>
   <div
     ng-if="currentRegistration.calculatedMinimumDeposit !== currentRegistration.calculatedTotalDue"
   >
-    <label for="payment-amount-input" class="sr-only" translate
-      >Payment Amount</label
-    >
     <div class="input-group">
       <span class="input-group-addon"
         ><span class="currency-label"
@@ -77,11 +72,11 @@
         ></span
       >
       <input
-        id="payment-amount-input"
         type="text"
         ng-model="currentPayment.amount"
         ng-value="currentRegistration.calculatedTotalDue"
         class="form-control marginless"
+        aria-labelledby="payment-amount-legend"
         aria-describedby="payment-amount"
       />
     </div>
