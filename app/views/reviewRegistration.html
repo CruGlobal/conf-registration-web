@@ -123,7 +123,10 @@
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
               />
             </td>
-            <td ng-class="{'invalidBlock': regValidate[r.id].length}">
+            <td
+              id="registrant-name-{{r.id}}"
+              ng-class="{'invalidBlock': regValidate[r.id].length}"
+            >
               {{r.firstName}} {{r.lastName}}
             </td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
@@ -138,6 +141,8 @@
                 ng-click="editRegistrant(r.id)"
                 value="Edit"
                 ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)"
+                aria-label="Edit registrant"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
               <input
                 type="button"
