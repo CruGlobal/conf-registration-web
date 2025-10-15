@@ -708,8 +708,10 @@
                     Started on
                   </div>
                   <div class="col-xs-9">
-                    {{r.createdTimestamp | evtDateFormat:
-                    conference.registrationTimezone}}
+                    <time datetime="{{r.createdTimestamp}}">
+                      {{r.createdTimestamp | evtDateFormat:
+                      conference.registrationTimezone}}
+                    </time>
                   </div>
                 </div>
                 <div
@@ -720,8 +722,12 @@
                     Completed on
                   </div>
                   <div class="col-xs-9">
-                    {{getRegistration(r.registrationId).completedTimestamp |
-                    evtDateFormat: conference.registrationTimezone}}
+                    <time
+                      datetime="{{getRegistration(r.registrationId).completedTimestamp}}"
+                    >
+                      {{getRegistration(r.registrationId).completedTimestamp |
+                      evtDateFormat: conference.registrationTimezone}}
+                    </time>
                   </div>
                 </div>
                 <div class="row" ng-show="r.withdrawn">
@@ -729,8 +735,10 @@
                     Withdrawn on
                   </div>
                   <div class="col-xs-9">
-                    {{r.withdrawnTimestamp | evtDateFormat:
-                    conference.eventTimezone}}
+                    <time datetime="{{r.withdrawnTimestamp}}">
+                      {{r.withdrawnTimestamp | evtDateFormat:
+                      conference.eventTimezone}}
+                    </time>
                   </div>
                 </div>
                 <div class="row" ng-show="r.checkedInTimestamp">
@@ -738,8 +746,10 @@
                     Checked in at
                   </div>
                   <div class="col-xs-9">
-                    {{r.checkedInTimestamp | evtDateFormat:
-                    conference.eventTimezone}}
+                    <time datetime="{{r.checkedInTimestamp}}">
+                      {{r.checkedInTimestamp | evtDateFormat:
+                      conference.eventTimezone}}
+                    </time>
                   </div>
                 </div>
               </div>
