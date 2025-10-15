@@ -29,9 +29,16 @@
             class="display-linebreaks"
           ></p>
           <p>
-            {{conference.eventStartTime | evtDateFormat:
-            conference.eventTimezone }} - {{conference.eventEndTime |
-            evtDateFormat: conference.eventTimezone}}
+            <time datetime="{{conference.eventStartTime}}">
+              {{conference.eventStartTime | evtDateFormat:
+              conference.eventTimezone }}
+            </time>
+            <span aria-hidden="true">-</span>
+            <span class="sr-only" translate>to</span>
+            <time datetime="{{conference.eventEndTime}}">
+              {{conference.eventEndTime | evtDateFormat:
+              conference.eventTimezone}}
+            </time>
           </p>
           <p ng-show="conference.locationName">
             {{conference.locationName}}
@@ -47,9 +54,16 @@
         <section>
           <h2 class="page-title border" translate>Registration Window</h2>
           <p>
-            {{conference.registrationStartTime | evtDateFormat:
-            conference.registrationTimezone}} - {{conference.registrationEndTime
-            | evtDateFormat: conference.registrationTimezone}}
+            <time datetime="{{conference.registrationStartTime}}">
+              {{conference.registrationStartTime | evtDateFormat:
+              conference.registrationTimezone}}
+            </time>
+            <span aria-hidden="true">-</span>
+            <span class="sr-only" translate>to</span>
+            <time datetime="{{conference.registrationEndTime}}">
+              {{conference.registrationEndTime | evtDateFormat:
+              conference.registrationTimezone}}
+            </time>
           </p>
           <p
             class="bg-success"

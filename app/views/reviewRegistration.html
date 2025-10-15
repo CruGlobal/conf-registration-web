@@ -32,9 +32,16 @@
 
         <strong translate>Event Dates</strong>
         <p>
-          {{conference.eventStartTime | evtDateFormat:
-          conference.eventTimezone}} - {{conference.eventEndTime |
-          evtDateFormat: conference.eventTimezone}}
+          <time datetime="{{conference.eventStartTime}}">
+            {{conference.eventStartTime | evtDateFormat:
+            conference.eventTimezone}}
+          </time>
+          <span aria-hidden="true">-</span>
+          <span class="sr-only" translate>to</span>
+          <time datetime="{{conference.eventEndTime}}">
+            {{conference.eventEndTime | evtDateFormat:
+            conference.eventTimezone}}
+          </time>
         </p>
 
         <strong ng-if="conference.locationName" translate

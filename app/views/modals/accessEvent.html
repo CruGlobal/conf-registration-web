@@ -41,10 +41,17 @@
     <br />
     <p class="display-linebreaks" ng-bind-html="selectedEvent.description"></p>
     <p>
-      <strong translate>Dates:</strong> {{selectedEvent.eventStartTime |
-      evtDateFormat: selectedEvent.eventTimezone}} -
-      {{selectedEvent.eventEndTime | evtDateFormat:
-      selectedEvent.eventTimezone}}
+      <strong translate>Dates:</strong>
+      <time datetime="{{selectedEvent.eventStartTime}}">
+        {{selectedEvent.eventStartTime | evtDateFormat:
+        selectedEvent.eventTimezone}}
+      </time>
+      <span aria-hidden="true">-</span>
+      <span class="sr-only" translate>to</span>
+      <time datetime="{{selectedEvent.eventEndTime}}">
+        {{selectedEvent.eventEndTime | evtDateFormat:
+        selectedEvent.eventTimezone}}
+      </time>
     </p>
     <p>
       <strong translate>Contact:</strong>
