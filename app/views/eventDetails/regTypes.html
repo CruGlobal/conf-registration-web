@@ -39,7 +39,12 @@
                   <translate>Name</translate>
                   <em class="required" aria-hidden="true">*</em>
                 </span>
-                <input type="text" class="form-control" ng-model="type.name" />
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="type.name"
+                  required
+                />
               </label>
             </div>
             <div
@@ -66,6 +71,7 @@
                     type="text"
                     class="form-control"
                     ng-model="type.cost"
+                    required
                   />
                 </div>
               </label>

@@ -13,6 +13,7 @@ angular
         monthYearOnly: '=monthYearOnly',
         inputId: '@',
         inputAriaLabel: '@',
+        inputRequired: '@',
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
