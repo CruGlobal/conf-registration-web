@@ -1,6 +1,12 @@
 import 'angular-mocks';
 import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
 
+const defaultBlockTagTypeMapping = [
+  { blockId: 'block1', title: 'Question 1', blockTagTypeId: 'TYPE1' },
+  { blockId: 'block2', title: 'Question 2', blockTagTypeId: 'TYPE2' },
+  { blockId: 'block3', title: 'Question 3', blockTagTypeId: null },
+];
+
 describe('Directive: blockEditor', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -165,11 +171,7 @@ describe('Directive: blockEditor', function () {
       $httpBackend.flush();
 
       // Set up blockTagTypeMapping with test data
-      scope.blockTagTypeMapping = [
-        { blockId: 'block1', title: 'Question 1', blockTagTypeId: 'TYPE1' },
-        { blockId: 'block2', title: 'Question 2', blockTagTypeId: 'TYPE2' },
-        { blockId: 'block3', title: 'Question 3', blockTagTypeId: null },
-      ];
+      scope.blockTagTypeMapping = defaultBlockTagTypeMapping;
       scope.block.id = 'block3';
 
       // Spy on the service method to verify it's called correctly
@@ -249,6 +251,65 @@ describe('Directive: blockEditor', function () {
       scope.conference.ministry = familyLifeMinistryId;
 
       expect(scope.showBlockTagTypeDropdown()).toBe(true);
+    });
+  });
+
+  describe('isBlockTagTypeDisabled', function () {
+    beforeEach(function () {
+      scope.blockTagTypeMapping = [
+        ...defaultBlockTagTypeMapping,
+        { blockId: 'block4', title: 'Phone', blockTagTypeId: 'TYPE4' },
+      ];
+
+      // Set current block to block3 (which has no tag type assigned)
+      scope.block.id = 'block3';
+      scope.block.blockTagTypeId = null;
+    });
+
+    it('should not disable the "None" option (null)', function () {
+      const result = scope.isBlockTagTypeDisabled(null);
+
+      expect(result).toBe(false);
+    });
+
+    it('should not disable a blockTagType that is not yet assigned to any block', function () {
+      const result = scope.isBlockTagTypeDisabled('TYPE5');
+
+      expect(result).toBe(false);
+    });
+
+    it('should disable a blockTagType that is already assigned to another block', function () {
+      const result = scope.isBlockTagTypeDisabled('TYPE1');
+
+      expect(result).toBe(true);
+    });
+
+    it('should not disable the currently selected blockTagType for this block', function () {
+      scope.block.blockTagTypeId = 'TYPE1';
+      const result = scope.isBlockTagTypeDisabled('TYPE1');
+
+      expect(result).toBe(false);
+    });
+
+    it('should disable multiple blockTagTypes that are assigned to other blocks', function () {
+      expect(scope.isBlockTagTypeDisabled('TYPE1')).toBe(true);
+      expect(scope.isBlockTagTypeDisabled('TYPE2')).toBe(true);
+      expect(scope.isBlockTagTypeDisabled('TYPE4')).toBe(true);
+    });
+
+    it('should not disable available blockTagTypes', function () {
+      expect(scope.isBlockTagTypeDisabled('TYPE3')).toBe(false);
+      expect(scope.isBlockTagTypeDisabled('TYPE5')).toBe(false);
+      expect(scope.isBlockTagTypeDisabled('TYPE99')).toBe(false);
+    });
+
+    it('should handle empty blockTagTypeMapping array', function () {
+      scope.blockTagTypeMapping = [];
+
+      // All types should be available when there are no mappings
+      expect(scope.isBlockTagTypeDisabled('TYPE1')).toBe(false);
+      expect(scope.isBlockTagTypeDisabled('TYPE2')).toBe(false);
+      expect(scope.isBlockTagTypeDisabled(null)).toBe(false);
     });
   });
 });
