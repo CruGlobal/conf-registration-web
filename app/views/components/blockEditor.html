@@ -495,7 +495,11 @@
           <select
             id="blockTagType-{{block.id}}"
             ng-model="selectedBlockTagTypeId"
-            ng-options="type.id as type.prettyName for type in blockTagTypes"
+            ng-options="
+              type.id as type.prettyName
+              disable when isBlockTagTypeDisabled(type.id)
+              for type in blockTagTypes
+            "
             ng-change="blockTagTypeTypeChanged(selectedBlockTagTypeId)"
             class="form-control"
             ng-class="{'has-error': blockTagTypeValidation && !blockTagTypeValidation.valid}"
