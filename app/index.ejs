@@ -266,19 +266,24 @@
               <p id="event-info" class="spacing-above-md">
                 <span class="sr-only" translate>Event dates:</span>
                 <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
-                {{
-                  globalPage.conference.eventStartTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
-                -
-                {{
-                  globalPage.conference.eventEndTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
+                <time datetime="{{ globalPage.conference.eventStartTime }}">
+                  {{
+                    globalPage.conference.eventStartTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
+                <span aria-hidden="true">-</span>
+                <span class="sr-only" translate>through</span>
+                <time datetime="{{ globalPage.conference.eventEndTime }}">
+                  {{
+                    globalPage.conference.eventEndTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
                 <span ng-if="globalPage.conference.locationName">
                   <br />
                   <span class="sr-only" translate>Event location:</span>
