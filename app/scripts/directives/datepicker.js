@@ -12,6 +12,7 @@ angular
         ngDisabled: '=',
         monthYearOnly: '=monthYearOnly',
         inputId: '@',
+        inputAriaLabel: '@',
       },
       controller: function ($timeout, $scope) {
         $scope.updateTimeStamp = function (timestamp) {
