@@ -7,7 +7,9 @@
       ng-show="notify.class"
     ></div>
 
-    <h3 ng-if="requestedPermissions.length" translate>Pending Requests</h3>
+    <h2 class="h3" ng-if="requestedPermissions.length" translate>
+      Pending Requests
+    </h2>
     <div class="table-responsive" ng-show="requestedPermissions.length">
       <table class="table table-striped">
         <thead>
@@ -67,7 +69,9 @@
       </table>
     </div>
 
-    <h3 ng-show="pendingPermissions.length" translate>Pending Invites</h3>
+    <h2 class="h3" ng-show="pendingPermissions.length" translate>
+      Pending Invites
+    </h2>
     <div class="table-responsive" ng-show="pendingPermissions.length">
       <table class="table table-striped">
         <thead>
@@ -110,7 +114,7 @@
       </table>
     </div>
 
-    <h3 translate>Add User</h3>
+    <h2 class="h3" translate>Add User</h2>
     <form class="row" name="permissions">
       <div
         class="col-sm-6"
@@ -155,7 +159,7 @@
       </div>
     </form>
 
-    <h3 translate>Current Users</h3>
+    <h2 class="h3" translate>Current Users</h2>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -214,7 +218,7 @@
       </table>
     </div>
 
-    <h3 translate>Permission level comparison</h3>
+    <h2 class="h3" translate>Permission level comparison</h2>
     <div class="table-responsive">
       <table class="table">
         <thead>
