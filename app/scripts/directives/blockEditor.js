@@ -504,6 +504,24 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping;
       });
 
+      $scope.isBlockTagTypeDisabled = function (blockTagTypeId) {
+        // Don't disable the "None" option
+        if (blockTagTypeId === null) {
+          return false;
+        }
+        // Don't disable if it's the currently selected option for this block
+        if (blockTagTypeId === $scope.block.blockTagTypeId) {
+          return false;
+        }
+        // Check if this blockTagTypeId is already assigned to another block
+        const existingAssignment = $scope.blockTagTypeMapping.find(
+          (mapping) =>
+            mapping.blockTagTypeId === blockTagTypeId &&
+            mapping.blockId !== $scope.block.id,
+        );
+        return !!existingAssignment;
+      };
+
       $scope.blockTagTypeTypeChanged = function (selectedBlockTagTypeId) {
         const validation = blockTagTypeService.validateFieldSelection(
           selectedBlockTagTypeId,
