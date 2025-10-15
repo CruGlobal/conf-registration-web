@@ -246,6 +246,10 @@ label:has(.form-control) {
     font-weight: bold;
   }
 }
+label input[type='file'] {
+  /* Don't inherit "font-weight: bold" from parent <label> */
+  font-weight: normal;
+}
 
 /* Inputs */
 div[block-registration],

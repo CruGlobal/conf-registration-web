@@ -9,10 +9,10 @@
         type="button"
         ng-click="registerUser()"
       >
-        <i class="fa fa-plus"></i> <translate>Add Registration</translate>
+        <i class="fa fa-plus"></i> <span translate>Add Registration</span>
       </button>
       <a class="btn btn-primary btn-sm" href="" ng-click="export()"
-        ><i class="fa fa-cloud-download"></i> <translate>Export</translate></a
+        ><i class="fa fa-cloud-download"></i> <span translate>Export</span></a
       >
     </div>
   </div>
@@ -20,39 +20,45 @@
     <div class="row">
       <div class="col-md-3 col-sm-8 stacked-spacing-col-md">
         <div class="form-group has-feedback has-clear">
-          <label
-            ><translate>Search</translate>
-            <small>(<translate>visible columns only</translate>)</small>:</label
-          >
-          <input type="text" class="form-control" ng-model="strFilter" />
-          <span
-            class="form-control-feedback form-control-clear"
-            ng-click="resetStrFilter()"
-            title="Clear search"
-            ng-if="strFilter"
-          >
-            <i class="fa fa-times"></i>
-          </span>
+          <label>
+            <span>
+              <translate>Search</translate>
+              <small>(<translate>visible columns only</translate>)</small>:
+            </span>
+            <input type="text" class="form-control" ng-model="strFilter" />
+            <span
+              class="form-control-feedback form-control-clear"
+              ng-click="resetStrFilter()"
+              title="Clear search"
+              ng-if="strFilter"
+            >
+              <i class="fa fa-times"></i>
+            </span>
+          </label>
         </div>
       </div>
       <div class="col-md-2 col-sm-4 stacked-spacing-col-sm">
-        <label><translate>Payment status</translate>:</label>
-        <select ng-model="queryParameters.filterPayment" class="form-control">
-          <option value="" translate>-Any-</option>
-          <option value="full" translate>Full/Overpaid</option>
-          <option value="partial" translate>Partial</option>
-          <option value="full-partial" translate>Full/Partial</option>
-          <option value="none" translate>Not Paid</option>
-          <option value="over" translate>Overpaid</option>
-        </select>
+        <label>
+          <span translate>Payment status:</span>
+          <select ng-model="queryParameters.filterPayment" class="form-control">
+            <option value="" translate>-Any-</option>
+            <option value="full" translate>Full/Overpaid</option>
+            <option value="partial" translate>Partial</option>
+            <option value="full-partial" translate>Full/Partial</option>
+            <option value="none" translate>Not Paid</option>
+            <option value="over" translate>Overpaid</option>
+          </select>
+        </label>
       </div>
       <div class="col-md-2 col-sm-6 stacked-spacing-col-sm">
-        <label translate>Registrant type:</label>
-        <select
-          ng-model="queryParameters.filterRegType"
-          ng-options="t.id as t.name for t in visibleFilterRegistrantTypes"
-          class="form-control"
-        ></select>
+        <label>
+          <span translate>Registrant type:</span>
+          <select
+            ng-model="queryParameters.filterRegType"
+            ng-options="t.id as t.name for t in visibleFilterRegistrantTypes"
+            class="form-control"
+          ></select>
+        </label>
       </div>
       <div class="col-md-5 col-sm-6 text-right">
         <br />
