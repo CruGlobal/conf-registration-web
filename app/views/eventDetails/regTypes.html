@@ -77,7 +77,7 @@
           </button>
           <div class="row">
             <div class="col-md-6">
-              <h4 translate>Registration Form</h4>
+              <h3 class="h4" translate>Registration Form</h3>
               <div
                 class="alert alert-info"
                 ng-if="isCoupleType(type) || isCoupleOrSpouseType(type.id, conference.registrantTypes)"
@@ -146,7 +146,7 @@
               <div
                 ng-if="!isCoupleType(type) && !isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
-                <h4 translate>Group Registration</h4>
+                <h3 class="h4" translate>Group Registration</h3>
                 <div class="radio">
                   <label>
                     <input
@@ -279,7 +279,7 @@
             </div>
 
             <div class="col-md-6">
-              <h4>
+              <h3 class="h4">
                 <span translate>Payment</span>
                 <i
                   class="warning-popover fa fa-exclamation-triangle"
@@ -288,7 +288,7 @@
                   ng-if="cruEventWithoutChartfield()"
                 >
                 </i>
-              </h4>
+              </h3>
               <div class="checkbox">
                 <label>
                   <input
@@ -413,7 +413,7 @@
               <hr />
               <div class="form-group">
                 <div class="col-xs-12">
-                  <h4 translate>Early Registration Discount(s)</h4>
+                  <h3 class="h4" translate>Early Registration Discount(s)</h3>
                 </div>
               </div>
               <div
