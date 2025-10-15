@@ -401,7 +401,7 @@
                           ng-if="editPayment.paymentType !== 'CREDIT_CARD' && editPayment.refundChannel !== 'CREDIT_CARD'"
                         >
                           <div class="input-group">
-                            <span class="input-group-addon">
+                            <span class="input-group-addon" aria-hidden="true">
                               <span class="currency-label"
                                 >{{conference.currency.currencyCode |
                                 localizedSymbol}}</span
@@ -780,7 +780,7 @@
               <label>
                 <span translate>Amount</span>
                 <div class="input-group">
-                  <span class="input-group-addon"
+                  <span class="input-group-addon" aria-hidden="true"
                     ><span class="currency-label"
                       >{{conference.currency.currencyCode |
                       localizedSymbol}}</span
@@ -960,7 +960,7 @@
           <label>
             <span translate>Amount</span>
             <div class="input-group">
-              <span class="input-group-addon"
+              <span class="input-group-addon" aria-hidden="true"
                 ><span class="currency-label"
                   >{{conference.currency.currencyCode | localizedSymbol}}</span
                 ></span
