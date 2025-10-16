@@ -1,10 +1,12 @@
 <div class="row form-group">
   <div class="col-sm-12">
-    <label translate>Expense Type</label>
-    <select
-      class="form-control"
-      ng-model="currentPayment.expenseType"
-      ng-options="key as value for (key , value) in expenseTypesConstants"
-    ></select>
+    <label>
+      <span translate>Expense Type</span>
+      <select
+        class="form-control"
+        ng-model="currentPayment.expenseType"
+        ng-options="key as value for (key , value) in expenseTypesConstants"
+      ></select>
+    </label>
   </div>
 </div>

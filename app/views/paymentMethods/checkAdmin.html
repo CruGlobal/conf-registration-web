@@ -1,17 +1,21 @@
 <div class="row form-group">
   <div class="col-sm-4">
-    <label translate>Check Status</label>
-    <select ng-model="currentPayment.status" class="form-control">
-      <option value="PENDING" translate>Pending</option>
-      <option value="RECEIVED" translate>Received</option>
-    </select>
+    <label>
+      <span translate>Check Status</span>
+      <select ng-model="currentPayment.status" class="form-control">
+        <option value="PENDING" translate>Pending</option>
+        <option value="RECEIVED" translate>Received</option>
+      </select>
+    </label>
   </div>
   <div class="col-sm-8">
-    <label translate>Check Number</label>
-    <input
-      ng-model="currentPayment.check.checkNumber"
-      type="text"
-      class="form-control"
-    />
+    <label>
+      <span translate>Check Number</span>
+      <input
+        ng-model="currentPayment.check.checkNumber"
+        type="text"
+        class="form-control"
+      />
+    </label>
   </div>
 </div>

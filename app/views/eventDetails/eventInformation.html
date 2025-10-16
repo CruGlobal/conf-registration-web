@@ -1,179 +1,202 @@
 <h2 class="page-title border" translate>Event Information</h2>
 <div class="form-group">
   <div class="col-sm-9">
-    <label translate>Event Name</label>
-    <input type="text" class="form-control" ng-model="conference.name" />
+    <label>
+      <span translate>Event Name</span>
+      <input type="text" class="form-control" ng-model="conference.name" />
+    </label>
   </div>
   <div class="col-sm-3">
-    <label translate>Abbreviation</label>
-    <i
-      class="question-popover fa fa-question-circle"
-      uib-popover="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
-        Description on the Staff Account Transfers upload report and Cash & Check Deposit report.  Including an abbreviation will help those who pay by
-         transfer know which event the transfer is paying for when they view their staff account expense report.' | translate}}"
-      popover-trigger="'mouseenter'"
-      popover-append-to-body="true"
-    >
-    </i>
-    <input
-      type="text"
-      class="form-control"
-      ng-model="conference.abbreviation"
-    />
+    <label>
+      <span>
+        <translate>Abbreviation</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          uib-popover="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
+          Description on the Staff Account Transfers upload report and Cash & Check Deposit report.  Including an abbreviation will help those who pay by
+           transfer know which event the transfer is paying for when they view their staff account expense report.' | translate}}"
+          popover-trigger="'mouseenter'"
+          popover-append-to-body="true"
+        ></i>
+      </span>
+      <input
+        type="text"
+        class="form-control"
+        ng-model="conference.abbreviation"
+      />
+    </label>
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-12 popup-custom-width">
-    <label translate>Description</label>
-    <i
-      class="question-popover fa fa-question-circle"
-      uib-popover-template="descriptionPopup.titleTemplateUrl"
-      popover-trigger="'mouseenter'"
-    >
-    </i>
-    <textarea
-      type="text"
-      class="form-control"
-      rows="3"
-      ng-model="conference.description"
-    ></textarea>
+    <label>
+      <span>
+        <translate>Description</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          uib-popover-template="descriptionPopup.titleTemplateUrl"
+          popover-trigger="'mouseenter'"
+        ></i>
+      </span>
+      <textarea
+        type="text"
+        class="form-control"
+        rows="3"
+        ng-model="conference.description"
+      ></textarea>
+    </label>
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-4 stacked-spacing-col-sm">
-    <label translate>Event Starts</label><br />
-    <crs-datetimepicker model="conference.eventStartTime"></crs-datetimepicker>
+    <label>
+      <span translate>Event Starts</span>
+      <crs-datetimepicker
+        model="conference.eventStartTime"
+      ></crs-datetimepicker>
+    </label>
   </div>
   <div class="col-sm-4 stacked-spacing-col-sm">
-    <label translate>Event Ends</label><br />
-    <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
+    <label>
+      <span translate>Event Ends</span>
+      <crs-datetimepicker model="conference.eventEndTime"></crs-datetimepicker>
+    </label>
   </div>
   <div class="col-sm-4">
-    <label translate>Event Timezone</label><br />
-    <select class="form-control" ng-model="conference.eventTimezone">
-      <optgroup label="America">
-        <option value="America/Halifax">Atlantic</option>
-        <option value="America/Puerto_Rico">Atlantic Standard</option>
-        <option value="America/New_York">Eastern</option>
-        <option value="America/Chicago">Central</option>
-        <option value="America/Denver">Mountain</option>
-        <option value="America/Phoenix">Mountain Standard</option>
-        <option value="America/Los_Angeles">Pacific</option>
-        <option value="America/Anchorage">Alaska</option>
-        <option value="Pacific/Honolulu">Hawaii</option>
-      </optgroup>
-      <optgroup label="Europe">
-        <option value="Europe/Moscow">Moscow</option>
-        <option value="Europe/Athens">Eastern</option>
-        <option value="Europe/Berlin">Central</option>
-        <option value="Europe/London">Western</option>
-      </optgroup>
-      <optgroup label="Asia">
-        <option value="Asia/Dubai">Gulf</option>
-        <option value="Asia/Kabul">Afghanistan</option>
-        <option value="Asia/Karachi">Pakistan</option>
-        <option value="Asia/Kolkata">India</option>
-        <option value="Asia/Kathmandu">Nepal</option>
-        <option value="Asia/Dhaka">Bangladesh</option>
-        <option value="Asia/Rangoon">Myanmar</option>
-        <option value="Asia/Bangkok">Thailand</option>
-        <option value="Asia/Hong_Kong">China</option>
-        <option value="Asia/Tokyo">Japan</option>
-        <option value="Asia/Vladivostok">Yakutsk</option>
-        <option value="Asia/Sakhalin">Vladivostok Standard</option>
-        <option value="Asia/Anadyr">Anadyr</option>
-      </optgroup>
-      <optgroup label="Africa">
-        <option value="Africa/Abidjan">Abidjan</option>
-        <option value="Africa/Accra">Accra</option>
-        <option value="Africa/Addis_Ababa">Addis_Ababa</option>
-        <option value="Africa/Algiers">Algiers</option>
-        <option value="Africa/Asmara">Asmara</option>
-        <option value="Africa/Asmera">Asmera</option>
-        <option value="Africa/Bamako">Bamako</option>
-        <option value="Africa/Bangui">Bangui</option>
-        <option value="Africa/Banjul">Banjul</option>
-        <option value="Africa/Bissau">Bissau</option>
-        <option value="Africa/Blantyre">Blantyre</option>
-        <option value="Africa/Brazzaville">Brazzaville</option>
-        <option value="Africa/Bujumbura">Bujumbura</option>
-        <option value="Africa/Cairo">Cairo</option>
-        <option value="Africa/Casablanca">Casablanca</option>
-        <option value="Africa/Ceuta">Ceuta</option>
-        <option value="Africa/Conakry">Conakry</option>
-        <option value="Africa/Dakar">Dakar</option>
-        <option value="Africa/Dar_es_Salaam">Dar_es_Salaam</option>
-        <option value="Africa/Djibouti">Djibouti</option>
-        <option value="Africa/Douala">Douala</option>
-        <option value="Africa/El_Aaiun">El_Aaiun</option>
-        <option value="Africa/Freetown">Freetown</option>
-        <option value="Africa/Gaborone">Gaborone</option>
-        <option value="Africa/Harare">Harare</option>
-        <option value="Africa/Johannesburg">Johannesburg</option>
-        <option value="Africa/Kampala">Kampala</option>
-        <option value="Africa/Khartoum">Khartoum</option>
-        <option value="Africa/Kigali">Kigali</option>
-        <option value="Africa/Kinshasa">Kinshasa</option>
-        <option value="Africa/Lagos">Lagos</option>
-        <option value="Africa/Libreville">Libreville</option>
-        <option value="Africa/Lome">Lome</option>
-        <option value="Africa/Luanda">Luanda</option>
-        <option value="Africa/Lubumbashi">Lubumbashi</option>
-        <option value="Africa/Lusaka">Lusaka</option>
-        <option value="Africa/Malabo">Malabo</option>
-        <option value="Africa/Maputo">Maputo</option>
-        <option value="Africa/Maseru">Maseru</option>
-        <option value="Africa/Mbabane">Mbabane</option>
-        <option value="Africa/Mogadishu">Mogadishu</option>
-        <option value="Africa/Monrovia">Monrovia</option>
-        <option value="Africa/Nairobi">Nairobi</option>
-        <option value="Africa/Ndjamena">Ndjamena</option>
-        <option value="Africa/Niamey">Niamey</option>
-        <option value="Africa/Nouakchott">Nouakchott</option>
-        <option value="Africa/Ouagadougou">Ouagadougou</option>
-        <option value="Africa/Porto-Novo">Porto-Novo</option>
-        <option value="Africa/Sao_Tome">Sao_Tome</option>
-        <option value="Africa/Timbuktu">Timbuktu</option>
-        <option value="Africa/Tripoli">Tripoli</option>
-        <option value="Africa/Tunis">Tunis</option>
-        <option value="Africa/Windhoek">Windhoek</option>
-      </optgroup>
-    </select>
+    <label>
+      <span translate>Event Timezone</span>
+      <select class="form-control" ng-model="conference.eventTimezone">
+        <optgroup label="America">
+          <option value="America/Halifax">Atlantic</option>
+          <option value="America/Puerto_Rico">Atlantic Standard</option>
+          <option value="America/New_York">Eastern</option>
+          <option value="America/Chicago">Central</option>
+          <option value="America/Denver">Mountain</option>
+          <option value="America/Phoenix">Mountain Standard</option>
+          <option value="America/Los_Angeles">Pacific</option>
+          <option value="America/Anchorage">Alaska</option>
+          <option value="Pacific/Honolulu">Hawaii</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="Europe/Moscow">Moscow</option>
+          <option value="Europe/Athens">Eastern</option>
+          <option value="Europe/Berlin">Central</option>
+          <option value="Europe/London">Western</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="Asia/Dubai">Gulf</option>
+          <option value="Asia/Kabul">Afghanistan</option>
+          <option value="Asia/Karachi">Pakistan</option>
+          <option value="Asia/Kolkata">India</option>
+          <option value="Asia/Kathmandu">Nepal</option>
+          <option value="Asia/Dhaka">Bangladesh</option>
+          <option value="Asia/Rangoon">Myanmar</option>
+          <option value="Asia/Bangkok">Thailand</option>
+          <option value="Asia/Hong_Kong">China</option>
+          <option value="Asia/Tokyo">Japan</option>
+          <option value="Asia/Vladivostok">Yakutsk</option>
+          <option value="Asia/Sakhalin">Vladivostok Standard</option>
+          <option value="Asia/Anadyr">Anadyr</option>
+        </optgroup>
+        <optgroup label="Africa">
+          <option value="Africa/Abidjan">Abidjan</option>
+          <option value="Africa/Accra">Accra</option>
+          <option value="Africa/Addis_Ababa">Addis_Ababa</option>
+          <option value="Africa/Algiers">Algiers</option>
+          <option value="Africa/Asmara">Asmara</option>
+          <option value="Africa/Asmera">Asmera</option>
+          <option value="Africa/Bamako">Bamako</option>
+          <option value="Africa/Bangui">Bangui</option>
+          <option value="Africa/Banjul">Banjul</option>
+          <option value="Africa/Bissau">Bissau</option>
+          <option value="Africa/Blantyre">Blantyre</option>
+          <option value="Africa/Brazzaville">Brazzaville</option>
+          <option value="Africa/Bujumbura">Bujumbura</option>
+          <option value="Africa/Cairo">Cairo</option>
+          <option value="Africa/Casablanca">Casablanca</option>
+          <option value="Africa/Ceuta">Ceuta</option>
+          <option value="Africa/Conakry">Conakry</option>
+          <option value="Africa/Dakar">Dakar</option>
+          <option value="Africa/Dar_es_Salaam">Dar_es_Salaam</option>
+          <option value="Africa/Djibouti">Djibouti</option>
+          <option value="Africa/Douala">Douala</option>
+          <option value="Africa/El_Aaiun">El_Aaiun</option>
+          <option value="Africa/Freetown">Freetown</option>
+          <option value="Africa/Gaborone">Gaborone</option>
+          <option value="Africa/Harare">Harare</option>
+          <option value="Africa/Johannesburg">Johannesburg</option>
+          <option value="Africa/Kampala">Kampala</option>
+          <option value="Africa/Khartoum">Khartoum</option>
+          <option value="Africa/Kigali">Kigali</option>
+          <option value="Africa/Kinshasa">Kinshasa</option>
+          <option value="Africa/Lagos">Lagos</option>
+          <option value="Africa/Libreville">Libreville</option>
+          <option value="Africa/Lome">Lome</option>
+          <option value="Africa/Luanda">Luanda</option>
+          <option value="Africa/Lubumbashi">Lubumbashi</option>
+          <option value="Africa/Lusaka">Lusaka</option>
+          <option value="Africa/Malabo">Malabo</option>
+          <option value="Africa/Maputo">Maputo</option>
+          <option value="Africa/Maseru">Maseru</option>
+          <option value="Africa/Mbabane">Mbabane</option>
+          <option value="Africa/Mogadishu">Mogadishu</option>
+          <option value="Africa/Monrovia">Monrovia</option>
+          <option value="Africa/Nairobi">Nairobi</option>
+          <option value="Africa/Ndjamena">Ndjamena</option>
+          <option value="Africa/Niamey">Niamey</option>
+          <option value="Africa/Nouakchott">Nouakchott</option>
+          <option value="Africa/Ouagadougou">Ouagadougou</option>
+          <option value="Africa/Porto-Novo">Porto-Novo</option>
+          <option value="Africa/Sao_Tome">Sao_Tome</option>
+          <option value="Africa/Timbuktu">Timbuktu</option>
+          <option value="Africa/Tripoli">Tripoli</option>
+          <option value="Africa/Tunis">Tunis</option>
+          <option value="Africa/Windhoek">Windhoek</option>
+        </optgroup>
+      </select>
+    </label>
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-3">
-    <input type="checkbox" ng-model="conference.virtual" />
-    <label translate>Virtual Event</label>
-    <i
-      class="question-popover fa fa-question-circle"
-      uib-popover="{{'Indicates whether this event is a virtual or online event.' | translate}}"
-      popover-trigger="'mouseenter'"
-      popover-append-to-body="true"
-    >
-    </i>
+    <label>
+      <input type="checkbox" ng-model="conference.virtual" />
+      <span>
+        <translate>Virtual Event</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          uib-popover="{{'Indicates whether this event is a virtual or online event.' | translate}}"
+          popover-trigger="'mouseenter'"
+          popover-append-to-body="true"
+        ></i>
+      </span>
+    </label>
   </div>
 </div>
 <div class="form-group" ng-if="!conference.virtual">
   <div class="col-sm-12">
-    <label translate>Event Location</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="{{'Name' | translate}}"
-      ng-model="conference.locationName"
-    />
+    <label>
+      <span translate>Event Location</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{'Name' | translate}}"
+        ng-model="conference.locationName"
+      />
+    </label>
   </div>
 </div>
 <div class="form-group" ng-if="!conference.virtual">
   <div class="col-sm-12">
-    <label translate>Event Location Address</label>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="{{'Address' | translate}}"
-      ng-model="conference.locationAddress"
-    />
+    <label>
+      <span translate>Event Location Address</span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="{{'Address' | translate}}"
+        ng-model="conference.locationAddress"
+      />
+    </label>
   </div>
 </div>
 <div class="form-group" ng-if="!conference.virtual">
@@ -236,72 +259,82 @@
 </div>
 <div class="form-group">
   <div class="col-sm-5">
-    <label translate> This is a Cru Event </label>
-    <select class="form-control" ng-model="conference.cruEvent">
-      <option ng-value="true">Yes</option>
-      <option ng-value="false">No</option>
-    </select>
+    <label>
+      <span translate>This is a Cru Event</span>
+      <select class="form-control" ng-model="conference.cruEvent">
+        <option ng-value="true">Yes</option>
+        <option ng-value="false">No</option>
+      </select>
+    </label>
   </div>
 </div>
 <div class="form-group" ng-if="conference.cruEvent">
   <div class="col-sm-5">
-    <label translate>Ministry Hosting Event</label>
-    <select
-      class="form-control"
-      ng-model="conference.ministry"
-      ng-options="ministry.id as ministry.name for ministry in ministries | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
+    <label>
+      <span translate>Ministry Hosting Event</span>
+      <select
+        class="form-control"
+        ng-model="conference.ministry"
+        ng-options="ministry.id as ministry.name for ministry in ministries | orderBy:'name':false:sortNamesWithNA"
+      >
+        <option></option>
+      </select>
+    </label>
   </div>
   <div class="col-sm-5" ng-if="getActivities().length != 0">
-    <label translate>
-      Ministry Activity
+    <label>
+      <span translate>Ministry Activity</span>
       <i
         uib-popover="Used to determine the liability release form needed."
         popover-trigger="'mouseenter'"
         class="fa fa-question-circle"
       ></i>
+      <select
+        class="form-control"
+        ng-model="conference.ministryActivity"
+        ng-options="activity.id as activity.name for activity in getActivities(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
+      >
+        <option></option>
+      </select>
     </label>
-    <select
-      class="form-control"
-      ng-model="conference.ministryActivity"
-      ng-options="activity.id as activity.name for activity in getActivities(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
   </div>
   <div class="col-sm-5" ng-if="getStrategies().length != 0">
-    <label translate>Which Strategy is hosting the event if applicable</label>
-    <select
-      class="form-control"
-      ng-model="conference.strategy"
-      ng-options="strategy.id as strategy.name for strategy in getStrategies(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
+    <label>
+      <span translate>Which Strategy is hosting the event if applicable</span>
+      <select
+        class="form-control"
+        ng-model="conference.strategy"
+        ng-options="strategy.id as strategy.name for strategy in getStrategies(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
+      >
+        <option></option>
+      </select>
+    </label>
   </div>
 </div>
 <div class="form-group" ng-if="conference.cruEvent">
   <div class="col-sm-5">
-    <label translate>Ministry Purpose</label>
-    <select
-      class="form-control"
-      ng-model="conference.type"
-      ng-options="type.id as type.name for type in ministryPurposes | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
+    <label>
+      <span translate>Ministry Purpose</span>
+      <select
+        class="form-control"
+        ng-model="conference.type"
+        ng-options="type.id as type.name for type in ministryPurposes | orderBy:'name':false:sortNamesWithNA"
+      >
+        <option></option>
+      </select>
+    </label>
   </div>
   <div class="col-sm-5" ng-if="conference.cruEvent && getEventTypes().length">
-    <label translate>Event Type</label>
-    <select
-      class="form-control"
-      ng-model="conference.eventType"
-      ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
-    >
-      <option></option>
-    </select>
+    <label>
+      <span translate>Event Type</span>
+      <select
+        class="form-control"
+        ng-model="conference.eventType"
+        ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
+      >
+        <option></option>
+      </select>
+    </label>
   </div>
 </div>
 <div
@@ -309,14 +342,16 @@
   ng-if="conference.cruEvent && getActivities().length == 0"
 >
   <div class="col-sm-5">
-    <input type="checkbox" ng-model="conference.workProject" />
-    <label translate>
-      Work Project
-      <i
-        uib-popover="Event includes 'work' or 'construction' (i.e., disaster relief, storm clean-up, building projects, etc.)"
-        popover-trigger="'mouseenter'"
-        class="fa fa-question-circle"
-      ></i>
+    <label>
+      <input type="checkbox" ng-model="conference.workProject" />
+      <span>
+        <translate>Work Project</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          uib-popover="Event includes 'work' or 'construction' (i.e., disaster relief, storm clean-up, building projects, etc.)"
+          popover-trigger="'mouseenter'"
+        ></i>
+      </span>
     </label>
   </div>
 </div>
