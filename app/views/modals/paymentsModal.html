@@ -392,78 +392,85 @@
               <td colspan="5">
                 <div class="form-horizontal col-xs-12">
                   <div class="form-group">
-                    <label class="col-sm-3 control-label" translate
-                      >Amount</label
-                    >
-                    <div class="col-sm-9">
-                      <div
-                        ng-if="editPayment.paymentType !== 'CREDIT_CARD' && editPayment.refundChannel !== 'CREDIT_CARD'"
-                      >
-                        <div class="input-group">
-                          <span class="input-group-addon">
-                            <span class="currency-label"
-                              >{{conference.currency.currencyCode |
-                              localizedSymbol}}</span
-                            ></span
-                          >
-                          <input
-                            type="number"
-                            ng-model="editPayment.amount"
-                            class="form-control"
-                            step="1"
-                            min="0"
-                          />
-                        </div>
-                        <span
-                          translate
-                          class="btn-sm btn-warning"
-                          ng-if="editPayment.amount < editPayment.amountReported"
+                    <label>
+                      <span class="col-sm-3 control-label" translate>
+                        Amount
+                      </span>
+                      <div class="col-sm-9">
+                        <div
+                          ng-if="editPayment.paymentType !== 'CREDIT_CARD' && editPayment.refundChannel !== 'CREDIT_CARD'"
                         >
-                          Amount must be greater than the amount already
-                          reported: {{ editPayment.amountReported |
-                          localizedCurrency:conference.currency.currencyCode }}
-                        </span>
+                          <div class="input-group">
+                            <span class="input-group-addon" aria-hidden="true">
+                              <span class="currency-label"
+                                >{{conference.currency.currencyCode |
+                                localizedSymbol}}</span
+                              ></span
+                            >
+                            <input
+                              type="number"
+                              ng-model="editPayment.amount"
+                              class="form-control"
+                              step="1"
+                              min="0"
+                            />
+                          </div>
+                          <span
+                            translate
+                            class="btn-sm btn-warning"
+                            ng-if="editPayment.amount < editPayment.amountReported"
+                          >
+                            Amount must be greater than the amount already
+                            reported: {{ editPayment.amountReported |
+                            localizedCurrency:conference.currency.currencyCode
+                            }}
+                          </span>
+                        </div>
+                        <div
+                          ng-if="editPayment.paymentType === 'CREDIT_CARD' || editPayment.refundChannel === 'CREDIT_CARD'"
+                        >
+                          {{editPayment.amount |
+                          localizedCurrency:conference.currency.currencyCode}}
+                        </div>
                       </div>
-                      <div
-                        ng-if="editPayment.paymentType === 'CREDIT_CARD' || editPayment.refundChannel === 'CREDIT_CARD'"
-                      >
-                        {{editPayment.amount |
-                        localizedCurrency:conference.currency.currencyCode}}
-                      </div>
-                    </div>
+                    </label>
                   </div>
                   <div ng-if="editPayment.paymentType === 'CHECK'">
                     <div class="form-group">
-                      <label class="col-sm-3 control-label" translate
-                        >Check #</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          ng-model="editPayment.check.checkNumber"
-                          type="text"
-                          class="form-control"
-                        />
-                      </div>
+                      <label>
+                        <span class="col-sm-3 control-label" translate>
+                          Check #
+                        </span>
+                        <div class="col-sm-9">
+                          <input
+                            ng-model="editPayment.check.checkNumber"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </label>
                     </div>
                   </div>
                   <div ng-if="editPayment.paymentType === 'TRANSFER'">
                     <div class="form-group">
-                      <label class="col-sm-3 control-label" translate
-                        >Account Type</label
-                      >
-                      <div class="col-sm-9">
-                        <select
-                          ng-model="editPayment.transfer.accountType"
-                          ng-disabled="editPayment.reported"
-                          class="form-control"
-                        >
-                          <option value="STAFF" translate>Staff</option>
-                          <option value="MINISTRY" translate>Ministry</option>
-                          <option value="NON_US_STAFF" translate>
-                            Non-U.S. Staff
-                          </option>
-                        </select>
-                      </div>
+                      <label>
+                        <span class="col-sm-3 control-label" translate>
+                          Account Type
+                        </span>
+                        <div class="col-sm-9">
+                          <select
+                            ng-model="editPayment.transfer.accountType"
+                            ng-disabled="editPayment.reported"
+                            class="form-control"
+                          >
+                            <option value="STAFF" translate>Staff</option>
+                            <option value="MINISTRY" translate>Ministry</option>
+                            <option value="NON_US_STAFF" translate>
+                              Non-U.S. Staff
+                            </option>
+                          </select>
+                        </div>
+                      </label>
                     </div>
 
                     <div class="row form-group">
@@ -471,53 +478,63 @@
                         ng-show="editPayment.transfer.accountType === 'MINISTRY' || editPayment.transfer.accountType === 'NON_US_STAFF' "
                       >
                         <div class="col-sm-3">
-                          <label translate>Business Unit</label>
-                          <input
-                            ng-disabled="editPayment.transfer.accountType
-                          === 'NON_US_STAFF' ||
-                          editPayment.reported"
-                            ng-model="editPayment.transfer.businessUnit"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Business Unit</span>
+                            <input
+                              ng-disabled="editPayment.transfer.accountType
+                            === 'NON_US_STAFF' ||
+                            editPayment.reported"
+                              ng-model="editPayment.transfer.businessUnit"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Operating Unit</label>
-                          <input
-                            ng-model="editPayment.transfer.operatingUnit"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Operating Unit</span>
+                            <input
+                              ng-model="editPayment.transfer.operatingUnit"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Department</label>
-                          <input
-                            ng-disabled="editPayment.transfer.accountType === 'NON_US_STAFF' || editPayment.reported"
-                            ng-model="editPayment.transfer.department"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Department</span>
+                            <input
+                              ng-disabled="editPayment.transfer.accountType === 'NON_US_STAFF' || editPayment.reported"
+                              ng-model="editPayment.transfer.department"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Project Id</label>
-                          <i
-                            class="fa fa-question-circle"
-                            button
-                            uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-                            popover-trigger="'mouseenter'"
-                            popover-append-to-body="true"
-                          >
-                          </i>
-                          <input
-                            ng-model="editPayment.transfer.projectId"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span>
+                              <translate>Project Id</translate>
+                              <i
+                                class="fa fa-question-circle"
+                                button
+                                uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                                popover-trigger="'mouseenter'"
+                                popover-append-to-body="true"
+                              >
+                              </i>
+                            </span>
+                            <input
+                              ng-model="editPayment.transfer.projectId"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
                       </div>
                     </div>
@@ -526,121 +543,139 @@
                       class="form-group"
                       ng-show="editPayment.transfer.accountType === 'STAFF' || editPayment.transfer.accountType === 'NON_US_STAFF'"
                     >
-                      <label class="col-sm-3 control-label" translate
-                        >Account Number</label
-                      >
-                      <div class="col-sm-9">
-                        <input
-                          ng-model="editPayment.transfer.accountNumber"
-                          ng-disabled="editPayment.reported"
-                          type="text"
-                          class="form-control"
-                        />
-                      </div>
+                      <label>
+                        <span class="col-sm-3 control-label" translate>
+                          Account Number
+                        </span>
+                        <div class="col-sm-9">
+                          <input
+                            ng-model="editPayment.transfer.accountNumber"
+                            ng-disabled="editPayment.reported"
+                            type="text"
+                            class="form-control"
+                          />
+                        </div>
+                      </label>
                     </div>
                   </div>
                   <div ng-if="editPayment.paymentType === 'SCHOLARSHIP'">
                     <div class="form-group">
-                      <label class="col-sm-3 control-label" translate
-                        >Account Type</label
-                      >
-                      <div class="col-sm-9">
-                        <select
-                          ng-model="editPayment.scholarship.accountType"
-                          ng-disabled="editPayment.reported"
-                          class="form-control"
-                        >
-                          <option value="STAFF" translate>Staff</option>
-                          <option value="MINISTRY" translate>Ministry</option>
-                          <option value="NON_US_STAFF" translate>
-                            Non-U.S. Staff
-                          </option>
-                        </select>
-                      </div>
+                      <label>
+                        <span class="col-sm-3 control-label" translate>
+                          Account Type
+                        </span>
+                        <div class="col-sm-9">
+                          <select
+                            ng-model="editPayment.scholarship.accountType"
+                            ng-disabled="editPayment.reported"
+                            class="form-control"
+                          >
+                            <option value="STAFF" translate>Staff</option>
+                            <option value="MINISTRY" translate>Ministry</option>
+                            <option value="NON_US_STAFF" translate>
+                              Non-U.S. Staff
+                            </option>
+                          </select>
+                        </div>
+                      </label>
                     </div>
 
                     <div class="row form-group">
                       <div
                         ng-show="editPayment.scholarship.accountType === 'STAFF' || editPayment.scholarship.accountType === 'NON_US_STAFF'"
                       >
-                        <label class="col-sm-3 control-label" translate
-                          >Account Number</label
-                        >
-                        <div class="col-sm-9">
-                          <input
-                            ng-model="editPayment.scholarship.accountNumber"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
-                        </div>
+                        <label>
+                          <span class="col-sm-3 control-label" translate>
+                            Account Number
+                          </span>
+                          <div class="col-sm-9">
+                            <input
+                              ng-model="editPayment.scholarship.accountNumber"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </div>
+                        </label>
                       </div>
 
                       <div
                         ng-show="editPayment.scholarship.accountType === 'MINISTRY'"
                       >
                         <div class="col-sm-3">
-                          <label translate>Business Unit</label>
-                          <input
-                            ng-model="editPayment.scholarship.businessUnit"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Business Unit</span>
+                            <input
+                              ng-model="editPayment.scholarship.businessUnit"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Operating Unit</label>
-                          <input
-                            ng-model="editPayment.scholarship.operatingUnit"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Operating Unit</span>
+                            <input
+                              ng-model="editPayment.scholarship.operatingUnit"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Department</label>
-                          <input
-                            ng-model="editPayment.scholarship.department"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span translate>Department</span>
+                            <input
+                              ng-model="editPayment.scholarship.department"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
 
                         <div class="col-sm-3">
-                          <label translate>Project Id</label>
-                          <i
-                            class="fa fa-question-circle"
-                            button
-                            uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-                            popover-trigger="'mouseenter'"
-                            popover-append-to-body="true"
-                          >
-                          </i>
-                          <input
-                            ng-model="editPayment.scholarship.projectId"
-                            ng-disabled="editPayment.reported"
-                            type="text"
-                            class="form-control"
-                          />
+                          <label>
+                            <span>
+                              <translate>Project Id</translate>
+                              <i
+                                class="fa fa-question-circle"
+                                button
+                                uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                                popover-trigger="'mouseenter'"
+                                popover-append-to-body="true"
+                              >
+                              </i>
+                            </span>
+                            <input
+                              ng-model="editPayment.scholarship.projectId"
+                              ng-disabled="editPayment.reported"
+                              type="text"
+                              class="form-control"
+                            />
+                          </label>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-sm-3 control-label" translate
-                      >Description</label
-                    >
-                    <div class="col-sm-9">
-                      <input
-                        type="text"
-                        ng-model="editPayment.description"
-                        ng-disabled="editPayment.reported"
-                        class="form-control"
-                      />
-                    </div>
+                    <label>
+                      <span class="col-sm-3 control-label" translate>
+                        Description
+                      </span>
+                      <div class="col-sm-9">
+                        <input
+                          type="text"
+                          ng-model="editPayment.description"
+                          ng-disabled="editPayment.reported"
+                          class="form-control"
+                        />
+                      </div>
+                    </label>
                   </div>
                   <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
@@ -715,56 +750,62 @@
         <div class="form-group">
           <div class="row">
             <div class="col-sm-8">
-              <label translate>Refund Method</label>
-              <select
-                ng-model="refund.refundChannel"
-                class="form-control"
-                ng-change="refund.amount = calculateRefundableAmount(paymentToRefund)"
-              >
-                <option
-                  value="CREDIT_CARD"
-                  ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'"
-                  translate
+              <label>
+                <span translate>Refund Method</span>
+                <select
+                  ng-model="refund.refundChannel"
+                  class="form-control"
+                  ng-change="refund.amount = calculateRefundableAmount(paymentToRefund)"
                 >
-                  Credit Card (automatically)
-                </option>
-                <option
-                  value="OFFLINE_CREDIT_CARD"
-                  ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'"
-                  translate
-                >
-                  Credit Card (manually)
-                </option>
-                <option value="CASH" translate>Cash</option>
-                <option value="CHECK" translate>Check</option>
-              </select>
+                  <option
+                    value="CREDIT_CARD"
+                    ng-if="paymentToRefund.paymentType === 'CREDIT_CARD'"
+                    translate
+                  >
+                    Credit Card (automatically)
+                  </option>
+                  <option
+                    value="OFFLINE_CREDIT_CARD"
+                    ng-if="paymentToRefund.paymentType === 'OFFLINE_CREDIT_CARD'"
+                    translate
+                  >
+                    Credit Card (manually)
+                  </option>
+                  <option value="CASH" translate>Cash</option>
+                  <option value="CHECK" translate>Check</option>
+                </select>
+              </label>
             </div>
             <div class="col-sm-4">
-              <label translate>Amount</label>
-              <div class="input-group">
-                <span class="input-group-addon"
-                  ><span class="currency-label"
-                    >{{conference.currency.currencyCode |
-                    localizedSymbol}}</span
-                  ></span
-                >
-                <input
-                  type="text"
-                  class="form-control marginless"
-                  ng-model="refund.amount"
-                />
-              </div>
+              <label>
+                <span translate>Amount</span>
+                <div class="input-group">
+                  <span class="input-group-addon" aria-hidden="true"
+                    ><span class="currency-label"
+                      >{{conference.currency.currencyCode |
+                      localizedSymbol}}</span
+                    ></span
+                  >
+                  <input
+                    type="text"
+                    class="form-control marginless"
+                    ng-model="refund.amount"
+                  />
+                </div>
+              </label>
             </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label translate>Description</label>
-          <input
-            type="text"
-            class="form-control marginless"
-            ng-model="refund.description"
-          />
+          <label>
+            <span translate>Description</span>
+            <input
+              type="text"
+              class="form-control marginless"
+              ng-model="refund.description"
+            />
+          </label>
         </div>
 
         <div class="form-group text-right">
@@ -886,45 +927,51 @@
     <uib-tab heading="Add">
       <div class="row form-group">
         <div class="col-sm-7 stacked-spacing-col-sm">
-          <label translate>Type</label>
-          <select
-            ng-model="newTransaction.paymentType"
-            class="form-control"
-            ng-change="setTransactionAmount()"
-          >
-            <option value="" disabled selected translate>Choose one...</option>
-            <optgroup label="Payment">
-              <option value="OFFLINE_CREDIT_CARD" translate>
-                Offline Credit Card
+          <label>
+            <span translate>Type</span>
+            <select
+              ng-model="newTransaction.paymentType"
+              class="form-control"
+              ng-change="setTransactionAmount()"
+            >
+              <option value="" disabled selected translate>
+                Choose one...
               </option>
-              <option value="SCHOLARSHIP" translate>Scholarship</option>
-              <option value="TRANSFER" translate>Account Transfer</option>
-              <option value="CHECK" translate>Check</option>
-              <option value="CASH" translate>Cash</option>
-            </optgroup>
-            <optgroup label="Other">
-              <option value="DISCOUNT" translate>Discount</option>
-              <option value="ADDITIONAL_EXPENSE" translate>
-                Additional Expense
-              </option>
-            </optgroup>
-          </select>
+              <optgroup label="Payment">
+                <option value="OFFLINE_CREDIT_CARD" translate>
+                  Offline Credit Card
+                </option>
+                <option value="SCHOLARSHIP" translate>Scholarship</option>
+                <option value="TRANSFER" translate>Account Transfer</option>
+                <option value="CHECK" translate>Check</option>
+                <option value="CASH" translate>Cash</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="DISCOUNT" translate>Discount</option>
+                <option value="ADDITIONAL_EXPENSE" translate>
+                  Additional Expense
+                </option>
+              </optgroup>
+            </select>
+          </label>
         </div>
 
         <div class="col-sm-5">
-          <label translate>Amount</label>
-          <div class="input-group">
-            <span class="input-group-addon"
-              ><span class="currency-label"
-                >{{conference.currency.currencyCode | localizedSymbol}}</span
-              ></span
-            >
-            <input
-              type="text"
-              class="form-control marginless"
-              ng-model="newTransaction.amount"
-            />
-          </div>
+          <label>
+            <span translate>Amount</span>
+            <div class="input-group">
+              <span class="input-group-addon" aria-hidden="true"
+                ><span class="currency-label"
+                  >{{conference.currency.currencyCode | localizedSymbol}}</span
+                ></span
+              >
+              <input
+                type="text"
+                class="form-control marginless"
+                ng-model="newTransaction.amount"
+              />
+            </div>
+          </label>
         </div>
       </div>
       <div
@@ -935,12 +982,14 @@
       ></div>
 
       <div class="form-group">
-        <label translate>Description</label>
-        <input
-          ng-model="newTransaction.description"
-          type="text"
-          class="form-control"
-        />
+        <label>
+          <span translate>Description</span>
+          <input
+            ng-model="newTransaction.description"
+            type="text"
+            class="form-control"
+          />
+        </label>
       </div>
 
       <!--<div class="checkbox" ng-show="newTransaction.paymentType !== 'ADDITIONAL_EXPENSE'">

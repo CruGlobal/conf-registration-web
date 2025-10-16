@@ -59,6 +59,10 @@
 .open > .dropdown-toggle.btn-subtle {
   background: #e2e2e2;
 }
+.input-group-addon button {
+  border: unset;
+  background: unset;
+}
 .fa-inset {
   margin: 9px 10px 0;
   font-size: 29px !important;
@@ -245,6 +249,10 @@ label:has(.form-control) {
     margin-bottom: 5px;
     font-weight: bold;
   }
+}
+label input[type='file'] {
+  /* Don't inherit "font-weight: bold" from parent <label> */
+  font-weight: normal;
 }
 
 /* Inputs */

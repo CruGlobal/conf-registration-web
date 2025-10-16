@@ -34,11 +34,18 @@
               class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
               ng-if="!type.defaultTypeKey"
             >
-              <label
-                ><translate>Name</translate>
-                <em class="required" aria-hidden="true">*</em></label
-              >
-              <input type="text" class="form-control" ng-model="type.name" />
+              <label>
+                <span>
+                  <translate>Name</translate>
+                  <em class="required" aria-hidden="true">*</em>
+                </span>
+                <input
+                  type="text"
+                  class="form-control"
+                  ng-model="type.name"
+                  required
+                />
+              </label>
             </div>
             <div
               class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
@@ -48,19 +55,26 @@
               <p class="form-control-static">{{type.name}}</p>
             </div>
             <div class="col-md-3 col-md-pull-3 stacked-spacing-">
-              <label
-                ><translate>Cost</translate>
-                <em class="required" aria-hidden="true">*</em></label
-              >
-              <div class="input-group">
-                <span class="input-group-addon"
-                  ><span class="currency-label"
-                    >{{conference.currency.currencyCode |
-                    localizedSymbol}}</span
-                  ></span
-                >
-                <input type="text" class="form-control" ng-model="type.cost" />
-              </div>
+              <label>
+                <span>
+                  <translate>Cost</translate>
+                  <em class="required" aria-hidden="true">*</em>
+                </span>
+                <div class="input-group">
+                  <span class="input-group-addon" aria-hidden="true"
+                    ><span class="currency-label"
+                      >{{conference.currency.currencyCode |
+                      localizedSymbol}}</span
+                    ></span
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    ng-model="type.cost"
+                    required
+                  />
+                </div>
+              </label>
             </div>
           </div>
         </div>
@@ -98,17 +112,19 @@
                   people) registrations, use the Couple type instead.</em
                 >
               </div>
-              <div class="input-group">
-                <label translate>Description</label>
-                <textarea
-                  class="form-control"
-                  ng-model="type.description"
-                ></textarea>
+              <div>
+                <label class="input-group">
+                  <span translate>Description</span>
+                  <textarea
+                    class="form-control"
+                    ng-model="type.description"
+                  ></textarea>
+                </label>
               </div>
               <div class="checkbox" ng-if="conference.eform">
                 <label>
                   <input type="checkbox" ng-model="type.eform" />
-                  <translate>Send liability form</translate>
+                  <span translate>Send liability form</span>
                 </label>
                 <i
                   class="question-popover fa fa-question-circle"
@@ -121,7 +137,7 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.hidden" />
-                  <translate>Hide from Registration Form</translate>
+                  <span translate>Hide from Registration Form</span>
                 </label>
                 <i
                   class="question-popover fa fa-question-circle"
@@ -134,7 +150,7 @@
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.useLimit" />
-                  <translate>Limit the number of registrants</translate>
+                  <span translate>Limit the number of registrants</span>
                 </label>
                 <input
                   type="number"
@@ -155,7 +171,7 @@
                       value="DISABLED"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <translate>No</translate>
+                    <span translate>No</span>
                   </label>
                   <i
                     class="question-popover fa fa-question-circle"
@@ -173,7 +189,7 @@
                       value="ENABLED"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <translate>Yes - Primary</translate>
+                    <span translate>Yes - Primary</span>
                   </label>
                   <i
                     class="question-popover fa fa-question-circle"
@@ -191,7 +207,7 @@
                       value="FAMILY_ONLY"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <translate>Yes - Dependent</translate>
+                    <span translate>Yes - Dependent</span>
                   </label>
                   <i
                     class="question-popover fa fa-question-circle"
@@ -257,24 +273,25 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="pt12 input-group"
-                ng-if="type.familyStatus != 'FAMILY_ONLY'"
-              >
-                <label translate>Registration completion redirect</label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
-                >
-                </i>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="www.example.com"
-                  ng-model="type.registrationCompleteRedirect"
-                />
+              <div class="pt12" ng-if="type.familyStatus != 'FAMILY_ONLY'">
+                <label class="input-group">
+                  <span>
+                    <translate>Registration completion redirect</translate>
+                    <i
+                      class="question-popover fa fa-question-circle"
+                      uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
+                      popover-trigger="'mouseenter'"
+                      popover-append-to-body="true"
+                    >
+                    </i>
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="www.example.com"
+                    ng-model="type.registrationCompleteRedirect"
+                  />
+                </label>
               </div>
             </div>
 
@@ -355,23 +372,25 @@
               </div>
 
               <div
-                class="pt12 input-group"
+                class="pt12"
                 ng-if="(conference.relayLogin || conference.facebookLogin || conference.googleLogin) && anyPaymentMethodAccepted(type)"
               >
-                <label translate>Minimum Payment to Register</label>
-                <div class="input-group">
-                  <span class="input-group-addon">
-                    <span class="currency-label"
-                      >{{conference.currency.currencyCode |
-                      localizedSymbol}}</span
-                    >
-                  </span>
-                  <input
-                    type="text"
-                    class="form-control marginless"
-                    ng-model="type.minimumDeposit"
-                  />
-                </div>
+                <label>
+                  <span translate>Minimum Payment to Register</span>
+                  <div class="input-group">
+                    <span class="input-group-addon" aria-hidden="true">
+                      <span class="currency-label"
+                        >{{conference.currency.currencyCode |
+                        localizedSymbol}}</span
+                      >
+                    </span>
+                    <input
+                      type="text"
+                      class="form-control marginless"
+                      ng-model="type.minimumDeposit"
+                    />
+                  </div>
+                </label>
                 <p class="text-muted">
                   <i class="fa fa-info-circle"></i>
                   <translate
@@ -430,28 +449,32 @@
                   >
                 </button>
                 <div class="col-sm-8 stacked-spacing-col-sm">
-                  <label translate>If registered by</label>
-                  <crs-datetimepicker
-                    model="discount.deadline"
-                    ng-disabled="!discount.enabled"
-                  ></crs-datetimepicker>
+                  <label>
+                    <span translate>If registered by</span>
+                    <crs-datetimepicker
+                      model="discount.deadline"
+                      ng-disabled="!discount.enabled"
+                    ></crs-datetimepicker>
+                  </label>
                 </div>
                 <div class="col-sm-4">
-                  <label translate>Discount</label>
-                  <div class="input-group">
-                    <span class="input-group-addon"
-                      ><span class="currency-label"
-                        >{{conference.currency.currencyCode |
-                        localizedSymbol}}</span
-                      ></span
-                    >
-                    <input
-                      type="text"
-                      class="form-control"
-                      ng-model="discount.amountOfDiscount"
-                      ng-disabled="!discount.enabled"
-                    />
-                  </div>
+                  <label>
+                    <span translate>Discount</span>
+                    <div class="input-group">
+                      <span class="input-group-addon" aria-hidden="true"
+                        ><span class="currency-label"
+                          >{{conference.currency.currencyCode |
+                          localizedSymbol}}</span
+                        ></span
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        ng-model="discount.amountOfDiscount"
+                        ng-disabled="!discount.enabled"
+                      />
+                    </div>
+                  </label>
                 </div>
               </div>
               <div class="form-group">
