@@ -118,9 +118,10 @@
             <td>
               <button
                 class="fa btn-unstyled"
-                aria-label="Show registrant details"
                 ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
+                aria-label="Show"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
             </td>
             <td
@@ -141,7 +142,7 @@
                 ng-click="editRegistrant(r.id)"
                 value="Edit"
                 ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)"
-                aria-label="Edit registrant"
+                aria-label="Edit"
                 ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
               <input
@@ -214,9 +215,10 @@
             <td>
               <button
                 class="fa btn-unstyled"
-                aria-label="Show registrant details"
                 ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
+                aria-label="Show"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
             </td>
             <td>
