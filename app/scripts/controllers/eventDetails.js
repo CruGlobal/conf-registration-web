@@ -1004,10 +1004,9 @@ angular
       };
 
       // childType is an allowedRegistrantTypeSet object
-      $scope.shouldShowChildType = function (childType, type) {
+      $scope.shouldShowChildType = function (childType) {
         const child = $scope.findChildType(childType);
         const childTypeKey = child ? child.defaultTypeKey : null;
-        const parentTypeKey = type.defaultTypeKey;
 
         if (
           childTypeKey === 'SPOUSE' &&
@@ -1015,22 +1014,6 @@ angular
         ) {
           return false;
         }
-        if (childTypeKey === 'COUPLE') {
-          return false;
-        }
-
-        // Hide spouse and couple types on custom types (custom types have empty string as defaultTypeKey)
-        if (!parentTypeKey) {
-          // Also hide if the names are the same (prevent self-association)
-          return childType.name !== type.name;
-        }
-
-        // Hide self-association
-        if (childTypeKey === parentTypeKey) {
-          return false;
-        }
-
-        // Never show couple as a child type
         if (childTypeKey === 'COUPLE') {
           return false;
         }

@@ -106,9 +106,15 @@ angular.module('confRegistrationWebApp').component('showGroupModal', {
       if (!registration.groupRegistrants) {
         return true;
       }
-      const currentCount = _.filter(registration.groupRegistrants, {
-        registrantTypeId: type.id,
-      }).length;
+      const currentCount = _.filter(
+        registration.groupRegistrants,
+        (registrant) => {
+          return (
+            registrant.registrantTypeId === type.id &&
+            registrant.id !== registration.primaryRegistrantId
+          );
+        },
+      ).length;
 
       // Return true if the group has reached the allowed limit for this dependent type
       return currentCount >= maxAllowedDependents;
