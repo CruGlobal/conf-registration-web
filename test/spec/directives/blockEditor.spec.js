@@ -241,13 +241,13 @@ describe('Directive: blockEditor', function () {
   });
 
   describe('showBlockTagTypeDropdown', function () {
-    it('should not show the block tag type dropdown when only "None" is available', function () {
+    it('should not show the block tag type dropdown when the conference is not a FamilyLife conference', function () {
       scope.conference.ministry = 'other-ministry-id';
 
       expect(scope.showBlockTagTypeDropdown()).toBe(false);
     });
 
-    it('should show the block tag type dropdown when more than "None" is available', function () {
+    it('should show the block tag type dropdown when the conference is a FamilyLife conference', function () {
       scope.conference.ministry = familyLifeMinistryId;
 
       expect(scope.showBlockTagTypeDropdown()).toBe(true);

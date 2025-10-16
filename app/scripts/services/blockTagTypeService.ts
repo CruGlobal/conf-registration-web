@@ -19,9 +19,9 @@ export interface ValidationResult {
   message: string;
 }
 
+const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+
 export class BlockTagTypeService {
-  private readonly $http: $Http;
-  private readonly $q: $Q;
   private readonly defaultBlockTagType: BlockTagType = {
     id: null,
     ministryId: null,
@@ -31,13 +31,13 @@ export class BlockTagTypeService {
   private cachedBlockTagTypes: BlockTagType[] = [this.defaultBlockTagType];
   private previousConferenceId: string | null = null;
 
-  constructor($http: $Http, $q: $Q) {
-    this.$http = $http;
-    this.$q = $q;
-  }
+  constructor(private $http: $Http, private $q: $Q) {}
 
-  loadBlockTagTypes(conferenceId?: string): angular.IPromise<BlockTagType[]> {
-    if (!conferenceId) {
+  loadBlockTagTypes(
+    conferenceId: string,
+    ministryId: string,
+  ): angular.IPromise<BlockTagType[]> {
+    if (!conferenceId || ministryId !== familyLifeMinistryId) {
       return this.$q.resolve([this.defaultBlockTagType]);
     }
 
