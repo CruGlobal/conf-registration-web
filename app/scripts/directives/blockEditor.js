@@ -4,6 +4,8 @@ import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
 
+export const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {
     templateUrl: template,
@@ -15,6 +17,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       uuid,
       expenseTypesConstants,
       ruleTypeConstants,
+      blockTagTypeService,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -32,6 +35,13 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
+      $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
+      $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping || [];
+
+      // Ensure blockTagTypeId is initialized correctly
+      if (!$scope.block.blockTagTypeId) {
+        $scope.block.blockTagTypeId = null;
+      }
 
       if (!$scope.answer) {
         $scope.answer = {};
@@ -422,7 +432,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.disableForceSelectionRule = function () {
         if (
-          $scope.block.content.forceSelections === {} ||
+          _.isEmpty($scope.block.content.forceSelections) ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
         ) {
           //$scope.block.additionalRules = [];
@@ -430,9 +440,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             ruleType: ruleTypeConstants.FORCE_SELECTION,
           });
           return true;
-        } else {
-          return false;
         }
+        return false;
       };
 
       $scope.daysForBlock = function () {
@@ -482,6 +491,58 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           });
         });
         return questionTypeFound;
+      };
+
+      // On load, create a temporary block tag type model to prevent
+      // ng-model from directly updating block.blockTagTypeId before validation occurs
+      // This is necessary to prevent server errors.
+      $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
+
+      // Listen for block tag types loaded event
+      $scope.$on('blockTagTypesLoaded', function () {
+        $scope.blockTagTypes = $scope.$parent.blockTagTypes;
+        $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping;
+      });
+
+      $scope.isBlockTagTypeDisabled = function (blockTagTypeId) {
+        // Don't disable the "None" option
+        if (blockTagTypeId === null) {
+          return false;
+        }
+        // Don't disable if it's the currently selected option for this block
+        if (blockTagTypeId === $scope.block.blockTagTypeId) {
+          return false;
+        }
+        // Check if this blockTagTypeId is already assigned to another block
+        const existingAssignment = $scope.blockTagTypeMapping.find(
+          (mapping) =>
+            mapping.blockTagTypeId === blockTagTypeId &&
+            mapping.blockId !== $scope.block.id,
+        );
+        return !!existingAssignment;
+      };
+
+      $scope.blockTagTypeTypeChanged = function (selectedBlockTagTypeId) {
+        const validation = blockTagTypeService.validateFieldSelection(
+          selectedBlockTagTypeId,
+          $scope.blockTagTypeMapping,
+          $scope.block.id,
+        );
+        // Store validation result for display
+        $scope.blockTagTypeValidation = validation;
+        if (validation.valid) {
+          // Update the blockTagTypeId property if validation passes
+          $scope.block.blockTagTypeId = selectedBlockTagTypeId;
+          // We also need to update the parent controller to refetch the data
+          $scope.$parent.fetchBlockTagTypeMapping();
+        } else {
+          // Revert the dropdown selection to the previous valid blockTagTypeId
+          $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
+        }
+      };
+
+      $scope.showBlockTagTypeDropdown = function () {
+        return $scope.conference.ministry === familyLifeMinistryId;
       };
     },
   };
