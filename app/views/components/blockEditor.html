@@ -509,6 +509,7 @@
           <div
             ng-if="blockTagTypeValidation && !blockTagTypeValidation.valid"
             class="text-danger"
+            id="blockTagType-error-{{block.id}}"
           >
             <small>{{ blockTagTypeValidation.message }}</small>
           </div>

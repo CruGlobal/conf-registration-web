@@ -236,6 +236,7 @@ angular
         newBlock.profileType = null;
         newBlock.position = newPosition;
         newBlock.title = newBlock.title + ' (copy)';
+        newBlock.blockTagTypeId = null;
 
         //update rules
         angular.forEach(newBlock.rules, function (r) {
@@ -390,7 +391,7 @@ angular
         // Request block tag types, so we only do 1 HTTP request for them
         // Then we can use them in the $child controller blockEditor.js
         blockTagTypeService
-          .loadBlockTagTypes($scope.conference.id)
+          .loadBlockTagTypes($scope.conference.id, $scope.conference.ministry)
           .then(function (types) {
             $scope.blockTagTypes = types;
             $scope.buildBlockTagTypeMappings();
