@@ -266,28 +266,37 @@
                 ng-href="{{ registerMode || 'register' }}/{{
                   globalPage.confId
                 }}/page/"
+                aria-describedby="event-info"
               >
                 <h1 ng-bind="globalPage.conference.name"></h1>
               </a>
-              <p class="spacing-above-md">
-                <i class="fa fa-calendar fa-fw"></i>
-                {{
-                  globalPage.conference.eventStartTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
-                -
-                {{
-                  globalPage.conference.eventEndTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
-                <span ng-if="globalPage.conference.locationName"
-                  ><br /><i class="fa fa-map-marker fa-fw"></i>
-                  {{ globalPage.conference.locationName }}</span
-                >
+              <p id="event-info" class="spacing-above-md">
+                <span class="sr-only" translate>Event dates:</span>
+                <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+                <time datetime="{{ globalPage.conference.eventStartTime }}">
+                  {{
+                    globalPage.conference.eventStartTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
+                <span aria-hidden="true">-</span>
+                <span class="sr-only" translate>to</span>
+                <time datetime="{{ globalPage.conference.eventEndTime }}">
+                  {{
+                    globalPage.conference.eventEndTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
+                <span ng-if="globalPage.conference.locationName">
+                  <br />
+                  <span class="sr-only" translate>Event location:</span>
+                  <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i>
+                  {{ globalPage.conference.locationName }}
+                </span>
               </p>
             </div>
             <div
