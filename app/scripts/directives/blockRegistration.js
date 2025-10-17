@@ -136,7 +136,9 @@ angular
           registrantId,
           blockDefault,
         ) {
-          var currentAnswer = _.find(registrantAnswers, { blockId: block.id });
+          const currentAnswer = registrantAnswers.find(
+            (answer) => answer.id === block.id,
+          );
 
           if (
             block.type === 'checkboxQuestion' &&
