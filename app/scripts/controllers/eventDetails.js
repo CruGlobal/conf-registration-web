@@ -197,14 +197,6 @@ angular
         });
       };
 
-      $scope.promotionRegistrantTypeToggle = function (registrantTypes, id) {
-        if (registrantTypes.indexOf(id) === -1) {
-          registrantTypes.push(id);
-        } else {
-          registrantTypes.splice(registrantTypes.indexOf(id), 1);
-        }
-      };
-
       $scope.addRegType = function () {
         var modalInstance = $uibModal.open({
           templateUrl: addRegistrantTypeModalTemplate,
