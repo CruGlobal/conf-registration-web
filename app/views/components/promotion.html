@@ -1,4 +1,8 @@
-<div class="panel panel-default">
+<div
+  class="panel panel-default"
+  ng-form="form"
+  ng-model-options="{ allowInvalid: true }"
+>
   <div class="panel-heading">
     <div class="row">
       <div class="col-md-3 col-md-push-9 text-right">
@@ -12,7 +16,37 @@
       <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
         <label>
           <span translate>Code</span>
-          <input type="text" class="form-control" ng-model="promo.code" />
+          <input
+            type="text"
+            class="form-control"
+            name="code"
+            ng-model="promo.code"
+            ng-required="true"
+            ng-minlength="5"
+            ng-maxlength="20"
+            ng-pattern="/^[a-zA-Z0-9]+$/"
+            aria-describedby="promo-code-error-{{$id}}"
+            aria-invalid="{{form.code.$invalid && form.code.$touched}}"
+          />
+          <div
+            id="promo-code-error-{{$id}}"
+            class="text-danger"
+            ng-if="form.code.$invalid && form.code.$touched"
+            role="alert"
+          >
+            <small ng-if="form.code.$error.required" translate>
+              Code is required
+            </small>
+            <small
+              ng-if="form.code.$error.minlength || form.code.$error.maxlength"
+              translate
+            >
+              Code must be 5-20 characters
+            </small>
+            <small ng-if="form.code.$error.pattern" translate>
+              Code must only contain letters and numbers
+            </small>
+          </div>
         </label>
       </div>
       <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
@@ -24,7 +58,30 @@
                 {{conference.currency.currencyCode | localizedSymbol}}
               </span>
             </span>
-            <input type="text" class="form-control" ng-model="promo.amount" />
+            <input
+              type="number"
+              class="form-control"
+              name="amount"
+              ng-model="promo.amount"
+              ng-required="true"
+              min="1"
+              step="1"
+              aria-describedby="promo-amount-error-{{$id}}"
+              aria-invalid="{{form.amount.$invalid && form.amount.$touched}}"
+            />
+          </div>
+          <div
+            id="promo-amount-error-{{$id}}"
+            class="text-danger"
+            ng-if="form.amount.$invalid && form.amount.$touched"
+            role="alert"
+          >
+            <small ng-if="form.amount.$error.required" translate>
+              Discount amount is required
+            </small>
+            <small ng-if="form.amount.$error.min" translate>
+              Discount amount must be greater than 0
+            </small>
           </div>
         </label>
       </div>
