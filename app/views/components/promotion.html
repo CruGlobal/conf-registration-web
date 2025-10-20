@@ -147,6 +147,7 @@
   <div class="panel-body" ng-if="expanded">
     <button
       class="btn btn-xs btn-danger reg-type-delete"
+      ng-if="onDelete"
       ng-click="onDelete()"
       type="button"
     >
