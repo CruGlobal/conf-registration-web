@@ -1,0 +1,199 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-md-3 col-md-push-9 text-right">
+        <button type="button" class="btn btn-link" ng-click="toggleExpanded()">
+          <i
+            class="fa fa-inset fa-inset-reg-type"
+            ng-class="{'fa-chevron-up': expanded, 'fa-chevron-down': !expanded}"
+          ></i>
+        </button>
+      </div>
+      <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Code</span>
+          <input type="text" class="form-control" ng-model="promo.code" />
+        </label>
+      </div>
+      <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Discount Amount</span>
+          <div class="input-group">
+            <span class="input-group-addon" aria-hidden="true">
+              <span class="currency-label">
+                {{conference.currency.currencyCode | localizedSymbol}}
+              </span>
+            </span>
+            <input type="text" class="form-control" ng-model="promo.amount" />
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="row spacing-above-md">
+      <div class="row spacing-below-sm margin-left-0 margin-right-15">
+        <div class="col-md-3 stacked-spacing-col-md">
+          <label>
+            <span translate>Business Unit</span>
+            <input
+              ng-model="promo.businessUnit"
+              type="text"
+              class="form-control"
+            />
+          </label>
+        </div>
+
+        <div class="col-md-3 stacked-spacing-col-md">
+          <label>
+            <span translate>Operating Unit</span>
+            <input
+              ng-model="promo.operatingUnit"
+              type="text"
+              class="form-control"
+            />
+          </label>
+        </div>
+
+        <div class="col-md-3 stacked-spacing-col-md">
+          <label>
+            <span translate>Department Id</span>
+            <input
+              ng-model="promo.departmentId"
+              type="text"
+              class="form-control"
+            />
+          </label>
+        </div>
+
+        <div class="col-md-3 stacked-spacing-col-md">
+          <label>
+            <span>
+              <translate>Project Id</translate>
+              <i
+                class="fa fa-question-circle"
+                button
+                uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                popover-trigger="'mouseenter'"
+                popover-append-to-body="true"
+              >
+              </i>
+            </span>
+            <input
+              ng-model="promo.projectId"
+              type="text"
+              class="form-control"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body" ng-if="expanded">
+    <button
+      class="btn btn-xs btn-danger reg-type-delete"
+      ng-click="onDelete()"
+      type="button"
+    >
+      <i class="fa fa-trash-o"></i> <translate>Delete</translate>
+      <span class="hidden-xs"> <translate>Promotion Code</translate></span>
+    </button>
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <label>
+            <span translate>Description</span>
+            <textarea
+              class="form-control"
+              ng-model="promo.description"
+            ></textarea>
+          </label>
+        </div>
+
+        <div class="pt12">
+          <label>
+            <span translate>Validity Range</span>
+            <div class="row">
+              <div class="col-sm-6 stacked-spacing-col-sm">
+                <crs-datetimepicker
+                  model="promo.activationDate"
+                  input-aria-label="{{ 'Valid from' | translate }}"
+                ></crs-datetimepicker>
+              </div>
+              <div class="col-sm-6 stacked-spacing-col-sm">
+                <crs-datetimepicker
+                  model="promo.deactivationDate"
+                  input-aria-label="{{ 'Valid until' | translate }}"
+                ></crs-datetimepicker>
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <div class="pt12">
+          <label>
+            <span translate>Usage limit</span>
+            <button
+              type="button"
+              class="btn btn-default btn-block"
+              ng-if="!promo.numberLimit"
+              ng-click="promo.numberLimit = 10"
+              translate
+            >
+              Enable Limit
+            </button>
+            <div class="input-group" ng-if="promo.numberLimit">
+              <input
+                type="number"
+                ng-model="promo.numberLimit"
+                class="form-control"
+                min="0"
+              />
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  ng-click="promo.numberLimit = 0"
+                  translate
+                >
+                  Disable Limit
+                </button>
+              </span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h4 translate>Registrant Types</h4>
+        <p class="text-muted" translate>
+          The promotion code will be applied to the following registrant types:
+        </p>
+        <div class="checkbox" ng-repeat="type in conference.registrantTypes">
+          <label>
+            <input
+              type="checkbox"
+              ng-checked="promo.registrantTypeIds.indexOf(type.id) != -1"
+              ng-click="toggleRegistrantType(type.id)"
+            />
+            {{type.name}}
+          </label>
+        </div>
+
+        <div class="input-group pt12">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" ng-model="promo.applyToAllRegistrants" />
+              <translate>Apply discount to everyone in registration</translate>
+            </label>
+            <i
+              class="question-popover fa fa-question-circle"
+              uib-popover="{{'Applies discount to all registrants in the registration, if applicable. If unchecked, discount will only be applied once per registration.' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            >
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

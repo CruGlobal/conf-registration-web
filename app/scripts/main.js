@@ -49,6 +49,7 @@ import 'scripts/directives/ngEnter.js';
 import 'scripts/directives/page.js';
 import 'scripts/directives/payment.js';
 import 'scripts/directives/pickadate.js';
+import 'scripts/directives/promotion.ts';
 import 'scripts/directives/registrationTypeSelect.js';
 import 'scripts/directives/selectOnClick.js';
 import 'scripts/directives/showAnswer.js';
