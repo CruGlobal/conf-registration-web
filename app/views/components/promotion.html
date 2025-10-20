@@ -55,7 +55,7 @@
           <div class="input-group">
             <span class="input-group-addon" aria-hidden="true">
               <span class="currency-label">
-                {{conference.currency.currencyCode | localizedSymbol}}
+                {{currencyCode | localizedSymbol}}
               </span>
             </span>
             <input
@@ -219,7 +219,7 @@
         </div>
       </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6" ng-if="conference">
         <h4 translate>Registrant Types</h4>
         <p class="text-muted" translate>
           The promotion code will be applied to the following registrant types:

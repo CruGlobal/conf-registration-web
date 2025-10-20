@@ -7,10 +7,11 @@ import template from 'views/components/promotion.html';
 interface PromotionScope extends IScope {
   // Bindings
   promo: Promotion;
-  conference: Conference;
+  conference?: Conference;
   onDelete: () => void;
 
   // Local state and methods
+  currencyCode: string;
   expanded: boolean;
   toggleExpanded: () => void;
   toggleRegistrantType: (id: string) => void;
@@ -26,8 +27,9 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
       onDelete: '&',
     },
     controller: function ($scope: PromotionScope) {
-      $scope.expanded = false;
+      $scope.currencyCode = $scope.conference?.currency.currencyCode ?? 'USD';
 
+      $scope.expanded = false;
       $scope.toggleExpanded = function () {
         $scope.expanded = !$scope.expanded;
       };
