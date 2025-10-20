@@ -9,6 +9,7 @@ import paymentCashCheckReportTemplate from 'views/paymentCashCheckReport.html';
 import eventFormTemplate from 'views/eventForm.html';
 import eventDetailsTemplate from 'views/eventDetails.html';
 import eventPermissionsTemplate from 'views/eventPermissions.html';
+import globalPromotionsTemplate from 'views/globalPromotions.html';
 import helpTemplate from 'views/help.html';
 import oktaDescriptionTemplate from 'views/oktaDescription.html';
 
@@ -437,6 +438,11 @@ angular
         title: gettext('Help'),
         templateUrl: helpTemplate,
         controller: 'helpCtrl',
+      })
+      .when('/globalPromotions', {
+        title: gettext('Global Promotions'),
+        templateUrl: globalPromotionsTemplate,
+        controller: 'globalPromotionsCtrl',
       })
       .when('/oktaDescription', {
         title: gettext('Okta Description'),

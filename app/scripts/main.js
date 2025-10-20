@@ -26,6 +26,7 @@ import 'scripts/controllers/eventForm.js';
 import 'scripts/controllers/eventOverview.js';
 import 'scripts/controllers/eventPermissions.js';
 import 'scripts/controllers/eventRegistrations.js';
+import 'scripts/controllers/globalPromotions.ts';
 import 'scripts/controllers/help.js';
 import 'scripts/controllers/oktaDescription.js';
 import 'scripts/controllers/landing.js';
