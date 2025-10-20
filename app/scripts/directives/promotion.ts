@@ -8,7 +8,7 @@ interface PromotionScope extends IScope {
   // Bindings
   promo: Promotion;
   conference?: Conference;
-  onDelete: () => void;
+  onDelete?: () => void;
 
   // Local state and methods
   currencyCode: string;
@@ -24,7 +24,7 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
     scope: {
       promo: '=',
       conference: '=',
-      onDelete: '&',
+      onDelete: '&?',
     },
     controller: function ($scope: PromotionScope) {
       $scope.currencyCode = $scope.conference?.currency.currencyCode ?? 'USD';
