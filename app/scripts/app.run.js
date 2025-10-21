@@ -7,11 +7,8 @@ angular
     $window,
     ProfileCache,
     analytics,
-    envService,
     $timeout,
   ) {
-    $rootScope.isStaging = envService.is('staging');
-    $rootScope.getAuthToken = () => $cookies.get('crsToken');
     $rootScope.getMainContentUrl = () => $location.path() + '#main';
 
     $rootScope.year = new Date().getFullYear();
