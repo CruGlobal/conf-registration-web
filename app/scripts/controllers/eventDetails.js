@@ -806,10 +806,6 @@ angular
         true,
       );
 
-      $scope.sortNamesWithNA = (v1, v2) => {
-        return v1 === 'N/A' ? -1 : v1 < v2;
-      };
-
       MinistriesCache.get().then(function (ministries) {
         $scope.ministries = ministries;
       });

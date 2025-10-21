@@ -30,13 +30,32 @@ export class MinistriesCache {
   /* @ngInject */
   constructor(private $http: IHttpService, private $q: IQService) {}
 
+  /** Sort by name, with N/A at the bottom */
+  private sortByName(a: { name: string }, b: { name: string }): number {
+    if (a.name === 'N/A') {
+      return 1;
+    }
+    if (b.name === 'N/A') {
+      return -1;
+    }
+
+    return a.name.localeCompare(b.name);
+  }
+
   get(): IPromise<Ministry[]> {
     if (this.ministries !== null) {
       return this.$q.resolve(this.ministries);
     }
 
     return this.$http.get<Ministry[]>('ministries').then((response) => {
-      this.ministries = response.data;
+      const ministries = response.data.sort(this.sortByName);
+      ministries.forEach((ministry) => {
+        ministry.activities.sort(this.sortByName);
+        ministry.strategies.sort(this.sortByName);
+        ministry.eventTypes.sort(this.sortByName);
+      });
+
+      this.ministries = ministries;
       return this.ministries;
     });
   }
