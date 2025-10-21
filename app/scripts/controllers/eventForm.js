@@ -236,7 +236,7 @@ angular
         newBlock.profileType = null;
         newBlock.position = newPosition;
         newBlock.title = newBlock.title + ' (copy)';
-        newBlock.blockTagTypeId = null;
+        newBlock.blockTagType = null;
 
         //update rules
         angular.forEach(newBlock.rules, function (r) {
@@ -381,7 +381,7 @@ angular
             $scope.blockTagTypeMapping.push({
               blockId: block.id,
               title: block.title,
-              blockTagTypeId: block.blockTagTypeId,
+              blockTagTypeId: block.blockTagType ? block.blockTagType.id : null,
             });
           });
         });

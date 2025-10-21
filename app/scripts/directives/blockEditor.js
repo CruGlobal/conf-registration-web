@@ -38,9 +38,9 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
       $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping || [];
 
-      // Ensure blockTagTypeId is initialized correctly
-      if (!$scope.block.blockTagTypeId) {
-        $scope.block.blockTagTypeId = null;
+      // Ensure blockTagType is initialized correctly
+      if (!$scope.block.blockTagType) {
+        $scope.block.blockTagType = null;
       }
 
       if (!$scope.answer) {
@@ -494,9 +494,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       };
 
       // On load, create a temporary block tag type model to prevent
-      // ng-model from directly updating block.blockTagTypeId before validation occurs
+      // ng-model from directly updating block.blockTagType before validation occurs
       // This is necessary to prevent server errors.
-      $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
+      $scope.selectedBlockTagTypeId = $scope.block.blockTagType
+        ? $scope.block.blockTagType.id
+        : null;
 
       // Listen for block tag types loaded event
       $scope.$on('blockTagTypesLoaded', function () {
@@ -509,8 +511,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         if (blockTagTypeId === null) {
           return false;
         }
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
         // Don't disable if it's the currently selected option for this block
-        if (blockTagTypeId === $scope.block.blockTagTypeId) {
+        if (blockTagTypeId === currentBlockTagTypeId) {
           return false;
         }
         // Check if this blockTagTypeId is already assigned to another block
@@ -531,13 +536,23 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         // Store validation result for display
         $scope.blockTagTypeValidation = validation;
         if (validation.valid) {
-          // Update the blockTagTypeId property if validation passes
-          $scope.block.blockTagTypeId = selectedBlockTagTypeId;
+          // Update the blockTagType property if validation passes
+          if (selectedBlockTagTypeId === null) {
+            $scope.block.blockTagType = null;
+          } else {
+            // Find the full blockTagType object from the list
+            const selectedBlockTagType = $scope.blockTagTypes.find(
+              (type) => type.id === selectedBlockTagTypeId,
+            );
+            $scope.block.blockTagType = selectedBlockTagType || null;
+          }
           // We also need to update the parent controller to refetch the data
           $scope.$parent.fetchBlockTagTypeMapping();
         } else {
           // Revert the dropdown selection to the previous valid blockTagTypeId
-          $scope.selectedBlockTagTypeId = $scope.block.blockTagTypeId;
+          $scope.selectedBlockTagTypeId = $scope.block.blockTagType
+            ? $scope.block.blockTagType.id
+            : null;
         }
       };
 

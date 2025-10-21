@@ -133,6 +133,28 @@ describe('Directive: blockEditor', function () {
     });
   });
 
+  // Mock HTTP response to populate the service's internal blockTagTypes
+  const mockBlockTagTypes = [
+    {
+      id: 'TYPE1',
+      ministryId: null,
+      name: 'Tag_Type_1',
+      prettyName: 'Block Tag Type 1',
+    },
+    {
+      id: 'TYPE2',
+      ministryId: null,
+      name: 'Tag_Type_2',
+      prettyName: 'Block Tag Type 2',
+    },
+    {
+      id: 'TYPE3',
+      ministryId: null,
+      name: 'Tag_Type_3',
+      prettyName: 'Block Tag Type 3',
+    },
+  ];
+
   describe('blockTagTypeTypeChanged', function () {
     let blockTagTypeService, $httpBackend;
 
@@ -140,39 +162,23 @@ describe('Directive: blockEditor', function () {
       blockTagTypeService = _blockTagTypeService_;
       $httpBackend = _$httpBackend_;
 
-      // Mock HTTP response to populate the service's internal blockTagTypes
-      const mockBlockTagTypesResponse = [
-        {
-          id: 'TYPE1',
-          ministryId: null,
-          name: 'Tag_Type_1',
-          prettyName: 'Block Tag Type 1',
-        },
-        {
-          id: 'TYPE2',
-          ministryId: null,
-          name: 'Tag_Type_2',
-          prettyName: 'Block Tag Type 2',
-        },
-        {
-          id: 'TYPE3',
-          ministryId: null,
-          name: 'Tag_Type_3',
-          prettyName: 'Block Tag Type 3',
-        },
-      ];
-
       $httpBackend
         .whenGET(/^blockTagTypes\/.+$/)
-        .respond(200, mockBlockTagTypesResponse);
+        .respond(200, mockBlockTagTypes);
 
       // Call loadBlockTagTypes to populate the service's internal state
-      blockTagTypeService.loadBlockTagTypes('test-conference-id');
+      blockTagTypeService.loadBlockTagTypes(
+        'test-conference-id',
+        familyLifeMinistryId,
+      );
       $httpBackend.flush();
 
       // Set up blockTagTypeMapping with test data
       scope.blockTagTypeMapping = defaultBlockTagTypeMapping;
       scope.block.id = 'block3';
+
+      // Set blockTagTypes on scope so the directive can access them
+      scope.blockTagTypes = blockTagTypeService.blockTagTypes();
 
       // Spy on the service method to verify it's called correctly
       spyOn(blockTagTypeService, 'validateFieldSelection').and.callThrough();
@@ -196,8 +202,8 @@ describe('Directive: blockEditor', function () {
     });
 
     it('should not save new block tag type when block tag type is already used', function () {
-      // Set the block's block tag type ID to something other than NONE
-      scope.block.blockTagTypeId = 'TYPE2';
+      // Set the block's block tag type to TYPE2
+      scope.block.blockTagType = mockBlockTagTypes[1];
 
       // Try to select TYPE1 which is already used by block1
       scope.blockTagTypeTypeChanged('TYPE1');
@@ -206,12 +212,12 @@ describe('Directive: blockEditor', function () {
         valid: false,
         message: `Block Tag Type 1 has already been selected on Question 1.`,
       });
-      // Should reset to null because validation failed
-      expect(scope.block.blockTagTypeId).toBe('TYPE2');
+      // Should reset to TYPE2 because validation failed
+      expect(scope.block.blockTagType.id).toBe('TYPE2');
     });
 
     it('should save correctly with no validation errors when selecting null block tag type', function () {
-      scope.block.blockTagTypeId = 'TYPE1';
+      scope.block.blockTagType = mockBlockTagTypes[0];
 
       scope.blockTagTypeTypeChanged(null);
 
@@ -220,12 +226,12 @@ describe('Directive: blockEditor', function () {
         message: '',
       });
 
-      expect(scope.block.blockTagTypeId).toBe(null);
+      expect(scope.block.blockTagType).toBe(null);
     });
 
     it('should allow re-selecting the same block tag type for the same block', function () {
-      // block3 currently has no block tag type
-      scope.block.blockTagTypeId = 'TYPE3';
+      // block3 currently has TYPE3
+      scope.block.blockTagType = mockBlockTagTypes[2];
       scope.blockTagTypeMapping[2].blockTagTypeId = 'TYPE3';
 
       // Re-select TYPE3 for the same block
@@ -236,7 +242,7 @@ describe('Directive: blockEditor', function () {
         message: '',
       });
       // Should not reset because it's the same block
-      expect(scope.block.blockTagTypeId).toBe('TYPE3');
+      expect(scope.block.blockTagType.id).toBe('TYPE3');
     });
   });
 
@@ -263,7 +269,7 @@ describe('Directive: blockEditor', function () {
 
       // Set current block to block3 (which has no tag type assigned)
       scope.block.id = 'block3';
-      scope.block.blockTagTypeId = null;
+      scope.block.blockTagType = null;
     });
 
     it('should not disable the "None" option (null)', function () {
@@ -285,7 +291,7 @@ describe('Directive: blockEditor', function () {
     });
 
     it('should not disable the currently selected blockTagType for this block', function () {
-      scope.block.blockTagTypeId = 'TYPE1';
+      scope.block.blockTagType = mockBlockTagTypes[0];
       const result = scope.isBlockTagTypeDisabled('TYPE1');
 
       expect(result).toBe(false);
