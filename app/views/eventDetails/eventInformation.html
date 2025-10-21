@@ -283,12 +283,14 @@
   </div>
   <div class="col-sm-5" ng-if="getActivities().length != 0">
     <label>
-      <span translate>Ministry Activity</span>
-      <i
-        uib-popover="Used to determine the liability release form needed."
-        popover-trigger="'mouseenter'"
-        class="fa fa-question-circle"
-      ></i>
+      <span>
+        <translate>Ministry Activity</translate>
+        <i
+          uib-popover="Used to determine the liability release form needed."
+          popover-trigger="'mouseenter'"
+          class="fa fa-question-circle"
+        ></i>
+      </span>
       <select
         class="form-control"
         ng-model="conference.ministryActivity"
