@@ -37,6 +37,7 @@ angular
       $location,
       conference,
       ConfCache,
+      MinistriesCache,
       uuid,
       gettextCatalog,
       currencies,
@@ -809,11 +810,8 @@ angular
         return v1 === 'N/A' ? -1 : v1 < v2;
       };
 
-      $http({
-        method: 'GET',
-        url: 'ministries',
-      }).then(function (response) {
-        $scope.ministries = response.data;
+      MinistriesCache.get().then(function (ministries) {
+        $scope.ministries = ministries;
       });
 
       $http({
