@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
 
 describe('Service: BlockTagTypeService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -63,7 +64,7 @@ describe('Service: BlockTagTypeService', () => {
         .respond(200, mockBlockTagTypes);
 
       blockTagTypeService
-        .loadBlockTagTypes(conferenceId)
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
         .then((types) => {
           // Should include the default "None" option plus the fetched types
           expect(types.length).toBe(4);
@@ -85,13 +86,13 @@ describe('Service: BlockTagTypeService', () => {
 
       // First call - should hit the API
       blockTagTypeService
-        .loadBlockTagTypes(conferenceId)
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
         .then((types) => {
           expect(types.length).toBe(4);
 
           // Second call - should use cache, no new API call
           blockTagTypeService
-            .loadBlockTagTypes(conferenceId)
+            .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
             .then((cachedTypes) => {
               expect(cachedTypes.length).toBe(4);
               expect(cachedTypes).toEqual(types);
@@ -110,7 +111,7 @@ describe('Service: BlockTagTypeService', () => {
         .respond(500, 'Internal Server Error');
 
       blockTagTypeService
-        .loadBlockTagTypes(conferenceId)
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
         .then((types) => {
           expect(types).toEqual([defaultBlockTagType]);
           done();
@@ -137,9 +138,11 @@ describe('Service: BlockTagTypeService', () => {
         .respond(200, mockBlockTagTypes);
 
       let firstResult;
-      blockTagTypeService.loadBlockTagTypes(conferenceId).then((types) => {
-        firstResult = types;
-      });
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
+        .then((types) => {
+          firstResult = types;
+        });
 
       $httpBackend.flush();
 
@@ -152,7 +155,7 @@ describe('Service: BlockTagTypeService', () => {
 
       let secondResult;
       blockTagTypeService
-        .loadBlockTagTypes(otherConferenceId)
+        .loadBlockTagTypes(otherConferenceId, familyLifeMinistryId)
         .then((otherTypes) => {
           secondResult = otherTypes;
         });
@@ -180,9 +183,11 @@ describe('Service: BlockTagTypeService', () => {
         .expectGET(`blockTagTypes/${conferenceId}`)
         .respond(200, mockBlockTagTypes);
 
-      blockTagTypeService.loadBlockTagTypes(conferenceId).then(() => {
-        done();
-      });
+      blockTagTypeService
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
+        .then(() => {
+          done();
+        });
 
       $httpBackend.flush();
     });
@@ -337,7 +342,7 @@ describe('Service: BlockTagTypeService', () => {
         .respond(200, mockBlockTagTypes);
 
       blockTagTypeService
-        .loadBlockTagTypes(conferenceId)
+        .loadBlockTagTypes(conferenceId, familyLifeMinistryId)
         .then(() => {
           let types = blockTagTypeService.blockTagTypes();
 

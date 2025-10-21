@@ -19,6 +19,7 @@ export interface ValidationResult {
   message: string;
 }
 
+// If you need to change this, be sure to update it in blockEditor.js as well
 const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
 
 export class BlockTagTypeService {
