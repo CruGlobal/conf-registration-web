@@ -269,6 +269,17 @@
           </div>
         </div>
       </div>
+
+      <div class="col-md-6" ng-if="activities.length > 0">
+        <label>
+          <span translate>Ministry Activity</span>
+          <select
+            class="form-control"
+            ng-model="promo.ministryActivityId"
+            ng-options="activity.id as activity.name for activity in activities"
+          ></select>
+        </label>
+      </div>
     </div>
   </div>
 </div>

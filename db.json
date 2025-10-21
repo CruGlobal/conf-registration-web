@@ -14,7 +14,8 @@
       "createdDate": "2023-12-15T10:30:00Z",
       "lastUpdateDate": "2024-01-15T14:22:00Z",
       "amount": 20,
-      "applyToAllRegistrants": false
+      "applyToAllRegistrants": false,
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
     },
     {
       "id": "2",
@@ -30,7 +31,8 @@
       "createdDate": "2024-01-01T09:00:00Z",
       "lastUpdateDate": "2024-02-01T11:15:00Z",
       "amount": 50,
-      "applyToAllRegistrants": false
+      "applyToAllRegistrants": false,
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
     },
     {
       "id": "3",
@@ -46,7 +48,8 @@
       "createdDate": "2024-01-01T08:00:00Z",
       "lastUpdateDate": "2024-01-01T08:00:00Z",
       "amount": 10,
-      "applyToAllRegistrants": true
+      "applyToAllRegistrants": true,
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
     },
     {
       "id": "4",
@@ -62,7 +65,8 @@
       "createdDate": "2024-02-15T16:45:00Z",
       "lastUpdateDate": "2024-02-20T10:30:00Z",
       "amount": 100,
-      "applyToAllRegistrants": false
+      "applyToAllRegistrants": false,
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
     },
     {
       "id": "5",
