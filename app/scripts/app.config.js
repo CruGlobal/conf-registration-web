@@ -443,6 +443,7 @@ angular
         title: gettext('Global Promotions'),
         templateUrl: globalPromotionsTemplate,
         controller: 'globalPromotionsCtrl',
+        controllerAs: '$ctrl',
       })
       .when('/oktaDescription', {
         title: gettext('Okta Description'),

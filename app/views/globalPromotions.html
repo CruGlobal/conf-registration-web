@@ -1,5 +1,92 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12"></div>
+    <div class="col-md-12">
+      <div ng-if="$ctrl.editingPromotion" class="margin-bottom-lg">
+        <div class="panel-heading">
+          <h2 class="h3">
+            <span ng-if="$ctrl.editingPromotion.id" translate>
+              Edit Promo Code
+            </span>
+            <span ng-if="!$ctrl.editingPromotion.id" translate>
+              New Promo Code
+            </span>
+          </h2>
+        </div>
+
+        <div class="alert alert-info margin-bottom-md" translate>
+          This promo code will apply to all [ministry_name] conferences.
+        </div>
+
+        <promotion
+          promo="$ctrl.editingPromotion"
+          on-save="$ctrl.savePromoCode()"
+          on-discard="$ctrl.cancelEdit()"
+        ></promotion>
+      </div>
+
+      <div ng-if="$ctrl.promoCodes.length > 0">
+        <div class="promotions-header">
+          <h2 translate>Promotions</h2>
+          <button
+            type="button"
+            class="btn btn-success"
+            ng-click="$ctrl.addPromoCode()"
+            ng-if="!$ctrl.editingPromotion"
+            translate
+          >
+            New Promotion
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col" translate>Code</th>
+                <th scope="col" translate>Amount</th>
+                <th scope="col" translate>Start Date</th>
+                <th scope="col" translate>End Date</th>
+                <th scope="col" translate>Description</th>
+                <th scope="col" translate>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="code in $ctrl.promoCodes">
+                <td>
+                  <strong>{{code.code}}</strong>
+                </td>
+                <td>{{code.amount | localizedCurrency:'USD'}}</td>
+                <td>{{code.activationDate | date:'MMM d, y h:mm a'}}</td>
+                <td>
+                  <span ng-if="code.deactivationDate">
+                    {{code.deactivationDate | date:'MMM d, y h:mm a'}}
+                  </span>
+                  <span
+                    ng-if="!code.deactivationDate"
+                    class="text-muted"
+                    translate
+                  >
+                    No end date
+                  </span>
+                </td>
+                <td>
+                  <span>{{code.description}}</span>
+                </td>
+                <td>
+                  <button
+                    type="button"
+                    class="btn btn-default btn-sm"
+                    ng-click="$ctrl.editPromoCode(code)"
+                    title="Edit"
+                    translate
+                  >
+                    Edit
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
