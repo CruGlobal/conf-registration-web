@@ -427,6 +427,16 @@ angular
           });
       };
 
+      $scope.showPromotions = function () {
+        return Boolean(
+          conference.promotions.length ||
+            (currentRegistration.registrants.find(function (registrant) {
+              return registrant.allowGlobalPromoCodes;
+            }) &&
+              $rootScope.globalPromotions.length),
+        );
+      };
+
       $scope.hasPendingPayments = function (payments) {
         return (
           _.some(payments, { status: 'REQUESTED' }) ||
