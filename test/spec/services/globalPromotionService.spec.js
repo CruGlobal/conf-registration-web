@@ -261,15 +261,14 @@ describe('Service: GlobalPromotionService', function () {
   describe('updatePromotion', function () {
     it('should update a promotion and replace it in the cache', function () {
       // First load promotions to populate the cache
-      const ministryOnePromos = testData.globalPromotions.filter(
-        (promotion) => promotion.ministryId === 'ministry-1',
-      );
+      const ministryId = testData.globalPromotions[0].ministryId;
+      const ministryOnePromos = [testData.globalPromotions[0]];
 
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET(`${mockUrl}/globalPromotions?ministryId=${ministryId}`)
         .respond(200, ministryOnePromos);
 
-      globalPromotionService.loadPromotions('ministry-1');
+      globalPromotionService.loadPromotions(ministryId);
       $httpBackend.flush();
 
       // Update an existing promotion (remove ministryActivityId to match cache key)
@@ -301,11 +300,9 @@ describe('Service: GlobalPromotionService', function () {
 
       // Verify the cache was updated (no new HTTP request)
       let cachedPromos;
-      globalPromotionService
-        .loadPromotions('ministry-1')
-        .then(function (promos) {
-          cachedPromos = promos;
-        });
+      globalPromotionService.loadPromotions(ministryId).then(function (promos) {
+        cachedPromos = promos;
+      });
 
       $rootScope.$digest();
 
