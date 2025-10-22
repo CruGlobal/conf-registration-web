@@ -300,6 +300,22 @@
       </select>
     </label>
   </div>
+</div>
+<div class="form-group" ng-if="conference.cruEvent && (conference.ministry || conference.ministryActivity)">
+  <div class="col-sm-5" ng-if="conference.ministry">
+    <label>
+      <span translate>Ministry ID</span>
+      <p class="form-control-static text-muted">{{conference.ministry || 'Not set'}}</p>
+    </label>
+  </div>
+  <div class="col-sm-5" ng-if="conference.ministryActivity">
+    <label>
+      <span translate>Ministry Activity ID</span>
+      <p class="form-control-static text-muted">{{conference.ministryActivity || 'Not set'}}</p>
+    </label>
+  </div>
+</div>
+<div class="form-group" ng-if="conference.cruEvent">
   <div class="col-sm-5" ng-if="getStrategies().length != 0">
     <label>
       <span translate>Which Strategy is hosting the event if applicable</span>

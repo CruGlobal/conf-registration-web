@@ -55,6 +55,7 @@ export interface RegistrantType {
   earlyRegistrationDiscounts: Array<unknown>;
   allowedRegistrantTypeSet: unknown;
   registrationCompleteRedirect?: string;
+  allowGlobalPromoCodes?: boolean;
 }
 
 export interface Conference {
