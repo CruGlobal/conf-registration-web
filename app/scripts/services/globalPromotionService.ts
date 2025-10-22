@@ -98,11 +98,11 @@ export class GlobalPromotionService {
     return cachedData ? cachedData.length > 0 : false;
   }
 
-  createPromotion(promo: GlobalPromotion): IPromise<GlobalPromotion> {
+  createPromotion(promotion: GlobalPromotion): IPromise<GlobalPromotion> {
     this.$rootScope.loadingMsg = 'Creating Promotion';
 
     return this.$http
-      .post<GlobalPromotion>(`${mockUrl}/globalPromotions`, promo)
+      .post<GlobalPromotion>(`${mockUrl}/globalPromotions`, promotion)
       .then((response) => {
         this.updateCacheWithPromotion(response.data);
         return response.data;
@@ -120,11 +120,14 @@ export class GlobalPromotionService {
       });
   }
 
-  updatePromotion(promo: GlobalPromotion): IPromise<GlobalPromotion> {
+  updatePromotion(promotion: GlobalPromotion): IPromise<GlobalPromotion> {
     this.$rootScope.loadingMsg = 'Updating Promotion';
 
     return this.$http
-      .put<GlobalPromotion>(`${mockUrl}/globalPromotions/${promo.id}`, promo)
+      .put<GlobalPromotion>(
+        `${mockUrl}/globalPromotions/${promotion.id}`,
+        promotion,
+      )
       .then((response) => {
         this.updateCacheWithPromotion(response.data, true);
         return response.data;

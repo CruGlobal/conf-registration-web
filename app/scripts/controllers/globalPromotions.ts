@@ -5,7 +5,7 @@ import { GlobalPromotionService } from '../services/globalPromotionService';
 import { Ministry } from '../services/MinistriesCache';
 
 class GlobalPromotionsCtrl {
-  promoCodes: GlobalPromotion[] = [];
+  promotions: GlobalPromotion[] = [];
   editingPromotion: GlobalPromotion | null = null;
   ministries: Ministry[] = [];
   selectedMinistryId: string | null = null;
@@ -42,11 +42,11 @@ class GlobalPromotionsCtrl {
     this.globalPromotionService
       .loadPromotions(this.selectedMinistryId)
       .then((promotions) => {
-        this.promoCodes = promotions;
+        this.promotions = promotions;
       });
   }
 
-  addPromoCode() {
+  addPromotion() {
     if (!this.selectedMinistryId) {
       return;
     }
@@ -73,11 +73,11 @@ class GlobalPromotionsCtrl {
     };
   }
 
-  editPromoCode(promotion: GlobalPromotion) {
+  editPromotion(promotion: GlobalPromotion) {
     this.editingPromotion = angular.copy(promotion);
   }
 
-  savePromoCode() {
+  savePromotion() {
     if (!this.editingPromotion) {
       return;
     }
@@ -86,11 +86,11 @@ class GlobalPromotionsCtrl {
       this.globalPromotionService
         .updatePromotion(this.editingPromotion)
         .then((updatedPromotion) => {
-          const index = this.promoCodes.findIndex(
+          const index = this.promotions.findIndex(
             ({ id }) => id === updatedPromotion.id,
           );
           if (index !== -1) {
-            this.promoCodes[index] = updatedPromotion;
+            this.promotions[index] = updatedPromotion;
           }
           this.cancelEdit();
         });
@@ -98,7 +98,7 @@ class GlobalPromotionsCtrl {
       this.globalPromotionService
         .createPromotion(this.editingPromotion)
         .then((newPromotion) => {
-          this.promoCodes.push(newPromotion);
+          this.promotions.push(newPromotion);
           this.cancelEdit();
         });
     }

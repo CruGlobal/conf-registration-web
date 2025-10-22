@@ -31,22 +31,22 @@
         <div class="panel-heading">
           <h2 class="h3">
             <span ng-if="$ctrl.editingPromotion.id" translate>
-              Edit Promo Code
+              Edit Promotion
             </span>
             <span ng-if="!$ctrl.editingPromotion.id" translate>
-              New Promo Code
+              New Promotion
             </span>
           </h2>
         </div>
 
         <div class="alert alert-info margin-bottom-md">
-          This promo code will apply to all {{$ctrl.getMinistryName()}}
+          This promotion will apply to all {{$ctrl.getMinistryName()}}
           conferences.
         </div>
 
         <promotion
           promo="$ctrl.editingPromotion"
-          on-save="$ctrl.savePromoCode()"
+          on-save="$ctrl.savePromotion()"
           on-discard="$ctrl.cancelEdit()"
         ></promotion>
       </div>
@@ -56,14 +56,14 @@
         <button
           type="button"
           class="btn btn-success"
-          ng-click="$ctrl.addPromoCode()"
+          ng-click="$ctrl.addPromotion()"
           ng-if="!$ctrl.editingPromotion"
           translate
         >
           New Promotion
         </button>
       </div>
-      <div class="table-responsive" ng-if="$ctrl.promoCodes.length > 0">
+      <div class="table-responsive" ng-if="$ctrl.promotions.length > 0">
         <table class="table table-striped table-hover">
           <thead>
             <tr>
@@ -77,31 +77,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="code in $ctrl.promoCodes">
+            <tr ng-repeat="promotion in $ctrl.promotions">
               <td>
-                <strong>{{code.code}}</strong>
+                <strong>{{promotion.code}}</strong>
               </td>
-              <td>{{code.amount | localizedCurrency:'USD'}}</td>
-              <td>{{code.activationDate | date:'MMM d, y h:mm a'}}</td>
+              <td>{{promotion.amount | localizedCurrency:'USD'}}</td>
+              <td>{{promotion.activationDate | date:'MMM d, y h:mm a'}}</td>
               <td>
-                <span ng-if="code.deactivationDate">
-                  {{code.deactivationDate | date:'MMM d, y h:mm a'}}
+                <span ng-if="promotion.deactivationDate">
+                  {{promotion.deactivationDate | date:'MMM d, y h:mm a'}}
                 </span>
                 <span
-                  ng-if="!code.deactivationDate"
+                  ng-if="!promotion.deactivationDate"
                   class="text-muted"
                   translate
                 >
                   No end date
                 </span>
               </td>
-              <td>{{code.description}}</td>
-              <td>{{$ctrl.getActivityName(code.ministryActivityId)}}</td>
+              <td>{{promotion.description}}</td>
+              <td>{{$ctrl.getActivityName(promotion.ministryActivityId)}}</td>
               <td>
                 <button
                   type="button"
                   class="btn btn-default btn-sm"
-                  ng-click="$ctrl.editPromoCode(code)"
+                  ng-click="$ctrl.editPromotion(promotion)"
                   title="Edit"
                   translate
                 >
