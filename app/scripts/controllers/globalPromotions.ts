@@ -109,9 +109,10 @@ class GlobalPromotionsCtrl {
   }
 
   getMinistryName(): string {
-    const ministryId = this.editingPromotion?.ministryId;
     return (
-      this.ministries.find((ministry) => ministry.id === ministryId)?.name ?? ''
+      this.ministries.find(
+        (ministry) => ministry.id === this.selectedMinistryId,
+      )?.name ?? ''
     );
   }
 
