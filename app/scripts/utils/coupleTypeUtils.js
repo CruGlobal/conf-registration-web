@@ -95,14 +95,14 @@ export function isCoupleOrSpouseType(typeId, registrantTypes) {
 }
 
 /**
- * Syncs spouse descriptions to match their associated couple's description.
+ * Syncs spouse names to match their associated couple's name.
  * Modifies the registrantTypes array in place.
  */
-export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
-  const oldCoupleDescMap = {};
+export function syncCoupleNames(registrantTypes, oldRegistrantTypes) {
+  const oldCoupleNameMap = {};
   oldRegistrantTypes.forEach((type) => {
     if (type.defaultTypeKey === 'COUPLE') {
-      oldCoupleDescMap[type.id] = type.description;
+      oldCoupleNameMap[type.id] = type.name;
     }
   });
 
@@ -110,10 +110,10 @@ export function syncCoupleDescriptions(registrantTypes, oldRegistrantTypes) {
     if (type.defaultTypeKey !== 'COUPLE') {
       return;
     }
-    if (type.description !== oldCoupleDescMap[type.id]) {
+    if (type.name !== oldCoupleNameMap[type.id]) {
       const spouseType = findSpouseForCouple(type.id, registrantTypes);
       if (spouseType) {
-        spouseType.description = type.description;
+        spouseType.name = `${type.name} Spouse`;
       }
     }
   });
