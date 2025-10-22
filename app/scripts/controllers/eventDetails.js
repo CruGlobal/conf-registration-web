@@ -13,7 +13,7 @@ import {
   findCoupleForSpouse,
   findSpouseForCouple,
   deleteSpouseType,
-  syncCoupleDescriptions,
+  syncCoupleNames,
   shouldShowRegistrantType,
   isCoupleOrSpouseType,
   isCoupleType,
@@ -86,7 +86,7 @@ angular
       $scope.isCoupleType = isCoupleType;
       $scope.isSpouseType = isSpouseType;
       // exposed to scope for testing
-      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
+      $scope.syncCoupleNames = syncCoupleNames;
       $scope.shouldShowRegistrantType = function (type) {
         return shouldShowRegistrantType(
           type,
@@ -1038,9 +1038,8 @@ angular
       };
 
       /*
-       * Users were unable to differentiate between multiple couple-spouse types
-       * when creating form questions. This adds the details field of any couple to the spouse,
-       * since the user has no way of modifying the spouse description.
+       * Users were unable to differentiate between multiple couple-spouse types,
+        so the names are synced automatically.
        */
       $scope.$watch(
         'conference.registrantTypes',
@@ -1053,10 +1052,7 @@ angular
             return;
           }
 
-          syncCoupleDescriptions(
-            currentRegistrantTypes,
-            previousRegistrantTypes,
-          );
+          syncCoupleNames(currentRegistrantTypes, previousRegistrantTypes);
         },
         true,
       );
