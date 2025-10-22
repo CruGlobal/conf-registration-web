@@ -6,7 +6,9 @@ import { GlobalPromotion } from 'globalPromotion';
 const mockUrl = 'http://localhost:9001';
 
 export class GlobalPromotionService {
-  private globalPromosCache: GlobalPromotion[] | null = null;
+  private globalPromosCache: {
+    [key: string]: GlobalPromotion[];
+  } = {};
 
   /* @ngInject */
   constructor(
@@ -15,18 +17,43 @@ export class GlobalPromotionService {
     private modalMessage: ModalMessage,
   ) {}
 
-  loadPromoCodes(): IPromise<GlobalPromotion[]> {
-    if (this.globalPromosCache !== null) {
-      return Promise.resolve(this.globalPromosCache);
+  private getCacheKey(
+    ministryId?: string,
+    ministryActivityId?: string,
+  ): string {
+    // API ignores ministryActivityId if ministryId is not provided
+    // So normalize the cache key to reflect actual API behavior
+    if (!ministryId) {
+      return 'all:all';
+    }
+    return `${ministryId}:${ministryActivityId || 'all'}`;
+  }
+
+  loadPromoCodes(
+    ministryId?: string,
+    ministryActivityId?: string,
+  ): IPromise<GlobalPromotion[]> {
+    const cacheKey = this.getCacheKey(ministryId, ministryActivityId);
+
+    // Return cached data if available
+    if (this.globalPromosCache[cacheKey]) {
+      return Promise.resolve(this.globalPromosCache[cacheKey]);
     }
 
     this.$rootScope.loadingMsg = 'Loading Promotions';
+    const params: { [key: string]: string } = {};
+    if (ministryId) {
+      params.ministryId = ministryId;
+      if (ministryActivityId) {
+        params.ministryActivityId = ministryActivityId;
+      }
+    }
 
     return this.$http
-      .get<GlobalPromotion[]>(`${mockUrl}/globalPromotions`)
+      .get<GlobalPromotion[]>(`${mockUrl}/globalPromotions`, { params })
       .then((response) => {
-        this.globalPromosCache = response.data;
-        return this.globalPromosCache;
+        this.globalPromosCache[cacheKey] = response.data;
+        return response.data;
       })
       .finally(() => {
         this.$rootScope.loadingMsg = '';
@@ -34,47 +61,20 @@ export class GlobalPromotionService {
   }
 
   clearConfGlobalPromoCache(): void {
-    this.globalPromosCache = null;
-  }
-
-  getPromoCodesForConference(
-    conferenceMinistryId: string,
-    conferenceMinistryActivityId: string,
-  ): GlobalPromotion[] {
-    if (!this.globalPromosCache) {
-      return [];
-    }
-
-    return this.globalPromosCache.filter((promo) => {
-      const ministryMatches = promo.ministryId === conferenceMinistryId;
-      const activityMatches =
-        promo.ministryActivityId === conferenceMinistryActivityId;
-      return ministryMatches && activityMatches;
-    });
-  }
-
-  loadPromoCodesForConference(
-    conferenceMinistryId: string,
-    conferenceMinistryActivityId: string,
-  ): IPromise<GlobalPromotion[]> {
-    return this.loadPromoCodes().then(() => {
-      return this.getPromoCodesForConference(
-        conferenceMinistryId,
-        conferenceMinistryActivityId,
-      );
-    });
+    this.globalPromosCache = {};
   }
 
   hasPromoCodesForConference(
     conferenceMinistryId: string,
     conferenceMinistryActivityId: string,
   ): boolean {
-    return (
-      this.getPromoCodesForConference(
-        conferenceMinistryId,
-        conferenceMinistryActivityId,
-      ).length > 0
+    const cacheKey = this.getCacheKey(
+      conferenceMinistryId,
+      conferenceMinistryActivityId,
     );
+    return this.globalPromosCache[cacheKey]
+      ? this.globalPromosCache[cacheKey].length > 0
+      : false;
   }
 
   createPromoCode(promo: GlobalPromotion): IPromise<GlobalPromotion> {
