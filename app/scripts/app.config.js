@@ -444,6 +444,23 @@ angular
         templateUrl: globalPromotionsTemplate,
         controller: 'globalPromotionsCtrl',
         controllerAs: '$ctrl',
+        authorization: {
+          requireLogin: true,
+        },
+        resolve: {
+          ministries: function (MinistriesCache) {
+            const accessibleMinistryIds = [
+              '87b02878-5070-473b-bb07-3b2d899b46d6',
+              'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+            ];
+
+            return MinistriesCache.get().then((ministries) => {
+              return ministries.filter((ministry) =>
+                accessibleMinistryIds.includes(ministry.id),
+              );
+            });
+          },
+        },
       })
       .when('/oktaDescription', {
         title: gettext('Okta Description'),
