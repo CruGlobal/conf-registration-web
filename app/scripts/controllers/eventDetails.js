@@ -1039,7 +1039,7 @@ angular
 
       /*
        * Users were unable to differentiate between multiple couple-spouse types,
-        so the names are synced automatically.
+       * so the names are synced automatically.
        */
       $scope.$watch(
         'conference.registrantTypes',
