@@ -47,6 +47,7 @@
                 <th scope="col" translate>Start Date</th>
                 <th scope="col" translate>End Date</th>
                 <th scope="col" translate>Description</th>
+                <th scope="col" translate>Activity</th>
                 <th scope="col" translate>Actions</th>
               </tr>
             </thead>
@@ -72,6 +73,7 @@
                 <td>
                   <span>{{code.description}}</span>
                 </td>
+                <td>{{$ctrl.getActivityName(code.ministryActivityId)}}</td>
                 <td>
                   <button
                     type="button"

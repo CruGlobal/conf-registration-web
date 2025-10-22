@@ -97,6 +97,19 @@ class GlobalPromotionsCtrl {
       this.ministries.find((ministry) => ministry.id === ministryId)?.name ?? ''
     );
   }
+
+  getActivityName(ministryActivityId: string | null): string {
+    for (const ministry of this.ministries) {
+      const activity = ministry.activities.find(
+        (activity) => activity.id === ministryActivityId,
+      );
+      if (activity) {
+        return activity.name;
+      }
+    }
+
+    return '';
+  }
 }
 
 angular

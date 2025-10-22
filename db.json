@@ -15,7 +15,8 @@
       "lastUpdateDate": "2024-01-15T14:22:00Z",
       "amount": 20,
       "applyToAllRegistrants": false,
-      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6",
+      "ministryActivityId": "d96e215d-4f48-4522-a92e-8035c1f496d8"
     },
     {
       "id": "2",
@@ -32,7 +33,8 @@
       "lastUpdateDate": "2024-02-01T11:15:00Z",
       "amount": 50,
       "applyToAllRegistrants": false,
-      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6"
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6",
+      "ministryActivityId": "6d5e33f6-7902-4b57-beea-599c5020dc87"
     },
     {
       "id": "3",
