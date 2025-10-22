@@ -112,6 +112,16 @@
           </tbody>
         </table>
       </div>
+      <div
+        ng-if="$ctrl.promotions.length === 0 && !$ctrl.editingPromotion"
+        class="alert alert-info"
+      >
+        {{$ctrl.getMinistryName()}}
+        <span translate>
+          doesn't have any promotions yet. Click the "New Promotion" button to
+          create one.
+        </span>
+      </div>
     </div>
   </div>
 </div>
