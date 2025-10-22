@@ -24,6 +24,7 @@ angular
       payment,
       validateRegistrant,
       analytics,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -53,6 +54,15 @@ angular
 
       $scope.conference = conference;
       $scope.currentRegistration = currentRegistration;
+
+      // Load global promo codes for this conference if ministry info is available
+      if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+        globalPromotionService.loadPromoCodes(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      }
+
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
         $scope.conference.locationState,
@@ -428,13 +438,20 @@ angular
       };
 
       $scope.showPromotions = function () {
-        return Boolean(
-          conference.promotions.length ||
-            (currentRegistration.registrants.find(function (registrant) {
-              return registrant.allowGlobalPromoCodes;
-            }) &&
-              $rootScope.globalPromotions.length),
+        const hasLocalPromotions = conference.promotions.length > 0;
+        const allowsGlobalPromos = currentRegistration.registrants.find(
+          (registrant) =>
+            $scope.getRegistrantType(registrant.registrantTypeId)
+              .allowGlobalPromoCodes,
         );
+        const hasGlobalPromos =
+          allowsGlobalPromos &&
+          globalPromotionService.hasPromoCodesForConference(
+            conference.ministry,
+            conference.ministryActivity,
+          );
+
+        return Boolean(hasLocalPromotions || hasGlobalPromos);
       };
 
       $scope.hasPendingPayments = function (payments) {
