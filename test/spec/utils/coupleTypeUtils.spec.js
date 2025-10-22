@@ -127,8 +127,8 @@ describe('coupleTypeUtils', () => {
     });
   });
 
-  describe('syncCoupleDescriptions', () => {
-    it('should sync spouse description when couple description changes', () => {
+  describe('syncCoupleNames', () => {
+    it('should sync spouse name when couple name changes', () => {
       // Deep copy the full array for old and new
       const oldRegistrantTypes = JSON.parse(
         JSON.stringify(testData.conference.registrantTypes),
@@ -137,22 +137,19 @@ describe('coupleTypeUtils', () => {
         JSON.stringify(testData.conference.registrantTypes),
       );
 
-      // Change the couple description in the new array
+      // Change the couple name in the new array
       const couple = newRegistrantTypes.find(
         (t) => t.defaultTypeKey === 'COUPLE',
       );
-      couple.description = 'New Description';
+      couple.name = 'Married Couple';
 
-      coupleTypeUtils.syncCoupleDescriptions(
-        newRegistrantTypes,
-        oldRegistrantTypes,
-      );
+      coupleTypeUtils.syncCoupleNames(newRegistrantTypes, oldRegistrantTypes);
 
       const spouse = newRegistrantTypes.find(
         (t) => t.defaultTypeKey === 'SPOUSE' && t.id === spouseTypeId,
       );
 
-      expect(spouse.description).toBe('New Description');
+      expect(spouse.name).toBe('Married Couple Spouse');
     });
 
     describe('shouldShowRegistrantType', () => {
