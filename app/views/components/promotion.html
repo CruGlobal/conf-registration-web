@@ -6,6 +6,23 @@
   <div class="panel-heading">
     <div class="row">
       <div class="col-md-3 col-md-push-9 text-right">
+        <button
+          class="btn btn-default"
+          ng-if="onDiscard"
+          ng-click="onDiscard()"
+          type="button"
+        >
+          <i class="fa fa-times"></i> <translate>Discard</translate>
+        </button>
+        <button
+          class="btn btn-success"
+          ng-if="onSave"
+          ng-click="onSave()"
+          ng-disabled="form.$invalid"
+          type="button"
+        >
+          <i class="fa fa-save"></i> <translate>Save</translate>
+        </button>
         <button type="button" class="btn btn-link" ng-click="toggleExpanded()">
           <i
             class="fa fa-inset fa-inset-reg-type"
