@@ -72,6 +72,7 @@
       "departmentId": "dept-004",
       "operatingUnit": null,
       "projectId": "proj-2023-999",
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6",
       "name": "Legacy Discount",
       "activationDate": "2023-01-01T00:00:00Z",
       "deactivationDate": "2023-12-31T23:59:59Z",
@@ -79,6 +80,27 @@
       "lastUpdateDate": "2023-01-15T09:30:00Z",
       "amount": 25,
       "applyToAllRegistrants": false
+    },
+    {
+      "id": "8zW3SBU",
+      "registrantTypeIds": [],
+      "name": "",
+      "code": "MEMBER40",
+      "amount": 40,
+      "description": "",
+      "active": true,
+      "businessUnit": "",
+      "operatingUnit": "",
+      "departmentId": "thisdepartment",
+      "projectId": "id-1000243",
+      "ministryId": "87b02878-5070-473b-bb07-3b2d899b46d6",
+      "ministryActivityId": "31073156-9599-4a51-9b61-2bb6dbbf447b",
+      "activationDate": "2025-10-22T13:47:35.499Z",
+      "deactivationDate": "2025-10-23 00:00:00",
+      "applyToAllRegistrants": true,
+      "createdDate": null,
+      "lastUpdateDate": null,
+      "numberLimit": 2
     }
   ]
 }
