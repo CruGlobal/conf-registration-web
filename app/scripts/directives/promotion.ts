@@ -2,11 +2,13 @@ import angular from 'angular';
 import { IScope } from 'angular';
 import { Conference } from 'conference';
 import { Promotion } from 'promotion';
+import { GlobalPromotion } from 'globalPromotion';
+import { MinistriesCache, MinistryActivity } from '../services/MinistriesCache';
 import template from 'views/components/promotion.html';
 
 interface PromotionScope extends IScope {
   // Bindings
-  promo: Promotion;
+  promo: Promotion | GlobalPromotion;
   conference?: Conference;
   onSave?: () => void;
   onDiscard?: () => void;
@@ -15,6 +17,7 @@ interface PromotionScope extends IScope {
   // Local state and methods
   currencyCode: string;
   expanded: boolean;
+  activities: MinistryActivity[];
   toggleExpanded: () => void;
   toggleRegistrantType: (id: string) => void;
 }
@@ -30,7 +33,7 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
       onDiscard: '&?',
       onDelete: '&?',
     },
-    controller($scope: PromotionScope) {
+    controller($scope: PromotionScope, MinistriesCache: MinistriesCache) {
       $scope.currencyCode = $scope.conference?.currency.currencyCode ?? 'USD';
 
       $scope.expanded = false;
@@ -48,6 +51,19 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
           );
         }
       };
+
+      $scope.activities = [];
+      if ('ministryId' in $scope.promo) {
+        const ministryId = $scope.promo.ministryId;
+        MinistriesCache.get().then((ministries) => {
+          const ministry = ministries.find(
+            (ministry) => ministry.id === ministryId,
+          );
+          if (ministry) {
+            $scope.activities = ministry.activities;
+          }
+        });
+      }
     },
   };
 });
