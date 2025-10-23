@@ -19,7 +19,10 @@ export class GlobalPromotionService {
     this.globalPromotionsCache = $cacheFactory('globalPromotionsCache');
   }
 
-  private getCacheKey(ministryId: string, ministryActivityId?: string): string {
+  private getCacheKey(
+    ministryId: string,
+    ministryActivityId: string | null,
+  ): string {
     return `${ministryId}:${ministryActivityId || 'all'}`;
   }
 
@@ -27,7 +30,7 @@ export class GlobalPromotionService {
     ministryId: string,
     ministryActivityId?: string,
   ): IPromise<GlobalPromotion[]> {
-    const cacheKey = this.getCacheKey(ministryId, ministryActivityId);
+    const cacheKey = this.getCacheKey(ministryId, ministryActivityId ?? null);
 
     const cachedData =
       this.globalPromotionsCache.get<GlobalPromotion[]>(cacheKey);
