@@ -2070,4 +2070,43 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       $hashKey: 'object:688',
     },
   ];
+
+  // Global Promotions
+  this.globalPromotions = [
+    {
+      id: 'global-promo-1',
+      code: 'GLOBAL50',
+      amount: 50,
+      type: 'FIXED',
+      ministryId: 'ministry-1',
+      ministryActivityId: 'activity-1',
+      name: 'Global $50 Off',
+      description: '$50 off for all events',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+    {
+      id: 'global-promo-2',
+      code: 'GLOBAL25',
+      amount: 25,
+      type: 'PERCENT',
+      ministryId: 'ministry-1',
+      ministryActivityId: 'activity-1',
+      name: 'Global 25% Off',
+      description: '25% off for all events',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+    {
+      id: 'global-promo-3',
+      code: 'MINISTRY2',
+      amount: 100,
+      type: 'FIXED',
+      ministryId: 'ministry-2',
+      name: 'Ministry 2 Promotion',
+      description: '$100 off for ministry 2',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+  ];
 });
