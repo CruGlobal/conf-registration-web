@@ -19,9 +19,11 @@ class GlobalPromotionsCtrl {
       footer: true,
     };
 
-    this.globalPromotionService.loadPromoCodes().then((codes) => {
-      this.promoCodes = codes;
-    });
+    this.globalPromotionService
+      .loadPromotions('87b02878-5070-473b-bb07-3b2d899b46d6')
+      .then((codes) => {
+        this.promoCodes = codes;
+      });
   }
 
   addPromoCode() {
@@ -58,7 +60,7 @@ class GlobalPromotionsCtrl {
 
     if (this.editingPromotion.id) {
       this.globalPromotionService
-        .updatePromoCode(this.editingPromotion)
+        .updatePromotion(this.editingPromotion)
         .then((updatedPromotion) => {
           const index = this.promoCodes.findIndex(
             ({ id }) => id === updatedPromotion.id,
@@ -70,7 +72,7 @@ class GlobalPromotionsCtrl {
         });
     } else {
       this.globalPromotionService
-        .createPromoCode(this.editingPromotion)
+        .createPromotion(this.editingPromotion)
         .then((newPromotion) => {
           this.promoCodes.push(newPromotion);
           this.cancelEdit();
