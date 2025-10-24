@@ -1,19 +1,19 @@
 import 'angular-mocks';
 
-describe('Service: GlobalPromotionService', function () {
+describe('Service: GlobalPromotionService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   let globalPromotionService, $httpBackend, $rootScope, modalMessage, testData;
 
   const mockUrl = 'http://localhost:9001';
 
-  beforeEach(inject(function (
+  beforeEach(inject((
     _globalPromotionService_,
     _$httpBackend_,
     _$rootScope_,
     _modalMessage_,
     _testData_,
-  ) {
+  ) => {
     globalPromotionService = _globalPromotionService_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
@@ -21,23 +21,21 @@ describe('Service: GlobalPromotionService', function () {
     testData = _testData_;
   }));
 
-  afterEach(function () {
+  afterEach(() => {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  describe('loadPromotions', function () {
-    it('should load promotions and cache them', function () {
+  describe('loadPromotions', () => {
+    it('should load promotions and cache them', () => {
       $httpBackend
         .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
         .respond(200, testData.globalPromotions);
 
       let result;
-      globalPromotionService
-        .loadPromotions('ministry-1')
-        .then(function (promotions) {
-          result = promotions;
-        });
+      globalPromotionService.loadPromotions('ministry-1').then((promotions) => {
+        result = promotions;
+      });
 
       $httpBackend.flush();
 
@@ -45,7 +43,7 @@ describe('Service: GlobalPromotionService', function () {
       expect($rootScope.loadingMsg).toBe('');
     });
 
-    it('should include ministryActivityId in params when provided', function () {
+    it('should include ministryActivityId in params when provided', () => {
       $httpBackend
         .expectGET(
           `${mockUrl}/globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1`,
@@ -57,27 +55,23 @@ describe('Service: GlobalPromotionService', function () {
       $httpBackend.flush();
     });
 
-    it('should use cached data on subsequent calls', function () {
+    it('should use cached data on subsequent calls', () => {
       $httpBackend
         .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
         .respond(200, testData.globalPromotions);
 
       let resultOne;
-      globalPromotionService
-        .loadPromotions('ministry-1')
-        .then(function (promos) {
-          resultOne = promos;
-        });
+      globalPromotionService.loadPromotions('ministry-1').then((promos) => {
+        resultOne = promos;
+      });
 
       $httpBackend.flush();
 
       // Second call should use cache (no HTTP request)
       let resultTwo;
-      globalPromotionService
-        .loadPromotions('ministry-1')
-        .then(function (promos) {
-          resultTwo = promos;
-        });
+      globalPromotionService.loadPromotions('ministry-1').then((promos) => {
+        resultTwo = promos;
+      });
 
       $rootScope.$digest();
 
@@ -85,7 +79,7 @@ describe('Service: GlobalPromotionService', function () {
       expect(resultTwo).toEqual(testData.globalPromotions);
     });
 
-    it('should set loadingMsg while loading', function () {
+    it('should set loadingMsg while loading', () => {
       $httpBackend
         .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
         .respond(200, testData.globalPromotions);
@@ -99,7 +93,7 @@ describe('Service: GlobalPromotionService', function () {
       expect($rootScope.loadingMsg).toBe('');
     });
 
-    it('should cache different ministry/activity combinations separately', function () {
+    it('should cache different ministry/activity combinations separately', () => {
       const ministryOnePromotions = [testData.globalPromotions[0]];
       const ministryTwoPromotions = [testData.globalPromotions[1]];
 
@@ -125,8 +119,8 @@ describe('Service: GlobalPromotionService', function () {
     });
   });
 
-  describe('hasPromotionsForConference', function () {
-    it('should return true when promotions exist in cache', function () {
+  describe('hasPromotionsForConference', () => {
+    it('should return true when promotions exist in cache', () => {
       $httpBackend
         .expectGET(
           `${mockUrl}/globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1`,
@@ -144,7 +138,7 @@ describe('Service: GlobalPromotionService', function () {
       expect(result).toBe(true);
     });
 
-    it('should return false when no promotions exist in cache', function () {
+    it('should return false when no promotions exist in cache', () => {
       const result = globalPromotionService.hasPromotionsForConference(
         'ministry-nonexistent',
         'activity-nonexistent',
@@ -153,7 +147,7 @@ describe('Service: GlobalPromotionService', function () {
       expect(result).toBe(false);
     });
 
-    it('should return false when cached data is empty array', function () {
+    it('should return false when cached data is empty array', () => {
       $httpBackend
         .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
         .respond(200, []);
@@ -170,8 +164,8 @@ describe('Service: GlobalPromotionService', function () {
     });
   });
 
-  describe('createPromotion', function () {
-    it('should create a promotion and add it to the cache', function () {
+  describe('createPromotion', () => {
+    it('should create a promotion and add it to the cache', () => {
       // First load promotions to populate the cache
       $httpBackend
         .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
@@ -195,7 +189,7 @@ describe('Service: GlobalPromotionService', function () {
         .respond(201, createdPromo);
 
       let result;
-      globalPromotionService.createPromotion(newPromo).then(function (promo) {
+      globalPromotionService.createPromotion(newPromo).then((promo) => {
         result = promo;
       });
 
@@ -206,11 +200,9 @@ describe('Service: GlobalPromotionService', function () {
 
       // Verify the cache was updated (no new HTTP request)
       let cachedPromos;
-      globalPromotionService
-        .loadPromotions('ministry-1')
-        .then(function (promos) {
-          cachedPromos = promos;
-        });
+      globalPromotionService.loadPromotions('ministry-1').then((promos) => {
+        cachedPromos = promos;
+      });
 
       $rootScope.$digest();
 
@@ -218,7 +210,7 @@ describe('Service: GlobalPromotionService', function () {
       expect(cachedPromos).toContain(createdPromo);
     });
 
-    it('should set loadingMsg while creating', function () {
+    it('should set loadingMsg while creating', () => {
       const newPromo = { code: 'NEWCODE', amount: 75 };
 
       $httpBackend
@@ -234,7 +226,7 @@ describe('Service: GlobalPromotionService', function () {
       expect($rootScope.loadingMsg).toBe('');
     });
 
-    it('should show error modal on failure', function () {
+    it('should show error modal on failure', () => {
       spyOn(modalMessage, 'error');
 
       const newPromo = { code: 'NEWCODE', amount: 75 };
@@ -258,8 +250,8 @@ describe('Service: GlobalPromotionService', function () {
     });
   });
 
-  describe('updatePromotion', function () {
-    it('should update a promotion and replace it in the cache', function () {
+  describe('updatePromotion', () => {
+    it('should update a promotion and replace it in the cache', () => {
       // First load promotions to populate the cache
       const ministryId = testData.globalPromotions[0].ministryId;
       const ministryOnePromos = [testData.globalPromotions[0]];
@@ -287,11 +279,9 @@ describe('Service: GlobalPromotionService', function () {
         .respond(200, updatedPromo);
 
       let result;
-      globalPromotionService
-        .updatePromotion(updatedPromo)
-        .then(function (promo) {
-          result = promo;
-        });
+      globalPromotionService.updatePromotion(updatedPromo).then((promo) => {
+        result = promo;
+      });
 
       $httpBackend.flush();
 
@@ -300,7 +290,7 @@ describe('Service: GlobalPromotionService', function () {
 
       // Verify the cache was updated (no new HTTP request)
       let cachedPromos;
-      globalPromotionService.loadPromotions(ministryId).then(function (promos) {
+      globalPromotionService.loadPromotions(ministryId).then((promos) => {
         cachedPromos = promos;
       });
 
@@ -316,7 +306,7 @@ describe('Service: GlobalPromotionService', function () {
       expect(cachedPromo.code).toBe('UPDATEDCODE');
     });
 
-    it('should set loadingMsg while updating', function () {
+    it('should set loadingMsg while updating', () => {
       const updatedPromo = { id: 'promo-1', code: 'UPDATEDCODE', amount: 100 };
 
       $httpBackend
@@ -332,7 +322,7 @@ describe('Service: GlobalPromotionService', function () {
       expect($rootScope.loadingMsg).toBe('');
     });
 
-    it('should show error modal on failure', function () {
+    it('should show error modal on failure', () => {
       spyOn(modalMessage, 'error');
 
       const updatedPromo = { id: 'promo-1', code: 'UPDATEDCODE', amount: 100 };
