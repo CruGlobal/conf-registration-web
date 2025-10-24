@@ -1,92 +1,126 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-12">
+    <div ng-if="$ctrl.noAccess" class="col-md-12">
+      <div class="alert alert-danger">
+        <strong translate>Access Denied:</strong>
+        <p translate>You are not a global promotions admin for any ministry.</p>
+        <p translate>
+          If you believe you should have access, please email
+          <a href="mailto:help@cru.org">help@cru.org</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-12" ng-if="!$ctrl.noAccess">
+      <div
+        ng-if="$ctrl.showMinistrySelector"
+        class="form-group margin-bottom-lg"
+      >
+        <label>
+          <span translate>Ministry</span>
+          <select
+            class="form-control"
+            ng-model="$ctrl.selectedMinistryId"
+            ng-change="$ctrl.loadMinistryPromotions()"
+            ng-options="ministry.id as ministry.name for ministry in $ctrl.ministries"
+          ></select>
+        </label>
+      </div>
+
       <div ng-if="$ctrl.editingPromotion" class="margin-bottom-lg">
         <div class="panel-heading">
           <h2 class="h3">
             <span ng-if="$ctrl.editingPromotion.id" translate>
-              Edit Promo Code
+              Edit Promotion
             </span>
             <span ng-if="!$ctrl.editingPromotion.id" translate>
-              New Promo Code
+              New Promotion
             </span>
           </h2>
         </div>
 
         <div class="alert alert-info margin-bottom-md">
-          This promo code will apply to all {{$ctrl.getMinistryName()}}
+          This promotion will apply to all {{$ctrl.getMinistryName()}}
           conferences.
         </div>
 
         <promotion
           promo="$ctrl.editingPromotion"
-          on-save="$ctrl.savePromoCode()"
+          on-save="$ctrl.savePromotion()"
           on-discard="$ctrl.cancelEdit()"
         ></promotion>
       </div>
 
-      <div ng-if="$ctrl.promoCodes.length > 0">
-        <div class="promotions-header">
-          <h2 translate>Promotions</h2>
-          <button
-            type="button"
-            class="btn btn-success"
-            ng-click="$ctrl.addPromoCode()"
-            ng-if="!$ctrl.editingPromotion"
-            translate
-          >
-            New Promotion
-          </button>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover">
-            <thead>
-              <tr>
-                <th scope="col" translate>Code</th>
-                <th scope="col" translate>Amount</th>
-                <th scope="col" translate>Start Date</th>
-                <th scope="col" translate>End Date</th>
-                <th scope="col" translate>Description</th>
-                <th scope="col" translate>Activity</th>
-                <th scope="col" translate>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="code in $ctrl.promoCodes">
-                <td>
-                  <strong>{{code.code}}</strong>
-                </td>
-                <td>{{code.amount | localizedCurrency:'USD'}}</td>
-                <td>{{code.activationDate | date:'MMM d, y h:mm a'}}</td>
-                <td>
-                  <span ng-if="code.deactivationDate">
-                    {{code.deactivationDate | date:'MMM d, y h:mm a'}}
-                  </span>
-                  <span
-                    ng-if="!code.deactivationDate"
-                    class="text-muted"
-                    translate
-                  >
-                    No end date
-                  </span>
-                </td>
-                <td>{{code.description}}</td>
-                <td>{{$ctrl.getActivityName(code.ministryActivityId)}}</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-default btn-sm"
-                    ng-click="$ctrl.editPromoCode(code)"
-                    title="Edit"
-                    translate
-                  >
-                    Edit
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <div class="promotions-header">
+        <h2 translate>{{$ctrl.getMinistryName()}} Promotions</h2>
+        <button
+          type="button"
+          class="btn btn-success"
+          ng-click="$ctrl.addPromotion()"
+          ng-if="!$ctrl.editingPromotion"
+          translate
+        >
+          New Promotion
+        </button>
+      </div>
+      <div class="table-responsive" ng-if="$ctrl.promotions.length > 0">
+        <table class="table table-striped table-hover">
+          <thead>
+            <tr>
+              <th scope="col" translate>Code</th>
+              <th scope="col" translate>Amount</th>
+              <th scope="col" translate>Start Date</th>
+              <th scope="col" translate>End Date</th>
+              <th scope="col" translate>Description</th>
+              <th scope="col" translate>Activity</th>
+              <th scope="col" translate>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="promotion in $ctrl.promotions">
+              <td>
+                <strong>{{promotion.code}}</strong>
+              </td>
+              <td>{{promotion.amount | localizedCurrency:'USD'}}</td>
+              <td>{{promotion.activationDate | date:'MMM d, y h:mm a'}}</td>
+              <td>
+                <span ng-if="promotion.deactivationDate">
+                  {{promotion.deactivationDate | date:'MMM d, y h:mm a'}}
+                </span>
+                <span
+                  ng-if="!promotion.deactivationDate"
+                  class="text-muted"
+                  translate
+                >
+                  No end date
+                </span>
+              </td>
+              <td>{{promotion.description}}</td>
+              <td>{{$ctrl.getActivityName(promotion.ministryActivityId)}}</td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-default btn-sm"
+                  ng-click="$ctrl.editPromotion(promotion)"
+                  title="Edit"
+                  translate
+                >
+                  Edit
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        ng-if="$ctrl.promotions.length === 0 && !$ctrl.editingPromotion"
+        class="alert alert-info"
+      >
+        {{$ctrl.getMinistryName()}}
+        <span translate>
+          doesn't have any promotions yet. Click the "New Promotion" button to
+          create one.
+        </span>
       </div>
     </div>
   </div>

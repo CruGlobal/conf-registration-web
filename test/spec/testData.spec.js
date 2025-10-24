@@ -2026,9 +2026,17 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: '87b02878-5070-473b-bb07-3b2d899b46d6',
       strategies: [],
-      activities: [],
+      activities: [
+        {
+          id: '22532e40-f458-4ae6-b045-24815e104013',
+          name: 'SCRC Events',
+        },
+        {
+          id: '31073156-9599-4a51-9b61-2bb6dbbf447b',
+          name: 'Domestic Projects',
+        },
+      ],
       name: 'Athletes in Action',
-      $hashKey: 'object:665',
     },
     {
       id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
@@ -2054,7 +2062,34 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         },
       ],
       name: 'Campus - National Team/Strategy',
-      $hashKey: 'object:666',
+    },
+    {
+      id: 'f6d8e4c6-60c1-4c59-9495-d6c3eb65cac1',
+      strategies: [],
+      activities: [
+        {
+          id: '8a577943-2acb-4c6f-8a86-a3c442332610',
+          name: 'General',
+        },
+        {
+          id: 'd4970a28-e63d-4e51-b8d7-c337d5662cb3',
+          name: 'Canoeing/Kayaking',
+        },
+        {
+          id: '730046b2-8333-4952-91de-3e9b672353d2',
+          name: 'Paintball',
+        },
+        {
+          id: 'e7aab792-4bce-4032-85b4-35f73d8db46b',
+          name: 'Rock Climbing',
+        },
+        {
+          id: '7cd8c825-6eb9-45c7-8972-ed2547b424d5',
+          name: 'White Water Rafting',
+        },
+      ],
+      eventTypes: [],
+      name: 'Lifelines',
     },
   ];
   // Also known as types
@@ -2062,24 +2097,20 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
       name: 'Ministry Conference/Event',
-      $hashKey: 'object:687',
     },
     {
       id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
       name: 'Ministry Mission Trip',
-      $hashKey: 'object:688',
     },
   ];
 
-  // Global Promotions
   this.globalPromotions = [
     {
       id: 'global-promo-1',
+      ministryId: this.ministries[0].id,
+      ministryActivityId: this.ministries[0].activities[0].id,
       code: 'GLOBAL50',
       amount: 50,
-      type: 'FIXED',
-      ministryId: 'ministry-1',
-      ministryActivityId: 'activity-1',
       name: 'Global $50 Off',
       description: '$50 off for all events',
       activationDate: '2024-01-01 00:00:00',
@@ -2087,11 +2118,10 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     },
     {
       id: 'global-promo-2',
+      ministryId: this.ministries[0].id,
+      ministryActivityId: this.ministries[0].activities[1].id,
       code: 'GLOBAL25',
       amount: 25,
-      type: 'PERCENT',
-      ministryId: 'ministry-1',
-      ministryActivityId: 'activity-1',
       name: 'Global 25% Off',
       description: '25% off for all events',
       activationDate: '2024-01-01 00:00:00',
@@ -2099,10 +2129,10 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     },
     {
       id: 'global-promo-3',
+      ministryId: this.ministries[2].id,
+      ministryActivityId: this.ministries[2].activities[0].id,
       code: 'MINISTRY2',
       amount: 100,
-      type: 'FIXED',
-      ministryId: 'ministry-2',
       name: 'Ministry 2 Promotion',
       description: '$100 off for ministry 2',
       activationDate: '2024-01-01 00:00:00',

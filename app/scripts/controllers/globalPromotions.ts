@@ -2,18 +2,21 @@ import angular from 'angular';
 import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
-import { MinistriesCache, Ministry } from '../services/MinistriesCache';
+import { Ministry } from '../services/MinistriesCache';
 
 class GlobalPromotionsCtrl {
-  promoCodes: GlobalPromotion[] = [];
+  promotions: GlobalPromotion[] = [];
   editingPromotion: GlobalPromotion | null = null;
   ministries: Ministry[] = [];
+  selectedMinistryId: string | null = null;
+  noAccess: boolean;
+  showMinistrySelector: boolean;
 
   /* @ngInject */
   constructor(
     private $rootScope: $RootScope,
     private globalPromotionService: GlobalPromotionService,
-    private MinistriesCache: MinistriesCache,
+    ministries: Ministry[],
   ) {
     this.$rootScope.globalPage = {
       type: 'admin',
@@ -22,18 +25,32 @@ class GlobalPromotionsCtrl {
       footer: true,
     };
 
-    this.MinistriesCache.get().then((ministries) => {
-      this.ministries = ministries;
-    });
+    this.ministries = ministries;
+    this.noAccess = ministries.length === 0;
+    this.showMinistrySelector = ministries.length > 1;
+    if (this.ministries.length >= 1) {
+      this.selectedMinistryId = this.ministries[0].id;
+      this.loadMinistryPromotions();
+    }
+  }
+
+  loadMinistryPromotions() {
+    if (!this.selectedMinistryId) {
+      return;
+    }
 
     this.globalPromotionService
-      .loadPromotions('87b02878-5070-473b-bb07-3b2d899b46d6')
-      .then((codes) => {
-        this.promoCodes = codes;
+      .loadPromotions(this.selectedMinistryId)
+      .then((promotions) => {
+        this.promotions = promotions;
       });
   }
 
-  addPromoCode() {
+  addPromotion() {
+    if (!this.selectedMinistryId) {
+      return;
+    }
+
     this.editingPromotion = {
       id: '',
       registrantTypeIds: [],
@@ -46,7 +63,7 @@ class GlobalPromotionsCtrl {
       operatingUnit: '',
       departmentId: '',
       projectId: '',
-      ministryId: '87b02878-5070-473b-bb07-3b2d899b46d6', // AIA
+      ministryId: this.selectedMinistryId,
       ministryActivityId: null,
       activationDate: new Date().toISOString(),
       deactivationDate: null,
@@ -56,11 +73,11 @@ class GlobalPromotionsCtrl {
     };
   }
 
-  editPromoCode(promotion: GlobalPromotion) {
+  editPromotion(promotion: GlobalPromotion) {
     this.editingPromotion = angular.copy(promotion);
   }
 
-  savePromoCode() {
+  savePromotion() {
     if (!this.editingPromotion) {
       return;
     }
@@ -69,11 +86,11 @@ class GlobalPromotionsCtrl {
       this.globalPromotionService
         .updatePromotion(this.editingPromotion)
         .then((updatedPromotion) => {
-          const index = this.promoCodes.findIndex(
+          const index = this.promotions.findIndex(
             ({ id }) => id === updatedPromotion.id,
           );
           if (index !== -1) {
-            this.promoCodes[index] = updatedPromotion;
+            this.promotions[index] = updatedPromotion;
           }
           this.cancelEdit();
         });
@@ -81,7 +98,7 @@ class GlobalPromotionsCtrl {
       this.globalPromotionService
         .createPromotion(this.editingPromotion)
         .then((newPromotion) => {
-          this.promoCodes.push(newPromotion);
+          this.promotions.push(newPromotion);
           this.cancelEdit();
         });
     }
@@ -92,9 +109,10 @@ class GlobalPromotionsCtrl {
   }
 
   getMinistryName(): string {
-    const ministryId = this.editingPromotion?.ministryId;
     return (
-      this.ministries.find((ministry) => ministry.id === ministryId)?.name ?? ''
+      this.ministries.find(
+        (ministry) => ministry.id === this.selectedMinistryId,
+      )?.name ?? ''
     );
   }
 
