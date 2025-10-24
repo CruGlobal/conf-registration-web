@@ -20,4 +20,13 @@ module.exports = {
     '@babel/preset-typescript',
   ],
   plugins: ['@babel/plugin-transform-runtime'],
+  env: {
+    test: {
+      plugins: [
+        'istanbul',
+        // Must run AFTER istanbul to properly annotate DI
+        'angularjs-annotate',
+      ],
+    },
+  },
 };

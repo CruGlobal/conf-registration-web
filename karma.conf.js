@@ -1,28 +1,12 @@
-const path = require('path');
+// Tell babel to run in test mode to enable the istanbul plugin
+process.env.NODE_ENV = 'test';
+
 const { entry, devServer, optimization, ...webpackConfig } =
   require('./webpack.config.js')({ test: true });
 
 const karmaWebpackConfig = {
   ...webpackConfig,
   devtool: 'inline-source-map',
-  module: {
-    ...webpackConfig.module,
-    rules: [
-      ...webpackConfig.module.rules,
-      ...(process.env.npm_lifecycle_event !== 'test-debug'
-        ? [
-            {
-              test: /^(?!.*\.(spec|fixture)\.js$).*\.js$/,
-              include: path.resolve('app/'),
-              loader: 'istanbul-instrumenter-loader',
-              options: {
-                esModules: true,
-              },
-            },
-          ]
-        : []),
-    ],
-  },
 };
 
 module.exports = function (config) {
