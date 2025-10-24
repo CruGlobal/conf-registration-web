@@ -595,7 +595,7 @@ describe('Controller: eventDetails', function () {
   });
 
   describe('couple/spouse data syncing', function () {
-    it('should give spouse type a description when couple type description is changed', inject(function (
+    it('should give spouse type a name when couple type name is changed', inject(function (
       $controller,
       $rootScope,
       _testData_,
@@ -620,29 +620,22 @@ describe('Controller: eventDetails', function () {
         (t) => t.defaultTypeKey === 'SPOUSE',
       );
 
-      coupleType.description = 'Old Description';
-      spouseType.description = 'Old Description';
+      coupleType.name = 'Old Couple Name';
+      spouseType.name = 'Old Couple Name Spouse';
 
-      const newDescription = 'New Couple Description';
-      coupleType.description = newDescription;
+      const newName = 'Married Couple';
+      coupleType.name = newName;
 
       const oldRegistrantTypes = angular.copy(conference.registrantTypes);
-      _.find(
-        oldRegistrantTypes,
-        (t) => t.defaultTypeKey === 'COUPLE',
-      ).description = 'Old Description';
-      _.find(
-        oldRegistrantTypes,
-        (t) => t.defaultTypeKey === 'SPOUSE',
-      ).description = 'Old Description';
+      _.find(oldRegistrantTypes, (t) => t.defaultTypeKey === 'COUPLE').name =
+        'Old Couple Name';
+      _.find(oldRegistrantTypes, (t) => t.defaultTypeKey === 'SPOUSE').name =
+        'Old Couple Name Spouse';
 
-      scope.syncCoupleDescriptions(
-        conference.registrantTypes,
-        oldRegistrantTypes,
-      );
+      scope.syncCoupleNames(conference.registrantTypes, oldRegistrantTypes);
 
-      expect(coupleType.description).toBe(newDescription);
-      expect(spouseType.description).toBe(newDescription);
+      expect(coupleType.name).toBe(newName);
+      expect(spouseType.name).toBe(`${newName} Spouse`);
     }));
   });
 });
