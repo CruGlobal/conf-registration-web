@@ -41,6 +41,7 @@ angular
       uuid,
       gettextCatalog,
       currencies,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -124,6 +125,21 @@ angular
       $scope.currentRegions = getCurrentRegions(
         $scope.conference.locationCountry,
       );
+
+      // Load global promo codes for this conference to check if any are available
+      if ($scope.conference.ministry) {
+        globalPromotionService.loadPromotions(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      }
+
+      $scope.hasGlobalPromotions = function () {
+        return globalPromotionService.hasPromotionsForConference(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      };
 
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
