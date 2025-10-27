@@ -4,8 +4,6 @@ import { ModalMessage, $RootScope, $Http } from 'injectables';
 import { GlobalPromotion } from 'globalPromotion';
 import { $q } from 'ngimport';
 
-const mockUrl = 'http://localhost:9001';
-
 export class GlobalPromotionService {
   private globalPromotionsCache: angular.ICacheObject;
 
@@ -46,7 +44,7 @@ export class GlobalPromotionService {
     }
 
     return this.$http
-      .get<GlobalPromotion[]>(`${mockUrl}/globalPromotions`, { params })
+      .get<GlobalPromotion[]>('globalPromotions', { params })
       .then((response) => {
         this.globalPromotionsCache.put(cacheKey, response.data);
         return response.data;
@@ -102,7 +100,7 @@ export class GlobalPromotionService {
     this.$rootScope.loadingMsg = 'Creating Promotion';
 
     return this.$http
-      .post<GlobalPromotion>(`${mockUrl}/globalPromotions`, promotion)
+      .post<GlobalPromotion>('globalPromotions', promotion)
       .then((response) => {
         this.updateCacheWithPromotion(response.data);
         return response.data;
@@ -124,10 +122,7 @@ export class GlobalPromotionService {
     this.$rootScope.loadingMsg = 'Updating Promotion';
 
     return this.$http
-      .put<GlobalPromotion>(
-        `${mockUrl}/globalPromotions/${promotion.id}`,
-        promotion,
-      )
+      .put<GlobalPromotion>(`globalPromotions/${promotion.id}`, promotion)
       .then((response) => {
         this.updateCacheWithPromotion(response.data, true);
         return response.data;
