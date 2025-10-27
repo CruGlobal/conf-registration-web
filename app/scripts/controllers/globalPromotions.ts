@@ -54,12 +54,10 @@ class GlobalPromotionsCtrl {
 
     this.editingPromotion = {
       id: '',
-      registrantTypeIds: [],
       name: '',
       code: '',
       amount: 0,
       description: '',
-      active: true,
       businessUnit: '',
       operatingUnit: '',
       departmentId: '',
