@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import { update } from 'lodash';
 
 describe('Service: GlobalPromotionService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -29,7 +30,7 @@ describe('Service: GlobalPromotionService', () => {
   describe('loadPromotions', () => {
     it('should load promotions and cache them', () => {
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, testData.globalPromotions);
 
       let result;
@@ -46,7 +47,7 @@ describe('Service: GlobalPromotionService', () => {
     it('should include ministryActivityId in params when provided', () => {
       $httpBackend
         .expectGET(
-          `${mockUrl}/globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1`,
+          'globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1',
         )
         .respond(200, testData.globalPromotions);
 
@@ -57,7 +58,7 @@ describe('Service: GlobalPromotionService', () => {
 
     it('should use cached data on subsequent calls', () => {
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, testData.globalPromotions);
 
       let resultOne;
@@ -81,7 +82,7 @@ describe('Service: GlobalPromotionService', () => {
 
     it('should set loadingMsg while loading', () => {
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, testData.globalPromotions);
 
       globalPromotionService.loadPromotions('ministry-1');
@@ -98,10 +99,10 @@ describe('Service: GlobalPromotionService', () => {
       const ministryTwoPromotions = [testData.globalPromotions[1]];
 
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, ministryOnePromotions);
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-2`)
+        .expectGET('globalPromotions?ministryId=ministry-2')
         .respond(200, ministryTwoPromotions);
 
       let resultOne, resultTwo;
@@ -123,7 +124,7 @@ describe('Service: GlobalPromotionService', () => {
     it('should return true when promotions exist in cache', () => {
       $httpBackend
         .expectGET(
-          `${mockUrl}/globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1`,
+          'globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1',
         )
         .respond(200, testData.globalPromotions);
 
@@ -149,7 +150,7 @@ describe('Service: GlobalPromotionService', () => {
 
     it('should return false when cached data is empty array', () => {
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, []);
 
       globalPromotionService.loadPromotions('ministry-1');
@@ -168,7 +169,7 @@ describe('Service: GlobalPromotionService', () => {
     it('should create a promotion and add it to the cache', () => {
       // First load promotions to populate the cache
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=ministry-1`)
+        .expectGET('globalPromotions?ministryId=ministry-1')
         .respond(200, testData.globalPromotions);
 
       globalPromotionService.loadPromotions('ministry-1');
@@ -185,7 +186,7 @@ describe('Service: GlobalPromotionService', () => {
       const createdPromo = { ...newPromo, id: 'promo-new' };
 
       $httpBackend
-        .expectPOST(`${mockUrl}/globalPromotions`, newPromo)
+        .expectPOST('globalPromotions', newPromo)
         .respond(201, createdPromo);
 
       let result;
@@ -214,7 +215,7 @@ describe('Service: GlobalPromotionService', () => {
       const newPromo = { code: 'NEWCODE', amount: 75 };
 
       $httpBackend
-        .expectPOST(`${mockUrl}/globalPromotions`)
+        .expectPOST('globalPromotions')
         .respond(201, { ...newPromo, id: 'promo-new' });
 
       globalPromotionService.createPromotion(newPromo);
@@ -234,9 +235,7 @@ describe('Service: GlobalPromotionService', () => {
         error: { message: 'Promotion code already exists' },
       };
 
-      $httpBackend
-        .expectPOST(`${mockUrl}/globalPromotions`)
-        .respond(400, errorResponse);
+      $httpBackend.expectPOST('globalPromotions').respond(400, errorResponse);
 
       globalPromotionService.createPromotion(newPromo);
       $httpBackend.flush();
@@ -257,7 +256,7 @@ describe('Service: GlobalPromotionService', () => {
       const ministryOnePromos = [testData.globalPromotions[0]];
 
       $httpBackend
-        .expectGET(`${mockUrl}/globalPromotions?ministryId=${ministryId}`)
+        .expectGET(`globalPromotions?ministryId=${ministryId}`)
         .respond(200, ministryOnePromos);
 
       globalPromotionService.loadPromotions(ministryId);
@@ -272,10 +271,7 @@ describe('Service: GlobalPromotionService', () => {
       };
 
       $httpBackend
-        .expectPUT(
-          `${mockUrl}/globalPromotions/${updatedPromo.id}`,
-          updatedPromo,
-        )
+        .expectPUT('globalPromotions', updatedPromo)
         .respond(200, updatedPromo);
 
       let result;
@@ -310,7 +306,7 @@ describe('Service: GlobalPromotionService', () => {
       const updatedPromo = { id: 'promo-1', code: 'UPDATEDCODE', amount: 100 };
 
       $httpBackend
-        .expectPUT(`${mockUrl}/globalPromotions/promo-1`)
+        .expectPUT('globalPromotions', updatedPromo)
         .respond(200, updatedPromo);
 
       globalPromotionService.updatePromotion(updatedPromo);
@@ -329,7 +325,7 @@ describe('Service: GlobalPromotionService', () => {
       const errorResponse = { error: { message: 'Not found' } };
 
       $httpBackend
-        .expectPUT(`${mockUrl}/globalPromotions/promo-1`)
+        .expectPUT('globalPromotions', updatedPromo)
         .respond(404, errorResponse);
 
       globalPromotionService.updatePromotion(updatedPromo);
