@@ -128,6 +128,13 @@ class GlobalPromotionsCtrl {
 
     return '';
   }
+
+  formatDate(date: string | null): string {
+    if (!date) {
+      return '';
+    }
+    return moment(date).format('MMM D, YYYY h:mm A');
+  }
 }
 
 angular
