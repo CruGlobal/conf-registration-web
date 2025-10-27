@@ -3,6 +3,7 @@ import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
 import { Ministry } from '../services/MinistriesCache';
+import moment from 'moment';
 
 class GlobalPromotionsCtrl {
   promotions: GlobalPromotion[] = [];
@@ -65,7 +66,7 @@ class GlobalPromotionsCtrl {
       projectId: '',
       ministryId: this.selectedMinistryId,
       ministryActivityId: null,
-      activationDate: new Date().toISOString(),
+      activationDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       deactivationDate: null,
       applyToAllRegistrants: true,
       createdDate: null,
