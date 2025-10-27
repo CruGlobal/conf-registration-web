@@ -448,18 +448,18 @@ angular
           requireLogin: true,
         },
         resolve: {
-          ministries: function ($q, MinistriesCache, MinistryAdminsCache) {
-            return $q
-              .all([MinistriesCache.get(), MinistryAdminsCache.getAsync()])
-              .then(([ministries, ministryAdminIds]) => {
-                return ministries.filter(
-                  (ministry) =>
-                    ministryAdminIds.includes(ministry.id) &&
-                    // Ignore ministries without ministry activities because admins won't be able to
-                    // create promotions for them
-                    ministry.activities.length > 0,
-                );
-              });
+          ministries: function (MinistriesCache) {
+            const accessibleMinistryIds = [
+              '87b02878-5070-473b-bb07-3b2d899b46d6',
+              'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+              '9f63db46-6ca9-43b0-868a-23326b3c4d91',
+            ];
+
+            return MinistriesCache.get().then((ministries) => {
+              return ministries.filter((ministry) =>
+                accessibleMinistryIds.includes(ministry.id),
+              );
+            });
           },
         },
       })
