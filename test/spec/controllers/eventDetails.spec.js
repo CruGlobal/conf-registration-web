@@ -41,6 +41,7 @@ describe('Controller: eventDetails', function () {
         $httpBackend = _$httpBackend_;
 
         $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
+        $httpBackend.whenGET(/^globalPromotions/).respond(200, []);
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
