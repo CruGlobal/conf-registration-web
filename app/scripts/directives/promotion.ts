@@ -42,13 +42,16 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
       };
 
       $scope.toggleRegistrantType = function (id: string) {
-        if ($scope.promo.registrantTypeIds.indexOf(id) === -1) {
-          $scope.promo.registrantTypeIds.push(id);
-        } else {
-          $scope.promo.registrantTypeIds.splice(
-            $scope.promo.registrantTypeIds.indexOf(id),
-            1,
-          );
+        // Only conference promotions have registrantTypeIds
+        if ('registrantTypeIds' in $scope.promo) {
+          if ($scope.promo.registrantTypeIds.indexOf(id) === -1) {
+            $scope.promo.registrantTypeIds.push(id);
+          } else {
+            $scope.promo.registrantTypeIds.splice(
+              $scope.promo.registrantTypeIds.indexOf(id),
+              1,
+            );
+          }
         }
       };
 
