@@ -1,12 +1,9 @@
 import 'angular-mocks';
-import { update } from 'lodash';
 
 describe('Service: GlobalPromotionService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   let globalPromotionService, $httpBackend, $rootScope, modalMessage, testData;
-
-  const mockUrl = 'http://localhost:9001';
 
   beforeEach(inject((
     _globalPromotionService_,
