@@ -69,6 +69,7 @@ class GlobalPromotionsCtrl {
       applyToAllRegistrants: true,
       createdDate: null,
       lastUpdateDate: null,
+      numberLimit: null,
     };
   }
 
