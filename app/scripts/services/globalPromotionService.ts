@@ -122,7 +122,7 @@ export class GlobalPromotionService {
     this.$rootScope.loadingMsg = 'Updating Promotion';
 
     return this.$http
-      .put<GlobalPromotion>(`globalPromotions/${promotion.id}`, promotion)
+      .put<GlobalPromotion>('globalPromotions', promotion)
       .then((response) => {
         this.updateCacheWithPromotion(response.data, true);
         return response.data;
