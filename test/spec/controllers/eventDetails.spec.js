@@ -248,11 +248,7 @@ describe('Controller: eventDetails', function () {
     let globalPromotionService;
 
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _testData_,
-      ) {
+      angular.mock.inject(function ($rootScope, $controller, _testData_) {
         scope = $rootScope.$new();
         testData = _testData_;
 
