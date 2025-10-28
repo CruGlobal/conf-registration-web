@@ -35,7 +35,7 @@ angular
         footer: false,
       };
 
-      if (conference.ministry) {
+      if (conference.ministry && conference.ministryActivity) {
         globalPromotionService.loadPromotions(
           conference.ministry,
           conference.ministryActivity,
