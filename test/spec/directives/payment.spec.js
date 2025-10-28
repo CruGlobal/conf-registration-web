@@ -107,4 +107,72 @@ describe('Directive: ertPayment', function () {
       'Please fill in Operating Unit and Account Number fields.',
     );
   });
+
+  describe('GIFT_CARD payment validation', () => {
+    it('should pass validation with card code of 10 characters', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '1234567890',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toEqual([]);
+    });
+
+    it('should pass validation with card code of 12 characters', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '1234567890AB',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toEqual([]);
+    });
+
+    it('should require card code when empty', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toContain(
+        'Please enter a gift card code.',
+      );
+    });
+
+    it('should reject card code with less than 10 characters', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '123456789',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toContain(
+        'Gift card code must be at least 10 characters.',
+      );
+    });
+
+    it('should reject card code with more than 12 characters', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '1234567890123',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toContain(
+        'Gift card code must be no more than 12 characters.',
+      );
+    });
+  });
 });

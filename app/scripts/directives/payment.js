@@ -9,6 +9,7 @@ import checkTemplate from 'views/paymentMethods/check.html';
 import transferTemplate from 'views/paymentMethods/transfer.html';
 import scholarshipAdminTemplate from 'views/paymentMethods/scholarshipAdmin.html';
 import scholarshipTemplate from 'views/paymentMethods/scholarship.html';
+import giftCardTemplate from 'views/paymentMethods/giftCard.html';
 import payOnSiteTemplate from 'views/paymentMethods/payOnSite.html';
 import additionalExpenseTemplate from 'views/paymentMethods/additionalExpense.html';
 
@@ -43,6 +44,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         SCHOLARSHIP: $scope.isAdminPayment
           ? scholarshipAdminTemplate
           : scholarshipTemplate,
+        GIFT_CARD: giftCardTemplate,
         PAY_ON_SITE: payOnSiteTemplate,
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
@@ -85,6 +87,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
         if (!currentPayment.check) {
           currentPayment.check = {};
+        }
+        if (!currentPayment.giftCard) {
+          currentPayment.giftCard = {};
         }
 
         //validate SCHOLARSHIP payments as TRANSFER payments when admin
@@ -317,6 +322,28 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
                   currentPayment.status === 'RECEIVED'
                 ) {
                   paymentErrors.push('Please enter a check number.');
+                }
+              }
+              break;
+            case 'GIFT_CARD':
+              if (!currentPayment.giftCard.code) {
+                paymentErrors.push(
+                  gettextCatalog.getString('Please enter a gift card code.'),
+                );
+              } else {
+                const codeLength = currentPayment.giftCard.code.length;
+                if (codeLength < 10) {
+                  paymentErrors.push(
+                    gettextCatalog.getString(
+                      'Gift card code must be at least 10 characters.',
+                    ),
+                  );
+                } else if (codeLength > 12) {
+                  paymentErrors.push(
+                    gettextCatalog.getString(
+                      'Gift card code must be no more than 12 characters.',
+                    ),
+                  );
                 }
               }
               break;
