@@ -127,7 +127,7 @@ angular
       );
 
       // Load global promo codes for this conference to check if any are available
-      if ($scope.conference.ministry) {
+      if ($scope.conference.ministry && $scope.conference.ministryActivity) {
         globalPromotionService.loadPromotions(
           $scope.conference.ministry,
           $scope.conference.ministryActivity,
