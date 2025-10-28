@@ -440,7 +440,7 @@ angular
         const hasLocalPromotions =
           conference.promotions && conference.promotions.length > 0;
 
-        var hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
+        const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
           function (registrantType) {
             return registrantType.eligibleForGlobalPromotions;
           },
