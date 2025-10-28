@@ -137,7 +137,11 @@ describe('Controller: globalPromotionsCtrl', () => {
     describe('creating new promotion', () => {
       beforeEach(() => {
         $rootScope.$digest();
-        controller.editingPromotion = { id: '', name: 'New Promotion' };
+        controller.editingPromotion = {
+          id: '',
+          name: 'New Promotion',
+          ministryActivityId: 'activity-1',
+        };
       });
 
       it('should call createPromotion service', () => {
