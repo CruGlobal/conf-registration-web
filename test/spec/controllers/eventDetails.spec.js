@@ -245,46 +245,44 @@ describe('Controller: eventDetails', function () {
   });
 
   describe('hasGlobalPromotions', () => {
+    let globalPromotionService;
+
     beforeEach(
       angular.mock.inject(function (
         $rootScope,
         $controller,
-        _$httpBackend_,
         _testData_,
       ) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
         testData = _testData_;
-        const ministryId = testData.conference.ministry;
 
-        $httpBackend.whenGET('ministries').respond(200, testData.ministries);
-        $httpBackend.whenGET('types').respond(200, []);
-        $httpBackend
-          .whenGET(`globalPromotions?ministryId=${ministryId}`)
-          .respond(200, [{ id: 'promo-1' }]);
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForConference: jasmine
+            .createSpy('hasPromotionsForConference')
+            .and.returnValue(true),
+        };
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
-          $rootScope: $rootScope,
           conference: testData.conference,
           currencies: testData.currencies,
+          globalPromotionService: globalPromotionService,
         });
-
-        $httpBackend.flush();
       }),
     );
 
     it('hasGlobalPromotions returns true when promotions exist', function () {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
       expect(scope.hasGlobalPromotions()).toBe(true);
     });
 
-    it('hasGlobalPromotions returns false when no promotions', inject(function (
-      $cacheFactory,
-    ) {
-      $cacheFactory.get('globalPromotionsCache').removeAll();
+    it('hasGlobalPromotions returns false when no promotions', function () {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
 
       expect(scope.hasGlobalPromotions()).toBe(false);
-    }));
+    });
   });
 
   describe('Conference (Cru event) without type', function () {
