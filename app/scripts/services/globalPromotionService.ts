@@ -19,16 +19,16 @@ export class GlobalPromotionService {
 
   private getCacheKey(
     ministryId: string,
-    ministryActivityId: string,
+    ministryActivityId: string | null,
   ): string {
-    return `${ministryId}:${ministryActivityId}`;
+    return `${ministryId}:${ministryActivityId || 'all'}`;
   }
 
   loadPromotions(
     ministryId: string,
-    ministryActivityId: string,
+    ministryActivityId?: string,
   ): IPromise<GlobalPromotion[]> {
-    const cacheKey = this.getCacheKey(ministryId, ministryActivityId);
+    const cacheKey = this.getCacheKey(ministryId, ministryActivityId ?? null);
 
     const cachedData =
       this.globalPromotionsCache.get<GlobalPromotion[]>(cacheKey);
@@ -37,10 +37,11 @@ export class GlobalPromotionService {
     }
 
     this.$rootScope.loadingMsg = 'Loading Promotions';
-    const params: Record<string, string> = {
-      ministryId,
-      ministryActivityId,
-    };
+    const params: Record<string, string> = { ministryId };
+
+    if (ministryActivityId) {
+      params.ministryActivityId = ministryActivityId;
+    }
 
     return this.$http
       .get<GlobalPromotion[]>('globalPromotions', { params })
