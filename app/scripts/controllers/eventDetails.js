@@ -126,13 +126,15 @@ angular
         $scope.conference.locationCountry,
       );
 
-      // Load global promo codes for this conference to check if any are available
-      if ($scope.conference.ministry && $scope.conference.ministryActivity) {
-        globalPromotionService.loadPromotions(
-          $scope.conference.ministry,
-          $scope.conference.ministryActivity,
-        );
-      }
+      $scope.getGlobalPromotions = function () {
+        // Load global promo codes for this conference to check if any are available
+        if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+          globalPromotionService.loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+        }
+      };
 
       $scope.hasGlobalPromotions = function () {
         return globalPromotionService.hasPromotionsForConference(
@@ -167,6 +169,7 @@ angular
       };
 
       $scope.refreshAllowedRegistrantTypes();
+      $scope.getGlobalPromotions();
 
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
@@ -761,6 +764,19 @@ angular
             $scope.conference.strategy = null;
             $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
+            // Reload promotions when ministry changes
+            $scope.getGlobalPromotions();
+          }
+        },
+        true,
+      );
+
+      $scope.$watch(
+        'conference.ministryActivity',
+        function (newVal, oldVal) {
+          if (newVal !== oldVal) {
+            // Reload promotions when ministryActivity changes
+            $scope.getGlobalPromotions();
           }
         },
         true,
