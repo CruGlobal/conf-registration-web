@@ -764,8 +764,6 @@ angular
             $scope.conference.strategy = null;
             $scope.conference.eventType = null;
             $scope.conference.ministryActivity = null;
-            // Reload promotions when ministry changes
-            $scope.getGlobalPromotions();
           }
         },
         true,
@@ -775,7 +773,7 @@ angular
         'conference.ministryActivity',
         function (newVal, oldVal) {
           if (newVal !== oldVal) {
-            // Reload promotions when ministryActivity changes
+            // Reload promotions whenever ministryActivity changes
             $scope.getGlobalPromotions();
           }
         },
