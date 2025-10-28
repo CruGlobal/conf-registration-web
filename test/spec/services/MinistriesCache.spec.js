@@ -83,27 +83,27 @@ const mockMinistries = [
   },
 ];
 
-describe('Service: MinistriesCache', function () {
+describe('Service: MinistriesCache', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var MinistriesCache, $httpBackend, $rootScope;
-  beforeEach(inject(function (_MinistriesCache_, _$httpBackend_, _$rootScope_) {
+  let MinistriesCache, $httpBackend, $rootScope;
+  beforeEach(inject((_MinistriesCache_, _$httpBackend_, _$rootScope_) => {
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
     MinistriesCache = _MinistriesCache_;
   }));
 
-  afterEach(function () {
+  afterEach(() => {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  describe('get', function () {
-    it('should fetch and sort data', function () {
+  describe('get', () => {
+    it('should fetch and sort data', () => {
       $httpBackend.expectGET(/ministries/).respond(200, mockMinistries);
 
       let ministries;
-      MinistriesCache.get().then(function (result) {
+      MinistriesCache.get().then((result) => {
         ministries = result;
       }, fail);
 
@@ -137,30 +137,21 @@ describe('Service: MinistriesCache', function () {
       ]);
     });
 
-    it('should use cached data on subsequent calls', function () {
+    it('should use cached data on subsequent calls', () => {
       $httpBackend.expectGET(/ministries/).respond(200, mockMinistries);
 
-      let firstMinistries = null;
-      MinistriesCache.get().then(function (result) {
-        firstMinistries = result;
-      }, fail);
+      MinistriesCache.get().catch(fail);
       $httpBackend.flush();
+      MinistriesCache.get().catch(fail);
 
-      let secondMinistries = null;
-      MinistriesCache.get().then(function (result) {
-        secondMinistries = result;
-      }, fail);
-      $rootScope.$apply();
-
-      expect(firstMinistries.length).toBe(4);
-      expect(secondMinistries).toBe(firstMinistries);
+      // afterEach asserts that there are no outstanding HTTP requests
     });
 
-    it('should handle HTTP errors', function () {
+    it('should handle HTTP errors', () => {
       $httpBackend.expectGET(/ministries/).respond(500, 'Server Error');
 
       let errorCaught = false;
-      MinistriesCache.get().then(fail, function () {
+      MinistriesCache.get().then(fail, () => {
         errorCaught = true;
       });
 

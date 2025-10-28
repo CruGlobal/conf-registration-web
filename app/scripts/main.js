@@ -87,6 +87,7 @@ import 'scripts/services/httpUrlInterceptor.js';
 import 'scripts/services/loginDialog.js';
 import 'scripts/services/logout.js';
 import 'scripts/services/MinistriesCache.ts';
+import 'scripts/services/MinistryAdminsCache.ts';
 import 'scripts/services/modalMessage.js';
 import 'scripts/services/payment.js';
 import 'scripts/services/PermissionCache.js';

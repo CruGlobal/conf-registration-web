@@ -2681,7 +2681,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/angular@npm:^1.6.34, @types/angular@npm:^1.6.39, @types/angular@npm:^1.8.3":
+"@types/angular-cookies@npm:^1.8.3":
+  version: 1.8.4
+  resolution: "@types/angular-cookies@npm:1.8.4"
+  dependencies:
+    "@types/angular": "npm:*"
+  checksum: 10c0/656bc3747f9c88997b834f6c4c94e2a5b1432e633208fb00ef05fb4edfc05507e1a68e7e2ea7279b7fc4ff9d3dd5889e29a051bfca75f8b53bb1d96c9d74f588
+  languageName: node
+  linkType: hard
+
+"@types/angular@npm:*, @types/angular@npm:^1.6.34, @types/angular@npm:^1.6.39, @types/angular@npm:^1.8.3":
   version: 1.8.9
   resolution: "@types/angular@npm:1.8.9"
   checksum: 10c0/dc73b4b97616e5c59201c323b3d38af0316db200c67774d40a3a280c288d6545f54b8d98aa814386e14bd48bde6af876592b12910cd518d6079a96306ea191da
@@ -6249,6 +6258,7 @@ __metadata:
     "@testing-library/react-hooks": "npm:^8.0.1"
     "@testing-library/user-event": "npm:^14.4.3"
     "@types/angular": "npm:^1.8.3"
+    "@types/angular-cookies": "npm:^1.8.3"
     "@types/jest": "npm:^29.2.5"
     "@types/prop-types": "npm:^15.7.4"
     "@types/react": "npm:^17.0.14"
