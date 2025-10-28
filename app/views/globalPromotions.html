@@ -39,6 +39,10 @@
           </h2>
         </div>
 
+        <div ng-if="$ctrl.errorMessage" class="alert alert-danger margin-bottom-md">
+          <strong translate>Error:</strong> {{$ctrl.errorMessage}}
+        </div>
+
         <div class="alert alert-info margin-bottom-md">
           This promotion will apply to all {{$ctrl.getMinistryName()}}
           conferences.

@@ -12,6 +12,7 @@ class GlobalPromotionsCtrl {
   selectedMinistryId: string | null = null;
   noAccess: boolean;
   showMinistrySelector: boolean;
+  noActivityError: string | null = null;
 
   /* @ngInject */
   constructor(
@@ -63,7 +64,7 @@ class GlobalPromotionsCtrl {
       departmentId: '',
       projectId: '',
       ministryId: this.selectedMinistryId,
-      ministryActivityId: null,
+      ministryActivityId: '',
       activationDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       deactivationDate: null,
       applyToAllRegistrants: true,
@@ -81,6 +82,13 @@ class GlobalPromotionsCtrl {
     if (!this.editingPromotion) {
       return;
     }
+
+    if (!this.editingPromotion.ministryActivityId) {
+      this.noActivityError =
+        'Please select a Ministry Activity for this promotion.';
+      return;
+    }
+    this.noActivityError = null;
 
     if (this.editingPromotion.id) {
       this.globalPromotionService
@@ -106,6 +114,7 @@ class GlobalPromotionsCtrl {
 
   cancelEdit() {
     this.editingPromotion = null;
+    this.noActivityError = null;
   }
 
   getMinistryName(): string {
