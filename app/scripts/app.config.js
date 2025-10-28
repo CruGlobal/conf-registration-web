@@ -453,6 +453,7 @@ angular
               '87b02878-5070-473b-bb07-3b2d899b46d6',
               'f6d31fe3-7078-4fac-a37b-9596d57558e9',
               '9f63db46-6ca9-43b0-868a-23326b3c4d91',
+              '758cb094-713d-44ef-8ee7-82e05a18ac0b', // City
             ];
 
             return MinistriesCache.get().then((ministries) => {
