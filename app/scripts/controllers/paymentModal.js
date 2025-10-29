@@ -16,6 +16,7 @@ angular
       permissions,
       permissionConstants,
       expenseTypesConstants,
+      globalPromotionService,
     ) {
       $scope.registration = registration;
       $scope.conference = conference;
@@ -350,11 +351,64 @@ angular
           });
       };
 
+      function tagPromotions(promotions, isGlobal) {
+        return promotions.map((promo) => ({ ...promo, isGlobal }));
+      }
+      $scope.allPromotions = [
+        ...tagPromotions($scope.registration.globalPromotions, true),
+        ...tagPromotions($scope.registration.promotions, false),
+      ];
+
+      $scope.showAvailablePromotions = function () {
+        const hasLocalPromotions =
+          $scope.conference.promotions &&
+          $scope.conference.promotions.length > 0;
+
+        const hasRegistrantTypeAllowingGlobal =
+          $scope.conference.registrantTypes.some(function (registrantType) {
+            return registrantType.eligibleForGlobalPromotions;
+          });
+
+        const hasGlobalPromotions =
+          hasRegistrantTypeAllowingGlobal &&
+          globalPromotionService.hasPromotionsForConference(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+
+        return hasLocalPromotions || hasGlobalPromotions;
+      };
+
+      const conferencePromotions = tagPromotions(
+        $scope.conference.promotions,
+        false,
+      );
+
+      if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+        globalPromotionService
+          .loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          )
+          .then(function (globalPromotions) {
+            $scope.availablePromotions = [
+              ...conferencePromotions,
+              ...tagPromotions(globalPromotions, true),
+            ];
+          });
+      } else {
+        $scope.availablePromotions = conferencePromotions;
+      }
+
       function loadPayments() {
         $http
           .get('registrations/' + $scope.registration.id)
           .then(function (response) {
             $scope.registration = response.data;
+            $scope.allPromotions = [
+              ...tagPromotions($scope.registration.globalPromotions, true),
+              ...tagPromotions($scope.registration.promotions, false),
+            ];
             $scope.processing = false;
 
             $scope.newTransaction = {
@@ -459,10 +513,19 @@ angular
           return;
         }
 
-        var regCopy = angular.copy($scope.registration);
-        _.remove(regCopy.promotions, { id: promoId });
+        const promotion = $scope.allPromotions.find(function (promotion) {
+          return promotion.id === promoId;
+        });
+        const registrationCopy = angular.copy($scope.registration);
+
+        if (promotion.isGlobal) {
+          _.remove(registrationCopy.globalPromotions, { id: promoId });
+        } else {
+          _.remove(registrationCopy.promotions, { id: promoId });
+        }
+
         $http
-          .put('registrations/' + registration.id, regCopy)
+          .put('registrations/' + registration.id, registrationCopy)
           .then(loadPayments)
           .catch(function (response) {
             modalMessage.error(
@@ -474,10 +537,7 @@ angular
       };
 
       $scope.filterUsedPromoCodes = function (p) {
-        var registrationPromoCodes = _.map(
-          $scope.registration.promotions,
-          'id',
-        );
+        var registrationPromoCodes = _.map($scope.allPromotions, 'id');
         return !_.includes(registrationPromoCodes, p.id);
       };
 
