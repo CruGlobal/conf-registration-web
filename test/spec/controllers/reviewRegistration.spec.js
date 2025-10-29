@@ -311,4 +311,46 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       ).toBe(false);
     });
   });
+
+  describe('showPromotions', () => {
+    let globalPromotionService;
+
+    beforeEach(() => {
+      angular.mock.inject(() => {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForConference: jasmine
+            .createSpy('hasPromotionsForConference')
+            .and.returnValue(false),
+        };
+        initController({ globalPromotionService });
+      });
+    });
+
+    it('returns true when conference has local promotions but no global promotions', () => {
+      scope.conference.promotions = [{ id: '1', code: 'PROMO1' }];
+      scope.conference.registrantTypes.forEach((type) => {
+        type.eligibleForGlobalPromotions = false;
+      });
+
+      expect(scope.showPromotions()).toBe(true);
+    });
+
+    it('returns true when global promotions exist but no local promotions', () => {
+      scope.conference.promotions = [];
+      scope.conference.registrantTypes[0].eligibleForGlobalPromotions = true;
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
+      expect(scope.showPromotions()).toBe(true);
+    });
+
+    it('returns false when no promotions exist', () => {
+      scope.conference.promotions = [];
+      scope.conference.registrantTypes.forEach((type) => {
+        type.eligibleForGlobalPromotions = false;
+      });
+
+      expect(scope.showPromotions()).toBe(false);
+    });
+  });
 });

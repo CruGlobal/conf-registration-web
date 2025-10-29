@@ -41,6 +41,7 @@ describe('Controller: eventDetails', function () {
         $httpBackend = _$httpBackend_;
 
         $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
+        $httpBackend.whenGET(/^globalPromotions/).respond(200, []);
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
@@ -240,6 +241,40 @@ describe('Controller: eventDetails', function () {
       expect(scope.notify.message.toString()).toContain(
         'Please enter which Event Type',
       );
+    });
+  });
+
+  describe('hasGlobalPromotions', () => {
+    let globalPromotionService;
+
+    beforeEach(
+      angular.mock.inject(function ($controller) {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForConference: jasmine
+            .createSpy('hasPromotionsForConference')
+            .and.returnValue(true),
+        };
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          globalPromotionService: globalPromotionService,
+        });
+      }),
+    );
+
+    it('hasGlobalPromotions returns true when promotions exist', function () {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
+      expect(scope.hasGlobalPromotions()).toBe(true);
+    });
+
+    it('hasGlobalPromotions returns false when no promotions', function () {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+
+      expect(scope.hasGlobalPromotions()).toBe(false);
     });
   });
 
