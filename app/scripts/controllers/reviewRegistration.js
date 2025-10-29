@@ -24,6 +24,7 @@ angular
       payment,
       validateRegistrant,
       analytics,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -33,6 +34,13 @@ angular
         confId: conference.id,
         footer: false,
       };
+
+      if (conference.ministry && conference.ministryActivity) {
+        globalPromotionService.loadPromotions(
+          conference.ministry,
+          conference.ministryActivity,
+        );
+      }
 
       // Couple-spouse related utility functions
       $scope.isRegistrantCouple = isRegistrantCouple;
@@ -53,6 +61,7 @@ angular
 
       $scope.conference = conference;
       $scope.currentRegistration = currentRegistration;
+
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
         $scope.conference.locationState,
@@ -425,6 +434,26 @@ angular
                 );
               });
           });
+      };
+
+      $scope.showPromotions = function () {
+        const hasLocalPromotions =
+          conference.promotions && conference.promotions.length > 0;
+
+        const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
+          function (registrantType) {
+            return registrantType.eligibleForGlobalPromotions;
+          },
+        );
+
+        const hasGlobalPromotions =
+          hasRegistrantTypeAllowingGlobal &&
+          globalPromotionService.hasPromotionsForConference(
+            conference.ministry,
+            conference.ministryActivity,
+          );
+
+        return hasLocalPromotions || hasGlobalPromotions;
       };
 
       $scope.hasPendingPayments = function (payments) {

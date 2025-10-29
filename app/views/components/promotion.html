@@ -161,7 +161,7 @@
       </div>
     </div>
   </div>
-  <div class="panel-body" ng-if="expanded">
+  <div class="panel-body" ng-show="expanded">
     <button
       class="btn btn-xs btn-danger reg-type-delete"
       ng-if="onDelete"
@@ -275,9 +275,23 @@
           <span translate>Ministry Activity</span>
           <select
             class="form-control"
+            name="ministryActivityId"
+            ng-required="true"
             ng-model="promo.ministryActivityId"
             ng-options="activity.id as activity.name for activity in activities"
+            aria-describedby="promo-ministry-activity-error-{{$id}}"
+            aria-invalid="{{form.ministryActivityId.$invalid && form.ministryActivityId.$touched}}"
           ></select>
+          <div
+            id="promo-ministry-activity-error-{{$id}}"
+            class="text-danger"
+            ng-if="form.ministryActivityId.$invalid && form.ministryActivityId.$touched"
+            role="alert"
+          >
+            <small ng-if="form.ministryActivityId.$error.required" translate>
+              Ministry Activity is required
+            </small>
+          </div>
         </label>
       </div>
     </div>
