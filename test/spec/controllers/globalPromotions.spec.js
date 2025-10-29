@@ -7,6 +7,7 @@ describe('Controller: globalPromotionsCtrl', () => {
     $rootScope,
     $q,
     globalPromotionService,
+    MinistriesCache,
     globalPromotions,
     ministries;
 
@@ -31,9 +32,15 @@ describe('Controller: globalPromotionsCtrl', () => {
           .and.callFake((promotion) => $q.resolve(promotion)),
       };
 
+      MinistriesCache = {
+        getMinistryName: jasmine.createSpy('getMinistryName'),
+        getActivityName: jasmine.createSpy('getActivityName'),
+      };
+
       controller = $controller('globalPromotionsCtrl', {
         $rootScope,
         globalPromotionService,
+        MinistriesCache,
         ministries,
       });
     }),
@@ -54,6 +61,7 @@ describe('Controller: globalPromotionsCtrl', () => {
           controller = $controller('globalPromotionsCtrl', {
             $rootScope,
             globalPromotionService,
+            MinistriesCache,
             ministries: [],
           });
         });
@@ -73,6 +81,7 @@ describe('Controller: globalPromotionsCtrl', () => {
           controller = $controller('globalPromotionsCtrl', {
             $rootScope,
             globalPromotionService,
+            MinistriesCache,
             ministries: [ministries[0]],
           });
         });
@@ -215,13 +224,14 @@ describe('Controller: globalPromotionsCtrl', () => {
   });
 
   describe('getMinistryName', () => {
-    it('should return ministry name', () => {
+    it('should delegate to MinistriesCache when a ministry is selected', () => {
+      MinistriesCache.getMinistryName.and.returnValue(ministries[1].name);
       controller.selectedMinistryId = ministries[1].id;
 
       expect(controller.getMinistryName()).toBe(ministries[1].name);
     });
 
-    it('should return empty string when no ministry selected', () => {
+    it('should return empty string when no ministry is selected', () => {
       controller.selectedMinistryId = null;
 
       expect(controller.getMinistryName()).toBe('');
@@ -229,16 +239,23 @@ describe('Controller: globalPromotionsCtrl', () => {
   });
 
   describe('getActivityName', () => {
-    it('should return activity name', () => {
+    it('should delegate to MinistriesCache when a ministry is selected', () => {
       const activity = ministries[0].activities[0];
+      MinistriesCache.getActivityName.and.returnValue(activity.name);
+      controller.selectedMinistryId = ministries[0].id;
 
       expect(controller.getActivityName(activity.id)).toBe(activity.name);
     });
 
-    it('should return empty string for null activity', () => {
-      const name = controller.getActivityName(null);
+    it('should return empty string when no ministry is selected', () => {
+      const activity = ministries[0].activities[0];
+      controller.selectedMinistryId = null;
 
-      expect(name).toBe('');
+      expect(controller.getActivityName(activity.id)).toBe('');
+    });
+
+    it('should return empty string for null activity', () => {
+      expect(controller.getActivityName(null)).toBe('');
     });
   });
 });

@@ -2,7 +2,7 @@ import angular from 'angular';
 import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
-import { Ministry } from '../services/MinistriesCache';
+import { Ministry, MinistriesCache } from '../services/MinistriesCache';
 
 class GlobalPromotionsCtrl {
   promotions: GlobalPromotion[] = [];
@@ -16,6 +16,7 @@ class GlobalPromotionsCtrl {
   constructor(
     private $rootScope: $RootScope,
     private globalPromotionService: GlobalPromotionService,
+    private MinistriesCache: MinistriesCache,
     ministries: Ministry[],
   ) {
     this.$rootScope.globalPage = {
@@ -109,24 +110,22 @@ class GlobalPromotionsCtrl {
   }
 
   getMinistryName(): string {
-    return (
-      this.ministries.find(
-        (ministry) => ministry.id === this.selectedMinistryId,
-      )?.name ?? ''
-    );
+    if (!this.selectedMinistryId) {
+      return '';
+    }
+    return this.MinistriesCache.getMinistryName(this.selectedMinistryId) ?? '';
   }
 
   getActivityName(ministryActivityId: string | null): string {
-    for (const ministry of this.ministries) {
-      const activity = ministry.activities.find(
-        (activity) => activity.id === ministryActivityId,
-      );
-      if (activity) {
-        return activity.name;
-      }
+    if (!this.selectedMinistryId || !ministryActivityId) {
+      return '';
     }
-
-    return '';
+    return (
+      this.MinistriesCache.getActivityName(
+        this.selectedMinistryId,
+        ministryActivityId,
+      ) ?? ''
+    );
   }
 }
 
