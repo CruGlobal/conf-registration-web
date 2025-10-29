@@ -312,7 +312,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
-  describe('showPromotions', () => {
+  describe('showPromotionsInput', () => {
     let globalPromotionService;
 
     beforeEach(() => {
@@ -333,7 +333,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         type.eligibleForGlobalPromotions = false;
       });
 
-      expect(scope.showPromotions()).toBe(true);
+      expect(scope.showPromotionsInput()).toBe(true);
     });
 
     it('returns true when global promotions exist but no local promotions', () => {
@@ -341,7 +341,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       scope.conference.registrantTypes[0].eligibleForGlobalPromotions = true;
       globalPromotionService.hasPromotionsForConference.and.returnValue(true);
 
-      expect(scope.showPromotions()).toBe(true);
+      expect(scope.showPromotionsInput()).toBe(true);
     });
 
     it('returns false when no promotions exist', () => {
@@ -350,7 +350,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         type.eligibleForGlobalPromotions = false;
       });
 
-      expect(scope.showPromotions()).toBe(false);
+      expect(scope.showPromotionsInput()).toBe(false);
     });
   });
 });
