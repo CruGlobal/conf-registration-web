@@ -240,6 +240,14 @@ describe('Controller: paymentModal', function () {
     });
 
     it('removes local promotion successfully', inject(function (testData) {
+      $httpBackend
+        .whenPUT('registrations/' + testData.registration.id)
+        .respond(200);
+      $httpBackend
+        .whenGET('registrations/' + testData.registration.id)
+        .respond(200, testData.registration);
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
       const promotionIdToDelete = testData.registration.promotions[0].id;
 
       expect(testData.registration.promotions.length).toBe(2);
