@@ -82,10 +82,10 @@
                 <strong>{{promotion.code}}</strong>
               </td>
               <td>{{promotion.amount | localizedCurrency:'USD'}}</td>
-              <td>{{promotion.activationDate | date:'MMM d, y h:mm a'}}</td>
+              <td>{{$ctrl.formatDate(promotion.activationDate)}}</td>
               <td>
                 <span ng-if="promotion.deactivationDate">
-                  {{promotion.deactivationDate | date:'MMM d, y h:mm a'}}
+                  {{$ctrl.formatDate(promotion.deactivationDate)}}
                 </span>
                 <span
                   ng-if="!promotion.deactivationDate"

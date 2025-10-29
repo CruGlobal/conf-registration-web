@@ -1,7 +1,6 @@
-import { Promotion } from 'promotion';
+import { BasePromotion } from 'basePromotion';
 
-export interface GlobalPromotion extends Omit<Promotion, 'conferenceId'> {
-  active: boolean;
+export interface GlobalPromotion extends BasePromotion {
   ministryId: string;
   ministryActivityId: string | null;
 }

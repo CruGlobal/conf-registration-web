@@ -105,7 +105,6 @@
     "test": "karma start && jest",
     "lint": "eslint '@(app|test)/**/*.{js,ts,tsx}' --max-warnings=0",
     "lint:ts": "tsc",
-    "db": "npx json-server@0.17.4 db.json --port=9001",
     "angular-gettext-extract": "angular-gettext-cli --files './app/**/*.@(js|html)' --exclude '**/*.spec.js' --dest './languages/ert.pot'",
     "prettier:check": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --list-different",
     "prettier:write": "prettier '{{app,test}/**/*.{js,json,ts,tsx,html},./*.{js,json,ts,tsx,yml,html}}' --write",

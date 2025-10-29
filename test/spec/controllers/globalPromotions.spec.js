@@ -238,6 +238,19 @@ describe('Controller: globalPromotionsCtrl', () => {
     });
   });
 
+  describe('formatDate', () => {
+    it('should format date string correctly', () => {
+      const dateStr = '2024-06-15 12:30:00';
+      const formatted = controller.formatDate(dateStr);
+
+      expect(formatted).toBe('Jun 15, 2024 12:30 PM');
+    });
+
+    it('should return empty string for null date', () => {
+      expect(controller.formatDate(null)).toBe('');
+    });
+  });
+
   describe('getActivityName', () => {
     it('should delegate to MinistriesCache when a ministry is selected', () => {
       const activity = ministries[0].activities[0];
