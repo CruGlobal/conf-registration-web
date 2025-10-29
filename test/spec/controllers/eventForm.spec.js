@@ -43,6 +43,10 @@ describe('Controller: eventForm', function () {
         $controller('eventFormCtrl', {
           $scope: scope,
           conference: { ...testData.conference },
+          blockTagTypeService: {
+            loadBlockTagTypes: () => $q.resolve(testData.blockTagTypes),
+            clearCache: () => {},
+          },
           ...injected,
         });
       };
@@ -317,6 +321,109 @@ describe('Controller: eventForm', function () {
       scope.togglePage(pageId);
 
       expect(scope.isPageHidden(pageId)).toBe(false);
+    });
+  });
+
+  describe('buildBlockTagTypeMappings', () => {
+    it('builds the blockTagTypeMapping correctly', () => {
+      scope.buildBlockTagTypeMappings();
+
+      const pageOneBlocks = scope.conference.registrationPages[0].blocks;
+      const pageTwoBlocks = scope.conference.registrationPages[1].blocks;
+      const pageThreeBlocks = scope.conference.registrationPages[2].blocks;
+
+      expect(scope.blockTagTypeMapping).toEqual([
+        {
+          blockId: pageOneBlocks[0].id,
+          title: pageOneBlocks[0].title,
+          blockTagTypeId: testData.blockTagTypes[0].id,
+        },
+        {
+          blockId: pageTwoBlocks[0].id,
+          title: pageTwoBlocks[0].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[1].id,
+          title: pageTwoBlocks[1].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[2].id,
+          title: pageTwoBlocks[2].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[3].id,
+          title: pageTwoBlocks[3].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[4].id,
+          title: pageTwoBlocks[4].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[5].id,
+          title: pageTwoBlocks[5].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[6].id,
+          title: pageTwoBlocks[6].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[7].id,
+          title: pageTwoBlocks[7].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[8].id,
+          title: pageTwoBlocks[8].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[9].id,
+          title: pageTwoBlocks[9].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[10].id,
+          title: pageTwoBlocks[10].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[11].id,
+          title: pageTwoBlocks[11].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[12].id,
+          title: pageTwoBlocks[12].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageTwoBlocks[13].id,
+          title: pageTwoBlocks[13].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[0].id,
+          title: pageThreeBlocks[0].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[1].id,
+          title: pageThreeBlocks[1].title,
+          blockTagTypeId: null,
+        },
+        {
+          blockId: pageThreeBlocks[2].id,
+          title: pageThreeBlocks[2].title,
+          blockTagTypeId: testData.blockTagTypes[2].id,
+        },
+      ]);
     });
   });
 });

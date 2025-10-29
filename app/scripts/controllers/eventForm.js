@@ -16,6 +16,7 @@ angular
       GrowlService,
       ConfCache,
       uuid,
+      blockTagTypeService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -235,6 +236,7 @@ angular
         newBlock.profileType = null;
         newBlock.position = newPosition;
         newBlock.title = newBlock.title + ' (copy)';
+        newBlock.blockTagType = null;
 
         //update rules
         angular.forEach(newBlock.rules, function (r) {
@@ -372,8 +374,40 @@ angular
         }
       };
 
+      $scope.buildBlockTagTypeMappings = function () {
+        $scope.blockTagTypeMapping = [];
+        $scope.conference.registrationPages.forEach(function (page) {
+          page.blocks.forEach(function (block) {
+            $scope.blockTagTypeMapping.push({
+              blockId: block.id,
+              title: block.title,
+              blockTagTypeId: block.blockTagType ? block.blockTagType.id : null,
+            });
+          });
+        });
+      };
+
+      $scope.fetchBlockTagTypeMapping = function () {
+        // Request block tag types, so we only do 1 HTTP request for them
+        // Then we can use them in the $child controller blockEditor.js
+        blockTagTypeService
+          .loadBlockTagTypes($scope.conference.id, $scope.conference.ministry)
+          .then(function (types) {
+            $scope.blockTagTypes = types;
+            $scope.buildBlockTagTypeMappings();
+            $scope.$broadcast('blockTagTypesLoaded', types);
+          });
+      };
+
+      $scope.fetchBlockTagTypeMapping();
+
       $scope.isPageHidden = function (id) {
         return _.includes(hiddenPages, id);
       };
+
+      // Clear block tag types service cache when controller is destroyed (e.g., navigating away)
+      $scope.$on('$destroy', function () {
+        blockTagTypeService.clearCache();
+      });
     },
   );
