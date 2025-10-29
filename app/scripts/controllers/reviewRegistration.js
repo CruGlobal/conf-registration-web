@@ -46,6 +46,21 @@ angular
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
 
+      $scope.setAllPromotions = function () {
+        return [
+          ...currentRegistration.globalPromotions.map((promo) => ({
+            ...promo,
+            isGlobal: true,
+          })),
+          ...currentRegistration.promotions.map((promo) => ({
+            ...promo,
+            isGlobal: false,
+          })),
+        ];
+      };
+
+      $scope.allPromotions = $scope.setAllPromotions();
+
       if (
         _.isEmpty(currentRegistration.registrants) &&
         !currentRegistration.completed
@@ -419,10 +434,19 @@ angular
             question: 'Are you sure you want to delete this promotion?',
           })
           .then(function () {
-            var regCopy = angular.copy(currentRegistration);
-            _.remove(regCopy.promotions, { id: promoId });
+            const registrationCopy = angular.copy(currentRegistration);
+            const promotion = $scope.allPromotions.find(function (promotion) {
+              return promotion.id === promoId;
+            });
+
+            if (promotion.isGlobal) {
+              _.remove(registrationCopy.globalPromotions, { id: promoId });
+            } else {
+              _.remove(registrationCopy.promotions, { id: promoId });
+            }
+
             $http
-              .put('registrations/' + currentRegistration.id, regCopy)
+              .put('registrations/' + currentRegistration.id, registrationCopy)
               .then(function () {
                 $route.reload();
               })
@@ -436,7 +460,11 @@ angular
           });
       };
 
-      $scope.showPromotions = function () {
+      $scope.showActivePromotions = function () {
+        return $scope.allPromotions.length;
+      };
+
+      $scope.showPromotionsInput = function () {
         const hasLocalPromotions =
           conference.promotions && conference.promotions.length > 0;
 
