@@ -5,32 +5,7 @@
 >
   <div class="panel-heading">
     <div class="row">
-      <div class="col-md-3 col-md-push-9 text-right">
-        <button
-          class="btn btn-default"
-          ng-if="onDiscard"
-          ng-click="onDiscard()"
-          type="button"
-        >
-          <i class="fa fa-times"></i> <translate>Discard</translate>
-        </button>
-        <button
-          class="btn btn-success"
-          ng-if="onSave"
-          ng-click="onSave()"
-          ng-disabled="form.$invalid"
-          type="button"
-        >
-          <i class="fa fa-save"></i> <translate>Save</translate>
-        </button>
-        <button type="button" class="btn btn-link" ng-click="toggleExpanded()">
-          <i
-            class="fa fa-inset fa-inset-reg-type"
-            ng-class="{'fa-chevron-up': expanded, 'fa-chevron-down': !expanded}"
-          ></i>
-        </button>
-      </div>
-      <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
+      <div class="col-md-3 stacked-spacing-col-md">
         <label>
           <span translate>Code</span>
           <input
@@ -66,7 +41,8 @@
           </div>
         </label>
       </div>
-      <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
+
+      <div class="col-md-3 stacked-spacing-col-md">
         <label>
           <span translate>Discount Amount</span>
           <div class="input-group">
@@ -102,10 +78,61 @@
           </div>
         </label>
       </div>
+
+      <div
+        class="col-md-3 stacked-spacing-col-md"
+        ng-if="activities.length > 0"
+      >
+        <label>
+          <span translate>Ministry Activity</span>
+          <select
+            class="form-control"
+            ng-model="promo.ministryActivityId"
+            ng-options="activity.id as activity.name for activity in activities"
+          ></select>
+        </label>
+      </div>
+
+      <div class="col-md-3 text-right">
+        <button
+          class="btn btn-default"
+          ng-if="onDiscard"
+          ng-click="onDiscard()"
+          type="button"
+        >
+          <i class="fa fa-times"></i> <translate>Discard</translate>
+        </button>
+        <button
+          class="btn btn-success"
+          ng-if="onSave"
+          ng-click="onSave()"
+          ng-disabled="form.$invalid"
+          type="button"
+        >
+          <i class="fa fa-save"></i> <translate>Save</translate>
+        </button>
+        <button type="button" class="btn btn-link" ng-click="toggleExpanded()">
+          <i
+            class="fa fa-inset fa-inset-reg-type"
+            ng-class="{'fa-chevron-up': expanded, 'fa-chevron-down': !expanded}"
+          ></i>
+        </button>
+      </div>
     </div>
-    <div class="row spacing-above-md">
-      <div class="row spacing-below-sm margin-left-0 margin-right-15">
-        <div class="col-md-3 stacked-spacing-col-md">
+  </div>
+  <div class="panel-body" ng-if="expanded">
+    <button
+      class="btn btn-xs btn-danger reg-type-delete"
+      ng-if="onDelete"
+      ng-click="onDelete()"
+      type="button"
+    >
+      <i class="fa fa-trash-o"></i> <translate>Delete</translate>
+      <span class="hidden-xs"> <translate>Promotion Code</translate></span>
+    </button>
+    <div class="row">
+      <div class="row margin-left-0 margin-right-15">
+        <div class="col-md-3">
           <label>
             <span translate>Business Unit</span>
             <input
@@ -116,7 +143,7 @@
           </label>
         </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
+        <div class="col-md-3">
           <label>
             <span translate>Operating Unit</span>
             <input
@@ -127,7 +154,7 @@
           </label>
         </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
+        <div class="col-md-3">
           <label>
             <span translate>Department Id</span>
             <input
@@ -138,7 +165,7 @@
           </label>
         </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
+        <div class="col-md-3">
           <label>
             <span>
               <translate>Project Id</translate>
@@ -159,30 +186,18 @@
           </label>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="panel-body" ng-if="expanded">
-    <button
-      class="btn btn-xs btn-danger reg-type-delete"
-      ng-if="onDelete"
-      ng-click="onDelete()"
-      type="button"
-    >
-      <i class="fa fa-trash-o"></i> <translate>Delete</translate>
-      <span class="hidden-xs"> <translate>Promotion Code</translate></span>
-    </button>
-    <div class="row">
       <div class="col-md-6">
-        <div>
-          <label>
-            <span translate>Description</span>
-            <textarea
-              class="form-control"
-              ng-model="promo.description"
-            ></textarea>
-          </label>
-        </div>
+        <label>
+          <span translate>Description</span>
+          <textarea
+            class="form-control"
+            rows="4"
+            ng-model="promo.description"
+          ></textarea>
+        </label>
+      </div>
 
+      <div class="col-md-6">
         <div class="pt12">
           <label>
             <span translate>Validity Range</span>
@@ -268,17 +283,6 @@
             </i>
           </div>
         </div>
-      </div>
-
-      <div class="col-md-6" ng-if="activities.length > 0">
-        <label>
-          <span translate>Ministry Activity</span>
-          <select
-            class="form-control"
-            ng-model="promo.ministryActivityId"
-            ng-options="activity.id as activity.name for activity in activities"
-          ></select>
-        </label>
       </div>
     </div>
   </div>
