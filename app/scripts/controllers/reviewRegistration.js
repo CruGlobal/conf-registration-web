@@ -46,20 +46,15 @@ angular
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
 
-      $scope.setAllPromotions = function () {
-        return [
-          ...currentRegistration.globalPromotions.map((promo) => ({
-            ...promo,
-            isGlobal: true,
-          })),
-          ...currentRegistration.promotions.map((promo) => ({
-            ...promo,
-            isGlobal: false,
-          })),
-        ];
-      };
+      function tagPromotions(promotions, isGlobal) {
+        return (promotions || []).map((promo) => ({ ...promo, isGlobal }));
+      }
 
-      $scope.allPromotions = $scope.setAllPromotions();
+      // Set all promotions (currently on registration)
+      $scope.allPromotions = [
+        ...tagPromotions(currentRegistration.globalPromotions, true),
+        ...tagPromotions(currentRegistration.promotions, false),
+      ];
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
