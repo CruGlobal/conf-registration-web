@@ -64,7 +64,7 @@ class GlobalPromotionsCtrl {
       departmentId: '',
       projectId: '',
       ministryId: this.selectedMinistryId,
-      ministryActivityId: null,
+      ministryActivityId: '',
       activationDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       deactivationDate: null,
       applyToAllRegistrants: true,
