@@ -59,6 +59,24 @@ describe('Controller: paymentModal', function () {
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 
+  it('combines globalPromotions and promotions with isGlobal flag', inject(function (
+    testData,
+  ) {
+    scope.registration.promotions = testData.conference.promotions;
+
+    scope.registration.globalPromotions =
+      testData.registration.globalPromotions;
+    scope.$digest();
+
+    expect(
+      scope.allPromotions.filter((promotion) => promotion.isGlobal).length,
+    ).toBe(2);
+
+    expect(
+      scope.allPromotions.filter((promotion) => !promotion.isGlobal).length,
+    ).toBe(2);
+  }));
+
   describe('isPromoPosted', () => {
     it('returns true for posted promos', () => {
       expect(scope.isPromoPosted('promotion-1')).toBe(true);
@@ -146,6 +164,64 @@ describe('Controller: paymentModal', function () {
       registrant.registrantTypeId = '47de2c40-19dc-45b3-9663-5c005bd6464b';
 
       expect(scope.isSpouse(registrant)).toBe(false);
+    });
+  });
+
+  describe('showAvailablePromotions', () => {
+    let globalPromotionService;
+
+    beforeEach(
+      angular.mock.inject(function ($controller, testData) {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForConference: jasmine
+            .createSpy('hasPromotionsForConference')
+            .and.returnValue(true),
+        };
+        $controller('paymentModal', {
+          $scope: scope,
+          $uibModalInstance: modalInstance,
+          registration: scope.registration,
+          promotionRegistrationInfoList: [],
+          conference: testData.conference,
+          permissions: {},
+          globalPromotionService: globalPromotionService,
+        });
+      }),
+    );
+
+    it('returns true when conference has local promotions', inject(function (
+      testData,
+    ) {
+      scope.conference.promotions = testData.conference.promotions;
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+
+      expect(scope.showAvailablePromotions()).toBe(true);
+    }));
+
+    it('returns true when global promotions exist and registrant types allow them', () => {
+      scope.conference.promotions = [];
+      scope.conference.registrantTypes[0].eligibleForGlobalPromotions = true;
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
+      expect(scope.showAvailablePromotions()).toBe(true);
+    });
+
+    it('returns false when no promotions exist', () => {
+      scope.conference.promotions = [];
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+
+      expect(scope.showAvailablePromotions()).toBe(false);
+    });
+
+    it('returns false when global promotions exist but no registrant types allow them', () => {
+      scope.conference.promotions = [];
+      scope.conference.registrantTypes.forEach((type) => {
+        type.eligibleForGlobalPromotions = false;
+      });
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
+      expect(scope.showAvailablePromotions()).toBe(false);
     });
   });
 });

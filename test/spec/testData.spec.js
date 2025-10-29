@@ -935,6 +935,34 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
       },
     ],
+    promotions: [
+      {
+        id: 'promo-reg-1',
+        code: 'LOCAL10',
+        description: 'Local $10 off',
+        amount: 10,
+      },
+      {
+        id: 'promo-reg-2',
+        code: 'LOCAL20',
+        description: 'Local $20 off',
+        amount: 20,
+      },
+    ],
+    globalPromotions: [
+      {
+        id: 'global-promo-1',
+        code: 'GLOBAL50',
+        description: 'Global $50 off',
+        amount: 50,
+      },
+      {
+        id: 'global-promo-2',
+        code: 'GLOBAL25',
+        description: 'Global 25% off',
+        amount: 25,
+      },
+    ],
     registrants: [
       {
         id: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
