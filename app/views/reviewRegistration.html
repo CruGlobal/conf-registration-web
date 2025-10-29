@@ -367,7 +367,7 @@
           </table>
 
           <div
-            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length"
+            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && showPromotions()"
           >
             <label translate for="promo-code">Add Promotion Code</label>
             <div class="input-group">
