@@ -1,4 +1,5 @@
 import { AccountTransfer } from 'accountTransfer';
+import { GlobalPromotion } from 'globalPromotion';
 import { Nullable } from 'helpers';
 import { Promotion } from 'promotion';
 import { RegistrantType } from 'registrant';
@@ -113,6 +114,8 @@ export interface Registration {
   pastPayments: Array<Payment>;
   primaryRegistrantId: string;
   promotions: Array<Promotion>;
+  globalPromotions: Array<GlobalPromotion>;
+  allPromotions: Array<GlobalPromotion | Promotion>;
   registrants: Array<RegistrantType>;
   remainingBalance: number;
   reported: boolean;
