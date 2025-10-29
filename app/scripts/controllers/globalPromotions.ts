@@ -3,6 +3,7 @@ import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
 import { Ministry, MinistriesCache } from '../services/MinistriesCache';
+import moment from 'moment';
 
 class GlobalPromotionsCtrl {
   promotions: GlobalPromotion[] = [];
@@ -54,23 +55,22 @@ class GlobalPromotionsCtrl {
 
     this.editingPromotion = {
       id: '',
-      registrantTypeIds: [],
       name: '',
       code: '',
       amount: 0,
       description: '',
-      active: true,
       businessUnit: '',
       operatingUnit: '',
       departmentId: '',
       projectId: '',
       ministryId: this.selectedMinistryId,
       ministryActivityId: null,
-      activationDate: new Date().toISOString(),
+      activationDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       deactivationDate: null,
       applyToAllRegistrants: true,
       createdDate: null,
       lastUpdateDate: null,
+      numberLimit: null,
     };
   }
 
