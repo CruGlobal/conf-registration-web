@@ -353,4 +353,91 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect(scope.showPromotionsInput()).toBe(false);
     });
   });
+
+  describe('deletePromotion', () => {
+    let modalMessage;
+    let $httpBackend;
+    let $route;
+
+    beforeEach(
+      angular.mock.inject(function (_modalMessage_, _$httpBackend_, _$route_) {
+        modalMessage = _modalMessage_;
+        $httpBackend = _$httpBackend_;
+        $route = _$route_;
+        spyOn($route, 'reload');
+      }),
+    );
+
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('removes local promotion and reloads route on success', inject(function (
+      $q,
+    ) {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      $httpBackend
+        .expectPUT('registrations/' + scope.currentRegistration.id)
+        .respond(200, {});
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('removes global promotion and reloads route on success', inject(function (
+      $q,
+    ) {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      $httpBackend
+        .expectPUT('registrations/' + scope.currentRegistration.id)
+        .respond(200, {});
+
+      scope.deletePromotion(testData.registration.globalPromotions[0].id);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('shows error when deletion fails', inject(function ($q) {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+      spyOn(modalMessage, 'error');
+
+      $httpBackend
+        .expectPUT('registrations/' + scope.currentRegistration.id)
+        .respond(500, { error: { message: 'Code 500' } });
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Code 500');
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
+
+    it('does not delete promotion if user cancels confirmation', inject(function (
+      $q,
+    ) {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.reject();
+      scope.$digest();
+
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
+  });
 });
