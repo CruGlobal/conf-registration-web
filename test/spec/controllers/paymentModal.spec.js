@@ -228,9 +228,11 @@ describe('Controller: paymentModal', function () {
   describe('deletePromotion', () => {
     let $httpBackend;
 
-    beforeEach(angular.mock.inject(function (_$httpBackend_) {
-      $httpBackend = _$httpBackend_;
-    }));
+    beforeEach(
+      angular.mock.inject(function (_$httpBackend_) {
+        $httpBackend = _$httpBackend_;
+      }),
+    );
 
     afterEach(() => {
       $httpBackend.verifyNoOutstandingExpectation();
@@ -238,16 +240,24 @@ describe('Controller: paymentModal', function () {
     });
 
     it('removes local promotion successfully', inject(function (testData) {
-      $httpBackend.whenPUT('registrations/' + testData.registration.id).respond(200);
-      $httpBackend.whenGET('registrations/' + testData.registration.id).respond(200, testData.registration);
+      $httpBackend
+        .whenPUT('registrations/' + testData.registration.id)
+        .respond(200);
+      $httpBackend
+        .whenGET('registrations/' + testData.registration.id)
+        .respond(200, testData.registration);
 
       scope.deletePromotion(testData.registration.promotions[0].id);
       $httpBackend.flush();
     }));
 
     it('removes global promotion successfully', inject(function (testData) {
-      $httpBackend.whenPUT('registrations/' + testData.registration.id).respond(200);
-      $httpBackend.whenGET('registrations/' + testData.registration.id).respond(200, testData.registration);
+      $httpBackend
+        .whenPUT('registrations/' + testData.registration.id)
+        .respond(200);
+      $httpBackend
+        .whenGET('registrations/' + testData.registration.id)
+        .respond(200, testData.registration);
 
       scope.deletePromotion(testData.registration.globalPromotions[0].id);
       $httpBackend.flush();
