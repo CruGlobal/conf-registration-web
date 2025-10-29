@@ -116,8 +116,8 @@ class GlobalPromotionsCtrl {
     return this.MinistriesCache.getMinistryName(this.selectedMinistryId) ?? '';
   }
 
-  getActivityName(ministryActivityId: string | null): string {
-    if (!this.selectedMinistryId || !ministryActivityId) {
+  getActivityName(ministryActivityId: string): string {
+    if (!this.selectedMinistryId) {
       return '';
     }
     return (

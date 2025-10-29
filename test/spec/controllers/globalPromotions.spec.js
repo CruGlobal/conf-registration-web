@@ -253,9 +253,5 @@ describe('Controller: globalPromotionsCtrl', () => {
 
       expect(controller.getActivityName(activity.id)).toBe('');
     });
-
-    it('should return empty string for null activity', () => {
-      expect(controller.getActivityName(null)).toBe('');
-    });
   });
 });
