@@ -224,4 +224,44 @@ describe('Controller: paymentModal', function () {
       expect(scope.showAvailablePromotions()).toBe(false);
     });
   });
+
+  describe('deletePromotion', () => {
+    let $httpBackend;
+
+    beforeEach(angular.mock.inject(function (_$httpBackend_) {
+      $httpBackend = _$httpBackend_;
+    }));
+
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('removes local promotion successfully', inject(function (testData) {
+      $httpBackend.whenPUT('registrations/' + testData.registration.id).respond(200);
+      $httpBackend.whenGET('registrations/' + testData.registration.id).respond(200, testData.registration);
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      $httpBackend.flush();
+    }));
+
+    it('removes global promotion successfully', inject(function (testData) {
+      $httpBackend.whenPUT('registrations/' + testData.registration.id).respond(200);
+      $httpBackend.whenGET('registrations/' + testData.registration.id).respond(200, testData.registration);
+
+      scope.deletePromotion(testData.registration.globalPromotions[0].id);
+      $httpBackend.flush();
+    }));
+
+    it('shows error message when deletion fails', inject(function (testData) {
+      $httpBackend
+        .expectPUT('registrations/' + testData.registration.id)
+        .respond(500, { error: { message: 'Server error' } });
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      $httpBackend.flush();
+
+      expect(errorModal).toHaveBeenCalledWith('Server error');
+    }));
+  });
 });
