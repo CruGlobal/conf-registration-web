@@ -352,7 +352,7 @@ angular
       };
 
       function tagPromotions(promotions, isGlobal) {
-        return promotions.map((promo) => ({ ...promo, isGlobal }));
+        return (promotions || []).map((promo) => ({ ...promo, isGlobal }));
       }
       $scope.allPromotions = [
         ...tagPromotions($scope.registration.globalPromotions, true),
