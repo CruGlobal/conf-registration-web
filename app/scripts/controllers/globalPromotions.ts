@@ -144,6 +144,13 @@ class GlobalPromotionsCtrl {
     }
     return moment(date).format('MMM D, YYYY h:mm A');
   }
+
+  isActive(promotion: GlobalPromotion): boolean {
+    if (!promotion.deactivationDate) {
+      return true;
+    }
+    return moment().isBefore(moment(promotion.deactivationDate));
+  }
 }
 
 angular

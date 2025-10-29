@@ -76,6 +76,7 @@
             <tr>
               <th scope="col" translate>Code</th>
               <th scope="col" translate>Amount</th>
+              <th scope="col" translate>Status</th>
               <th scope="col" translate>Start Date</th>
               <th scope="col" translate>End Date</th>
               <th scope="col" translate>Description</th>
@@ -89,6 +90,13 @@
                 <strong>{{promotion.code}}</strong>
               </td>
               <td>{{promotion.amount | localizedCurrency:'USD'}}</td>
+              <td class="text-center">
+                <span
+                  ng-class="$ctrl.isActive(promotion) ? 'label label-success status-label' : 'label label-danger status-label'"
+                >
+                  <span translate>{{$ctrl.isActive(promotion) ? 'Active' : 'Inactive'}}</span>
+                </span>
+              </td>
               <td>{{$ctrl.formatDate(promotion.activationDate)}}</td>
               <td>
                 <span ng-if="promotion.deactivationDate">

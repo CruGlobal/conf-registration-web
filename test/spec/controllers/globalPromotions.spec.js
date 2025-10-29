@@ -245,4 +245,28 @@ describe('Controller: globalPromotionsCtrl', () => {
       expect(name).toBe('');
     });
   });
+
+  describe('isActive', () => {
+    it('returns true when deactivationDate is null', () => {
+      const promotion = { deactivationDate: null };
+
+      expect(controller.isActive(promotion)).toBe(true);
+    });
+
+    it('returns true when deactivationDate is in the future', () => {
+      const futureDate = new Date();
+      futureDate.setFullYear(futureDate.getFullYear() + 1);
+      const promotion = { deactivationDate: futureDate.toISOString() };
+
+      expect(controller.isActive(promotion)).toBe(true);
+    });
+
+    it('returns false when deactivationDate is in the past', () => {
+      const pastDate = new Date();
+      pastDate.setFullYear(pastDate.getFullYear() - 1);
+      const promotion = { deactivationDate: pastDate.toISOString() };
+
+      expect(controller.isActive(promotion)).toBe(false);
+    });
+  });
 });
