@@ -429,6 +429,28 @@
                 </p>
               </div>
 
+              <div ng-if="hasGlobalPromotions()">
+                <hr />
+
+                <h3 class="h4" translate>Promotions</h3>
+                <div class="checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      ng-model="type.eligibleForGlobalPromotions"
+                    />
+                    <translate>Allow global promotions</translate>
+                  </label>
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'When enabled, registrants can use ministry-wide promotion codes in addition to event-specific codes.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+                </div>
+              </div>
+
               <hr />
               <div class="form-group">
                 <div class="col-xs-12">

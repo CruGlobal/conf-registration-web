@@ -41,6 +41,7 @@ angular
       uuid,
       gettextCatalog,
       currencies,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -125,6 +126,23 @@ angular
         $scope.conference.locationCountry,
       );
 
+      $scope.getGlobalPromotions = function () {
+        // Load global promo codes for this conference to check if any are available
+        if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+          globalPromotionService.loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+        }
+      };
+
+      $scope.hasGlobalPromotions = function () {
+        return globalPromotionService.hasPromotionsForConference(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      };
+
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
           type.allowedRegistrantTypeSet = _.map(
@@ -151,6 +169,7 @@ angular
       };
 
       $scope.refreshAllowedRegistrantTypes();
+      $scope.getGlobalPromotions();
 
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
@@ -749,6 +768,13 @@ angular
         },
         true,
       );
+
+      $scope.$watch('conference.ministryActivity', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          // Reload promotions whenever ministryActivity changes
+          $scope.getGlobalPromotions();
+        }
+      });
 
       $scope.$watch(
         'conference.cruEvent',
