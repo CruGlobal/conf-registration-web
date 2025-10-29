@@ -100,7 +100,7 @@ describe('Service: MinistriesCache', () => {
 
   describe('get', () => {
     it('should fetch and sort data', () => {
-      $httpBackend.expectGET(/ministries/).respond(200, mockMinistries);
+      $httpBackend.expectGET('ministries').respond(200, mockMinistries);
 
       let ministries;
       MinistriesCache.get().then((result) => {
@@ -138,7 +138,7 @@ describe('Service: MinistriesCache', () => {
     });
 
     it('should use cached data on subsequent calls', () => {
-      $httpBackend.expectGET(/ministries/).respond(200, mockMinistries);
+      $httpBackend.expectGET('ministries').respond(200, mockMinistries);
 
       MinistriesCache.get().catch(fail);
       $httpBackend.flush();
@@ -148,7 +148,7 @@ describe('Service: MinistriesCache', () => {
     });
 
     it('should handle HTTP errors', () => {
-      $httpBackend.expectGET(/ministries/).respond(500, 'Server Error');
+      $httpBackend.expectGET('ministries').respond(500, 'Server Error');
 
       let errorCaught = false;
       MinistriesCache.get().then(fail, () => {
@@ -158,6 +158,55 @@ describe('Service: MinistriesCache', () => {
       $httpBackend.flush();
 
       expect(errorCaught).toBe(true);
+    });
+  });
+
+  describe('with loaded ministries', () => {
+    beforeEach(() => {
+      $httpBackend.expectGET('ministries').respond(200, mockMinistries);
+      MinistriesCache.get().catch(fail);
+      $httpBackend.flush();
+      $rootScope.$apply();
+    });
+
+    describe('getMinistryName', () => {
+      it('should return ministry name', () => {
+        expect(MinistriesCache.getMinistryName(mockMinistries[1].id)).toBe(
+          mockMinistries[1].name,
+        );
+      });
+
+      it('should return null for non-existent ministry', () => {
+        expect(MinistriesCache.getMinistryName('non-existent-id')).toBe(null);
+      });
+    });
+
+    describe('getActivityName', () => {
+      it('should return activity name', () => {
+        const activity = mockMinistries[1].activities[0];
+
+        expect(
+          MinistriesCache.getActivityName(mockMinistries[1].id, activity.id),
+        ).toBe(activity.name);
+      });
+
+      it('should return null for non-existent ministry', () => {
+        const name = MinistriesCache.getActivityName(
+          'non-existent-id',
+          'some-activity-id',
+        );
+
+        expect(name).toBe(null);
+      });
+
+      it('should return null for non-existent activity', () => {
+        const name = MinistriesCache.getActivityName(
+          mockMinistries[1].id,
+          'non-existent-activity-id',
+        );
+
+        expect(name).toBe(null);
+      });
     });
   });
 });

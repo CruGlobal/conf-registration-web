@@ -59,6 +59,26 @@ export class MinistriesCache {
       return this.ministries;
     });
   }
+
+  private getMinistry(ministryId: string): Ministry | null {
+    return (
+      this.ministries?.find((ministry) => ministry.id === ministryId) ?? null
+    );
+  }
+
+  getMinistryName(ministryId: string): string | null {
+    return this.getMinistry(ministryId)?.name ?? null;
+  }
+
+  getActivityName(
+    ministryId: string,
+    ministryActivityId: string,
+  ): string | null {
+    const activity = this.getMinistry(ministryId)?.activities.find(
+      (activity) => activity.id === ministryActivityId,
+    );
+    return activity?.name ?? null;
+  }
 }
 
 angular
