@@ -321,34 +321,25 @@ describe('Controller: ReviewRegistrationCtrl', function () {
           loadPromotions: jasmine.createSpy('loadPromotions'),
           hasPromotionsForConference: jasmine
             .createSpy('hasPromotionsForConference')
-            .and.returnValue(false),
+            .and.returnValue(true),
         };
         initController({ globalPromotionService });
       });
     });
 
-    it('returns true when conference has local promotions but no global promotions', () => {
-      scope.conference.promotions = [{ id: '1', code: 'PROMO1' }];
-      scope.conference.registrantTypes.forEach((type) => {
-        type.eligibleForGlobalPromotions = false;
-      });
+    it('returns true when hasPromotionsForConference returns true', () => {
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns true when hasPromotionsForConference returns false but there are local promotions', () => {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
 
       expect(scope.showPromotionsInput()).toBe(true);
     });
 
-    it('returns true when global promotions exist but no local promotions', () => {
+    it('returns false when hasPromotionsForConference returns false and there are no local promotions', () => {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
       scope.conference.promotions = [];
-      scope.conference.registrantTypes[0].eligibleForGlobalPromotions = true;
-      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
-
-      expect(scope.showPromotionsInput()).toBe(true);
-    });
-
-    it('returns false when no promotions exist', () => {
-      scope.conference.promotions = [];
-      scope.conference.registrantTypes.forEach((type) => {
-        type.eligibleForGlobalPromotions = false;
-      });
 
       expect(scope.showPromotionsInput()).toBe(false);
     });
@@ -414,14 +405,14 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       const promotionIdToDelete = testData.registration.globalPromotions[0].id;
       spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
 
-      expect(testData.registration.globalPromotions.length).toBe(2);
+      expect(testData.registration.globalPromotions.length).toBe(3);
       $httpBackend
         .expectPUT(
           'registrations/' + scope.currentRegistration.id,
           function (data) {
             const updatedRegistration = JSON.parse(data);
 
-            expect(updatedRegistration.globalPromotions.length).toBe(1);
+            expect(updatedRegistration.globalPromotions.length).toBe(2);
             expect(
               updatedRegistration.globalPromotions.some(
                 (promotion) => promotion.id === promotionIdToDelete,

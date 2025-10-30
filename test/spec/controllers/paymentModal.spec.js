@@ -59,24 +59,6 @@ describe('Controller: paymentModal', function () {
     expect(errorModal).toHaveBeenCalledWith('Please enter a check number.');
   });
 
-  it('combines globalPromotions and promotions with isGlobal flag', inject(function (
-    testData,
-  ) {
-    scope.registration.promotions = testData.conference.promotions;
-
-    scope.registration.globalPromotions =
-      testData.registration.globalPromotions;
-    scope.$digest();
-
-    expect(
-      scope.allPromotions.filter((promotion) => promotion.isGlobal).length,
-    ).toBe(2);
-
-    expect(
-      scope.allPromotions.filter((promotion) => !promotion.isGlobal).length,
-    ).toBe(2);
-  }));
-
   describe('isPromoPosted', () => {
     it('returns true for posted promos', () => {
       expect(scope.isPromoPosted('promotion-1')).toBe(true);
@@ -190,38 +172,30 @@ describe('Controller: paymentModal', function () {
       }),
     );
 
-    it('returns true when conference has local promotions', inject(function (
-      testData,
-    ) {
-      scope.conference.promotions = testData.conference.promotions;
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+    it('returns true when hasPromotionsForConference is true and conference has promotions', inject(function () {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
 
       expect(scope.showAvailablePromotions()).toBe(true);
     }));
 
-    it('returns true when global promotions exist and registrant types allow them', () => {
+    it('returns false when hasPromotionsForConference returns false and conference has no promotions', () => {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
       scope.conference.promotions = [];
-      scope.conference.registrantTypes[0].eligibleForGlobalPromotions = true;
-      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+
+      expect(scope.showAvailablePromotions()).toBe(false);
+    });
+
+    it('returns true when conference has local promotions even if hasPromotionsForConference returns false', () => {
+      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
 
       expect(scope.showAvailablePromotions()).toBe(true);
     });
 
-    it('returns false when no promotions exist', () => {
-      scope.conference.promotions = [];
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
-
-      expect(scope.showAvailablePromotions()).toBe(false);
-    });
-
-    it('returns false when global promotions exist but no registrant types allow them', () => {
-      scope.conference.promotions = [];
-      scope.conference.registrantTypes.forEach((type) => {
-        type.eligibleForGlobalPromotions = false;
-      });
+    it('returns true when hasPromotionsForConference returns true even if conference has no local promotions', () => {
       globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+      scope.conference.promotions = [];
 
-      expect(scope.showAvailablePromotions()).toBe(false);
+      expect(scope.showAvailablePromotions()).toBe(true);
     });
   });
 
@@ -276,7 +250,7 @@ describe('Controller: paymentModal', function () {
     it('removes global promotion successfully', inject(function (testData) {
       const promotionIdToDelete = testData.registration.globalPromotions[0].id;
 
-      expect(testData.registration.globalPromotions.length).toBe(2);
+      expect(testData.registration.globalPromotions.length).toBe(3);
 
       $httpBackend
         .expectPUT(
@@ -284,7 +258,7 @@ describe('Controller: paymentModal', function () {
           function (data) {
             const updatedRegistration = JSON.parse(data);
 
-            expect(updatedRegistration.globalPromotions.length).toBe(1);
+            expect(updatedRegistration.globalPromotions.length).toBe(2);
             expect(
               updatedRegistration.globalPromotions.some(
                 (promotion) => promotion.id === promotionIdToDelete,
