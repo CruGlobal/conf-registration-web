@@ -46,14 +46,10 @@ angular
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
 
-      function tagPromotions(promotions, isGlobal) {
-        return (promotions || []).map((promo) => ({ ...promo, isGlobal }));
-      }
-
       // Set all promotions (currently on registration)
       $scope.allPromotions = [
-        ...tagPromotions(currentRegistration.globalPromotions, true),
-        ...tagPromotions(currentRegistration.promotions, false),
+        ...currentRegistration.globalPromotions,
+        ...currentRegistration.promotions,
       ];
 
       if (
@@ -430,15 +426,8 @@ angular
           })
           .then(function () {
             const registrationCopy = angular.copy(currentRegistration);
-            const promotion = $scope.allPromotions.find(function (promotion) {
-              return promotion.id === promoId;
-            });
-
-            if (promotion.isGlobal) {
-              _.remove(registrationCopy.globalPromotions, { id: promoId });
-            } else {
-              _.remove(registrationCopy.promotions, { id: promoId });
-            }
+            _.remove(registrationCopy.promotions, { id: promoId });
+            _.remove(registrationCopy.globalPromotions, { id: promoId });
 
             $http
               .put('registrations/' + currentRegistration.id, registrationCopy)
@@ -455,28 +444,11 @@ angular
           });
       };
 
-      $scope.showActivePromotions = function () {
-        return $scope.allPromotions.length;
-      };
-
       $scope.showPromotionsInput = function () {
-        const hasLocalPromotions =
-          conference.promotions && conference.promotions.length > 0;
-
-        const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
-          function (registrantType) {
-            return registrantType.eligibleForGlobalPromotions;
-          },
+        return (
+          $scope.conference.promotions.length > 0 ||
+          globalPromotionService.hasPromotionsForConference(conference)
         );
-
-        const hasGlobalPromotions =
-          hasRegistrantTypeAllowingGlobal &&
-          globalPromotionService.hasPromotionsForConference(
-            conference.ministry,
-            conference.ministryActivity,
-          );
-
-        return hasLocalPromotions || hasGlobalPromotions;
       };
 
       $scope.hasPendingPayments = function (payments) {
