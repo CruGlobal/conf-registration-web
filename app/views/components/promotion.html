@@ -30,7 +30,7 @@
           ></i>
         </button>
       </div>
-      <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
+      <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
         <label>
           <span translate>Code</span>
           <input
@@ -98,6 +98,33 @@
             </small>
             <small ng-if="form.amount.$error.min" translate>
               Discount amount must be greater than 0
+            </small>
+          </div>
+        </label>
+      </div>
+      <div
+        class="col-md-3 col-md-pull-3 stacked-spacing-col-md"
+        ng-if="activities.length > 0"
+      >
+        <label>
+          <span translate>Ministry Activity</span>
+          <select
+            class="form-control"
+            name="ministryActivityId"
+            ng-required="true"
+            ng-model="promo.ministryActivityId"
+            ng-options="activity.id as activity.name for activity in activities"
+            aria-describedby="promo-ministry-activity-error-{{$id}}"
+            aria-invalid="{{form.ministryActivityId.$invalid && form.ministryActivityId.$touched}}"
+          ></select>
+          <div
+            id="promo-ministry-activity-error-{{$id}}"
+            class="text-danger"
+            ng-if="form.ministryActivityId.$invalid && form.ministryActivityId.$touched"
+            role="alert"
+          >
+            <small ng-if="form.ministryActivityId.$error.required" translate>
+              Ministry Activity is required
             </small>
           </div>
         </label>
@@ -268,31 +295,6 @@
             </i>
           </div>
         </div>
-      </div>
-
-      <div class="col-md-6" ng-if="activities.length > 0">
-        <label>
-          <span translate>Ministry Activity</span>
-          <select
-            class="form-control"
-            name="ministryActivityId"
-            ng-required="true"
-            ng-model="promo.ministryActivityId"
-            ng-options="activity.id as activity.name for activity in activities"
-            aria-describedby="promo-ministry-activity-error-{{$id}}"
-            aria-invalid="{{form.ministryActivityId.$invalid && form.ministryActivityId.$touched}}"
-          ></select>
-          <div
-            id="promo-ministry-activity-error-{{$id}}"
-            class="text-danger"
-            ng-if="form.ministryActivityId.$invalid && form.ministryActivityId.$touched"
-            role="alert"
-          >
-            <small ng-if="form.ministryActivityId.$error.required" translate>
-              Ministry Activity is required
-            </small>
-          </div>
-        </label>
       </div>
     </div>
   </div>
