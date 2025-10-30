@@ -115,7 +115,6 @@ export interface Registration {
   primaryRegistrantId: string;
   promotions: Array<Promotion>;
   globalPromotions: Array<GlobalPromotion>;
-  allPromotions: Array<GlobalPromotion | Promotion>;
   registrants: Array<RegistrantType>;
   remainingBalance: number;
   reported: boolean;
