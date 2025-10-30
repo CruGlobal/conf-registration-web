@@ -138,8 +138,7 @@ angular
 
       $scope.hasGlobalPromotions = function () {
         return globalPromotionService.hasPromotionsForConference(
-          $scope.conference.ministry,
-          $scope.conference.ministryActivity,
+          $scope.conference,
         );
       };
 
