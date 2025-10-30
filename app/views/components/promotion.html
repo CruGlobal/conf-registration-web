@@ -30,7 +30,11 @@
           ></i>
         </button>
       </div>
-      <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
+
+      <div
+        class="col-md-pull-3 stacked-spacing-col-md"
+        ng-class="activities.length > 0 ? 'col-md-3' : 'col-md-6'"
+      >
         <label>
           <span translate>Code</span>
           <input
