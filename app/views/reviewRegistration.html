@@ -346,7 +346,7 @@
             scholarships are approved or checks have been received.
           </p>
 
-          <table class="table" ng-show="showActivePromotions()">
+          <table class="table" ng-show="allPromotions.length">
             <tr ng-repeat="promotion in allPromotions">
               <td>
                 {{promotion.code}}
@@ -357,7 +357,6 @@
               <td class="text-center">
                 <button
                   ng-click="deletePromotion(promotion.id)"
-                  ng-disabled="isPromoPosted(promotion.id)"
                   title="Delete Promotion"
                   class="btn btn-xs btn-danger"
                 >
