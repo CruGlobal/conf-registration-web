@@ -98,10 +98,10 @@ export class GlobalPromotionService {
         conference.ministryActivity,
       );
 
-    return !!hasGlobalPromotions;
+    return Boolean(hasGlobalPromotions);
   }
 
-  private hasGlobalPromotionsInCache(
+  hasGlobalPromotionsInCache(
     conferenceMinistryId: string,
     conferenceMinistryActivityId: string,
   ): boolean {
