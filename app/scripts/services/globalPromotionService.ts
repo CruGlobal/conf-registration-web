@@ -2,6 +2,7 @@ import angular from 'angular';
 import { IPromise } from 'angular';
 import { ModalMessage, $RootScope, $Http } from 'injectables';
 import { GlobalPromotion } from 'globalPromotion';
+import { Conference } from 'conference';
 import { $q } from 'ngimport';
 
 export class GlobalPromotionService {
@@ -83,7 +84,24 @@ export class GlobalPromotionService {
     this.globalPromotionsCache.put(cacheKey, [...cachedData, newPromotion]);
   }
 
-  hasPromotionsForConference(
+  hasPromotionsForConference(conference: Conference): boolean {
+    const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
+      (registrantType) => registrantType.eligibleForGlobalPromotions,
+    );
+
+    const hasGlobalPromotions =
+      hasRegistrantTypeAllowingGlobal &&
+      conference.ministry &&
+      conference.ministryActivity &&
+      this.hasGlobalPromotionsInCache(
+        conference.ministry,
+        conference.ministryActivity,
+      );
+
+    return Boolean(hasGlobalPromotions);
+  }
+
+  hasGlobalPromotionsInCache(
     conferenceMinistryId: string,
     conferenceMinistryActivityId: string,
   ): boolean {

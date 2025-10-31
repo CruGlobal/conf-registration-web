@@ -46,6 +46,12 @@ angular
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
 
+      // Set all promotions (currently on registration)
+      $scope.allPromotions = [
+        ...currentRegistration.globalPromotions,
+        ...currentRegistration.promotions,
+      ];
+
       if (
         _.isEmpty(currentRegistration.registrants) &&
         !currentRegistration.completed
@@ -419,10 +425,12 @@ angular
             question: 'Are you sure you want to delete this promotion?',
           })
           .then(function () {
-            var regCopy = angular.copy(currentRegistration);
-            _.remove(regCopy.promotions, { id: promoId });
+            const registrationCopy = angular.copy(currentRegistration);
+            _.remove(registrationCopy.promotions, { id: promoId });
+            _.remove(registrationCopy.globalPromotions, { id: promoId });
+
             $http
-              .put('registrations/' + currentRegistration.id, regCopy)
+              .put('registrations/' + currentRegistration.id, registrationCopy)
               .then(function () {
                 $route.reload();
               })
@@ -436,24 +444,11 @@ angular
           });
       };
 
-      $scope.showPromotions = function () {
-        const hasLocalPromotions =
-          conference.promotions && conference.promotions.length > 0;
-
-        const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
-          function (registrantType) {
-            return registrantType.eligibleForGlobalPromotions;
-          },
+      $scope.showPromotionsInput = function () {
+        return (
+          $scope.conference.promotions.length > 0 ||
+          globalPromotionService.hasPromotionsForConference(conference)
         );
-
-        const hasGlobalPromotions =
-          hasRegistrantTypeAllowingGlobal &&
-          globalPromotionService.hasPromotionsForConference(
-            conference.ministry,
-            conference.ministryActivity,
-          );
-
-        return hasLocalPromotions || hasGlobalPromotions;
       };
 
       $scope.hasPendingPayments = function (payments) {

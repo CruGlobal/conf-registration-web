@@ -167,10 +167,10 @@
       </p>
     </uib-tab>
     <uib-tab heading="Promotions">
-      <p ng-if="!conference.promotions.length" translate>
+      <p ng-if="!availablePromotions.length" translate>
         This event does not contain any promotions.
       </p>
-      <table class="table" ng-show="registration.promotions.length">
+      <table class="table" ng-show="allPromotions.length">
         <thead>
           <tr>
             <th translate>Active Promotions</th>
@@ -178,17 +178,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="p in registration.promotions">
+          <tr ng-repeat="promotion in allPromotions">
             <td>
-              {{p.code}}
-              <span class="text-muted" ng-if="p.description"
-                >{{p.description}}</span
+              {{promotion.code}}
+              <span class="text-muted" ng-if="promotion.description"
+                >{{promotion.description}}</span
               >
             </td>
             <td class="text-center">
               <button
-                ng-click="deletePromotion(p.id)"
-                ng-disabled="{{isPromoPosted(p.id)}}"
+                ng-click="deletePromotion(promotion.id)"
+                ng-disabled="{{isPromoPosted(promotion.id)}}"
                 title="Delete Promotion"
                 class="btn btn-xs btn-danger"
               >
@@ -199,7 +199,10 @@
         </tbody>
       </table>
 
-      <table class="table" ng-show="filteredPromotions.length">
+      <table
+        class="table"
+        ng-show="showAvailablePromotions() && filteredPromotions.length"
+      >
         <thead>
           <tr>
             <th translate>Available Promotions</th>
@@ -208,17 +211,17 @@
         </thead>
         <tbody>
           <tr
-            ng-repeat="p in filteredPromotions = (conference.promotions  | filter: filterUsedPromoCodes)"
+            ng-repeat="promotion in filteredPromotions = (availablePromotions | filter: filterUsedPromoCodes)"
           >
             <td>
-              {{p.code}}
-              <span class="text-muted" ng-if="p.description"
-                >{{p.description}}</span
+              {{promotion.code}}
+              <span class="text-muted" ng-if="promotion.description"
+                >{{promotion.description}}</span
               >
             </td>
             <td class="text-center">
               <button
-                ng-click="addPromotion(p.code)"
+                ng-click="addPromotion(promotion.code)"
                 title="Add Promotion"
                 class="btn btn-xs btn-success"
               >

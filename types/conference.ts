@@ -123,7 +123,7 @@ export interface Conference {
     shortSymbol: string;
     name: string;
   };
-  ministry: string;
+  ministry: string | null;
   strategy: string | null;
   ministryActivity: string | null;
   type: string;
