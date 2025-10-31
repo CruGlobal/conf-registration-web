@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import moment from 'moment';
 
 describe('Controller: globalPromotionsCtrl', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -269,6 +270,29 @@ describe('Controller: globalPromotionsCtrl', () => {
       controller.selectedMinistryId = null;
 
       expect(controller.getActivityName(activity.id)).toBe('');
+    });
+  });
+
+  describe('isActive', () => {
+    const format = 'YYYY-MM-DD HH:mm:ss';
+    it('returns true when deactivationDate is null', () => {
+      const promotion = { deactivationDate: null };
+
+      expect(controller.isActive(promotion)).toBe(true);
+    });
+
+    it('returns true when deactivationDate is in the future', () => {
+      const futureDate = moment().add(1, 'year').format(format);
+      const promotion = { deactivationDate: futureDate };
+
+      expect(controller.isActive(promotion)).toBe(true);
+    });
+
+    it('returns false when deactivationDate is in the past', () => {
+      const pastDate = moment().subtract(1, 'year').format(format);
+      const promotion = { deactivationDate: pastDate };
+
+      expect(controller.isActive(promotion)).toBe(false);
     });
   });
 });
