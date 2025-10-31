@@ -349,12 +349,19 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     let modalMessage;
     let $httpBackend;
     let $route;
+    let $q;
 
     beforeEach(
-      angular.mock.inject(function (_modalMessage_, _$httpBackend_, _$route_) {
+      angular.mock.inject(function (
+        _modalMessage_,
+        _$httpBackend_,
+        _$route_,
+        _$q_,
+      ) {
         modalMessage = _modalMessage_;
         $httpBackend = _$httpBackend_;
         $route = _$route_;
+        $q = _$q_;
         spyOn($route, 'reload');
       }),
     );
@@ -364,9 +371,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('removes local promotion and reloads route on success', inject(function (
-      $q,
-    ) {
+    it('removes local promotion and reloads route on success', inject(function () {
       const confirmDeferred = $q.defer();
       const promotionIdToDelete = testData.registration.promotions[0].id;
       spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
@@ -398,9 +403,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect($route.reload).toHaveBeenCalledWith();
     }));
 
-    it('removes global promotion and reloads route on success', inject(function (
-      $q,
-    ) {
+    it('removes global promotion and reloads route on success', inject(function () {
       const confirmDeferred = $q.defer();
       const promotionIdToDelete = testData.registration.globalPromotions[0].id;
       spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
@@ -431,7 +434,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect($route.reload).toHaveBeenCalledWith();
     }));
 
-    it('shows error when deletion fails', inject(function ($q) {
+    it('shows error when deletion fails', inject(function () {
       const confirmDeferred = $q.defer();
       spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
       spyOn(modalMessage, 'error');
@@ -449,9 +452,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect($route.reload).not.toHaveBeenCalled();
     }));
 
-    it('does not delete promotion if user cancels confirmation', inject(function (
-      $q,
-    ) {
+    it('does not delete promotion if user cancels confirmation', inject(function () {
       const confirmDeferred = $q.defer();
       spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
 
