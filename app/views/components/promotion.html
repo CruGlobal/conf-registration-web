@@ -5,10 +5,7 @@
 >
   <div class="panel-heading">
     <div class="row">
-      <div
-        class="stacked-spacing-col-md"
-        ng-class="activities.length > 0 ? 'col-md-3' : 'col-md-6'"
-      >
+      <div ng-class="activities.length > 0 ? 'col-md-3' : 'col-md-6'">
         <label>
           <span translate>Code</span>
           <input
@@ -44,7 +41,7 @@
           </div>
         </label>
       </div>
-      <div class="col-md-3 stacked-spacing-col-md">
+      <div class="col-md-3">
         <label>
           <span translate>Discount Amount</span>
           <div class="input-group">
@@ -80,10 +77,7 @@
           </div>
         </label>
       </div>
-      <div
-        class="col-md-3 stacked-spacing-col-md"
-        ng-if="activities.length > 0"
-      >
+      <div class="col-md-3" ng-if="activities.length > 0">
         <label>
           <span translate>Ministry Activity</span>
           <select
