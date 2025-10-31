@@ -134,64 +134,60 @@
         </label>
       </div>
     </div>
-    <div class="row spacing-above-md">
-      <div class="row spacing-below-sm margin-left-0 margin-right-15">
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Business Unit</span>
-            <input
-              ng-model="promo.businessUnit"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Operating Unit</span>
-            <input
-              ng-model="promo.operatingUnit"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+    <div class="row spacing-below-sm spacing-above-sm">
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Business Unit</span>
+          <input
+            ng-model="promo.businessUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Department Id</span>
-            <input
-              ng-model="promo.departmentId"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Operating Unit</span>
+          <input
+            ng-model="promo.operatingUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span>
-              <translate>Project Id</translate>
-              <i
-                class="fa fa-question-circle"
-                button
-                uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-                popover-trigger="'mouseenter'"
-                popover-append-to-body="true"
-              >
-              </i>
-            </span>
-            <input
-              ng-model="promo.projectId"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Department Id</span>
+          <input
+            ng-model="promo.departmentId"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
+
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span>
+            <translate>Project Id</translate>
+            <i
+              class="fa fa-question-circle"
+              button
+              uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            >
+            </i>
+          </span>
+          <input ng-model="promo.projectId" type="text" class="form-control" />
+        </label>
       </div>
     </div>
   </div>
+
   <div class="panel-body" ng-show="expanded">
     <button
       class="btn btn-xs btn-danger reg-type-delete"
