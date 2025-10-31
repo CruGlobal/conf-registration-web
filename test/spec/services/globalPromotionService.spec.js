@@ -255,7 +255,7 @@ describe('Service: GlobalPromotionService', () => {
       expect(result).toBe(false);
     });
 
-    it('should return false when no cached promotions exist even with eligible registrant types', () => {
+    it('should return false when no cached promotions exist', () => {
       $httpBackend
         .expectGET(
           `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
