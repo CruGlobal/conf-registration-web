@@ -150,50 +150,105 @@ describe('Controller: paymentModal', function () {
   });
 
   describe('showAvailablePromotions', () => {
-    let globalPromotionService;
+    let globalPromotionService, initController, testData, $q, $rootScope;
 
-    beforeEach(
-      angular.mock.inject(function ($controller, testData) {
-        globalPromotionService = {
-          loadPromotions: jasmine.createSpy('loadPromotions'),
-          hasPromotionsForConference: jasmine
-            .createSpy('hasPromotionsForConference')
-            .and.returnValue(true),
-        };
+    beforeEach(inject(function ($controller, _testData_, _$q_, _$rootScope_) {
+      globalPromotionService = {
+        loadPromotions: jasmine.createSpy('loadPromotions'),
+      };
+      testData = _testData_;
+      $q = _$q_;
+      $rootScope = _$rootScope_;
+      initController = (conference) => {
         $controller('paymentModal', {
           $scope: scope,
           $uibModalInstance: modalInstance,
-          registration: scope.registration,
+          registration: testData.registration,
           promotionRegistrationInfoList: [],
-          conference: testData.conference,
+          conference: conference,
           permissions: {},
           globalPromotionService: globalPromotionService,
         });
-      }),
-    );
+      };
+    }));
 
-    it('returns true when hasPromotionsForConference is true and conference has promotions', inject(function () {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+    it('returns true and has only local promotions when conference has promotions but no ministry/ministryActivity', inject(function () {
+      const conferenceWithLocalPromotions = {
+        ...testData.conference,
+        ministry: null,
+        ministryActivity: null,
+      };
+
+      initController(conferenceWithLocalPromotions);
+
+      expect(scope.availablePromotions).toEqual(testData.conference.promotions);
 
       expect(scope.showAvailablePromotions()).toBe(true);
     }));
 
-    it('returns false when hasPromotionsForConference returns false and conference has no promotions', () => {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
-      scope.conference.promotions = [];
+    it('returns false and has empty availablePromotions when conference has no promotions and no ministry/ministryActivity', inject(function () {
+      const conferenceWithoutPromotions = {
+        ...testData.conference,
+        promotions: [],
+        ministry: null,
+        ministryActivity: null,
+      };
+
+      initController(conferenceWithoutPromotions);
+
+      expect(scope.availablePromotions).toEqual([]);
 
       expect(scope.showAvailablePromotions()).toBe(false);
-    });
+    }));
 
-    it('returns true when conference has local promotions even if hasPromotionsForConference returns false', () => {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+    it('returns true and combines local and global promotions when conference has ministry/ministryActivity', function () {
+      const conferenceWithMinistry = {
+        ...testData.conference,
+        ministry: testData.ministries[0],
+        ministryActivity: testData.ministries[0].activities[0],
+      };
+
+      const deferred = $q.defer();
+      globalPromotionService.loadPromotions.and.returnValue(deferred.promise);
+
+      initController(conferenceWithMinistry);
+
+      expect(scope.availablePromotions).toEqual(testData.conference.promotions);
+
+      expect(scope.showAvailablePromotions()).toBe(true);
+
+      deferred.resolve(testData.globalPromotions);
+      $rootScope.$digest();
+
+      expect(scope.availablePromotions).toEqual([
+        ...testData.conference.promotions,
+        ...testData.globalPromotions,
+      ]);
 
       expect(scope.showAvailablePromotions()).toBe(true);
     });
 
-    it('returns true when hasPromotionsForConference returns true even if conference has no local promotions', () => {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
-      scope.conference.promotions = [];
+    it('returns true and has only global promotions when conference has no local promotions but has ministry/ministryActivity', function () {
+      const conferenceWithMinistryNoLocal = {
+        ...testData.conference,
+        promotions: [],
+        ministry: 'test-ministry',
+        ministryActivity: 'test-activity',
+      };
+
+      const deferred = $q.defer();
+      globalPromotionService.loadPromotions.and.returnValue(deferred.promise);
+
+      initController(conferenceWithMinistryNoLocal);
+
+      expect(scope.availablePromotions).toEqual([]);
+
+      expect(scope.showAvailablePromotions()).toBe(false);
+
+      deferred.resolve(testData.globalPromotions);
+      $rootScope.$digest();
+
+      expect(scope.availablePromotions).toEqual(testData.globalPromotions);
 
       expect(scope.showAvailablePromotions()).toBe(true);
     });
@@ -214,14 +269,6 @@ describe('Controller: paymentModal', function () {
     });
 
     it('removes local promotion successfully', inject(function (testData) {
-      $httpBackend
-        .whenPUT('registrations/' + testData.registration.id)
-        .respond(200);
-      $httpBackend
-        .whenGET('registrations/' + testData.registration.id)
-        .respond(200, testData.registration);
-
-      scope.deletePromotion(testData.registration.promotions[0].id);
       const promotionIdToDelete = testData.registration.promotions[0].id;
 
       expect(testData.registration.promotions.length).toBe(2);

@@ -357,12 +357,10 @@ angular
       ];
 
       $scope.showAvailablePromotions = function () {
-        return (
-          $scope.conference.promotions.length > 0 ||
-          globalPromotionService.hasPromotionsForConference($scope.conference)
-        );
+        return $scope.availablePromotions.length > 0;
       };
 
+      $scope.availablePromotions = $scope.conference.promotions;
       if ($scope.conference.ministry && $scope.conference.ministryActivity) {
         globalPromotionService
           .loadPromotions(
@@ -375,8 +373,6 @@ angular
               ...globalPromotions,
             ];
           });
-      } else {
-        $scope.availablePromotions = $scope.conference.promotions;
       }
 
       function loadPayments() {
