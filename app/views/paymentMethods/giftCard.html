@@ -5,8 +5,11 @@
       <input
         type="text"
         ng-model="currentPayment.giftCard.code"
+        ng-model-options="{ allowInvalid: true }"
         class="form-control"
         autocomplete="off"
+        minlength="10"
+        maxlength="12"
       />
     </label>
   </div>
