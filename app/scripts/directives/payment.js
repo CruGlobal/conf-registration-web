@@ -330,27 +330,24 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
                 paymentErrors.push(
                   gettextCatalog.getString('Please enter a gift card code.'),
                 );
-              } else {
-                const code = currentPayment.giftCard.code;
-                if (!/^[a-z0-9]+$/i.test(code)) {
-                  paymentErrors.push(
-                    gettextCatalog.getString(
-                      'Gift card code must contain only letters and numbers.',
-                    ),
-                  );
-                } else if (code.length < 10) {
-                  paymentErrors.push(
-                    gettextCatalog.getString(
-                      'Gift card code must be at least 10 characters.',
-                    ),
-                  );
-                } else if (code.length > 12) {
-                  paymentErrors.push(
-                    gettextCatalog.getString(
-                      'Gift card code must be no more than 12 characters.',
-                    ),
-                  );
-                }
+              } else if (!/^[a-z0-9]+$/i.test(currentPayment.giftCard.code)) {
+                paymentErrors.push(
+                  gettextCatalog.getString(
+                    'Gift card code must contain only letters and numbers.',
+                  ),
+                );
+              } else if (currentPayment.giftCard.code.length < 10) {
+                paymentErrors.push(
+                  gettextCatalog.getString(
+                    'Gift card code must be at least 10 characters.',
+                  ),
+                );
+              } else if (currentPayment.giftCard.code.length > 12) {
+                paymentErrors.push(
+                  gettextCatalog.getString(
+                    'Gift card code must be no more than 12 characters.',
+                  ),
+                );
               }
               break;
           }
