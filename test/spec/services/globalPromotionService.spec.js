@@ -117,27 +117,35 @@ describe('Service: GlobalPromotionService', () => {
     });
   });
 
-  describe('hasPromotionsForConference', () => {
+  describe('hasGlobalPromotionsInCache', () => {
+    let ministry, ministryId, ministryActivityId;
+
+    beforeEach(() => {
+      ministry = testData.ministries[0];
+      ministryId = ministry.id;
+      ministryActivityId = ministry.activities[0].id;
+    });
+
     it('should return true when promotions exist in cache', () => {
       $httpBackend
         .expectGET(
-          'globalPromotions?ministryId=ministry-1&ministryActivityId=activity-1',
+          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
         )
         .respond(200, testData.globalPromotions);
 
-      globalPromotionService.loadPromotions('ministry-1', 'activity-1');
+      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
       $httpBackend.flush();
 
-      const result = globalPromotionService.hasPromotionsForConference(
-        'ministry-1',
-        'activity-1',
+      const result = globalPromotionService.hasGlobalPromotionsInCache(
+        ministryId,
+        ministryActivityId,
       );
 
       expect(result).toBe(true);
     });
 
     it('should return false when no promotions exist in cache', () => {
-      const result = globalPromotionService.hasPromotionsForConference(
+      const result = globalPromotionService.hasGlobalPromotionsInCache(
         'ministry-nonexistent',
         'activity-nonexistent',
       );
@@ -153,9 +161,112 @@ describe('Service: GlobalPromotionService', () => {
       globalPromotionService.loadPromotions('ministry-1');
       $httpBackend.flush();
 
-      const result = globalPromotionService.hasPromotionsForConference(
+      const result = globalPromotionService.hasGlobalPromotionsInCache(
         'ministry-1',
         undefined,
+      );
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('hasPromotionsForConference', () => {
+    let ministry, ministryId, ministryActivityId;
+
+    beforeEach(() => {
+      ministry = testData.ministries[0];
+      ministryId = ministry.id;
+      ministryActivityId = ministry.activities[0].id;
+    });
+
+    it('should return true when conference has eligible registrant types, ministry info, and cached promotions', () => {
+      $httpBackend
+        .expectGET(
+          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
+        )
+        .respond(200, testData.globalPromotions);
+
+      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
+      $httpBackend.flush();
+
+      const conferenceWithMinistryActivity = {
+        ...testData.conference,
+        ministry: ministryId,
+        ministryActivity: ministryActivityId,
+      };
+
+      expect(
+        globalPromotionService.hasPromotionsForConference(
+          conferenceWithMinistryActivity,
+        ),
+      ).toBe(true);
+    });
+
+    it('should return false when no registrant types are eligible for global promotions', () => {
+      const conferenceWithNoEligibleTypes = {
+        ...testData.conference,
+        registrantTypes: [
+          {
+            ...testData.conference.registrantTypes[0],
+            eligibleForGlobalPromotions: false,
+          },
+        ],
+      };
+
+      $httpBackend
+        .expectGET(
+          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
+        )
+        .respond(200, testData.globalPromotions);
+
+      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
+      $httpBackend.flush();
+
+      const result = globalPromotionService.hasPromotionsForConference(
+        conferenceWithNoEligibleTypes,
+      );
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false when conference has no ministry', () => {
+      const conferenceWithoutMinistry = {
+        ...testData.conference,
+        ministry: null,
+      };
+
+      const result = globalPromotionService.hasPromotionsForConference(
+        conferenceWithoutMinistry,
+      );
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false when conference has no ministryActivity', () => {
+      const conferenceWithoutActivity = {
+        ...testData.conference,
+        ministryActivity: null,
+      };
+
+      const result = globalPromotionService.hasPromotionsForConference(
+        conferenceWithoutActivity,
+      );
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false when no cached promotions exist', () => {
+      $httpBackend
+        .expectGET(
+          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
+        )
+        .respond(200, []);
+
+      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
+      $httpBackend.flush();
+
+      const result = globalPromotionService.hasPromotionsForConference(
+        testData.conference,
       );
 
       expect(result).toBe(false);

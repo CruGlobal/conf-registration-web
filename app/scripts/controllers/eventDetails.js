@@ -137,7 +137,7 @@ angular
       };
 
       $scope.hasGlobalPromotions = function () {
-        return globalPromotionService.hasPromotionsForConference(
+        return globalPromotionService.hasGlobalPromotionsInCache(
           $scope.conference.ministry,
           $scope.conference.ministryActivity,
         );
