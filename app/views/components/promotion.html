@@ -5,32 +5,7 @@
 >
   <div class="panel-heading">
     <div class="row">
-      <div class="col-md-3 col-md-push-9 text-right">
-        <button
-          class="btn btn-default"
-          ng-if="onDiscard"
-          ng-click="onDiscard()"
-          type="button"
-        >
-          <i class="fa fa-times"></i> <translate>Discard</translate>
-        </button>
-        <button
-          class="btn btn-success"
-          ng-if="onSave"
-          ng-click="onSave()"
-          ng-disabled="form.$invalid"
-          type="button"
-        >
-          <i class="fa fa-save"></i> <translate>Save</translate>
-        </button>
-        <button type="button" class="btn btn-link" ng-click="toggleExpanded()">
-          <i
-            class="fa fa-inset fa-inset-reg-type"
-            ng-class="{'fa-chevron-up': expanded, 'fa-chevron-down': !expanded}"
-          ></i>
-        </button>
-      </div>
-      <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
+      <div ng-class="activities.length > 0 ? 'col-md-3' : 'col-md-6'">
         <label>
           <span translate>Code</span>
           <input
@@ -66,7 +41,7 @@
           </div>
         </label>
       </div>
-      <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
+      <div class="col-md-3">
         <label>
           <span translate>Discount Amount</span>
           <div class="input-group">
@@ -102,65 +77,110 @@
           </div>
         </label>
       </div>
+      <div class="col-md-3" ng-if="activities.length > 0">
+        <label>
+          <span translate>Ministry Activity</span>
+          <select
+            class="form-control"
+            name="ministryActivityId"
+            ng-required="true"
+            ng-model="promo.ministryActivityId"
+            ng-options="activity.id as activity.name for activity in activities"
+            aria-describedby="promo-ministry-activity-error-{{$id}}"
+            aria-invalid="{{form.ministryActivityId.$invalid && form.ministryActivityId.$touched}}"
+          ></select>
+          <div
+            id="promo-ministry-activity-error-{{$id}}"
+            class="text-danger"
+            ng-if="form.ministryActivityId.$invalid && form.ministryActivityId.$touched"
+            role="alert"
+          >
+            <small ng-if="form.ministryActivityId.$error.required" translate>
+              Ministry Activity is required
+            </small>
+          </div>
+        </label>
+      </div>
+      <div class="col-md-3 promotion-actions">
+        <button
+          class="btn btn-default"
+          ng-if="onDiscard"
+          ng-click="onDiscard()"
+          type="button"
+        >
+          <i class="fa fa-times"></i> <translate>Discard</translate>
+        </button>
+        <button
+          class="btn btn-success"
+          ng-if="onSave"
+          ng-click="onSave()"
+          ng-disabled="form.$invalid"
+          type="button"
+        >
+          <i class="fa fa-save"></i> <translate>Save</translate>
+        </button>
+        <button class="btn btn-link" ng-click="toggleExpanded()">
+          <i
+            class="fa fa-inset fa-inset-reg-type font-size-xs"
+            ng-class="{'fa-chevron-up': expanded, 'fa-chevron-down': !expanded}"
+          ></i>
+        </button>
+      </div>
     </div>
-    <div class="row spacing-above-md">
-      <div class="row spacing-below-sm margin-left-0 margin-right-15">
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Business Unit</span>
-            <input
-              ng-model="promo.businessUnit"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Operating Unit</span>
-            <input
-              ng-model="promo.operatingUnit"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+    <div class="row spacing-below-sm spacing-above-sm">
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Business Unit</span>
+          <input
+            ng-model="promo.businessUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span translate>Department Id</span>
-            <input
-              ng-model="promo.departmentId"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Operating Unit</span>
+          <input
+            ng-model="promo.operatingUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
 
-        <div class="col-md-3 stacked-spacing-col-md">
-          <label>
-            <span>
-              <translate>Project Id</translate>
-              <i
-                class="fa fa-question-circle"
-                button
-                uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-                popover-trigger="'mouseenter'"
-                popover-append-to-body="true"
-              >
-              </i>
-            </span>
-            <input
-              ng-model="promo.projectId"
-              type="text"
-              class="form-control"
-            />
-          </label>
-        </div>
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span translate>Department Id</span>
+          <input
+            ng-model="promo.departmentId"
+            type="text"
+            class="form-control"
+          />
+        </label>
+      </div>
+
+      <div class="col-md-3 stacked-spacing-col-md">
+        <label>
+          <span>
+            <translate>Project Id</translate>
+            <i
+              class="fa fa-question-circle"
+              button
+              uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            >
+            </i>
+          </span>
+          <input ng-model="promo.projectId" type="text" class="form-control" />
+        </label>
       </div>
     </div>
   </div>
+
   <div class="panel-body" ng-show="expanded">
     <button
       class="btn btn-xs btn-danger reg-type-delete"
@@ -268,31 +288,6 @@
             </i>
           </div>
         </div>
-      </div>
-
-      <div class="col-md-6" ng-if="activities.length > 0">
-        <label>
-          <span translate>Ministry Activity</span>
-          <select
-            class="form-control"
-            name="ministryActivityId"
-            ng-required="true"
-            ng-model="promo.ministryActivityId"
-            ng-options="activity.id as activity.name for activity in activities"
-            aria-describedby="promo-ministry-activity-error-{{$id}}"
-            aria-invalid="{{form.ministryActivityId.$invalid && form.ministryActivityId.$touched}}"
-          ></select>
-          <div
-            id="promo-ministry-activity-error-{{$id}}"
-            class="text-danger"
-            ng-if="form.ministryActivityId.$invalid && form.ministryActivityId.$touched"
-            role="alert"
-          >
-            <small ng-if="form.ministryActivityId.$error.required" translate>
-              Ministry Activity is required
-            </small>
-          </div>
-        </label>
       </div>
     </div>
   </div>
