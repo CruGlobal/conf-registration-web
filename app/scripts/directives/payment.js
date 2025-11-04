@@ -331,14 +331,20 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
                   gettextCatalog.getString('Please enter a gift card code.'),
                 );
               } else {
-                const codeLength = currentPayment.giftCard.code.length;
-                if (codeLength < 10) {
+                const code = currentPayment.giftCard.code;
+                if (!/^[a-z0-9]+$/i.test(code)) {
+                  paymentErrors.push(
+                    gettextCatalog.getString(
+                      'Gift card code must contain only letters and numbers.',
+                    ),
+                  );
+                } else if (code.length < 10) {
                   paymentErrors.push(
                     gettextCatalog.getString(
                       'Gift card code must be at least 10 characters.',
                     ),
                   );
-                } else if (codeLength > 12) {
+                } else if (code.length > 12) {
                   paymentErrors.push(
                     gettextCatalog.getString(
                       'Gift card code must be no more than 12 characters.',

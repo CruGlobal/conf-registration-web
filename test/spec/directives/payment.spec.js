@@ -125,7 +125,7 @@ describe('Directive: ertPayment', function () {
       scope.currentPayment = {
         paymentType: 'GIFT_CARD',
         giftCard: {
-          code: '1234567890AB',
+          code: '1234567890Ab',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -172,6 +172,20 @@ describe('Directive: ertPayment', function () {
 
       expect(scope.currentPayment.errors).toContain(
         'Gift card code must be no more than 12 characters.',
+      );
+    });
+
+    it('should reject card code with non-alphanumeric characters', () => {
+      scope.currentPayment = {
+        paymentType: 'GIFT_CARD',
+        giftCard: {
+          code: '1234567890#*',
+        },
+      };
+      scope.validatePayment(scope.currentPayment);
+
+      expect(scope.currentPayment.errors).toContain(
+        'Gift card code must contain only letters and numbers.',
       );
     });
   });
