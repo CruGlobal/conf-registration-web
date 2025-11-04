@@ -251,8 +251,8 @@ describe('Controller: eventDetails', function () {
       angular.mock.inject(function ($controller) {
         globalPromotionService = {
           loadPromotions: jasmine.createSpy('loadPromotions'),
-          hasPromotionsForConference: jasmine
-            .createSpy('hasPromotionsForConference')
+          hasGlobalPromotionsInCache: jasmine
+            .createSpy('hasGlobalPromotionsInCache')
             .and.returnValue(true),
         };
 
@@ -266,13 +266,13 @@ describe('Controller: eventDetails', function () {
     );
 
     it('hasGlobalPromotions returns true when promotions exist', function () {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(true);
+      globalPromotionService.hasGlobalPromotionsInCache.and.returnValue(true);
 
       expect(scope.hasGlobalPromotions()).toBe(true);
     });
 
     it('hasGlobalPromotions returns false when no promotions', function () {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+      globalPromotionService.hasGlobalPromotionsInCache.and.returnValue(false);
 
       expect(scope.hasGlobalPromotions()).toBe(false);
     });
