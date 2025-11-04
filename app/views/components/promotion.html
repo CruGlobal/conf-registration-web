@@ -84,6 +84,7 @@
             class="form-control"
             name="ministryActivityId"
             ng-required="true"
+            ng-disabled="promo.id"
             ng-model="promo.ministryActivityId"
             ng-options="activity.id as activity.name for activity in activities"
             aria-describedby="promo-ministry-activity-error-{{$id}}"
@@ -97,6 +98,15 @@
           >
             <small ng-if="form.ministryActivityId.$error.required" translate>
               Ministry Activity is required
+            </small>
+          </div>
+          <div
+            id="promo-ministry-activity-help-{{$id}}"
+            class="text-muted"
+            ng-if="promo.id"
+          >
+            <small translate>
+              Ministry Activity cannot be changed after creation
             </small>
           </div>
         </label>
