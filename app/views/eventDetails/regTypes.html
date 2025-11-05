@@ -353,6 +353,12 @@
                   <translate>Accept Scholarships</translate>
                 </label>
               </div>
+              <div class="checkbox" ng-if="giftCardEligible()">
+                <label>
+                  <input type="checkbox" ng-model="type.acceptGiftCards" />
+                  <translate>Accept Gift Cards</translate>
+                </label>
+              </div>
               <div class="checkbox">
                 <label>
                   <input

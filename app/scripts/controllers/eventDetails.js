@@ -871,6 +871,19 @@ angular
           $scope.conference.department
         );
 
+      // Only Family Life WTR events are eligible for gift cards
+      $scope.giftCardEligible = () =>
+        !!(
+          $scope.conference.ministry &&
+          MinistriesCache.getMinistryName($scope.conference.ministry) ===
+            'Family Life' &&
+          $scope.conference.ministryActivity &&
+          MinistriesCache.getActivityName(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          ) === 'WTR'
+        );
+
       $scope.createLiabilityQuestions = () => {
         const minorQuestionId = uuid();
         const guardianNameId = uuid();

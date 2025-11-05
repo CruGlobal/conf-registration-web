@@ -645,4 +645,86 @@ describe('Controller: eventDetails', function () {
       expect(spouseType.description).toBe(newDescription);
     }));
   });
+
+  describe('giftCardEligible', () => {
+    let familyLifeId, wtrId;
+    beforeEach(
+      angular.mock.inject(
+        ($rootScope, $controller, _$uibModal_, _testData_, _$httpBackend_) => {
+          testData = _testData_;
+          scope = $rootScope.$new();
+          $httpBackend = _$httpBackend_;
+
+          $httpBackend.whenGET('types').respond(200, []);
+          $httpBackend.whenGET('ministries').respond(200, testData.ministries);
+
+          const familyLifeMinistry = testData.ministries.find(
+            (ministry) => ministry.name === 'Family Life',
+          );
+          familyLifeId = familyLifeMinistry.id;
+          wtrId = familyLifeMinistry.activities.find(
+            (activity) => activity.name === 'WTR',
+          ).id;
+
+          $controller('eventDetailsCtrl', {
+            $scope: scope,
+            conference: testData.conference,
+            currencies: testData.currencies,
+            $uibModal: _$uibModal_,
+            permissions: {},
+          });
+
+          $httpBackend.flush();
+          $rootScope.$digest();
+        },
+      ),
+    );
+
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('should return true for Family Life WTR events', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(true);
+    });
+
+    it('should return false when ministry is not Family Life', () => {
+      scope.conference.ministry = 'other-ministry';
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when for Family Life non-WTR events', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = 'other-activity';
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when ministry is not set', () => {
+      scope.conference.ministry = null;
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when ministryActivity is not set', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = null;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when both ministry and ministryActivity are not set', () => {
+      scope.conference.ministry = null;
+      scope.conference.ministryActivity = null;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+  });
 });
