@@ -706,24 +706,21 @@ angular
         ['link', 'image'],
       ];
 
+      const getMinistry = () =>
+        $scope.conference.ministry
+          ? MinistriesCache.getMinistry($scope.conference.ministry)
+          : null;
+
       $scope.getStrategies = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
-        return currentMinistry ? currentMinistry.strategies : [];
+        return getMinistry()?.strategies ?? [];
       };
 
       $scope.getActivities = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
-        return currentMinistry ? currentMinistry.activities : [];
+        return getMinistry()?.activities ?? [];
       };
 
       $scope.getEventTypes = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
+        const currentMinistry = getMinistry();
         const currentPurpose =
           $scope.ministryPurposes &&
           $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);

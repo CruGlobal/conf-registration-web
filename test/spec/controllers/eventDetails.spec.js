@@ -20,27 +20,26 @@ describe('Controller: eventDetails', function () {
     },
   };
 
-  beforeEach(inject(function ($uibModal) {
+  let $httpBackend, testData;
+  beforeEach(inject(function ($uibModal, _$httpBackend_, _testData_) {
+    $httpBackend = _$httpBackend_;
+    testData = _testData_;
+
     spyOn($uibModal, 'open').and.returnValue(fakeModal);
+
+    $httpBackend.whenGET('types').respond(200, testData.ministryPurposes);
+    $httpBackend.whenGET('ministries').respond(200, testData.ministries);
   }));
 
-  let testData;
-  let $httpBackend;
+  afterEach(() => {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
   describe('Conference with type', () => {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
-        $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
@@ -50,8 +49,8 @@ describe('Controller: eventDetails', function () {
           permissions: {},
         });
 
-        scope.ministries = testData.ministries;
-        scope.ministryPurposes = testData.ministryPurposes;
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -81,6 +80,7 @@ describe('Controller: eventDetails', function () {
         name: 'Additional Type',
         defaultTypeKey: '',
       });
+      $httpBackend.flush();
 
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
       const addedType = scope.conference.registrantTypes.find(
@@ -174,6 +174,7 @@ describe('Controller: eventDetails', function () {
 
     it('createLiabilityQuestions() should create liability related questions on first page', () => {
       scope.createLiabilityQuestions();
+      $httpBackend.flush();
 
       expect(
         scope.conference.registrationPages[0].blocks[
@@ -245,16 +246,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without type', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.type = null;
         testData.conference.eventType = null;
@@ -266,7 +259,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -324,16 +319,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without ministry hosting', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.ministry = null;
         testData.conference.eventType = null;
@@ -345,7 +332,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -364,16 +353,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference that is not a Cru event', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.cruEvent = null;
         testData.conference.type = null;
@@ -387,7 +368,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -610,6 +593,9 @@ describe('Controller: eventDetails', function () {
         permissions: {},
       });
 
+      $httpBackend.flush();
+      $rootScope.$digest();
+
       const conference = scope.conference;
       const coupleType = _.find(
         conference.registrantTypes,
@@ -649,41 +635,29 @@ describe('Controller: eventDetails', function () {
   describe('giftCardEligible', () => {
     let familyLifeId, wtrId;
     beforeEach(
-      angular.mock.inject(
-        ($rootScope, $controller, _$uibModal_, _testData_, _$httpBackend_) => {
-          testData = _testData_;
-          scope = $rootScope.$new();
-          $httpBackend = _$httpBackend_;
+      angular.mock.inject(($rootScope, $controller, $uibModal, testData) => {
+        scope = $rootScope.$new();
 
-          $httpBackend.whenGET('types').respond(200, []);
-          $httpBackend.whenGET('ministries').respond(200, testData.ministries);
+        const familyLifeMinistry = testData.ministries.find(
+          (ministry) => ministry.name === 'Family Life',
+        );
+        familyLifeId = familyLifeMinistry.id;
+        wtrId = familyLifeMinistry.activities.find(
+          (activity) => activity.name === 'WTR',
+        ).id;
 
-          const familyLifeMinistry = testData.ministries.find(
-            (ministry) => ministry.name === 'Family Life',
-          );
-          familyLifeId = familyLifeMinistry.id;
-          wtrId = familyLifeMinistry.activities.find(
-            (activity) => activity.name === 'WTR',
-          ).id;
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          $uibModal,
+          permissions: {},
+        });
 
-          $controller('eventDetailsCtrl', {
-            $scope: scope,
-            conference: testData.conference,
-            currencies: testData.currencies,
-            $uibModal: _$uibModal_,
-            permissions: {},
-          });
-
-          $httpBackend.flush();
-          $rootScope.$digest();
-        },
-      ),
+        $httpBackend.flush();
+        $rootScope.$digest();
+      }),
     );
-
-    afterEach(() => {
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
-    });
 
     it('should return true for Family Life WTR events', () => {
       scope.conference.ministry = familyLifeId;
