@@ -700,5 +700,22 @@ describe('Controller: eventDetails', function () {
 
       expect(scope.giftCardEligible()).toBe(false);
     });
+
+    describe('ministry changes', () => {
+      beforeEach(() => {
+        scope.conference.ministry = familyLifeId;
+        scope.conference.ministryActivity = wtrId;
+        scope.conference.registrantTypes[0].acceptGiftCards = true;
+
+        scope.$digest();
+      });
+
+      it('should set registrant acceptGiftCards to false when the activity is not WTR anymore', () => {
+        scope.conference.ministryActivity = 'other-activity';
+        scope.$digest();
+
+        expect(scope.conference.registrantTypes[0].acceptGiftCards).toBe(false);
+      });
+    });
   });
 });

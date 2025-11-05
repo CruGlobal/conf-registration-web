@@ -733,6 +733,17 @@ angular
           : [];
       };
 
+      // Only Family Life WTR events are eligible for gift cards
+      $scope.giftCardEligible = () =>
+        !!(
+          getMinistry()?.name === 'Family Life' &&
+          $scope.conference.ministryActivity &&
+          MinistriesCache.getActivityName(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          ) === 'WTR'
+        );
+
       $scope.$watch(
         'conference.type',
         function (newVal, oldVal) {
@@ -754,6 +765,14 @@ angular
         },
         true,
       );
+
+      $scope.$watch('conference.ministryActivity', () => {
+        if (!$scope.giftCardEligible()) {
+          $scope.conference.registrantTypes.forEach((type) => {
+            type.acceptGiftCards = false;
+          });
+        }
+      });
 
       $scope.$watch(
         'conference.cruEvent',
@@ -866,19 +885,6 @@ angular
           $scope.conference.businessUnit ||
           $scope.conference.operatingUnit ||
           $scope.conference.department
-        );
-
-      // Only Family Life WTR events are eligible for gift cards
-      $scope.giftCardEligible = () =>
-        !!(
-          $scope.conference.ministry &&
-          MinistriesCache.getMinistryName($scope.conference.ministry) ===
-            'Family Life' &&
-          $scope.conference.ministryActivity &&
-          MinistriesCache.getActivityName(
-            $scope.conference.ministry,
-            $scope.conference.ministryActivity,
-          ) === 'WTR'
         );
 
       $scope.createLiabilityQuestions = () => {
