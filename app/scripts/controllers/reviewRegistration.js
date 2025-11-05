@@ -326,6 +326,7 @@ angular
           acceptPayOnSite:
             _.some(regTypesInRegistration, 'acceptPayOnSite') &&
             !currentRegistration.completed,
+          acceptGiftCards: _.some(regTypesInRegistration, 'acceptGiftCards'),
         };
         return !_.some(paymentMethods) ? false : paymentMethods;
       };
