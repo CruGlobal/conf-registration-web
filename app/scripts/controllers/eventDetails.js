@@ -37,6 +37,7 @@ angular
       $location,
       conference,
       ConfCache,
+      MinistriesCache,
       uuid,
       gettextCatalog,
       currencies,
@@ -817,11 +818,8 @@ angular
         return v1 === 'N/A' ? -1 : v1 < v2;
       };
 
-      $http({
-        method: 'GET',
-        url: 'ministries',
-      }).then(function (response) {
-        $scope.ministries = response.data;
+      MinistriesCache.get().then(function (ministries) {
+        $scope.ministries = ministries;
       });
 
       $http({
@@ -871,6 +869,19 @@ angular
           $scope.conference.businessUnit ||
           $scope.conference.operatingUnit ||
           $scope.conference.department
+        );
+
+      // Only Family Life WTR events are eligible for gift cards
+      $scope.giftCardEligible = () =>
+        !!(
+          $scope.conference.ministry &&
+          MinistriesCache.getMinistryName($scope.conference.ministry) ===
+            'Family Life' &&
+          $scope.conference.ministryActivity &&
+          MinistriesCache.getActivityName(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          ) === 'WTR'
         );
 
       $scope.createLiabilityQuestions = () => {
