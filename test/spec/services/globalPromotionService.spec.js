@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import moment from 'moment';
 
 describe('Service: GlobalPromotionService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -446,6 +447,39 @@ describe('Service: GlobalPromotionService', () => {
       });
 
       expect($rootScope.loadingMsg).toBe('');
+    });
+  });
+
+  describe('isPromotionActive', () => {
+    const format = 'YYYY-MM-DD HH:mm:ss';
+    it('returns true when deactivationDate is null', () => {
+      const promotion = { deactivationDate: null };
+
+      expect(globalPromotionService.isPromotionActive(promotion)).toBe(true);
+    });
+
+    it('returns true when deactivationDate is in the future', () => {
+      const futureDate = moment().add(1, 'year').format(format);
+      const promotion = { deactivationDate: futureDate };
+
+      expect(globalPromotionService.isPromotionActive(promotion)).toBe(true);
+    });
+
+    it('returns false when deactivationDate is in the past', () => {
+      const pastDate = moment().subtract(1, 'year').format(format);
+      const promotion = { deactivationDate: pastDate };
+
+      expect(globalPromotionService.isPromotionActive(promotion)).toBe(false);
+    });
+
+    it('returns false when current date is before activationDate', () => {
+      const futureActivationDate = moment().add(1, 'month').format(format);
+      const promotion = {
+        activationDate: futureActivationDate,
+        deactivationDate: null,
+      };
+
+      expect(globalPromotionService.isPromotionActive(promotion)).toBe(false);
     });
   });
 });

@@ -368,9 +368,14 @@ angular
             $scope.conference.ministryActivity,
           )
           .then(function (globalPromotions) {
+            const activeGlobalPromotions = globalPromotions.filter(function (
+              promotion,
+            ) {
+              return globalPromotionService.isPromotionActive(promotion);
+            });
             $scope.availablePromotions = [
               ...$scope.conference.promotions,
-              ...globalPromotions,
+              ...activeGlobalPromotions,
             ];
           });
       }
