@@ -98,9 +98,9 @@ describe('Controller: eventDetails', function () {
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes - 1);
     });
 
-    it('anyPaymentMethodAccepted should be true', function () {
+    it('minimumPaymentAccepted should be true', function () {
       expect(
-        scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0]),
+        scope.minimumPaymentAccepted(scope.conference.registrantTypes[0]),
       ).toBe(true);
     });
 

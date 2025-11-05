@@ -455,7 +455,7 @@ angular
             ($scope.conference.relayLogin ||
               $scope.conference.facebookLogin ||
               $scope.conference.googleLogin) &&
-            $scope.anyPaymentMethodAccepted(t) &&
+            $scope.minimumPaymentAccepted(t) &&
             String(t.minimumDeposit).length > 0 &&
             !_.isNull(t.minimumDeposit)
           ) {
@@ -640,7 +640,9 @@ angular
         }
       };
 
-      $scope.anyPaymentMethodAccepted = function (type) {
+      // Pay on site and gift cards always require payment in full, so they do not make the
+      // registrant eligible for a minimum payment
+      $scope.minimumPaymentAccepted = function (type) {
         return (
           type.acceptCreditCards ||
           type.acceptChecks ||
