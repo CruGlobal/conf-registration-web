@@ -34,6 +34,11 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
+      $scope.closed = !$scope.conference.registrationOpen;
+      $scope.full =
+        $scope.conference.useLimit && $scope.conference.availableSlots === 0;
+      $scope.open = !$scope.closed && !$scope.full;
+
       var originalCurrentRegistration = angular.copy(currentRegistration);
       $scope.currentRegistration = currentRegistration;
       $scope.currentRegistrant = $routeParams.reg;

@@ -2,7 +2,12 @@ import angular from 'angular';
 import 'angular-mocks';
 
 describe('Controller: registration', () => {
-  let scope, $httpBackend, $location, modalMessage, testData;
+  let scope,
+    $httpBackend,
+    $location,
+    modalMessage,
+    testData,
+    initializeController;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -28,14 +33,69 @@ describe('Controller: registration', () => {
         });
         $rootScope.registerMode = 'register';
 
-        $controller('RegistrationCtrl', {
-          $scope: scope,
-          conference: testData.conference,
-          currentRegistration: testData.registration,
-        });
+        initializeController = (conference) => {
+          $controller('RegistrationCtrl', {
+            $scope: scope,
+            conference,
+            currentRegistration: testData.registration,
+          });
+        };
+
+        initializeController(testData.conference);
       },
     ),
   );
+
+  describe('closed/full/open', () => {
+    it('should initialize as open when registration is open and are no registration limits', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: true,
+        useLimit: false,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    });
+
+    it('should initialize as open when registration is open and there are available slots', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: true,
+        useLimit: true,
+        availableSlots: 10,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    });
+
+    it('should initialize as closed when registration is closed', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: false,
+        useLimit: false,
+      });
+
+      expect(scope.closed).toBe(true);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(false);
+    });
+
+    it('should initialize as full when there are no available slots', () => {
+      initializeController({
+        ...testData.conference,
+        useLimit: true,
+        availableSlots: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(true);
+      expect(scope.open).toBe(false);
+    });
+  });
 
   it('should have validPages based on current registrant', () => {
     let validPages = scope.validPages;
