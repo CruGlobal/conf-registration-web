@@ -16,15 +16,12 @@ describe('Controller: registration', () => {
         _$location_,
         _modalMessage_,
         _testData_,
-        _validateRegistrant_,
       ) => {
         modalMessage = _modalMessage_;
         testData = _testData_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
         scope = $rootScope.$new();
-        scope.conference = testData.conference;
-        scope.currentRegistration = testData.registration;
         angular.extend($routeParams, {
           reg: testData.registration.registrants[0].id,
           pageId: testData.conference.registrationPages[0].id,
@@ -32,12 +29,9 @@ describe('Controller: registration', () => {
         $rootScope.registerMode = 'register';
 
         $controller('RegistrationCtrl', {
-          $rootScope,
           $scope: scope,
           conference: testData.conference,
           currentRegistration: testData.registration,
-          $routeParams,
-          validateRegistrant: _validateRegistrant_,
         });
       },
     ),
