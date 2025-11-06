@@ -4,6 +4,7 @@ import { ModalMessage, $RootScope, $Http } from 'injectables';
 import { GlobalPromotion } from 'globalPromotion';
 import { Conference } from 'conference';
 import { $q } from 'ngimport';
+import moment from 'moment';
 
 export class GlobalPromotionService {
   private globalPromotionsCache: angular.ICacheObject;
@@ -112,6 +113,18 @@ export class GlobalPromotionService {
     const cachedData =
       this.globalPromotionsCache.get<GlobalPromotion[]>(cacheKey);
     return cachedData ? cachedData.length > 0 : false;
+  }
+
+  isPromotionActive(promotion: GlobalPromotion): boolean {
+    if (moment().isBefore(moment(promotion.activationDate))) {
+      return false;
+    }
+
+    if (!promotion.deactivationDate) {
+      return true;
+    }
+
+    return moment().isBefore(moment(promotion.deactivationDate));
   }
 
   createPromotion(promotion: GlobalPromotion): IPromise<GlobalPromotion> {

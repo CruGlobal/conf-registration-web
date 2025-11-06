@@ -155,6 +155,9 @@ describe('Controller: paymentModal', function () {
     beforeEach(inject(function ($controller, _testData_, _$q_, _$rootScope_) {
       globalPromotionService = {
         loadPromotions: jasmine.createSpy('loadPromotions'),
+        isPromotionActive: jasmine
+          .createSpy('isPromotionActive')
+          .and.returnValue(true),
       };
       testData = _testData_;
       $q = _$q_;
@@ -249,6 +252,42 @@ describe('Controller: paymentModal', function () {
       expect(scope.availablePromotions).toEqual(testData.globalPromotions);
 
       expect(scope.showAvailablePromotions()).toBe(true);
+    });
+
+    it('filters out inactive global promotions', function () {
+      const conferenceWithMinistry = {
+        ...testData.conference,
+        ministry: testData.ministries[0],
+        ministryActivity: testData.ministries[0].activities[0],
+      };
+
+      const activePromotion = {
+        ...testData.globalPromotions[0],
+        id: 'active-1',
+      };
+      const inactivePromotion = {
+        ...testData.globalPromotions[1],
+        id: 'inactive-1',
+      };
+
+      globalPromotionService.loadPromotions.and.returnValue(
+        $q.resolve([activePromotion, inactivePromotion]),
+      );
+
+      globalPromotionService.isPromotionActive.and.callFake(
+        (promotion) => promotion.id === 'active-1',
+      );
+
+      initController(conferenceWithMinistry);
+
+      $rootScope.$digest();
+
+      expect(scope.availablePromotions).toEqual([
+        ...testData.conference.promotions,
+        activePromotion,
+      ]);
+
+      expect(scope.availablePromotions).not.toContain(inactivePromotion);
     });
   });
 

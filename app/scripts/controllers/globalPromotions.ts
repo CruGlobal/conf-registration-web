@@ -136,10 +136,7 @@ class GlobalPromotionsCtrl {
   }
 
   isActive(promotion: GlobalPromotion): boolean {
-    if (!promotion.deactivationDate) {
-      return true;
-    }
-    return moment().isBefore(moment(promotion.deactivationDate));
+    return this.globalPromotionService.isPromotionActive(promotion);
   }
 }
 

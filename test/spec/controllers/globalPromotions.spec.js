@@ -1,5 +1,4 @@
 import 'angular-mocks';
-import moment from 'moment';
 
 describe('Controller: globalPromotionsCtrl', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -31,6 +30,9 @@ describe('Controller: globalPromotionsCtrl', () => {
         updatePromotion: jasmine
           .createSpy('updatePromotion')
           .and.callFake((promotion) => $q.resolve(promotion)),
+        isPromotionActive: jasmine
+          .createSpy('isPromotionActive')
+          .and.returnValue(true),
       };
 
       MinistriesCache = {
@@ -274,23 +276,13 @@ describe('Controller: globalPromotionsCtrl', () => {
   });
 
   describe('isActive', () => {
-    const format = 'YYYY-MM-DD HH:mm:ss';
-    it('returns true when deactivationDate is null', () => {
-      const promotion = { deactivationDate: null };
-
+    const promotion = { deactivationDate: '2020-01-01 00:00:00' };
+    it('returns true if globalPromotionService.isPromotionActive returns true', () => {
       expect(controller.isActive(promotion)).toBe(true);
     });
 
-    it('returns true when deactivationDate is in the future', () => {
-      const futureDate = moment().add(1, 'year').format(format);
-      const promotion = { deactivationDate: futureDate };
-
-      expect(controller.isActive(promotion)).toBe(true);
-    });
-
-    it('returns false when deactivationDate is in the past', () => {
-      const pastDate = moment().subtract(1, 'year').format(format);
-      const promotion = { deactivationDate: pastDate };
+    it('returns false if globalPromotionService.isPromotionActive returns false', () => {
+      globalPromotionService.isPromotionActive.and.returnValue(false);
 
       expect(controller.isActive(promotion)).toBe(false);
     });
