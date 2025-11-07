@@ -5,6 +5,7 @@ import { GlobalPromotion } from 'globalPromotion';
 import { Conference } from 'conference';
 import { $q } from 'ngimport';
 import moment from 'moment';
+import { Registration } from 'registration';
 
 export class GlobalPromotionService {
   private globalPromotionsCache: angular.ICacheObject;
@@ -85,13 +86,20 @@ export class GlobalPromotionService {
     this.globalPromotionsCache.put(cacheKey, [...cachedData, newPromotion]);
   }
 
-  hasPromotionsForConference(conference: Conference): boolean {
-    const hasRegistrantTypeAllowingGlobal = conference.registrantTypes.some(
-      (registrantType) => registrantType.eligibleForGlobalPromotions,
+  hasPromotionsForRegistration(
+    conference: Conference,
+    registration: Registration,
+  ): boolean {
+    const hasEligibleRegistrants = registration.registrants.some(
+      (registrant) => {
+        const registrantType = conference.registrantTypes.find(
+          (type) => type.id === registrant.registrantTypeId,
+        );
+        return registrantType?.eligibleForGlobalPromotions;
+      },
     );
-
     const hasGlobalPromotions =
-      hasRegistrantTypeAllowingGlobal &&
+      hasEligibleRegistrants &&
       conference.ministry &&
       conference.ministryActivity &&
       this.hasGlobalPromotionsInCache(

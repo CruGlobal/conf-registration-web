@@ -319,26 +319,30 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       angular.mock.inject(() => {
         globalPromotionService = {
           loadPromotions: jasmine.createSpy('loadPromotions'),
-          hasPromotionsForConference: jasmine
-            .createSpy('hasPromotionsForConference')
+          hasPromotionsForRegistration: jasmine
+            .createSpy('hasPromotionsForRegistration')
             .and.returnValue(true),
         };
         initController({ globalPromotionService });
       });
     });
 
-    it('returns true when hasPromotionsForConference returns true', () => {
+    it('returns true when hasPromotionsForRegistration returns true', () => {
       expect(scope.showPromotionsInput()).toBe(true);
     });
 
-    it('returns true when hasPromotionsForConference returns false but there are local promotions', () => {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+    it('returns true when hasPromotionsForRegistration returns false but there are local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
 
       expect(scope.showPromotionsInput()).toBe(true);
     });
 
-    it('returns false when hasPromotionsForConference returns false and there are no local promotions', () => {
-      globalPromotionService.hasPromotionsForConference.and.returnValue(false);
+    it('returns false when hasPromotionsForRegistration returns false and there are no local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
       scope.conference.promotions = [];
 
       expect(scope.showPromotionsInput()).toBe(false);

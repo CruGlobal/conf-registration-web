@@ -171,16 +171,13 @@ describe('Service: GlobalPromotionService', () => {
     });
   });
 
-  describe('hasPromotionsForConference', () => {
+  describe('hasPromotionsForRegistration', () => {
     let ministry, ministryId, ministryActivityId;
 
     beforeEach(() => {
       ministry = testData.ministries[0];
       ministryId = ministry.id;
       ministryActivityId = ministry.activities[0].id;
-    });
-
-    it('should return true when conference has eligible registrant types, ministry info, and cached promotions', () => {
       $httpBackend
         .expectGET(
           `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
@@ -189,24 +186,28 @@ describe('Service: GlobalPromotionService', () => {
 
       globalPromotionService.loadPromotions(ministryId, ministryActivityId);
       $httpBackend.flush();
+    });
 
-      const conferenceWithMinistryActivity = {
+    it('should return true when registration has eligible registrant types, ministry info, and cached promotions', () => {
+      const conference = {
         ...testData.conference,
         ministry: ministryId,
         ministryActivity: ministryActivityId,
       };
 
       expect(
-        globalPromotionService.hasPromotionsForConference(
-          conferenceWithMinistryActivity,
+        globalPromotionService.hasPromotionsForRegistration(
+          conference,
+          testData.registration,
         ),
       ).toBe(true);
     });
 
-    it('should return false when no registrant types are eligible for global promotions', () => {
+    it('should return false when a registrant type is ineligible for global promotions', () => {
       const conferenceWithNoEligibleTypes = {
         ...testData.conference,
         registrantTypes: [
+          ...testData.conference.registrantTypes,
           {
             ...testData.conference.registrantTypes[0],
             eligibleForGlobalPromotions: false,
@@ -214,60 +215,9 @@ describe('Service: GlobalPromotionService', () => {
         ],
       };
 
-      $httpBackend
-        .expectGET(
-          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
-        )
-        .respond(200, testData.globalPromotions);
-
-      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
-      $httpBackend.flush();
-
-      const result = globalPromotionService.hasPromotionsForConference(
+      const result = globalPromotionService.hasPromotionsForRegistration(
         conferenceWithNoEligibleTypes,
-      );
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false when conference has no ministry', () => {
-      const conferenceWithoutMinistry = {
-        ...testData.conference,
-        ministry: null,
-      };
-
-      const result = globalPromotionService.hasPromotionsForConference(
-        conferenceWithoutMinistry,
-      );
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false when conference has no ministryActivity', () => {
-      const conferenceWithoutActivity = {
-        ...testData.conference,
-        ministryActivity: null,
-      };
-
-      const result = globalPromotionService.hasPromotionsForConference(
-        conferenceWithoutActivity,
-      );
-
-      expect(result).toBe(false);
-    });
-
-    it('should return false when no cached promotions exist', () => {
-      $httpBackend
-        .expectGET(
-          `globalPromotions?ministryId=${ministryId}&ministryActivityId=${ministryActivityId}`,
-        )
-        .respond(200, []);
-
-      globalPromotionService.loadPromotions(ministryId, ministryActivityId);
-      $httpBackend.flush();
-
-      const result = globalPromotionService.hasPromotionsForConference(
-        testData.conference,
+        testData.registration,
       );
 
       expect(result).toBe(false);
