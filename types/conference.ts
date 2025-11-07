@@ -71,6 +71,9 @@ export interface Conference {
   eventTimezone: string;
   registrationTimezone: string;
   registrationOpen: boolean;
+  numberSlotsLimit: number;
+  useLimit: boolean;
+  availableSlots: number;
   contactPersonName: string;
   contactPersonEmail: string;
   contactPersonPhone: string;
