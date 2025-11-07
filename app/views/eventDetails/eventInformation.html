@@ -158,21 +158,6 @@
   </div>
 </div>
 <div class="form-group">
-  <div class="col-sm-5">
-    <label>
-      <input type="checkbox" ng-model="conference.useLimit" />
-      <span translate>Limit the number of registrants</span>
-    </label>
-    <input
-      type="number"
-      aria-label="{{'Registrant limit' | translate}}"
-      class="form-control"
-      ng-show="conference.useLimit"
-      ng-model="conference.numberSlotsLimit"
-    />
-  </div>
-</div>
-<div class="form-group">
   <div class="col-sm-3">
     <label>
       <input type="checkbox" ng-model="conference.virtual" />
