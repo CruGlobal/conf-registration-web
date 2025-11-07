@@ -75,5 +75,18 @@ describe('Directive: registrationTypeSelect', function () {
 
       expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
     });
+
+    it('should return false for couple types when registration type has 1 available slot', () => {
+      const registrationTypeCouple = {
+        ...registrantTypeSingle,
+        defaultTypeKey: 'COUPLE',
+      };
+
+      scope.currentRegistration.registrants = [];
+      registrantTypeDouble.useLimit = true;
+      registrantTypeDouble.availableSlots = 1;
+
+      expect(scope.registrationTypeFull(registrationTypeCouple)).toBe(false);
+    });
   });
 });

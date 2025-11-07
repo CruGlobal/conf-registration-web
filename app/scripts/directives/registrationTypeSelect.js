@@ -1,4 +1,5 @@
 import template from 'views/components/registrationTypeSelect.html';
+import { isCoupleType } from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -141,7 +142,7 @@ angular
         // Check whether conference and registration-type limits allow another registrant of the
         // specified type to register
         $scope.registrationTypeFull = function (type) {
-          const numNewRegistrants = 1;
+          const numNewRegistrants = isCoupleType(type) ? 2 : 1;
           const registrants = $scope.currentRegistration.registrants.length;
           if (
             $scope.conference.useLimit &&
