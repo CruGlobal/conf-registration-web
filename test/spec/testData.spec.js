@@ -1114,6 +1114,9 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         email: 'test.person@cru.org',
       },
     ],
+    useLimit: false,
+    numberSlotsLimit: 0,
+    availableSlots: 0,
   };
 
   this.singleRegistration = {
