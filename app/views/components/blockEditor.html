@@ -426,6 +426,7 @@
                 <input
                   type="checkbox"
                   ng-model="$parent.visibleRegTypes[type.id]"
+                  ng-change="onVisibleRegTypesChange(type.id)"
                 />
                 {{type.name}}
                 <span
