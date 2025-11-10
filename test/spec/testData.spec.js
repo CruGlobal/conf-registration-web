@@ -32,7 +32,10 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             position: 0,
             content: null,
             profileType: 'EMAIL',
-            registrantTypes: [],
+            registrantTypes: [
+              '47de2c40-19dc-45b3-9663-5c005bd6464b',
+              'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+            ],
             rules: [],
           },
         ],
@@ -54,7 +57,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             position: 0,
             content: '',
             profileType: null,
-            registrantTypes: [],
+            registrantTypes: ['f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe'],
             rules: [],
           },
           {
@@ -82,7 +85,14 @@ angular.module('confRegistrationWebApp').service('testData', function () {
             position: 2,
             content: '',
             profileType: null,
-            registrantTypes: [],
+            registrantTypes: [
+              '67c70823-35bd-9262-416f-150e35a03514',
+              '47de2c40-19dc-45b3-9663-5c005bd6464b',
+              '2b7ca963-0503-47c4-b9cf-6348d59542c3',
+              'b2c3d4e5-f6a7-8901-bcde-234567890abc',
+              'a1b2c3d4-e5f6-7890-abcd-1234567890ef',
+              'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe',
+            ],
             rules: [],
           },
           {
@@ -141,7 +151,12 @@ angular.module('confRegistrationWebApp').service('testData', function () {
           {
             id: '18ccfb09-3006-4981-ab5e-405ccf2aad1c',
             pageId: '7b4c19df-7377-4d37-90fb-5b262bb66d1a',
-            blockTagType: null,
+            blockTagType: {
+              id: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+              ministryId: 'c1f5e2b1-5dcb-4f4f-9f7f-5e3c3f4e8e2a',
+              name: 'Ministry Tag Type',
+              prettyName: 'Ministry Tag Type',
+            },
             title: 'Checkbox Question',
             exportFieldTitle: null,
             type: 'checkboxQuestion',
@@ -2094,6 +2109,88 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       ministryId: null,
       name: 'test_name_3',
       prettyName: 'Pretty Name 3',
+    },
+  ];
+
+  this.blockTagTypeMapping = [
+    {
+      blockId: 'block-1',
+      title: 'First Name Question',
+      blockTagTypeId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+      hiddenFromRegistrantTypes: [
+        {
+          id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+          name: 'Spouse',
+        },
+        {
+          id: '8122b447-fabf-4dc0-85de-f0e642995552',
+          name: 'Child',
+        },
+        {
+          id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+          name: 'Couple',
+        },
+      ],
+      includedInRegistrantTypes: [
+        {
+          id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+          name: 'Default',
+        },
+      ],
+    },
+    {
+      blockId: 'block-2',
+      title: 'Second Name Question',
+      blockTagTypeId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+      hiddenFromRegistrantTypes: [
+        {
+          id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+          name: 'Couple',
+        },
+      ],
+      includedInRegistrantTypes: [
+        {
+          id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+          name: 'Default',
+        },
+        {
+          id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+          name: 'Spouse',
+        },
+        {
+          id: '8122b447-fabf-4dc0-85de-f0e642995552',
+          name: 'Child',
+        },
+      ],
+    },
+    {
+      blockId: 'block-3',
+      title: 'Third Name Question',
+      blockTagTypeId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+      hiddenFromRegistrantTypes: [
+        {
+          id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+          name: 'Spouse',
+        },
+        {
+          id: '8122b447-fabf-4dc0-85de-f0e642995552',
+          name: 'Child',
+        },
+        {
+          id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+          name: 'Default',
+        },
+      ],
+      includedInRegistrantTypes: [
+        {
+          id: '8122b447-fabf-4dc0-85de-f0e642995552',
+          name: 'Child',
+        },
+        {
+          id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+          name: 'Couple',
+        },
+      ],
     },
   ];
 });

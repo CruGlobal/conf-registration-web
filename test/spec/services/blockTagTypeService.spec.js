@@ -4,12 +4,18 @@ import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEdito
 describe('Service: BlockTagTypeService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let blockTagTypeService, $httpBackend, $rootScope;
+  let blockTagTypeService, $httpBackend, $rootScope, testData;
 
-  beforeEach(inject((_blockTagTypeService_, _$httpBackend_, _$rootScope_) => {
+  beforeEach(inject((
+    _blockTagTypeService_,
+    _$httpBackend_,
+    _$rootScope_,
+    _testData_,
+  ) => {
     blockTagTypeService = _blockTagTypeService_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
+    testData = _testData_;
   }));
 
   afterEach(() => {
@@ -223,6 +229,8 @@ describe('Service: BlockTagTypeService', () => {
           blockId: 'block-1',
           title: 'First Name Question',
           blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: [],
         },
       ];
 
@@ -241,6 +249,8 @@ describe('Service: BlockTagTypeService', () => {
           blockId: 'block-1',
           title: 'Question 1',
           blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: [],
         },
       ];
 
@@ -253,13 +263,153 @@ describe('Service: BlockTagTypeService', () => {
       expect(result).toEqual({ valid: true, message: '' });
     });
 
-    it('should return invalid if block tag type is already assigned to another block', () => {
+    it('should return valid if same tag type is selected on another block but there registrant types do not overlap', () => {
       const blockTagTypeMapping = [
         {
           blockId: 'block-1',
           title: 'First Name Question',
           blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            {
+              id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+              name: 'Spouse',
+            },
+            {
+              id: '8122b447-fabf-4dc0-85de-f0e642995552',
+              name: 'Child',
+            },
+          ],
+          includedInRegistrantTypes: [
+            {
+              id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+              name: 'Default',
+            },
+          ],
         },
+        {
+          blockId: 'block-2',
+          title: 'Second Name Question',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            {
+              id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+              name: 'Default',
+            },
+          ],
+          includedInRegistrantTypes: [
+            {
+              id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+              name: 'Spouse',
+            },
+            {
+              id: '8122b447-fabf-4dc0-85de-f0e642995552',
+              name: 'Child',
+            },
+          ],
+        },
+      ];
+
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[1].id,
+        blockTagTypeMapping,
+        'block-2',
+      );
+
+      expect(result).toEqual({ valid: true, message: '' });
+    });
+
+    it('should return valid if same tag type is selected on 2 or more blocks, but their registrant types do not overlap', () => {
+      const blockTagTypeMapping = [
+        {
+          blockId: 'block-1',
+          title: 'First Name Question',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            {
+              id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+              name: 'Spouse',
+            },
+            {
+              id: '8122b447-fabf-4dc0-85de-f0e642995552',
+              name: 'Child',
+            },
+            {
+              id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+              name: 'Couple',
+            },
+          ],
+          includedInRegistrantTypes: [
+            {
+              id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+              name: 'Default',
+            },
+          ],
+        },
+        {
+          blockId: 'block-2',
+          title: 'Second Name Question',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            {
+              id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+              name: 'Default',
+            },
+            {
+              id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+              name: 'Couple',
+            },
+          ],
+          includedInRegistrantTypes: [
+            {
+              id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+              name: 'Spouse',
+            },
+            {
+              id: '8122b447-fabf-4dc0-85de-f0e642995552',
+              name: 'Child',
+            },
+          ],
+        },
+        {
+          blockId: 'block-3',
+          title: 'Third Name Question',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            {
+              id: '9381010c-b56e-46fb-8364-ad27dcbcbf90',
+              name: 'Default',
+            },
+            {
+              id: '2534d7fe-cac6-4807-8f50-1140ae40d652',
+              name: 'Spouse',
+            },
+            {
+              id: '8122b447-fabf-4dc0-85de-f0e642995552',
+              name: 'Child',
+            },
+          ],
+          includedInRegistrantTypes: [
+            {
+              id: '9be0074a-14aa-4ecd-8a03-010a198f846a',
+              name: 'Couple',
+            },
+          ],
+        },
+      ];
+
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[1].id,
+        blockTagTypeMapping,
+        'block-2',
+      );
+
+      expect(result).toEqual({ valid: true, message: '' });
+    });
+
+    it('should return invalid if same tag type is selected on 1 block, but their registrant types do overlap', () => {
+      const blockTagTypeMapping = [
+        testData.blockTagTypeMapping[0],
+        testData.blockTagTypeMapping[1],
       ];
 
       const result = blockTagTypeService.validateFieldSelection(
@@ -270,68 +420,181 @@ describe('Service: BlockTagTypeService', () => {
 
       expect(result).toEqual({
         valid: false,
-        message: 'First Name has already been selected on First Name Question.',
+        message:
+          'First Name has been selected on block "First Name Question" with the following conflicting Registrant Types: Default',
       });
     });
 
-    it('should handle multiple blocks with different block tag types', () => {
+    it('should return invalid if same tag type is selected on multiple blocks, but their registrant types do overlap', () => {
+      const result = blockTagTypeService.validateFieldSelection(
+        mockBlockTagTypes[0].id,
+        testData.blockTagTypeMapping,
+        'block-2',
+      );
+
+      expect(result).toEqual({
+        valid: false,
+        message:
+          'First Name has been selected on block "First Name Question" with the following conflicting Registrant Types: Default, First Name has been selected on block "Third Name Question" with the following conflicting Registrant Types: Child',
+      });
+    });
+  });
+
+  describe('isBlockTagTypeFullyCovered', () => {
+    it('should not be disabled for null blockTagTypeId', () => {
+      const blockTagTypeMapping = [];
+      const conferenceRegistrantTypeIds = ['type-1', 'type-2', 'type-3'];
+
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+        null,
+        blockTagTypeMapping,
+        conferenceRegistrantTypeIds,
+      );
+
+      expect(isDisabled).toBe(false);
+    });
+
+    it('should not be disabled when blockTagType is not assigned to any blocks', () => {
       const blockTagTypeMapping = [
         {
           blockId: 'block-1',
-          title: 'First Name Question',
+          title: 'First Name',
           blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: [{ id: 'type-1', name: 'Type 1' }],
+        },
+      ];
+      const conferenceRegistrantTypeIds = ['type-1', 'type-2', 'type-3'];
+
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+        mockBlockTagTypes[1].id, // Different blockTagType that's not used
+        blockTagTypeMapping,
+        conferenceRegistrantTypeIds,
+      );
+
+      expect(isDisabled).toBe(false);
+    });
+
+    it('should be disabled when a single block covers all registrant types', () => {
+      const blockTagTypeMapping = [
+        {
+          blockId: 'block-1',
+          title: 'First Name',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: [
+            { id: 'type-1', name: 'Type 1' },
+            { id: 'type-2', name: 'Type 2' },
+            { id: 'type-3', name: 'Type 3' },
+          ],
+        },
+      ];
+      const conferenceRegistrantTypeIds = ['type-1', 'type-2', 'type-3'];
+
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+        mockBlockTagTypes[0].id,
+        blockTagTypeMapping,
+        conferenceRegistrantTypeIds,
+      );
+
+      expect(isDisabled).toBe(true);
+    });
+
+    it('should not be disabled when a single block covers only some registrant types', () => {
+      const blockTagTypeMapping = [
+        {
+          blockId: 'block-1',
+          title: 'First Name',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [{ id: 'type-3', name: 'Type 3' }],
+          includedInRegistrantTypes: [
+            { id: 'type-1', name: 'Type 1' },
+            { id: 'type-2', name: 'Type 2' },
+          ],
+        },
+      ];
+      const conferenceRegistrantTypeIds = ['type-1', 'type-2', 'type-3'];
+
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+        mockBlockTagTypes[0].id,
+        blockTagTypeMapping,
+        conferenceRegistrantTypeIds,
+      );
+
+      expect(isDisabled).toBe(false);
+    });
+
+    it('should be disabled true when multiple blocks together cover all registrant types', () => {
+      const blockTagTypeMapping = [
+        {
+          blockId: 'block-1',
+          title: 'First Name',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [{ id: 'type-3', name: 'Type 3' }],
+          includedInRegistrantTypes: [
+            { id: 'type-1', name: 'Type 1' },
+            { id: 'type-2', name: 'Type 2' },
+          ],
         },
         {
           blockId: 'block-2',
-          title: 'Last Name Question',
-          blockTagTypeId: mockBlockTagTypes[1].id,
-        },
-        {
-          blockId: 'block-3',
-          title: 'Email Question',
-          blockTagTypeId: mockBlockTagTypes[2].id,
+          title: 'Last Name',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            { id: 'type-1', name: 'Type 1' },
+            { id: 'type-2', name: 'Type 2' },
+          ],
+          includedInRegistrantTypes: [{ id: 'type-3', name: 'Type 3' }],
         },
       ];
+      const conferenceRegistrantTypeIds = ['type-1', 'type-2', 'type-3'];
 
-      // Try to assign block-tag-2 to block-4 (should fail)
-      const result1 = blockTagTypeService.validateFieldSelection(
-        mockBlockTagTypes[1].id,
-        blockTagTypeMapping,
-        'block-4',
-      );
-
-      expect(result1).toEqual({
-        valid: false,
-        message: 'Last Name has already been selected on Last Name Question.',
-      });
-
-      // Try to assign block-tag-1 to block-1 itself (should succeed)
-      const result2 = blockTagTypeService.validateFieldSelection(
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
         mockBlockTagTypes[0].id,
         blockTagTypeMapping,
-        'block-1',
+        conferenceRegistrantTypeIds,
       );
 
-      expect(result2).toEqual({ valid: true, message: '' });
+      expect(isDisabled).toBe(true);
     });
 
-    it('should handle blocks switching from one block tag type to another', () => {
+    it('should not be disabled when multiple blocks together do not cover all registrant types', () => {
       const blockTagTypeMapping = [
         {
           blockId: 'block-1',
-          title: 'Name Question',
+          title: 'First Name',
           blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            { id: 'type-2', name: 'Type 2' },
+            { id: 'type-3', name: 'Type 3' },
+          ],
+          includedInRegistrantTypes: [{ id: 'type-1', name: 'Type 1' }],
+        },
+        {
+          blockId: 'block-2',
+          title: 'Last Name',
+          blockTagTypeId: mockBlockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            { id: 'type-1', name: 'Type 1' },
+            { id: 'type-3', name: 'Type 3' },
+          ],
+          includedInRegistrantTypes: [{ id: 'type-2', name: 'Type 2' }],
         },
       ];
+      const conferenceRegistrantTypeIds = [
+        'type-1',
+        'type-2',
+        'type-3',
+        'type-4',
+      ];
 
-      // Block-1 switching to block-tag-2 should be valid
-      const result = blockTagTypeService.validateFieldSelection(
-        mockBlockTagTypes[1].id,
+      const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+        mockBlockTagTypes[0].id,
         blockTagTypeMapping,
-        'block-1',
+        conferenceRegistrantTypeIds,
       );
 
-      expect(result).toEqual({ valid: true, message: '' });
+      expect(isDisabled).toBe(false);
     });
   });
 
