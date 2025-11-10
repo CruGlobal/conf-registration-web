@@ -133,13 +133,24 @@ angular
         return _.find($scope.blocks, { id: blockId });
       };
 
+      $scope.registrationFull = () => {
+        return Boolean(
+          $scope.conference.useLimit &&
+            $scope.conference.availableSlots <
+              currentRegistration.registrants.length,
+        );
+      };
+
       // Return a boolean indicating whether the register button(s) should be disabled
       $scope.registerDisabled = function () {
-        return Boolean(
-          $scope.registerMode === 'preview' ||
-            !$scope.allRegistrantsValid() ||
-            $scope.submittingRegistration ||
-            $scope.requireSpouseRegistration(),
+        return (
+          $scope.registrationFull() ||
+          Boolean(
+            $scope.registerMode === 'preview' ||
+              !$scope.allRegistrantsValid() ||
+              $scope.submittingRegistration ||
+              $scope.requireSpouseRegistration(),
+          )
         );
       };
 
