@@ -18,6 +18,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       expenseTypesConstants,
       ruleTypeConstants,
       blockTagTypeService,
+      $element,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -35,8 +36,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
-      $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
-      $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping || [];
 
       // Ensure blockTagType is initialized correctly
       if (!$scope.block.blockTagType) {
@@ -167,6 +166,27 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         'visibleRegTypes',
         function (object) {
           if (angular.isDefined(object)) {
+            const currentBlockTagTypeMapping = _.find(
+              $scope.$parent.blockTagTypeMapping,
+              {
+                blockId: $scope.block.id,
+              },
+            );
+            if (!currentBlockTagTypeMapping) {
+              return;
+            }
+            const allRegistrantTypes = [
+              ...currentBlockTagTypeMapping.hiddenFromRegistrantTypes,
+              ...currentBlockTagTypeMapping.includedInRegistrantTypes,
+            ];
+            currentBlockTagTypeMapping.hiddenFromRegistrantTypes =
+              allRegistrantTypes.filter(function (registrantType) {
+                return !object[registrantType.id];
+              });
+            currentBlockTagTypeMapping.includedInRegistrantTypes =
+              allRegistrantTypes.filter(function (registrantType) {
+                return object[registrantType.id];
+              });
             //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
             $scope.block.registrantTypes = _.keys(
               _.omitBy(object, function (value) {
@@ -500,12 +520,6 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         ? $scope.block.blockTagType.id
         : null;
 
-      // Listen for block tag types loaded event
-      $scope.$on('blockTagTypesLoaded', function () {
-        $scope.blockTagTypes = $scope.$parent.blockTagTypes;
-        $scope.blockTagTypeMapping = $scope.$parent.blockTagTypeMapping;
-      });
-
       $scope.isBlockTagTypeDisabled = function (blockTagTypeId) {
         // Don't disable the "None" option
         if (blockTagTypeId === null) {
@@ -518,30 +532,41 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         if (blockTagTypeId === currentBlockTagTypeId) {
           return false;
         }
-        // Check if this blockTagTypeId is already assigned to another block
-        const existingAssignment = $scope.blockTagTypeMapping.find(
-          (mapping) =>
-            mapping.blockTagTypeId === blockTagTypeId &&
-            mapping.blockId !== $scope.block.id,
+
+        // Use the service to check if this blockTagType is fully covered
+        // across all registrant types (meaning no slots are available)
+        const conferenceRegistrantTypeIds =
+          $scope.conference.registrantTypes.map((type) => type.id);
+
+        const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+          blockTagTypeId,
+          $scope.$parent.blockTagTypeMapping,
+          conferenceRegistrantTypeIds,
         );
-        return !!existingAssignment;
+        return isDisabled;
       };
 
       $scope.blockTagTypeTypeChanged = function (selectedBlockTagTypeId) {
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
+        if (selectedBlockTagTypeId === currentBlockTagTypeId) {
+          // Selection matches current value, no change needed.
+          $scope.blockTagTypeValidation = { valid: true, message: '' };
+          return;
+        }
         const validation = blockTagTypeService.validateFieldSelection(
           selectedBlockTagTypeId,
-          $scope.blockTagTypeMapping,
+          $scope.$parent.blockTagTypeMapping,
           $scope.block.id,
         );
-        // Store validation result for display
-        $scope.blockTagTypeValidation = validation;
         if (validation.valid) {
           // Update the blockTagType property if validation passes
           if (selectedBlockTagTypeId === null) {
             $scope.block.blockTagType = null;
           } else {
             // Find the full blockTagType object from the list
-            const selectedBlockTagType = $scope.blockTagTypes.find(
+            const selectedBlockTagType = $scope.$parent.blockTagTypes.find(
               (type) => type.id === selectedBlockTagTypeId,
             );
             $scope.block.blockTagType = selectedBlockTagType || null;
@@ -550,10 +575,20 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           $scope.$parent.fetchBlockTagTypeMapping();
         } else {
           // Revert the dropdown selection to the previous valid blockTagTypeId
-          $scope.selectedBlockTagTypeId = $scope.block.blockTagType
-            ? $scope.block.blockTagType.id
-            : null;
+          const selectElement = $element.find(
+            '#blockTagType-' + $scope.block.id,
+          );
+          if (selectElement.length) {
+            // We need to set the value on the ngModelController and then call $render(),
+            // as simply changing the scope variable does not update the select element.
+            selectElement
+              .controller('ngModel')
+              .$setViewValue(currentBlockTagTypeId);
+            selectElement.controller('ngModel').$render();
+          }
         }
+        $scope.blockTagTypeValidation = validation;
+      };
       };
 
       $scope.showBlockTagTypeDropdown = function () {
