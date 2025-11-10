@@ -78,6 +78,18 @@ angular
       );
       var expandedRegistrations = {};
 
+      $scope.getFullPercentage = () => {
+        if (!$scope.conference.useLimit) {
+          return 0;
+        }
+
+        const usedSlots =
+          $scope.conference.numberSlotsLimit - $scope.conference.availableSlots;
+        return Math.floor(
+          (usedSlots / $scope.conference.numberSlotsLimit) * 100,
+        );
+      };
+
       // Couple type utility functions
       $scope.findCoupleRegistrants = findCoupleRegistrants;
       $scope.isRegistrantCouple = isRegistrantCouple;
