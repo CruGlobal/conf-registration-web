@@ -40,6 +40,7 @@ import 'scripts/controllers/journalUploadReview.js';
 // Directives
 import 'scripts/directives/adminNav.js';
 import 'scripts/directives/autoFocus.js';
+import 'scripts/directives/faIcon.js';
 import 'scripts/directives/blockEditor.js';
 import 'scripts/directives/blockRegistration.js';
 import 'scripts/directives/blocks.js';
