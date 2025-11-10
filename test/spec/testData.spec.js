@@ -621,6 +621,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: 'url1.com',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       {
         id: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -646,6 +647,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: false,
         acceptScholarships: false,
         acceptChecks: false,
+        eligibleForGlobalPromotions: true,
         registrationCompleteRedirect: 'url2.com',
         eform: false,
       },
@@ -685,6 +687,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       // Spouse type related to couple:
       {
@@ -714,6 +717,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       // Spouse type not related to couple:
       {
@@ -743,6 +747,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
     ],
     promotions: [

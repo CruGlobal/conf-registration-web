@@ -447,7 +447,10 @@ angular
       $scope.showPromotionsInput = function () {
         return (
           $scope.conference.promotions.length > 0 ||
-          globalPromotionService.hasPromotionsForConference(conference)
+          globalPromotionService.hasPromotionsForRegistration(
+            conference,
+            currentRegistration,
+          )
         );
       };
 
