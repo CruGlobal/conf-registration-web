@@ -32,7 +32,9 @@ describe('Controller: globalPromotionsCtrl', () => {
           .and.callFake((promotion) => $q.resolve(promotion)),
         isPromotionActive: jasmine
           .createSpy('isPromotionActive')
-          .and.returnValue(true),
+          .and.callFake((promotion) => {
+            return promotion.id !== 'global-promo-3';
+          }),
       };
 
       MinistriesCache = {
@@ -285,6 +287,51 @@ describe('Controller: globalPromotionsCtrl', () => {
       globalPromotionService.isPromotionActive.and.returnValue(false);
 
       expect(controller.isActive(promotion)).toBe(false);
+    });
+  });
+
+  describe('filteredPromotions', () => {
+    beforeEach(() => {
+      $rootScope.$digest();
+    });
+
+    it('returns all promotions when filter is "all"', () => {
+      controller.statusFilter = 'all';
+
+      expect(controller.filteredPromotions.length).toBe(
+        globalPromotions.length,
+      );
+    });
+
+    it('filters by status', () => {
+      controller.statusFilter = 'active';
+
+      expect(controller.filteredPromotions.length).toBe(2);
+
+      controller.statusFilter = 'inactive';
+
+      expect(controller.filteredPromotions.length).toBe(1);
+    });
+
+    it('filters by code', () => {
+      controller.codeFilter = globalPromotions[0].code;
+
+      expect(controller.filteredPromotions.length).toBe(1);
+      expect(controller.filteredPromotions).toContain(globalPromotions[0]);
+    });
+
+    it('filters by partial code name match', () => {
+      controller.codeFilter = globalPromotions[0].code.substring(0, 2);
+
+      expect(controller.filteredPromotions.length).toBe(1);
+    });
+  });
+
+  describe('setStatusFilter', () => {
+    it('sets the status filter', () => {
+      controller.setStatusFilter('active');
+
+      expect(controller.statusFilter).toBe('active');
     });
   });
 });
