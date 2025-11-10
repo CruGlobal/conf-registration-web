@@ -12,6 +12,10 @@ class GlobalPromotionsCtrl {
   selectedMinistryId: string | null = null;
   noAccess: boolean;
   showMinistrySelector: boolean;
+  statusFilter: 'all' | 'active' | 'inactive' = 'all';
+  codeFilter = '';
+  orderByField = 'code';
+  reverseSort = false;
 
   /* @ngInject */
   constructor(
@@ -137,6 +141,53 @@ class GlobalPromotionsCtrl {
 
   isActive(promotion: GlobalPromotion): boolean {
     return this.globalPromotionService.isPromotionActive(promotion);
+  }
+
+  setOrder(field: string) {
+    if (this.orderByField === field) {
+      this.reverseSort = !this.reverseSort;
+    } else {
+      this.orderByField = field;
+      this.reverseSort = false;
+    }
+  }
+
+  getStatusForSorting(promotion: GlobalPromotion): string {
+    return this.isActive(promotion) ? 'Active' : 'Inactive';
+  }
+
+  get sortField(): string | ((promotion: GlobalPromotion) => string) {
+    return this.orderByField === 'status'
+      ? (promotion) => this.getStatusForSorting(promotion)
+      : this.orderByField;
+  }
+
+  get filteredPromotions(): GlobalPromotion[] {
+    return this.promotions.filter((promotion) => {
+      if (this.statusFilter !== 'all') {
+        const isActive = this.isActive(promotion);
+        const matchesStatus =
+          this.statusFilter === 'active' ? isActive : !isActive;
+        if (!matchesStatus) {
+          return false;
+        }
+      }
+
+      if (this.codeFilter) {
+        const codeMatch = promotion.code
+          .toLowerCase()
+          .includes(this.codeFilter.toLowerCase());
+        if (!codeMatch) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }
+
+  setStatusFilter(filter: 'all' | 'active' | 'inactive') {
+    this.statusFilter = filter;
   }
 }
 
