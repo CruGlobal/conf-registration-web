@@ -46,6 +46,17 @@ export class BlockTagTypeService {
 
   constructor(private $http: $Http, private $q: $Q) {}
 
+  /**
+   * Load block tag types for a specific conference and ministry.
+   * Results are cached per conference to avoid redundant API calls.
+   *
+   * @param conferenceId - The ID of the conference
+   * @param ministryId - The ID of the ministry (must match FamilyLife ministry ID)
+   * @returns Promise resolving to an array of BlockTagType objects, including the default "None" option
+   *
+   * @remarks
+   * - Returns only the default "None" type if conferenceId is missing or ministry is not FamilyLife
+   */
   loadBlockTagTypes(
     conferenceId: string,
     ministryId: string,
@@ -76,10 +87,27 @@ export class BlockTagTypeService {
       });
   }
 
+  /**
+   * Get the currently cached block tag types.
+   *
+   * @returns Array of BlockTagType objects
+   *
+   * @remarks
+   * Returns cached data without making any API calls.
+   */
   blockTagTypes(): BlockTagType[] {
     return this.cachedBlockTagTypes;
   }
 
+  /**
+   * Analyze coverage and conflicts for a blockTagType.
+   * This is a private helper that both validation and coverage checking use.
+   *
+   * @param blockTagTypeId - The ID of the blockTagType to analyze
+   * @param blockTagTypeMapping - Array of all block mappings
+   * @param currentBlockId - Optional ID of the current block (to exclude from conflict checking)
+   * @returns Analysis containing blocks using this type, covered type IDs, and conflicts
+   */
   private analyzeBlockTagTypeCoverage(
     blockTagTypeId: string | null,
     blockTagTypeMapping: BlockTagTypeMapping[],
@@ -142,6 +170,17 @@ export class BlockTagTypeService {
     return result;
   }
 
+  /**
+   * Check if a blockTagType is fully covered across all conference registrant types.
+   * A blockTagType is "fully covered" when the combined includedInRegistrantTypes
+   * from all blocks using this blockTagType include ALL conference registrant types.
+   *
+   * @param blockTagTypeId - The ID of the blockTagType to check
+   * @param blockTagTypeMapping - Array of all block mappings
+   * @param conferenceRegistrantTypeIds - Array of all registrant type IDs in the conference
+   * @param blockId - The ID of the block being evaluated
+   * @returns true if all conference registrant types are covered by this blockTagType
+   */
   isBlockTagTypeFullyCovered(
     blockTagTypeId: string | null,
     blockTagTypeMapping: BlockTagTypeMapping[],
@@ -160,6 +199,29 @@ export class BlockTagTypeService {
     );
   }
 
+  /**
+   * Validate whether a block can use a specific blockTagType.
+   * Checks for registrant type conflicts with other blocks using the same blockTagType.
+   *
+   * @param blockTagTypeId - The ID of the blockTagType to validate (or null for "None")
+   * @param blockTagTypeMapping - Array of all block mappings in the conference
+   * @param blockId - The ID of the block attempting to use this blockTagType
+   * @returns ValidationResult object containing whether selection is valid and any error messages
+   *
+   * @remarks
+   * - Always returns valid for "None" selection (null blockTagTypeId)
+   * - Returns invalid if blockTagTypeId doesn't exist in cached types
+   * - Checks if any other blocks using the same blockTagType have overlapping registrant types
+   * - Returns detailed error messages listing which blocks and registrant types conflict
+   *
+   * @example
+   * ```typescript
+   * const result = service.validateFieldSelection('TYPE1', mappings, 'block-123');
+   * if (!result.valid) {
+   *   console.error(result.message); // "Type 1 has been selected on block "Name" with conflicting types: Default, Staff"
+   * }
+   * ```
+   */
   validateFieldSelection(
     blockTagTypeId: string | null,
     blockTagTypeMapping: BlockTagTypeMapping[],
@@ -210,6 +272,13 @@ export class BlockTagTypeService {
     };
   }
 
+  /**
+   * Clear all cached block tag types and reset to default state.
+   *
+   * @remarks
+   * - Resets cachedBlockTagTypes to only contain the default "None" option
+   * - Clears the previousConferenceId, forcing a fresh API call on next load
+   */
   clearCache(): void {
     this.cachedBlockTagTypes = [this.defaultBlockTagType];
     this.previousConferenceId = null;
