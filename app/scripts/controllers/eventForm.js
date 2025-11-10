@@ -40,6 +40,7 @@ angular
         },
         true,
       );
+      $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
 
       var formSaving = false;
       var formSavingTimeout;
@@ -378,10 +379,30 @@ angular
         $scope.blockTagTypeMapping = [];
         $scope.conference.registrationPages.forEach(function (page) {
           page.blocks.forEach(function (block) {
+            // Partition registrant types in a single pass
+            var partitioned = $scope.conference.registrantTypes.reduce(
+              function (acc, registrantType) {
+                if (_.includes(block.registrantTypes, registrantType.id)) {
+                  acc.hidden.push({
+                    id: registrantType.id,
+                    name: registrantType.name,
+                  });
+                } else {
+                  acc.included.push({
+                    id: registrantType.id,
+                    name: registrantType.name,
+                  });
+                }
+                return acc;
+              },
+              { hidden: [], included: [] },
+            );
             $scope.blockTagTypeMapping.push({
               blockId: block.id,
               title: block.title,
               blockTagTypeId: block.blockTagType ? block.blockTagType.id : null,
+              hiddenFromRegistrantTypes: partitioned.hidden,
+              includedInRegistrantTypes: partitioned.included,
             });
           });
         });
@@ -395,7 +416,6 @@ angular
           .then(function (types) {
             $scope.blockTagTypes = types;
             $scope.buildBlockTagTypeMappings();
-            $scope.$broadcast('blockTagTypesLoaded', types);
           });
       };
 
