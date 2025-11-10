@@ -1023,7 +1023,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
       id: 'global-promo-2',
       ministryId: this.ministries[0].id,
       ministryActivityId: this.ministries[0].activities[1].id,
-      code: 'GLOBAL25',
+      code: 'SUMMER25',
       amount: 25,
       name: 'Global 25% Off',
       description: '25% off for all events',
