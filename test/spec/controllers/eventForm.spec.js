@@ -45,6 +45,7 @@ describe('Controller: eventForm', function () {
           conference: { ...testData.conference },
           blockTagTypeService: {
             loadBlockTagTypes: () => $q.resolve(testData.blockTagTypes),
+            blockTagTypes: () => testData.blockTagTypes,
             clearCache: () => {},
           },
           ...injected,
@@ -331,97 +332,157 @@ describe('Controller: eventForm', function () {
       const pageOneBlocks = scope.conference.registrationPages[0].blocks;
       const pageTwoBlocks = scope.conference.registrationPages[1].blocks;
       const pageThreeBlocks = scope.conference.registrationPages[2].blocks;
+      const mockRegistrantTypes = [
+        { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+        { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+        { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+        { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+        { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+        { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+      ];
 
       expect(scope.blockTagTypeMapping).toEqual([
         {
           blockId: pageOneBlocks[0].id,
           title: pageOneBlocks[0].title,
           blockTagTypeId: testData.blockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+            { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+          ],
+          includedInRegistrantTypes: [
+            { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+            { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+            { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+            { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+          ],
         },
         {
           blockId: pageTwoBlocks[0].id,
           title: pageTwoBlocks[0].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [
+            { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+          ],
+          includedInRegistrantTypes: [
+            { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+            { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+            { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+            { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+            { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+          ],
         },
         {
           blockId: pageTwoBlocks[1].id,
           title: pageTwoBlocks[1].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[2].id,
           title: pageTwoBlocks[2].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: mockRegistrantTypes,
+          includedInRegistrantTypes: [],
         },
         {
           blockId: pageTwoBlocks[3].id,
           title: pageTwoBlocks[3].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[4].id,
           title: pageTwoBlocks[4].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[5].id,
           title: pageTwoBlocks[5].title,
-          blockTagTypeId: null,
+          blockTagTypeId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[6].id,
           title: pageTwoBlocks[6].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[7].id,
           title: pageTwoBlocks[7].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[8].id,
           title: pageTwoBlocks[8].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[9].id,
           title: pageTwoBlocks[9].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[10].id,
           title: pageTwoBlocks[10].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[11].id,
           title: pageTwoBlocks[11].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[12].id,
           title: pageTwoBlocks[12].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageTwoBlocks[13].id,
           title: pageTwoBlocks[13].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageThreeBlocks[0].id,
           title: pageThreeBlocks[0].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageThreeBlocks[1].id,
           title: pageThreeBlocks[1].title,
           blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
         {
           blockId: pageThreeBlocks[2].id,
           title: pageThreeBlocks[2].title,
           blockTagTypeId: testData.blockTagTypes[2].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
         },
       ]);
     });
