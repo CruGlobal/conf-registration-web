@@ -37,6 +37,10 @@ angular
       $scope.closed = !$scope.conference.registrationOpen;
       $scope.full =
         $scope.conference.useLimit && $scope.conference.availableSlots === 0;
+      $scope.almostFull =
+        $scope.conference.useLimit &&
+        $scope.conference.availableSlots / $scope.conference.numberSlotsLimit <=
+          0.2; // 80% or more full
       $scope.open = !$scope.closed && !$scope.full;
 
       var originalCurrentRegistration = angular.copy(currentRegistration);
