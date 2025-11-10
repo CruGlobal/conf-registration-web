@@ -92,7 +92,7 @@ export const RegistrationFilters = (
                     }}
                     title="Clear search"
                   >
-                    <i className="fa fa-times" />
+                    <i className="fa fa-times" aria-hidden="true" />
                   </span>
                 )}
               </div>
@@ -188,6 +188,7 @@ export const RegistrationFilters = (
                   'fa',
                   showMoreFilters ? 'fa-chevron-up' : 'fa-chevron-down',
                 ].join(' ')}
+                aria-hidden="true"
               />
             </Button>
           </div>
