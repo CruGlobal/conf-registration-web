@@ -589,6 +589,55 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         }
         $scope.blockTagTypeValidation = validation;
       };
+
+      $scope.onVisibleRegTypesChange = function (typeId) {
+        // Update the blockTagTypeMapping
+        $scope.$parent.blockTagTypeMapping =
+          $scope.$parent.blockTagTypeMapping.map((mapping) => {
+            if (mapping.blockId === $scope.block.id) {
+              if (
+                mapping.includedInRegistrantTypes.some(
+                  (type) => type.id === typeId,
+                )
+              ) {
+                // Move from included to hidden
+                const type = mapping.includedInRegistrantTypes.find(
+                  (t) => t.id === typeId,
+                );
+                mapping.includedInRegistrantTypes =
+                  mapping.includedInRegistrantTypes.filter(
+                    (t) => t.id !== typeId,
+                  );
+                mapping.hiddenFromRegistrantTypes.push(type);
+              } else if (
+                mapping.hiddenFromRegistrantTypes.some(
+                  (type) => type.id === typeId,
+                )
+              ) {
+                // Move from hidden to included
+                const type = mapping.hiddenFromRegistrantTypes.find(
+                  (t) => t.id === typeId,
+                );
+                mapping.hiddenFromRegistrantTypes =
+                  mapping.hiddenFromRegistrantTypes.filter(
+                    (t) => t.id !== typeId,
+                  );
+                mapping.includedInRegistrantTypes.push(type);
+              }
+            }
+            return mapping;
+          });
+
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
+
+        const validation = blockTagTypeService.validateFieldSelection(
+          currentBlockTagTypeId,
+          $scope.$parent.blockTagTypeMapping,
+          $scope.block.id,
+        );
+        $scope.blockTagTypeValidation = validation;
       };
 
       $scope.showBlockTagTypeDropdown = function () {
