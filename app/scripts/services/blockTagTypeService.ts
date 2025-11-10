@@ -7,16 +7,28 @@ export interface BlockTagType {
   name: string;
   prettyName: string;
 }
+interface RegistrantType {
+  id: string;
+  name: string;
+}
 
 export interface BlockTagTypeMapping {
   blockId: string;
   title: string;
   blockTagTypeId: string | null;
+  hiddenFromRegistrantTypes: RegistrantType[];
+  includedInRegistrantTypes: RegistrantType[];
 }
 
 export interface ValidationResult {
   valid: boolean;
   message: string;
+}
+
+interface CoverageAnalysis {
+  blocks: BlockTagTypeMapping[];
+  coveredTypeIds: Set<string>;
+  conflictsByBlock: Map<string, { title: string; typeNames: string[] }>;
 }
 
 // If you need to change this, be sure to update it in blockEditor.js as well
@@ -68,6 +80,86 @@ export class BlockTagTypeService {
     return this.cachedBlockTagTypes;
   }
 
+  private analyzeBlockTagTypeCoverage(
+    blockTagTypeId: string | null,
+    blockTagTypeMapping: BlockTagTypeMapping[],
+    currentBlockId?: string,
+  ): CoverageAnalysis {
+    const result: CoverageAnalysis = {
+      blocks: [],
+      coveredTypeIds: new Set<string>(),
+      conflictsByBlock: new Map(),
+    };
+
+    if (blockTagTypeId === null) {
+      return result;
+    }
+
+    // Find all blocks using this blockTagTypeId
+    result.blocks = blockTagTypeMapping.filter(
+      (mapping) => mapping.blockTagTypeId === blockTagTypeId,
+    );
+
+    if (result.blocks.length === 0) {
+      return result;
+    }
+
+    // Find the current block's included types (for conflict detection)
+    const currentBlock = currentBlockId
+      ? blockTagTypeMapping.find((m) => m.blockId === currentBlockId)
+      : undefined;
+
+    // Analyze each block
+    result.blocks.forEach((block) => {
+      // Collect all covered types
+      block.includedInRegistrantTypes.forEach((type) => {
+        result.coveredTypeIds.add(type.id);
+      });
+
+      // Check for conflicts with current block (if provided)
+      if (currentBlock && block.blockId !== currentBlockId) {
+        const conflicts: string[] = [];
+
+        block.includedInRegistrantTypes.forEach((type) => {
+          const isConflict = currentBlock.includedInRegistrantTypes.some(
+            (currentType) => currentType.id === type.id,
+          );
+
+          if (isConflict) {
+            conflicts.push(type.name);
+          }
+        });
+
+        if (conflicts.length > 0) {
+          result.conflictsByBlock.set(block.blockId, {
+            title: block.title,
+            typeNames: conflicts,
+          });
+        }
+      }
+    });
+
+    return result;
+  }
+
+  isBlockTagTypeFullyCovered(
+    blockTagTypeId: string | null,
+    blockTagTypeMapping: BlockTagTypeMapping[],
+    conferenceRegistrantTypeIds: string[],
+    blockId: string,
+  ): boolean {
+    const analysis = this.analyzeBlockTagTypeCoverage(
+      blockTagTypeId,
+      blockTagTypeMapping,
+      blockId,
+    );
+
+    // Check if all conference registrant types are covered
+    return conferenceRegistrantTypeIds.every((typeId) =>
+      analysis.coveredTypeIds.has(typeId),
+    );
+  }
+
   validateFieldSelection(
     blockTagTypeId: string | null,
     blockTagTypeMapping: BlockTagTypeMapping[],
@@ -86,21 +178,36 @@ export class BlockTagTypeService {
       return { valid: true, message: '' };
     }
 
-    const currentBlockTagTypeMapping = blockTagTypeMapping.find(
-      (block) => block.blockTagTypeId === blockTagTypeId,
+    // Use shared analysis method to detect conflicts
+    const analysis = this.analyzeBlockTagTypeCoverage(
+      blockTagTypeId,
+      blockTagTypeMapping,
+      blockId,
     );
 
-    if (
-      currentBlockTagTypeMapping &&
-      currentBlockTagTypeMapping.blockId !== blockId
-    ) {
-      return {
-        valid: false,
-        message: `${blockTagType.prettyName} has already been selected on ${currentBlockTagTypeMapping.title}.`,
-      };
+    // If no conflicts found, validation passes
+    if (analysis.conflictsByBlock.size === 0) {
+      return { valid: true, message: '' };
     }
 
-    return { valid: true, message: '' };
+    // Build error messages from conflicts
+    const errorStrings: string[] = [];
+    analysis.conflictsByBlock.forEach((conflict) => {
+      errorStrings.push(
+        `${blockTagType.prettyName} has been selected on block "${
+          conflict.title
+        }" with the following conflicting Registrant Types: ${conflict.typeNames.join(
+          ', ',
+        )}`,
+      );
+    });
+
+    return {
+      valid: false,
+      message: errorStrings.length
+        ? errorStrings.join(', ')
+        : 'An error occurred.',
+    };
   }
 
   clearCache(): void {

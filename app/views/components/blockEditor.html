@@ -498,7 +498,7 @@
             ng-options="
               type.id as type.prettyName
               disable when isBlockTagTypeDisabled(type.id)
-              for type in blockTagTypes
+              for type in $parent.blockTagTypes
             "
             ng-change="blockTagTypeTypeChanged(selectedBlockTagTypeId)"
             class="form-control"
