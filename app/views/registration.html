@@ -23,13 +23,11 @@
           aria-controls="registration-content"
         >
           {{ registrantName(r) }}
-          <i
-            class="fa fa-check pull-right"
-            style="padding-top: 14px"
-            ng-show="registrantIsComplete(r.id)"
-            role="img"
-            aria-label="completed"
-          ></i>
+          <span ng-show="registrantIsComplete(r.id)">
+            <i class="fa fa-check pull-right" fa-icon style="padding-top: 14px">
+            </i>
+            <span class="sr-only">completed</span>
+          </span>
         </a>
       </li>
     </ul>

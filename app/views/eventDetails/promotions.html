@@ -1,7 +1,7 @@
 <h2 class="page-title border" translate>Promotions</h2>
 <div ng-if="conference.promotions && conference.promotions.length > 0">
   <p class="text-muted margin-left-15">
-    <i class="fa fa-info-circle"></i>
+    <i class="fa fa-info-circle" fa-icon></i>
     <span>
       <translate>
         Event promo codes now require a chartfield to help document the use of
@@ -31,10 +31,15 @@
     <div class="panel-heading">
       <div class="row">
         <div class="col-md-3 col-md-push-9 text-right">
-          <a href="" ng-click="openWell[promo.id] = !openWell[promo.id]">
+          <a
+            href=""
+            ng-click="openWell[promo.id] = !openWell[promo.id]"
+            aria-label="Toggle promotion details"
+          >
             <i
               class="fa fa-inset fa-inset-reg-type"
               ng-class="{'fa-chevron-up': openWell[promo.id], 'fa-chevron-down': !openWell[promo.id]}"
+              fa-icon
             ></i>
           </a>
         </div>
@@ -122,7 +127,7 @@
         ng-click="$parent.conference.promotions.splice($index, 1)"
         type="button"
       >
-        <i class="fa fa-trash-o"></i> <translate>Delete</translate
+        <i class="fa fa-trash-o" fa-icon></i> <translate>Delete</translate
         ><span class="hidden-xs"> <translate>Promotion Code</translate></span>
       </button>
       <div class="row">
@@ -232,5 +237,5 @@
 </div>
 
 <a href="" ng-click="addPromotion()">
-  <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
+  <i class="fa fa-plus" fa-icon></i> <translate>Add Promotion Code</translate>
 </a>

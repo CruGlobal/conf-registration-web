@@ -9,10 +9,12 @@
         type="button"
         ng-click="registerUser()"
       >
-        <i class="fa fa-plus"></i> <span translate>Add Registration</span>
+        <i class="fa fa-plus" fa-icon></i>
+        <span translate>Add Registration</span>
       </button>
       <a class="btn btn-primary btn-sm" href="" ng-click="export()"
-        ><i class="fa fa-cloud-download"></i> <span translate>Export</span></a
+        ><i class="fa fa-cloud-download" fa-icon></i>
+        <span translate>Export</span></a
       >
     </div>
   </div>
@@ -32,7 +34,7 @@
               title="Clear search"
               ng-if="strFilter"
             >
-              <i class="fa fa-times"></i>
+              <i class="fa fa-times" fa-icon></i>
             </span>
           </label>
         </div>
@@ -74,11 +76,15 @@
             uib-btn-checkbox
           >
             <translate>Filters</translate>
-            <i class="fa fa-chevron-down" ng-show="!showMoreFilters"></i>
-            <i class="fa fa-chevron-up" ng-show="showMoreFilters"></i>
+            <i
+              class="fa fa-chevron-down"
+              ng-show="!showMoreFilters"
+              fa-icon
+            ></i>
+            <i class="fa fa-chevron-up" ng-show="showMoreFilters" fa-icon></i>
           </button>
           <button class="btn btn-primary" ng-click="refreshRegistrations()">
-            <i class="fa fa-refresh"></i>
+            <i class="fa fa-refresh" fa-icon></i>
             <translate>Refresh</translate>
           </button>
           <button
@@ -88,13 +94,14 @@
           >
             <span class="hidden-xs"> <translate>Display</translate></span>
             <translate>Columns</translate>
-            <i class="fa fa-caret-down"></i>
+            <i class="fa fa-caret-down" fa-icon></i>
           </button>
           <ul class="dropdown-menu-right reg-views-dropdown" uib-dropdown-menu>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Email')">
                 <i
                   ng-class="builtInColumnsVisible.Email ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Email</translate>
               </a>
@@ -103,6 +110,7 @@
               <a href="" ng-click="toggleBuiltInColumn('Group')">
                 <i
                   ng-class="builtInColumnsVisible.Group ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Group</translate>
               </a>
@@ -111,6 +119,7 @@
               <a href="" ng-click="toggleBuiltInColumn('GroupId')">
                 <i
                   ng-class="builtInColumnsVisible.GroupId ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Group Id</translate>
               </a>
@@ -122,6 +131,7 @@
               <a href="" ng-click="toggleColumn($index)">
                 <i
                   ng-class="block.visible ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 {{block.exportFieldTitle || block.title}}
               </a>
@@ -130,6 +140,7 @@
               <a href="" ng-click="toggleBuiltInColumn('Started')">
                 <i
                   ng-class="builtInColumnsVisible.Started ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Started</translate>
               </a>
@@ -138,6 +149,7 @@
               <a href="" ng-click="toggleBuiltInColumn('Completed')">
                 <i
                   ng-class="builtInColumnsVisible.Completed ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Completed</translate>
               </a>
@@ -146,6 +158,7 @@
               <a href="" ng-click="toggleBuiltInColumn('LastUpdated')">
                 <i
                   ng-class="builtInColumnsVisible.LastUpdated ? 'fa fa-check-square' : 'fa fa-square-o'"
+                  fa-icon
                 ></i>
                 <translate>Last Updated</translate>
               </a>
@@ -334,6 +347,7 @@
                 ng-if="queryParameters.orderBy === 'first_name'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th>
@@ -344,6 +358,7 @@
                 ng-if="queryParameters.orderBy === 'last_name'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th ng-if="builtInColumnsVisible.Email">
@@ -352,6 +367,7 @@
                 ng-if="queryParameters.orderBy === 'email'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th ng-if="builtInColumnsVisible.Group">
@@ -363,6 +379,7 @@
                 ng-if="queryParameters.orderBy === 'group_id'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th ng-repeat="block in blocks | filter:{ visible: true }">
@@ -373,6 +390,7 @@
                 ng-if="queryParameters.orderBy === block.id"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th
@@ -387,6 +405,7 @@
                 ng-if="queryParameters.orderBy === 'registrant_type_id'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th
@@ -401,6 +420,7 @@
                 ng-if="queryParameters.orderBy === 'created_timestamp'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th
@@ -415,6 +435,7 @@
                 ng-if="queryParameters.orderBy === 'completed_timestamp'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
 
@@ -430,6 +451,7 @@
                 ng-if="queryParameters.orderBy === 'last_updated_timestamp'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
 
@@ -448,6 +470,7 @@
                 ng-if="queryParameters.orderBy === 'form_status'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
 
@@ -467,6 +490,7 @@
                 ng-if="queryParameters.orderBy === 'payment_status'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
 
@@ -478,6 +502,7 @@
                 ng-if="queryParameters.orderBy === 'checked_in_timestamp'"
                 class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
+                fa-icon
               ></i>
             </th>
             <th class="text-center" width="146" translate>Options</th>
@@ -584,7 +609,7 @@
                   'btn-warning': r.eformStatus==='delivered'
                   }"
               >
-                <i class="fa fa-wpforms"></i>
+                <i class="fa fa-wpforms" fa-icon></i>
               </button>
             </td>
             <td class="text-center">
@@ -620,10 +645,12 @@
                 <i
                   ng-if="r.checkedInTimestamp"
                   class="fa fa-fw fa-check-square-o"
+                  fa-icon
                 ></i>
                 <i
                   ng-if="!r.checkedInTimestamp"
                   class="fa fa-fw fa-square-o"
+                  fa-icon
                 ></i>
                 &nbsp;
               </button>
@@ -640,7 +667,7 @@
                   ng-click="editRegistrant(r)"
                   title="Edit Registrant"
                 >
-                  <i class="fa fa-edit"></i>
+                  <i class="fa fa-edit" fa-icon></i>
                 </button>
                 <button
                   type="button"
@@ -648,8 +675,8 @@
                   ng-click="withdrawRegistrant(r, !r.withdrawn)"
                   ng-attr-title="{{!r.withdrawn ? 'Withdraw Registration' : 'Reinstate Registration'}}"
                 >
-                  <i ng-if="!r.withdrawn" class="fa fa-sign-out"></i>
-                  <i ng-if="r.withdrawn" class="fa fa-sign-in"></i>
+                  <i ng-if="!r.withdrawn" class="fa fa-sign-out" fa-icon></i>
+                  <i ng-if="r.withdrawn" class="fa fa-sign-in" fa-icon></i>
                 </button>
                 <button
                   type="button"
@@ -658,7 +685,7 @@
                   ng-click="deleteRegistrant(r)"
                   title="Delete Registration"
                 >
-                  <i class="fa fa-trash-o"></i>
+                  <i class="fa fa-trash-o" fa-icon></i>
                 </button>
                 <button
                   type="button"
@@ -669,6 +696,7 @@
                   <i
                     class="fa"
                     ng-class="{'fa-chevron-up': (expandedStatus(r.id) === 'open'), 'fa-chevron-down': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"
+                    fa-icon
                   ></i>
                 </button>
               </div>

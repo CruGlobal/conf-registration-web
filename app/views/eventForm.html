@@ -15,10 +15,12 @@
           <div class="col-sm-8 col-xs-12">
             <div class="btn-group pull-right" role="group">
               <button ng-click="addNewPage()" class="btn btn-success">
-                <i class="fa fa-plus"></i> <span translate>New Page</span>
+                <i class="fa fa-plus" fa-icon></i>
+                <span translate>New Page</span>
               </button>
               <button ng-click="previewForm()" class="btn btn-default save-btn">
-                <i class="fa fa-eye"></i> <span translate>Preview Form</span>
+                <i class="fa fa-eye" fa-icon></i>
+                <span translate>Preview Form</span>
               </button>
               <button
                 ng-click="toggleQuestionsToolbar()"
@@ -27,6 +29,7 @@
                 <i
                   class="fa"
                   ng-class="{'fa-chevron-up': questionsToolbarVisible, 'fa-chevron-down': !questionsToolbarVisible}"
+                  fa-icon
                 ></i>
               </button>
             </div>

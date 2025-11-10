@@ -11,7 +11,7 @@
           <translate>events</translate>
         </p>
         <p ng-show="!filteredEvents">
-          <i class="fa fa-circle-o-notch fa-spin"></i>
+          <i class="fa fa-circle-o-notch fa-spin" fa-icon></i>
           <translate>Loading events</translate>...
         </p>
       </div>
@@ -23,14 +23,15 @@
           class="btn btn-success btn-spacing-below"
           role="button"
         >
-          <i class="fa fa-plus"></i> <translate>Create New Event</translate>
+          <i class="fa fa-plus" fa-icon></i>
+          <translate>Create New Event</translate>
         </button>
         <button
           ng-click="requestAccess()"
           class="btn btn-success btn-spacing-below"
           role="button"
         >
-          <i class="fa fa-key"></i>
+          <i class="fa fa-key" fa-icon></i>
           <translate>Request Access to Existing Event</translate>
         </button>
       </div>
@@ -48,7 +49,7 @@
             title="Clear search"
             ng-show="filterName"
           >
-            <i class="fa fa-times"></i>
+            <i class="fa fa-times" fa-icon></i>
           </span>
         </div>
       </div>

@@ -52,7 +52,10 @@
                 ></i>
               </button>
             </td>
-            <td ng-class="{'strike-through':r.withdrawn}">
+            <td
+              ng-class="{'strike-through':r.withdrawn}"
+              id="registrant-name-{{r.id}}"
+            >
               {{r.firstName}} {{r.lastName}}
               <span ng-if="isSpouse(r)">
                 (Spouse cost included in couple price)
@@ -66,7 +69,7 @@
           <tr ng-if="expandRegistrantCost[r.id]">
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Registration</translate>
             </td>
             <td>
@@ -79,7 +82,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Early Registration Discount</translate>
             </td>
             <td>
@@ -92,7 +95,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Promotion Discount</translate>
             </td>
             <td>
@@ -106,7 +109,8 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}:
+              <i class="fa fa-angle-right" fa-icon></i>
+              {{getBlock(a.blockId).title}}:
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
@@ -200,7 +204,7 @@
                 title="Delete Promotion"
                 class="btn btn-xs btn-danger"
               >
-                <i class="fa fa-trash-o"></i>
+                <i class="fa fa-trash-o" fa-icon></i>
               </button>
             </td>
           </tr>
@@ -230,7 +234,7 @@
                 title="Add Promotion"
                 class="btn btn-xs btn-success"
               >
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-plus" fa-icon></i>
               </button>
             </td>
           </tr>
@@ -364,7 +368,7 @@
                     title="Edit Payment"
                     class="btn btn-xs"
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-edit" fa-icon></i>
                   </button>
                   <button
                     ng-click="startRefund(payment)"
@@ -372,7 +376,7 @@
                     title="Refund Payment"
                     class="btn btn-xs"
                   >
-                    <i class="fa fa-undo"></i>
+                    <i class="fa fa-undo" fa-icon></i>
                   </button>
                   <button
                     ng-click="deletePayment(payment)"
@@ -380,7 +384,7 @@
                     title="Delete Payment"
                     class="btn btn-xs btn-danger"
                   >
-                    <i class="fa fa-trash-o"></i>
+                    <i class="fa fa-trash-o" fa-icon></i>
                   </button>
                 </div>
 
@@ -389,7 +393,8 @@
                   ng-show="editPayment.id === payment.id"
                   class="btn btn-xs"
                 >
-                  <i class="fa fa-times"></i> <translate>Close</translate>
+                  <i class="fa fa-times" fa-icon></i>
+                  <translate>Close</translate>
                 </button>
               </td>
             </tr>
@@ -902,14 +907,14 @@
                     title="Edit Expense"
                     class="btn btn-xs"
                   >
-                    <i class="fa fa-edit"></i>
+                    <i class="fa fa-edit" fa-icon></i>
                   </button>
                   <button
                     ng-click="removeExpense(expense)"
                     title="Delete Expense"
                     class="btn btn-xs btn-danger"
                   >
-                    <i class="fa fa-trash-o"></i>
+                    <i class="fa fa-trash-o" fa-icon></i>
                   </button>
                 </div>
                 <div ng-if="editExpense.id === expense.id">
@@ -917,13 +922,13 @@
                     class="btn btn-xs"
                     ng-click="openEditExpenseRow(expense)"
                   >
-                    <i class="fa fa-times"></i>
+                    <i class="fa fa-times" fa-icon></i>
                   </button>
                   <button
                     class="btn btn-xs btn-success"
                     ng-click="saveExpenseEdits(editExpense)"
                   >
-                    <i class="fa fa-check"></i>
+                    <i class="fa fa-check" fa-icon></i>
                   </button>
                 </div>
               </td>

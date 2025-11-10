@@ -17,15 +17,17 @@
       </div>
       <div class="col-sm-4 text-right">
         <a href="" ng-click="deletePage(page.id, true)"
-          ><i class="fa fa-trash-o fa-inset"></i
+          ><i class="fa fa-trash-o fa-inset" fa-icon></i
         ></a>
         <a href="" ng-click="togglePage(page.id)"
           ><i
             class="fa fa-inset"
             ng-class="{'fa-chevron-up': !isPageHidden(page.id), 'fa-chevron-down': isPageHidden(page.id)}"
-          ></i
-        ></a>
-        <i class="fa fa-bars fa-inset" ui-tree-handle></i>
+            fa-icon
+          >
+          </i>
+        </a>
+        <i class="fa fa-bars fa-inset" ui-tree-handle fa-icon></i>
       </div>
     </div>
   </div>
@@ -49,7 +51,7 @@
     class="panel-footer dropNewTarget"
     ng-if="!isPageHidden(page.id) && (page.blocks.length <= 0 || page.blocks.length <= 2 && $first)"
   >
-    <i class="fa fa-plus-circle"></i>
+    <i class="fa fa-plus-circle" fa-icon></i>
     <p translate>Drag form elements here!</p>
   </div>
 </div>

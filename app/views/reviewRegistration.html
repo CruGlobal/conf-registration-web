@@ -235,7 +235,7 @@
           <tr ng-if="expandRegistrantCost[r.id]">
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Registration</translate>
             </td>
             <td>
@@ -249,7 +249,8 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}:
+              <i class="fa fa-angle-right" fa-icon></i>
+              {{getBlock(a.blockId).title}}:
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
@@ -265,7 +266,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Early Registration Discount</translate>
             </td>
             <td>
@@ -278,7 +279,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <i class="fa fa-angle-right" fa-icon></i>
               <translate>Promotion Discount</translate>
             </td>
             <td>
@@ -360,7 +361,7 @@
                   title="Delete Promotion"
                   class="btn btn-xs btn-danger"
                 >
-                  <i class="fa fa-trash-o"></i>
+                  <i class="fa fa-trash-o" fa-icon></i>
                 </button>
               </td>
             </tr>
@@ -447,7 +448,11 @@
       >
         <translate ng-if="!submittingRegistration">Confirm</translate>
         <translate ng-if="submittingRegistration">Submitting...</translate>
-        <i ng-if="submittingRegistration" class="fa fa-spinner fa-spin"></i>
+        <i
+          ng-if="submittingRegistration"
+          class="fa fa-spinner fa-spin"
+          fa-icon
+        ></i>
       </button>
       <span ng-show="registerMode === 'preview'"
         >&laquo; <translate>Disabled in preview mode</translate></span

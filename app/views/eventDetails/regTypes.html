@@ -1,6 +1,6 @@
 <h2 class="page-title border" translate>Registrant Types</h2>
 <p class="text-muted">
-  <i class="fa fa-info-circle"></i>
+  <i class="fa fa-info-circle" fa-icon></i>
   <translate
     >By setting up multiple registrant types, you can charge different amounts
     and ask different questions depending on the type of registration. You can
@@ -19,15 +19,20 @@
         <div class="panel-heading">
           <div class="row">
             <div class="col-md-3 col-md-push-9 text-right">
-              <a href="" ng-click="openWell[type.id] = !openWell[type.id]"
+              <a
+                href=""
+                ng-click="openWell[type.id] = !openWell[type.id]"
+                aria-label="Toggle registrant type details"
                 ><i
                   class="fa fa-inset fa-inset-reg-type"
                   ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"
+                  fa-icon
                 ></i
               ></a>
               <i
                 class="fa fa-bars fa-inset fa-inset-reg-type"
                 ui-tree-handle
+                fa-icon
               ></i>
             </div>
             <div
@@ -84,7 +89,7 @@
             ng-click="deleteRegType(type.id)"
             type="button"
           >
-            <i class="fa fa-trash-o"></i> <translate>Delete</translate
+            <i class="fa fa-trash-o" fa-icon></i> <translate>Delete</translate
             ><span class="hidden-xs">
               <translate>Registrant Type</translate></span
             >
@@ -96,21 +101,19 @@
                 class="alert alert-info"
                 ng-if="isCoupleType(type) || isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
-                <em class="fa fa-info-circle"
-                  >&nbsp;Adding a Couple type automatically creates an
-                  associated Spouse dependent type when saving. Only one Spouse
-                  registrant can be registered per Couple registrant.</em
-                >
+                <i class="fa fa-info-circle" fa-icon></i>&nbsp;Adding a Couple
+                type automatically creates an associated Spouse dependent type
+                when saving. Only one Spouse registrant can be registered per
+                Couple registrant.
               </div>
               <div
                 class="alert alert-info"
                 ng-if="!isCoupleOrSpouseType(type.id, conference.registrantTypes) && isSpouseType(type)"
               >
-                <em class="fa fa-info-circle"
-                  >&nbsp;This is the default Spouse type, which is not related
-                  to the Couple type. If you want to easily manage Couple (two
-                  people) registrations, use the Couple type instead.</em
-                >
+                <i class="fa fa-info-circle" fa-icon></i>&nbsp;This is the
+                default Spouse type, which is not related to the Couple type. If
+                you want to easily manage Couple (two people) registrations, use
+                the Couple type instead.
               </div>
               <div>
                 <label class="input-group">
@@ -392,7 +395,7 @@
                   </div>
                 </label>
                 <p class="text-muted">
-                  <i class="fa fa-info-circle"></i>
+                  <i class="fa fa-info-circle" fa-icon></i>
                   <translate
                     >If blank, full cost will be required at time of
                     registration.</translate
@@ -409,7 +412,7 @@
                   class="text-muted"
                   ng-show="!(conference.relayLogin || conference.facebookLogin || conference.googleLogin)"
                 >
-                  <i class="fa fa-info-circle"></i>
+                  <i class="fa fa-info-circle" fa-icon></i>
                   <translate
                     >Registrants must be signed in order to accept multiple
                     payments.</translate
@@ -421,7 +424,7 @@
                   <translate>tab</translate>.
                 </p>
                 <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)">
-                  <i class="fa fa-info-circle"></i>
+                  <i class="fa fa-info-circle" fa-icon></i>
                   <translate
                     >You must accept a at least one payment method in order to
                     set a minimum payment.</translate
@@ -443,7 +446,8 @@
                   class="btn btn-xs btn-default reg-discount-delete"
                   ng-click="type.earlyRegistrationDiscounts.splice($index,1)"
                 >
-                  <i class="fa fa-trash-o"></i> <translate>Remove</translate
+                  <i class="fa fa-trash-o" fa-icon></i>
+                  <translate>Remove</translate
                   ><span class="hidden-xs">
                     <translate>Discount</translate></span
                   >
@@ -480,7 +484,7 @@
               <div class="form-group">
                 <div class="col-xs-12">
                   <a href="" ng-click="addEarlyRegistrationDiscount(type)">
-                    <i class="fa fa-plus"></i>
+                    <i class="fa fa-plus" fa-icon></i>
                     <translate>Add Discount</translate>
                   </a>
                 </div>
@@ -505,7 +509,7 @@
                 tabindex="-1"
                 ng-click="previewEmail(type)"
               >
-                <i class="fa fa-external-link"></i> Preview
+                <i class="fa fa-external-link" fa-icon></i> Preview
               </button>
               <wysiwyg
                 textarea-class="form-control"
@@ -524,5 +528,5 @@
 </div>
 
 <a href="" ng-click="addRegType()">
-  <i class="fa fa-plus"></i> <translate>Add Registrant Type</translate>
+  <i class="fa fa-plus" fa-icon></i> <translate>Add Registrant Type</translate>
 </a>
