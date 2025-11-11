@@ -23,16 +23,15 @@
                 href=""
                 ng-click="openWell[type.id] = !openWell[type.id]"
                 aria-label="Toggle registrant type details"
-                ><i
-                  class="fa fa-inset fa-inset-reg-type"
+                ><fa-icon
+                  class="fa-inset fa-inset-reg-type"
                   ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"
-                  fa-icon
-                ></i
+                ></fa-icon
               ></a>
               <i
                 class="fa fa-bars fa-inset fa-inset-reg-type"
                 ui-tree-handle
-                fa-icon
+                aria-hidden="true"
               ></i>
             </div>
             <div

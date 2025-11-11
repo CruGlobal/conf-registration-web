@@ -95,28 +95,25 @@
           <ul class="dropdown-menu-right reg-views-dropdown" uib-dropdown-menu>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Email')">
-                <i
-                  ng-class="builtInColumnsVisible.Email ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.Email ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Email</translate>
               </a>
             </li>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Group')">
-                <i
-                  ng-class="builtInColumnsVisible.Group ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.Group ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Group</translate>
               </a>
             </li>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('GroupId')">
-                <i
-                  ng-class="builtInColumnsVisible.GroupId ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.GroupId ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Group Id</translate>
               </a>
             </li>
@@ -125,37 +122,33 @@
               ng-if="block.profileType !== 'NAME' && block.profileType !== 'EMAIL'"
             >
               <a href="" ng-click="toggleColumn($index)">
-                <i
-                  ng-class="block.visible ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="block.visible ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 {{block.exportFieldTitle || block.title}}
               </a>
             </li>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Started')">
-                <i
-                  ng-class="builtInColumnsVisible.Started ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.Started ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Started</translate>
               </a>
             </li>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('Completed')">
-                <i
-                  ng-class="builtInColumnsVisible.Completed ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.Completed ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Completed</translate>
               </a>
             </li>
             <li>
               <a href="" ng-click="toggleBuiltInColumn('LastUpdated')">
-                <i
-                  ng-class="builtInColumnsVisible.LastUpdated ? 'fa fa-check-square' : 'fa fa-square-o'"
-                  fa-icon
-                ></i>
+                <fa-icon
+                  ng-class="builtInColumnsVisible.LastUpdated ? 'fa-check-square' : 'fa-square-o'"
+                ></fa-icon>
                 <translate>Last Updated</translate>
               </a>
             </li>
@@ -339,55 +332,45 @@
               <a href="" ng-click="setOrder('first_name')" translate
                 >First Name</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'first_name'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th>
               <a href="" ng-click="setOrder('last_name')" translate
                 >Last Name</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'last_name'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th ng-if="builtInColumnsVisible.Email">
               <a href="" ng-click="setOrder('email')" translate>Email</a>
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'email'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th ng-if="builtInColumnsVisible.Group">
               <translate>Group</translate>
             </th>
             <th ng-if="builtInColumnsVisible.GroupId">
               <a href="" ng-click="setOrder('group_id')" translate>Group Id</a>
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'group_id'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th ng-repeat="block in blocks | filter:{ visible: true }">
               <a href="" ng-click="setOrder(block.id)"
                 >{{block.exportFieldTitle || block.title}}</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === block.id"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th
               ng-show="conference.registrantTypes.length > 1"
@@ -397,12 +380,10 @@
               <a href="" ng-click="setOrder('registrant_type_id')" translate
                 >Type</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'registrant_type_id'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th
               class="text-center"
@@ -412,12 +393,10 @@
               <a href="" ng-click="setOrder('created_timestamp')" translate
                 >Started</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'created_timestamp'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th
               class="text-center"
@@ -427,12 +406,10 @@
               <a href="" ng-click="setOrder('completed_timestamp')" translate
                 >Completed</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'completed_timestamp'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
 
             <th
@@ -443,12 +420,10 @@
               <a href="" ng-click="setOrder('last_updated_timestamp')" translate
                 >Last Updated</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'last_updated_timestamp'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
 
             <th class="text-center" width="140" ng-if="conference.eform">
@@ -461,13 +436,12 @@
                 uib-popover-template="formStatusPopoverTemplate"
                 popover-trigger="'mouseenter'"
                 popover-append-to-body="true"
+                aria-hidden="true"
               ></i>
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'form_status'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
 
             <th class="text-center" width="75">
@@ -480,26 +454,23 @@
                 uib-popover-template="paidPopoverTemplateUrl"
                 popover-trigger="'mouseenter'"
                 popover-append-to-body="true"
+                aria-hidden="true"
               >
               </i>
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'payment_status'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
 
             <th class="text-center" width="120">
               <a href="" ng-click="setOrder('checked_in_timestamp')" translate
                 >Checked-in</a
               >
-              <i
+              <fa-icon
                 ng-if="queryParameters.orderBy === 'checked_in_timestamp'"
-                class="fa"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
-                fa-icon
-              ></i>
+              ></fa-icon>
             </th>
             <th class="text-center" width="146" translate>Options</th>
           </tr>
@@ -638,16 +609,16 @@
                 ng-attr-title="{{!r.checkedInTimestamp ? 'Check In' : 'Remove Check In'}}"
               >
                 &nbsp;
-                <i
+                <fa-icon
                   ng-if="r.checkedInTimestamp"
-                  class="fa fa-fw fa-check-square-o"
-                  fa-icon
-                ></i>
-                <i
+                  icon="check-square-o"
+                  class="fa-fw"
+                ></fa-icon>
+                <fa-icon
                   ng-if="!r.checkedInTimestamp"
-                  class="fa fa-fw fa-square-o"
-                  fa-icon
-                ></i>
+                  icon="square-o"
+                  class="fa-fw"
+                ></fa-icon>
                 &nbsp;
               </button>
             </td>
@@ -689,11 +660,9 @@
                   ng-click="expandRegistration(r.id)"
                   title="Expand Registration"
                 >
-                  <i
-                    class="fa"
+                  <fa-icon
                     ng-class="{'fa-chevron-up': (expandedStatus(r.id) === 'open'), 'fa-chevron-down': !expandedStatus(r.id), 'fa-spinner fa-spin': (expandedStatus(r.id) === 'loading')}"
-                    fa-icon
-                  ></i>
+                  ></fa-icon>
                 </button>
               </div>
             </td>

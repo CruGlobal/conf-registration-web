@@ -448,11 +448,11 @@
       >
         <translate ng-if="!submittingRegistration">Confirm</translate>
         <translate ng-if="submittingRegistration">Submitting...</translate>
-        <i
+        <fa-icon
           ng-if="submittingRegistration"
-          class="fa fa-spinner fa-spin"
-          fa-icon
-        ></i>
+          icon="spinner"
+          class="fa-spin"
+        ></fa-icon>
       </button>
       <span ng-show="registerMode === 'preview'"
         >&laquo; <translate>Disabled in preview mode</translate></span
