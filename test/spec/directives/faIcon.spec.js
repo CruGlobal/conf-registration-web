@@ -1,7 +1,8 @@
 import 'angular-mocks';
 
-describe('faIcon directive', () => {
+describe('faIcon component directive', () => {
   let $compile, $scope;
+
   beforeEach(() => {
     angular.mock.module('confRegistrationWebApp');
     inject((_$compile_, $rootScope) => {
@@ -10,29 +11,24 @@ describe('faIcon directive', () => {
     });
   });
 
-  it('adds aria-hidden="true" to Font Awesome icons', () => {
-    const element = $compile('<i class="fa fa-plus" fa-icon></i>')($scope);
+  const compile = (html) => {
+    const element = $compile(`<div>${html}</div>`)($scope);
     $scope.$digest();
+    return element.find('i');
+  };
 
-    expect(element.attr('aria-hidden')).toBe('true');
+  it('renders icon with correct attributes and classes', () => {
+    const icon = compile('<fa-icon icon="spinner" class="fa-spin"></fa-icon>');
+
+    expect(icon.hasClass('fa fa-spinner fa-spin')).toBe(true);
+    expect(icon.attr('aria-hidden')).toBe('true');
   });
 
-  it('adds aria-hidden="true" to icons with multiple classes', () => {
-    const element = $compile('<i class="fa fa-spinner fa-spin" fa-icon></i>')(
-      $scope,
-    );
-    $scope.$digest();
-
-    expect(element.attr('aria-hidden')).toBe('true');
-  });
-
-  it('adds aria-hidden="true" to icons with ng-class', () => {
+  it('supports ng-class', () => {
     $scope.iconClass = 'fa-check';
-    const element = $compile('<i class="fa" ng-class="iconClass" fa-icon></i>')(
-      $scope,
-    );
-    $scope.$digest();
+    const icon = compile('<fa-icon ng-class="iconClass"></fa-icon>');
 
-    expect(element.attr('aria-hidden')).toBe('true');
+    expect(icon.hasClass('fa')).toBe(true);
+    expect(icon.attr('ng-class')).toBe('iconClass');
   });
 });
