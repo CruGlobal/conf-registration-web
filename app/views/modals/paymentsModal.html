@@ -45,11 +45,9 @@
                 aria-label="Toggle registrant cost details"
                 ng-attr-aria-describedby="registrant-name-{{r.id}}"
               >
-                <i
-                  class="fa"
+                <fa-icon
                   ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
-                  fa-icon
-                ></i>
+                ></fa-icon>
               </button>
             </td>
             <td
