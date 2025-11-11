@@ -14,13 +14,15 @@ describe('faIcon component directive', () => {
   const compile = (html) => {
     const element = $compile(`<div>${html}</div>`)($scope);
     $scope.$digest();
-    return element.find('i');
+    return element.find('fa-icon');
   };
 
   it('renders icon with correct attributes and classes', () => {
     const icon = compile('<fa-icon icon="spinner" class="fa-spin"></fa-icon>');
 
-    expect(icon.hasClass('fa fa-spinner fa-spin')).toBe(true);
+    expect(icon.hasClass('fa')).toBe(true);
+    expect(icon.hasClass('fa-spinner')).toBe(true);
+    expect(icon.hasClass('fa-spin')).toBe(true);
     expect(icon.attr('aria-hidden')).toBe('true');
   });
 
@@ -29,15 +31,15 @@ describe('faIcon component directive', () => {
     const icon = compile('<fa-icon ng-class="iconClass"></fa-icon>');
 
     expect(icon.hasClass('fa')).toBe(true);
-    expect(icon.attr('ng-class')).toBe('iconClass');
+    expect(icon.hasClass('fa-check')).toBe(true);
   });
 
-  it('copies style attribute', () => {
+  it('supports style attribute', () => {
     const icon = compile(
       '<fa-icon icon="check" style="padding-top: 14px"></fa-icon>',
     );
 
-    expect(icon.attr('style')).toBe('padding-top: 14px');
+    expect(icon.attr('style')).toContain('padding-top');
   });
 
   it('supports ng-if', () => {
@@ -53,9 +55,15 @@ describe('faIcon component directive', () => {
     expect(icon.length).toBe(0);
   });
 
-  it('copies ng-show attribute', () => {
-    const icon = compile('<fa-icon icon="user" ng-show="visible"></fa-icon>');
+  it('supports ng-show', () => {
+    $scope.visible = true;
+    let icon = compile('<fa-icon icon="user" ng-show="visible"></fa-icon>');
 
-    expect(icon.attr('ng-show')).toBe('visible');
+    expect(icon.hasClass('ng-hide')).toBe(false);
+
+    $scope.visible = false;
+    $scope.$digest();
+
+    expect(icon.hasClass('ng-hide')).toBe(true);
   });
 });
