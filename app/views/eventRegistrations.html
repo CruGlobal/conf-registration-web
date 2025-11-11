@@ -9,11 +9,11 @@
         type="button"
         ng-click="registerUser()"
       >
-        <i class="fa fa-plus" fa-icon></i>
+        <fa-icon icon="plus"></fa-icon>
         <span translate>Add Registration</span>
       </button>
       <a class="btn btn-primary btn-sm" href="" ng-click="export()"
-        ><i class="fa fa-cloud-download" fa-icon></i>
+        ><fa-icon icon="cloud-download"></fa-icon>
         <span translate>Export</span></a
       >
     </div>
@@ -34,7 +34,7 @@
               title="Clear search"
               ng-if="strFilter"
             >
-              <i class="fa fa-times" fa-icon></i>
+              <fa-icon icon="times"></fa-icon>
             </span>
           </label>
         </div>
@@ -76,15 +76,11 @@
             uib-btn-checkbox
           >
             <translate>Filters</translate>
-            <i
-              class="fa fa-chevron-down"
-              ng-show="!showMoreFilters"
-              fa-icon
-            ></i>
-            <i class="fa fa-chevron-up" ng-show="showMoreFilters" fa-icon></i>
+            <fa-icon icon="chevron-down" ng-show="!showMoreFilters"></fa-icon>
+            <fa-icon icon="chevron-up" ng-show="showMoreFilters"></fa-icon>
           </button>
           <button class="btn btn-primary" ng-click="refreshRegistrations()">
-            <i class="fa fa-refresh" fa-icon></i>
+            <fa-icon icon="refresh"></fa-icon>
             <translate>Refresh</translate>
           </button>
           <button
@@ -94,7 +90,7 @@
           >
             <span class="hidden-xs"> <translate>Display</translate></span>
             <translate>Columns</translate>
-            <i class="fa fa-caret-down" fa-icon></i>
+            <fa-icon icon="caret-down"></fa-icon>
           </button>
           <ul class="dropdown-menu-right reg-views-dropdown" uib-dropdown-menu>
             <li>
@@ -609,7 +605,7 @@
                   'btn-warning': r.eformStatus==='delivered'
                   }"
               >
-                <i class="fa fa-wpforms" fa-icon></i>
+                <fa-icon icon="wpforms"></fa-icon>
               </button>
             </td>
             <td class="text-center">
@@ -667,7 +663,7 @@
                   ng-click="editRegistrant(r)"
                   title="Edit Registrant"
                 >
-                  <i class="fa fa-edit" fa-icon></i>
+                  <fa-icon icon="edit"></fa-icon>
                 </button>
                 <button
                   type="button"
@@ -675,8 +671,8 @@
                   ng-click="withdrawRegistrant(r, !r.withdrawn)"
                   ng-attr-title="{{!r.withdrawn ? 'Withdraw Registration' : 'Reinstate Registration'}}"
                 >
-                  <i ng-if="!r.withdrawn" class="fa fa-sign-out" fa-icon></i>
-                  <i ng-if="r.withdrawn" class="fa fa-sign-in" fa-icon></i>
+                  <fa-icon ng-if="!r.withdrawn" icon="sign-out"></fa-icon>
+                  <fa-icon ng-if="r.withdrawn" icon="sign-in"></fa-icon>
                 </button>
                 <button
                   type="button"
@@ -685,7 +681,7 @@
                   ng-click="deleteRegistrant(r)"
                   title="Delete Registration"
                 >
-                  <i class="fa fa-trash-o" fa-icon></i>
+                  <fa-icon icon="trash-o"></fa-icon>
                 </button>
                 <button
                   type="button"

@@ -62,7 +62,7 @@
 </div>
 <div class="text-center" ng-if="loadingSearchResults">
   <h2 class="h3" translate>Searching Events...</h2>
-  <i class="fa fa-spinner fa-spin fa-4x" fa-icon></i>
+  <fa-icon icon="spinner" class="fa-spin fa-4x"></fa-icon>
 </div>
 <div
   class="container spacing-above-md"
@@ -98,7 +98,7 @@
       <div class="bs-callout">
         <h3 id="title-{{e.id}}" class="list-group-item-heading">{{e.name}}</h3>
         <p class="spacing-above-md list-group-item-text">
-          <i class="fa fa-calendar fa-fw" fa-icon></i>
+          <fa-icon icon="calendar" class="fa-fw"></fa-icon>
           <time datetime="{{e.eventStartTime}}">
             {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D,
             YYYY h:mma'}}
@@ -110,7 +110,7 @@
             h:mma'}}
           </time>
           <span ng-if="e.locationName"
-            ><br /><i class="fa fa-map-marker fa-fw" fa-icon></i>
+            ><br /><fa-icon icon="map-marker" class="fa-fw"></fa-icon>
             {{e.locationName}}</span
           >
         </p>

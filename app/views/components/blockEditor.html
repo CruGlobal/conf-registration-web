@@ -5,14 +5,14 @@
       ng-if="block.adminOnly"
       ng-click="toggleBlockEdit('advanced')"
     >
-      <i class="fa fa-lock" fa-icon></i> <translate>Admin only</translate>
+      <fa-icon icon="lock"></fa-icon> <translate>Admin only</translate>
     </button>
     <button
       class="btn btn-default"
       ng-click="toggleBlockEdit('advanced')"
       ng-if="!block.adminOnly && visibleRegTypesArray.length < conference.registrantTypes.length"
     >
-      <i class="fa fa-eye" fa-icon></i>
+      <fa-icon icon="eye"></fa-icon>
       <ng-pluralize
         count="visibleRegTypesArray.length"
         offset="2"
@@ -29,31 +29,31 @@
       class="btn btn-default"
       ng-click="toggleBlockEdit()"
     >
-      <i class="fa fa-pencil-square-o" fa-icon></i> <translate>Edit</translate>
+      <fa-icon icon="pencil-square-o"></fa-icon> <translate>Edit</translate>
     </button>
     <button
       ng-if="editBlock"
       class="btn btn-default"
       ng-click="toggleBlockEdit()"
     >
-      <i class="fa fa-check-square-o" fa-icon></i> <translate>Close</translate>
+      <fa-icon icon="check-square-o"></fa-icon> <translate>Close</translate>
     </button>
     <button
       class="btn btn-default"
       ng-click="copyBlock(block.id)"
       ng-disabled="!canCopy"
     >
-      <i class="fa fa-clipboard" fa-icon></i> <translate>Copy</translate>
+      <fa-icon icon="clipboard"></fa-icon> <translate>Copy</translate>
     </button>
     <button
       class="btn btn-danger"
       ng-click="deleteBlock(block.id, true)"
       ng-disabled="!canDelete"
     >
-      <i class="fa fa-trash-o" fa-icon></i> <translate>Delete</translate>
+      <fa-icon icon="trash-o"></fa-icon> <translate>Delete</translate>
     </button>
     <span class="btn btn-default" ui-tree-handle
-      ><i class="fa fa-bars" fa-icon></i> <translate>Move</translate></span
+      ><fa-icon icon="bars"></fa-icon> <translate>Move</translate></span
     >
   </div>
   <label id="block-label-{{block.id}}" for="block-input-{{block.id}}"
@@ -339,7 +339,7 @@
               ng-change="toggleProfileType(profileCheck)"
               ng-disabled="!profileOption"
             />
-            <i class="fa fa-user" fa-icon></i>
+            <fa-icon icon="user"></fa-icon>
             <translate>Cru Profile</translate></label
           >
         </div>
@@ -453,7 +453,7 @@
             </div>
           </div>
           <p ng-if="!canChangeRegTypes" class="text-muted">
-            <i class="fa fa-exclamation-triangle" fa-icon></i>
+            <fa-icon icon="exclamation-triangle"></fa-icon>
             <translate
               >This question must be shown for all registrant types.</translate
             >
@@ -502,7 +502,7 @@
       </uib-tab>
       <uib-tab heading="Question Rules" ng-if="canHaveRules">
         <p class="text-muted">
-          <i class="fa fa-info-circle" fa-icon></i>
+          <fa-icon icon="info-circle"></fa-icon>
           <translate
             >Question Rules are a great way to show questions</translate
           >

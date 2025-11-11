@@ -1,7 +1,7 @@
 <h2 class="page-title border" translate>Promotions</h2>
 <div ng-if="conference.promotions && conference.promotions.length > 0">
   <p class="text-muted margin-left-15">
-    <i class="fa fa-info-circle" fa-icon></i>
+    <fa-icon icon="info-circle"></fa-icon>
     <span>
       <translate>
         Event promo codes now require a chartfield to help document the use of
@@ -127,7 +127,7 @@
         ng-click="$parent.conference.promotions.splice($index, 1)"
         type="button"
       >
-        <i class="fa fa-trash-o" fa-icon></i> <translate>Delete</translate
+        <fa-icon icon="trash-o"></fa-icon> <translate>Delete</translate
         ><span class="hidden-xs"> <translate>Promotion Code</translate></span>
       </button>
       <div class="row">
@@ -237,5 +237,5 @@
 </div>
 
 <a href="" ng-click="addPromotion()">
-  <i class="fa fa-plus" fa-icon></i> <translate>Add Promotion Code</translate>
+  <fa-icon icon="plus"></fa-icon> <translate>Add Promotion Code</translate>
 </a>
