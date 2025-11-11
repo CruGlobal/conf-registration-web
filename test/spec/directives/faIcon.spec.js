@@ -31,4 +31,31 @@ describe('faIcon component directive', () => {
     expect(icon.hasClass('fa')).toBe(true);
     expect(icon.attr('ng-class')).toBe('iconClass');
   });
+
+  it('copies style attribute', () => {
+    const icon = compile(
+      '<fa-icon icon="check" style="padding-top: 14px"></fa-icon>',
+    );
+
+    expect(icon.attr('style')).toBe('padding-top: 14px');
+  });
+
+  it('supports ng-if', () => {
+    $scope.show = true;
+    let icon = compile('<fa-icon icon="check" ng-if="show"></fa-icon>');
+
+    expect(icon.length).toBe(1);
+
+    $scope.show = false;
+    $scope.$digest();
+    icon = compile('<fa-icon icon="check" ng-if="show"></fa-icon>');
+
+    expect(icon.length).toBe(0);
+  });
+
+  it('copies ng-show attribute', () => {
+    const icon = compile('<fa-icon icon="user" ng-show="visible"></fa-icon>');
+
+    expect(icon.attr('ng-show')).toBe('visible');
+  });
 });
