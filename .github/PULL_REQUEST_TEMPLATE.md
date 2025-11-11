@@ -18,9 +18,10 @@ Example:
 - Do ...
 - Check that ...
 
-## Checklist:
+## Checklist
 
-- [ ] I have given my PR a title with the format "EVENT-(JIRA#) (summary sentence max 80 chars)"
+- [ ] I have given my PR a title with the format "EVENT-(Jira#) - (summary sentence max 80 chars)"
 - [ ] I have applied the appropriate labels (_Add the label "On Staging" to get the branch automatically merged into staging_)
+- [ ] I have requested an AI code review either locally or from Copilot and fixed any relevant suggestions
 - [ ] I have requested a review from another person on the project
 - [ ] I have tested my changes in preview or in staging
