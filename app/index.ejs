@@ -147,7 +147,7 @@
     <div class="rootLoadingMsg" ng-if="loadingMsg">
       <div class="blueMsg">
         <div>
-          <i class="fa fa-spinner fa-spin" fa-icon></i> {{ loadingMsg }}...
+          <fa-icon icon="spinner" class="fa-spin"></fa-icon> {{ loadingMsg }}...
         </div>
       </div>
     </div>
@@ -169,14 +169,14 @@
           <div class="row">
             <div class="col-sm-8">
               <a class="logo" href="/" ng-if="globalPage.type === 'landing'">
-                <i class="fa fa-users" fa-icon></i> Event Registration Tool
+                <fa-icon icon="users"></fa-icon> Event Registration Tool
               </a>
               <a
                 class="logo"
                 href="eventDashboard"
                 ng-if="globalPage.type === 'admin'"
               >
-                <i class="fa fa-users" fa-icon></i> Event Registration Tool
+                <fa-icon icon="users"></fa-icon> Event Registration Tool
               </a>
             </div>
             <div class="col-sm-4 text-right" ng-if="globalUser()">
@@ -195,19 +195,19 @@
                 <ul class="dropdown-menu-right" role="menu" uib-dropdown-menu>
                   <li>
                     <a href="eventDashboard/"
-                      ><i class="fa fa-users" fa-icon></i>
+                      ><fa-icon icon="users"></fa-icon>
                       <translate>My Dashboard</translate></a
                     >
                   </li>
                   <li>
                     <a href="help/"
-                      ><i class="fa fa-medkit" fa-icon></i>
+                      ><fa-icon icon="medkit"></fa-icon>
                       <translate>I Need Help!</translate></a
                     >
                   </li>
                   <li>
                     <a href="logout"
-                      ><i class="fa fa-sign-out" fa-icon></i>
+                      ><fa-icon icon="sign-out"></fa-icon>
                       <translate>Sign out</translate></a
                     >
                   </li>
@@ -269,7 +269,7 @@
               </a>
               <p id="event-info" class="spacing-above-md">
                 <span class="sr-only" translate>Event dates:</span>
-                <i class="fa fa-calendar fa-fw" fa-icon></i>
+                <fa-icon icon="calendar" class="fa-fw"></fa-icon>
                 <time datetime="{{ globalPage.conference.eventStartTime }}">
                   {{
                     globalPage.conference.eventStartTime
@@ -291,7 +291,7 @@
                 <span ng-if="globalPage.conference.locationName">
                   <br />
                   <span class="sr-only" translate>Event location:</span>
-                  <i class="fa fa-map-marker fa-fw" fa-icon></i>
+                  <fa-icon icon="map-marker" class="fa-fw"></fa-icon>
                   {{ globalPage.conference.locationName }}
                 </span>
               </p>
