@@ -24,7 +24,11 @@
         >
           {{ registrantName(r) }}
           <span ng-show="registrantIsComplete(r.id)">
-            <fa-icon icon="check" class="pull-right" style="padding-top: 14px"></fa-icon>
+            <fa-icon
+              icon="check"
+              class="pull-right"
+              style="padding-top: 14px"
+            ></fa-icon>
             <span class="sr-only">completed</span>
           </span>
         </a>
