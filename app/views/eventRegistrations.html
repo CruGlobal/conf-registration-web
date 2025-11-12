@@ -430,9 +430,7 @@
               <a id="form-status-label" href="" ng-click="setOrder('form_status')" translate
                 >Form Status</a
               >
-              <tooltip tooltip-template="{{formStatusPopoverTemplate}}" aria-labelledby="form-status-label">
-                <fa-icon icon="question-circle"></fa-icon>
-              </tooltip>
+              <tooltip tooltip-template="{{formStatusPopoverTemplate}}" aria-labelledby="form-status-label"></tooltip>
               <fa-icon
                 ng-if="queryParameters.orderBy === 'form_status'"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
@@ -443,9 +441,7 @@
               <a id="paid-label" href="" ng-click="setOrder('payment_status')" translate
                 >Paid</a
               >
-              <tooltip tooltip-template="{{paidPopoverTemplateUrl}}" aria-labelledby="paid-label">
-                <fa-icon icon="question-circle"></fa-icon>
-              </tooltip>
+              <tooltip tooltip-template="{{paidPopoverTemplateUrl}}" aria-labelledby="paid-label"></tooltip>
               <i
                 ng-if="queryParameters.orderBy === 'payment_status'"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
