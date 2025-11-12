@@ -110,11 +110,9 @@ export function syncCoupleNames(registrantTypes, oldRegistrantTypes) {
     if (type.defaultTypeKey !== 'COUPLE') {
       return;
     }
-    if (type.name !== oldCoupleNameMap[type.id]) {
-      const spouseType = findSpouseForCouple(type.id, registrantTypes);
-      if (spouseType) {
-        spouseType.name = `${type.name} Spouse`;
-      }
+    const spouseType = findSpouseForCouple(type.id, registrantTypes);
+    if (spouseType) {
+      spouseType.name = `${type.name} Spouse`;
     }
   });
 }
