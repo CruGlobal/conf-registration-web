@@ -2,6 +2,7 @@ export const FormStatusPopover = (): JSX.Element => {
   return (
     <div className="text-center">
       Liability Release Form Status
+      <br></br>
       <button className="btn btn-danger btn-xs" style={{ margin: '0 2px' }}>
         Voided/Declined
       </button>
