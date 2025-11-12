@@ -9,15 +9,15 @@
   <div class="col-sm-3">
     <label>
       <span>
-        <translate>Abbreviation</translate>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
+        <span id="abbreviation-label" translate>Abbreviation</span>
+        <tooltip
+          content="{{'10 character or less abbreviation of Event Name.  This will be used as the first part of the
           Description on the Staff Account Transfers upload report and Cash & Check Deposit report.  Including an abbreviation will help those who pay by
            transfer know which event the transfer is paying for when they view their staff account expense report.' | translate}}"
-          popover-trigger="'mouseenter'"
-          popover-append-to-body="true"
-        ></i>
+          aria-labelledby="abbreviation-label"
+        >
+          <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+        </tooltip>
       </span>
       <input
         type="text"
@@ -31,12 +31,13 @@
   <div class="col-sm-12 popup-custom-width">
     <label>
       <span>
-        <translate>Description</translate>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover-template="descriptionPopup.titleTemplateUrl"
-          popover-trigger="'mouseenter'"
-        ></i>
+        <span id="description-label" translate>Description</span>
+        <tooltip
+          tooltip-template="{{descriptionPopup.titleTemplateUrl}}"
+          aria-labelledby="description-label"
+        >
+          <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+        </tooltip>
       </span>
       <textarea
         type="text"
@@ -162,13 +163,13 @@
     <label>
       <input type="checkbox" ng-model="conference.virtual" />
       <span>
-        <translate>Virtual Event</translate>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover="{{'Indicates whether this event is a virtual or online event.' | translate}}"
-          popover-trigger="'mouseenter'"
-          popover-append-to-body="true"
-        ></i>
+        <span id="virtual-event-label" translate>Virtual Event</span>
+        <tooltip
+          content="{{'Indicates whether this event is a virtual or online event.' | translate}}"
+          aria-labelledby="virtual-event-label"
+        >
+          <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+        </tooltip>
       </span>
     </label>
   </div>
@@ -284,12 +285,13 @@
   <div class="col-sm-5" ng-if="getActivities().length != 0">
     <label>
       <span>
-        <translate>Ministry Activity</translate>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover="Used to determine the liability release form needed."
-          popover-trigger="'mouseenter'"
-        ></i>
+        <span id="ministry-activity-label" translate>Ministry Activity</span>
+        <tooltip
+          content="Used to determine the liability release form needed."
+          aria-labelledby="ministry-activity-label"
+        >
+          <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+        </tooltip>
       </span>
       <select
         class="form-control"
@@ -347,12 +349,13 @@
     <label>
       <input type="checkbox" ng-model="conference.workProject" />
       <span>
-        <translate>Work Project</translate>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover="Event includes 'work' or 'construction' (i.e., disaster relief, storm clean-up, building projects, etc.)"
-          popover-trigger="'mouseenter'"
-        ></i>
+        <span id="work-project-label" translate>Work Project</span>
+        <tooltip
+          content="Event includes 'work' or 'construction' (i.e., disaster relief, storm clean-up, building projects, etc.)"
+          aria-labelledby="work-project-label"
+        >
+          <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+        </tooltip>
       </span>
     </label>
   </div>

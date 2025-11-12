@@ -427,37 +427,26 @@
             </th>
 
             <th class="text-center" width="140" ng-if="conference.eform">
-              <a href="" ng-click="setOrder('form_status')" translate
+              <a id="form-status-label" href="" ng-click="setOrder('form_status')" translate
                 >Form Status</a
               >
+              <tooltip tooltip-template="{{formStatusPopoverTemplate}}" aria-labelledby="form-status-label">
+                <fa-icon icon="question-circle"></fa-icon>
+              </tooltip>
               <i
-                class="fa fa-question-circle"
-                button
-                uib-popover-template="formStatusPopoverTemplate"
-                popover-trigger="'mouseenter'"
-                popover-append-to-body="true"
-                aria-hidden="true"
-              ></i>
-              <fa-icon
                 ng-if="queryParameters.orderBy === 'form_status'"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
               ></fa-icon>
             </th>
 
             <th class="text-center" width="75">
-              <a href="" ng-click="setOrder('payment_status')" translate
+              <a id="paid-label" href="" ng-click="setOrder('payment_status')" translate
                 >Paid</a
               >
+              <tooltip tooltip-template="{{paidPopoverTemplateUrl}}" aria-labelledby="paid-label">
+                <fa-icon icon="question-circle"></fa-icon>
+              </tooltip>
               <i
-                class="fa fa-question-circle"
-                button
-                uib-popover-template="paidPopoverTemplateUrl"
-                popover-trigger="'mouseenter'"
-                popover-append-to-body="true"
-                aria-hidden="true"
-              >
-              </i>
-              <fa-icon
                 ng-if="queryParameters.orderBy === 'payment_status'"
                 ng-class="{'fa-caret-down': reversesort, 'fa-caret-up': !reversesort}"
               ></fa-icon>

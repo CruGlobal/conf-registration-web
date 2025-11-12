@@ -15,12 +15,13 @@
     ></textarea>
   </div>
   <div class="form-group">
-    <label translate>Export Value</label>
-    <i
-      uib-popover="{{'Enter a value here to replace the answer in a registration export.' | translate}}"
-      popover-trigger="'mouseenter'"
-      class="fa fa-question-circle question-popover"
-    ></i>
+    <label id="export-value-label" translate>Export Value</label>
+    <tooltip
+      content="{{'Enter a value here to replace the answer in a registration export.' | translate}}"
+      aria-labelledby="export-value-label"
+    >
+      <fa-icon icon="question-circle" class="question-popover"></fa-icon>
+    </tooltip>
     <input
       type="text"
       class="form-control marginless"
