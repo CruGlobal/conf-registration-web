@@ -43,9 +43,7 @@ angular
           triggerElement.setAttribute('aria-label', 'More information');
         }
 
-        // Add role so screen-readers identifies as button
-        // and reads tooltip content
-        triggerElement.setAttribute('role', 'button');
+        triggerElement.setAttribute('role', 'img');
 
         const createTooltip = (content) => {
           if (tippyInstance) tippyInstance.destroy();
@@ -58,6 +56,7 @@ angular
             placement: scope.tooltipPlacement || 'top',
             trigger: scope.tooltipTrigger || 'focus click mouseenter',
             appendTo: 'parent',
+            aria: { content: 'describedby' },
           });
 
           element.data('tippyInstance', tippyInstance);

@@ -36,7 +36,7 @@ describe('tooltip directive', function () {
       element[0].querySelector('.tooltip-wrapper').firstElementChild;
 
     expect(trigger.getAttribute('tabindex')).toBe('0');
-    expect(trigger.getAttribute('role')).toBe('button');
+    expect(trigger.getAttribute('role')).toBe('img');
     expect(trigger.getAttribute('aria-label')).toBe('More information');
   });
 
