@@ -46,7 +46,7 @@
                 ng-attr-aria-describedby="registrant-name-{{r.id}}"
               >
                 <fa-icon
-                  icon="{{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}}"
+                  ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
                 ></fa-icon>
               </button>
             </td>

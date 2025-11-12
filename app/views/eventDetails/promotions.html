@@ -38,7 +38,7 @@
           >
             <fa-icon
               class="fa-inset fa-inset-reg-type"
-              icon="{{openWell[promo.id] ? 'chevron-up' : 'chevron-down'}}"
+              ng-class="{'fa-chevron-up': openWell[promo.id], 'fa-chevron-down': !openWell[promo.id]}"
             ></fa-icon>
           </a>
         </div>

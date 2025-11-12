@@ -25,7 +25,7 @@
                 aria-label="Toggle registrant type details"
                 ><fa-icon
                   class="fa-inset fa-inset-reg-type"
-                  icon="{{openWell[type.id] ? 'chevron-up' : 'chevron-down'}}"
+                  ng-class="{'fa-chevron-up': openWell[type.id], 'fa-chevron-down': !openWell[type.id]}"
                 ></fa-icon
               ></a>
               <i
