@@ -1,13 +1,19 @@
 import angular, { IHttpService, IPromise, IRootScopeService } from 'angular';
+import { Ministry } from './MinistriesCache';
 
-interface Ministry {
+interface MinistryPermissions {
   id: string;
-  name: string;
+  readonly: boolean;
+}
+
+interface MinistryAdmin {
+  ministry: Pick<Ministry, 'id' | 'name'>;
+  permissionLevel: 'VIEW' | 'UPDATE' | 'FULL' | 'CREATOR';
 }
 
 export class MinistryAdminsCache {
-  private ministryIds: string[] = [];
-  private loadPromise: IPromise<string[]> | null = null;
+  private ministries: MinistryPermissions[] = [];
+  private loadPromise: IPromise<MinistryPermissions[]> | null = null;
 
   /* @ngInject */
   constructor(
@@ -27,21 +33,28 @@ export class MinistryAdminsCache {
     $rootScope.$on('$destroy', unwatch);
   }
 
-  private load(): IPromise<string[]> {
-    this.ministryIds = [];
+  private load(): IPromise<MinistryPermissions[]> {
+    this.ministries = [];
 
     if (this.$cookies.get('crsToken')) {
-      this.loadPromise = this.$http.get<Ministry[]>('ministries/admin').then(
-        (response) => {
-          this.ministryIds = response.data.map((ministry) => ministry.id);
-          return this.ministryIds;
-        },
-        () => {
-          this.loadPromise = null;
-          this.ministryIds = [];
-          return this.ministryIds;
-        },
-      );
+      this.loadPromise = this.$http
+        .get<MinistryAdmin[]>('ministries/admin')
+        .then(
+          (response) => {
+            this.ministries = response.data.map(
+              ({ ministry, permissionLevel }) => ({
+                id: ministry.id,
+                readonly: permissionLevel === 'VIEW',
+              }),
+            );
+            return this.ministries;
+          },
+          () => {
+            this.loadPromise = null;
+            this.ministries = [];
+            return this.ministries;
+          },
+        );
     } else {
       // Don't load if the user isn't logged in
       this.loadPromise = this.$q.resolve([]);
@@ -50,17 +63,17 @@ export class MinistryAdminsCache {
   }
 
   /**
-   * Return the ministry ids that the current user is an admin of. If the ministries are still
+   * Return the ministries that the current user is an admin of. If the ministries are still
    * loading, an empty array is returned.
    */
-  getSync(): string[] {
-    return this.ministryIds;
+  getSync(): MinistryPermissions[] {
+    return this.ministries;
   }
 
   /**
-   * Return a promise resolving to the ministry ids that the current user is an admin of.
+   * Return a promise resolving to the ministries that the current user is an admin of.
    */
-  getAsync(): IPromise<string[]> {
+  getAsync(): IPromise<MinistryPermissions[]> {
     return this.loadPromise ?? this.load();
   }
 }

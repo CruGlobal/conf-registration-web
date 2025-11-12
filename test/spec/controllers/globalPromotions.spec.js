@@ -55,7 +55,7 @@ describe('Controller: globalPromotionsCtrl', () => {
     it('should initialize state', () => {
       expect(controller.ministries).toEqual(ministries);
       expect(controller.noAccess).toBe(false);
-      expect(controller.selectedMinistryId).toBe(ministries[0].id);
+      expect(controller.selectedMinistry).toEqual(ministries[0]);
       expect(controller.showMinistrySelector).toBe(true);
     });
 
@@ -74,7 +74,7 @@ describe('Controller: globalPromotionsCtrl', () => {
 
       it('should set noAccess to true and hide ministry selector', () => {
         expect(controller.noAccess).toBe(true);
-        expect(controller.selectedMinistryId).toBe(null);
+        expect(controller.selectedMinistry).toBe(null);
         expect(controller.showMinistrySelector).toBe(false);
       });
     });
@@ -94,7 +94,7 @@ describe('Controller: globalPromotionsCtrl', () => {
 
       it('should set noAccess to false and hide ministry selector', () => {
         expect(controller.noAccess).toBe(false);
-        expect(controller.selectedMinistryId).toBe(ministries[0].id);
+        expect(controller.selectedMinistry).toEqual(ministries[0]);
         expect(controller.showMinistrySelector).toBe(false);
       });
     });
@@ -113,13 +113,13 @@ describe('Controller: globalPromotionsCtrl', () => {
   describe('loadMinistryPromotions', () => {
     it('should load promotions for selected ministry', () => {
       globalPromotionService.loadPromotions.calls.reset();
-      controller.selectedMinistryId = ministries[1].id;
+      controller.selectedMinistry = ministries[1];
 
       controller.loadMinistryPromotions();
       $rootScope.$digest();
 
       expect(globalPromotionService.loadPromotions).toHaveBeenCalledWith(
-        controller.selectedMinistryId,
+        ministries[1].id,
       );
 
       expect(controller.promotions).toEqual(globalPromotions);
@@ -132,7 +132,7 @@ describe('Controller: globalPromotionsCtrl', () => {
 
       expect(controller.editingPromotion.id).toBe('');
       expect(controller.editingPromotion.ministryId).toBe(
-        controller.selectedMinistryId,
+        controller.selectedMinistry.id,
       );
     });
   });
@@ -235,13 +235,13 @@ describe('Controller: globalPromotionsCtrl', () => {
   describe('getMinistryName', () => {
     it('should delegate to MinistriesCache when a ministry is selected', () => {
       MinistriesCache.getMinistryName.and.returnValue(ministries[1].name);
-      controller.selectedMinistryId = ministries[1].id;
+      controller.selectedMinistry = ministries[1];
 
       expect(controller.getMinistryName()).toBe(ministries[1].name);
     });
 
     it('should return empty string when no ministry is selected', () => {
-      controller.selectedMinistryId = null;
+      controller.selectedMinistry = null;
 
       expect(controller.getMinistryName()).toBe('');
     });
@@ -264,14 +264,14 @@ describe('Controller: globalPromotionsCtrl', () => {
     it('should delegate to MinistriesCache when a ministry is selected', () => {
       const activity = ministries[0].activities[0];
       MinistriesCache.getActivityName.and.returnValue(activity.name);
-      controller.selectedMinistryId = ministries[0].id;
+      controller.selectedMinistry = ministries[0];
 
       expect(controller.getActivityName(activity.id)).toBe(activity.name);
     });
 
     it('should return empty string when no ministry is selected', () => {
       const activity = ministries[0].activities[0];
-      controller.selectedMinistryId = null;
+      controller.selectedMinistry = null;
 
       expect(controller.getActivityName(activity.id)).toBe('');
     });
