@@ -614,11 +614,18 @@ angular
                 method: 'GET',
                 url: `conferences/${conference.id}`,
               }).then((response) => {
+                const previousRegistrantTypes =
+                  $scope.conference.registrantTypes;
                 $scope.conference = response.data;
                 $scope.originalConference = conference = angular.copy(
                   response.data,
                 );
                 $scope.refreshAllowedRegistrantTypes();
+
+                syncCoupleDescriptions(
+                  $scope.conference.registrantTypes,
+                  previousRegistrantTypes,
+                );
               });
 
               //Clear cache
