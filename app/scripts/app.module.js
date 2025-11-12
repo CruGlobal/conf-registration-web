@@ -26,6 +26,8 @@ import 'scripts/errorNotify.js';
 import 'ui-cropper';
 import 'country-region-data';
 import 'ngimport';
+import 'tippy.js/dist/tippy.css';
+import 'tippy.js/themes/light.css';
 
 export default angular.module('confRegistrationWebApp', [
   ngRoute,
