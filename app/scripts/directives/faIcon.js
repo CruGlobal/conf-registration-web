@@ -11,12 +11,20 @@
 angular.module('confRegistrationWebApp').directive('faIcon', function () {
   return {
     restrict: 'E',
-    link: function (_scope, element, attrs) {
+    scope: {
+      icon: '@',
+    },
+    link: function (_scope, element) {
       element.addClass('fa');
 
-      if (attrs.icon) {
-        element.addClass('fa-' + attrs.icon);
-      }
+      _scope.$watch('icon', function (newValue, oldValue) {
+        if (oldValue) {
+          element.removeClass('fa-' + oldValue);
+        }
+        if (newValue) {
+          element.addClass('fa-' + newValue);
+        }
+      });
 
       element.attr('aria-hidden', 'true');
     },
