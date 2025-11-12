@@ -19,19 +19,15 @@ describe('tooltip directive', function () {
     return element;
   };
 
-  it('renders with transcluded content', function () {
-    const element = compile(
-      '<tooltip content="Test tooltip"><i class="fa fa-info"></i></tooltip>',
-    );
+  it('renders with tooltip icon', function () {
+    const element = compile('<tooltip content="Test tooltip"></tooltip>');
 
     expect(element.find('.tooltip-wrapper').length).toBe(1);
-    expect(element.find('i.fa-info').length).toBe(1);
+    expect(element.find('fa-icon').length).toBe(1);
   });
 
   it('sets accessibility attributes on trigger element', function () {
-    const element = compile(
-      '<tooltip content="Test tooltip"><i class="fa fa-info"></i></tooltip>',
-    );
+    const element = compile('<tooltip content="Test tooltip"></tooltip>');
     const trigger =
       element[0].querySelector('.tooltip-wrapper').firstElementChild;
 
@@ -42,7 +38,7 @@ describe('tooltip directive', function () {
 
   it('sets aria-labelledby when provided', function () {
     const element = compile(
-      '<tooltip content="Test tooltip" aria-labelledby="test-label"><i class="fa fa-info"></i></tooltip>',
+      '<tooltip content="Test tooltip" aria-labelledby="test-label"></tooltip>',
     );
     const trigger =
       element[0].querySelector('.tooltip-wrapper').firstElementChild;
@@ -52,17 +48,13 @@ describe('tooltip directive', function () {
   });
 
   it('creates and stores tippy instance', function () {
-    const element = compile(
-      '<tooltip content="Test tooltip"><i class="fa fa-info"></i></tooltip>',
-    );
+    const element = compile('<tooltip content="Test tooltip"></tooltip>');
 
     expect(element.data('tippyInstance')).toBeDefined();
   });
 
   it('destroys tippy instance on scope destroy', function () {
-    const element = compile(
-      '<tooltip content="Test tooltip"><i class="fa fa-info"></i></tooltip>',
-    );
+    const element = compile('<tooltip content="Test tooltip"></tooltip>');
     const tippyInstance = element.data('tippyInstance');
 
     spyOn(tippyInstance, 'destroy');

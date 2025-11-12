@@ -6,23 +6,22 @@ import tippy from 'tippy.js';
  * @restrict E
  * @description
  * Accessible tooltip component directive using tippy.js.
+ * Displays a question-circle icon with tooltip content on hover/focus.
  * Supports both text content and HTML templates.
  *
  * @example
- * <tooltip content="Simple tooltip text">
- *   <i class="glyphicon glyphicon-info-sign"></i>
- * </tooltip>
+ * <tooltip content="Simple tooltip text"></tooltip>
  *
- * <tooltip tooltip-template="'path/to/template.html'" tooltip-placement="bottom">
- *   <i class="glyphicon glyphicon-question-sign"></i>
- * </tooltip>
+ * <tooltip tooltip-template="'path/to/template.html'" tooltip-placement="bottom"></tooltip>
+ *
+ * <tooltip content="More info" aria-labelledby="field-label"></tooltip>
  */
 angular
   .module('confRegistrationWebApp')
   .directive('tooltip', function ($compile, $http, $templateCache) {
     return {
       restrict: 'E',
-      transclude: true,
+      transclude: false,
       scope: {
         content: '@',
         tooltipTemplate: '@',
@@ -31,7 +30,7 @@ angular
         ariaLabelledby: '@',
       },
       template:
-        '<span class="tooltip-wrapper"><span tabindex="0" ng-transclude></span></span>',
+        '<span class="tooltip-wrapper"><span tabindex="0"><fa-icon icon="question-circle"></fa-icon></span></span>',
       link: function (scope, element, attrs) {
         let tippyInstance;
         const triggerElement =
