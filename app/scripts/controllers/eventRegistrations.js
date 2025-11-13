@@ -3,6 +3,7 @@ import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
+import { getFullPercentage } from '../utils/conferenceLimits';
 import {
   findCoupleRegistrants,
   isRegistrantCouple,
@@ -78,17 +79,8 @@ angular
       );
       var expandedRegistrations = {};
 
-      $scope.getFullPercentage = () => {
-        if (!$scope.conference.useLimit) {
-          return 0;
-        }
-
-        const usedSlots =
-          $scope.conference.numberSlotsLimit - $scope.conference.availableSlots;
-        return Math.floor(
-          (usedSlots / $scope.conference.numberSlotsLimit) * 100,
-        );
-      };
+      $scope.getFullPercentage = () =>
+        Math.floor(getFullPercentage($scope.conference));
 
       // Couple type utility functions
       $scope.findCoupleRegistrants = findCoupleRegistrants;
