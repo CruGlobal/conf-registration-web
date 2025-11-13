@@ -402,30 +402,36 @@ describe('Service: GlobalPromotionService', () => {
 
   describe('isPromotionActive', () => {
     const format = 'YYYY-MM-DD HH:mm:ss';
+    const pastDate = moment().subtract(1, 'year').format(format);
+    const futureDate = moment().add(1, 'year').format(format);
+
     it('returns true when deactivationDate is null', () => {
-      const promotion = { deactivationDate: null };
+      const promotion = { activationDate: pastDate, deactivationDate: null };
 
       expect(globalPromotionService.isPromotionActive(promotion)).toBe(true);
     });
 
     it('returns true when deactivationDate is in the future', () => {
-      const futureDate = moment().add(1, 'year').format(format);
-      const promotion = { deactivationDate: futureDate };
+      const promotion = {
+        activationDate: pastDate,
+        deactivationDate: futureDate,
+      };
 
       expect(globalPromotionService.isPromotionActive(promotion)).toBe(true);
     });
 
     it('returns false when deactivationDate is in the past', () => {
-      const pastDate = moment().subtract(1, 'year').format(format);
-      const promotion = { deactivationDate: pastDate };
+      const promotion = {
+        activationDate: pastDate,
+        deactivationDate: pastDate,
+      };
 
       expect(globalPromotionService.isPromotionActive(promotion)).toBe(false);
     });
 
-    it('returns false when current date is before activationDate', () => {
-      const futureActivationDate = moment().add(1, 'month').format(format);
+    it('returns false when activationDate is in the future', () => {
       const promotion = {
-        activationDate: futureActivationDate,
+        activationDate: futureDate,
         deactivationDate: null,
       };
 
