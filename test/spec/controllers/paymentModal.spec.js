@@ -51,7 +51,13 @@ describe('Controller: paymentModal', function () {
     expect(scope.canBeRefunded(scope.registration.pastPayments[0])).toBe(true);
   });
 
-  it('savePaymentEdits should validate chect number', () => {
+  it('canBeRefunded should return false for GIFT_CARD payments', function () {
+    const giftCardPayment = scope.registration.pastPayments[1];
+
+    expect(scope.canBeRefunded(giftCardPayment)).toBe(false);
+  });
+
+  it('savePaymentEdits should validate check number', () => {
     let payment = { paymentType: 'CHECK', status: 'RECEIVED', check: {} };
 
     scope.savePaymentEdits(payment);
@@ -112,6 +118,14 @@ describe('Controller: paymentModal', function () {
       const result = scope.canEditPayment(payment);
 
       expect(result).toBe(true);
+    });
+
+    it('returns false if paymentType is GIFT_CARD', () => {
+      const giftCardPayment = scope.registration.pastPayments[1];
+
+      const result = scope.canEditPayment(giftCardPayment);
+
+      expect(result).toBe(false);
     });
   });
 
