@@ -200,6 +200,46 @@ describe('Controller: eventRegistrations', function () {
     });
   });
 
+  describe('getFullPercentage', () => {
+    it('returns 0 when there is no limit', () => {
+      scope.conference.useLimit = false;
+
+      expect(scope.getFullPercentage()).toBe(0);
+    });
+
+    it('calculates the percentage of used slots', () => {
+      scope.conference.useLimit = true;
+      scope.conference.numberSlotsLimit = 10;
+      scope.conference.availableSlots = 6;
+
+      expect(scope.getFullPercentage()).toBe(40);
+    });
+
+    it('returns 0 when all slots are available', () => {
+      scope.conference.useLimit = true;
+      scope.conference.numberSlotsLimit = 10;
+      scope.conference.availableSlots = 10;
+
+      expect(scope.getFullPercentage()).toBe(0);
+    });
+
+    it('returns 100 when all slots are used', () => {
+      scope.conference.useLimit = true;
+      scope.conference.numberSlotsLimit = 10;
+      scope.conference.availableSlots = 0;
+
+      expect(scope.getFullPercentage()).toBe(100);
+    });
+
+    it('rounds percentage down', () => {
+      scope.conference.useLimit = true;
+      scope.conference.numberSlotsLimit = 300;
+      scope.conference.availableSlots = 1;
+
+      expect(scope.getFullPercentage()).toBe(99);
+    });
+  });
+
   describe('isRegistrantReported', () => {
     it('returns true if the registrant is reported', () => {
       scope.registrations = [{ ...testData.registration, reported: true }];
