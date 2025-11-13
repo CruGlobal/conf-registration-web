@@ -20,9 +20,9 @@
           <span translate>Ministry</span>
           <select
             class="form-control"
-            ng-model="$ctrl.selectedMinistryId"
+            ng-model="$ctrl.selectedMinistry"
             ng-change="$ctrl.loadMinistryPromotions()"
-            ng-options="ministry.id as ministry.name for ministry in $ctrl.ministries"
+            ng-options="ministry as ministry.name for ministry in $ctrl.ministries"
           ></select>
         </label>
       </div>
@@ -58,6 +58,7 @@
           class="btn btn-success"
           ng-click="$ctrl.addPromotion()"
           ng-if="!$ctrl.editingPromotion && $ctrl.promotions.length === 0"
+          ng-disabled="$ctrl.selectedMinistry.readonly"
           translate
         >
           New Promotion
@@ -121,6 +122,7 @@
             type="button"
             class="btn btn-success"
             ng-click="$ctrl.addPromotion()"
+            ng-disabled="$ctrl.selectedMinistry.readonly"
             translate
           >
             New Promotion
@@ -278,7 +280,7 @@
                   type="button"
                   class="btn btn-default btn-sm"
                   ng-click="$ctrl.editPromotion(promotion)"
-                  ng-disabled="$ctrl.editingPromotion"
+                  ng-disabled="$ctrl.editingPromotion || $ctrl.selectedMinistry.readonly"
                   title="Edit"
                   translate
                 >

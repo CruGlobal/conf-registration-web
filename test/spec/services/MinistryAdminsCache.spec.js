@@ -3,7 +3,12 @@ import 'angular-mocks';
 describe('Service: MinistryAdminsCache', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let MinistryAdminsCache, $cookies, $httpBackend, $rootScope, mockMinistries;
+  let MinistryAdminsCache,
+    $cookies,
+    $httpBackend,
+    $rootScope,
+    mockMinistries,
+    expectedMinistries;
   beforeEach(inject((
     _$cookies_,
     _$httpBackend_,
@@ -15,7 +20,16 @@ describe('Service: MinistryAdminsCache', () => {
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
     MinistryAdminsCache = _MinistryAdminsCache_;
-    mockMinistries = testData.ministries.map(({ id, name }) => ({ id, name }));
+    const permissionLevels = ['VIEW', 'UPDATE', 'FULL'];
+    mockMinistries = testData.ministries.map(({ id, name }, index) => ({
+      ministry: { id, name },
+      permissionLevel: permissionLevels[index % permissionLevels.length],
+    }));
+    expectedMinistries = [
+      { id: mockMinistries[0].ministry.id, readonly: true },
+      { id: mockMinistries[1].ministry.id, readonly: false },
+      { id: mockMinistries[2].ministry.id, readonly: false },
+    ];
   }));
 
   afterEach(() => {
@@ -35,9 +49,7 @@ describe('Service: MinistryAdminsCache', () => {
 
       $httpBackend.flush();
 
-      expect(MinistryAdminsCache.getSync()).toEqual(
-        mockMinistries.map((ministry) => ministry.id),
-      );
+      expect(MinistryAdminsCache.getSync()).toEqual(expectedMinistries);
     });
 
     describe('getAsync', () => {
@@ -47,15 +59,13 @@ describe('Service: MinistryAdminsCache', () => {
         $rootScope.$digest();
         $httpBackend.flush();
 
-        let ministryIds;
+        let ministries;
         MinistryAdminsCache.getAsync().then((result) => {
-          ministryIds = result;
+          ministries = result;
         }, fail);
         $rootScope.$digest();
 
-        expect(ministryIds).toEqual(
-          mockMinistries.map((ministry) => ministry.id),
-        );
+        expect(ministries).toEqual(expectedMinistries);
       });
 
       it('should use cached data on subsequent calls', () => {
@@ -64,21 +74,21 @@ describe('Service: MinistryAdminsCache', () => {
         $rootScope.$digest();
         $httpBackend.flush();
 
-        let ministryIds;
+        let ministries;
         MinistryAdminsCache.getAsync().then((result) => {
-          ministryIds = result;
+          ministries = result;
         }, fail);
         $rootScope.$digest();
 
-        expect(ministryIds.length).toBe(mockMinistries.length);
+        expect(ministries).toEqual(expectedMinistries);
 
-        let ministryIds2;
+        let ministries2;
         MinistryAdminsCache.getAsync().then((result) => {
-          ministryIds2 = result;
+          ministries2 = result;
         }, fail);
         $rootScope.$digest();
 
-        expect(ministryIds2).toEqual(ministryIds);
+        expect(ministries2).toEqual(expectedMinistries);
       });
 
       it('should not cache error response', () => {
@@ -89,13 +99,13 @@ describe('Service: MinistryAdminsCache', () => {
 
         $httpBackend.expectGET('ministries/admin').respond(500);
 
-        let ministryIds;
+        let ministries;
         MinistryAdminsCache.getAsync().then((result) => {
-          ministryIds = result;
+          ministries = result;
         }, fail);
         $httpBackend.flush();
 
-        expect(ministryIds).toEqual([]);
+        expect(ministries).toEqual([]);
       });
     });
   });
@@ -110,13 +120,13 @@ describe('Service: MinistryAdminsCache', () => {
     it('getAsync resolves with empty array', () => {
       $rootScope.$digest();
 
-      let ministryIds;
+      let ministries;
       MinistryAdminsCache.getAsync().then((result) => {
-        ministryIds = result;
+        ministries = result;
       }, fail);
       $rootScope.$digest();
 
-      expect(ministryIds).toEqual([]);
+      expect(ministries).toEqual([]);
     });
   });
 
@@ -128,9 +138,7 @@ describe('Service: MinistryAdminsCache', () => {
       $rootScope.$digest();
       $httpBackend.flush();
 
-      expect(MinistryAdminsCache.getSync()).toEqual(
-        mockMinistries.map((ministry) => ministry.id),
-      );
+      expect(MinistryAdminsCache.getSync()).toEqual(expectedMinistries);
 
       $cookies.put('crsToken', 'authToken2');
       $httpBackend
@@ -139,7 +147,7 @@ describe('Service: MinistryAdminsCache', () => {
       $httpBackend.flush();
       $rootScope.$digest();
 
-      expect(MinistryAdminsCache.getSync()).toEqual([mockMinistries[0].id]);
+      expect(MinistryAdminsCache.getSync()).toEqual([expectedMinistries[0]]);
     });
   });
 });
