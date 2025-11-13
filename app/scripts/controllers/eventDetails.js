@@ -1035,7 +1035,7 @@ angular
             return;
           }
 
-          syncCoupleNames(currentRegistrantTypes, previousRegistrantTypes);
+          syncCoupleNames(currentRegistrantTypes);
         },
         true,
       );

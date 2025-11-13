@@ -620,19 +620,10 @@ describe('Controller: eventDetails', function () {
         (t) => t.defaultTypeKey === 'SPOUSE',
       );
 
-      coupleType.name = 'Old Couple Name';
-      spouseType.name = 'Old Couple Name Spouse';
-
       const newName = 'Married Couple';
       coupleType.name = newName;
 
-      const oldRegistrantTypes = angular.copy(conference.registrantTypes);
-      _.find(oldRegistrantTypes, (t) => t.defaultTypeKey === 'COUPLE').name =
-        'Old Couple Name';
-      _.find(oldRegistrantTypes, (t) => t.defaultTypeKey === 'SPOUSE').name =
-        'Old Couple Name Spouse';
-
-      scope.syncCoupleNames(conference.registrantTypes, oldRegistrantTypes);
+      scope.syncCoupleNames(conference.registrantTypes);
 
       expect(coupleType.name).toBe(newName);
       expect(spouseType.name).toBe(`${newName} Spouse`);

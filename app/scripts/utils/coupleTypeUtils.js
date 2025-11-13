@@ -98,14 +98,7 @@ export function isCoupleOrSpouseType(typeId, registrantTypes) {
  * Syncs spouse names to match their associated couple's name.
  * Modifies the registrantTypes array in place.
  */
-export function syncCoupleNames(registrantTypes, oldRegistrantTypes) {
-  const oldCoupleNameMap = {};
-  oldRegistrantTypes.forEach((type) => {
-    if (type.defaultTypeKey === 'COUPLE') {
-      oldCoupleNameMap[type.id] = type.name;
-    }
-  });
-
+export function syncCoupleNames(registrantTypes) {
   registrantTypes.forEach((type) => {
     if (type.defaultTypeKey !== 'COUPLE') {
       return;

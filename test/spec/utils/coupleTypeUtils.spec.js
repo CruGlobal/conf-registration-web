@@ -129,22 +129,18 @@ describe('coupleTypeUtils', () => {
 
   describe('syncCoupleNames', () => {
     it('should sync spouse name when couple name changes', () => {
-      const oldRegistrantTypes = JSON.parse(
-        JSON.stringify(testData.conference.registrantTypes),
-      );
-      const newRegistrantTypes = JSON.parse(
+      const registrantTypes = JSON.parse(
         JSON.stringify(testData.conference.registrantTypes),
       );
 
-      // Change the couple name in the new array
-      const couple = newRegistrantTypes.find(
+      const couple = registrantTypes.find(
         (type) => type.defaultTypeKey === 'COUPLE',
       );
       couple.name = 'Married Couple';
 
-      coupleTypeUtils.syncCoupleNames(newRegistrantTypes, oldRegistrantTypes);
+      coupleTypeUtils.syncCoupleNames(registrantTypes);
 
-      const spouse = newRegistrantTypes.find(
+      const spouse = registrantTypes.find(
         (type) => type.defaultTypeKey === 'SPOUSE' && type.id === spouseTypeId,
       );
 
