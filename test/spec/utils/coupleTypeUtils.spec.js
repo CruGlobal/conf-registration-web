@@ -129,8 +129,12 @@ describe('coupleTypeUtils', () => {
 
   describe('syncCoupleNames', () => {
     it('should sync spouse name when couple name changes', () => {
-      const oldRegistrantTypes = testData.conference.registrantTypes;
-      const newRegistrantTypes = testData.conference.registrantTypes;
+      const oldRegistrantTypes = JSON.parse(
+        JSON.stringify(testData.conference.registrantTypes),
+      );
+      const newRegistrantTypes = JSON.parse(
+        JSON.stringify(testData.conference.registrantTypes),
+      );
 
       // Change the couple name in the new array
       const couple = newRegistrantTypes.find(
