@@ -126,28 +126,36 @@
               <div class="checkbox" ng-if="conference.eform">
                 <label>
                   <input type="checkbox" ng-model="type.eform" />
-                  <span translate>Send liability form</span>
+                  <span id="send-liability-form-label" translate
+                    >Send liability form</span
+                  >
                 </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'Liability forms are not required for Cru Staff/Intern or Staff Children (under 18). Only uncheck box in these circumstances.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
+                <tooltip
+                  content="{{'Liability forms are not required for Cru Staff/Intern or Staff Children (under 18). Only uncheck box in these circumstances.' | translate}}"
+                  aria-labelledby="send-liability-form-label"
                 >
-                </i>
+                  <fa-icon
+                    icon="question-circle"
+                    class="question-popover"
+                  ></fa-icon>
+                </tooltip>
               </div>
               <div class="checkbox">
                 <label>
                   <input type="checkbox" ng-model="type.hidden" />
-                  <span translate>Hide from Registration Form</span>
+                  <span id="hide-from-registration-form-label" translate
+                    >Hide from Registration Form</span
+                  >
                 </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
-                  popover-trigger="'mouseenter'"
-                  popover-append-to-body="true"
+                <tooltip
+                  content="{{'Hiding this type from the public registration form will require the participant to have a direct link in order to register. These links can be found on the Event Overview page.' | translate}}"
+                  aria-labelledby="hide-from-registration-form-label"
                 >
-                </i>
+                  <fa-icon
+                    icon="question-circle"
+                    class="question-popover"
+                  ></fa-icon>
+                </tooltip>
               </div>
               <div class="checkbox">
                 <label>
@@ -173,15 +181,17 @@
                       value="DISABLED"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <span translate>No</span>
+                    <span id="group-registration-no-label" translate>No</span>
                   </label>
-                  <i
-                    class="question-popover fa fa-question-circle"
-                    uib-popover="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
-                    popover-trigger="'mouseenter'"
-                    popover-append-to-body="true"
+                  <tooltip
+                    content="{{'When selected, the user will not be given the option to add more people to the registration. One person per registration.' | translate}}"
+                    aria-labelledby="group-registration-no-label"
                   >
-                  </i>
+                    <fa-icon
+                      icon="question-circle"
+                      class="question-popover"
+                    ></fa-icon>
+                  </tooltip>
                 </div>
                 <div class="radio">
                   <label>
@@ -191,15 +201,19 @@
                       value="ENABLED"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <span translate>Yes - Primary</span>
+                    <span id="group-registration-primary-label" translate
+                      >Yes - Primary</span
+                    >
                   </label>
-                  <i
-                    class="question-popover fa fa-question-circle"
-                    uib-popover="{{'When selected, the user will be permitted to add more registrants (e.g. a volunteer, child, student) to the registration.' | translate}}"
-                    popover-trigger="'mouseenter'"
-                    popover-append-to-body="true"
+                  <tooltip
+                    content="{{'When selected, the user will be permitted to add more registrants (e.g. a volunteer, child, student) to the registration.' | translate}}"
+                    aria-labelledby="group-registration-primary-label"
                   >
-                  </i>
+                    <fa-icon
+                      icon="question-circle"
+                      class="question-popover"
+                    ></fa-icon>
+                  </tooltip>
                 </div>
                 <div class="radio">
                   <label>
@@ -209,30 +223,39 @@
                       value="FAMILY_ONLY"
                       ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                     />
-                    <span translate>Yes - Dependent</span>
+                    <span id="group-registration-dependent-label" translate
+                      >Yes - Dependent</span
+                    >
                   </label>
-                  <i
-                    class="question-popover fa fa-question-circle"
-                    uib-popover="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
-                    popover-trigger="'mouseenter'"
-                    popover-append-to-body="true"
+                  <tooltip
+                    content="{{'When selected, this type will not become available until at least one registrant which has \'Group Registration\' set to \'Yes - Primary\' has been added to the registration.' | translate}}"
+                    aria-labelledby="group-registration-dependent-label"
                   >
-                  </i>
+                    <fa-icon
+                      icon="question-circle"
+                      class="question-popover"
+                    ></fa-icon>
+                  </tooltip>
                 </div>
                 <div
                   ng-if="type.familyStatus == 'ENABLED' && !isCoupleType(type)"
                   class="bt12"
                 >
-                  <label translate class="pt12"
+                  <label
+                    id="associated-registrant-types-label"
+                    translate
+                    class="pt12"
                     >Associated Registrant Types</label
                   >
-                  <i
-                    class="question-popover fa fa-question-circle"
-                    uib-popover="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
-                    popover-trigger="'mouseenter'"
-                    popover-append-to-body="true"
+                  <tooltip
+                    content="{{'Select which registrant types are allowed to be associated with this registrant group, and specify the maximum number of registrants allowed to use that type. Note that the default behavior when not selecting ANY associated registrant types will result in showing ALL registrant types on the group registration page.' | translate}}"
+                    aria-labelledby="associated-registrant-types-label"
                   >
-                  </i>
+                    <fa-icon
+                      icon="question-circle"
+                      class="question-popover"
+                    ></fa-icon>
+                  </tooltip>
 
                   <div
                     class="checkbox"
@@ -279,13 +302,14 @@
                 <label class="input-group">
                   <span>
                     <translate>Registration completion redirect</translate>
-                    <i
-                      class="question-popover fa fa-question-circle"
-                      uib-popover="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
-                      popover-trigger="'mouseenter'"
-                      popover-append-to-body="true"
+                    <tooltip
+                      content="{{'Users will be redirected to the page below upon completion of their registration.' | translate}}"
                     >
-                    </i>
+                      <fa-icon
+                        icon="question-circle"
+                        class="question-popover"
+                      ></fa-icon>
+                    </tooltip>
                   </span>
                   <input
                     type="text"
@@ -299,14 +323,17 @@
 
             <div class="col-md-6">
               <h3 class="h4">
-                <span translate>Payment</span>
-                <i
-                  class="warning-popover fa fa-exclamation-triangle"
-                  uib-popover="{{'Since this is a Cru Event, you must enter a Chartfield under the Payments Options tab to enable payments.' | translate}}"
-                  popover-trigger="'mouseenter'"
+                <span id="payment-heading-label" translate>Payment</span>
+                <tooltip
+                  content="{{'Since this is a Cru Event, you must enter a Chartfield under the Payments Options tab to enable payments.' | translate}}"
                   ng-if="cruEventWithoutChartfield()"
+                  aria-labelledby="payment-heading-label"
                 >
-                </i>
+                  <fa-icon
+                    icon="exclamation-triangle"
+                    class="warning-popover"
+                  ></fa-icon>
+                </tooltip>
               </h3>
               <div class="checkbox">
                 <label>
@@ -315,15 +342,20 @@
                     ng-model="type.acceptCreditCards"
                     ng-disabled="!type.acceptCreditCards && (!conference.paymentGatewayId || cruEventWithoutChartfield())"
                   />
-                  <translate>Accept Credit Cards</translate>
+                  <span id="accept-credit-cards-label" translate
+                    >Accept Credit Cards</span
+                  >
                 </label>
-                <i
-                  class="warning-popover fa fa-exclamation-triangle"
-                  uib-popover="{{'Enter credit card processing details under the Payment Options tab to enable this option.' | translate}}"
-                  popover-trigger="'mouseenter'"
+                <tooltip
+                  content="{{'Enter credit card processing details under the Payment Options tab to enable this option.' | translate}}"
                   ng-if="!conference.paymentGatewayId"
+                  aria-labelledby="accept-credit-cards-label"
                 >
-                </i>
+                  <fa-icon
+                    icon="exclamation-triangle"
+                    class="warning-popover"
+                  ></fa-icon>
+                </tooltip>
               </div>
               <div class="checkbox">
                 <label>
@@ -363,14 +395,19 @@
                     ng-disabled="!type.acceptPayOnSite &&
                   cruEventWithoutChartfield()"
                   />
-                  <translate>Accept 'Pay on Site'</translate>
+                  <span id="accept-pay-on-site-label" translate
+                    >Accept 'Pay on Site'</span
+                  >
                 </label>
-                <i
-                  class="question-popover fa fa-question-circle"
-                  uib-popover="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
-                  popover-trigger="'mouseenter'"
+                <tooltip
+                  content="{{'No payment will be required at time of registration, but will display the total due.' | translate}}"
+                  aria-labelledby="accept-pay-on-site-label"
                 >
-                </i>
+                  <fa-icon
+                    icon="question-circle"
+                    class="question-popover"
+                  ></fa-icon>
+                </tooltip>
               </div>
 
               <div
@@ -494,12 +531,14 @@
           <div class="form-group">
             <div class="col-xs-12">
               <label translate>Confirmation Email</label>
-              <i
-                class="question-popover fa fa-question-circle"
-                uib-popover="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
-                popover-trigger="'mouseenter'"
+              <tooltip
+                content="{{'Your event name, start time and end time will be included in the email by default' | translate}}"
               >
-              </i>
+                <fa-icon
+                  icon="question-circle"
+                  class="question-popover"
+                ></fa-icon>
+              </tooltip>
               <button
                 type="button"
                 class="btn btn-default btn-sm pull-right"
