@@ -138,24 +138,31 @@ angular
           );
         };
 
+        // Check whether conference and registration-type limits allow another registrant of the
+        // specified type to register
         $scope.registrationTypeFull = function (type) {
-          if (!type.useLimit) {
-            return false;
-          }
-          if (!type.availableSlots) {
+          const numNewRegistrants = 1;
+          const registrants = $scope.currentRegistration.registrants.length;
+          if (
+            $scope.conference.useLimit &&
+            $scope.conference.availableSlots < registrants + numNewRegistrants
+          ) {
             return true;
           }
 
           //subtract registrants from current registration from availableSlots
+          const registrantsOfType = _.filter(
+            $scope.currentRegistration.registrants,
+            { registrantTypeId: type.id },
+          ).length;
           if (
-            type.availableSlots -
-              _.filter($scope.currentRegistration.registrants, {
-                registrantTypeId: type.id,
-              }).length <=
-            0
+            type.useLimit &&
+            type.availableSlots < registrantsOfType + numNewRegistrants
           ) {
             return true;
           }
+
+          return false;
         };
       },
     };

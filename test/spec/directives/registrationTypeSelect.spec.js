@@ -39,9 +39,41 @@ describe('Directive: registrationTypeSelect', function () {
     expect(scope.visibleRegistrantTypes.length).toBe(1);
   });
 
-  it('registrationTypeFull should return false when there is no limit', function () {
-    var registrationType = testData.conference.registrantTypes[1];
+  describe('registrationTypeFull', () => {
+    let registrantTypeSingle, registrantTypeDouble;
+    beforeEach(() => {
+      registrantTypeSingle = testData.conference.registrantTypes[0];
+      registrantTypeDouble = testData.conference.registrantTypes[1];
+      scope.currentRegistration.registrants = [
+        { registrantTypeId: registrantTypeSingle.id },
+        { registrantTypeId: registrantTypeDouble.id },
+        { registrantTypeId: registrantTypeDouble.id },
+      ];
+    });
 
-    expect(scope.registrationTypeFull(registrationType)).toBe(false);
+    it('should return false when there is no limit', () => {
+      expect(scope.registrationTypeFull(registrantTypeDouble)).toBe(false);
+    });
+
+    it('should return true when conference has 1 available slot and there are 3 registrants', () => {
+      scope.conference.useLimit = true;
+      scope.conference.availableSlots = 1;
+
+      expect(scope.registrationTypeFull(registrantTypeDouble)).toBe(true);
+    });
+
+    it('should return true when registration type has 1 available slot and 2 registrants of that type', () => {
+      registrantTypeDouble.useLimit = true;
+      registrantTypeDouble.availableSlots = 1;
+
+      expect(scope.registrationTypeFull(registrantTypeDouble)).toBe(true);
+    });
+
+    it('should return false when registration type has 1 available slot and 1 registrant of that type', () => {
+      registrantTypeDouble.useLimit = true;
+      registrantTypeDouble.availableSlots = 1;
+
+      expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
+    });
   });
 });
