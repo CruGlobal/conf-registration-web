@@ -917,6 +917,24 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         },
         lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
       },
+      {
+        id: '4e19b3f0-bb36-42a3-9e4a-96a1f7ce8b7d',
+        registrationId: '709738ff-da79-4eed-aacd-d9f005fc7f4e',
+        amount: 1.0,
+        transactionDatetime: '2015-05-21T13:13:55.40Z',
+        paymentType: 'GIFT_CARD',
+        refundedPaymentId: null,
+        description: null,
+        creditCard: null,
+        offlineCreditCard: null,
+        transfer: null,
+        scholarship: null,
+        check: null,
+        giftCard: {
+          code: '1234567890',
+        },
+        lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
+      },
     ],
     registrants: [
       {
