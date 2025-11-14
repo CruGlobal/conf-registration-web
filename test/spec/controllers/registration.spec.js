@@ -97,6 +97,30 @@ describe('Controller: registration', () => {
     });
   });
 
+  describe('almostFull', () => {
+    it('should initialize as true when >= 80% full', () => {
+      initializeController({
+        ...testData.conference,
+        useLimit: true,
+        availableSlots: 15,
+        numberSlotsLimit: 100,
+      });
+
+      expect(scope.almostFull).toBe(true);
+    });
+
+    it('should initialize as false when < 80% full', () => {
+      initializeController({
+        ...testData.conference,
+        useLimit: true,
+        availableSlots: 25,
+        numberSlotsLimit: 100,
+      });
+
+      expect(scope.almostFull).toBe(false);
+    });
+  });
+
   it('should have validPages based on current registrant', () => {
     let validPages = scope.validPages;
 

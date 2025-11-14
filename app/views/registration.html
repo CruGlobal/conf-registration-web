@@ -107,6 +107,11 @@
     </div>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border" translate>Welcome</h2>
+      <div class="alert alert-warning" ng-if="almostFull" translate>
+        This event only has {{ conference.availableSlots }} spots remaining!
+        Your spot is not reserved until you fully complete your registration
+        <strong>and</strong> pay. Register now to secure your spot!
+      </div>
       <p ng-bind-html="conference.description" class="display-linebreaks"></p>
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading" translate>Event Dates</h2>
