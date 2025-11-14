@@ -72,16 +72,9 @@ pick-a-time {
 /***** BOOTSTRAP *****/
 
 /* Default Overrides */
-.label-success,
-.btn-success {
-  background: variables.$green;
-}
 .btn-unstyled {
   border: none;
   background: none;
-}
-.label-primary {
-  background: variables.$blue;
 }
 .nav-pills .active a {
   background: variables.$darkerblue;
