@@ -401,9 +401,17 @@ describe('Service: GlobalPromotionService', () => {
   });
 
   describe('isPromotionActive', () => {
+    beforeEach(() => {
+      jasmine.clock().mockDate(moment('2025-01-01').toDate());
+    });
+
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
     const format = 'YYYY-MM-DD HH:mm:ss';
-    const pastDate = moment().subtract(1, 'year').format(format);
-    const futureDate = moment().add(1, 'year').format(format);
+    const pastDate = moment('2024-01-01').format(format);
+    const futureDate = moment('2026-01-01').format(format);
 
     it('returns true when deactivationDate is null', () => {
       const promotion = { activationDate: pastDate, deactivationDate: null };
