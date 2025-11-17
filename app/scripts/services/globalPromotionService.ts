@@ -124,7 +124,8 @@ export class GlobalPromotionService {
   }
 
   isPromotionActive(promotion: GlobalPromotion): boolean {
-    if (moment().isBefore(moment(promotion.activationDate))) {
+    const now = moment();
+    if (now.isBefore(moment(promotion.activationDate))) {
       return false;
     }
 
@@ -132,7 +133,7 @@ export class GlobalPromotionService {
       return true;
     }
 
-    return moment().isBefore(moment(promotion.deactivationDate));
+    return now.isBefore(moment(promotion.deactivationDate));
   }
 
   createPromotion(promotion: GlobalPromotion): IPromise<GlobalPromotion> {

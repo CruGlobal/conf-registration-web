@@ -2,14 +2,15 @@ import angular from 'angular';
 import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
-import { Ministry, MinistriesCache } from '../services/MinistriesCache';
+import { MinistryPermissions } from '../services/MinistryAdminsCache';
+import { MinistriesCache } from '../services/MinistriesCache';
 import moment from 'moment';
 
 class GlobalPromotionsCtrl {
   promotions: GlobalPromotion[] = [];
   editingPromotion: GlobalPromotion | null = null;
-  ministries: Ministry[] = [];
-  selectedMinistryId: string | null = null;
+  ministries: MinistryPermissions[] = [];
+  selectedMinistry: MinistryPermissions | null = null;
   noAccess: boolean;
   showMinistrySelector: boolean;
   statusFilter: 'all' | 'active' | 'inactive' = 'all';
@@ -22,7 +23,7 @@ class GlobalPromotionsCtrl {
     private $rootScope: $RootScope,
     private globalPromotionService: GlobalPromotionService,
     private MinistriesCache: MinistriesCache,
-    ministries: Ministry[],
+    ministries: MinistryPermissions[],
   ) {
     this.$rootScope.globalPage = {
       type: 'admin',
@@ -35,25 +36,25 @@ class GlobalPromotionsCtrl {
     this.noAccess = ministries.length === 0;
     this.showMinistrySelector = ministries.length > 1;
     if (this.ministries.length >= 1) {
-      this.selectedMinistryId = this.ministries[0].id;
+      this.selectedMinistry = this.ministries[0];
       this.loadMinistryPromotions();
     }
   }
 
   loadMinistryPromotions() {
-    if (!this.selectedMinistryId) {
+    if (!this.selectedMinistry) {
       return;
     }
 
     this.globalPromotionService
-      .loadPromotions(this.selectedMinistryId)
+      .loadPromotions(this.selectedMinistry.id)
       .then((promotions) => {
         this.promotions = promotions;
       });
   }
 
   addPromotion() {
-    if (!this.selectedMinistryId) {
+    if (!this.selectedMinistry) {
       return;
     }
 
@@ -67,7 +68,7 @@ class GlobalPromotionsCtrl {
       operatingUnit: '',
       departmentId: '',
       projectId: '',
-      ministryId: this.selectedMinistryId,
+      ministryId: this.selectedMinistry.id,
       ministryActivityId: '',
       activationDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       deactivationDate: null,
@@ -114,19 +115,19 @@ class GlobalPromotionsCtrl {
   }
 
   getMinistryName(): string {
-    if (!this.selectedMinistryId) {
+    if (!this.selectedMinistry) {
       return '';
     }
-    return this.MinistriesCache.getMinistryName(this.selectedMinistryId) ?? '';
+    return this.MinistriesCache.getMinistryName(this.selectedMinistry.id) ?? '';
   }
 
   getActivityName(ministryActivityId: string): string {
-    if (!this.selectedMinistryId) {
+    if (!this.selectedMinistry) {
       return '';
     }
     return (
       this.MinistriesCache.getActivityName(
-        this.selectedMinistryId,
+        this.selectedMinistry.id,
         ministryActivityId,
       ) ?? ''
     );

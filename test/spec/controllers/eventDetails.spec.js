@@ -1,8 +1,6 @@
 import 'angular-mocks';
 
 describe('Controller: eventDetails', function () {
-  var scope;
-
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var fakeModal = {
@@ -20,29 +18,27 @@ describe('Controller: eventDetails', function () {
     },
   };
 
-  beforeEach(inject(function ($uibModal) {
+  let $httpBackend, scope, testData;
+  beforeEach(inject(function (
+    _$httpBackend_,
+    $rootScope,
+    $uibModal,
+    _testData_,
+  ) {
+    testData = _testData_;
+
+    scope = $rootScope.$new();
+    $httpBackend = _$httpBackend_;
+
+    $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
+    $httpBackend.whenGET(/^globalPromotions/).respond(200, []);
+
     spyOn($uibModal, 'open').and.returnValue(fakeModal);
   }));
 
-  let testData;
-  let $httpBackend;
-
   describe('Conference with type', () => {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
-        scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
-        $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
-        $httpBackend.whenGET(/^globalPromotions/).respond(200, []);
-
+      angular.mock.inject(function ($controller, _$uibModal_) {
         $controller('eventDetailsCtrl', {
           $scope: scope,
           conference: testData.conference,
@@ -280,17 +276,7 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without type', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
-        scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
+      angular.mock.inject(function ($controller, _$uibModal_) {
         testData.conference.type = null;
         testData.conference.eventType = null;
 
@@ -359,17 +345,7 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without ministry hosting', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
-        scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
+      angular.mock.inject(function ($controller, _$uibModal_) {
         testData.conference.ministry = null;
         testData.conference.eventType = null;
 
@@ -399,17 +375,7 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference that is not a Cru event', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
-        scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
+      angular.mock.inject(function ($controller, _$uibModal_) {
         testData.conference.cruEvent = null;
         testData.conference.type = null;
         testData.conference.ministry = null;
@@ -632,12 +598,7 @@ describe('Controller: eventDetails', function () {
   describe('couple/spouse data syncing', function () {
     it('should give spouse type a description when couple type description is changed', inject(function (
       $controller,
-      $rootScope,
-      _testData_,
     ) {
-      scope = $rootScope.$new();
-      testData = _testData_;
-
       $controller('eventDetailsCtrl', {
         $scope: scope,
         conference: testData.conference,
