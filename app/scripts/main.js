@@ -44,6 +44,7 @@ import 'scripts/directives/blockEditor.js';
 import 'scripts/directives/blockRegistration.js';
 import 'scripts/directives/blocks.js';
 import 'scripts/directives/datepicker.js';
+import 'scripts/directives/faIcon.js';
 import 'scripts/directives/questionToolbar.js';
 import 'scripts/directives/ngEnter.js';
 import 'scripts/directives/page.js';

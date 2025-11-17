@@ -137,7 +137,7 @@ const ExportModal = ({
                 className="btn btn-primary btn-block"
                 href={`${apiUrl}conferences/${conference.id}/export/registrations?${exportParameters}`}
               >
-                <i className="fa fa-cloud-download" />{' '}
+                <i className="fa fa-cloud-download" aria-hidden="true" />{' '}
                 <span translate="yes">Download</span>
               </a>
             </div>
@@ -154,7 +154,7 @@ const ExportModal = ({
                 className="btn btn-primary btn-block"
                 href={`${apiUrl}conferences/${conference.id}/export/payments?Authorization=${authToken}`}
               >
-                <i className="fa fa-cloud-download" />{' '}
+                <i className="fa fa-cloud-download" aria-hidden="true" />{' '}
                 <span translate="yes">Download</span>
               </a>
             </div>
@@ -240,7 +240,7 @@ const ExportModal = ({
                 className="btn btn-primary btn-block"
                 href={`${apiUrl}conferences/${conference.id}/export/transfers?Authorization=${authToken}&expenseType=${expenseType}`}
               >
-                <i className="fa fa-cloud-download" />{' '}
+                <i className="fa fa-cloud-download" aria-hidden="true" />{' '}
                 <span translate="yes">Download</span>
               </a>
             </div>

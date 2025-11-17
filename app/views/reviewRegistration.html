@@ -235,7 +235,7 @@
           <tr ng-if="expandRegistrantCost[r.id]">
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <fa-icon icon="angle-right"></fa-icon>
               <translate>Registration</translate>
             </td>
             <td>
@@ -249,7 +249,8 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i> {{getBlock(a.blockId).title}}:
+              <fa-icon icon="angle-right"></fa-icon>
+              {{getBlock(a.blockId).title}}:
               <show-answer
                 block="getBlock(a.blockId)"
                 registrant="r"
@@ -265,7 +266,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <fa-icon icon="angle-right"></fa-icon>
               <translate>Early Registration Discount</translate>
             </td>
             <td>
@@ -278,7 +279,7 @@
           >
             <td></td>
             <td class="horizon-padding25">
-              <i class="fa fa-angle-right"></i>
+              <fa-icon icon="angle-right"></fa-icon>
               <translate>Promotion Discount</translate>
             </td>
             <td>
@@ -360,7 +361,7 @@
                   title="Delete Promotion"
                   class="btn btn-xs btn-danger"
                 >
-                  <i class="fa fa-trash-o"></i>
+                  <fa-icon icon="trash-o"></fa-icon>
                 </button>
               </td>
             </tr>
@@ -447,7 +448,11 @@
       >
         <translate ng-if="!submittingRegistration">Confirm</translate>
         <translate ng-if="submittingRegistration">Submitting...</translate>
-        <i ng-if="submittingRegistration" class="fa fa-spinner fa-spin"></i>
+        <fa-icon
+          ng-if="submittingRegistration"
+          icon="spinner"
+          class="fa-spin"
+        ></fa-icon>
       </button>
       <span ng-show="registerMode === 'preview'"
         >&laquo; <translate>Disabled in preview mode</translate></span

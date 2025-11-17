@@ -133,7 +133,7 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
                       </Popover>
                     }
                   >
-                    <i className="fa fa-question-circle" />
+                    <i className="fa fa-question-circle" aria-hidden="true" />
                   </OverlayTrigger>
                 </th>
                 <th>
@@ -205,6 +205,7 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
                         <i
                           className="error-popover fa fa-exclamation-triangle"
                           data-testid="transactions-table-error-popover"
+                          aria-hidden="true"
                         />
                       </OverlayTrigger>
                     )}
