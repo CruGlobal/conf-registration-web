@@ -2,18 +2,15 @@ import angular from 'angular';
 import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
 import { GlobalPromotionService } from '../services/globalPromotionService';
-import { Ministry, MinistriesCache } from '../services/MinistriesCache';
+import { MinistryPermissions } from '../services/MinistryAdminsCache';
+import { MinistriesCache } from '../services/MinistriesCache';
 import moment from 'moment';
-
-interface MinistryWithPermissions extends Ministry {
-  readonly: boolean;
-}
 
 class GlobalPromotionsCtrl {
   promotions: GlobalPromotion[] = [];
   editingPromotion: GlobalPromotion | null = null;
-  ministries: MinistryWithPermissions[] = [];
-  selectedMinistry: MinistryWithPermissions | null = null;
+  ministries: MinistryPermissions[] = [];
+  selectedMinistry: MinistryPermissions | null = null;
   noAccess: boolean;
   showMinistrySelector: boolean;
   statusFilter: 'all' | 'active' | 'inactive' = 'all';
@@ -26,7 +23,7 @@ class GlobalPromotionsCtrl {
     private $rootScope: $RootScope,
     private globalPromotionService: GlobalPromotionService,
     private MinistriesCache: MinistriesCache,
-    ministries: MinistryWithPermissions[],
+    ministries: MinistryPermissions[],
   ) {
     this.$rootScope.globalPage = {
       type: 'admin',

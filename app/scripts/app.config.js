@@ -448,23 +448,8 @@ angular
           requireLogin: true,
         },
         resolve: {
-          ministries: function ($q, MinistriesCache, MinistryAdminsCache) {
-            return $q
-              .all([MinistriesCache.get(), MinistryAdminsCache.getAsync()])
-              .then(([ministries, ministryPermissions]) => {
-                return ministries
-                  .map((ministry) => {
-                    const permissions = ministryPermissions.find(
-                      (permission) => permission.id === ministry.id,
-                    );
-                    // Ignore ministries without ministry activities because admins won't be able to
-                    // create promotions for them
-                    return permissions && ministry.activities.length > 0
-                      ? { ...ministry, readonly: permissions.readonly }
-                      : null;
-                  })
-                  .filter((ministry) => ministry !== null);
-              });
+          ministries: function (MinistryAdminsCache) {
+            return MinistryAdminsCache.getAsync();
           },
         },
       })

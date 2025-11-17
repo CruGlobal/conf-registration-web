@@ -7,28 +7,41 @@ describe('Service: MinistryAdminsCache', () => {
     $cookies,
     $httpBackend,
     $rootScope,
+    testData,
     mockMinistries,
     expectedMinistries;
   beforeEach(inject((
     _$cookies_,
     _$httpBackend_,
     _$rootScope_,
+    $q,
     _MinistryAdminsCache_,
-    testData,
+    MinistriesCache,
+    _testData_,
   ) => {
     $cookies = _$cookies_;
     $httpBackend = _$httpBackend_;
     $rootScope = _$rootScope_;
     MinistryAdminsCache = _MinistryAdminsCache_;
+    testData = _testData_;
+
+    spyOn(MinistriesCache, 'get').and.returnValue(
+      $q.resolve([
+        ...testData.ministries,
+        { ...testData.ministries[0], id: 'no-access', name: 'No Access' },
+      ]),
+    );
+
     const permissionLevels = ['VIEW', 'UPDATE', 'FULL'];
     mockMinistries = testData.ministries.map(({ id, name }, index) => ({
       ministry: { id, name },
       permissionLevel: permissionLevels[index % permissionLevels.length],
     }));
     expectedMinistries = [
-      { id: mockMinistries[0].ministry.id, readonly: true },
-      { id: mockMinistries[1].ministry.id, readonly: false },
-      { id: mockMinistries[2].ministry.id, readonly: false },
+      { ...testData.ministries[0], readonly: true },
+      // testData.ministries[1] has no activities and is filtered out
+      { ...testData.ministries[2], readonly: false },
+      // User does not have access to No Access ministry, so it is filtered out
     ];
   }));
 
@@ -53,7 +66,7 @@ describe('Service: MinistryAdminsCache', () => {
     });
 
     describe('getAsync', () => {
-      it('should return with ministry ids', () => {
+      it('should return ministries', () => {
         $httpBackend.expectGET('ministries/admin').respond(200, mockMinistries);
 
         $rootScope.$digest();
