@@ -32,7 +32,7 @@
             </div>
             <div
               class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
-              ng-if="!type.defaultTypeKey"
+              ng-if="!type.defaultTypeKey || isCoupleType(type)"
             >
               <label>
                 <span>
@@ -49,7 +49,7 @@
             </div>
             <div
               class="col-md-6 col-md-pull-3 stacked-spacing-col-md"
-              ng-if="type.defaultTypeKey"
+              ng-if="type.defaultTypeKey && !isCoupleType(type)"
             >
               <label translate>Name</label>
               <p class="form-control-static">{{type.name}}</p>
@@ -96,20 +96,22 @@
                 class="alert alert-info"
                 ng-if="isCoupleType(type) || isCoupleOrSpouseType(type.id, conference.registrantTypes)"
               >
-                <em class="fa fa-info-circle"
-                  >&nbsp;Adding a Couple type automatically creates an
-                  associated Spouse dependent type when saving. Only one Spouse
-                  registrant can be registered per Couple registrant.</em
+                <em class="fa fa-info-circle"></em>
+                <span translate
+                  >Adding a Couple type automatically creates an associated
+                  Spouse dependent type when saving. Only one Spouse registrant
+                  can be registered per Couple registrant.</span
                 >
               </div>
               <div
                 class="alert alert-info"
                 ng-if="!isCoupleOrSpouseType(type.id, conference.registrantTypes) && isSpouseType(type)"
               >
-                <em class="fa fa-info-circle"
-                  >&nbsp;This is the default Spouse type, which is not related
-                  to the Couple type. If you want to easily manage Couple (two
-                  people) registrations, use the Couple type instead.</em
+                <em class="fa fa-info-circle"></em>
+                <span translate
+                  >This is the default Spouse type, which is not related to the
+                  Couple type. If you want to easily manage Couple (two people)
+                  registrations, use the Couple type instead.</span
                 >
               </div>
               <div>
