@@ -77,6 +77,42 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
+  describe('registrationFull', () => {
+    it('returns false when there is no limit', () => {
+      scope.conference.useLimit = false;
+      scope.conference.availableSlots = 0;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns false when there are more than enough slots', () => {
+      expect(scope.currentRegistration.registrants.length).toBe(2);
+
+      scope.conference.useLimit = true;
+      scope.conference.availableSlots = 5;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns false when there are just enough slots', () => {
+      expect(scope.currentRegistration.registrants.length).toBe(2);
+
+      scope.conference.useLimit = true;
+      scope.conference.availableSlots = 2;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns true when there are not enough slots', () => {
+      expect(scope.currentRegistration.registrants.length).toBe(2);
+
+      scope.conference.useLimit = true;
+      scope.conference.availableSlots = 1;
+
+      expect(scope.registrationFull()).toBe(true);
+    });
+  });
+
   describe('registerDisabled', () => {
     it('is true in preview mode', () => {
       scope.registerMode = 'preview';
