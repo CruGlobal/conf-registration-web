@@ -25,13 +25,13 @@ export class MinistryAdminsCache {
   ) {
     // Reload the cache when the auth token changes because different users will have different
     // ministry admin access
-    const unwatch = $rootScope.$watch(
+    // eslint-disable-next-line angular/on-watch
+    $rootScope.$watch(
       () => this.$cookies.get('crsToken'),
       () => {
         this.load();
       },
     );
-    $rootScope.$on('$destroy', unwatch);
   }
 
   private load(): IPromise<MinistryPermissions[]> {
