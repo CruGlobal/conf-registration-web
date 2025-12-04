@@ -2,7 +2,7 @@
   <span class="btn-sm btn-warning pull-right text-center" translate
     >Access pending</span
   >
-  <h2>{{event.name}}</h2>
+  <h3 class="h2">{{event.name}}</h3>
 </span>
 <span ng-if="event.loggedInUserPermissionLevel !== 'REQUESTED'">
   <button
@@ -14,7 +14,7 @@
     <strong>{{event.completedRegistrationCount}}</strong>
     <translate>Registered</translate>
   </button>
-  <h2>{{event.name}}</h2>
+  <h3 class="h2">{{event.name}}</h3>
   <ul class="list-inline" ng-if="!event.archived">
     <li>
       <i class="fa fa-users"></i>

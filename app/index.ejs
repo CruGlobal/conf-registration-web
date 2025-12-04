@@ -96,6 +96,13 @@
   </head>
 
   <body ng-class="globalPage.bodyClass" ng-cloak>
+    <a
+      ng-href="{{ getMainContentUrl() }}"
+      class="sr-only sr-only-focusable btn btn-primary skip-link"
+      translate
+    >
+      Skip to content
+    </a>
     <% if(htmlWebpackPlugin.options.prod) { %>
     <!-- Google Tag Manager (noscript) -->
     <noscript
@@ -131,11 +138,6 @@
         <ul class="list-inline preview-nav">
           <li>
             <a href="https://www.eventregistrationtool.com">Go to Production</a>
-          </li>
-          <li ng-if="isStaging">
-            <a ng-href="http://localhost:9000/auth/{{ getAuthToken() }}"
-              >Log in to localhost</a
-            >
           </li>
         </ul>
       </div>
@@ -259,28 +261,37 @@
                 ng-href="{{ registerMode || 'register' }}/{{
                   globalPage.confId
                 }}/page/"
+                aria-describedby="event-info"
               >
                 <h1 ng-bind="globalPage.conference.name"></h1>
               </a>
-              <p class="spacing-above-md">
-                <i class="fa fa-calendar fa-fw"></i>
-                {{
-                  globalPage.conference.eventStartTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
-                -
-                {{
-                  globalPage.conference.eventEndTime
-                    | evtDateFormat
-                      : globalPage.conference.eventTimezone
-                      : 'ddd, MMM D, YYYY h:mma'
-                }}
-                <span ng-if="globalPage.conference.locationName"
-                  ><br /><i class="fa fa-map-marker fa-fw"></i>
-                  {{ globalPage.conference.locationName }}</span
-                >
+              <p id="event-info" class="spacing-above-md">
+                <span class="sr-only" translate>Event dates:</span>
+                <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+                <time datetime="{{ globalPage.conference.eventStartTime }}">
+                  {{
+                    globalPage.conference.eventStartTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
+                <span aria-hidden="true">-</span>
+                <span class="sr-only" translate>to</span>
+                <time datetime="{{ globalPage.conference.eventEndTime }}">
+                  {{
+                    globalPage.conference.eventEndTime
+                      | evtDateFormat
+                        : globalPage.conference.eventTimezone
+                        : 'ddd, MMM D, YYYY h:mma'
+                  }}
+                </time>
+                <span ng-if="globalPage.conference.locationName">
+                  <br />
+                  <span class="sr-only" translate>Event location:</span>
+                  <i class="fa fa-map-marker fa-fw" aria-hidden="true"></i>
+                  {{ globalPage.conference.locationName }}
+                </span>
               </p>
             </div>
             <div
@@ -334,7 +345,12 @@
       </div>
     </div>
 
-    <main ng-class="globalPage.mainClass" ng-view></main>
+    <main
+      id="main"
+      ng-class="globalPage.mainClass"
+      ng-view
+      tabindex="-1"
+    ></main>
 
     <footer id="pagefooter" ng-if="globalPage.footer">
       <div class="container">

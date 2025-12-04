@@ -41,12 +41,17 @@
         show-errors
         class="form-control"
         type="email"
+        aria-describedby="help-block-email"
         ng-required="true"
         ng-model="form.email"
       />
-      <span class="help-block help-block-hidden" translate
-        >Please enter a valid email such as: example@example.com</span
+      <span
+        id="help-block-email"
+        class="help-block help-block-hidden"
+        translate
       >
+        Please enter a valid email such as: example@example.com
+      </span>
     </div>
 
     <!-- Spouse Registration Fields -->
@@ -79,12 +84,17 @@
           show-errors
           class="form-control"
           type="email"
+          aria-describedby="help-block-spouse-email"
           ng-required="showSpouseFields"
           ng-model="spouseForm.email"
         />
-        <span class="help-block help-block-hidden" translate
-          >Please enter a valid email such as: example@example.com</span
+        <span
+          id="help-block-spouse-email"
+          class="help-block help-block-hidden"
+          translate
         >
+          Please enter a valid email such as: example@example.com
+        </span>
       </div>
     </div>
 

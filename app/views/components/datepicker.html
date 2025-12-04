@@ -1,5 +1,5 @@
 <div class="datepicker input-group input-append">
-  <span class="input-group-addon add-on">
+  <span class="input-group-addon add-on" aria-hidden="true">
     <i class="fa fa-calendar"></i>
   </span>
   <input
@@ -9,5 +9,7 @@
     ng-disabled="ngDisabled"
     autocomplete="off"
     aria-autocomplete="none"
+    aria-label="{{inputAriaLabel}}"
+    ng-required="{{inputRequired}}"
   />
 </div>

@@ -1,4 +1,6 @@
+@use 'sass:color';
 @use '~bootstrap-sass/assets/stylesheets/bootstrap';
+@use '~bootstrap-sass/assets/stylesheets/bootstrap/mixins/_buttons';
 @use 'variables';
 @use 'typography';
 
@@ -7,32 +9,32 @@
   @extend .sans-serif;
 }
 
+/*** Accessibility ***/
+.skip-link:focus {
+  position: absolute;
+}
+
 /*** Buttons ***/
-.btn-primary {
-  background: variables.$blue;
-  border-color: #2f84cd;
-}
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary.focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  background-color: #337ab7;
-  border-color: #2969a0;
-}
 .btn-info {
-  background-color: variables.$lightblue;
-  border-color: #318fc2;
-}
-.btn-info:hover,
-.btn-info:focus,
-.btn-info.focus,
-.btn-info:active,
-.btn-info.active,
-.open > .dropdown-toggle.btn-info {
-  background-color: #4fc0ec;
-  border-color: #2babd0;
+  // Make the hover and focus states make the background color lighter instead of darker
+  // Based on https://github.com/twbs/bootstrap-sass/blob/v3.4.3/assets/stylesheets/bootstrap/mixins/_buttons.scss
+  &:hover,
+  &:focus,
+  &.focus,
+  &:active,
+  &.active,
+  .open > .dropdown-toggle.btn-info {
+    background-color: color.adjust(bootstrap.$btn-info-bg, $lightness: 10%);
+  }
+
+  &:active,
+  &.active {
+    &:hover,
+    &:focus,
+    &.focus {
+      background-color: color.adjust(bootstrap.$btn-info-bg, $lightness: 17%);
+    }
+  }
 }
 .btn-bold {
   @extend .sans-serif-semi;
@@ -42,17 +44,11 @@
   @extend .btn-bold;
 }
 .btn-subtle {
-  background: #f4f4f4;
-  @extend .mediumgray;
-  border-color: #ccc;
+  @include buttons.button-variant(bootstrap.$btn-default-color, #f4f4f4, #ccc);
 }
-.btn-subtle:hover,
-.btn-subtle:focus,
-.btn-subtle.focus,
-.btn-subtle:active,
-.btn-subtle.active,
-.open > .dropdown-toggle.btn-subtle {
-  background: #e2e2e2;
+.input-group-addon button {
+  border: unset;
+  background: unset;
 }
 .fa-inset {
   margin: 9px 10px 0;
@@ -240,6 +236,10 @@ label:has(.form-control) {
     margin-bottom: 5px;
     font-weight: bold;
   }
+}
+label input[type='file'] {
+  /* Don't inherit "font-weight: bold" from parent <label> */
+  font-weight: normal;
 }
 
 /* Inputs */

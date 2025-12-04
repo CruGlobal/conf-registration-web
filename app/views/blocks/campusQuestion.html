@@ -7,6 +7,7 @@
     name="campus"
     autocomplete="off"
     aria-autocomplete="none"
+    aria-describedby="help-block-{{block.id}}"
     class="form-control"
     show-errors
     ng-required="block.required"
@@ -25,7 +26,12 @@
   >
     <i class="fa fa-spinner fa-spin"></i>
   </span>
-  <span ng-if="campusNotFound" class="help-block" translate
-    >*Campus not found. Type the full name of your campus.</span
+  <span
+    id="help-block-{{block.id}}"
+    ng-if="campusNotFound"
+    class="help-block"
+    translate
   >
+    *Campus not found. Type the full name of your campus.
+  </span>
 </div>

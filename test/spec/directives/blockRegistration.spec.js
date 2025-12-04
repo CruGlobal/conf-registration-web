@@ -185,13 +185,12 @@ describe('Directive: blockRegistration', function () {
       });
     });
 
-    it('should not initialize answers to questions/blocks that do not show for a registrant', function () {
+    it('should not set value to answers to questions/blocks that do not show for a registrant unless required', function () {
       validateRegistrant.shouldShowForRegistrantType.and.returnValue(false);
       $compile('<div block-registration></div>')(scope);
       scope.$digest();
 
-      expect(scope.answer).toBeUndefined();
-      expect(scope.currentRegistration.registrants[0].answers.length).toBe(0);
+      expect(['', null]).toContain(scope.answer.value);
     });
 
     it('should initialize answers to questions/blocks that show for a registrant', function () {

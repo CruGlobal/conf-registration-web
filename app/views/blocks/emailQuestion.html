@@ -5,11 +5,16 @@
   type="email"
   class="form-control"
   placeholder="example@example.com"
+  aria-describedby="help-block-{{block.id}}"
   ng-model="answer.value"
   ng-model-options="{ allowInvalid: adminEditing, debounce: 1000 }"
   ng-required="block.required"
   ng-disabled="editBlock || lockedStaffProfileBlock"
 />
-<span class="help-block help-block-hidden" translate
-  >Please enter a valid email such as: example@example.com</span
+<span
+  id="help-block-{{block.id}}"
+  class="help-block help-block-hidden"
+  translate
 >
+  Please enter a valid email such as: example@example.com
+</span>

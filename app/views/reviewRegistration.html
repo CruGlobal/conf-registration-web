@@ -32,9 +32,16 @@
 
         <strong translate>Event Dates</strong>
         <p>
-          {{conference.eventStartTime | evtDateFormat:
-          conference.eventTimezone}} - {{conference.eventEndTime |
-          evtDateFormat: conference.eventTimezone}}
+          <time datetime="{{conference.eventStartTime}}">
+            {{conference.eventStartTime | evtDateFormat:
+            conference.eventTimezone}}
+          </time>
+          <span aria-hidden="true">-</span>
+          <span class="sr-only" translate>to</span>
+          <time datetime="{{conference.eventEndTime}}">
+            {{conference.eventEndTime | evtDateFormat:
+            conference.eventTimezone}}
+          </time>
         </p>
 
         <strong ng-if="conference.locationName" translate
@@ -64,7 +71,9 @@
       </div>
     </section>
     <section class="reg-not-complete" ng-if="!currentRegistration.completed">
-      <h3><translate>Your registration is not complete</translate>...</h3>
+      <h2 class="h3">
+        <translate>Your registration is not complete</translate>...
+      </h2>
       <br />
       <p
         ng-if="!acceptedPaymentMethods() || currentRegistration.calculatedTotalDue === 0"
@@ -109,12 +118,16 @@
             <td>
               <button
                 class="fa btn-unstyled"
-                aria-label="Show registrant details"
                 ng-click="expandRegistrant[r.id] = !expandRegistrant[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrant[r.id], 'fa-minus-square-o': expandRegistrant[r.id]}"
+                aria-label="Show"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
             </td>
-            <td ng-class="{'invalidBlock': regValidate[r.id].length}">
+            <td
+              id="registrant-name-{{r.id}}"
+              ng-class="{'invalidBlock': regValidate[r.id].length}"
+            >
               {{r.firstName}} {{r.lastName}}
             </td>
             <td ng-class="{'invalidBlock': regValidate[r.id].length}">
@@ -129,6 +142,8 @@
                 ng-click="editRegistrant(r.id)"
                 value="Edit"
                 ng-if="!currentRegistration.completed || (currentRegistration.completed && conference.allowEditRegistrationAfterComplete)"
+                aria-label="Edit"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
               <input
                 type="button"
@@ -200,9 +215,10 @@
             <td>
               <button
                 class="fa btn-unstyled"
-                aria-label="Show registrant details"
                 ng-click="expandRegistrantCost[r.id] = !expandRegistrantCost[r.id]"
                 ng-class="{'fa-plus-square-o': !expandRegistrantCost[r.id], 'fa-minus-square-o': expandRegistrantCost[r.id]}"
+                aria-label="Show"
+                ng-attr-aria-describedby="registrant-name-{{r.id}}"
               />
             </td>
             <td>

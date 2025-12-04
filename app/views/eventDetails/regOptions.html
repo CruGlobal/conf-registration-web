@@ -1,114 +1,124 @@
 <h2 class="page-title border" translate>Registration Options</h2>
 <div class="form-group">
   <div class="col-sm-4 stacked-spacing-col-sm">
-    <label
-      ><translate>Registration Starts</translate>
-      <em class="required" aria-hidden="true">*</em></label
-    >
-    <crs-datetimepicker
-      model="conference.registrationStartTime"
-    ></crs-datetimepicker>
+    <label>
+      <span>
+        <translate>Registration Starts</translate>
+        <em class="required" aria-hidden="true">*</em>
+      </span>
+      <crs-datetimepicker
+        model="conference.registrationStartTime"
+        input-required="true"
+      ></crs-datetimepicker>
+    </label>
   </div>
   <div class="col-sm-4">
-    <label
-      ><translate>Registration Ends</translate>
-      <em class="required" aria-hidden="true">*</em></label
-    >
-    <crs-datetimepicker
-      model="conference.registrationEndTime"
-    ></crs-datetimepicker>
+    <label>
+      <span>
+        <span translate>Registration Ends</span>
+        <em class="required" aria-hidden="true">*</em>
+      </span>
+      <crs-datetimepicker
+        model="conference.registrationEndTime"
+        input-required="true"
+      ></crs-datetimepicker>
+    </label>
   </div>
   <div class="col-sm-4">
-    <label translate>Registration Timezone</label><br />
-    <select class="form-control" ng-model="conference.registrationTimezone">
-      <optgroup label="America">
-        <option value="America/Halifax">Atlantic (GMT-3)</option>
-        <option value="America/Puerto_Rico">Atlantic Standard (GMT-4)</option>
-        <option value="America/New_York">Eastern (GMT-4)</option>
-        <option value="America/Chicago">Central (GMT-5)</option>
-        <option value="America/Denver">Mountain (GMT-6)</option>
-        <option value="America/Phoenix">Mountain Standard (GMT-7)</option>
-        <option value="America/Los_Angeles">Pacific (GMT-7)</option>
-        <option value="America/Anchorage">Alaska (GMT-8)</option>
-        <option value="Pacific/Honolulu">Hawaii (GMT-10)</option>
-      </optgroup>
-      <optgroup label="Europe">
-        <option value="Europe/Moscow">Moscow (GMT+3)</option>
-        <option value="Europe/Athens">Eastern (GMT+2)</option>
-        <option value="Europe/Berlin">Central (GMT+1)</option>
-        <option value="Europe/London">Western (GMT+0)</option>
-      </optgroup>
-      <optgroup label="Asia">
-        <option value="Asia/Dubai">Gulf (GMT+4)</option>
-        <option value="Asia/Kabul">Afghanistan (GMT+4:30)</option>
-        <option value="Asia/Karachi">Pakistan (GMT+5)</option>
-        <option value="Asia/Kolkata">India (GMT+5:30)</option>
-        <option value="Asia/Kathmandu">Nepal (GMT+5:45)</option>
-        <option value="Asia/Dhaka">Bangladesh (GMT+6)</option>
-        <option value="Asia/Rangoon">Myanmar (GMT +06:30)</option>
-        <option value="Asia/Bangkok">Thailand (GMT+7)</option>
-        <option value="Asia/Hong_Kong">China (GMT+8)</option>
-        <option value="Asia/Tokyo">Japan (GMT+9)</option>
-        <option value="Asia/Vladivostok">Vladivostok Standard (GMT+10)</option>
-        <option value="Asia/Sakhalin">Yuzhno-Sakhalinsk (GMT+11)</option>
-        <option value="Asia/Anadyr">Anadyr (GMT+12)</option>
-      </optgroup>
-      <optgroup label="Africa">
-        <option value="Africa/Abidjan">Abidjan (GMT+0)</option>
-        <option value="Africa/Accra">Accra (GMT+0)</option>
-        <option value="Africa/Addis_Ababa">Addis_Ababa (GMT+3)</option>
-        <option value="Africa/Algiers">Algiers (GMT+1)</option>
-        <option value="Africa/Asmara">Asmara (GMT+3)</option>
-        <option value="Africa/Asmera">Asmera</option>
-        <option value="Africa/Bamako">Bamako (GMT+0)</option>
-        <option value="Africa/Bangui">Bangui (GMT+1)</option>
-        <option value="Africa/Banjul">Banjul (GMT+0)</option>
-        <option value="Africa/Bissau">Bissau (GMT+0)</option>
-        <option value="Africa/Blantyre">Blantyre (GMT+2)</option>
-        <option value="Africa/Brazzaville">Brazzaville (GMT+1)</option>
-        <option value="Africa/Bujumbura">Bujumbura (GMT+2)</option>
-        <option value="Africa/Cairo">Cairo (GMT+3)</option>
-        <option value="Africa/Casablanca">Casablanca (GMT+1)</option>
-        <option value="Africa/Ceuta">Ceuta (GMT+2)</option>
-        <option value="Africa/Conakry">Conakry (GMT+0)</option>
-        <option value="Africa/Dakar">Dakar (GMT+0)</option>
-        <option value="Africa/Dar_es_Salaam">Dar_es_Salaam (GMT+3)</option>
-        <option value="Africa/Djibouti">Djibouti (GMT+3)</option>
-        <option value="Africa/Douala">Douala (GMT+1)</option>
-        <option value="Africa/El_Aaiun">El_Aaiun (GMT+1)</option>
-        <option value="Africa/Freetown">Freetown (GMT+0)</option>
-        <option value="Africa/Gaborone">Gaborone (GMT+2)</option>
-        <option value="Africa/Harare">Harare (GMT+2)</option>
-        <option value="Africa/Johannesburg">Johannesburg (GMT+2)</option>
-        <option value="Africa/Kampala">Kampala (GMT+3)</option>
-        <option value="Africa/Khartoum">Khartoum (GMT+2)</option>
-        <option value="Africa/Kigali">Kigali (GMT+2)</option>
-        <option value="Africa/Kinshasa">Kinshasa (GMT+1)</option>
-        <option value="Africa/Lagos">Lagos (GMT+1)</option>
-        <option value="Africa/Libreville">Libreville (GMT+1)</option>
-        <option value="Africa/Lome">Lome (GMT+0)</option>
-        <option value="Africa/Luanda">Luanda (GMT+1)</option>
-        <option value="Africa/Lubumbashi">Lubumbashi (GMT+2)</option>
-        <option value="Africa/Lusaka">Lusaka (GMT+2)</option>
-        <option value="Africa/Malabo">Malabo (GMT+1)</option>
-        <option value="Africa/Maputo">Maputo (GMT+2)</option>
-        <option value="Africa/Maseru">Maseru (GMT+2)</option>
-        <option value="Africa/Mbabane">Mbabane (GMT+2)</option>
-        <option value="Africa/Mogadishu">Mogadishu (GMT+3)</option>
-        <option value="Africa/Monrovia">Monrovia (GMT+0)</option>
-        <option value="Africa/Nairobi">Nairobi (GMT+3)</option>
-        <option value="Africa/Ndjamena">Ndjamena (GMT+1)</option>
-        <option value="Africa/Niamey">Niamey (GMT+1)</option>
-        <option value="Africa/Nouakchott">Nouakchott (GMT+0)</option>
-        <option value="Africa/Ouagadougou">Ouagadougou (GMT+0)</option>
-        <option value="Africa/Porto-Novo">Porto-Novo (GMT+1)</option>
-        <option value="Africa/Sao_Tome">Sao_Tome (GMT+0)</option>
-        <option value="Africa/Timbuktu">Timbuktu (GMT+0)</option>
-        <option value="Africa/Tripoli">Tripoli (GMT+2)</option>
-        <option value="Africa/Tunis">Tuniso (GMT+1)</option>
-        <option value="Africa/Windhoek">Windhoek (GMT+2)</option>
-      </optgroup>
-    </select>
+    <label>
+      <span translate>Registration Timezone</span>
+      <select class="form-control" ng-model="conference.registrationTimezone">
+        <optgroup label="America">
+          <option value="America/Halifax">Atlantic (GMT-3)</option>
+          <option value="America/Puerto_Rico">Atlantic Standard (GMT-4)</option>
+          <option value="America/New_York">Eastern (GMT-4)</option>
+          <option value="America/Chicago">Central (GMT-5)</option>
+          <option value="America/Denver">Mountain (GMT-6)</option>
+          <option value="America/Phoenix">Mountain Standard (GMT-7)</option>
+          <option value="America/Los_Angeles">Pacific (GMT-7)</option>
+          <option value="America/Anchorage">Alaska (GMT-8)</option>
+          <option value="Pacific/Honolulu">Hawaii (GMT-10)</option>
+        </optgroup>
+        <optgroup label="Europe">
+          <option value="Europe/Moscow">Moscow (GMT+3)</option>
+          <option value="Europe/Athens">Eastern (GMT+2)</option>
+          <option value="Europe/Berlin">Central (GMT+1)</option>
+          <option value="Europe/London">Western (GMT+0)</option>
+        </optgroup>
+        <optgroup label="Asia">
+          <option value="Asia/Dubai">Gulf (GMT+4)</option>
+          <option value="Asia/Kabul">Afghanistan (GMT+4:30)</option>
+          <option value="Asia/Karachi">Pakistan (GMT+5)</option>
+          <option value="Asia/Kolkata">India (GMT+5:30)</option>
+          <option value="Asia/Kathmandu">Nepal (GMT+5:45)</option>
+          <option value="Asia/Dhaka">Bangladesh (GMT+6)</option>
+          <option value="Asia/Rangoon">Myanmar (GMT +06:30)</option>
+          <option value="Asia/Bangkok">Thailand (GMT+7)</option>
+          <option value="Asia/Hong_Kong">China (GMT+8)</option>
+          <option value="Asia/Tokyo">Japan (GMT+9)</option>
+          <option value="Asia/Vladivostok">
+            Vladivostok Standard (GMT+10)
+          </option>
+          <option value="Asia/Sakhalin">Yuzhno-Sakhalinsk (GMT+11)</option>
+          <option value="Asia/Anadyr">Anadyr (GMT+12)</option>
+        </optgroup>
+        <optgroup label="Africa">
+          <option value="Africa/Abidjan">Abidjan (GMT+0)</option>
+          <option value="Africa/Accra">Accra (GMT+0)</option>
+          <option value="Africa/Addis_Ababa">Addis_Ababa (GMT+3)</option>
+          <option value="Africa/Algiers">Algiers (GMT+1)</option>
+          <option value="Africa/Asmara">Asmara (GMT+3)</option>
+          <option value="Africa/Asmera">Asmera</option>
+          <option value="Africa/Bamako">Bamako (GMT+0)</option>
+          <option value="Africa/Bangui">Bangui (GMT+1)</option>
+          <option value="Africa/Banjul">Banjul (GMT+0)</option>
+          <option value="Africa/Bissau">Bissau (GMT+0)</option>
+          <option value="Africa/Blantyre">Blantyre (GMT+2)</option>
+          <option value="Africa/Brazzaville">Brazzaville (GMT+1)</option>
+          <option value="Africa/Bujumbura">Bujumbura (GMT+2)</option>
+          <option value="Africa/Cairo">Cairo (GMT+3)</option>
+          <option value="Africa/Casablanca">Casablanca (GMT+1)</option>
+          <option value="Africa/Ceuta">Ceuta (GMT+2)</option>
+          <option value="Africa/Conakry">Conakry (GMT+0)</option>
+          <option value="Africa/Dakar">Dakar (GMT+0)</option>
+          <option value="Africa/Dar_es_Salaam">Dar_es_Salaam (GMT+3)</option>
+          <option value="Africa/Djibouti">Djibouti (GMT+3)</option>
+          <option value="Africa/Douala">Douala (GMT+1)</option>
+          <option value="Africa/El_Aaiun">El_Aaiun (GMT+1)</option>
+          <option value="Africa/Freetown">Freetown (GMT+0)</option>
+          <option value="Africa/Gaborone">Gaborone (GMT+2)</option>
+          <option value="Africa/Harare">Harare (GMT+2)</option>
+          <option value="Africa/Johannesburg">Johannesburg (GMT+2)</option>
+          <option value="Africa/Kampala">Kampala (GMT+3)</option>
+          <option value="Africa/Khartoum">Khartoum (GMT+2)</option>
+          <option value="Africa/Kigali">Kigali (GMT+2)</option>
+          <option value="Africa/Kinshasa">Kinshasa (GMT+1)</option>
+          <option value="Africa/Lagos">Lagos (GMT+1)</option>
+          <option value="Africa/Libreville">Libreville (GMT+1)</option>
+          <option value="Africa/Lome">Lome (GMT+0)</option>
+          <option value="Africa/Luanda">Luanda (GMT+1)</option>
+          <option value="Africa/Lubumbashi">Lubumbashi (GMT+2)</option>
+          <option value="Africa/Lusaka">Lusaka (GMT+2)</option>
+          <option value="Africa/Malabo">Malabo (GMT+1)</option>
+          <option value="Africa/Maputo">Maputo (GMT+2)</option>
+          <option value="Africa/Maseru">Maseru (GMT+2)</option>
+          <option value="Africa/Mbabane">Mbabane (GMT+2)</option>
+          <option value="Africa/Mogadishu">Mogadishu (GMT+3)</option>
+          <option value="Africa/Monrovia">Monrovia (GMT+0)</option>
+          <option value="Africa/Nairobi">Nairobi (GMT+3)</option>
+          <option value="Africa/Ndjamena">Ndjamena (GMT+1)</option>
+          <option value="Africa/Niamey">Niamey (GMT+1)</option>
+          <option value="Africa/Nouakchott">Nouakchott (GMT+0)</option>
+          <option value="Africa/Ouagadougou">Ouagadougou (GMT+0)</option>
+          <option value="Africa/Porto-Novo">Porto-Novo (GMT+1)</option>
+          <option value="Africa/Sao_Tome">Sao_Tome (GMT+0)</option>
+          <option value="Africa/Timbuktu">Timbuktu (GMT+0)</option>
+          <option value="Africa/Tripoli">Tripoli (GMT+2)</option>
+          <option value="Africa/Tunis">Tuniso (GMT+1)</option>
+          <option value="Africa/Windhoek">Windhoek (GMT+2)</option>
+        </optgroup>
+      </select>
+    </label>
   </div>
 </div>
 
@@ -171,12 +181,12 @@
     </div>
 
     <div class="checkbox">
-      <label
-        ><input
+      <label>
+        <input
           type="checkbox"
           ng-model="conference.combineSpouseRegistrations"
         />
-        <translate>Combine spouse registrations</translate>
+        <span translate>Combine spouse registrations</span>
       </label>
       <i
         class="question-popover fa fa-question-circle"
@@ -191,22 +201,26 @@
 
 <div class="form-group">
   <div class="col-sm-12">
-    <label class="control-label" translate>Custom CSS stylesheet</label>
-    <i
-      class="question-popover fa fa-question-circle"
-      uib-popover="{{'Allows for custom styling of the registration pages. This CSS file will be applied to the registration pages for your conference. It has no effect on the admin pages or home page. Must be hosted at an https:// url and have a .css file extension.' | translate}}"
-      popover-trigger="'mouseenter'"
-      popover-append-to-body="true"
-    >
-    </i>
-    <input
-      type="text"
-      class="form-control"
-      placeholder="https://www.example.com/custom.css"
-      ng-model="conference.cssUrl"
-      show-errors
-      ng-pattern="/^https?:\/\/.+\..+\/.+\.css$/"
-    />
+    <label>
+      <span>
+        <translate>Custom CSS stylesheet</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          uib-popover="{{'Allows for custom styling of the registration pages. This CSS file will be applied to the registration pages for your conference. It has no effect on the admin pages or home page. Must be hosted at an https:// url and have a .css file extension.' | translate}}"
+          popover-trigger="'mouseenter'"
+          popover-append-to-body="true"
+        >
+        </i>
+      </span>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="https://www.example.com/custom.css"
+        ng-model="conference.cssUrl"
+        show-errors
+        ng-pattern="/^https?:\/\/.+\..+\/.+\.css$/"
+      />
+    </label>
   </div>
 </div>
 
@@ -243,20 +257,17 @@
   <div class="row">
     <div class="col-sm-5">
       <label
-        translate
-        for="fileInput"
         uib-tooltip="{{'The newly selected image can be cropped in the area below.' | translate }}"
-        >Select an image file:
+      >
+        <span translate>Select an image file:</span>
+        <input
+          read-file
+          type="file"
+          accept="image/*"
+          class="form-control-file"
+          ng-model="selectedImage"
+        />
       </label>
-
-      <input
-        read-file
-        type="file"
-        accept="image/*"
-        id="fileInput"
-        class="form-control-file"
-        ng-model="selectedImage"
-      />
       <div class="cropArea">
         <ui-cropper
           image="selectedImage"
@@ -295,15 +306,15 @@
       </div>
 
       <div class="checkbox">
-        <label translate
-          ><input type="checkbox" ng-model="image.includeImageToAllPages" />
-          Include the image on every page
+        <label>
+          <input type="checkbox" ng-model="image.includeImageToAllPages" />
+          <span translate>Include the image on every page</span>
         </label>
       </div>
 
       <div class="select">
-        <label translate
-          >Select image orientation on the page
+        <label>
+          <span translate>Select image orientation on the page</span>
           <select class="form-control" ng-model="image.displayType">
             <option value="ALIGNED_LEFT" translate>Aligned Left</option>
             <option value="ALIGNED_RIGHT" translate>Aligned Right</option>

@@ -39,65 +39,79 @@
           </a>
         </div>
         <div class="col-md-5 col-md-pull-3 stacked-spacing-col-md">
-          <label translate>Code</label>
-          <input type="text" class="form-control" ng-model="promo.code" />
+          <label>
+            <span translate>Code</span>
+            <input type="text" class="form-control" ng-model="promo.code" />
+          </label>
         </div>
         <div class="col-md-3 col-md-pull-3 stacked-spacing-col-md">
-          <label translate>Discount Amount</label>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <span class="currency-label"
-                >{{conference.currency.currencyCode | localizedSymbol}}</span
-              >
-            </span>
-            <input type="text" class="form-control" ng-model="promo.amount" />
-          </div>
+          <label>
+            <span translate>Discount Amount</span>
+            <div class="input-group">
+              <span class="input-group-addon" aria-hidden="true">
+                <span class="currency-label"
+                  >{{conference.currency.currencyCode | localizedSymbol}}</span
+                >
+              </span>
+              <input type="text" class="form-control" ng-model="promo.amount" />
+            </div>
+          </label>
         </div>
       </div>
       <div class="row spacing-above-md">
         <div class="row spacing-below-sm margin-left-0 margin-right-15">
           <div class="col-md-3 stacked-spacing-col-md">
-            <label translate>Business Unit</label>
-            <input
-              ng-model="promo.businessUnit"
-              type="text"
-              class="form-control"
-            />
+            <label>
+              <span translate>Business Unit</span>
+              <input
+                ng-model="promo.businessUnit"
+                type="text"
+                class="form-control"
+              />
+            </label>
           </div>
 
           <div class="col-md-3 stacked-spacing-col-md">
-            <label translate>Operating Unit</label>
-            <input
-              ng-model="promo.operatingUnit"
-              type="text"
-              class="form-control"
-            />
+            <label>
+              <span translate>Operating Unit</span>
+              <input
+                ng-model="promo.operatingUnit"
+                type="text"
+                class="form-control"
+              />
+            </label>
           </div>
 
           <div class="col-md-3 stacked-spacing-col-md">
-            <label translate>Department Id</label>
-            <input
-              ng-model="promo.departmentId"
-              type="text"
-              class="form-control"
-            />
+            <label>
+              <span translate>Department Id</span>
+              <input
+                ng-model="promo.departmentId"
+                type="text"
+                class="form-control"
+              />
+            </label>
           </div>
 
           <div class="col-md-3 stacked-spacing-col-md">
-            <label translate>Project Id</label>
-            <i
-              class="fa fa-question-circle"
-              button
-              uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-              popover-trigger="'mouseenter'"
-              popover-append-to-body="true"
-            >
-            </i>
-            <input
-              ng-model="promo.projectId"
-              type="text"
-              class="form-control"
-            />
+            <label>
+              <span>
+                <translate>Project Id</translate>
+                <i
+                  class="fa fa-question-circle"
+                  button
+                  uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
+              </span>
+              <input
+                ng-model="promo.projectId"
+                type="text"
+                class="form-control"
+              />
+            </label>
           </div>
         </div>
       </div>
@@ -114,58 +128,66 @@
       <div class="row">
         <div class="col-md-6">
           <div>
-            <label translate>Description</label>
-            <textarea
-              class="form-control"
-              ng-model="promo.description"
-            ></textarea>
-          </div>
-
-          <div class="pt12">
-            <label translate>Validity Range</label>
-            <div class="row">
-              <div class="col-sm-6 stacked-spacing-col-sm">
-                <crs-datetimepicker
-                  model="promo.activationDate"
-                ></crs-datetimepicker>
-              </div>
-              <div class="col-sm-6 stacked-spacing-col-sm">
-                <crs-datetimepicker
-                  model="promo.deactivationDate"
-                ></crs-datetimepicker>
-              </div>
-            </div>
-          </div>
-
-          <div class="pt12">
-            <label translate>Usage limit</label>
-            <button
-              type="button"
-              class="btn btn-default btn-block"
-              ng-if="!promo.numberLimit"
-              ng-click="promo.numberLimit = 10"
-              translate
-            >
-              Enable Limit
-            </button>
-            <div class="input-group" ng-if="promo.numberLimit">
-              <input
-                type="number"
-                ng-model="promo.numberLimit"
+            <label>
+              <span translate>Description</span>
+              <textarea
                 class="form-control"
-                min="0"
-              />
-              <span class="input-group-btn">
-                <button
-                  type="button"
-                  class="btn btn-default"
-                  ng-click="promo.numberLimit = 0"
-                  translate
-                >
-                  Disable Limit
-                </button>
-              </span>
-            </div>
+                ng-model="promo.description"
+              ></textarea>
+            </label>
+          </div>
+
+          <div class="pt12">
+            <label>
+              <span translate>Validity Range</span>
+              <div class="row">
+                <div class="col-sm-6 stacked-spacing-col-sm">
+                  <crs-datetimepicker
+                    model="promo.activationDate"
+                    input-aria-label="{{ 'Valid from' | translate }}"
+                  ></crs-datetimepicker>
+                </div>
+                <div class="col-sm-6 stacked-spacing-col-sm">
+                  <crs-datetimepicker
+                    model="promo.deactivationDate"
+                    input-aria-label="{{ 'Valid until' | translate }}"
+                  ></crs-datetimepicker>
+                </div>
+              </div>
+            </label>
+          </div>
+
+          <div class="pt12">
+            <label>
+              <span translate>Usage limit</span>
+              <button
+                type="button"
+                class="btn btn-default btn-block"
+                ng-if="!promo.numberLimit"
+                ng-click="promo.numberLimit = 10"
+                translate
+              >
+                Enable Limit
+              </button>
+              <div class="input-group" ng-if="promo.numberLimit">
+                <input
+                  type="number"
+                  ng-model="promo.numberLimit"
+                  class="form-control"
+                  min="0"
+                />
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-click="promo.numberLimit = 0"
+                    translate
+                  >
+                    Disable Limit
+                  </button>
+                </span>
+              </div>
+            </label>
           </div>
         </div>
 

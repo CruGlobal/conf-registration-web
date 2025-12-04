@@ -48,13 +48,15 @@
         ng-repeat="(fieldName, field) in paymentGateways[getPaymentGatewayType()].fields"
       >
         <div class="col-xs-12">
-          <label translate>{{field.title}}:</label>
-          <input
-            class="form-control"
-            type="text"
-            ng-model="conference[fieldName]"
-            autocomplete="off"
-          />
+          <label>
+            <span>{{field.title}}:</span>
+            <input
+              class="form-control"
+              type="text"
+              ng-model="conference[fieldName]"
+              autocomplete="off"
+            />
+          </label>
         </div>
       </div>
     </div>
@@ -68,23 +70,27 @@
   <div class="panel-body">
     <div class="form-group">
       <div class="col-xs-12">
-        <label translate>Make checks payable to:</label>
-        <input
-          class="form-control"
-          type="text"
-          ng-model="conference.checkPayableTo"
-        />
+        <label>
+          <span translate>Make checks payable to:</span>
+          <input
+            class="form-control"
+            type="text"
+            ng-model="conference.checkPayableTo"
+          />
+        </label>
       </div>
     </div>
     <div class="form-group">
       <div class="col-xs-12">
-        <label translate>Mail checks to:</label>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="{{'Address' | translate}}"
-          ng-model="conference.checkMailingAddress"
-        />
+        <label>
+          <span translate>Mail checks to:</span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{'Address' | translate}}"
+            ng-model="conference.checkMailingAddress"
+          />
+        </label>
       </div>
     </div>
     <div class="form-group">
@@ -171,19 +177,22 @@
   <div class="panel-body">
     <div class="form-group">
       <div class="col-xs-12">
-        <label translate>Conference currency:</label>
-        <i
-          class="question-popover fa fa-question-circle"
-          uib-popover="{{'Changing the currency symbol only affects the display on the registration pages. The amounts recorded do not have the currency symbol included, therefore the event administrators extracting the data need to know what currency was used. Only one currency can be selected per event and it’s not recommend changing this once people have begun to register.' | translate}}"
-          popover-trigger="'mouseenter'"
-          popover-append-to-body="true"
-        >
-        </i>
-        <select
-          class="form-control"
-          ng-model="conference.currency"
-          ng-options="currency.name for currency in currencies track by currency.name"
-        ></select>
+        <label>
+          <span>
+            <translate>Conference currency:</translate>
+            <i
+              class="question-popover fa fa-question-circle"
+              uib-popover="{{'Changing the currency symbol only affects the display on the registration pages. The amounts recorded do not have the currency symbol included, therefore the event administrators extracting the data need to know what currency was used. Only one currency can be selected per event and it’s not recommend changing this once people have begun to register.' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            ></i>
+          </span>
+          <select
+            class="form-control"
+            ng-model="conference.currency"
+            ng-options="currency.name for currency in currencies track by currency.name"
+          ></select>
+        </label>
       </div>
     </div>
   </div>
@@ -199,47 +208,56 @@
     </p>
     <div class="row form-group">
       <div class="col-sm-3">
-        <label translate>Business Unit</label>
-        <input
-          ng-model="conference.businessUnit"
-          type="text"
-          class="form-control"
-        />
+        <label>
+          <span translate>Business Unit</span>
+          <input
+            ng-model="conference.businessUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
       </div>
 
       <div class="col-sm-3">
-        <label translate>Operating Unit</label>
-        <input
-          ng-model="conference.operatingUnit"
-          type="text"
-          class="form-control"
-        />
+        <label>
+          <span translate>Operating Unit</span>
+          <input
+            ng-model="conference.operatingUnit"
+            type="text"
+            class="form-control"
+          />
+        </label>
       </div>
 
       <div class="col-sm-3">
-        <label translate>Department</label>
-        <input
-          ng-model="conference.department"
-          type="text"
-          class="form-control"
-        />
+        <label>
+          <span translate>Department</span>
+          <input
+            ng-model="conference.department"
+            type="text"
+            class="form-control"
+          />
+        </label>
       </div>
 
       <div class="col-sm-3">
-        <label translate>Project Id</label>
-        <i
-          class="fa fa-question-circle"
-          button
-          uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
-          popover-trigger="'mouseenter'"
-          popover-append-to-body="true"
-        >
-        </i>
-        <input
-          ng-model="conference.projectId"
-          type="text"
-          class="form-control"
-        />
+        <label>
+          <span>
+            <translate>Project Id</translate>
+            <i
+              class="question-popover fa fa-question-circle"
+              button
+              uib-popover="{{'If there is no Project Id (or `NONE`), leave blank' | translate}}"
+              popover-trigger="'mouseenter'"
+              popover-append-to-body="true"
+            ></i
+          ></span>
+          <input
+            ng-model="conference.projectId"
+            type="text"
+            class="form-control"
+          />
+        </label>
       </div>
     </div>
   </div>

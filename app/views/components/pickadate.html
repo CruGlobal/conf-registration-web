@@ -1,6 +1,11 @@
 <div class="input-group">
-  <span class="input-group-addon add-on" ng-click="open($event)">
-    <i class="fa fa-calendar"></i>
+  <span class="input-group-addon add-on">
+    <button
+      type="button"
+      class="fa fa-calendar"
+      ng-attr-aria-label="{{ 'Open Calendar' | translate }}"
+      ng-click="open($event)"
+    ></button>
   </span>
   <input
     type="text"

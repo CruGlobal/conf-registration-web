@@ -76,7 +76,11 @@ angular
             groupRegistrantType.allowedRegistrantTypeSet != null
           ) {
             const currentCounts = _.countBy(
-              $scope.currentRegistration.registrants,
+              $scope.currentRegistration.registrants.filter(
+                (registrant) =>
+                  registrant.id !==
+                  $scope.currentRegistration.primaryRegistrantId,
+              ),
               'registrantTypeId',
             );
             _.remove($scope.visibleRegistrantTypes, (t) => {

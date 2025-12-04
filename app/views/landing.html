@@ -61,17 +61,17 @@
   </div>
 </div>
 <div class="text-center" ng-if="loadingSearchResults">
-  <h2 translate>Searching Events...</h2>
+  <h2 class="h3" translate>Searching Events...</h2>
   <i class="fa fa-spinner fa-spin fa-4x"></i>
 </div>
 <div
   class="container spacing-above-md"
   ng-if="!loadingSearchResults && !searchComplete"
 >
-  <h3 translate>Register for an event</h3>
+  <h2 class="h3" translate>Register for an event</h2>
   <p translate>To register for an event, search the event name above.</p>
 
-  <h3 translate>Create or manage an event</h3>
+  <h2 class="h3" translate>Create or manage an event</h2>
   <p>
     <translate
       >To create a new event or view registrations, manage scholarships or
@@ -96,12 +96,19 @@
       ng-repeat="e in filteredEvents = filterSearchResults() | orderBy: 'name'"
     >
       <div class="bs-callout">
-        <h3 class="list-group-item-heading">{{e.name}}</h3>
+        <h3 id="title-{{e.id}}" class="list-group-item-heading">{{e.name}}</h3>
         <p class="spacing-above-md list-group-item-text">
-          <i class="fa fa-calendar fa-fw"></i>
-          {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY
-          h:mma'}} - {{e.eventEndTime | evtDateFormat: e.eventTimezone:'ddd, MMM
-          D, YYYY h:mma'}}
+          <i class="fa fa-calendar fa-fw" aria-hidden="true"></i>
+          <time datetime="{{e.eventStartTime}}">
+            {{e.eventStartTime | evtDateFormat: e.eventTimezone:'ddd, MMM D,
+            YYYY h:mma'}}
+          </time>
+          <span aria-hidden="true">-</span>
+          <span class="sr-only" translate>to</span>
+          <time datetime="{{e.eventEndTime}}">
+            {{e.eventEndTime | evtDateFormat: e.eventTimezone:'ddd, MMM D, YYYY
+            h:mma'}}
+          </time>
           <span ng-if="e.locationName"
             ><br /><i class="fa fa-map-marker fa-fw"></i>
             {{e.locationName}}</span
@@ -116,6 +123,7 @@
           <button
             ng-click="selectEvent(e, 'register')"
             class="btn btn-primary spacing-above-xs"
+            aria-describedby="title-{{e.id}}"
             translate
           >
             Register

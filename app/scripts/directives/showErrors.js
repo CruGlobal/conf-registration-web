@@ -38,6 +38,7 @@ angular.module('confRegistrationWebApp').directive('showErrors', function () {
           } else {
             element.parents('.form-group').toggleClass('has-error', invalid);
           }
+          element.attr('aria-invalid', invalid ? 'true' : null);
         },
       );
     },

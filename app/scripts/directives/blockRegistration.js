@@ -76,17 +76,14 @@ angular
             validateRegistrant.shouldShowForRegistrantType(
               $scope.block,
               $scope.currentRegistration.registrants[registrantIndex],
-            );
-
-          if (!weShouldInitializeAnswer) {
-            return;
-          }
+            ) || $scope.block.required;
 
           const { answer, isNew } = initializeAnswer(
             $scope.currentRegistration.registrants[registrantIndex].answers,
             $scope.block,
             registrantId,
             $scope.block.content && $scope.block.content.default,
+            weShouldInitializeAnswer,
           );
           $scope.answer = answer;
           isNew &&
@@ -135,6 +132,7 @@ angular
           block,
           registrantId,
           blockDefault,
+          shouldInitialize,
         ) {
           var currentAnswer = _.find(registrantAnswers, { blockId: block.id });
 
@@ -154,7 +152,9 @@ angular
               id: uuid(),
               registrantId: registrantId,
               blockId: block.id,
-              value: getDefaultValue(block.type, blockDefault),
+              value: shouldInitialize
+                ? getDefaultValue(block.type, blockDefault)
+                : null,
             },
             isNew: !currentAnswer,
           };

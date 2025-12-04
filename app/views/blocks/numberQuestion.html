@@ -3,6 +3,7 @@
   type="number"
   id="block-input-{{block.id}}"
   class="form-control"
+  aria-describedby="help-block-{{block.id}}"
   ng-model="answer.value"
   ng-model-options="{ debounce: 300 }"
   ng-disabled="false"
@@ -16,23 +17,27 @@
   tooltip-enable="{{ isAdmin }}"
 />
 <span
+  id="help-block-{{block.id}}"
   class="help-block help-block-hidden"
   ng-if="block.content.range.min && block.content.range.max"
   translate
-  >Please enter a number between {{ block.content.range.min }} and {{
-  block.content.range.max }}</span
 >
+  Please enter a number between {{ block.content.range.min }} and {{
+  block.content.range.max }}
+</span>
 <span
+  id="help-block-{{block.id}}"
   class="help-block help-block-hidden"
   ng-if="block.content.range.min && !block.content.range.max"
   translate
-  >Please enter a number greater than or equal to {{ block.content.range.min
-  }}</span
 >
+  Please enter a number greater than or equal to {{ block.content.range.min }}
+</span>
 <span
+  id="help-block-{{block.id}}"
   class="help-block help-block-hidden"
   ng-if="!block.content.range.min && block.content.range.max"
   translate
-  >Please enter a number less than or equal to {{ block.content.range.max
-  }}</span
 >
+  Please enter a number less than or equal to {{ block.content.range.max }}
+</span>
