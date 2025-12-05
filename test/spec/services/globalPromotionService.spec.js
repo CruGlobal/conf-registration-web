@@ -222,6 +222,26 @@ describe('Service: GlobalPromotionService', () => {
 
       expect(result).toBe(false);
     });
+
+    it('should return false when there are no registrants in the registration', () => {
+      const conference = {
+        ...testData.conference,
+        ministry: ministryId,
+        ministryActivity: ministryActivityId,
+      };
+
+      const registrationWithNoRegistrants = {
+        ...testData.registration,
+        registrants: [],
+      };
+
+      const result = globalPromotionService.hasPromotionsForRegistration(
+        conference,
+        registrationWithNoRegistrants,
+      );
+
+      expect(result).toBe(false);
+    });
   });
 
   describe('createPromotion', () => {
