@@ -36,7 +36,7 @@ angular
       });
     });
 
-    $rootScope.isMinistryAdmin = () => MinistryAdminsCache.getSync().length > 0;
+    $rootScope.isMinistryAdmin = () => !!MinistryAdminsCache.getSync().length;
 
     $rootScope.globalUser = function () {
       return ProfileCache.globalUser();
