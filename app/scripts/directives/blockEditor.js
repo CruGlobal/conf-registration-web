@@ -4,6 +4,8 @@ import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
 
+export const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {
     templateUrl: template,
@@ -15,6 +17,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       uuid,
       expenseTypesConstants,
       ruleTypeConstants,
+      blockTagTypeService,
+      $element,
     ) {
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
@@ -32,6 +36,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.popup = {
         titleTemplateUrl: popupHyperlinkInformationTemplate,
       };
+
+      // Ensure blockTagType is initialized correctly
+      if (!$scope.block.blockTagType) {
+        $scope.block.blockTagType = null;
+      }
 
       if (!$scope.answer) {
         $scope.answer = {};
@@ -157,6 +166,27 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
         'visibleRegTypes',
         function (object) {
           if (angular.isDefined(object)) {
+            const currentBlockTagTypeMapping = _.find(
+              $scope.$parent.blockTagTypeMapping,
+              {
+                blockId: $scope.block.id,
+              },
+            );
+            if (!currentBlockTagTypeMapping) {
+              return;
+            }
+            const allRegistrantTypes = [
+              ...currentBlockTagTypeMapping.hiddenFromRegistrantTypes,
+              ...currentBlockTagTypeMapping.includedInRegistrantTypes,
+            ];
+            currentBlockTagTypeMapping.hiddenFromRegistrantTypes =
+              allRegistrantTypes.filter(function (registrantType) {
+                return !object[registrantType.id];
+              });
+            currentBlockTagTypeMapping.includedInRegistrantTypes =
+              allRegistrantTypes.filter(function (registrantType) {
+                return object[registrantType.id];
+              });
             //remove true values (ones that aren't hidden) and return an array of keys (the ids of the hidden registrantTypes)
             $scope.block.registrantTypes = _.keys(
               _.omitBy(object, function (value) {
@@ -422,7 +452,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
 
       $scope.disableForceSelectionRule = function () {
         if (
-          $scope.block.content.forceSelections === {} ||
+          _.isEmpty($scope.block.content.forceSelections) ||
           !_.includes(_.values($scope.block.content.forceSelections), true)
         ) {
           //$scope.block.additionalRules = [];
@@ -430,9 +460,8 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             ruleType: ruleTypeConstants.FORCE_SELECTION,
           });
           return true;
-        } else {
-          return false;
         }
+        return false;
       };
 
       $scope.daysForBlock = function () {
@@ -482,6 +511,137 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
           });
         });
         return questionTypeFound;
+      };
+
+      // On load, create a temporary block tag type model to prevent
+      // ng-model from directly updating block.blockTagType before validation occurs
+      // This is necessary to prevent server errors.
+      $scope.selectedBlockTagTypeId = $scope.block.blockTagType
+        ? $scope.block.blockTagType.id
+        : null;
+
+      $scope.isBlockTagTypeDisabled = function (blockTagTypeId) {
+        // Don't disable the "None" option
+        if (blockTagTypeId === null) {
+          return false;
+        }
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
+        // Don't disable if it's the currently selected option for this block
+        if (blockTagTypeId === currentBlockTagTypeId) {
+          return false;
+        }
+
+        // Use the service to check if this blockTagType is fully covered
+        // across all registrant types (meaning no slots are available)
+        const conferenceRegistrantTypeIds =
+          $scope.conference.registrantTypes.map((type) => type.id);
+
+        const isDisabled = blockTagTypeService.isBlockTagTypeFullyCovered(
+          blockTagTypeId,
+          $scope.$parent.blockTagTypeMapping,
+          conferenceRegistrantTypeIds,
+        );
+        return isDisabled;
+      };
+
+      $scope.blockTagTypeTypeChanged = function (selectedBlockTagTypeId) {
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
+        if (selectedBlockTagTypeId === currentBlockTagTypeId) {
+          // Selection matches current value, no change needed.
+          $scope.blockTagTypeValidation = { valid: true, message: '' };
+          return;
+        }
+        const validation = blockTagTypeService.validateFieldSelection(
+          selectedBlockTagTypeId,
+          $scope.$parent.blockTagTypeMapping,
+          $scope.block.id,
+        );
+        if (validation.valid) {
+          // Update the blockTagType property if validation passes
+          if (selectedBlockTagTypeId === null) {
+            $scope.block.blockTagType = null;
+          } else {
+            // Find the full blockTagType object from the list
+            const selectedBlockTagType = $scope.$parent.blockTagTypes.find(
+              (type) => type.id === selectedBlockTagTypeId,
+            );
+            $scope.block.blockTagType = selectedBlockTagType || null;
+          }
+          // We also need to update the parent controller to refetch the data
+          $scope.$parent.fetchBlockTagTypeMapping();
+        } else {
+          // Revert the dropdown selection to the previous valid blockTagTypeId
+          const selectElement = $element.find(
+            '#blockTagType-' + $scope.block.id,
+          );
+          if (selectElement.length) {
+            // We need to set the value on the ngModelController and then call $render(),
+            // as simply changing the scope variable does not update the select element.
+            selectElement
+              .controller('ngModel')
+              .$setViewValue(currentBlockTagTypeId);
+            selectElement.controller('ngModel').$render();
+          }
+        }
+        $scope.blockTagTypeValidation = validation;
+      };
+
+      $scope.onVisibleRegTypesChange = function (typeId) {
+        // Update the blockTagTypeMapping
+        $scope.$parent.blockTagTypeMapping =
+          $scope.$parent.blockTagTypeMapping.map((mapping) => {
+            if (mapping.blockId === $scope.block.id) {
+              if (
+                mapping.includedInRegistrantTypes.some(
+                  (type) => type.id === typeId,
+                )
+              ) {
+                // Move from included to hidden
+                const type = mapping.includedInRegistrantTypes.find(
+                  (t) => t.id === typeId,
+                );
+                mapping.includedInRegistrantTypes =
+                  mapping.includedInRegistrantTypes.filter(
+                    (t) => t.id !== typeId,
+                  );
+                mapping.hiddenFromRegistrantTypes.push(type);
+              } else if (
+                mapping.hiddenFromRegistrantTypes.some(
+                  (type) => type.id === typeId,
+                )
+              ) {
+                // Move from hidden to included
+                const type = mapping.hiddenFromRegistrantTypes.find(
+                  (t) => t.id === typeId,
+                );
+                mapping.hiddenFromRegistrantTypes =
+                  mapping.hiddenFromRegistrantTypes.filter(
+                    (t) => t.id !== typeId,
+                  );
+                mapping.includedInRegistrantTypes.push(type);
+              }
+            }
+            return mapping;
+          });
+
+        const currentBlockTagTypeId = $scope.block.blockTagType
+          ? $scope.block.blockTagType.id
+          : null;
+
+        const validation = blockTagTypeService.validateFieldSelection(
+          currentBlockTagTypeId,
+          $scope.$parent.blockTagTypeMapping,
+          $scope.block.id,
+        );
+        $scope.blockTagTypeValidation = validation;
+      };
+
+      $scope.showBlockTagTypeDropdown = function () {
+        return $scope.conference.ministry === familyLifeMinistryId;
       };
     },
   };
