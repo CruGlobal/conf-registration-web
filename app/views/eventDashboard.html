@@ -11,7 +11,7 @@
           <translate>events</translate>
         </p>
         <p ng-show="!filteredEvents">
-          <i class="fa fa-circle-o-notch fa-spin"></i>
+          <fa-icon icon="circle-o-notch" class="fa-spin"></fa-icon>
           <translate>Loading events</translate>...
         </p>
       </div>
@@ -23,14 +23,15 @@
           class="btn btn-success btn-spacing-below"
           role="button"
         >
-          <i class="fa fa-plus"></i> <translate>Create New Event</translate>
+          <fa-icon icon="plus"></fa-icon>
+          <translate>Create New Event</translate>
         </button>
         <button
           ng-click="requestAccess()"
           class="btn btn-success btn-spacing-below"
           role="button"
         >
-          <i class="fa fa-key"></i>
+          <fa-icon icon="key"></fa-icon>
           <translate>Request Access to Existing Event</translate>
         </button>
       </div>
@@ -48,7 +49,7 @@
             title="Clear search"
             ng-show="filterName"
           >
-            <i class="fa fa-times"></i>
+            <fa-icon icon="times"></fa-icon>
           </span>
         </div>
       </div>
@@ -103,8 +104,6 @@
         ng-click="goToEventPage('eventOverview', event.id)"
       ></li>
     </ul>
-    <!--    <a class="btn btn-default small" href="#"><i class="fa fa-arrow-left"></i> Previous</a>
-		<a class="btn btn-primary small" href="#">Next <i class="fa fa-arrow-right"></i></a>-->
     <label>
       <input type="checkbox" ng-model="showArchivedEvents" />
       <translate>Show archived events</translate>

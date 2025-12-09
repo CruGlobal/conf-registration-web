@@ -10,14 +10,14 @@
     ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();"
     ng-disabled="event.archived"
   >
-    <i class="fa fa-users green"></i>
+    <fa-icon icon="users" class="green"></fa-icon>
     <strong>{{event.completedRegistrationCount}}</strong>
     <translate>Registered</translate>
   </button>
   <h3 class="h2">{{event.name}}</h3>
   <ul class="list-inline" ng-if="!event.archived">
     <li>
-      <i class="fa fa-users"></i>
+      <fa-icon icon="users"></fa-icon>
       <a
         href=""
         ng-click="goToEventPage('eventRegistrations', event.id); $event.stopPropagation();"
@@ -26,7 +26,7 @@
       >
     </li>
     <li>
-      <i class="fa fa-info"></i>
+      <fa-icon icon="info"></fa-icon>
       <a
         href=""
         ng-click="goToEventPage('eventDetails', event.id); $event.stopPropagation();"
@@ -35,7 +35,7 @@
       >
     </li>
     <li>
-      <i class="fa fa-question"></i>
+      <fa-icon icon="question"></fa-icon>
       <a
         href=""
         ng-click="goToEventPage('eventForm', event.id); $event.stopPropagation();"
@@ -44,7 +44,7 @@
       >
     </li>
     <li>
-      <i class="fa fa-clone"></i>
+      <fa-icon icon="clone"></fa-icon>
       <a
         href=""
         ng-click="cloneEvent(event.id); $event.stopPropagation();"
@@ -55,7 +55,7 @@
   </ul>
   <ul class="list-inline" ng-if="event.archived">
     <li>
-      <i class="fa fa-undo"></i>
+      <fa-icon icon="undo"></fa-icon>
       <a
         href=""
         ng-click="restoreEvent(event.id); $event.stopPropagation();"
@@ -64,7 +64,7 @@
       >
     </li>
     <li>
-      <i class="fa fa-clone"></i>
+      <fa-icon icon="clone"></fa-icon>
       <a
         href=""
         ng-click="cloneEvent(event.id); $event.stopPropagation();"

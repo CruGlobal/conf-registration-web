@@ -105,7 +105,10 @@ const FormStatusModal = ({
             <button className="btn btn-primary" onClick={handleCheckStatus}>
               Check Status
               {loading ? (
-                <i className="fa fa-spinner fa-spin margin-left-10" />
+                <i
+                  className="fa fa-spinner fa-spin margin-left-10"
+                  aria-hidden="true"
+                />
               ) : null}
             </button>
           </div>
