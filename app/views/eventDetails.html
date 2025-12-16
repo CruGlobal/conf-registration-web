@@ -18,7 +18,7 @@
       ng-bind-html="notify.message"
       ng-show="notify.class"
     ></div>
-    <form class="form-horizontal" name="eventDetails">
+    <form class="form-horizontal" name="eventDetails" novalidate>
       <section ng-include="activeTab.view"></section>
       <div class="well" ng-if="activeTab.id !== 'regOptions'">
         <button

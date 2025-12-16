@@ -636,6 +636,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: false,
         registrationCompleteRedirect: 'url.com',
         eform: false,
+        eligibleForGlobalPromotions: true,
       },
       {
         id: '47de2c40-19dc-45b3-9663-5c005bd6464b',
@@ -663,6 +664,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: 'url1.com',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       {
         id: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -688,6 +690,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: false,
         acceptScholarships: false,
         acceptChecks: false,
+        eligibleForGlobalPromotions: true,
         registrationCompleteRedirect: 'url2.com',
         eform: false,
       },
@@ -727,6 +730,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       // Spouse type related to couple:
       {
@@ -756,6 +760,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
       },
       // Spouse type not related to couple:
       {
@@ -785,6 +790,51 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptChecks: true,
         registrationCompleteRedirect: '',
         eform: false,
+        eligibleForGlobalPromotions: false,
+      },
+    ],
+    promotions: [
+      {
+        id: '7bb4959d-c69f-4a17-a517-03e3f35e0314',
+        conferenceId: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
+        registrantTypeIds: [
+          '67c70823-35bd-9262-416f-150e35a03514',
+          '47de2c40-19dc-45b3-9663-5c005bd6464b',
+        ],
+        code: 'FRESHMAN50',
+        description: '$50 off for freshmen',
+        businessUnit: 'STFFD',
+        departmentId: 'STAFF',
+        operatingUnit: 'LH',
+        projectId: null,
+        name: 'Freshman 50',
+        activationDate: '2024-10-22 15:28:55',
+        deactivationDate: '2029-11-05 15:28:00',
+        createdDate: null,
+        lastUpdateDate: '2025-10-20T18:43:59.513Z',
+        amount: 50,
+        applyToAllRegistrants: false,
+      },
+      {
+        id: '8cc5960e-d70g-5b28-b628-04f4g46f2c25',
+        conferenceId: 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0',
+        registrantTypeIds: [
+          '67c70823-35bd-9262-416f-150e35a03514',
+          '47de2c40-19dc-45b3-9663-5c005bd6464b',
+        ],
+        code: 'EARLYBIRD',
+        description: '$20 off for early registration',
+        businessUnit: 'STFFD',
+        departmentId: 'STAFF',
+        operatingUnit: 'LH',
+        projectId: null,
+        name: 'Early Bird',
+        activationDate: '2024-10-01 00:00:00',
+        deactivationDate: '2024-12-31 23:59:59',
+        createdDate: null,
+        lastUpdateDate: '2025-10-20T18:43:59.513Z',
+        amount: 20,
+        applyToAllRegistrants: false,
       },
     ],
     eventStartTime: '2015-12-30 16:48:00',
@@ -923,6 +973,124 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     ],
   };
 
+  this.ministries = [
+    {
+      id: '87b02878-5070-473b-bb07-3b2d899b46d6',
+      strategies: [],
+      activities: [
+        {
+          id: '22532e40-f458-4ae6-b045-24815e104013',
+          name: 'SCRC Events',
+        },
+        {
+          id: '31073156-9599-4a51-9b61-2bb6dbbf447b',
+          name: 'Domestic Projects',
+        },
+      ],
+      name: 'Athletes in Action',
+    },
+    {
+      id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
+      strategies: [
+        {
+          id: '9769eb02-1075-45fc-ae03-c7733627a1ef',
+          name: 'N/A',
+        },
+        {
+          id: 'd7d42d11-59b0-4d1f-9906-3ab706c63e8a',
+          name: 'Bridges',
+        },
+      ],
+      activities: [],
+      eventTypes: [
+        {
+          id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
+          name: 'Fall Retreat/Getaway',
+        },
+        {
+          id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
+          name: 'Mobilization/Recruiting',
+        },
+      ],
+      name: 'Campus - National Team/Strategy',
+    },
+    {
+      id: 'f6d8e4c6-60c1-4c59-9495-d6c3eb65cac1',
+      strategies: [],
+      activities: [
+        {
+          id: '8a577943-2acb-4c6f-8a86-a3c442332610',
+          name: 'General',
+        },
+        {
+          id: 'd4970a28-e63d-4e51-b8d7-c337d5662cb3',
+          name: 'Canoeing/Kayaking',
+        },
+        {
+          id: '730046b2-8333-4952-91de-3e9b672353d2',
+          name: 'Paintball',
+        },
+        {
+          id: 'e7aab792-4bce-4032-85b4-35f73d8db46b',
+          name: 'Rock Climbing',
+        },
+        {
+          id: '7cd8c825-6eb9-45c7-8972-ed2547b424d5',
+          name: 'White Water Rafting',
+        },
+      ],
+      eventTypes: [],
+      name: 'Lifelines',
+    },
+  ];
+  // Also known as types
+  this.ministryPurposes = [
+    {
+      id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
+      name: 'Ministry Conference/Event',
+    },
+    {
+      id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
+      name: 'Ministry Mission Trip',
+    },
+  ];
+
+  this.globalPromotions = [
+    {
+      id: 'global-promo-1',
+      ministryId: this.ministries[0].id,
+      ministryActivityId: this.ministries[0].activities[0].id,
+      code: 'GLOBAL50',
+      amount: 50,
+      name: 'Global $50 Off',
+      description: '$50 off for all events',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+    {
+      id: 'global-promo-2',
+      ministryId: this.ministries[0].id,
+      ministryActivityId: this.ministries[0].activities[1].id,
+      code: 'SUMMER25',
+      amount: 25,
+      name: 'Global 25% Off',
+      description: '25% off for all events',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+    {
+      id: 'global-promo-3',
+      ministryId: this.ministries[2].id,
+      ministryActivityId: this.ministries[2].activities[0].id,
+      code: 'MINISTRY2',
+      amount: 100,
+      name: 'Ministry 2 Promotion',
+      description: '$100 off for ministry 2',
+      activationDate: '2024-01-01 00:00:00',
+      deactivationDate: '2029-12-31 23:59:59',
+    },
+  ];
+
   this.registration = {
     id: '709738ff-da79-4eed-aacd-d9f005fc7f4e',
     userId: '0c3a1826-9a81-444f-9299-1f6f5288a0cc',
@@ -955,6 +1123,8 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
       },
     ],
+    promotions: [...this.conference.promotions],
+    globalPromotions: [...this.globalPromotions],
     registrants: [
       {
         id: '6bd0f946-b010-4ef5-83f0-51c17449baf3',
@@ -2040,55 +2210,6 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     { code: 'ZWD', name: 'Zimbabwean Dollar (1980-2008) ZWD' },
     { code: 'ZWR', name: 'Zimbabwean Dollar (2008) ZWR' },
     { code: 'ZWL', name: 'Zimbabwean Dollar (2009) ZWL' },
-  ];
-
-  this.ministries = [
-    {
-      id: '87b02878-5070-473b-bb07-3b2d899b46d6',
-      strategies: [],
-      activities: [],
-      name: 'Athletes in Action',
-      $hashKey: 'object:665',
-    },
-    {
-      id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
-      strategies: [
-        {
-          id: '9769eb02-1075-45fc-ae03-c7733627a1ef',
-          name: 'N/A',
-        },
-        {
-          id: 'd7d42d11-59b0-4d1f-9906-3ab706c63e8a',
-          name: 'Bridges',
-        },
-      ],
-      activities: [],
-      eventTypes: [
-        {
-          id: 'cfc2b308-566b-432b-bee4-4ed60fec5608',
-          name: 'Fall Retreat/Getaway',
-        },
-        {
-          id: 'b281a0f3-b0bc-4f8e-9f49-0c3adfe25584',
-          name: 'Mobilization/Recruiting',
-        },
-      ],
-      name: 'Campus - National Team/Strategy',
-      $hashKey: 'object:666',
-    },
-  ];
-  // Also known as types
-  this.ministryPurposes = [
-    {
-      id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
-      name: 'Ministry Conference/Event',
-      $hashKey: 'object:687',
-    },
-    {
-      id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
-      name: 'Ministry Mission Trip',
-      $hashKey: 'object:688',
-    },
   ];
 
   this.blockTagTypes = [

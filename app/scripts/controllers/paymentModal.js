@@ -16,6 +16,7 @@ angular
       permissions,
       permissionConstants,
       expenseTypesConstants,
+      globalPromotionService,
     ) {
       $scope.registration = registration;
       $scope.conference = conference;
@@ -350,11 +351,44 @@ angular
           });
       };
 
+      $scope.allPromotions = [
+        ...$scope.registration.globalPromotions,
+        ...$scope.registration.promotions,
+      ];
+
+      $scope.showAvailablePromotions = function () {
+        return $scope.availablePromotions.length > 0;
+      };
+
+      $scope.availablePromotions = $scope.conference.promotions;
+      if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+        globalPromotionService
+          .loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          )
+          .then(function (globalPromotions) {
+            const activeGlobalPromotions = globalPromotions.filter(function (
+              promotion,
+            ) {
+              return globalPromotionService.isPromotionActive(promotion);
+            });
+            $scope.availablePromotions = [
+              ...$scope.conference.promotions,
+              ...activeGlobalPromotions,
+            ];
+          });
+      }
+
       function loadPayments() {
         $http
           .get('registrations/' + $scope.registration.id)
           .then(function (response) {
             $scope.registration = response.data;
+            $scope.allPromotions = [
+              ...$scope.registration.globalPromotions,
+              ...$scope.registration.promotions,
+            ];
             $scope.processing = false;
 
             $scope.newTransaction = {
@@ -459,10 +493,13 @@ angular
           return;
         }
 
-        var regCopy = angular.copy($scope.registration);
-        _.remove(regCopy.promotions, { id: promoId });
+        const registrationCopy = angular.copy($scope.registration);
+
+        _.remove(registrationCopy.globalPromotions, { id: promoId });
+        _.remove(registrationCopy.promotions, { id: promoId });
+
         $http
-          .put('registrations/' + registration.id, regCopy)
+          .put('registrations/' + registration.id, registrationCopy)
           .then(loadPayments)
           .catch(function (response) {
             modalMessage.error(
@@ -474,10 +511,7 @@ angular
       };
 
       $scope.filterUsedPromoCodes = function (p) {
-        var registrationPromoCodes = _.map(
-          $scope.registration.promotions,
-          'id',
-        );
+        var registrationPromoCodes = _.map($scope.allPromotions, 'id');
         return !_.includes(registrationPromoCodes, p.id);
       };
 

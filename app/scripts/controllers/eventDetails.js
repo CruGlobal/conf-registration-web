@@ -37,9 +37,11 @@ angular
       $location,
       conference,
       ConfCache,
+      MinistriesCache,
       uuid,
       gettextCatalog,
       currencies,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -124,6 +126,23 @@ angular
         $scope.conference.locationCountry,
       );
 
+      $scope.getGlobalPromotions = function () {
+        // Load global promo codes for this conference to check if any are available
+        if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+          globalPromotionService.loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+        }
+      };
+
+      $scope.hasGlobalPromotions = function () {
+        return globalPromotionService.hasGlobalPromotionsInCache(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      };
+
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
           type.allowedRegistrantTypeSet = _.map(
@@ -150,6 +169,7 @@ angular
       };
 
       $scope.refreshAllowedRegistrantTypes();
+      $scope.getGlobalPromotions();
 
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
@@ -195,14 +215,6 @@ angular
           activationDate: $scope.conference.registrationStartTime,
           deactivationDate: $scope.conference.registrationEndTime,
         });
-      };
-
-      $scope.promotionRegistrantTypeToggle = function (registrantTypes, id) {
-        if (registrantTypes.indexOf(id) === -1) {
-          registrantTypes.push(id);
-        } else {
-          registrantTypes.splice(registrantTypes.indexOf(id), 1);
-        }
       };
 
       $scope.addRegType = function () {
@@ -757,6 +769,13 @@ angular
         true,
       );
 
+      $scope.$watch('conference.ministryActivity', function (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          // Reload promotions whenever ministryActivity changes
+          $scope.getGlobalPromotions();
+        }
+      });
+
       $scope.$watch(
         'conference.cruEvent',
         function (newVal, oldVal) {
@@ -813,15 +832,8 @@ angular
         true,
       );
 
-      $scope.sortNamesWithNA = (v1, v2) => {
-        return v1 === 'N/A' ? -1 : v1 < v2;
-      };
-
-      $http({
-        method: 'GET',
-        url: 'ministries',
-      }).then(function (response) {
-        $scope.ministries = response.data;
+      MinistriesCache.get().then(function (ministries) {
+        $scope.ministries = ministries;
       });
 
       $http({

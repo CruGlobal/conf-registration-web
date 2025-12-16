@@ -17,7 +17,7 @@ export interface $RootScope extends IRootScopeService {
     type: 'admin' | 'landing' | 'registration';
     mainClass: string;
     bodyClass: string;
-    confId: string | 0;
+    confId?: string | 0;
     footer: boolean;
   };
   loadingMsg: string;
