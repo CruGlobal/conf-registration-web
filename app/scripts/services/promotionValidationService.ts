@@ -48,7 +48,6 @@ export class PromotionValidationService {
         const error = errorResponse?.data?.error;
         const failedPromotions = this.extractFailedPromotions(error);
 
-        // Show modal error based on status
         if (errorResponse.status === 409) {
           const failedCodes =
             failedPromotions.length > 0
