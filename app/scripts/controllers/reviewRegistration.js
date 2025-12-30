@@ -25,6 +25,7 @@ angular
       validateRegistrant,
       analytics,
       globalPromotionService,
+      promotionValidationService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -215,6 +216,12 @@ angular
               $scope.currentPayment,
               currentRegistration,
               $scope.conference,
+            );
+          })
+          .then(function () {
+            // Validate promotion usage limits before processing payment
+            return promotionValidationService.verifyPromotionUsage(
+              currentRegistration,
             );
           })
           .then(function () {

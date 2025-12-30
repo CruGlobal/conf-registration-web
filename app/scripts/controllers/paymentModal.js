@@ -6,6 +6,7 @@ angular
     'paymentModal',
     function (
       $scope,
+      $q,
       $uibModalInstance,
       modalMessage,
       $http,
@@ -17,6 +18,7 @@ angular
       permissionConstants,
       expenseTypesConstants,
       globalPromotionService,
+      promotionValidationService,
     ) {
       $scope.registration = registration;
       $scope.conference = conference;
@@ -121,22 +123,31 @@ angular
         }
 
         $scope.processing = true;
-        if (transaction.paymentType === 'CREDIT_CARD') {
-          payment
-            .tokenizeCreditCardPayment(conference, transaction)
-            .then(function () {
-              postTransaction(path, transaction);
-            })
-            .catch(function () {
-              $scope.processing = false;
-              modalMessage.error(
-                'An error occurred while requesting the encryption key.',
+
+        // Only validate for actual payments, not expenses/discounts
+        var validationPromise =
+          path === 'expenses'
+            ? $q.when()
+            : promotionValidationService.verifyPromotionUsage(
+                $scope.registration,
               );
-            });
-        } else {
-          delete transaction.creditCard;
-          postTransaction(path, transaction);
-        }
+
+        validationPromise
+          .then(function () {
+            if (transaction.paymentType === 'CREDIT_CARD') {
+              return payment
+                .tokenizeCreditCardPayment(conference, transaction)
+                .then(function () {
+                  postTransaction(path, transaction);
+                });
+            } else {
+              delete transaction.creditCard;
+              postTransaction(path, transaction);
+            }
+          })
+          .catch(function () {
+            $scope.processing = false;
+          });
       };
 
       function postTransaction(path, transaction) {
