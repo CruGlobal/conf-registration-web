@@ -2,6 +2,10 @@ angular
   .module('confRegistrationWebApp')
   .filter('localizedCurrency', function ($locale) {
     return function (number, currencyCode) {
+      // Default to 0 if number is null or undefined
+      if (number === null || number === undefined) {
+        number = 0;
+      }
       let localeId = $locale.id ? $locale.id : 'en-us';
       return number.toLocaleString(localeId, {
         style: 'currency',
