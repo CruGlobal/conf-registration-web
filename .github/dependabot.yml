@@ -1,0 +1,14 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+  ignore:
+  - dependency-name: jasmine-core
+    versions:
+    - 3.6.0
+    - 3.7.0
+  - dependency-name: eslint-plugin-jasmine
+    versions:
+    - 4.1.1
