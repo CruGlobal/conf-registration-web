@@ -24,6 +24,10 @@ describe('Controller: landingCtrl', function () {
       };
     });
 
+    afterEach(() => {
+      jasmine.clock().uninstall();
+    });
+
     it('should return true if not set', function () {
       expect(scope.dateFilter({ eventStartTime: moment() })).toEqual(true);
 

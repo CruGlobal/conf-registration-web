@@ -347,4 +347,160 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       ).toBe(false);
     });
   });
+
+  describe('showPromotionsInput', () => {
+    let globalPromotionService;
+
+    beforeEach(() => {
+      angular.mock.inject(() => {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForRegistration: jasmine
+            .createSpy('hasPromotionsForRegistration')
+            .and.returnValue(true),
+        };
+        initController({ globalPromotionService });
+      });
+    });
+
+    it('returns true when hasPromotionsForRegistration returns true', () => {
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns true when hasPromotionsForRegistration returns false but there are local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
+
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns false when hasPromotionsForRegistration returns false and there are no local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
+      scope.conference.promotions = [];
+
+      expect(scope.showPromotionsInput()).toBe(false);
+    });
+  });
+
+  describe('deletePromotion', () => {
+    let modalMessage;
+    let $httpBackend;
+    let $route;
+    let $q;
+
+    beforeEach(
+      angular.mock.inject(function (
+        _modalMessage_,
+        _$httpBackend_,
+        _$route_,
+        _$q_,
+      ) {
+        modalMessage = _modalMessage_;
+        $httpBackend = _$httpBackend_;
+        $route = _$route_;
+        $q = _$q_;
+        spyOn($route, 'reload');
+      }),
+    );
+
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('removes local promotion and reloads route on success', inject(function () {
+      const confirmDeferred = $q.defer();
+      const promotionIdToDelete = testData.registration.promotions[0].id;
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      expect(testData.registration.promotions.length).toBe(2);
+
+      $httpBackend
+        .expectPUT(
+          'registrations/' + scope.currentRegistration.id,
+          function (data) {
+            const updatedRegistration = JSON.parse(data);
+
+            expect(updatedRegistration.promotions.length).toBe(1);
+            expect(
+              updatedRegistration.promotions.some(
+                (promotion) => promotion.id === promotionIdToDelete,
+              ),
+            ).toBe(false);
+            return true;
+          },
+        )
+        .respond(200, {});
+
+      scope.deletePromotion(promotionIdToDelete);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('removes global promotion and reloads route on success', inject(function () {
+      const confirmDeferred = $q.defer();
+      const promotionIdToDelete = testData.registration.globalPromotions[0].id;
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      expect(testData.registration.globalPromotions.length).toBe(3);
+      $httpBackend
+        .expectPUT(
+          'registrations/' + scope.currentRegistration.id,
+          function (data) {
+            const updatedRegistration = JSON.parse(data);
+
+            expect(updatedRegistration.globalPromotions.length).toBe(2);
+            expect(
+              updatedRegistration.globalPromotions.some(
+                (promotion) => promotion.id === promotionIdToDelete,
+              ),
+            ).toBe(false);
+            return true;
+          },
+        )
+        .respond(200, {});
+
+      scope.deletePromotion(promotionIdToDelete);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('shows error when deletion fails', inject(function () {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+      spyOn(modalMessage, 'error');
+
+      $httpBackend
+        .expectPUT('registrations/' + scope.currentRegistration.id)
+        .respond(500, { error: { message: 'Code 500' } });
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Code 500');
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
+
+    it('does not delete promotion if user cancels confirmation', inject(function () {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.reject();
+      scope.$digest();
+
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
+  });
 });

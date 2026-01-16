@@ -346,17 +346,17 @@
             scholarships are approved or checks have been received.
           </p>
 
-          <table class="table">
-            <tr ng-repeat="p in currentRegistration.promotions">
+          <table class="table" ng-show="allPromotions.length">
+            <tr ng-repeat="promotion in allPromotions">
               <td>
-                {{p.code}}
-                <span class="text-muted" ng-if="p.description"
-                  >{{p.description}}</span
+                {{promotion.code}}
+                <span class="text-muted" ng-if="promotion.description"
+                  >{{promotion.description}}</span
                 >
               </td>
-              <td class="text-center" width="80">
+              <td class="text-center">
                 <button
-                  ng-click="deletePromotion(p.id)"
+                  ng-click="deletePromotion(promotion.id)"
                   title="Delete Promotion"
                   class="btn btn-xs btn-danger"
                 >
@@ -367,7 +367,7 @@
           </table>
 
           <div
-            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && conference.promotions.length"
+            ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && showPromotionsInput()"
           >
             <label translate for="promo-code">Add Promotion Code</label>
             <div class="input-group">

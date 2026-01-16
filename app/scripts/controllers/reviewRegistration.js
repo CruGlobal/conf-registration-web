@@ -24,6 +24,7 @@ angular
       payment,
       validateRegistrant,
       analytics,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -34,9 +35,22 @@ angular
         footer: false,
       };
 
+      if (conference.ministry && conference.ministryActivity) {
+        globalPromotionService.loadPromotions(
+          conference.ministry,
+          conference.ministryActivity,
+        );
+      }
+
       // Couple-spouse related utility functions
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
+
+      // Set all promotions (currently on registration)
+      $scope.allPromotions = [
+        ...currentRegistration.globalPromotions,
+        ...currentRegistration.promotions,
+      ];
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
@@ -53,6 +67,7 @@ angular
 
       $scope.conference = conference;
       $scope.currentRegistration = currentRegistration;
+
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
         $scope.conference.locationState,
@@ -421,10 +436,12 @@ angular
             question: 'Are you sure you want to delete this promotion?',
           })
           .then(function () {
-            var regCopy = angular.copy(currentRegistration);
-            _.remove(regCopy.promotions, { id: promoId });
+            const registrationCopy = angular.copy(currentRegistration);
+            _.remove(registrationCopy.promotions, { id: promoId });
+            _.remove(registrationCopy.globalPromotions, { id: promoId });
+
             $http
-              .put('registrations/' + currentRegistration.id, regCopy)
+              .put('registrations/' + currentRegistration.id, registrationCopy)
               .then(function () {
                 $route.reload();
               })
@@ -436,6 +453,16 @@ angular
                 );
               });
           });
+      };
+
+      $scope.showPromotionsInput = function () {
+        return (
+          $scope.conference.promotions.length > 0 ||
+          globalPromotionService.hasPromotionsForRegistration(
+            conference,
+            currentRegistration,
+          )
+        );
       };
 
       $scope.hasPendingPayments = function (payments) {
