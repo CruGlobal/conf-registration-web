@@ -309,7 +309,7 @@
             <tr ng-repeat="p in currentRegistration.pastPayments">
               <td>
                 <strong>{{p.paymentType | paymentTypeFormat}}</strong>
-                <span ng-if="p.paymentType !== 'TRANSFER'"
+                <span ng-if="p.paymentType !== 'TRANSFER' && p.transactionDatetime"
                   >({{p.transactionDatetime | date: 'shortDate'}})</span
                 >
                 <span ng-if="p.status === 'PENDING' || p.status === 'REQUESTED'"

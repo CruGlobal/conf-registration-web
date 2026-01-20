@@ -139,6 +139,8 @@ angular
             })
             .then(function () {
               // Submit the payment
+              /* eslint-disable no-console, angular/log */
+              console.log(currentPayment);
               return $http.post('payments/', currentPayment);
             })
             .catch(
