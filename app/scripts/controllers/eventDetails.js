@@ -771,7 +771,7 @@ angular
       $scope.$watch('conference.ministryActivity', () => {
         if (!$scope.giftCardEligible()) {
           $scope.conference.registrantTypes.forEach((type) => {
-            type.acceptGiftCards = false;
+            type.acceptFlGiftCards = false;
           });
         }
       });

@@ -108,12 +108,12 @@ describe('Directive: ertPayment', function () {
     );
   });
 
-  describe('GIFT_CARD payment validation', () => {
+  describe('FL_GIFT_CARD payment validation', () => {
     it('should pass validation with card code of 10 characters', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '1234567890',
+          giftCardId: '1234567890',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -123,9 +123,9 @@ describe('Directive: ertPayment', function () {
 
     it('should pass validation with card code of 12 characters', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '1234567890Ab',
+          giftCardId: '1234567890Ab',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -135,9 +135,9 @@ describe('Directive: ertPayment', function () {
 
     it('should require card code when empty', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '',
+          giftCardId: '',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -149,9 +149,9 @@ describe('Directive: ertPayment', function () {
 
     it('should reject card code with less than 10 characters', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '123456789',
+          giftCardId: '123456789',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -163,9 +163,9 @@ describe('Directive: ertPayment', function () {
 
     it('should reject card code with more than 12 characters', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '1234567890123',
+          giftCardId: '1234567890123',
         },
       };
       scope.validatePayment(scope.currentPayment);
@@ -177,9 +177,9 @@ describe('Directive: ertPayment', function () {
 
     it('should reject card code with non-alphanumeric characters', () => {
       scope.currentPayment = {
-        paymentType: 'GIFT_CARD',
+        paymentType: 'FL_GIFT_CARD',
         giftCard: {
-          code: '1234567890#*',
+          giftCardId: '1234567890#*',
         },
       };
       scope.validatePayment(scope.currentPayment);
