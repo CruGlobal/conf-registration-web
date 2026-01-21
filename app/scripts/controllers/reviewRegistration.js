@@ -203,7 +203,7 @@ angular
             );
           })
           .then(function () {
-            // If the payment type is a gift card, set the amount to the full registration amount
+            // If the payment type is a gift card, the API needs to know the full registration cost.
             if ($scope.currentPayment.paymentType === 'FL_GIFT_CARD') {
               $scope.currentPayment.amount =
                 currentRegistration.calculatedTotalDue;
