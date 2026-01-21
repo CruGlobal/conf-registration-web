@@ -200,6 +200,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         acceptTransfers: true,
         acceptScholarships: false,
         acceptPayOnSite: false,
+        acceptFlGiftCards: false,
       });
     });
 

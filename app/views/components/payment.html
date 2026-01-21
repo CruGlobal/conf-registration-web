@@ -44,6 +44,17 @@
     Scholarship
   </label>
 
+  <label ng-show="paymentMethods().acceptFlGiftCards">
+    <input
+      type="radio"
+      name="payment-method"
+      ng-model="currentPayment.paymentType"
+      ng-value="'FL_GIFT_CARD'"
+      translate
+    />
+    Gift Card
+  </label>
+
   <label ng-show="paymentMethods().acceptPayOnSite">
     <input
       type="radio"
@@ -58,7 +69,7 @@
 
 <fieldset
   class="payment-fieldset"
-  ng-show="currentPayment.paymentType !== 'PAY_ON_SITE'"
+  ng-show="currentPayment.paymentType !== 'FL_GIFT_CARD' && currentPayment.paymentType !== 'PAY_ON_SITE'"
   ng-if="!isAdminPayment"
 >
   <legend id="payment-amount-legend" translate>Amount</legend>

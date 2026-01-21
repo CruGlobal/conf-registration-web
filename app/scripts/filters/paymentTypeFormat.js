@@ -5,9 +5,11 @@ angular
       if (angular.isUndefined(paymentType)) {
         return '';
       }
-      return (
+
+      let paymentTypeString =
         paymentType.charAt(0).toUpperCase() +
-        paymentType.substring(1).toLowerCase()
-      );
+        paymentType.substring(1).toLowerCase();
+      paymentTypeString = paymentTypeString.replaceAll('_', ' ');
+      return paymentTypeString;
     };
   });

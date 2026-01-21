@@ -634,6 +634,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: false,
         acceptScholarships: true,
         acceptChecks: false,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: 'url.com',
         eform: false,
       },
@@ -661,6 +662,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: true,
         acceptScholarships: false,
         acceptChecks: true,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: 'url1.com',
         eform: false,
       },
@@ -688,6 +690,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: false,
         acceptScholarships: false,
         acceptChecks: false,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: 'url2.com',
         eform: false,
       },
@@ -725,6 +728,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: true,
         acceptScholarships: true,
         acceptChecks: true,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: '',
         eform: false,
       },
@@ -754,6 +758,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: true,
         acceptScholarships: true,
         acceptChecks: true,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: '',
         eform: false,
       },
@@ -783,6 +788,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         acceptTransfers: true,
         acceptScholarships: true,
         acceptChecks: true,
+        acceptFlGiftCards: false,
         registrationCompleteRedirect: '',
         eform: false,
       },
@@ -974,6 +980,24 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         check: {
           checkNumber: '234',
           checkType: null,
+        },
+        lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
+      },
+      {
+        id: '4e19b3f0-bb36-42a3-9e4a-96a1f7ce8b7d',
+        registrationId: '709738ff-da79-4eed-aacd-d9f005fc7f4e',
+        amount: 1.0,
+        transactionDatetime: '2015-05-21T13:13:55.40Z',
+        paymentType: 'FL_GIFT_CARD',
+        refundedPaymentId: null,
+        description: null,
+        creditCard: null,
+        offlineCreditCard: null,
+        transfer: null,
+        scholarship: null,
+        check: null,
+        giftCard: {
+          giftCardId: '1234567890',
         },
         lastUpdatedTimestamp: '2001-07-10T15:06:05.383Z',
       },
@@ -2069,9 +2093,18 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: '87b02878-5070-473b-bb07-3b2d899b46d6',
       strategies: [],
-      activities: [],
+      activities: [
+        {
+          id: '22532e40-f458-4ae6-b045-24815e104013',
+          name: 'SCRC Events',
+        },
+        {
+          id: '31073156-9599-4a51-9b61-2bb6dbbf447b',
+          name: 'Domestic Projects',
+        },
+      ],
+      eventTypes: [],
       name: 'Athletes in Action',
-      $hashKey: 'object:665',
     },
     {
       id: 'f6d31fe3-7078-4fac-a37b-9596d57558e9',
@@ -2097,7 +2130,50 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         },
       ],
       name: 'Campus - National Team/Strategy',
-      $hashKey: 'object:666',
+    },
+    {
+      id: 'f6d8e4c6-60c1-4c59-9495-d6c3eb65cac1',
+      strategies: [],
+      activities: [
+        {
+          id: '8a577943-2acb-4c6f-8a86-a3c442332610',
+          name: 'General',
+        },
+        {
+          id: 'd4970a28-e63d-4e51-b8d7-c337d5662cb3',
+          name: 'Canoeing/Kayaking',
+        },
+        {
+          id: '730046b2-8333-4952-91de-3e9b672353d2',
+          name: 'Paintball',
+        },
+        {
+          id: 'e7aab792-4bce-4032-85b4-35f73d8db46b',
+          name: 'Rock Climbing',
+        },
+        {
+          id: '7cd8c825-6eb9-45c7-8972-ed2547b424d5',
+          name: 'White Water Rafting',
+        },
+      ],
+      eventTypes: [],
+      name: 'Lifelines',
+    },
+    {
+      id: '9f63db46-6ca9-43b0-868a-23326b3c4d91',
+      strategies: [],
+      activities: [
+        {
+          id: '9c6eae3f-8928-4703-a2a4-e5bf995dfd19',
+          name: 'WTR',
+        },
+        {
+          id: 'a709ead3-716f-4e72-980a-543c15442d8e',
+          name: 'Blended Events',
+        },
+      ],
+      eventTypes: [],
+      name: 'Family Life',
     },
   ];
   // Also known as types
@@ -2105,12 +2181,10 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     {
       id: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
       name: 'Ministry Conference/Event',
-      $hashKey: 'object:687',
     },
     {
       id: '0ff7a8c9-0084-48fb-9077-893bf8b94fd7',
       name: 'Ministry Mission Trip',
-      $hashKey: 'object:688',
     },
   ];
 

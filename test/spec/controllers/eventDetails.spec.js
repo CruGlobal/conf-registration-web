@@ -20,27 +20,26 @@ describe('Controller: eventDetails', function () {
     },
   };
 
-  beforeEach(inject(function ($uibModal) {
+  let $httpBackend, testData;
+  beforeEach(inject(function ($uibModal, _$httpBackend_, _testData_) {
+    $httpBackend = _$httpBackend_;
+    testData = _testData_;
+
     spyOn($uibModal, 'open').and.returnValue(fakeModal);
+
+    $httpBackend.whenGET('types').respond(200, testData.ministryPurposes);
+    $httpBackend.whenGET('ministries').respond(200, testData.ministries);
   }));
 
-  let testData;
-  let $httpBackend;
+  afterEach(() => {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
   describe('Conference with type', () => {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
-
-        $httpBackend.whenGET(/^ministries|types$/).respond(200, []);
 
         $controller('eventDetailsCtrl', {
           $scope: scope,
@@ -50,8 +49,8 @@ describe('Controller: eventDetails', function () {
           permissions: {},
         });
 
-        scope.ministries = testData.ministries;
-        scope.ministryPurposes = testData.ministryPurposes;
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -81,6 +80,7 @@ describe('Controller: eventDetails', function () {
         name: 'Additional Type',
         defaultTypeKey: '',
       });
+      $httpBackend.flush();
 
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes + 1);
       const addedType = scope.conference.registrantTypes.find(
@@ -98,9 +98,9 @@ describe('Controller: eventDetails', function () {
       expect(scope.conference.registrantTypes.length).toBe(totalRegTypes - 1);
     });
 
-    it('anyPaymentMethodAccepted should be true', function () {
+    it('minimumPaymentAccepted should be true', function () {
       expect(
-        scope.anyPaymentMethodAccepted(scope.conference.registrantTypes[0]),
+        scope.minimumPaymentAccepted(scope.conference.registrantTypes[0]),
       ).toBe(true);
     });
 
@@ -174,6 +174,7 @@ describe('Controller: eventDetails', function () {
 
     it('createLiabilityQuestions() should create liability related questions on first page', () => {
       scope.createLiabilityQuestions();
+      $httpBackend.flush();
 
       expect(
         scope.conference.registrationPages[0].blocks[
@@ -245,16 +246,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without type', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.type = null;
         testData.conference.eventType = null;
@@ -266,7 +259,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -324,16 +319,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference (Cru event) without ministry hosting', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.ministry = null;
         testData.conference.eventType = null;
@@ -345,7 +332,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -364,16 +353,8 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference that is not a Cru event', function () {
     beforeEach(
-      angular.mock.inject(function (
-        $rootScope,
-        $controller,
-        _$uibModal_,
-        _testData_,
-        _$httpBackend_,
-      ) {
-        testData = _testData_;
+      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
         scope = $rootScope.$new();
-        $httpBackend = _$httpBackend_;
 
         testData.conference.cruEvent = null;
         testData.conference.type = null;
@@ -387,7 +368,9 @@ describe('Controller: eventDetails', function () {
           $uibModal: _$uibModal_,
           permissions: {},
         });
-        scope.ministries = testData.ministries;
+
+        $httpBackend.flush();
+        $rootScope.$digest();
       }),
     );
 
@@ -610,6 +593,9 @@ describe('Controller: eventDetails', function () {
         permissions: {},
       });
 
+      $httpBackend.flush();
+      $rootScope.$digest();
+
       const conference = scope.conference;
       const coupleType = _.find(
         conference.registrantTypes,
@@ -637,5 +623,94 @@ describe('Controller: eventDetails', function () {
       expect(coupleType.name).toBe(newName);
       expect(spouseType.name).toBe(`${newName} Spouse`);
     }));
+  });
+
+  describe('giftCardEligible', () => {
+    let familyLifeId, wtrId;
+    beforeEach(
+      angular.mock.inject(($rootScope, $controller, $uibModal, testData) => {
+        scope = $rootScope.$new();
+
+        const familyLifeMinistry = testData.ministries.find(
+          (ministry) => ministry.name === 'Family Life',
+        );
+        familyLifeId = familyLifeMinistry.id;
+        wtrId = familyLifeMinistry.activities.find(
+          (activity) => activity.name === 'WTR',
+        ).id;
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          $uibModal,
+          permissions: {},
+        });
+
+        $httpBackend.flush();
+        $rootScope.$digest();
+      }),
+    );
+
+    it('should return true for Family Life WTR events', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(true);
+    });
+
+    it('should return false when ministry is not Family Life', () => {
+      scope.conference.ministry = 'other-ministry';
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when for Family Life non-WTR events', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = 'other-activity';
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when ministry is not set', () => {
+      scope.conference.ministry = null;
+      scope.conference.ministryActivity = wtrId;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when ministryActivity is not set', () => {
+      scope.conference.ministry = familyLifeId;
+      scope.conference.ministryActivity = null;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    it('should return false when both ministry and ministryActivity are not set', () => {
+      scope.conference.ministry = null;
+      scope.conference.ministryActivity = null;
+
+      expect(scope.giftCardEligible()).toBe(false);
+    });
+
+    describe('ministry changes', () => {
+      beforeEach(() => {
+        scope.conference.ministry = familyLifeId;
+        scope.conference.ministryActivity = wtrId;
+        scope.conference.registrantTypes[0].acceptFlGiftCards = true;
+
+        scope.$digest();
+      });
+
+      it('should set registrant acceptFlGiftCards to false when the activity is not WTR anymore', () => {
+        scope.conference.ministryActivity = 'other-activity';
+        scope.$digest();
+
+        expect(scope.conference.registrantTypes[0].acceptFlGiftCards).toBe(
+          false,
+        );
+      });
+    });
   });
 });

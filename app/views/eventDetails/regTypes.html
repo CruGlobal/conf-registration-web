@@ -357,6 +357,16 @@
                   <translate>Accept Scholarships</translate>
                 </label>
               </div>
+              <div class="checkbox" ng-if="giftCardEligible()">
+                <label>
+                  <input
+                    type="checkbox"
+                    ng-model="type.acceptFlGiftCards"
+                    ng-disabled="cruEventWithoutChartfield()"
+                  />
+                  <translate>Accept Gift Cards</translate>
+                </label>
+              </div>
               <div class="checkbox">
                 <label>
                   <input
@@ -377,7 +387,7 @@
 
               <div
                 class="pt12"
-                ng-if="(conference.relayLogin || conference.facebookLogin || conference.googleLogin) && anyPaymentMethodAccepted(type)"
+                ng-if="(conference.relayLogin || conference.facebookLogin || conference.googleLogin) && minimumPaymentAccepted(type)"
               >
                 <label>
                   <span translate>Minimum Payment to Register</span>
@@ -406,7 +416,7 @@
 
               <div
                 class="pt12"
-                ng-show="!(conference.relayLogin || conference.facebookLogin || conference.googleLogin) || !anyPaymentMethodAccepted(type)"
+                ng-show="!(conference.relayLogin || conference.facebookLogin || conference.googleLogin) || !minimumPaymentAccepted(type)"
               >
                 <label translate>Minimum Payment to Register</label>
                 <p
@@ -424,11 +434,11 @@
                   >
                   <translate>tab</translate>.
                 </p>
-                <p class="text-muted" ng-show="!anyPaymentMethodAccepted(type)">
+                <p class="text-muted" ng-show="!minimumPaymentAccepted(type)">
                   <i class="fa fa-info-circle"></i>
                   <translate
-                    >You must accept a at least one payment method in order to
-                    set a minimum payment.</translate
+                    >You must accept at least one payment method in order to set
+                    a minimum payment.</translate
                   >
                 </p>
               </div>

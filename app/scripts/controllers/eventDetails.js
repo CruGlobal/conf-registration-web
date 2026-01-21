@@ -37,6 +37,7 @@ angular
       $location,
       conference,
       ConfCache,
+      MinistriesCache,
       uuid,
       gettextCatalog,
       currencies,
@@ -446,7 +447,7 @@ angular
             ($scope.conference.relayLogin ||
               $scope.conference.facebookLogin ||
               $scope.conference.googleLogin) &&
-            $scope.anyPaymentMethodAccepted(t) &&
+            $scope.minimumPaymentAccepted(t) &&
             String(t.minimumDeposit).length > 0 &&
             !_.isNull(t.minimumDeposit)
           ) {
@@ -631,7 +632,9 @@ angular
         }
       };
 
-      $scope.anyPaymentMethodAccepted = function (type) {
+      // Pay on site and gift cards always require payment in full, so they do not make the
+      // registrant eligible for a minimum payment
+      $scope.minimumPaymentAccepted = function (type) {
         return (
           type.acceptCreditCards ||
           type.acceptChecks ||
@@ -698,24 +701,21 @@ angular
         ['link', 'image'],
       ];
 
+      const getMinistry = () =>
+        $scope.conference.ministry
+          ? MinistriesCache.getMinistry($scope.conference.ministry)
+          : null;
+
       $scope.getStrategies = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
-        return currentMinistry ? currentMinistry.strategies : [];
+        return getMinistry()?.strategies ?? [];
       };
 
       $scope.getActivities = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
-        return currentMinistry ? currentMinistry.activities : [];
+        return getMinistry()?.activities ?? [];
       };
 
       $scope.getEventTypes = () => {
-        const currentMinistry =
-          $scope.ministries &&
-          $scope.ministries.find((m) => m.id === $scope.conference.ministry);
+        const currentMinistry = getMinistry();
         const currentPurpose =
           $scope.ministryPurposes &&
           $scope.ministryPurposes.find((m) => m.id === $scope.conference.type);
@@ -727,6 +727,17 @@ angular
           ? currentMinistry.eventTypes
           : [];
       };
+
+      // Only Family Life WTR events are eligible for gift cards
+      $scope.giftCardEligible = () =>
+        !!(
+          getMinistry()?.name === 'Family Life' &&
+          $scope.conference.ministryActivity &&
+          MinistriesCache.getActivityName(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          ) === 'WTR'
+        );
 
       $scope.$watch(
         'conference.type',
@@ -749,6 +760,14 @@ angular
         },
         true,
       );
+
+      $scope.$watch('conference.ministryActivity', () => {
+        if (!$scope.giftCardEligible()) {
+          $scope.conference.registrantTypes.forEach((type) => {
+            type.acceptFlGiftCards = false;
+          });
+        }
+      });
 
       $scope.$watch(
         'conference.cruEvent',
@@ -810,11 +829,8 @@ angular
         return v1 === 'N/A' ? -1 : v1 < v2;
       };
 
-      $http({
-        method: 'GET',
-        url: 'ministries',
-      }).then(function (response) {
-        $scope.ministries = response.data;
+      MinistriesCache.get().then(function (ministries) {
+        $scope.ministries = ministries;
       });
 
       $http({
