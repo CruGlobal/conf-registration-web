@@ -42,6 +42,15 @@ describe('Controller: eventOverview', () => {
       expect(scope.isRegistrationClosed()).toBe(true);
     });
 
+    it('returns true when useTotalCapacity is true and availableCapacity is negative', () => {
+      scope.conference.manuallyClosed = false;
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = -5;
+      scope.conference.registrationOpen = true;
+
+      expect(scope.isRegistrationClosed()).toBe(true);
+    });
+
     it('returns true when registration is not open', () => {
       scope.conference.manuallyClosed = false;
       scope.conference.useTotalCapacity = false;

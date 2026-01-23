@@ -47,7 +47,7 @@ angular
 
         if (
           $scope.conference.useTotalCapacity &&
-          $scope.conference.availableCapacity === 0
+          $scope.conference.availableCapacity <= 0
         ) {
           return true;
         }
