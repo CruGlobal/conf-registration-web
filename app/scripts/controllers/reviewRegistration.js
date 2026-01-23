@@ -203,6 +203,11 @@ angular
             );
           })
           .then(function () {
+            // If the payment type is a gift card, the API needs to know the full registration cost.
+            if ($scope.currentPayment.paymentType === 'FL_GIFT_CARD') {
+              $scope.currentPayment.amount =
+                currentRegistration.calculatedTotalDue;
+            }
             return payment.pay(
               $scope.currentPayment,
               conference,
