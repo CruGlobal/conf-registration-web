@@ -1,10 +1,10 @@
 import { Conference } from 'conference';
 
 export const getFullPercentage = (conference: Conference): number => {
-  if (!conference.useLimit) {
+  if (!conference.useTotalCapacity) {
     return 0;
   }
 
-  const usedSlots = conference.numberSlotsLimit - conference.availableSlots;
-  return (usedSlots / conference.numberSlotsLimit) * 100;
+  const usedCapacity = conference.totalCapacity - conference.availableCapacity;
+  return (usedCapacity / conference.totalCapacity) * 100;
 };

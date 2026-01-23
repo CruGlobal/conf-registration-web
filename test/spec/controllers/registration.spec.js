@@ -51,7 +51,7 @@ describe('Controller: registration', () => {
       initializeController({
         ...testData.conference,
         registrationOpen: true,
-        useLimit: false,
+        useTotalCapacity: false,
       });
 
       expect(scope.closed).toBe(false);
@@ -59,12 +59,12 @@ describe('Controller: registration', () => {
       expect(scope.open).toBe(true);
     });
 
-    it('should initialize as open when registration is open and there are available slots', () => {
+    it('should initialize as open when registration is open and there is available capacity', () => {
       initializeController({
         ...testData.conference,
         registrationOpen: true,
-        useLimit: true,
-        availableSlots: 10,
+        useTotalCapacity: true,
+        availableCapacity: 10,
       });
 
       expect(scope.closed).toBe(false);
@@ -76,7 +76,7 @@ describe('Controller: registration', () => {
       initializeController({
         ...testData.conference,
         registrationOpen: false,
-        useLimit: false,
+        useTotalCapacity: false,
       });
 
       expect(scope.closed).toBe(true);
@@ -84,11 +84,24 @@ describe('Controller: registration', () => {
       expect(scope.open).toBe(false);
     });
 
-    it('should initialize as full when there are no available slots', () => {
+    it('should initialize as closed when registration is manually closed', () => {
       initializeController({
         ...testData.conference,
-        useLimit: true,
-        availableSlots: 0,
+        registrationOpen: true,
+        manuallyClosed: true,
+        useTotalCapacity: false,
+      });
+
+      expect(scope.closed).toBe(true);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(false);
+    });
+
+    it('should initialize as full when there is no available capacity', () => {
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
       });
 
       expect(scope.closed).toBe(false);
@@ -98,12 +111,12 @@ describe('Controller: registration', () => {
   });
 
   describe('almostFull', () => {
-    it('should initialize as true when >= 80% full', () => {
+    it('should initialize as true when >= 80% full but not 100% full', () => {
       initializeController({
         ...testData.conference,
-        useLimit: true,
-        availableSlots: 15,
-        numberSlotsLimit: 100,
+        useTotalCapacity: true,
+        availableCapacity: 15,
+        totalCapacity: 100,
       });
 
       expect(scope.almostFull).toBe(true);
@@ -112,10 +125,30 @@ describe('Controller: registration', () => {
     it('should initialize as false when < 80% full', () => {
       initializeController({
         ...testData.conference,
-        useLimit: true,
-        availableSlots: 25,
-        numberSlotsLimit: 100,
+        useTotalCapacity: true,
+        availableCapacity: 25,
+        totalCapacity: 100,
       });
+
+      expect(scope.almostFull).toBe(false);
+    });
+
+    it('should initialize as false when 100% full or greater', () => {
+      let conference = {
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+        totalCapacity: 100,
+      };
+      initializeController(conference);
+
+      expect(scope.almostFull).toBe(false);
+
+      conference = {
+        ...conference,
+        availableCapacity: -5,
+      };
+      initializeController(conference);
 
       expect(scope.almostFull).toBe(false);
     });

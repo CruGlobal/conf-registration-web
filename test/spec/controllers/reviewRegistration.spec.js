@@ -78,27 +78,27 @@ describe('Controller: ReviewRegistrationCtrl', function () {
   });
 
   describe('registrationFull', () => {
-    it('returns false when there is no limit', () => {
-      scope.conference.useLimit = false;
-      scope.conference.availableSlots = 0;
+    it('returns false when there is no capacity limit', () => {
+      scope.conference.useTotalCapacity = false;
+      scope.conference.availableCapacity = 0;
 
       expect(scope.registrationFull()).toBe(false);
     });
 
-    it('returns false when there are more than enough slots', () => {
+    it('returns false when there is more than enough capacity', () => {
       expect(scope.currentRegistration.registrants.length).toBe(2);
 
-      scope.conference.useLimit = true;
-      scope.conference.availableSlots = 5;
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 5;
 
       expect(scope.registrationFull()).toBe(false);
     });
 
-    it('returns false when there are just enough slots', () => {
+    it('returns false when there is just enough capacity', () => {
       expect(scope.currentRegistration.registrants.length).toBe(2);
 
-      scope.conference.useLimit = true;
-      scope.conference.availableSlots = 2;
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
 
       expect(scope.registrationFull()).toBe(false);
     });

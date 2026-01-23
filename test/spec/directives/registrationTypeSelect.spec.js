@@ -56,8 +56,8 @@ describe('Directive: registrationTypeSelect', function () {
     });
 
     it('should return true when conference has 1 available slot and there are 3 registrants', () => {
-      scope.conference.useLimit = true;
-      scope.conference.availableSlots = 1;
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
 
       expect(scope.registrationTypeFull(registrantTypeDouble)).toBe(true);
     });

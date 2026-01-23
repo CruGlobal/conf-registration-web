@@ -4,10 +4,13 @@
       <h2 class="page-title" translate>Registrations</h2>
     </div>
     <div class="col-sm-5 registrations-header">
-      <span class="capacity-percentage text-muted" ng-if="conference.useLimit">
+      <span
+        class="capacity-percentage text-muted"
+        ng-if="conference.useTotalCapacity"
+      >
         {{getFullPercentage()}}%
-        <translate>full</translate> ({{conference.availableSlots}}
-        <translate>of</translate> {{conference.numberSlotsLimit}}
+        <translate>full</translate> ({{conference.availableCapacity}}
+        <translate>of</translate> {{conference.totalCapacity}}
         <translate>registrants remaining</translate>)
       </span>
       <button

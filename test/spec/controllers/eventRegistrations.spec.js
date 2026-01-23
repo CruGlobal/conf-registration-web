@@ -201,18 +201,18 @@ describe('Controller: eventRegistrations', function () {
   });
 
   describe('getFullPercentage', () => {
-    it('calculates the percentage of used slots', () => {
-      scope.conference.useLimit = true;
-      scope.conference.numberSlotsLimit = 10;
-      scope.conference.availableSlots = 6;
+    it('calculates the percentage of used capacity', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.totalCapacity = 10;
+      scope.conference.availableCapacity = 6;
 
       expect(scope.getFullPercentage()).toBe(40);
     });
 
     it('rounds percentage down', () => {
-      scope.conference.useLimit = true;
-      scope.conference.numberSlotsLimit = 300;
-      scope.conference.availableSlots = 1;
+      scope.conference.useTotalCapacity = true;
+      scope.conference.totalCapacity = 300;
+      scope.conference.availableCapacity = 1;
 
       expect(scope.getFullPercentage()).toBe(99);
     });
