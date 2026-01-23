@@ -51,7 +51,7 @@ describe('Controller: paymentModal', function () {
     expect(scope.canBeRefunded(scope.registration.pastPayments[0])).toBe(true);
   });
 
-  it('canBeRefunded should return false for GIFT_CARD payments', function () {
+  it('canBeRefunded should return false for FL_GIFT_CARD payments', function () {
     const giftCardPayment = scope.registration.pastPayments[1];
 
     expect(scope.canBeRefunded(giftCardPayment)).toBe(false);
@@ -120,7 +120,7 @@ describe('Controller: paymentModal', function () {
       expect(result).toBe(true);
     });
 
-    it('returns false if paymentType is GIFT_CARD', () => {
+    it('returns false if paymentType is FL_GIFT_CARD', () => {
       const giftCardPayment = scope.registration.pastPayments[1];
 
       const result = scope.canEditPayment(giftCardPayment);

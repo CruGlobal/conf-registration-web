@@ -44,7 +44,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         SCHOLARSHIP: $scope.isAdminPayment
           ? scholarshipAdminTemplate
           : scholarshipTemplate,
-        GIFT_CARD: giftCardTemplate,
+        FL_GIFT_CARD: giftCardTemplate,
         PAY_ON_SITE: payOnSiteTemplate,
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
@@ -325,24 +325,26 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
                 }
               }
               break;
-            case 'GIFT_CARD':
-              if (!currentPayment.giftCard.code) {
+            case 'FL_GIFT_CARD':
+              if (!currentPayment.giftCard.giftCardId) {
                 paymentErrors.push(
                   gettextCatalog.getString('Please enter a gift card code.'),
                 );
-              } else if (!/^[a-z0-9]+$/i.test(currentPayment.giftCard.code)) {
+              } else if (
+                !/^[a-z0-9]+$/i.test(currentPayment.giftCard.giftCardId)
+              ) {
                 paymentErrors.push(
                   gettextCatalog.getString(
                     'Gift card code must contain only letters and numbers.',
                   ),
                 );
-              } else if (currentPayment.giftCard.code.length < 10) {
+              } else if (currentPayment.giftCard.giftCardId.length < 10) {
                 paymentErrors.push(
                   gettextCatalog.getString(
                     'Gift card code must be at least 10 characters.',
                   ),
                 );
-              } else if (currentPayment.giftCard.code.length > 12) {
+              } else if (currentPayment.giftCard.giftCardId.length > 12) {
                 paymentErrors.push(
                   gettextCatalog.getString(
                     'Gift card code must be no more than 12 characters.',

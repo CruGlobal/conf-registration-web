@@ -274,8 +274,8 @@
                     Check (not yet received)
                   </span>
                 </span>
-                <span ng-if="payment.paymentType === 'GIFT_CARD'">
-                  Gift Card {{payment.giftCard.code}}
+                <span ng-if="payment.paymentType === 'FL_GIFT_CARD'">
+                  Gift Card {{payment.giftCard.giftCardId}}
                 </span>
                 <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
                   <span ng-if="payment.status === 'APPROVED'">
