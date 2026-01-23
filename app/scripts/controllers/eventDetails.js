@@ -171,6 +171,29 @@ angular
       $scope.refreshAllowedRegistrantTypes();
       $scope.getGlobalPromotions();
 
+      // Watch for changes to total capacity and useTotalCapacity to show validation message
+      $scope.$watchGroup(
+        ['conference.useTotalCapacity', 'conference.totalCapacity'],
+        function () {
+          if (
+            $scope.conference.useTotalCapacity &&
+            (!$scope.conference.totalCapacity ||
+              $scope.conference.totalCapacity <= 0)
+          ) {
+            $scope.notify = {
+              class: 'alert-danger',
+              message: 'Please enter an event capacity limit greater than 0.',
+            };
+          } else if (
+            $scope.notify &&
+            $scope.notify.message &&
+            $scope.notify.message.toString().includes('event capacity limit')
+          ) {
+            $scope.notify = {};
+          }
+        },
+      );
+
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
         // The UI will be distorted if the payment gateway type is not a key of $scope.paymentGateways, so treat it as
