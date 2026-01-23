@@ -6,6 +6,10 @@ angular
         return '';
       }
 
+      if (paymentType === 'FL_GIFT_CARD') {
+        return 'Gift card';
+      }
+
       let paymentTypeString =
         paymentType.charAt(0).toUpperCase() +
         paymentType.substring(1).toLowerCase();

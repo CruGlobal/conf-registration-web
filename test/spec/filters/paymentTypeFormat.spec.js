@@ -14,7 +14,7 @@ describe('Filter: paymentTypeFormat', function () {
   });
 
   it('should correctly format payment types', function () {
-    expect(filter('FL_GIFT_CARD')).toBe('Fl gift card');
+    expect(filter('FL_GIFT_CARD')).toBe('Gift card');
     expect(filter('CREDIT_CARD')).toBe('Credit card');
     expect(filter('CHECK')).toBe('Check');
     expect(filter('TRANSFER')).toBe('Transfer');
