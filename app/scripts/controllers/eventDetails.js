@@ -13,7 +13,7 @@ import {
   findCoupleForSpouse,
   findSpouseForCouple,
   deleteSpouseType,
-  syncCoupleDescriptions,
+  syncCoupleNames,
   shouldShowRegistrantType,
   isCoupleOrSpouseType,
   isCoupleType,
@@ -41,6 +41,7 @@ angular
       uuid,
       gettextCatalog,
       currencies,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -87,7 +88,7 @@ angular
       $scope.isCoupleType = isCoupleType;
       $scope.isSpouseType = isSpouseType;
       // exposed to scope for testing
-      $scope.syncCoupleDescriptions = syncCoupleDescriptions;
+      $scope.syncCoupleNames = syncCoupleNames;
       $scope.shouldShowRegistrantType = function (type) {
         return shouldShowRegistrantType(
           type,
@@ -125,6 +126,23 @@ angular
         $scope.conference.locationCountry,
       );
 
+      $scope.getGlobalPromotions = function () {
+        // Load global promo codes for this conference to check if any are available
+        if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+          globalPromotionService.loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+        }
+      };
+
+      $scope.hasGlobalPromotions = function () {
+        return globalPromotionService.hasGlobalPromotionsInCache(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      };
+
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
           type.allowedRegistrantTypeSet = _.map(
@@ -151,6 +169,7 @@ angular
       };
 
       $scope.refreshAllowedRegistrantTypes();
+      $scope.getGlobalPromotions();
 
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
@@ -196,14 +215,6 @@ angular
           activationDate: $scope.conference.registrationStartTime,
           deactivationDate: $scope.conference.registrationEndTime,
         });
-      };
-
-      $scope.promotionRegistrantTypeToggle = function (registrantTypes, id) {
-        if (registrantTypes.indexOf(id) === -1) {
-          registrantTypes.push(id);
-        } else {
-          registrantTypes.splice(registrantTypes.indexOf(id), 1);
-        }
       };
 
       $scope.addRegType = function () {
@@ -768,11 +779,16 @@ angular
         true,
       );
 
-      $scope.$watch('conference.ministryActivity', () => {
-        if (!$scope.giftCardEligible()) {
-          $scope.conference.registrantTypes.forEach((type) => {
-            type.acceptFlGiftCards = false;
-          });
+      $scope.$watch('conference.ministryActivity', (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+          // Reload promotions whenever ministryActivity changes
+          $scope.getGlobalPromotions();
+
+          if (!$scope.giftCardEligible()) {
+            $scope.conference.registrantTypes.forEach((type) => {
+              type.acceptFlGiftCards = false;
+            });
+          }
         }
       });
 
@@ -831,10 +847,6 @@ angular
         },
         true,
       );
-
-      $scope.sortNamesWithNA = (v1, v2) => {
-        return v1 === 'N/A' ? -1 : v1 < v2;
-      };
 
       MinistriesCache.get().then(function (ministries) {
         $scope.ministries = ministries;
@@ -1037,9 +1049,8 @@ angular
       };
 
       /*
-       * Users were unable to differentiate between multiple couple-spouse types
-       * when creating form questions. This adds the details field of any couple to the spouse,
-       * since the user has no way of modifying the spouse description.
+       * Users were unable to differentiate between multiple couple-spouse types,
+       * so the names are synced automatically.
        */
       $scope.$watch(
         'conference.registrantTypes',
@@ -1052,10 +1063,7 @@ angular
             return;
           }
 
-          syncCoupleDescriptions(
-            currentRegistrantTypes,
-            previousRegistrantTypes,
-          );
+          syncCoupleNames(currentRegistrantTypes, previousRegistrantTypes);
         },
         true,
       );

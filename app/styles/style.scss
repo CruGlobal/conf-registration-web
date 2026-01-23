@@ -1,4 +1,9 @@
+@use 'variables';
 @forward '~bootstrap-sass/assets/stylesheets/bootstrap' with (
+  $brand-primary: variables.$blue,
+  $brand-success: variables.$green,
+  $btn-info-bg: variables.$lightblue,
+  $btn-info-border: variables.$blue,
   $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/'
 );
 
@@ -6,4 +11,6 @@
 @use 'user-registration.scss';
 @use 'event-admin.scss';
 @use 'components.scss';
+@use 'globalPromotions.scss';
+@use 'promotion.scss';
 @use '~ui-cropper/source/scss/ui-cropper.scss';

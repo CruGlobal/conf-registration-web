@@ -275,7 +275,7 @@
       <select
         class="form-control"
         ng-model="conference.ministry"
-        ng-options="ministry.id as ministry.name for ministry in ministries | orderBy:'name':false:sortNamesWithNA"
+        ng-options="ministry.id as ministry.name for ministry in ministries"
       >
         <option></option>
       </select>
@@ -294,7 +294,7 @@
       <select
         class="form-control"
         ng-model="conference.ministryActivity"
-        ng-options="activity.id as activity.name for activity in getActivities(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
+        ng-options="activity.id as activity.name for activity in getActivities(conference.ministry)"
       >
         <option></option>
       </select>
@@ -306,7 +306,7 @@
       <select
         class="form-control"
         ng-model="conference.strategy"
-        ng-options="strategy.id as strategy.name for strategy in getStrategies(conference.ministry) | orderBy:'name':false:sortNamesWithNA"
+        ng-options="strategy.id as strategy.name for strategy in getStrategies(conference.ministry)"
       >
         <option></option>
       </select>
@@ -320,7 +320,7 @@
       <select
         class="form-control"
         ng-model="conference.type"
-        ng-options="type.id as type.name for type in ministryPurposes | orderBy:'name':false:sortNamesWithNA"
+        ng-options="type.id as type.name for type in ministryPurposes"
       >
         <option></option>
       </select>
@@ -332,7 +332,7 @@
       <select
         class="form-control"
         ng-model="conference.eventType"
-        ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType) | orderBy:'name':false:sortNamesWithNA"
+        ng-options="eventType.id as eventType.name for eventType in getEventTypes(conference.eventType)"
       >
         <option></option>
       </select>

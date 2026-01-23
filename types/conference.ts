@@ -55,6 +55,7 @@ export interface RegistrantType {
   earlyRegistrationDiscounts: Array<unknown>;
   allowedRegistrantTypeSet: unknown;
   registrationCompleteRedirect?: string;
+  eligibleForGlobalPromotions: boolean;
 }
 
 export interface Conference {
@@ -122,7 +123,7 @@ export interface Conference {
     shortSymbol: string;
     name: string;
   };
-  ministry: string;
+  ministry: string | null;
   strategy: string | null;
   ministryActivity: string | null;
   type: string;
