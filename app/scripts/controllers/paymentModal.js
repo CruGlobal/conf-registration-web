@@ -160,7 +160,7 @@ angular
       }
 
       $scope.canEditPayment = (payment) => {
-        if (payment.paymentType === 'GIFT_CARD') {
+        if (payment.paymentType === 'FL_GIFT_CARD') {
           return false;
         }
         return (
@@ -175,14 +175,14 @@ angular
           payment.paymentType !== 'REFUND' &&
           payment.paymentType !== 'TRANSFER' &&
           payment.paymentType !== 'SCHOLARSHIP' &&
-          payment.paymentType !== 'GIFT_CARD' &&
+          payment.paymentType !== 'FL_GIFT_CARD' &&
           $scope.calculateRefundableAmount(payment) > 0
         );
       };
 
       $scope.canDeletePayment = (payment) =>
         payment.paymentType !== 'CREDIT_CARD' &&
-        payment.paymentType !== 'GIFT_CARD' &&
+        payment.paymentType !== 'FL_GIFT_CARD' &&
         payment.refundChannel !== 'CREDIT_CARD' &&
         !payment.reported;
 

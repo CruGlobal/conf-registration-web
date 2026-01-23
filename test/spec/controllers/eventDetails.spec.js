@@ -705,16 +705,18 @@ describe('Controller: eventDetails', function () {
       beforeEach(() => {
         scope.conference.ministry = familyLifeId;
         scope.conference.ministryActivity = wtrId;
-        scope.conference.registrantTypes[0].acceptGiftCards = true;
+        scope.conference.registrantTypes[0].acceptFlGiftCards = true;
 
         scope.$digest();
       });
 
-      it('should set registrant acceptGiftCards to false when the activity is not WTR anymore', () => {
+      it('should set registrant acceptFlGiftCards to false when the activity is not WTR anymore', () => {
         scope.conference.ministryActivity = 'other-activity';
         scope.$digest();
 
-        expect(scope.conference.registrantTypes[0].acceptGiftCards).toBe(false);
+        expect(scope.conference.registrantTypes[0].acceptFlGiftCards).toBe(
+          false,
+        );
       });
     });
   });

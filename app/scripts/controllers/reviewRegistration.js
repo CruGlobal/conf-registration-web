@@ -203,6 +203,11 @@ angular
             );
           })
           .then(function () {
+            // If the payment type is a gift card, the API needs to know the full registration cost.
+            if ($scope.currentPayment.paymentType === 'FL_GIFT_CARD') {
+              $scope.currentPayment.amount =
+                currentRegistration.calculatedTotalDue;
+            }
             return payment.pay(
               $scope.currentPayment,
               conference,
@@ -326,7 +331,10 @@ angular
           acceptPayOnSite:
             _.some(regTypesInRegistration, 'acceptPayOnSite') &&
             !currentRegistration.completed,
-          acceptGiftCards: _.some(regTypesInRegistration, 'acceptGiftCards'),
+          acceptFlGiftCards: _.some(
+            regTypesInRegistration,
+            'acceptFlGiftCards',
+          ),
         };
         return !_.some(paymentMethods) ? false : paymentMethods;
       };
