@@ -103,13 +103,44 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect(scope.registrationFull()).toBe(false);
     });
 
-    it('returns true when there are not enough slots', () => {
-      expect(scope.currentRegistration.registrants.length).toBe(2);
+    it('does not count exempt registrants toward capacity', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
 
-      scope.conference.useLimit = true;
-      scope.conference.availableSlots = 1;
+      // current registration has 1 exempt 1 non-exempt
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns true when non-exempt registrants exceed capacity', () => {
+      scope.currentRegistration.registrants = [
+        {
+          id: '1',
+          registrantTypeId: scope.conference.registrantTypes[0].id,
+        },
+        {
+          id: '2',
+          registrantTypeId: scope.conference.registrantTypes[1].id,
+        },
+      ];
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
 
       expect(scope.registrationFull()).toBe(true);
+    });
+
+    it('returns false when all registrants are exempt from capacity limit', () => {
+      const exemptTypeId1 = scope.conference.registrantTypes[2].id;
+      const exemptTypeId2 = scope.conference.registrantTypes[3].id;
+
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 0;
+
+      scope.currentRegistration.registrants = [
+        { id: '1', registrantTypeId: exemptTypeId1 },
+        { id: '2', registrantTypeId: exemptTypeId2 },
+      ];
+
+      expect(scope.registrationFull()).toBe(false);
     });
   });
 

@@ -40,10 +40,11 @@ describe('Directive: registrationTypeSelect', function () {
   });
 
   describe('registrationTypeFull', () => {
-    let registrantTypeSingle, registrantTypeDouble;
+    let registrantTypeSingle, registrantTypeDouble, registrantTypeExempt;
     beforeEach(() => {
       registrantTypeSingle = testData.conference.registrantTypes[0];
       registrantTypeDouble = testData.conference.registrantTypes[1];
+      registrantTypeExempt = testData.conference.registrantTypes[2];
       scope.currentRegistration.registrants = [
         { registrantTypeId: registrantTypeSingle.id },
         { registrantTypeId: registrantTypeDouble.id },
@@ -87,6 +88,45 @@ describe('Directive: registrationTypeSelect', function () {
       registrantTypeDouble.availableSlots = 1;
 
       expect(scope.registrationTypeFull(registrationTypeCouple)).toBe(false);
+    });
+
+    it('should not count exempt registrants toward conference capacity', () => {
+      // registrantTypeExempt has exemptFromConferenceCapacity as true
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 2;
+
+      scope.currentRegistration.registrants = [
+        { registrantTypeId: registrantTypeSingle.id },
+        { registrantTypeId: registrantTypeExempt.id },
+        { registrantTypeId: registrantTypeExempt.id },
+      ];
+
+      expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
+    });
+
+    it('should return true when non-exempt registrants exceed capacity', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
+
+      scope.currentRegistration.registrants = [
+        { registrantTypeId: registrantTypeSingle.id },
+        { registrantTypeId: registrantTypeSingle.id },
+      ];
+
+      expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(true);
+    });
+
+    it('should allow registration when only exempt registrants exist', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
+
+      scope.currentRegistration.registrants = [
+        { registrantTypeId: registrantTypeExempt.id },
+        { registrantTypeId: registrantTypeExempt.id },
+        { registrantTypeId: registrantTypeExempt.id },
+      ];
+
+      expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
     });
   });
 });
