@@ -39,5 +39,28 @@ angular
       angular.forEach(conference.registrantTypes, function (t) {
         $scope.registrationUrl[t.id] = baseUrl + '?regType=' + t.id;
       });
+
+      $scope.isRegistrationClosed = function () {
+        if ($scope.conference.manuallyClosed) {
+          return true;
+        }
+
+        if (
+          $scope.conference.useTotalCapacity &&
+          $scope.conference.availableCapacity === 0
+        ) {
+          return true;
+        }
+
+        if (!$scope.conference.registrationOpen) {
+          return true;
+        }
+
+        return false;
+      };
+
+      $scope.isRegistrationOpen = function () {
+        return !$scope.isRegistrationClosed();
+      };
     },
   );

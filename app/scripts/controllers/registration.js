@@ -36,10 +36,13 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
-      $scope.closed = !$scope.conference.registrationOpen;
+      $scope.closed =
+        !$scope.conference.registrationOpen || $scope.conference.manuallyClosed;
       $scope.full =
-        $scope.conference.useLimit && $scope.conference.availableSlots === 0;
-      $scope.almostFull = getFullPercentage($scope.conference) >= 80;
+        $scope.conference.useTotalCapacity &&
+        $scope.conference.availableCapacity === 0;
+      const capacityPercent = getFullPercentage($scope.conference);
+      $scope.almostFull = capacityPercent >= 80 && capacityPercent < 100;
       $scope.open = !$scope.closed && !$scope.full;
 
       var originalCurrentRegistration = angular.copy(currentRegistration);

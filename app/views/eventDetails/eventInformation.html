@@ -173,6 +173,47 @@
     </label>
   </div>
 </div>
+
+<div class="form-group">
+  <div class="col-sm-4">
+    <label>
+      <input type="checkbox" ng-model="conference.useTotalCapacity" />
+      <span>
+        <translate>Limit the number of registrants</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          popover-append-to-body="true"
+          popover-trigger="'mouseenter'"
+          uib-popover="{{'Set a maximum number of registrants for this event. Admins can still manually add registrations beyond this limit.' | translate}}"
+        ></i>
+      </span>
+    </label>
+    <input
+      type="number"
+      min="1"
+      class="form-control"
+      ng-show="conference.useTotalCapacity"
+      ng-model="conference.totalCapacity"
+      placeholder="{{'Maximum registrants' | translate}}"
+      aria-label="{{'Event registrant limit' | translate}}"
+    />
+  </div>
+  <div class="col-sm-4">
+    <label>
+      <input type="checkbox" ng-model="conference.manuallyClosed" />
+      <span>
+        <translate>Manually close registration</translate>
+        <i
+          class="question-popover fa fa-question-circle"
+          popover-append-to-body="true"
+          popover-trigger="'mouseenter'"
+          uib-popover="{{'Close registration regardless of capacity. Admins can still manually add registrations.' | translate}}"
+        ></i>
+      </span>
+    </label>
+  </div>
+</div>
+
 <div class="form-group" ng-if="!conference.virtual">
   <div class="col-sm-12">
     <label>

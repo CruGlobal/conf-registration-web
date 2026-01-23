@@ -148,12 +148,29 @@ angular
         return _.find($scope.blocks, { id: blockId });
       };
 
+      // Check whether conference limits should allow confirmation of registration
       $scope.registrationFull = () => {
-        return Boolean(
-          $scope.conference.useLimit &&
-            $scope.conference.availableSlots <
-              currentRegistration.registrants.length,
-        );
+        if (!$scope.conference.useTotalCapacity) {
+          return false;
+        }
+
+        // Count how many registrants are exempt from conference capacity limits
+        // to exclude them from the total count
+        const exemptCount = currentRegistration.registrants.filter(
+          (registrant) => {
+            const registrantType = $scope.getRegistrantType(
+              registrant.registrantTypeId,
+            );
+            return registrantType?.exemptFromConferenceCapacity;
+          },
+        ).length;
+
+        const totalRegistrants =
+          currentRegistration.registrants.length - exemptCount;
+
+        // If the total registrants of the current registration including the new
+        // one(s) would exceed the conference's available capacity, the registration is full
+        return totalRegistrants > $scope.conference.availableCapacity;
       };
 
       // Return a boolean indicating whether the register button(s) should be disabled

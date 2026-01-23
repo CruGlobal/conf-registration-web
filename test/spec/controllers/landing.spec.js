@@ -3,18 +3,55 @@ import moment from 'moment';
 
 describe('Controller: landingCtrl', function () {
   var scope;
+  let testData;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject(function ($rootScope, $controller) {
-      scope = $rootScope.$new();
+    angular.mock.inject((_$rootScope_, $controller, _testData_) => {
+      testData = _testData_;
+      scope = _$rootScope_.$new();
 
       $controller('landingCtrl', {
         $scope: scope,
+        conference: testData.conference,
       });
     }),
   );
+
+  describe('isEventRegistrationClosed', () => {
+    it('returns true if useTotalCapacity is true and availableCapacity is 0', () => {
+      testData.conference.useTotalCapacity = true;
+      testData.conference.availableCapacity = 0;
+      testData.conference.manuallyClosed = false;
+
+      expect(scope.isEventRegistrationClosed(testData.conference)).toBe(true);
+    });
+
+    it('returns true if manuallyClosed is true', () => {
+      testData.conference.useTotalCapacity = false;
+      testData.conference.availableCapacity = 10;
+      testData.conference.manuallyClosed = true;
+
+      expect(scope.isEventRegistrationClosed(testData.conference)).toBe(true);
+    });
+
+    it('returns false if useTotalCapacity is false and manuallyClosed is false', () => {
+      testData.conference.useTotalCapacity = false;
+      testData.conference.availableCapacity = 10;
+      testData.conference.manuallyClosed = false;
+
+      expect(scope.isEventRegistrationClosed(testData.conference)).toBe(false);
+    });
+
+    it('returns false if useTotalCapacity is true and availableCapacity > 0 and manuallyClosed is false', () => {
+      testData.conference.useTotalCapacity = true;
+      testData.conference.availableCapacity = 5;
+      testData.conference.manuallyClosed = false;
+
+      expect(scope.isEventRegistrationClosed(testData.conference)).toBe(false);
+    });
+  });
 
   describe('dateFilter', () => {
     beforeEach(() => {
