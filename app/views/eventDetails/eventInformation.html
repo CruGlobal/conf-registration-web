@@ -192,7 +192,7 @@
       type="number"
       min="1"
       class="form-control"
-      ng-show="conference.useTotalCapacity"
+      ng-if="conference.useTotalCapacity"
       ng-model="conference.totalCapacity"
       placeholder="{{'Maximum registrants' | translate}}"
       aria-label="{{'Event registrant limit' | translate}}"
