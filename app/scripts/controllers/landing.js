@@ -141,7 +141,7 @@ angular
 
       $scope.isEventRegistrationClosed = function (e) {
         return (
-          (e.useTotalCapacity && e.availableCapacity === 0) || e.manuallyClosed
+          (e.useTotalCapacity && e.availableCapacity <= 0) || e.manuallyClosed
         );
       };
     },

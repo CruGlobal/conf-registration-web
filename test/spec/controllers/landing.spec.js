@@ -28,6 +28,14 @@ describe('Controller: landingCtrl', function () {
       expect(scope.isEventRegistrationClosed(testData.conference)).toBe(true);
     });
 
+    it('returns true if useTotalCapacity is true and availableCapacity is negative', () => {
+      testData.conference.useTotalCapacity = true;
+      testData.conference.availableCapacity = -5;
+      testData.conference.manuallyClosed = false;
+
+      expect(scope.isEventRegistrationClosed(testData.conference)).toBe(true);
+    });
+
     it('returns true if manuallyClosed is true', () => {
       testData.conference.useTotalCapacity = false;
       testData.conference.availableCapacity = 10;
