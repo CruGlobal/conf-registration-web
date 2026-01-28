@@ -97,7 +97,11 @@ describe('Controller: registration', () => {
       expect(scope.open).toBe(false);
     });
 
-    it('should initialize as full when there is no available capacity', () => {
+    it('should initialize as full when there is no available capacity and no primary exempt type', inject((
+      $routeParams,
+    ) => {
+      const nonExemptTypeId = testData.conference.registrantTypes[0].id;
+      $routeParams.regType = nonExemptTypeId;
       initializeController({
         ...testData.conference,
         useTotalCapacity: true,
@@ -107,7 +111,36 @@ describe('Controller: registration', () => {
       expect(scope.closed).toBe(false);
       expect(scope.full).toBe(true);
       expect(scope.open).toBe(false);
-    });
+    }));
+
+    it('should not be full when regType parameter is an exempt type', inject((
+      $routeParams,
+    ) => {
+      const exemptTypeId = testData.conference.registrantTypes[2].id;
+      $routeParams.regType = exemptTypeId;
+
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    }));
+
+    it('should not be full when user already has registrants in their registration group', inject(() => {
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    }));
   });
 
   describe('almostFull', () => {
