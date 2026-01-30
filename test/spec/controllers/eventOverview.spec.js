@@ -76,18 +76,4 @@ describe('Controller: eventOverview', () => {
       expect(scope.isRegistrationClosed()).toBe(false);
     });
   });
-
-  describe('isRegistrationOpen', () => {
-    it('returns the opposite of isRegistrationClosed', () => {
-      scope.conference.manuallyClosed = false;
-      scope.conference.useTotalCapacity = false;
-      scope.conference.registrationOpen = true;
-
-      expect(scope.isRegistrationOpen()).toBe(true);
-
-      scope.conference.manuallyClosed = true;
-
-      expect(scope.isRegistrationOpen()).toBe(false);
-    });
-  });
 });

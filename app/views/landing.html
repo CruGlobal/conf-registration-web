@@ -126,10 +126,7 @@
         >
           Sorry, this event is full.
         </p>
-        <div
-          class="text-center"
-          ng-if="!e.useTotalCapacity || e.availableCapacity > 0"
-        >
+        <div class="text-center" ng-if="!isEventRegistrationClosed(e)">
           <button
             ng-click="selectEvent(e, 'register')"
             class="btn btn-primary spacing-above-xs"

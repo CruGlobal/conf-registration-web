@@ -8,9 +8,9 @@ describe('Controller: landingCtrl', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject((_$rootScope_, $controller, _testData_) => {
+    angular.mock.inject(($rootScope, $controller, _testData_) => {
       testData = _testData_;
-      scope = _$rootScope_.$new();
+      scope = $rootScope.$new();
 
       $controller('landingCtrl', {
         $scope: scope,
