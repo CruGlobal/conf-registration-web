@@ -58,9 +58,5 @@ angular
 
         return false;
       };
-
-      $scope.isRegistrationOpen = function () {
-        return !$scope.isRegistrationClosed();
-      };
     },
   );

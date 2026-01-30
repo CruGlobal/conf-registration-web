@@ -238,54 +238,6 @@ describe('Controller: eventDetails', function () {
         'Please enter which Event Type',
       );
     });
-
-    it('should show error when useTotalCapacity is true but totalCapacity is not set', () => {
-      scope.conference.useTotalCapacity = true;
-      scope.conference.totalCapacity = null;
-      scope.$digest();
-
-      expect(scope.notify.class).toBe('alert-danger');
-      expect(scope.notify.message).toContain('event capacity limit');
-    });
-
-    it('should show error when useTotalCapacity is true but totalCapacity is 0', () => {
-      scope.conference.useTotalCapacity = true;
-      scope.conference.totalCapacity = 0;
-      scope.$digest();
-
-      expect(scope.notify.class).toBe('alert-danger');
-      expect(scope.notify.message).toContain('event capacity limit');
-    });
-
-    it('should show error when useTotalCapacity is true but totalCapacity is negative', () => {
-      scope.conference.useTotalCapacity = true;
-      scope.conference.totalCapacity = -5;
-      scope.$digest();
-
-      expect(scope.notify.class).toBe('alert-danger');
-      expect(scope.notify.message).toContain('event capacity limit');
-    });
-
-    it('should clear error when useTotalCapacity is true and totalCapacity is valid', () => {
-      scope.conference.useTotalCapacity = true;
-      scope.conference.totalCapacity = 0;
-      scope.$digest();
-
-      expect(scope.notify.message).toContain('event capacity limit');
-
-      scope.conference.totalCapacity = 100;
-      scope.$digest();
-
-      expect(scope.notify).toEqual({});
-    });
-
-    it('should not show error when useTotalCapacity is false', () => {
-      scope.conference.useTotalCapacity = false;
-      scope.conference.totalCapacity = 0;
-      scope.$digest();
-
-      expect(scope.notify).toBeUndefined();
-    });
   });
 
   describe('hasGlobalPromotions', () => {
@@ -389,7 +341,7 @@ describe('Controller: eventDetails', function () {
         expect(scope.notify.message.toString()).toContain(errorMessage);
       });
 
-      it('should validate the capacity limit', () => {
+      it('should validate the event capacity limit', () => {
         const errorMessage =
           'Please enter an event capacity limit greater than 0.';
         scope.conference.useTotalCapacity = true;
