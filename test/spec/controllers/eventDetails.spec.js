@@ -388,6 +388,26 @@ describe('Controller: eventDetails', function () {
 
         expect(scope.notify.message.toString()).toContain(errorMessage);
       });
+
+      it('should validate the capacity limit', () => {
+        const errorMessage =
+          'Please enter an event capacity limit greater than 0.';
+        scope.conference.useTotalCapacity = true;
+        scope.conference.totalCapacity = null;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+
+        scope.conference.totalCapacity = 0;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+
+        scope.conference.totalCapacity = -10;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+      });
     });
   });
 
