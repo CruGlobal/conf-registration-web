@@ -1,3 +1,5 @@
+import { getFullPercentage } from '../utils/conferenceLimits';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -34,6 +36,31 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
+
+      const getRegType = (id) =>
+        $scope.conference.registrantTypes.find((type) => type.id === id);
+
+      // Bypass 'full' check for primary exempt registrant types
+      const hasPrimaryExemptType = () => {
+        if ($routeParams.regType) {
+          return getRegType($routeParams.regType)?.exemptFromConferenceCapacity;
+        }
+        // If the user already has an active registration, don't treat the conference as closed.
+        // Show them the registration page and rely on `registration-type-select` to only allow
+        // adding registrants that are exempt from capacity limits.
+        return currentRegistration.registrants.length > 0;
+      };
+
+      $scope.closed =
+        !$scope.conference.registrationOpen || $scope.conference.manuallyClosed;
+      $scope.full =
+        $scope.conference.useTotalCapacity &&
+        $scope.conference.availableCapacity <= 0 &&
+        !hasPrimaryExemptType();
+      const capacityPercent = getFullPercentage($scope.conference);
+      $scope.almostFull = capacityPercent >= 80 && capacityPercent < 100;
+      $scope.open = !$scope.closed && !$scope.full;
+
       var originalCurrentRegistration = angular.copy(currentRegistration);
       $scope.currentRegistration = currentRegistration;
       $scope.currentRegistrant = $routeParams.reg;

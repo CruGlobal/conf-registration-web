@@ -138,5 +138,11 @@ angular
           $location.path('/' + route + '/' + e.id);
         }
       };
+
+      $scope.isEventRegistrationClosed = function (e) {
+        return (
+          (e.useTotalCapacity && e.availableCapacity <= 0) || e.manuallyClosed
+        );
+      };
     },
   );

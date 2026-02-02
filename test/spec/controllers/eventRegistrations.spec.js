@@ -29,6 +29,7 @@ describe('Controller: eventRegistrations', function () {
     $uibModal,
     $window,
     RegistrationCache,
+    ConfCache,
     testData,
     initController,
     scope;
@@ -41,6 +42,7 @@ describe('Controller: eventRegistrations', function () {
       _$uibModal_,
       _$window_,
       _RegistrationCache_,
+      _ConfCache_,
       _testData_,
     ) {
       $controller = _$controller_;
@@ -49,6 +51,7 @@ describe('Controller: eventRegistrations', function () {
       $uibModal = _$uibModal_;
       $window = _$window_;
       RegistrationCache = _RegistrationCache_;
+      ConfCache = _ConfCache_;
       testData = _testData_;
 
       spyOn(RegistrationCache, 'getAllForConference').and.returnValue(
@@ -197,6 +200,68 @@ describe('Controller: eventRegistrations', function () {
       scope.resetStrFilter();
 
       expect(scope.strFilter).toBe('');
+    });
+  });
+
+  describe('getFullPercentage', () => {
+    it('calculates the percentage of used capacity', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.totalCapacity = 10;
+      scope.conference.availableCapacity = 6;
+
+      expect(scope.getFullPercentage()).toBe(40);
+    });
+
+    it('rounds percentage down', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.totalCapacity = 300;
+      scope.conference.availableCapacity = 1;
+
+      expect(scope.getFullPercentage()).toBe(99);
+    });
+  });
+
+  describe('refreshConference', () => {
+    it('does nothing when useTotalCapacity is false', () => {
+      scope.conference.useTotalCapacity = false;
+      spyOn(ConfCache, 'remove');
+      spyOn(ConfCache, 'get');
+
+      scope.refreshConference();
+
+      expect(ConfCache.remove).not.toHaveBeenCalled();
+      expect(ConfCache.get).not.toHaveBeenCalled();
+    });
+
+    it('refreshes conference data when useTotalCapacity is true', () => {
+      scope.conference.useTotalCapacity = true;
+      const updatedConference = {
+        ...testData.conference,
+        availableCapacity: 5,
+      };
+
+      spyOn(ConfCache, 'remove');
+      spyOn(ConfCache, 'get').and.returnValue($q.resolve(updatedConference));
+
+      scope.refreshConference();
+      scope.$digest();
+
+      expect(ConfCache.remove).toHaveBeenCalledWith(testData.conference.id);
+      expect(ConfCache.get).toHaveBeenCalledWith(testData.conference.id);
+      expect(scope.conference).toBe(updatedConference);
+    });
+  });
+
+  describe('registerUser', () => {
+    it('calls refreshRegistrations and refreshConference on modal close', () => {
+      spyOn(scope, 'refreshRegistrations');
+      spyOn(scope, 'refreshConference');
+
+      scope.registerUser();
+      fakeModal.close();
+
+      expect(scope.refreshRegistrations).toHaveBeenCalledWith();
+      expect(scope.refreshConference).toHaveBeenCalledWith();
     });
   });
 

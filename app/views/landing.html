@@ -119,7 +119,14 @@
           ng-bind-html="e.description"
           ng-show="e.description"
         ></p>
-        <div class="text-center">
+        <p
+          class="alert alert-warning"
+          ng-if="isEventRegistrationClosed(e)"
+          translate
+        >
+          Sorry, this event is full.
+        </p>
+        <div class="text-center" ng-if="!isEventRegistrationClosed(e)">
           <button
             ng-click="selectEvent(e, 'register')"
             class="btn btn-primary spacing-above-xs"

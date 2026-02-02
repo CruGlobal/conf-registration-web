@@ -68,14 +68,14 @@
           <p
             class="bg-success"
             style="padding: 6px; font-weight: bold"
-            ng-show="conference.registrationOpen"
+            ng-show="!isRegistrationClosed()"
           >
             Registration is currently open.
           </p>
           <p
             class="bg-danger"
             style="padding: 6px; font-weight: bold"
-            ng-show="!conference.registrationOpen"
+            ng-show="isRegistrationClosed()"
           >
             Registration is currently closed.
           </p>

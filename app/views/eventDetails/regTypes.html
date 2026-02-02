@@ -154,6 +154,13 @@
                   <input type="checkbox" ng-model="type.useLimit" />
                   <span translate>Limit the number of registrants</span>
                 </label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'This limit only applies to registrants of this type and does not affect the event\'s total capacity limit.' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
                 <input
                   type="number"
                   aria-label="{{'Registrant limit' | translate}}"
@@ -161,6 +168,22 @@
                   ng-show="type.useLimit"
                   ng-model="type.numberSlotsLimit"
                 />
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    ng-model="type.exemptFromConferenceCapacity"
+                  />
+                  <span translate>Exempt from total event capacity</span>
+                </label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Registrants of this type will not count against the event\'s total capacity limit.' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
               </div>
               <div
                 ng-if="!isCoupleType(type) && !isCoupleOrSpouseType(type.id, conference.registrantTypes)"

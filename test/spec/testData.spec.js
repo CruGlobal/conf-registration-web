@@ -638,6 +638,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         registrationCompleteRedirect: 'url.com',
         eform: false,
         eligibleForGlobalPromotions: true,
+        exemptFromConferenceCapacity: false,
       },
       {
         id: '47de2c40-19dc-45b3-9663-5c005bd6464b',
@@ -667,6 +668,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         registrationCompleteRedirect: 'url1.com',
         eform: false,
         eligibleForGlobalPromotions: false,
+        exemptFromConferenceCapacity: false,
       },
       {
         id: '2b7ca963-0503-47c4-b9cf-6348d59542c3',
@@ -696,6 +698,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         eligibleForGlobalPromotions: true,
         registrationCompleteRedirect: 'url2.com',
         eform: false,
+        exemptFromConferenceCapacity: true,
       },
       {
         id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc',
@@ -735,6 +738,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         registrationCompleteRedirect: '',
         eform: false,
         eligibleForGlobalPromotions: false,
+        exemptFromConferenceCapacity: true,
       },
       // Spouse type related to couple:
       {
@@ -766,6 +770,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         registrationCompleteRedirect: '',
         eform: false,
         eligibleForGlobalPromotions: false,
+        exemptFromConferenceCapacity: false,
       },
       // Spouse type not related to couple:
       {
@@ -797,6 +802,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
         registrationCompleteRedirect: '',
         eform: false,
         eligibleForGlobalPromotions: false,
+        exemptFromConferenceCapacity: false,
       },
     ],
     promotions: [
@@ -886,6 +892,10 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     eventType: null,
     type: 'ef4ffa14-0b02-4d7e-915e-77ccf958f5b9',
     virtual: false,
+    useTotalCapacity: false,
+    manuallyClosed: false,
+    totalCapacity: 0,
+    availableCapacity: 0,
     image: {
       image:
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkYAAAEiCAYAAAAcUB29AAAgAElEQVR4Xpx9B7hkVZXuf05V',
