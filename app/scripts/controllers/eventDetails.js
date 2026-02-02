@@ -421,6 +421,17 @@ angular
           }
         });
 
+        // Event capacity limit
+        if (
+          $scope.conference.useTotalCapacity &&
+          (!$scope.conference.totalCapacity ||
+            $scope.conference.totalCapacity < 1)
+        ) {
+          validationErrors.push(
+            'Please enter an event capacity limit greater than 0.',
+          );
+        }
+
         //Registrant Name
         angular.forEach($scope.conference.registrantTypes, function (t) {
           if (_.isEmpty(t.name)) {

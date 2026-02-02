@@ -56,6 +56,7 @@ export interface RegistrantType {
   allowedRegistrantTypeSet: unknown;
   registrationCompleteRedirect?: string;
   eligibleForGlobalPromotions: boolean;
+  exemptFromConferenceCapacity?: boolean;
 }
 
 export interface Conference {
@@ -94,6 +95,10 @@ export interface Conference {
   paymentGatewayKeySaved: boolean;
   registrationCount: number;
   completedRegistrationCount: number;
+  useTotalCapacity: boolean;
+  manuallyClosed: boolean;
+  totalCapacity: number;
+  availableCapacity: number;
   customPaymentEmailText: string | null;
   rideshareEnabled: string;
   rideshareEmailContent: string | null;

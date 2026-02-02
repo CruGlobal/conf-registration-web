@@ -1,7 +1,12 @@
 import 'angular-mocks';
 
 describe('Controller: registrationModal', function () {
-  var scope, modalInstance, modalMessage, testData;
+  let scope,
+    modalInstance,
+    modalMessage,
+    testData,
+    $httpBackend,
+    RegistrationCache;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -11,6 +16,8 @@ describe('Controller: registrationModal', function () {
       $controller,
       _testData_,
       _modalMessage_,
+      _$httpBackend_,
+      _RegistrationCache_,
     ) {
       scope = $rootScope.$new();
       modalInstance = {
@@ -22,6 +29,8 @@ describe('Controller: registrationModal', function () {
       };
       testData = _testData_;
       modalMessage = _modalMessage_;
+      $httpBackend = _$httpBackend_;
+      RegistrationCache = _RegistrationCache_;
 
       $controller('registrationModal', {
         $scope: scope,
@@ -35,9 +44,38 @@ describe('Controller: registrationModal', function () {
     }),
   );
 
-  it('register should close the modal', function () {
-    scope.register();
+  afterEach(() => {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
-    expect(modalInstance.dismiss).toHaveBeenCalledWith();
+  describe('register', () => {
+    it('closes modal with close() on successful new registration', function () {
+      $httpBackend
+        .expectPOST(`conferences/${testData.conference.id}/registrations`)
+        .respond(201, {});
+
+      spyOn(RegistrationCache, 'emptyCache');
+
+      scope.register();
+      $httpBackend.flush();
+
+      expect(RegistrationCache.emptyCache).toHaveBeenCalledWith();
+      expect(modalInstance.close).toHaveBeenCalledWith();
+    });
+
+    it('does not close modal on registration error', function () {
+      $httpBackend
+        .expectPOST(`conferences/${testData.conference.id}/registrations`)
+        .respond(500, { error: { message: 'Server error' } });
+
+      spyOn(modalMessage, 'error');
+
+      scope.register();
+      $httpBackend.flush();
+
+      expect(modalInstance.close).not.toHaveBeenCalled();
+      expect(modalMessage.error).toHaveBeenCalledWith('Server error');
+    });
   });
 });

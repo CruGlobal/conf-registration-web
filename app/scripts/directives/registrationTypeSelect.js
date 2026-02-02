@@ -1,4 +1,5 @@
 import template from 'views/components/registrationTypeSelect.html';
+import { isCoupleType } from '../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
@@ -18,6 +19,9 @@ angular
         $scope.visibleRegistrantTypes = angular.copy(
           $scope.conference.registrantTypes,
         );
+
+        const getRegistrantType = (id) =>
+          _.find($scope.conference.registrantTypes, { id });
 
         const findCurrentGroupRegistrantType = function (
           registrants,
@@ -138,24 +142,53 @@ angular
           );
         };
 
+        // Check whether conference and registration-type limits allow another registrant of the
+        // specified type to register
         $scope.registrationTypeFull = function (type) {
-          if (!type.useLimit) {
-            return false;
-          }
-          if (!type.availableSlots) {
-            return true;
-          }
+          const numNewRegistrants = isCoupleType(type) ? 2 : 1;
 
-          //subtract registrants from current registration from availableSlots
+          // Type level limit should take precedence over conference limit
+          const registrantsOfType = _.filter(
+            $scope.currentRegistration.registrants,
+            { registrantTypeId: type.id },
+          ).length;
           if (
-            type.availableSlots -
-              _.filter($scope.currentRegistration.registrants, {
-                registrantTypeId: type.id,
-              }).length <=
-            0
+            type.useLimit &&
+            type.availableSlots < registrantsOfType + numNewRegistrants
           ) {
             return true;
           }
+
+          // Exempt types skip the conference capacity check
+          if (type.exemptFromConferenceCapacity) {
+            return false;
+          }
+
+          // Count how many registrants are exempt from conference capacity limits
+          // to exclude them from the total count
+          const exemptCount = $scope.currentRegistration.registrants.filter(
+            (registrant) => {
+              const registrantType = getRegistrantType(
+                registrant.registrantTypeId,
+              );
+              return registrantType?.exemptFromConferenceCapacity;
+            },
+          ).length;
+          const registrants = $scope.currentRegistration.registrants.length;
+
+          const totalRegistrants =
+            registrants + numNewRegistrants - exemptCount;
+
+          // If the total registrants of the current registration including the new
+          // one(s) would exceed the conference's available capacity, the registration is full
+          if (
+            $scope.conference.useTotalCapacity &&
+            totalRegistrants > $scope.conference.availableCapacity
+          ) {
+            return true;
+          }
+
+          return false;
         };
       },
     };
