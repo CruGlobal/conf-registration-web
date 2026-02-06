@@ -205,15 +205,19 @@ angular
           ) {
             return false;
           }
-          var registrant = _.find($scope.currentRegistration.registrants, {
+          const registrant = _.find($scope.currentRegistration.registrants, {
             id: $scope.currentRegistrant,
           });
-          return validateRegistrant.blockVisible(
+          const isVisible = validateRegistrant.blockVisible(
             block,
             registrant,
             false,
             $scope.conference,
           );
+
+          clearAnswerIfBlockHidden(isVisible, block);
+
+          return isVisible;
         };
 
         function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {
@@ -228,6 +232,33 @@ angular
           ) {
             $scope.answer.value = null;
           }
+        }
+
+        function clearAnswerIfBlockHidden(isVisible, block) {
+          if (isVisible) {
+            return;
+          }
+
+          const blockTypesToClear = [
+            'emailQuestion',
+            'textQuestion',
+            'textareaQuestion',
+            'phoneQuestion',
+            'dateQuestion',
+            'nameQuestion',
+            'addressQuestion',
+          ];
+          if (!blockTypesToClear.includes(block.type)) {
+            return;
+          }
+
+          if ($scope.answer.value) {
+            return;
+          }
+          $scope.answer.value = getDefaultValue(
+            block.type,
+            block.content && block.content.default,
+          );
         }
 
         function setForceSelections(block, registrant, isVisible, choice) {
