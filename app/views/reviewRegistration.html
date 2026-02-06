@@ -323,7 +323,7 @@
                   localizedCurrency:conference.currency.currencyCode}}
                 </span>
                 <span ng-if="p.paymentType !== 'REFUND'">
-                  {{(p.amount * -1) |
+                  {{(p.amount === 0 ? p.amount : -p.amount) |
                   localizedCurrency:conference.currency.currencyCode}}
                 </span>
               </td>
