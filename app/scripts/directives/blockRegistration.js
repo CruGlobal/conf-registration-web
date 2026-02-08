@@ -71,12 +71,17 @@ angular
           }
 
           // Since we render all blocks for all registrants, even if they are not for this registrant type.
-          // We ONLY need to initialize the answers/questions for the blocks that are visible
-          const weShouldInitializeAnswer =
-            validateRegistrant.shouldShowForRegistrantType(
-              $scope.block,
-              $scope.currentRegistration.registrants[registrantIndex],
-            ) || $scope.block.required;
+          // We ONLY need to initialize the answers/questions for the blocks that are visible for this registrant
+          const weShouldInitializeAnswer = validateRegistrant.blockVisible(
+            $scope.block,
+            $scope.currentRegistration.registrants[registrantIndex],
+            false,
+            $scope.conference,
+          );
+
+          if (!weShouldInitializeAnswer) {
+            return;
+          }
 
           const { answer, isNew } = initializeAnswer(
             $scope.currentRegistration.registrants[registrantIndex].answers,
