@@ -27,7 +27,7 @@ describe('Service: MinistryAdminsCache', () => {
 
     spyOn(MinistriesCache, 'get').and.returnValue(
       $q.resolve([
-        ...testData.ministries,
+        ...testData.ministries.slice(0, 3),
         { ...testData.ministries[0], id: 'no-access', name: 'No Access' },
       ]),
     );

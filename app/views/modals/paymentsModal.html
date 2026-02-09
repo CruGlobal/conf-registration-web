@@ -277,6 +277,9 @@
                     Check (not yet received)
                   </span>
                 </span>
+                <span ng-if="payment.paymentType === 'FL_GIFT_CARD'">
+                  Gift Card {{payment.giftCard.giftCardId}}
+                </span>
                 <span ng-if="payment.paymentType === 'SCHOLARSHIP'">
                   <span ng-if="payment.status === 'APPROVED'">
                     <span
@@ -371,7 +374,7 @@
                   </button>
                   <button
                     ng-click="deletePayment(payment)"
-                    ng-if="payment.paymentType !== 'CREDIT_CARD' && payment.refundChannel !== 'CREDIT_CARD' && !payment.reported"
+                    ng-if="canDeletePayment(payment)"
                     title="Delete Payment"
                     class="btn btn-xs btn-danger"
                   >
