@@ -115,6 +115,7 @@ export interface Conference {
   accountNumber: string | null;
   glAccount: string | null;
   combineSpouseRegistrations: boolean;
+  disallowPromotionStacking: boolean;
   loggedInUserPermissionLevel: null;
   image: {
     image: string | null;

@@ -303,6 +303,29 @@ describe('Controller: paymentModal', function () {
 
       expect(scope.availablePromotions).not.toContain(inactivePromotion);
     });
+
+    it('returns false when disallowPromotionStacking is true and promotions are already applied', inject(function () {
+      const conferenceWithStacking = {
+        ...testData.conference,
+        disallowPromotionStacking: true,
+      };
+
+      initController(conferenceWithStacking);
+
+      expect(scope.showAvailablePromotions()).toBe(false);
+    }));
+
+    it('returns true when disallowPromotionStacking is true but no promotions are applied', inject(function () {
+      const conferenceWithStacking = {
+        ...testData.conference,
+        disallowPromotionStacking: true,
+      };
+
+      initController(conferenceWithStacking);
+      scope.allPromotions = [];
+
+      expect(scope.showAvailablePromotions()).toBe(true);
+    }));
   });
 
   describe('deletePromotion', () => {

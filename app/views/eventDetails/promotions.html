@@ -36,3 +36,17 @@
 <button type="button" class="btn btn-link" ng-click="addPromotion()">
   <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
 </button>
+
+<div class="checkbox">
+  <label>
+    <input type="checkbox" ng-model="conference.disallowPromotionStacking" />
+    <translate>Disallow promotion stacking</translate>
+  </label>
+  <i
+    class="question-popover fa fa-question-circle"
+    uib-popover="{{'When enabled, only one promotion can be applied per registration.' | translate}}"
+    popover-trigger="'mouseenter'"
+    popover-append-to-body="true"
+  >
+  </i>
+</div>

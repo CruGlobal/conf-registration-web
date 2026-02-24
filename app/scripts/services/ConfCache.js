@@ -72,6 +72,7 @@ angular
           name: name,
           allowEditRegistrationAfterComplete: false,
           combineSpouseRegistrations: false,
+          disallowPromotionStacking: false,
           registrationStartTime: moment().format('YYYY-MM-DD HH:mm:ss'),
           registrationEndTime: moment()
             .add(14, 'days')

@@ -415,6 +415,27 @@ describe('Controller: ReviewRegistrationCtrl', function () {
 
       expect(scope.showPromotionsInput()).toBe(false);
     });
+
+    it('returns false when disallowPromotionStacking is true and promotions are already applied', () => {
+      scope.conference.disallowPromotionStacking = true;
+      scope.allPromotions = [{ id: 'promo-1', code: 'TEST' }];
+
+      expect(scope.showPromotionsInput()).toBe(false);
+    });
+
+    it('returns true when disallowPromotionStacking is true but no promotions are applied', () => {
+      scope.conference.disallowPromotionStacking = true;
+      scope.allPromotions = [];
+
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns true when disallowPromotionStacking is false and promotions are already applied', () => {
+      scope.conference.disallowPromotionStacking = false;
+      scope.allPromotions = [testData.registration.promotions[0]];
+
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
   });
 
   describe('deletePromotion', () => {

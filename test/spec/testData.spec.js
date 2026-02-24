@@ -876,6 +876,7 @@ angular.module('confRegistrationWebApp').service('testData', function () {
     rideshareEnabled: false,
     rideshareEmailContent: null,
     allowEditRegistrationAfterComplete: false,
+    disallowPromotionStacking: false,
     checkPayableTo: 'Test Admin',
     checkMailingAddress: '100 Lake Hart Dr.',
     checkMailingCity: 'Orlando',
