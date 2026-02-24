@@ -370,6 +370,13 @@ angular
       ];
 
       $scope.showAvailablePromotions = function () {
+        if (
+          $scope.conference.disallowPromotionStacking &&
+          $scope.allPromotions.length > 0
+        ) {
+          return false;
+        }
+
         return $scope.availablePromotions.length > 0;
       };
 
