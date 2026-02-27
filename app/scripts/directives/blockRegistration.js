@@ -220,6 +220,9 @@ angular
         function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {
           // if the option of checkbox, select or radio should be hidden,
           // but it's currently selected, clear the value of that answer
+          if (!$scope.answer) {
+            return;
+          }
           if (!isVisible && block.type === 'checkboxQuestion') {
             $scope.answer.value[choice.value] = false;
           } else if (
@@ -232,7 +235,7 @@ angular
         }
 
         function setForceSelections(block, registrant, isVisible, choice) {
-          if (block.type !== 'checkboxQuestion') {
+          if (block.type !== 'checkboxQuestion' || !$scope.answer) {
             return;
           }
           var ruleStatus = validateRegistrant.checkboxDisable(
