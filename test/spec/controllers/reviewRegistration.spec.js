@@ -418,7 +418,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
 
     it('returns false when disallowPromotionStacking is true and promotions are already applied', () => {
       scope.conference.disallowPromotionStacking = true;
-      scope.allPromotions = [{ id: 'promo-1', code: 'TEST' }];
+      scope.allPromotions = [testData.registration.promotions[0]];
 
       expect(scope.showPromotionsInput()).toBe(false);
     });
