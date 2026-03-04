@@ -25,6 +25,7 @@ angular
       validateRegistrant,
       analytics,
       globalPromotionService,
+      promotionValidationService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -243,6 +244,13 @@ angular
               $scope.currentPayment,
               currentRegistration,
               $scope.conference,
+            );
+          })
+          .then(function () {
+            // Pre-check that applied promotions haven't exceeded their usage limits since the user added them.
+            // Returns 409 if another registration consumed the last use in the meantime.
+            return promotionValidationService.verifyPromotionUsage(
+              currentRegistration,
             );
           })
           .then(function () {

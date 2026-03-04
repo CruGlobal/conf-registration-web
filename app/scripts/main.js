@@ -102,3 +102,4 @@ import 'scripts/services/validationInterceptor.js';
 import 'scripts/services/paymentReportService.js';
 import 'scripts/services/journalUploadService.ts';
 import 'scripts/services/promoReportService.ts';
+import 'scripts/services/promotionValidationService.ts';
