@@ -417,6 +417,58 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
+  describe('confirmRegistration calls promotionValidationService', () => {
+    let $q, promotionValidationService, registrationService, paymentService;
+
+    beforeEach(inject(function (_$q_) {
+      $q = _$q_;
+
+      promotionValidationService = {
+        verifyPromotionUsage: jasmine
+          .createSpy('verifyPromotionUsage')
+          .and.returnValue($q.resolve()),
+      };
+      registrationService = {
+        validatePayment: jasmine
+          .createSpy('validatePayment')
+          .and.returnValue($q.resolve()),
+        completeRegistration: jasmine
+          .createSpy('completeRegistration')
+          .and.returnValue($q.resolve()),
+      };
+      paymentService = {
+        pay: jasmine.createSpy('pay').and.returnValue($q.resolve()),
+      };
+
+      initController({
+        promotionValidationService,
+        registration: registrationService,
+        payment: paymentService,
+      });
+    }));
+
+    it('calls verifyPromotionUsage during confirmRegistration', () => {
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(
+        promotionValidationService.verifyPromotionUsage,
+      ).toHaveBeenCalledWith(testData.registration);
+    });
+
+    it('does not proceed to payment when verifyPromotionUsage rejects', () => {
+      promotionValidationService.verifyPromotionUsage.and.returnValue(
+        $q.reject({ message: 'Limit reached' }),
+      );
+
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(paymentService.pay).not.toHaveBeenCalled();
+      expect(scope.submittingRegistration).toBe(false);
+    });
+  });
+
   describe('deletePromotion', () => {
     let modalMessage;
     let $httpBackend;
