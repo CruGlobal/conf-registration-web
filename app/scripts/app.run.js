@@ -2,9 +2,9 @@ angular
   .module('confRegistrationWebApp')
   .run(function (
     $rootScope,
-    $cookies,
     $location,
     $window,
+    MinistryAdminsCache,
     ProfileCache,
     analytics,
     $timeout,
@@ -35,6 +35,8 @@ angular
         analytics.firePageViewEvent();
       });
     });
+
+    $rootScope.isMinistryAdmin = () => !!MinistryAdminsCache.getSync().length;
 
     $rootScope.globalUser = function () {
       return ProfileCache.globalUser();

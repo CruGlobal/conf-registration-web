@@ -24,6 +24,7 @@ angular
       payment,
       validateRegistrant,
       analytics,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -34,9 +35,22 @@ angular
         footer: false,
       };
 
+      if (conference.ministry && conference.ministryActivity) {
+        globalPromotionService.loadPromotions(
+          conference.ministry,
+          conference.ministryActivity,
+        );
+      }
+
       // Couple-spouse related utility functions
       $scope.isRegistrantCouple = isRegistrantCouple;
       $scope.findCoupleForSpouse = findCoupleForSpouse;
+
+      // Set all promotions (currently on registration)
+      $scope.allPromotions = [
+        ...currentRegistration.globalPromotions,
+        ...currentRegistration.promotions,
+      ];
 
       if (
         _.isEmpty(currentRegistration.registrants) &&
@@ -53,6 +67,7 @@ angular
 
       $scope.conference = conference;
       $scope.currentRegistration = currentRegistration;
+
       $scope.displayAddress = $filter('eventAddressFormat')(
         $scope.conference.locationCity,
         $scope.conference.locationState,
@@ -133,13 +148,41 @@ angular
         return _.find($scope.blocks, { id: blockId });
       };
 
+      // Check whether conference limits should allow confirmation of registration
+      $scope.registrationFull = () => {
+        if (!$scope.conference.useTotalCapacity) {
+          return false;
+        }
+
+        // Count how many registrants are exempt from conference capacity limits
+        // to exclude them from the total count
+        const exemptCount = currentRegistration.registrants.filter(
+          (registrant) => {
+            const registrantType = $scope.getRegistrantType(
+              registrant.registrantTypeId,
+            );
+            return registrantType?.exemptFromConferenceCapacity;
+          },
+        ).length;
+
+        const totalRegistrants =
+          currentRegistration.registrants.length - exemptCount;
+
+        // If the total registrants of the current registration including the new
+        // one(s) would exceed the conference's available capacity, the registration is full
+        return totalRegistrants > $scope.conference.availableCapacity;
+      };
+
       // Return a boolean indicating whether the register button(s) should be disabled
       $scope.registerDisabled = function () {
-        return Boolean(
-          $scope.registerMode === 'preview' ||
-            !$scope.allRegistrantsValid() ||
-            $scope.submittingRegistration ||
-            $scope.requireSpouseRegistration(),
+        return (
+          $scope.registrationFull() ||
+          Boolean(
+            $scope.registerMode === 'preview' ||
+              !$scope.allRegistrantsValid() ||
+              $scope.submittingRegistration ||
+              $scope.requireSpouseRegistration(),
+          )
         );
       };
 
@@ -419,10 +462,12 @@ angular
             question: 'Are you sure you want to delete this promotion?',
           })
           .then(function () {
-            var regCopy = angular.copy(currentRegistration);
-            _.remove(regCopy.promotions, { id: promoId });
+            const registrationCopy = angular.copy(currentRegistration);
+            _.remove(registrationCopy.promotions, { id: promoId });
+            _.remove(registrationCopy.globalPromotions, { id: promoId });
+
             $http
-              .put('registrations/' + currentRegistration.id, regCopy)
+              .put('registrations/' + currentRegistration.id, registrationCopy)
               .then(function () {
                 $route.reload();
               })
@@ -434,6 +479,16 @@ angular
                 );
               });
           });
+      };
+
+      $scope.showPromotionsInput = function () {
+        return (
+          $scope.conference.promotions.length > 0 ||
+          globalPromotionService.hasPromotionsForRegistration(
+            conference,
+            currentRegistration,
+          )
+        );
       };
 
       $scope.hasPendingPayments = function (payments) {

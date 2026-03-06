@@ -1,18 +1,7 @@
-export interface Promotion {
-  id: string;
+import { BasePromotion } from 'basePromotion';
+
+// Conference-specific promotion
+export interface Promotion extends BasePromotion {
   conferenceId: string;
   registrantTypeIds: Array<string>;
-  code: string;
-  description: string | null;
-  businessUnit: string | null;
-  departmentId: string | null;
-  operatingUnit: string | null;
-  projectId: string | null;
-  name: string | null;
-  activationDate: string;
-  deactivationDate: string | null;
-  createdDate: string | null;
-  lastUpdateDate: string | null;
-  amount: number;
-  applyToAllRegistrants: boolean;
 }

@@ -41,6 +41,7 @@ angular
       uuid,
       gettextCatalog,
       currencies,
+      globalPromotionService,
     ) {
       $rootScope.globalPage = {
         type: 'admin',
@@ -125,6 +126,23 @@ angular
         $scope.conference.locationCountry,
       );
 
+      $scope.getGlobalPromotions = function () {
+        // Load global promo codes for this conference to check if any are available
+        if ($scope.conference.ministry && $scope.conference.ministryActivity) {
+          globalPromotionService.loadPromotions(
+            $scope.conference.ministry,
+            $scope.conference.ministryActivity,
+          );
+        }
+      };
+
+      $scope.hasGlobalPromotions = function () {
+        return globalPromotionService.hasGlobalPromotionsInCache(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
+      };
+
       $scope.refreshAllowedRegistrantTypes = function () {
         $scope.conference.registrantTypes.forEach((type) => {
           type.allowedRegistrantTypeSet = _.map(
@@ -151,6 +169,7 @@ angular
       };
 
       $scope.refreshAllowedRegistrantTypes();
+      $scope.getGlobalPromotions();
 
       // Get the payment gateway type for this conference
       $scope.getPaymentGatewayType = function () {
@@ -401,6 +420,17 @@ angular
             );
           }
         });
+
+        // Event capacity limit
+        if (
+          $scope.conference.useTotalCapacity &&
+          (!$scope.conference.totalCapacity ||
+            $scope.conference.totalCapacity < 1)
+        ) {
+          validationErrors.push(
+            'Please enter an event capacity limit greater than 0.',
+          );
+        }
 
         //Registrant Name
         angular.forEach($scope.conference.registrantTypes, function (t) {
@@ -729,15 +759,14 @@ angular
       };
 
       // Only Family Life WTR events are eligible for gift cards
-      $scope.giftCardEligible = () =>
-        !!(
-          getMinistry()?.name === 'Family Life' &&
-          $scope.conference.ministryActivity &&
-          MinistriesCache.getActivityName(
-            $scope.conference.ministry,
-            $scope.conference.ministryActivity,
-          ) === 'WTR'
+      $scope.giftCardEligible = () => {
+        const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+        const wtrActivityId = '9c6eae3f-8928-4703-a2a4-e5bf995dfd19';
+        return (
+          $scope.conference.ministry === familyLifeMinistryId &&
+          $scope.conference.ministryActivity === wtrActivityId
         );
+      };
 
       $scope.$watch(
         'conference.type',
@@ -761,11 +790,16 @@ angular
         true,
       );
 
-      $scope.$watch('conference.ministryActivity', () => {
-        if (!$scope.giftCardEligible()) {
-          $scope.conference.registrantTypes.forEach((type) => {
-            type.acceptFlGiftCards = false;
-          });
+      $scope.$watch('conference.ministryActivity', (newVal, oldVal) => {
+        if (newVal !== oldVal) {
+          // Reload promotions whenever ministryActivity changes
+          $scope.getGlobalPromotions();
+
+          if (!$scope.giftCardEligible()) {
+            $scope.conference.registrantTypes.forEach((type) => {
+              type.acceptFlGiftCards = false;
+            });
+          }
         }
       });
 
@@ -824,10 +858,6 @@ angular
         },
         true,
       );
-
-      $scope.sortNamesWithNA = (v1, v2) => {
-        return v1 === 'N/A' ? -1 : v1 < v2;
-      };
 
       MinistriesCache.get().then(function (ministries) {
         $scope.ministries = ministries;

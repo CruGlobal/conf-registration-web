@@ -46,7 +46,7 @@
 
 <div
   class="row pageBox"
-  ng-if="(conference.registrationOpen || registerMode === 'preview') && activePageId !== ''"
+  ng-if="(open || registerMode === 'preview') && activePageId !== ''"
 >
   <div class="col-xs-12">
     <ul class="nav nav-pills nav-stacked spacing-below-xs">
@@ -68,17 +68,22 @@
   </div>
 </div>
 
-<div
-  class="row"
-  ng-if="!conference.registrationOpen && registerMode !== 'preview'"
->
+<div class="row" ng-if="(closed || full) && registerMode !== 'preview'">
   <div class="col-xs-12 form-content">
-    <h2 class="page-title border" translate>Registration Closed</h2>
-    <p translate>Sorry, registration for this event is closed.</p>
+    <h2 class="page-title border" translate ng-if="closed">
+      Registration Closed
+    </h2>
+    <h2 class="page-title border" translate ng-if="!closed">
+      Registration Full
+    </h2>
+    <p translate ng-if="closed">
+      Sorry, registration for this event is closed.
+    </p>
+    <p translate ng-if="!closed">Sorry, registration for this event is full.</p>
     <p>
-      <translate
-        >If you are looking for another event, search for it on the</translate
-      >
+      <translate>
+        If you are looking for another event, search for it on the
+      </translate>
       <a href="/" translate>Welcome Page</a>.
     </p>
   </div>
@@ -86,7 +91,7 @@
 <div
   id="registration-content"
   class="row"
-  ng-if="conference.registrationOpen || registerMode === 'preview'"
+  ng-if="open || registerMode === 'preview'"
 >
   <div class="col-xs-12 form-content">
     <div
@@ -102,6 +107,11 @@
     </div>
     <section ng-if="activePageId == ''">
       <h2 class="page-title border" translate>Welcome</h2>
+      <div class="alert alert-warning" ng-if="almostFull" translate>
+        This event only has {{ conference.availableCapacity }} spots remaining!
+        Your spot is not reserved until you fully complete your registration
+        <strong>and</strong> pay. Register now to secure your spot!
+      </div>
       <p ng-bind-html="conference.description" class="display-linebreaks"></p>
       <div class="well well-creme2" ng-show="conference.eventStartTime">
         <h2 class="page-title border details-heading" translate>Event Dates</h2>

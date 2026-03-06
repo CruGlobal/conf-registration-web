@@ -64,6 +64,31 @@ describe('Service: ConfCache', function () {
     expect(conference.name).toBe(conferenceRename);
   });
 
+  it('confCache.remove should clear a single conference from cache', function () {
+    let conference;
+    const conferenceId = 'c63b8abf-52ff-4cc4-afbc-5923b01f1ab0';
+
+    ConfCache.get(conferenceId).then(function (conf) {
+      conference = conf;
+    });
+    $httpBackend.flush();
+
+    expect(conference.id).toBe(conferenceId);
+
+    ConfCache.remove(conferenceId);
+
+    $httpBackend
+      .expectGET(`conferences/${conferenceId}`)
+      .respond(200, { id: conferenceId, name: 'Fresh Data' });
+
+    ConfCache.get(conferenceId).then(function (conf) {
+      conference = conf;
+    });
+    $httpBackend.flush();
+
+    expect(conference.name).toBe('Fresh Data');
+  });
+
   it('confCache.initCurrencies should return all available currencies', function () {
     $httpBackend
       .expectGET(/payments\/currency/)

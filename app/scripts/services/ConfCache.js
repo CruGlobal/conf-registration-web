@@ -59,6 +59,10 @@ angular
         cache.removeAll();
       };
 
+      this.remove = function (id) {
+        cache.remove(path(id));
+      };
+
       this.create = function (name) {
         var newConferenceId = uuid();
         var newPageId = uuid();

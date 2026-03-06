@@ -1,0 +1,11 @@
+.promotion-actions {
+  display: flex;
+  align-items: flex-end;
+  margin-top: 14px;
+  gap: 4px;
+
+  .btn-link {
+    padding: 0;
+    margin-left: auto;
+  }
+}

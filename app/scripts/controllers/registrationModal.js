@@ -6,7 +6,6 @@ angular
       $scope,
       $uibModalInstance,
       $http,
-      $route,
       conference,
       primaryRegistration,
       typeId,
@@ -190,7 +189,7 @@ angular
             registration,
             function () {
               RegistrationCache.emptyCache();
-              $route.reload();
+              $uibModalInstance.close();
             },
             function (response) {
               modalMessage.error(
@@ -206,9 +205,8 @@ angular
               headers: { 'Registration-Type': 'on-behalf-of' },
             })
             .then(function () {
-              // empty cache and reload in order to recognize the newly created registration
               RegistrationCache.emptyCache();
-              $route.reload();
+              $uibModalInstance.close();
             })
             .catch(function (response) {
               modalMessage.error(
@@ -218,7 +216,6 @@ angular
               );
             });
         }
-        $uibModalInstance.dismiss();
       };
 
       $scope.blockIsVisible = function (block, registrant) {

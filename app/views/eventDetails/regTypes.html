@@ -154,6 +154,13 @@
                   <input type="checkbox" ng-model="type.useLimit" />
                   <span translate>Limit the number of registrants</span>
                 </label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'This limit only applies to registrants of this type and does not affect the event\'s total capacity limit.' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
                 <input
                   type="number"
                   aria-label="{{'Registrant limit' | translate}}"
@@ -162,6 +169,22 @@
                   ng-model="type.numberSlotsLimit"
                   ng-disabled="disableField('groupSubRegistrantType', type.defaultTypeKey)"
                 />
+              </div>
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    ng-model="type.exemptFromConferenceCapacity"
+                  />
+                  <span translate>Exempt from total event capacity</span>
+                </label>
+                <i
+                  class="question-popover fa fa-question-circle"
+                  uib-popover="{{'Registrants of this type will not count against the event\'s total capacity limit.' | translate}}"
+                  popover-trigger="'mouseenter'"
+                  popover-append-to-body="true"
+                >
+                </i>
               </div>
               <div
                 ng-if="!isCoupleType(type) && !isCoupleOrSpouseType(type.id, conference.registrantTypes)"
@@ -441,6 +464,28 @@
                     a minimum payment.</translate
                   >
                 </p>
+              </div>
+
+              <div ng-if="hasGlobalPromotions()">
+                <hr />
+
+                <h3 class="h4" translate>Promotions</h3>
+                <div class="checkbox">
+                  <label>
+                    <input
+                      type="checkbox"
+                      ng-model="type.eligibleForGlobalPromotions"
+                    />
+                    <translate>Allow global promotions</translate>
+                  </label>
+                  <i
+                    class="question-popover fa fa-question-circle"
+                    uib-popover="{{'When enabled, registrants can use ministry-wide promotion codes in addition to event-specific codes.' | translate}}"
+                    popover-trigger="'mouseenter'"
+                    popover-append-to-body="true"
+                  >
+                  </i>
+                </div>
               </div>
 
               <hr />

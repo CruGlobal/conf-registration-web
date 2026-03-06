@@ -229,6 +229,16 @@ main.event-overview {
   }
 }
 main.event-registrations {
+  .registrations-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .capacity-percentage {
+      margin-right: 2rem;
+    }
+  }
+
   .rowdetails .well {
     background: variables.$verylightgray;
     border-radius: 0;

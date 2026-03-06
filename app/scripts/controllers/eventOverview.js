@@ -77,5 +77,24 @@ angular
 
         return $scope.nonAllowedTypeKeys.indexOf(type.defaultTypeKey) === -1;
       };
+
+      $scope.isRegistrationClosed = function () {
+        if ($scope.conference.manuallyClosed) {
+          return true;
+        }
+
+        if (
+          $scope.conference.useTotalCapacity &&
+          $scope.conference.availableCapacity <= 0
+        ) {
+          return true;
+        }
+
+        if (!$scope.conference.registrationOpen) {
+          return true;
+        }
+
+        return false;
+      };
     },
   );
