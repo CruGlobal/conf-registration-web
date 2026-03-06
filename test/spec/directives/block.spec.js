@@ -332,6 +332,42 @@ describe('Directive: blocks', () => {
     });
   });
 
+  describe('selectQuestion', () => {
+    let $compile, $rootScope, $scope;
+    beforeEach(inject((_$compile_, _$rootScope_, $templateCache, testData) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+
+      $scope = $rootScope.$new();
+      $templateCache.put('views/blocks/selectQuestion.html', '');
+
+      $scope.conference = testData.conference;
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[1].blocks[4],
+      );
+      $scope.block.content.choices = [{ value: 'Option A', amount: 10 }];
+      $scope.daysForBlock = () => 1;
+    }));
+
+    it('includes amount in visibleValues when hideAmount is false', () => {
+      $scope.block.hideAmount = false;
+      $compile('<select-question></select-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.visibleValues[0]).toContain('Option A');
+      expect($scope.visibleValues[0]).toContain('10');
+    });
+
+    it('excludes amount from visibleValues when hideAmount is true', () => {
+      $scope.block.hideAmount = true;
+      $compile('<select-question></select-question>')($scope);
+      $scope.$digest();
+
+      expect($scope.visibleValues[0]).toBe('Option A');
+      expect($scope.visibleValues[0]).not.toContain('10');
+    });
+  });
+
   describe('campusQuestion', () => {
     let $compile, $rootScope, $scope, $httpBackend;
     beforeEach(inject((

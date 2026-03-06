@@ -20,6 +20,11 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       blockTagTypeService,
       $element,
     ) {
+      $scope.showHideAdditionalCostOption = function (block) {
+        return ['radioQuestion', 'checkboxQuestion', 'selectQuestion'].includes(
+          block.type,
+        );
+      };
       $scope.activeTab = 'options';
       $scope.visibleRegTypes = {};
       $scope.showClearBtn = true;

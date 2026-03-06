@@ -230,6 +230,44 @@ describe('Directive: blockEditor', function () {
     });
   });
 
+  describe('showHideAdditionalCostOption', function () {
+    it('returns true for radioQuestion, checkboxQuestion, and selectQuestion', function () {
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'radioQuestion' }),
+      ).toBe(true);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'checkboxQuestion' }),
+      ).toBe(true);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'selectQuestion' }),
+      ).toBe(true);
+    });
+
+    it('returns false for question types that do not support the hide amount option', function () {
+      expect(scope.showHideAdditionalCostOption({ type: 'textQuestion' })).toBe(
+        false,
+      );
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'yearInSchoolQuestion' }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'ethnicityQuestion' }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'opportunitiesQuestion' }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'paragraphContent' }),
+      ).toBe(false);
+    });
+  });
+
   describe('showBlockTagTypeDropdown', function () {
     it('should not show the block tag type dropdown when the conference is not a FamilyLife conference', function () {
       scope.conference.ministry = 'other-ministry-id';

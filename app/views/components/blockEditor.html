@@ -271,13 +271,27 @@
           </div>
 
           <div class="checkbox" ng-if="block.type === 'radioQuestion'">
-            <label
-              ><input
+            <label>
+              <input
                 type="checkbox"
                 ng-model="block.content.otherOption.enabled"
               />
-              <translate>Allow custom "other" option</translate></label
-            >
+              <translate>Allow custom "other" option</translate>
+            </label>
+          </div>
+          <div class="checkbox" ng-if="showHideAdditionalCostOption(block)">
+            <label>
+              <input type="checkbox" ng-model="block.hideAmount" />
+              <translate
+                >Hide additional costs or discounts for this question</translate
+              >
+              <i
+                uib-popover="This will hide the additional costs or discounts applied to this question from registering users. This only takes effect if a cost or discount is set on the question."
+                popover-trigger="'mouseenter'"
+                popover-placement="right"
+                class="fa fa-question-circle question-popover"
+              ></i>
+            </label>
           </div>
         </div>
 
