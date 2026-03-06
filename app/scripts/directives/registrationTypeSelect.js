@@ -190,7 +190,6 @@ angular
 
           return false;
         };
-
       },
     };
   });
