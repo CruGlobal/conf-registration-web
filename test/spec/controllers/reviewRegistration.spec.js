@@ -77,6 +77,73 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
+  describe('registrationFull', () => {
+    it('returns false when there is no capacity limit', () => {
+      scope.conference.useTotalCapacity = false;
+      scope.conference.availableCapacity = 0;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns false when there is more than enough capacity', () => {
+      expect(scope.currentRegistration.registrants.length).toBe(2);
+
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 5;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns false when there is just enough capacity', () => {
+      expect(scope.currentRegistration.registrants.length).toBe(2);
+
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('does not count exempt registrants toward capacity', () => {
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
+
+      // current registration has 1 exempt 1 non-exempt
+      expect(scope.registrationFull()).toBe(false);
+    });
+
+    it('returns true when non-exempt registrants exceed capacity', () => {
+      scope.currentRegistration.registrants = [
+        {
+          id: '1',
+          registrantTypeId: scope.conference.registrantTypes[0].id,
+        },
+        {
+          id: '2',
+          registrantTypeId: scope.conference.registrantTypes[1].id,
+        },
+      ];
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 1;
+
+      expect(scope.registrationFull()).toBe(true);
+    });
+
+    it('returns false when all registrants are exempt from capacity limit', () => {
+      const exemptTypeId1 = scope.conference.registrantTypes[2].id;
+      const exemptTypeId2 = scope.conference.registrantTypes[3].id;
+
+      scope.conference.useTotalCapacity = true;
+      scope.conference.availableCapacity = 0;
+
+      scope.currentRegistration.registrants = [
+        { id: '1', registrantTypeId: exemptTypeId1 },
+        { id: '2', registrantTypeId: exemptTypeId2 },
+      ];
+
+      expect(scope.registrationFull()).toBe(false);
+    });
+  });
+
   describe('registerDisabled', () => {
     it('is true in preview mode', () => {
       scope.registerMode = 'preview';
@@ -311,5 +378,161 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         ]),
       ).toBe(false);
     });
+  });
+
+  describe('showPromotionsInput', () => {
+    let globalPromotionService;
+
+    beforeEach(() => {
+      angular.mock.inject(() => {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasPromotionsForRegistration: jasmine
+            .createSpy('hasPromotionsForRegistration')
+            .and.returnValue(true),
+        };
+        initController({ globalPromotionService });
+      });
+    });
+
+    it('returns true when hasPromotionsForRegistration returns true', () => {
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns true when hasPromotionsForRegistration returns false but there are local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
+
+      expect(scope.showPromotionsInput()).toBe(true);
+    });
+
+    it('returns false when hasPromotionsForRegistration returns false and there are no local promotions', () => {
+      globalPromotionService.hasPromotionsForRegistration.and.returnValue(
+        false,
+      );
+      scope.conference.promotions = [];
+
+      expect(scope.showPromotionsInput()).toBe(false);
+    });
+  });
+
+  describe('deletePromotion', () => {
+    let modalMessage;
+    let $httpBackend;
+    let $route;
+    let $q;
+
+    beforeEach(
+      angular.mock.inject(function (
+        _modalMessage_,
+        _$httpBackend_,
+        _$route_,
+        _$q_,
+      ) {
+        modalMessage = _modalMessage_;
+        $httpBackend = _$httpBackend_;
+        $route = _$route_;
+        $q = _$q_;
+        spyOn($route, 'reload');
+      }),
+    );
+
+    afterEach(() => {
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('removes local promotion and reloads route on success', inject(function () {
+      const confirmDeferred = $q.defer();
+      const promotionIdToDelete = testData.registration.promotions[0].id;
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      expect(testData.registration.promotions.length).toBe(2);
+
+      $httpBackend
+        .expectPUT(
+          'registrations/' + scope.currentRegistration.id,
+          function (data) {
+            const updatedRegistration = JSON.parse(data);
+
+            expect(updatedRegistration.promotions.length).toBe(1);
+            expect(
+              updatedRegistration.promotions.some(
+                (promotion) => promotion.id === promotionIdToDelete,
+              ),
+            ).toBe(false);
+            return true;
+          },
+        )
+        .respond(200, {});
+
+      scope.deletePromotion(promotionIdToDelete);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('removes global promotion and reloads route on success', inject(function () {
+      const confirmDeferred = $q.defer();
+      const promotionIdToDelete = testData.registration.globalPromotions[0].id;
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      expect(testData.registration.globalPromotions.length).toBe(3);
+      $httpBackend
+        .expectPUT(
+          'registrations/' + scope.currentRegistration.id,
+          function (data) {
+            const updatedRegistration = JSON.parse(data);
+
+            expect(updatedRegistration.globalPromotions.length).toBe(2);
+            expect(
+              updatedRegistration.globalPromotions.some(
+                (promotion) => promotion.id === promotionIdToDelete,
+              ),
+            ).toBe(false);
+            return true;
+          },
+        )
+        .respond(200, {});
+
+      scope.deletePromotion(promotionIdToDelete);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect($route.reload).toHaveBeenCalledWith();
+    }));
+
+    it('shows error when deletion fails', inject(function () {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+      spyOn(modalMessage, 'error');
+
+      $httpBackend
+        .expectPUT('registrations/' + scope.currentRegistration.id)
+        .respond(500, { error: { message: 'Code 500' } });
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.resolve();
+      scope.$digest();
+      $httpBackend.flush();
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Code 500');
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
+
+    it('does not delete promotion if user cancels confirmation', inject(function () {
+      const confirmDeferred = $q.defer();
+      spyOn(modalMessage, 'confirm').and.returnValue(confirmDeferred.promise);
+
+      scope.deletePromotion(testData.registration.promotions[0].id);
+      confirmDeferred.reject();
+      scope.$digest();
+
+      expect($route.reload).not.toHaveBeenCalled();
+    }));
   });
 });

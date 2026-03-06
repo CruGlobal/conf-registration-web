@@ -1,8 +1,6 @@
 import 'angular-mocks';
 
 describe('Controller: eventDetails', function () {
-  var scope;
-
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   var fakeModal = {
@@ -20,15 +18,23 @@ describe('Controller: eventDetails', function () {
     },
   };
 
-  let $httpBackend, testData;
-  beforeEach(inject(function ($uibModal, _$httpBackend_, _testData_) {
-    $httpBackend = _$httpBackend_;
+  let $httpBackend, $rootScope, scope, testData;
+  beforeEach(inject(function (
+    _$httpBackend_,
+    _$rootScope_,
+    $uibModal,
+    _testData_,
+  ) {
     testData = _testData_;
+    $rootScope = _$rootScope_;
+    scope = $rootScope.$new();
+    $httpBackend = _$httpBackend_;
 
     spyOn($uibModal, 'open').and.returnValue(fakeModal);
 
     $httpBackend.whenGET('types').respond(200, testData.ministryPurposes);
     $httpBackend.whenGET('ministries').respond(200, testData.ministries);
+    $httpBackend.whenGET(/^globalPromotions/).respond(200, []);
   }));
 
   afterEach(() => {
@@ -38,14 +44,12 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference with type', () => {
     beforeEach(
-      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
-        scope = $rootScope.$new();
-
+      angular.mock.inject(function ($controller, $uibModal) {
         $controller('eventDetailsCtrl', {
           $scope: scope,
           conference: testData.conference,
           currencies: testData.currencies,
-          $uibModal: _$uibModal_,
+          $uibModal,
           permissions: {},
         });
 
@@ -244,11 +248,44 @@ describe('Controller: eventDetails', function () {
     });
   });
 
+  describe('hasGlobalPromotions', () => {
+    let globalPromotionService;
+
+    beforeEach(
+      angular.mock.inject(function ($controller) {
+        globalPromotionService = {
+          loadPromotions: jasmine.createSpy('loadPromotions'),
+          hasGlobalPromotionsInCache: jasmine
+            .createSpy('hasGlobalPromotionsInCache')
+            .and.returnValue(true),
+        };
+
+        $controller('eventDetailsCtrl', {
+          $scope: scope,
+          conference: testData.conference,
+          currencies: testData.currencies,
+          globalPromotionService: globalPromotionService,
+        });
+        $httpBackend.flush();
+      }),
+    );
+
+    it('hasGlobalPromotions returns true when promotions exist', function () {
+      globalPromotionService.hasGlobalPromotionsInCache.and.returnValue(true);
+
+      expect(scope.hasGlobalPromotions()).toBe(true);
+    });
+
+    it('hasGlobalPromotions returns false when no promotions', function () {
+      globalPromotionService.hasGlobalPromotionsInCache.and.returnValue(false);
+
+      expect(scope.hasGlobalPromotions()).toBe(false);
+    });
+  });
+
   describe('Conference (Cru event) without type', function () {
     beforeEach(
-      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
-        scope = $rootScope.$new();
-
+      angular.mock.inject(function ($controller, $uibModal) {
         testData.conference.type = null;
         testData.conference.eventType = null;
 
@@ -256,7 +293,7 @@ describe('Controller: eventDetails', function () {
           $scope: scope,
           conference: testData.conference,
           currencies: testData.currencies,
-          $uibModal: _$uibModal_,
+          $uibModal,
           permissions: {},
         });
 
@@ -314,14 +351,32 @@ describe('Controller: eventDetails', function () {
 
         expect(scope.notify.message.toString()).toContain(errorMessage);
       });
+
+      it('should validate the event capacity limit', () => {
+        const errorMessage =
+          'Please enter an event capacity limit greater than 0.';
+        scope.conference.useTotalCapacity = true;
+        scope.conference.totalCapacity = null;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+
+        scope.conference.totalCapacity = 0;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+
+        scope.conference.totalCapacity = -10;
+        scope.saveEvent();
+
+        expect(scope.notify.message.toString()).toContain(errorMessage);
+      });
     });
   });
 
   describe('Conference (Cru event) without ministry hosting', function () {
     beforeEach(
-      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
-        scope = $rootScope.$new();
-
+      angular.mock.inject(function ($controller, $uibModal) {
         testData.conference.ministry = null;
         testData.conference.eventType = null;
 
@@ -329,7 +384,7 @@ describe('Controller: eventDetails', function () {
           $scope: scope,
           conference: testData.conference,
           currencies: testData.currencies,
-          $uibModal: _$uibModal_,
+          $uibModal,
           permissions: {},
         });
 
@@ -353,9 +408,7 @@ describe('Controller: eventDetails', function () {
 
   describe('Conference that is not a Cru event', function () {
     beforeEach(
-      angular.mock.inject(function ($rootScope, $controller, _$uibModal_) {
-        scope = $rootScope.$new();
-
+      angular.mock.inject(function ($controller, $uibModal) {
         testData.conference.cruEvent = null;
         testData.conference.type = null;
         testData.conference.ministry = null;
@@ -365,7 +418,7 @@ describe('Controller: eventDetails', function () {
           $scope: scope,
           conference: testData.conference,
           currencies: testData.currencies,
-          $uibModal: _$uibModal_,
+          $uibModal,
           permissions: {},
         });
 
@@ -580,12 +633,7 @@ describe('Controller: eventDetails', function () {
   describe('couple/spouse data syncing', function () {
     it('should give spouse type a name when couple type name is changed', inject(function (
       $controller,
-      $rootScope,
-      _testData_,
     ) {
-      scope = $rootScope.$new();
-      testData = _testData_;
-
       $controller('eventDetailsCtrl', {
         $scope: scope,
         conference: testData.conference,
@@ -594,7 +642,6 @@ describe('Controller: eventDetails', function () {
       });
 
       $httpBackend.flush();
-      $rootScope.$digest();
 
       const conference = scope.conference;
       const coupleType = _.find(
@@ -628,9 +675,7 @@ describe('Controller: eventDetails', function () {
   describe('giftCardEligible', () => {
     let familyLifeId, wtrId;
     beforeEach(
-      angular.mock.inject(($rootScope, $controller, $uibModal, testData) => {
-        scope = $rootScope.$new();
-
+      angular.mock.inject(($controller, $uibModal) => {
         const familyLifeMinistry = testData.ministries.find(
           (ministry) => ministry.name === 'Family Life',
         );
@@ -706,6 +751,7 @@ describe('Controller: eventDetails', function () {
       it('should set registrant acceptFlGiftCards to false when the activity is not WTR anymore', () => {
         scope.conference.ministryActivity = 'other-activity';
         scope.$digest();
+        $httpBackend.flush();
 
         expect(scope.conference.registrantTypes[0].acceptFlGiftCards).toBe(
           false,

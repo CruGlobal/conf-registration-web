@@ -3,6 +3,7 @@ import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
 import paymentsModalTemplate from 'views/modals/paymentsModal.html';
 import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
 import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
+import { getFullPercentage } from '../utils/conferenceLimits';
 import {
   findCoupleRegistrants,
   isRegistrantCouple,
@@ -20,6 +21,7 @@ angular
       $http,
       $window,
       RegistrationCache,
+      ConfCache,
       conference,
       permissions,
       permissionConstants,
@@ -77,6 +79,9 @@ angular
         'name',
       );
       var expandedRegistrations = {};
+
+      $scope.getFullPercentage = () =>
+        Math.floor(getFullPercentage($scope.conference));
 
       // Couple type utility functions
       $scope.findCoupleRegistrants = findCoupleRegistrants;
@@ -180,6 +185,16 @@ angular
       });
       $scope.resetStrFilter = function () {
         $scope.strFilter = '';
+      };
+
+      $scope.refreshConference = function () {
+        if (!$scope.conference.useTotalCapacity) {
+          return;
+        }
+        ConfCache.remove(conference.id);
+        ConfCache.get(conference.id).then(function (conf) {
+          $scope.conference = conf;
+        });
       };
 
       $scope.refreshRegistrations = function () {
@@ -477,24 +492,29 @@ angular
           return;
         }
 
-        $uibModal.open({
-          templateUrl: manualRegistrationModalTemplate,
-          controller: 'registrationModal',
-          resolve: {
-            conference: function () {
-              return conference;
+        $uibModal
+          .open({
+            templateUrl: manualRegistrationModalTemplate,
+            controller: 'registrationModal',
+            resolve: {
+              conference: function () {
+                return conference;
+              },
+              primaryRegistration: function () {
+                return primaryRegistration;
+              },
+              typeId: function () {
+                return typeId;
+              },
+              openedFromGroupModal: function () {
+                return openedFromGroupModal || false;
+              },
             },
-            primaryRegistration: function () {
-              return primaryRegistration;
-            },
-            typeId: function () {
-              return typeId;
-            },
-            openedFromGroupModal: function () {
-              return openedFromGroupModal || false;
-            },
-          },
-        });
+          })
+          .result.then(function () {
+            $scope.refreshRegistrations();
+            $scope.refreshConference();
+          });
       };
 
       $scope.getRegistration = function (id) {
@@ -595,6 +615,7 @@ angular
               })
               .finally(function () {
                 $scope.refreshRegistrations();
+                $scope.refreshConference();
                 $rootScope.loadingMsg = '';
               });
           });
@@ -716,6 +737,7 @@ angular
               .delete(url)
               .then(function () {
                 $scope.refreshRegistrations();
+                $scope.refreshConference();
                 $scope.updateAfterDelete(registrantsToDelete);
               })
               .catch(function (response) {

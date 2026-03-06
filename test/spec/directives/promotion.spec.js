@@ -32,6 +32,9 @@ describe('Directive: promotion', function () {
   });
 
   it('toggleRegistrantType should toggle registrant type id', function () {
+    expect(scope.promo.registrantTypeIds.length).toBe(2);
+
+
     const removedId = scope.promo.registrantTypeIds[0];
     scope.toggleRegistrantType(removedId);
 

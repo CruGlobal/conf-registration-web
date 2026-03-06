@@ -2,7 +2,12 @@ import angular from 'angular';
 import 'angular-mocks';
 
 describe('Controller: registration', () => {
-  let scope, $httpBackend, $location, modalMessage, testData;
+  let scope,
+    $httpBackend,
+    $location,
+    modalMessage,
+    testData,
+    initializeController;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
@@ -16,32 +21,171 @@ describe('Controller: registration', () => {
         _$location_,
         _modalMessage_,
         _testData_,
-        _validateRegistrant_,
       ) => {
         modalMessage = _modalMessage_;
         testData = _testData_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
         scope = $rootScope.$new();
-        scope.conference = testData.conference;
-        scope.currentRegistration = testData.registration;
         angular.extend($routeParams, {
           reg: testData.registration.registrants[0].id,
           pageId: testData.conference.registrationPages[0].id,
         });
         $rootScope.registerMode = 'register';
 
-        $controller('RegistrationCtrl', {
-          $rootScope,
-          $scope: scope,
-          conference: testData.conference,
-          currentRegistration: testData.registration,
-          $routeParams,
-          validateRegistrant: _validateRegistrant_,
-        });
+        initializeController = (conference) => {
+          $controller('RegistrationCtrl', {
+            $scope: scope,
+            conference,
+            currentRegistration: testData.registration,
+          });
+        };
+
+        initializeController(testData.conference);
       },
     ),
   );
+
+  describe('closed/full/open', () => {
+    it('should initialize as open when registration is open and are no registration limits', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: true,
+        useTotalCapacity: false,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    });
+
+    it('should initialize as open when registration is open and there is available capacity', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: true,
+        useTotalCapacity: true,
+        availableCapacity: 10,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    });
+
+    it('should initialize as closed when registration is closed', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: false,
+        useTotalCapacity: false,
+      });
+
+      expect(scope.closed).toBe(true);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(false);
+    });
+
+    it('should initialize as closed when registration is manually closed', () => {
+      initializeController({
+        ...testData.conference,
+        registrationOpen: true,
+        manuallyClosed: true,
+        useTotalCapacity: false,
+      });
+
+      expect(scope.closed).toBe(true);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(false);
+    });
+
+    it('should initialize as full when there is no available capacity and no primary exempt type', inject((
+      $routeParams,
+    ) => {
+      const nonExemptTypeId = testData.conference.registrantTypes[0].id;
+      $routeParams.regType = nonExemptTypeId;
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(true);
+      expect(scope.open).toBe(false);
+    }));
+
+    it('should not be full when regType parameter is an exempt type', inject((
+      $routeParams,
+    ) => {
+      const exemptTypeId = testData.conference.registrantTypes[2].id;
+      $routeParams.regType = exemptTypeId;
+
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    }));
+
+    it('should not be full when user already has registrants in their registration group', inject(() => {
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+      });
+
+      expect(scope.closed).toBe(false);
+      expect(scope.full).toBe(false);
+      expect(scope.open).toBe(true);
+    }));
+  });
+
+  describe('almostFull', () => {
+    it('should initialize as true when >= 80% full but not 100% full', () => {
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 15,
+        totalCapacity: 100,
+      });
+
+      expect(scope.almostFull).toBe(true);
+    });
+
+    it('should initialize as false when < 80% full', () => {
+      initializeController({
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 25,
+        totalCapacity: 100,
+      });
+
+      expect(scope.almostFull).toBe(false);
+    });
+
+    it('should initialize as false when 100% full or greater', () => {
+      let conference = {
+        ...testData.conference,
+        useTotalCapacity: true,
+        availableCapacity: 0,
+        totalCapacity: 100,
+      };
+      initializeController(conference);
+
+      expect(scope.almostFull).toBe(false);
+
+      conference = {
+        ...conference,
+        availableCapacity: -5,
+      };
+      initializeController(conference);
+
+      expect(scope.almostFull).toBe(false);
+    });
+  });
 
   it('should have validPages based on current registrant', () => {
     let validPages = scope.validPages;
