@@ -25,18 +25,6 @@
   </ul>
 </div>
 
-<promotion
-  ng-repeat="promo in conference.promotions"
-  promo="promo"
-  conference="conference"
-  on-delete="conference.promotions.splice($index, 1)"
->
-</promotion>
-
-<button type="button" class="btn btn-link" ng-click="addPromotion()">
-  <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
-</button>
-
 <hr />
 <h3 class="h4" translate>Promotion Options</h3>
 <div class="checkbox">
@@ -52,3 +40,16 @@
   >
   </i>
 </div>
+<hr />
+
+<promotion
+  ng-repeat="promo in conference.promotions"
+  promo="promo"
+  conference="conference"
+  on-delete="conference.promotions.splice($index, 1)"
+>
+</promotion>
+
+<button type="button" class="btn btn-link" ng-click="addPromotion()">
+  <i class="fa fa-plus"></i> <translate>Add Promotion Code</translate>
+</button>
