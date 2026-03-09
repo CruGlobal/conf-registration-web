@@ -3,8 +3,7 @@ import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.h
 import choiceOptionsModalTemplate from 'views/modals/choiceOptions.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
-
-export const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
+import { familyLifeMinistryId } from '../constants/ministryIds';
 
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {

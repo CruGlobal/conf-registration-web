@@ -1,5 +1,5 @@
 import 'angular-mocks';
-import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
+import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
 
 // Mock HTTP response to populate the service's internal blockTagTypes
 const mockBlockTagTypes = [
