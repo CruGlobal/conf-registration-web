@@ -1,5 +1,5 @@
 import 'angular-mocks';
-import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
+import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
 
 // Mock HTTP response to populate the service's internal blockTagTypes
 const mockBlockTagTypes = [
@@ -227,6 +227,107 @@ describe('Directive: blockEditor', function () {
       });
       // Should not reset because it's the same block
       expect(scope.block.blockTagType.id).toBe('TYPE3');
+    });
+  });
+
+  describe('showHideAdditionalCostOption', function () {
+    const choicesWithCost = [{ value: 'Option A', amount: 10 }];
+    const choicesWithoutCost = [{ value: 'Option A', amount: 0 }];
+    const choicesWithNullAmount = [{ value: 'Option A', amount: null }];
+    const choicesWithUndefinedAmount = [{ value: 'Option A' }];
+
+    it('returns true for supported types when a choice has a non-zero amount', function () {
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'radioQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(true);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'checkboxQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(true);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'selectQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(true);
+    });
+
+    it('returns false for supported types when no choice has a non-zero amount', function () {
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'radioQuestion',
+          content: { choices: choicesWithoutCost },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'radioQuestion',
+          content: { choices: [] },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({ type: 'radioQuestion' }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'radioQuestion',
+          content: { choices: choicesWithNullAmount },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'radioQuestion',
+          content: { choices: choicesWithUndefinedAmount },
+        }),
+      ).toBe(false);
+    });
+
+    it('returns false for question types that do not support the hide amount option', function () {
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'textQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'yearInSchoolQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'ethnicityQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'opportunitiesQuestion',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(false);
+
+      expect(
+        scope.showHideAdditionalCostOption({
+          type: 'paragraphContent',
+          content: { choices: choicesWithCost },
+        }),
+      ).toBe(false);
     });
   });
 

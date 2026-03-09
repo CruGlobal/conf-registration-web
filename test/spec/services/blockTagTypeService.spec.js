@@ -1,5 +1,5 @@
 import 'angular-mocks';
-import { familyLifeMinistryId } from '../../../app/scripts/directives/blockEditor';
+import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
 
 describe('Service: BlockTagTypeService', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
