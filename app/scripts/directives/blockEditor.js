@@ -20,8 +20,14 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $element,
     ) {
       $scope.showHideAdditionalCostOption = function (block) {
-        return ['radioQuestion', 'checkboxQuestion', 'selectQuestion'].includes(
-          block.type,
+        const choices = (block.content && block.content.choices) || [];
+        return (
+          ['radioQuestion', 'checkboxQuestion', 'selectQuestion'].includes(
+            block.type,
+          ) &&
+          choices.some(function (choice) {
+            return choice.amount && Number(choice.amount) !== 0;
+          })
         );
       };
       $scope.activeTab = 'options';
