@@ -272,7 +272,10 @@
         <p class="text-muted" translate>
           The promotion code will be applied to the following registrant types:
         </p>
-        <div class="checkbox" ng-repeat="type in conference.registrantTypes">
+        <div
+          class="checkbox"
+          ng-repeat="type in conference.registrantTypes | filter:shouldShowRegistrantType"
+        >
           <label>
             <input
               type="checkbox"
