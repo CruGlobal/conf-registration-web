@@ -166,26 +166,31 @@ describe('coupleTypeUtils', () => {
         expect(result).toBe(true);
       });
 
-      it('hides Couple type Spouse', function () {
-        const coupleSpouse = testData.conference.registrantTypes[4];
+      it('should return false for spouse type with associated couple', () => {
+        const spouseType = testData.conference.registrantTypes.find(
+          (type) => type.id === spouseTypeId,
+        );
 
-        expect(
-          coupleTypeUtils.shouldShowRegistrantType(
-            coupleSpouse,
-            testData.conference.registrantTypes,
-          ),
-        ).toBe(false);
+        const result = coupleTypeUtils.shouldShowRegistrantType(
+          spouseType,
+          testData.conference.registrantTypes,
+        );
+
+        expect(result).toBe(false);
       });
 
-      it('does not hide default Spouse type', function () {
-        const standaloneSpouse = testData.conference.registrantTypes[5];
+      it('should return true for spouse type without associated couple', () => {
+        testData.conference.registrantTypes[0].allowedRegistrantTypeSet = [];
+        const spouseType = testData.conference.registrantTypes.find(
+          (type) => type.id === 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe',
+        );
 
-        expect(
-          coupleTypeUtils.shouldShowRegistrantType(
-            standaloneSpouse,
-            testData.conference.registrantTypes,
-          ),
-        ).toBe(true);
+        const result = coupleTypeUtils.shouldShowRegistrantType(
+          spouseType,
+          testData.conference.registrantTypes,
+        );
+
+        expect(result).toBe(true);
       });
     });
 

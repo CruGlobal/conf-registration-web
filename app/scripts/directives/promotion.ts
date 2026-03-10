@@ -1,11 +1,10 @@
 import angular from 'angular';
 import { IScope } from 'angular';
-import { Conference, RegistrantType } from 'conference';
+import { Conference } from 'conference';
 import { Promotion } from 'promotion';
 import { GlobalPromotion } from 'globalPromotion';
 import { MinistriesCache, MinistryActivity } from '../services/MinistriesCache';
 import template from 'views/components/promotion.html';
-import { shouldShowRegistrantType } from '../utils/coupleTypeUtils';
 
 interface PromotionScope extends IScope {
   // Bindings
@@ -21,7 +20,6 @@ interface PromotionScope extends IScope {
   activities: MinistryActivity[];
   toggleExpanded: () => void;
   toggleRegistrantType: (id: string) => void;
-  shouldShowRegistrantType: (type: RegistrantType) => boolean;
 }
 
 angular.module('confRegistrationWebApp').directive('promotion', function () {
@@ -53,13 +51,6 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
             $scope.promo.registrantTypeIds.splice(index, 1);
           }
         }
-      };
-
-      $scope.shouldShowRegistrantType = function (type: RegistrantType) {
-        return shouldShowRegistrantType(
-          type,
-          $scope.conference?.registrantTypes,
-        );
       };
 
       $scope.activities = [];
