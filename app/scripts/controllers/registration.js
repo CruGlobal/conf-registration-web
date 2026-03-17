@@ -38,7 +38,8 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      $scope.isFamilyLifeEvent = () => $scope.conference.ministry === familyLifeMinistryId;
+      $scope.isFamilyLifeEvent = () =>
+        $scope.conference.ministry === familyLifeMinistryId;
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);
