@@ -1,4 +1,5 @@
 import { getFullPercentage } from '../utils/conferenceLimits';
+import { familyLifeMinistryId } from '../constants/ministryIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -36,6 +37,8 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
+
+      $scope.isFamilyLifeEvent = () => $scope.conference.ministry === familyLifeMinistryId;
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);
