@@ -197,7 +197,7 @@ angular
             $scope.visibleValues = [];
             angular.forEach($scope.block.content.choices, function (c) {
               var visibleValue = c.value;
-              if (c.amount) {
+              if (c.amount && !$scope.block.hideAmount) {
                 visibleValue =
                   visibleValue +
                   ' - ' +

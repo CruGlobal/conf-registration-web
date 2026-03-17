@@ -1,5 +1,6 @@
 import angular from 'angular';
 import { $Http, $Q } from 'injectables';
+import { familyLifeMinistryId } from '../constants/ministryIds';
 
 export interface BlockTagType {
   id: string | null;
@@ -30,9 +31,6 @@ interface CoverageAnalysis {
   coveredTypeIds: Set<string>;
   conflictsByBlock: Map<string, { title: string; typeNames: string[] }>;
 }
-
-// If you need to change this, be sure to update it in blockEditor.js as well
-const familyLifeMinistryId = '9f63db46-6ca9-43b0-868a-23326b3c4d91';
 
 export class BlockTagTypeService {
   private readonly defaultBlockTagType: BlockTagType = {

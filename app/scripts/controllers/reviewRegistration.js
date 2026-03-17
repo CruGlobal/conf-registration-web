@@ -482,6 +482,13 @@ angular
       };
 
       $scope.showPromotionsInput = function () {
+        if (
+          $scope.conference.disallowPromotionStacking &&
+          $scope.allPromotions.length > 0
+        ) {
+          return false;
+        }
+
         return (
           $scope.conference.promotions.length > 0 ||
           globalPromotionService.hasPromotionsForRegistration(
