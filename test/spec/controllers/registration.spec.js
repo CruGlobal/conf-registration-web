@@ -193,9 +193,7 @@ describe('Controller: registration', () => {
 
   describe('isFamilyLifeEvent', () => {
     afterEach(() => {
-      $document[0]
-        .querySelectorAll('#fl-gtm')
-        .forEach((el) => el.remove());
+      $document[0].querySelectorAll('#fl-gtm').forEach((el) => el.remove());
       $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
     });
 
