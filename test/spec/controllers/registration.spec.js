@@ -192,6 +192,11 @@ describe('Controller: registration', () => {
   });
 
   describe('isFamilyLifeEvent', () => {
+    afterEach(() => {
+      $document[0].querySelectorAll('script[data-gtm-fl]').forEach(el => el.remove());
+      $document[0].querySelectorAll('noscript').forEach(el => el.remove());
+    });
+    
     it('should render GTM script when event is Family Life', () => {
       initializeController({
         ...testData.conference,
@@ -228,6 +233,27 @@ describe('Controller: registration', () => {
 
       expect(gtmScript).toBeUndefined();
       expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not render duplicate GTM script if already rendered', () => {
+      const conference = {
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      };
+      initializeController(conference);
+      initializeController(conference);
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScripts = scripts.filter((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScripts = noScripts.filter((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+
+      expect(gtmScripts.length).toEqual(1);
+      expect(gtmNoScripts.length).toEqual(1);
     });
   });
 
