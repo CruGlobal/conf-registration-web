@@ -255,6 +255,24 @@ describe('Controller: registration', () => {
       expect(gtmScripts.length).toEqual(1);
       expect(gtmNoScripts.length).toEqual(1);
     });
+
+    it('should remove GTM script on scope destroy', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      });
+
+      scope.$destroy();
+
+      const gtmScript = $document[0].querySelectorAll('#fl-gtm');
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+
+      expect(gtmScript.length).toEqual(0);
+      expect(gtmNoScript).toBeUndefined();
+    });
   });
 
   it('should have validPages based on current registrant', () => {

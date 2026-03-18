@@ -60,6 +60,11 @@ angular
           height="0" width="0" style="display:none;visibility:hidden"></iframe>
         `;
         $document[0].body.insertBefore(noScript, $document[0].body.firstChild);
+
+        $scope.$on('$destroy', () => {
+          script.remove();
+          noScript.remove();
+        });
       }
 
       const getRegType = (id) =>
