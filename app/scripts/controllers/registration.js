@@ -1,5 +1,5 @@
 import { getFullPercentage } from '../utils/conferenceLimits';
-import { isFamilyLifeEvent } from '../utils/ministryUtils';
+import { familyLifeMinistryId } from '../constants/ministryIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -40,11 +40,11 @@ angular
       $scope.conference = angular.copy(conference);
 
       if (
-        isFamilyLifeEvent($scope.conference) &&
-        !$document[0].querySelector('script[fl-gtm]')
+        $scope.conference.ministry === familyLifeMinistryId &&
+        !$document[0].getElementById('fl-gtm')
       ) {
         const script = $document[0].createElement('script');
-        script.setAttribute('fl-gtm', '');
+        script.id = 'fl-gtm';
         script.innerHTML = `
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

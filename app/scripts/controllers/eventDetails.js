@@ -19,8 +19,7 @@ import {
   isCoupleType,
   isSpouseType,
 } from '../utils/coupleTypeUtils';
-import { wtrActivityId } from '../constants/ministryIds';
-import { isFamilyLifeEvent } from '../utils/ministryUtils';
+import { familyLifeMinistryId, wtrActivityId } from '../constants/ministryIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -762,7 +761,7 @@ angular
       // Only Family Life WTR events are eligible for gift cards
       $scope.giftCardEligible = () => {
         return (
-          isFamilyLifeEvent($scope.conference) &&
+          $scope.conference.ministry === familyLifeMinistryId &&
           $scope.conference.ministryActivity === wtrActivityId
         );
       };
