@@ -39,7 +39,10 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      if (isFamilyLifeEvent($scope.conference) && !$document[0].querySelector('script[fl-gtm]')) {
+      if (
+        isFamilyLifeEvent($scope.conference) &&
+        !$document[0].querySelector('script[fl-gtm]')
+      ) {
         const script = $document[0].createElement('script');
         script.setAttribute('fl-gtm', '');
         script.innerHTML = `
