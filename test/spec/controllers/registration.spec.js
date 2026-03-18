@@ -1,10 +1,12 @@
 import angular from 'angular';
 import 'angular-mocks';
+import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
 
 describe('Controller: registration', () => {
   let scope,
     $httpBackend,
     $location,
+    $document,
     modalMessage,
     testData,
     initializeController;
@@ -19,6 +21,7 @@ describe('Controller: registration', () => {
         $routeParams,
         _$httpBackend_,
         _$location_,
+        _$document_,
         _modalMessage_,
         _testData_,
       ) => {
@@ -26,6 +29,7 @@ describe('Controller: registration', () => {
         testData = _testData_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
+        $document = _$document_;
         scope = $rootScope.$new();
         angular.extend($routeParams, {
           reg: testData.registration.registrants[0].id,
@@ -184,6 +188,58 @@ describe('Controller: registration', () => {
       initializeController(conference);
 
       expect(scope.almostFull).toBe(false);
+    });
+  });
+
+  describe('isFamilyLifeEvent', () => {
+    it('should set isFamilyLifeEvent to true when event is Family Life', () => {
+      scope.conference.ministry = familyLifeMinistryId;
+
+      expect(scope.isFamilyLifeEvent()).toBe(true);
+    });
+
+    it('should set isFamilyLifeEvent to false when event is not Family Life', () => {
+      scope.conference.ministry = 'some other ministry';
+
+      expect(scope.isFamilyLifeEvent()).toBe(false);
+    });
+
+    it('should render GTM script when event is Family Life', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+      expect(gtmNoScript).not.toBeUndefined();
+    });
+
+    it('should not render GTM script when event is not Family Life', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: 'some-other-ministry',
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+
+      expect(gtmScript).toBeUndefined();
+      expect(gtmNoScript).toBeUndefined();
     });
   });
 
