@@ -192,18 +192,6 @@ describe('Controller: registration', () => {
   });
 
   describe('isFamilyLifeEvent', () => {
-    it('should set isFamilyLifeEvent to true when event is Family Life', () => {
-      scope.conference.ministry = familyLifeMinistryId;
-
-      expect(scope.isFamilyLifeEvent()).toBe(true);
-    });
-
-    it('should set isFamilyLifeEvent to false when event is not Family Life', () => {
-      scope.conference.ministry = 'some other ministry';
-
-      expect(scope.isFamilyLifeEvent()).toBe(false);
-    });
-
     it('should render GTM script when event is Family Life', () => {
       initializeController({
         ...testData.conference,

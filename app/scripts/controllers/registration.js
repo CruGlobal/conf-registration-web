@@ -39,10 +39,7 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      $scope.isFamilyLifeEvent = () =>
-        $scope.conference.ministry === familyLifeMinistryId;
-
-      if ($scope.isFamilyLifeEvent()) {
+      if ($scope.conference.ministry === familyLifeMinistryId) {
         const script = $document[0].createElement('script');
         script.innerHTML = `
           (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
