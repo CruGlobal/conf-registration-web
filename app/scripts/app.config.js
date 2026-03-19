@@ -130,6 +130,11 @@ angular
           ministries: function (MinistriesCache) {
             return MinistriesCache.get();
           },
+          ministryPurposes: function ($http) {
+            return $http({ method: 'GET', url: 'types' }).then(function (response) {
+              return response.data;
+            });
+          },
         },
       })
       .when('/approvePayment/:paymentHash', {

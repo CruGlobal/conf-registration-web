@@ -42,6 +42,8 @@ describe('Controller: registration', () => {
             $scope: scope,
             conference,
             currentRegistration: testData.registration,
+            ministries: testData.ministries,
+            ministryPurposes: testData.ministryPurposes,
           });
         };
 
@@ -192,10 +194,6 @@ describe('Controller: registration', () => {
   });
 
   describe('Event info', () => {
-    beforeEach(() => {
-      $httpBackend.flush();
-    });
-
     it('should return the ministry name for the conference', () => {
       scope.conference.ministry = testData.ministries[0].id;
       const ministryName = scope.getMinistryName();

@@ -23,6 +23,7 @@ angular
       validateRegistrant,
       modalMessage,
       ministries,
+      ministryPurposes,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -37,16 +38,10 @@ angular
         footer: false,
       };
 
-      $http({
-        method: 'GET',
-        url: 'types',
-      }).then(function (response) {
-        $scope.ministryPurposes = response.data;
-      });
-
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
       $scope.ministries = ministries;
+      $scope.ministryPurposes = ministryPurposes;
 
       if (
         $scope.conference.ministry === familyLifeMinistryId &&

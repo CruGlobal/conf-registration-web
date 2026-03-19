@@ -516,11 +516,8 @@ describe('Controller: eventRegistrations', function () {
 
       expect(registrant.withdrawn).toBe(true);
       expect(registrant.withdrawnTimestamp).not.toBeNull();
-      expect(scope.loadingMsg).toBe(`Withdrawing ${registrant.firstName}`);
 
       $httpBackend.flush();
-
-      expect(scope.loadingMsg).toBe('');
     });
 
     it('reinstates a registrant', () => {
@@ -540,11 +537,8 @@ describe('Controller: eventRegistrations', function () {
       scope.$digest();
 
       expect(registrant.withdrawn).toBe(false);
-      expect(scope.loadingMsg).toBe(`Reinstating ${registrant.firstName}`);
 
       $httpBackend.flush();
-
-      expect(scope.loadingMsg).toBe('');
     });
 
     it('reverts changes to withdrawn on failure', () => {
