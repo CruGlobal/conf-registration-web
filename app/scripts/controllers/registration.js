@@ -22,6 +22,7 @@ angular
       currentRegistration,
       validateRegistrant,
       modalMessage,
+      MinistriesCache,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -35,6 +36,17 @@ angular
         confId: conference.id,
         footer: false,
       };
+
+      MinistriesCache.get().then(function (ministries) {
+        $scope.ministries = ministries;
+      });
+
+      $http({
+        method: 'GET',
+        url: 'types',
+      }).then(function (response) {
+        $scope.ministryPurposes = response.data;
+      });
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
@@ -66,6 +78,31 @@ angular
           noScript.remove();
         });
       }
+
+      const findMinistry = () => $scope.ministries?.find((m) => m.id === $scope.conference.ministry);
+
+      $scope.getMinistryName = () => {
+        const ministry = findMinistry();
+
+        return ministry ? ministry.name : '';
+      };
+
+      $scope.getActivityName = () => {
+        const activityId = $scope.conference.ministryActivity;
+        const ministry = findMinistry();
+        if (!ministry) {
+          return '';
+        }
+
+        const activity = ministry.activities.find((a) => a.id === activityId);
+        return activity ? activity.name : '';
+      };
+
+      $scope.getMinistryPurposeName = () => {
+        const purposeId = $scope.conference.type;
+        const purpose = $scope.ministryPurposes?.find((p) => p.id === purposeId);
+        return purpose ? purpose.name : '';
+      };
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);
