@@ -79,7 +79,8 @@ angular
         });
       }
 
-      const findMinistry = () => $scope.ministries?.find((m) => m.id === $scope.conference.ministry);
+      const findMinistry = () =>
+        $scope.ministries?.find((m) => m.id === $scope.conference.ministry);
 
       $scope.getMinistryName = () => {
         const ministry = findMinistry();
@@ -100,7 +101,9 @@ angular
 
       $scope.getMinistryPurposeName = () => {
         const purposeId = $scope.conference.type;
-        const purpose = $scope.ministryPurposes?.find((p) => p.id === purposeId);
+        const purpose = $scope.ministryPurposes?.find(
+          (p) => p.id === purposeId,
+        );
         return purpose ? purpose.name : '';
       };
 

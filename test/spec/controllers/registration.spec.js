@@ -216,9 +216,7 @@ describe('Controller: registration', () => {
         testData.ministries[0].activities[0].id;
       const activityName = scope.getActivityName();
 
-      expect(activityName).toEqual(
-        testData.ministries[0].activities[0].name,
-      );
+      expect(activityName).toEqual(testData.ministries[0].activities[0].name);
     });
 
     it('should return an empty string if the conference activity is not found', () => {
