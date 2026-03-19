@@ -191,6 +191,59 @@ describe('Controller: registration', () => {
     });
   });
 
+  describe('Event info', () => {
+    beforeEach(() => {
+      $httpBackend.flush();
+    });
+
+    it('should return the ministry name for the conference', () => {
+      scope.conference.ministry = testData.ministries[0].id;
+      const ministryName = scope.getMinistryName();
+
+      expect(ministryName).toEqual(testData.ministries[0].name);
+    });
+
+    it('should return an empty string if the conference ministry is not found', () => {
+      scope.conference.ministry = 'non-existent-ministry-id';
+      const ministryName = scope.getMinistryName();
+
+      expect(ministryName).toEqual('');
+    });
+
+    it('should return the activity name for the conference', () => {
+      scope.conference.ministry = testData.ministries[0].id;
+      scope.conference.ministryActivity =
+        testData.ministries[0].activities[0].id;
+      const activityName = scope.getActivityName();
+
+      expect(activityName).toEqual(
+        testData.ministries[0].activities[0].name,
+      );
+    });
+
+    it('should return an empty string if the conference activity is not found', () => {
+      scope.conference.ministry = testData.ministries[0].id;
+      scope.conference.ministryActivity = 'non-existent-activity-id';
+      const activityName = scope.getActivityName();
+
+      expect(activityName).toEqual('');
+    });
+
+    it('should return the ministry purpose name for the conference', () => {
+      scope.conference.type = testData.ministryPurposes[0].id;
+      const purposeName = scope.getMinistryPurposeName();
+
+      expect(purposeName).toEqual(testData.ministryPurposes[0].name);
+    });
+
+    it('should return an empty string if the conference ministry purpose is not found', () => {
+      scope.conference.type = 'non-existent-purpose-id';
+      const purposeName = scope.getMinistryPurposeName();
+
+      expect(purposeName).toEqual('');
+    });
+  });
+
   describe('isFamilyLifeEvent', () => {
     afterEach(() => {
       $document[0].querySelectorAll('#fl-gtm').forEach((el) => el.remove());
