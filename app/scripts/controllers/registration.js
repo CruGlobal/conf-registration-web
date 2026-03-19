@@ -22,7 +22,7 @@ angular
       currentRegistration,
       validateRegistrant,
       modalMessage,
-      ministries,
+      MinistriesCache,
       ministryPurposes,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
@@ -40,7 +40,6 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
-      $scope.ministries = ministries;
       $scope.ministryPurposes = ministryPurposes;
 
       if (
@@ -71,24 +70,15 @@ angular
         });
       }
 
-      const findMinistry = () =>
-        $scope.ministries?.find((m) => m.id === $scope.conference.ministry);
-
       $scope.getMinistryName = () => {
-        const ministry = findMinistry();
-
-        return ministry ? ministry.name : '';
+        return MinistriesCache.getMinistryName($scope.conference.ministry);
       };
 
       $scope.getActivityName = () => {
-        const activityId = $scope.conference.ministryActivity;
-        const ministry = findMinistry();
-        if (!ministry) {
-          return '';
-        }
-
-        const activity = ministry.activities.find((a) => a.id === activityId);
-        return activity ? activity.name : '';
+        return MinistriesCache.getActivityName(
+          $scope.conference.ministry,
+          $scope.conference.ministryActivity,
+        );
       };
 
       $scope.getMinistryPurposeName = () => {

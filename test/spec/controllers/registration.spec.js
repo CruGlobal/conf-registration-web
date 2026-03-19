@@ -9,6 +9,7 @@ describe('Controller: registration', () => {
     $document,
     modalMessage,
     testData,
+    MinistriesCache,
     initializeController;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -24,12 +25,17 @@ describe('Controller: registration', () => {
         _$document_,
         _modalMessage_,
         _testData_,
+        _MinistriesCache_,
       ) => {
         modalMessage = _modalMessage_;
         testData = _testData_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
         $document = _$document_;
+        MinistriesCache = _MinistriesCache_;
+
+        MinistriesCache.get();
+        $httpBackend.flush();
         scope = $rootScope.$new();
         angular.extend($routeParams, {
           reg: testData.registration.registrants[0].id,
@@ -42,7 +48,6 @@ describe('Controller: registration', () => {
             $scope: scope,
             conference,
             currentRegistration: testData.registration,
-            ministries: testData.ministries,
             ministryPurposes: testData.ministryPurposes,
           });
         };
@@ -201,11 +206,11 @@ describe('Controller: registration', () => {
       expect(ministryName).toEqual(testData.ministries[0].name);
     });
 
-    it('should return an empty string if the conference ministry is not found', () => {
+    it('should return a null if the conference ministry is not found', () => {
       scope.conference.ministry = 'non-existent-ministry-id';
       const ministryName = scope.getMinistryName();
 
-      expect(ministryName).toEqual('');
+      expect(ministryName).toBeNull();
     });
 
     it('should return the activity name for the conference', () => {
@@ -217,12 +222,12 @@ describe('Controller: registration', () => {
       expect(activityName).toEqual(testData.ministries[0].activities[0].name);
     });
 
-    it('should return an empty string if the conference activity is not found', () => {
+    it('should return a null if the conference activity is not found', () => {
       scope.conference.ministry = testData.ministries[0].id;
       scope.conference.ministryActivity = 'non-existent-activity-id';
       const activityName = scope.getActivityName();
 
-      expect(activityName).toEqual('');
+      expect(activityName).toBeNull();
     });
 
     it('should return the ministry purpose name for the conference', () => {
