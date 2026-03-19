@@ -127,6 +127,9 @@ angular
               });
             return q.promise;
           },
+          ministries: function (MinistriesCache) {
+            return MinistriesCache.get();
+          },
         },
       })
       .when('/approvePayment/:paymentHash', {
