@@ -243,6 +243,22 @@ describe('Controller: registration', () => {
 
       expect(purposeName).toEqual('');
     });
+
+    it('should return null for activity when ministry is not found', () => {
+      scope.conference.ministry = 'non-existent-ministry-id';
+      scope.conference.ministryActivity = 'some-activity-id';
+      const activityName = scope.getActivityName();
+
+      expect(activityName).toBeNull();
+    });
+
+    it('should return an empty string for purpose when ministryPurposes is undefined', () => {
+      scope.ministryPurposes = undefined;
+      scope.conference.type = testData.ministryPurposes[0].id;
+      const purposeName = scope.getMinistryPurposeName();
+
+      expect(purposeName).toEqual('');
+    });
   });
 
   describe('isFamilyLifeEvent', () => {
