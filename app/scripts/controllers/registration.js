@@ -70,24 +70,17 @@ angular
         });
       }
 
-      $scope.getMinistryName = () => {
-        return MinistriesCache.getMinistryName($scope.conference.ministry);
-      };
-
-      $scope.getActivityName = () => {
-        return MinistriesCache.getActivityName(
-          $scope.conference.ministry,
-          $scope.conference.ministryActivity,
-        );
-      };
-
-      $scope.getMinistryPurposeName = () => {
-        const purposeId = $scope.conference.type;
-        const purpose = $scope.ministryPurposes?.find(
-          (p) => p.id === purposeId,
-        );
-        return purpose ? purpose.name : '';
-      };
+      $scope.ministryName = MinistriesCache.getMinistryName(
+        $scope.conference.ministry,
+      );
+      $scope.activityName = MinistriesCache.getActivityName(
+        $scope.conference.ministry,
+        $scope.conference.ministryActivity,
+      );
+      const purpose = ministryPurposes?.find(
+        (p) => p.id === $scope.conference.type,
+      );
+      $scope.ministryPurposeName = purpose ? purpose.name : null;
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);

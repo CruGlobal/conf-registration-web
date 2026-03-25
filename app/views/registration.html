@@ -188,13 +188,13 @@
         <h2 class="page-title border details-heading" translate>Event Info</h2>
         <ul class="list-unstyled">
           <li ng-show="conference.ministry">
-            <strong translate>Host:</strong> {{ getMinistryName() }}
+            <strong translate>Host:</strong> {{ ministryName }}
           </li>
           <li ng-show="conference.ministryActivity">
-            <strong translate>Activity:</strong> {{ getActivityName() }}
+            <strong translate>Activity:</strong> {{ activityName }}
           </li>
           <li ng-show="conference.type">
-            <strong translate>Purpose:</strong> {{ getMinistryPurposeName() }}
+            <strong translate>Purpose:</strong> {{ ministryPurposeName }}
           </li>
         </ul>
       </div>

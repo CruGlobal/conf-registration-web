@@ -200,64 +200,73 @@ describe('Controller: registration', () => {
 
   describe('Event info', () => {
     it('should return the ministry name for the conference', () => {
-      scope.conference.ministry = testData.ministries[0].id;
-      const ministryName = scope.getMinistryName();
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+      });
 
-      expect(ministryName).toEqual(testData.ministries[0].name);
+      expect(scope.ministryName).toEqual(testData.ministries[0].name);
     });
 
     it('should return a null if the conference ministry is not found', () => {
-      scope.conference.ministry = 'non-existent-ministry-id';
-      const ministryName = scope.getMinistryName();
+      initializeController({
+        ...testData.conference,
+        ministry: 'non-existent-ministry-id',
+      });
 
-      expect(ministryName).toBeNull();
+      expect(scope.ministryName).toBeNull();
     });
 
     it('should return the activity name for the conference', () => {
-      scope.conference.ministry = testData.ministries[0].id;
-      scope.conference.ministryActivity =
-        testData.ministries[0].activities[0].id;
-      const activityName = scope.getActivityName();
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+        ministryActivity: testData.ministries[0].activities[0].id,
+      });
 
-      expect(activityName).toEqual(testData.ministries[0].activities[0].name);
+      expect(scope.activityName).toEqual(
+        testData.ministries[0].activities[0].name,
+      );
     });
 
     it('should return a null if the conference activity is not found', () => {
-      scope.conference.ministry = testData.ministries[0].id;
-      scope.conference.ministryActivity = 'non-existent-activity-id';
-      const activityName = scope.getActivityName();
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+        ministryActivity: 'non-existent-activity-id',
+      });
 
-      expect(activityName).toBeNull();
+      expect(scope.activityName).toBeNull();
     });
 
     it('should return the ministry purpose name for the conference', () => {
-      scope.conference.type = testData.ministryPurposes[0].id;
-      const purposeName = scope.getMinistryPurposeName();
+      initializeController({
+        ...testData.conference,
+        type: testData.ministryPurposes[0].id,
+      });
 
-      expect(purposeName).toEqual(testData.ministryPurposes[0].name);
+      expect(scope.ministryPurposeName).toEqual(
+        testData.ministryPurposes[0].name,
+      );
     });
 
-    it('should return an empty string if the conference ministry purpose is not found', () => {
-      scope.conference.type = 'non-existent-purpose-id';
-      const purposeName = scope.getMinistryPurposeName();
+    it('should return a null if the conference ministry purpose is not found', () => {
+      initializeController({
+        ...testData.conference,
+        type: 'non-existent-purpose-id',
+      });
 
-      expect(purposeName).toEqual('');
+      expect(scope.ministryPurposeName).toBeNull();
     });
 
     it('should return null for activity when ministry is not found', () => {
-      scope.conference.ministry = 'non-existent-ministry-id';
-      scope.conference.ministryActivity = 'some-activity-id';
-      const activityName = scope.getActivityName();
+      initializeController({
+        ...testData.conference,
+        ministry: 'non-existent-ministry-id',
+        ministryActivity: 'some-activity-id',
+      });
 
-      expect(activityName).toBeNull();
-    });
-
-    it('should return an empty string for purpose when ministryPurposes is undefined', () => {
-      scope.ministryPurposes = undefined;
-      scope.conference.type = testData.ministryPurposes[0].id;
-      const purposeName = scope.getMinistryPurposeName();
-
-      expect(purposeName).toEqual('');
+      expect(scope.activityName).toBeNull();
     });
   });
 
