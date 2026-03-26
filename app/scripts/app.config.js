@@ -127,6 +127,20 @@ angular
               });
             return q.promise;
           },
+          ministries: function (MinistriesCache) {
+            return MinistriesCache.get().catch(function () {
+              return [];
+            });
+          },
+          ministryPurposes: function ($http) {
+            return $http({ method: 'GET', url: 'types' })
+              .then(function (response) {
+                return response.data;
+              })
+              .catch(function () {
+                return [];
+              });
+          },
         },
       })
       .when('/approvePayment/:paymentHash', {
