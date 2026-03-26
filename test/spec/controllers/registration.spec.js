@@ -4,11 +4,13 @@ import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds
 
 describe('Controller: registration', () => {
   let scope,
+    $rootScope,
     $httpBackend,
     $location,
     $document,
     modalMessage,
     testData,
+    MinistriesCache,
     initializeController;
 
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -16,7 +18,7 @@ describe('Controller: registration', () => {
   beforeEach(
     angular.mock.inject(
       (
-        $rootScope,
+        _$rootScope_,
         $controller,
         $routeParams,
         _$httpBackend_,
@@ -24,12 +26,18 @@ describe('Controller: registration', () => {
         _$document_,
         _modalMessage_,
         _testData_,
+        _MinistriesCache_,
       ) => {
+        $rootScope = _$rootScope_;
         modalMessage = _modalMessage_;
         testData = _testData_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
         $document = _$document_;
+        MinistriesCache = _MinistriesCache_;
+
+        MinistriesCache.get();
+        $httpBackend.flush();
         scope = $rootScope.$new();
         angular.extend($routeParams, {
           reg: testData.registration.registrants[0].id,
@@ -42,6 +50,7 @@ describe('Controller: registration', () => {
             $scope: scope,
             conference,
             currentRegistration: testData.registration,
+            ministryPurposes: testData.ministryPurposes,
           });
         };
 
@@ -49,6 +58,24 @@ describe('Controller: registration', () => {
       },
     ),
   );
+
+  describe('currentRegistrationErrorMessage', () => {
+    it('should show error modal when currentRegistrationErrorMessage is defined', () => {
+      spyOn(modalMessage, 'error');
+      $rootScope.currentRegistrationErrorMessage = 'Something went wrong';
+      initializeController(testData.conference);
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Something went wrong');
+    });
+
+    it('should not show error modal when currentRegistrationErrorMessage is undefined', () => {
+      spyOn(modalMessage, 'error');
+      delete $rootScope.currentRegistrationErrorMessage;
+      initializeController(testData.conference);
+
+      expect(modalMessage.error).not.toHaveBeenCalled();
+    });
+  });
 
   describe('closed/full/open', () => {
     it('should initialize as open when registration is open and are no registration limits', () => {
@@ -188,6 +215,78 @@ describe('Controller: registration', () => {
       initializeController(conference);
 
       expect(scope.almostFull).toBe(false);
+    });
+  });
+
+  describe('Event info', () => {
+    it('should return the ministry name for the conference', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+      });
+
+      expect(scope.ministryName).toEqual(testData.ministries[0].name);
+    });
+
+    it('should return a null if the conference ministry is not found', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: 'non-existent-ministry-id',
+      });
+
+      expect(scope.ministryName).toBeNull();
+    });
+
+    it('should return the activity name for the conference', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+        ministryActivity: testData.ministries[0].activities[0].id,
+      });
+
+      expect(scope.activityName).toEqual(
+        testData.ministries[0].activities[0].name,
+      );
+    });
+
+    it('should return a null if the conference activity is not found', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: testData.ministries[0].id,
+        ministryActivity: 'non-existent-activity-id',
+      });
+
+      expect(scope.activityName).toBeNull();
+    });
+
+    it('should return the ministry purpose name for the conference', () => {
+      initializeController({
+        ...testData.conference,
+        type: testData.ministryPurposes[0].id,
+      });
+
+      expect(scope.ministryPurposeName).toEqual(
+        testData.ministryPurposes[0].name,
+      );
+    });
+
+    it('should return a null if the conference ministry purpose is not found', () => {
+      initializeController({
+        ...testData.conference,
+        type: 'non-existent-purpose-id',
+      });
+
+      expect(scope.ministryPurposeName).toBeNull();
+    });
+
+    it('should return null for activity when ministry is not found', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: 'non-existent-ministry-id',
+        ministryActivity: 'some-activity-id',
+      });
+
+      expect(scope.activityName).toBeNull();
     });
   });
 

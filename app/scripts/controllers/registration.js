@@ -22,6 +22,8 @@ angular
       currentRegistration,
       validateRegistrant,
       modalMessage,
+      MinistriesCache,
+      ministryPurposes,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -66,6 +68,18 @@ angular
           noScript.remove();
         });
       }
+
+      $scope.ministryName = MinistriesCache.getMinistryName(
+        $scope.conference.ministry,
+      );
+      $scope.activityName = MinistriesCache.getActivityName(
+        $scope.conference.ministry,
+        $scope.conference.ministryActivity,
+      );
+      const purpose = ministryPurposes?.find(
+        (p) => p.id === $scope.conference.type,
+      );
+      $scope.ministryPurposeName = purpose ? purpose.name : null;
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);

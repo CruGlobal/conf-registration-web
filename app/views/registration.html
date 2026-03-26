@@ -184,6 +184,20 @@
           </li>
         </ul>
       </div>
+      <div class="well well-creme2" ng-show="ministryName">
+        <h2 class="page-title border details-heading" translate>Event Info</h2>
+        <ul class="list-unstyled">
+          <li ng-show="ministryName">
+            <strong translate>Host:</strong> {{ ministryName }}
+          </li>
+          <li ng-show="activityName">
+            <strong translate>Activity:</strong> {{ activityName }}
+          </li>
+          <li ng-show="ministryPurposeName">
+            <strong translate>Purpose:</strong> {{ ministryPurposeName }}
+          </li>
+        </ul>
+      </div>
     </section>
     <section ng-if="activePageId == ''" style="padding-top: 0">
       <registration-type-select
