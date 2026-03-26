@@ -26,7 +26,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     controller: function (
       $scope,
       $http,
-      $rootScope,
       expenseTypesConstants,
       gettextCatalog,
     ) {
@@ -365,16 +364,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
-      function transformEmployeeIdIntoAccountNumber() {
-        const employeeId = $rootScope.globalUser().employeeId;
-        return employeeId ? employeeId.replace(/\D/g, '').slice(-7) : '';
-      }
-
       $scope.accountTypeChanged = () => {
-        $scope.currentPayment.transfer.accountNumber =
-          $scope.currentPayment.transfer.accountType === 'STAFF'
-            ? transformEmployeeIdIntoAccountNumber()
-            : '';
+        $scope.currentPayment.transfer.accountNumber = '';
         [
           $scope.currentPayment.transfer.businessUnit,
           $scope.currentPayment.transfer.department,

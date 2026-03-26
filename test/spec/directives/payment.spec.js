@@ -20,28 +20,23 @@ describe('Directive: ertPayment', function () {
     scope = element.isolateScope() || element.scope();
   }));
 
-  beforeEach(inject(($rootScope) => {
-    spyOn($rootScope, 'globalUser').and.returnValue({
-      employeeId: '9870123457S',
-    });
-  }));
-
-  it('accountTypeChanged to STAFF should prefill accountNumber', () => {
+  it('accountTypeChanged should clear accountNumber regardless of accountType', () => {
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
     scope.accountTypeChanged();
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
   });
 
-  it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {
+  it('accountTypeChanged should not overwrite a user-entered accountNumber after type change', () => {
     scope.currentPayment = {
-      transfer: { accountType: 'not-staff', accountNumber: '123' },
+      transfer: { accountType: 'STAFF', accountNumber: '' },
     };
     scope.accountTypeChanged();
+    scope.currentPayment.transfer.accountNumber = '7654321';
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('');
+    expect(scope.currentPayment.transfer.accountNumber).toBe('7654321');
   });
 
   it('accountTypeChanged to NON_US_STAFF should pre-fill businessUnit and department', () => {
