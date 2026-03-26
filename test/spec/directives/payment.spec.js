@@ -22,17 +22,28 @@ describe('Directive: ertPayment', function () {
 
   beforeEach(inject(($rootScope) => {
     spyOn($rootScope, 'globalUser').and.returnValue({
-      employeeId: '9870123457S',
+      staffAccountNumber: '9870123457S',
     });
   }));
 
-  it('accountTypeChanged to STAFF should prefill accountNumber', () => {
+  it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
+    scope.isAdminPayment = false;
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
     scope.accountTypeChanged();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
+  });
+
+  it('accountTypeChanged to STAFF should not prefill accountNumber when an admin payment', () => {
+    scope.isAdminPayment = true;
+    scope.currentPayment = {
+      transfer: { accountType: 'STAFF', accountNumber: '123' },
+    };
+    scope.accountTypeChanged();
+
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
   });
 
   it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {

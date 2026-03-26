@@ -367,12 +367,15 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
 
       function transformStaffAccountNumberIntoAccountNumber() {
         const staffAccountNumber = $rootScope.globalUser().staffAccountNumber;
-        return staffAccountNumber ? staffAccountNumber.replace(/\D/g, '').slice(-7) : '';
+        return staffAccountNumber
+          ? staffAccountNumber.replace(/\D/g, '').slice(-7)
+          : '';
       }
 
       $scope.accountTypeChanged = () => {
         $scope.currentPayment.transfer.accountNumber =
-          $scope.currentPayment.transfer.accountType === 'STAFF'
+          $scope.currentPayment.transfer.accountType === 'STAFF' &&
+          !$scope.isAdminPayment
             ? transformStaffAccountNumberIntoAccountNumber()
             : '';
         [
