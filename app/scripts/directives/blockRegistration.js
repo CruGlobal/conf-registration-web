@@ -71,19 +71,23 @@ angular
           }
 
           // Since we render all blocks for all registrants, even if they are not for this registrant type.
-          // We ONLY need to initialize the answers/questions for the blocks that are visible
-          const weShouldInitializeAnswer =
-            validateRegistrant.shouldShowForRegistrantType(
-              $scope.block,
-              $scope.currentRegistration.registrants[registrantIndex],
-            ) || $scope.block.required;
+          // We ONLY need to initialize the answers/questions for the blocks that are visible for this registrant
+          const weShouldInitializeAnswer = validateRegistrant.blockVisible(
+            $scope.block,
+            $scope.currentRegistration.registrants[registrantIndex],
+            false,
+            $scope.conference,
+          );
+
+          if (!weShouldInitializeAnswer) {
+            return;
+          }
 
           const { answer, isNew } = initializeAnswer(
             $scope.currentRegistration.registrants[registrantIndex].answers,
             $scope.block,
             registrantId,
             $scope.block.content && $scope.block.content.default,
-            weShouldInitializeAnswer,
           );
           $scope.answer = answer;
           isNew &&
@@ -132,7 +136,6 @@ angular
           block,
           registrantId,
           blockDefault,
-          shouldInitialize,
         ) {
           var currentAnswer = _.find(registrantAnswers, { blockId: block.id });
 
@@ -152,9 +155,7 @@ angular
               id: uuid(),
               registrantId: registrantId,
               blockId: block.id,
-              value: shouldInitialize
-                ? getDefaultValue(block.type, blockDefault)
-                : null,
+              value: getDefaultValue(block.type, blockDefault),
             },
             isNew: !currentAnswer,
           };
@@ -219,6 +220,9 @@ angular
         function clearAnswerIfOptionHidden(isVisible, block, $scope, choice) {
           // if the option of checkbox, select or radio should be hidden,
           // but it's currently selected, clear the value of that answer
+          if (!$scope.answer) {
+            return;
+          }
           if (!isVisible && block.type === 'checkboxQuestion') {
             $scope.answer.value[choice.value] = false;
           } else if (
@@ -231,7 +235,7 @@ angular
         }
 
         function setForceSelections(block, registrant, isVisible, choice) {
-          if (block.type !== 'checkboxQuestion') {
+          if (block.type !== 'checkboxQuestion' || !$scope.answer) {
             return;
           }
           var ruleStatus = validateRegistrant.checkboxDisable(
