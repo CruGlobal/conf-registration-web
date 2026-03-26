@@ -3,27 +3,40 @@ import 'angular-mocks';
 describe('Directive: ertPayment', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var scope, $rootScope, element, $compile;
-  beforeEach(inject((_$rootScope_, $templateCache, _$compile_, testData) => {
+  var scope, $rootScope, element, $compile, ProfileCache, $q;
+  beforeEach(inject((
+    _$rootScope_,
+    $templateCache,
+    _$compile_,
+    _ProfileCache_,
+    _$q_,
+    testData,
+  ) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
+    ProfileCache = _ProfileCache_;
+    $q = _$q_;
+
+    spyOn($rootScope, 'globalUser').and.returnValue({
+      staffAccountNumber: '9870123457S',
+    });
+    spyOn(ProfileCache, 'clearCache');
+    spyOn(ProfileCache, 'getCache').and.callFake(() =>
+      $q.resolve({ staffAccountNumber: '9870123457S' }),
+    );
 
     scope = $rootScope.$new();
     scope.conference = testData.conference;
     scope.registration = testData.registration;
+    scope.currentPayment = {};
+    scope.isAdminPayment = false;
     $templateCache.put('views/components/payment.html', '');
 
-    element = $compile('<div ert-payment registration="registration"></div>')(
-      scope,
-    );
+    element = $compile(
+      '<div ert-payment payment="currentPayment" admin-payment="isAdminPayment" registration="registration"></div>',
+    )(scope);
     scope.$digest();
     scope = element.isolateScope() || element.scope();
-  }));
-
-  beforeEach(inject(($rootScope) => {
-    spyOn($rootScope, 'globalUser').and.returnValue({
-      staffAccountNumber: '9870123457S',
-    });
   }));
 
   it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
@@ -32,6 +45,7 @@ describe('Directive: ertPayment', function () {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
     scope.accountTypeChanged();
+    scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
   });

@@ -29,6 +29,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $rootScope,
       expenseTypesConstants,
       gettextCatalog,
+      ProfileCache,
     ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
@@ -365,19 +366,26 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
-      function transformStaffAccountNumberIntoAccountNumber() {
-        const staffAccountNumber = $rootScope.globalUser().staffAccountNumber;
-        return staffAccountNumber
-          ? staffAccountNumber.replace(/\D/g, '').slice(-7)
-          : '';
+      function fetchAndSetStaffAccountNumber() {
+        // refetch profile query to get staffAccountNumber
+        ProfileCache.clearCache();
+        ProfileCache.getCache().then(function (profile) {
+          const staffAccountNumber = profile.staffAccountNumber;
+          $scope.currentPayment.transfer.accountNumber = staffAccountNumber
+            ? staffAccountNumber.replace(/\D/g, '').slice(-7)
+            : '';
+        });
       }
 
       $scope.accountTypeChanged = () => {
-        $scope.currentPayment.transfer.accountNumber =
+        if (
           $scope.currentPayment.transfer.accountType === 'STAFF' &&
           !$scope.isAdminPayment
-            ? transformStaffAccountNumberIntoAccountNumber()
-            : '';
+        ) {
+          fetchAndSetStaffAccountNumber();
+        } else {
+          $scope.currentPayment.transfer.accountNumber = '';
+        }
         [
           $scope.currentPayment.transfer.businessUnit,
           $scope.currentPayment.transfer.department,

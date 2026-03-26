@@ -2,7 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .service(
     'ProfileCache',
-    function ProfileCache($cacheFactory, $cookies, $http, $q, $timeout) {
+    function ProfileCache($cacheFactory, $cookies, $http, $q) {
       var cache = $cacheFactory('profile');
       var path = 'profile';
 
@@ -14,14 +14,6 @@ angular
           return $http.get(path).then(function (response) {
             var profileData = response.data;
             cache.put(path, profileData);
-
-            $timeout(function () {
-              cache.remove(path);
-              $http.get(path).then(function (response) {
-                cache.put(path, response.data);
-              });
-            }, 3000);
-
             return profileData;
           });
         }
