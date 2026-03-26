@@ -328,6 +328,87 @@ describe('Controller: paymentModal', function () {
     }));
   });
 
+  describe('processTransaction calls promotionValidationService', () => {
+    let $httpBackend, $q, promotionValidationService;
+
+    beforeEach(inject(function (
+      _$httpBackend_,
+      _$q_,
+      _promotionValidationService_,
+    ) {
+      $httpBackend = _$httpBackend_;
+      $q = _$q_;
+      promotionValidationService = _promotionValidationService_;
+      spyOn(promotionValidationService, 'verifyPromotionUsage').and.returnValue(
+        $q.resolve(),
+      );
+    }));
+
+    it('calls verifyPromotionUsage for payment transactions', inject(function (
+      testData,
+    ) {
+      scope.newTransaction = {
+        amount: 10,
+        paymentType: 'CASH',
+        sendEmailReceipt: false,
+        errors: [],
+      };
+
+      $httpBackend.whenPOST('payments?sendEmailReceipt=false').respond(200);
+      $httpBackend
+        .whenGET(/registrations\//)
+        .respond(200, testData.registration);
+
+      scope.processTransaction();
+      scope.$digest();
+
+      expect(
+        promotionValidationService.verifyPromotionUsage,
+      ).toHaveBeenCalledWith(scope.registration);
+    }));
+
+    it('skips verifyPromotionUsage for expense transactions', inject(function (
+      testData,
+    ) {
+      scope.newTransaction = {
+        amount: 10,
+        paymentType: 'ADDITIONAL_EXPENSE',
+        description: 'Test',
+        sendEmailReceipt: false,
+        errors: [],
+      };
+
+      $httpBackend.whenPOST('expenses').respond(200);
+      $httpBackend
+        .whenGET(/registrations\//)
+        .respond(200, testData.registration);
+
+      scope.processTransaction();
+      scope.$digest();
+
+      expect(
+        promotionValidationService.verifyPromotionUsage,
+      ).not.toHaveBeenCalled();
+    }));
+
+    it('sets processing to false when verifyPromotionUsage rejects', inject(function () {
+      promotionValidationService.verifyPromotionUsage.and.returnValue(
+        $q.reject({ message: 'Limit reached' }),
+      );
+      scope.newTransaction = {
+        amount: 10,
+        paymentType: 'CASH',
+        sendEmailReceipt: false,
+        errors: [],
+      };
+
+      scope.processTransaction();
+      scope.$digest();
+
+      expect(scope.processing).toBe(false);
+    }));
+  });
+
   describe('deletePromotion', () => {
     let $httpBackend;
 
