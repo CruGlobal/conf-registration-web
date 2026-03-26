@@ -40,7 +40,6 @@ angular
 
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
-      $scope.ministryPurposes = ministryPurposes;
 
       if (
         $scope.conference.ministry === familyLifeMinistryId &&
