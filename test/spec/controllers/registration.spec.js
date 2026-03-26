@@ -4,6 +4,7 @@ import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds
 
 describe('Controller: registration', () => {
   let scope,
+    $rootScope,
     $httpBackend,
     $location,
     $document,
@@ -17,7 +18,7 @@ describe('Controller: registration', () => {
   beforeEach(
     angular.mock.inject(
       (
-        $rootScope,
+        _$rootScope_,
         $controller,
         $routeParams,
         _$httpBackend_,
@@ -27,6 +28,7 @@ describe('Controller: registration', () => {
         _testData_,
         _MinistriesCache_,
       ) => {
+        $rootScope = _$rootScope_;
         modalMessage = _modalMessage_;
         testData = _testData_;
         $httpBackend = _$httpBackend_;
@@ -56,6 +58,24 @@ describe('Controller: registration', () => {
       },
     ),
   );
+
+  describe('currentRegistrationErrorMessage', () => {
+    it('should show error modal when currentRegistrationErrorMessage is defined', () => {
+      spyOn(modalMessage, 'error');
+      $rootScope.currentRegistrationErrorMessage = 'Something went wrong';
+      initializeController(testData.conference);
+
+      expect(modalMessage.error).toHaveBeenCalledWith('Something went wrong');
+    });
+
+    it('should not show error modal when currentRegistrationErrorMessage is undefined', () => {
+      spyOn(modalMessage, 'error');
+      delete $rootScope.currentRegistrationErrorMessage;
+      initializeController(testData.conference);
+
+      expect(modalMessage.error).not.toHaveBeenCalled();
+    });
+  });
 
   describe('closed/full/open', () => {
     it('should initialize as open when registration is open and are no registration limits', () => {
