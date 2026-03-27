@@ -43,14 +43,13 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      GtmService.loadGtmScript(
-        familyLifeMinistryId,
-        'fl-gtm',
-        familyLifeGtmTagId,
-        $scope,
-      );
+      if ($scope.conference.ministry === familyLifeMinistryId) {
+        GtmService.loadGtmScript('fl-gtm', familyLifeGtmTagId, $scope);
+      }
 
-      GtmService.loadGtmScript(aiaMinistryId, 'aia-gtm', aiaGtmTagId, $scope);
+      if ($scope.conference.ministry === aiaMinistryId) {
+        GtmService.loadGtmScript('aia-gtm', aiaGtmTagId, $scope);
+      }
 
       $scope.ministryName = MinistriesCache.getMinistryName(
         $scope.conference.ministry,

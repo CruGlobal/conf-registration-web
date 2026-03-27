@@ -362,13 +362,16 @@ describe('Controller: registration', () => {
       expect(gtmNoScripts.length).toEqual(1);
     });
 
-    it('should remove GTM script on scope destroy', () => {
+    it('should remove GTM script when navigating away from registration', () => {
       initializeController({
         ...testData.conference,
         ministry: familyLifeMinistryId,
       });
 
-      scope.$destroy();
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/eventDashboard',
+        params: {},
+      });
 
       const gtmScript = $document[0].querySelectorAll('#fl-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
@@ -378,6 +381,44 @@ describe('Controller: registration', () => {
 
       expect(gtmScript.length).toEqual(0);
       expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating within registration', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/register/:conferenceId/page/:pageId?',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating to review registration', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/reviewRegistration/:conferenceId',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
     });
 
     it('should not render GTM script when GTM tag ID is invalid', () => {
@@ -461,13 +502,16 @@ describe('Controller: registration', () => {
       expect(gtmNoScripts.length).toEqual(1);
     });
 
-    it('should remove GTM script on scope destroy', () => {
+    it('should remove GTM script when navigating away from registration', () => {
       initializeController({
         ...testData.conference,
         ministry: aiaMinistryId,
       });
 
-      scope.$destroy();
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/eventDashboard',
+        params: {},
+      });
 
       const gtmScript = $document[0].querySelectorAll('#aia-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
@@ -477,6 +521,44 @@ describe('Controller: registration', () => {
 
       expect(gtmScript.length).toEqual(0);
       expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating within registration', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: aiaMinistryId,
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/register/:conferenceId/page/:pageId?',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating to review registration', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: aiaMinistryId,
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/reviewRegistration/:conferenceId',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
     });
   });
 

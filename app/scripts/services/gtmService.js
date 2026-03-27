@@ -1,15 +1,12 @@
 angular
   .module('confRegistrationWebApp')
-  .service('GtmService', function GtmService($document) {
-    this.loadGtmScript = function (ministryId, scriptId, gtmTagId, scope) {
+  .service('GtmService', function GtmService($rootScope, $document) {
+    this.loadGtmScript = function (scriptId, gtmTagId) {
       if (!/^GTM-[A-Z0-9]+$/.test(gtmTagId)) {
         return;
       }
 
-      if (
-        scope.conference.ministry === ministryId &&
-        !$document[0].getElementById(scriptId)
-      ) {
+      if (!$document[0].getElementById(scriptId)) {
         const script = $document[0].createElement('script');
         script.id = scriptId;
         script.innerHTML = `
@@ -28,9 +25,13 @@ angular
                 `;
         $document[0].body.insertBefore(noScript, $document[0].body.firstChild);
 
-        scope.$on('$destroy', () => {
-          script.remove();
-          noScript.remove();
+        var cleanupScript = $rootScope.$on('$routeChangeStart', function (event, next) {
+          var path = next.originalPath;
+          if (!(path.startsWith('/register/') || path.startsWith('/reviewRegistration/'))) {
+            script.remove();
+            noScript.remove();
+            cleanupScript();
+          }
         });
       }
     };
