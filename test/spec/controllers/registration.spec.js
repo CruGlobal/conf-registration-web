@@ -1,6 +1,9 @@
 import angular from 'angular';
 import 'angular-mocks';
-import { familyLifeMinistryId, athletesInActionMinistryId } from '../../../app/scripts/constants/ministryIds';
+import {
+  familyLifeMinistryId,
+  athletesInActionMinistryId,
+} from '../../../app/scripts/constants/ministryIds';
 
 describe('Controller: registration', () => {
   let scope,
