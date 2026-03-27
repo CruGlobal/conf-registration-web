@@ -39,8 +39,18 @@ describe('Directive: ertPayment', function () {
     scope = element.isolateScope() || element.scope();
   }));
 
+  it('when ProfileCache.getCache fails, accountNumber should be set to empty string', () => {
+    ProfileCache.getCache.and.returnValue($q.reject());
+    scope.currentPayment = {
+      transfer: { accountType: 'STAFF', accountNumber: '123' },
+    };
+    scope.accountTypeChanged();
+    scope.$apply();
+
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
+  });
+
   it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
-    scope.isAdminPayment = false;
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
