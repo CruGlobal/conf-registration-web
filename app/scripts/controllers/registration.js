@@ -17,7 +17,6 @@ angular
       $http,
       $q,
       $interval,
-      $document,
       RegistrationCache,
       conference,
       currentRegistration,
@@ -44,11 +43,11 @@ angular
       $scope.conference = angular.copy(conference);
 
       if ($scope.conference.ministry === familyLifeMinistryId) {
-        GtmService.loadGtmScript('fl-gtm', familyLifeGtmTagId, $scope);
+        GtmService.loadGtmScript('fl-gtm', familyLifeGtmTagId);
       }
 
       if ($scope.conference.ministry === aiaMinistryId) {
-        GtmService.loadGtmScript('aia-gtm', aiaGtmTagId, $scope);
+        GtmService.loadGtmScript('aia-gtm', aiaGtmTagId);
       }
 
       $scope.ministryName = MinistriesCache.getMinistryName(
