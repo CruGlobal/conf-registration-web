@@ -370,14 +370,17 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
-        ProfileCache.getCache().then(function (profile) {
-          const staffAccountNumber = profile.staffAccountNumber;
-          $scope.currentPayment.transfer.accountNumber = staffAccountNumber
-            ? staffAccountNumber.replace(/\D/g, '').slice(-7)
-            : '';
-        }, function () {
-          $scope.currentPayment.transfer.accountNumber = '';
-        });
+        ProfileCache.getCache().then(
+          function (profile) {
+            const staffAccountNumber = profile.staffAccountNumber;
+            $scope.currentPayment.transfer.accountNumber = staffAccountNumber
+              ? staffAccountNumber.replace(/\D/g, '').slice(-7)
+              : '';
+          },
+          function () {
+            $scope.currentPayment.transfer.accountNumber = '';
+          },
+        );
       }
 
       $scope.accountTypeChanged = () => {
