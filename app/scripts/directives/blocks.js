@@ -29,7 +29,7 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
       $scope.lockedStaffProfileBlock = Boolean(
         !$scope.adminEditRegistrant &&
           user &&
-          user.employeeId &&
+          user.staffAccountNumber &&
           $scope.currentRegistration &&
           $scope.currentRegistrant ===
             $scope.currentRegistration.primaryRegistrantId &&
@@ -80,7 +80,7 @@ angular
         $scope.lockedStaffProfileBlock = Boolean(
           !$scope.adminEditRegistrant &&
             user &&
-            user.employeeId &&
+            user.staffAccountNumber &&
             $scope.currentRegistration &&
             $scope.currentRegistrant ===
               $scope.currentRegistration.primaryRegistrantId &&
