@@ -25,14 +25,22 @@ angular
                 `;
         $document[0].body.insertBefore(noScript, $document[0].body.firstChild);
 
-        var cleanupScript = $rootScope.$on('$routeChangeStart', function (event, next) {
-          var path = next.originalPath;
-          if (!(path.startsWith('/register/') || path.startsWith('/reviewRegistration/'))) {
-            script.remove();
-            noScript.remove();
-            cleanupScript();
-          }
-        });
+        var cleanupScript = $rootScope.$on(
+          '$routeChangeStart',
+          function (event, next) {
+            var path = next.originalPath;
+            if (
+              !(
+                path.startsWith('/register/') ||
+                path.startsWith('/reviewRegistration/')
+              )
+            ) {
+              script.remove();
+              noScript.remove();
+              cleanupScript();
+            }
+          },
+        );
       }
     };
   });

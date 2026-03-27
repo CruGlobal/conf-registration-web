@@ -535,9 +535,7 @@ describe('Controller: registration', () => {
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(aiaGtmTagId),
-      );
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
 
       expect(gtmScript).not.toBeUndefined();
     });
@@ -554,9 +552,7 @@ describe('Controller: registration', () => {
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(aiaGtmTagId),
-      );
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
 
       expect(gtmScript).not.toBeUndefined();
     });
