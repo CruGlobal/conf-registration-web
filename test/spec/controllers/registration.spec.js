@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'angular-mocks';
-import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
+import { familyLifeMinistryId, athletesInActionMinistryId } from '../../../app/scripts/constants/ministryIds';
 
 describe('Controller: registration', () => {
   let scope,
@@ -367,6 +367,90 @@ describe('Controller: registration', () => {
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
         s.innerHTML.includes('GTM-WJDNWVM7'),
+      );
+
+      expect(gtmScript.length).toEqual(0);
+      expect(gtmNoScript).toBeUndefined();
+    });
+  });
+
+  describe('isAthletesInActionEvent', () => {
+    afterEach(() => {
+      $document[0].querySelectorAll('#aia-gtm').forEach((el) => el.remove());
+      $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
+    });
+
+    it('should render GTM script when event is Athletes In Action', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: athletesInActionMinistryId,
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+      expect(gtmNoScript).not.toBeUndefined();
+    });
+
+    it('should not render GTM script when event is not Athletes In Action', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: 'some-other-ministry',
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+
+      expect(gtmScript).toBeUndefined();
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not render duplicate GTM script if already rendered', () => {
+      const conference = {
+        ...testData.conference,
+        ministry: athletesInActionMinistryId,
+      };
+      initializeController(conference);
+      initializeController(conference);
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScripts = scripts.filter((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScripts = noScripts.filter((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
+      );
+
+      expect(gtmScripts.length).toEqual(1);
+      expect(gtmNoScripts.length).toEqual(1);
+    });
+
+    it('should remove GTM script on scope destroy', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: athletesInActionMinistryId,
+      });
+
+      scope.$destroy();
+
+      const gtmScript = $document[0].querySelectorAll('#aia-gtm');
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-KHJ69K5C'),
       );
 
       expect(gtmScript.length).toEqual(0);
