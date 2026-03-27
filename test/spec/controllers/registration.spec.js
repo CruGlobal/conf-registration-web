@@ -4,7 +4,10 @@ import {
   familyLifeMinistryId,
   athletesInActionMinistryId,
 } from '../../../app/scripts/constants/ministryIds';
-import { FamilyLifeGtmTagId, AiaGtmTagId } from '../../../app/scripts/constants/gtmTagIds';
+import {
+  FamilyLifeGtmTagId,
+  AiaGtmTagId,
+} from '../../../app/scripts/constants/gtmTagIds';
 
 describe('Controller: registration', () => {
   let scope,
@@ -410,9 +413,7 @@ describe('Controller: registration', () => {
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
-      );
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(AiaGtmTagId));
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
         s.innerHTML.includes(AiaGtmTagId),
@@ -429,9 +430,7 @@ describe('Controller: registration', () => {
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
-      );
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(AiaGtmTagId));
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
         s.innerHTML.includes(AiaGtmTagId),
