@@ -4,6 +4,7 @@ import {
   familyLifeMinistryId,
   athletesInActionMinistryId,
 } from '../../../app/scripts/constants/ministryIds';
+import { FamilyLifeGtmTagId, AiaGtmTagId } from '../../../app/scripts/constants/gtmTagIds';
 
 describe('Controller: registration', () => {
   let scope,
@@ -307,11 +308,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
 
       expect(gtmScript).not.toBeUndefined();
@@ -326,11 +327,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
 
       expect(gtmScript).toBeUndefined();
@@ -347,11 +348,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScripts = scripts.filter((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScripts = noScripts.filter((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
 
       expect(gtmScripts.length).toEqual(1);
@@ -369,10 +370,29 @@ describe('Controller: registration', () => {
       const gtmScript = $document[0].querySelectorAll('#fl-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-WJDNWVM7'),
+        s.innerHTML.includes(FamilyLifeGtmTagId),
       );
 
       expect(gtmScript.length).toEqual(0);
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not render GTM script when GTM tag ID is invalid', () => {
+      initializeController({
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-INVALID'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-INVALID'),
+      );
+
+      expect(gtmScript).toBeUndefined();
       expect(gtmNoScript).toBeUndefined();
     });
   });
@@ -391,11 +411,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
 
       expect(gtmScript).not.toBeUndefined();
@@ -410,11 +430,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
 
       expect(gtmScript).toBeUndefined();
@@ -431,11 +451,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScripts = scripts.filter((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScripts = noScripts.filter((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
 
       expect(gtmScripts.length).toEqual(1);
@@ -453,7 +473,7 @@ describe('Controller: registration', () => {
       const gtmScript = $document[0].querySelectorAll('#aia-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes('GTM-KHJ69K5C'),
+        s.innerHTML.includes(AiaGtmTagId),
       );
 
       expect(gtmScript.length).toEqual(0);

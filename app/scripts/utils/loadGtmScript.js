@@ -5,6 +5,10 @@ export function loadGtmScript(
   $scope,
   $document,
 ) {
+  if (!/^GTM-[A-Z0-9]+$/.test(gtmTagId)) {
+    return;
+  }
+
   if (
     $scope.conference.ministry === ministryId &&
     !$document[0].getElementById(scriptId)
