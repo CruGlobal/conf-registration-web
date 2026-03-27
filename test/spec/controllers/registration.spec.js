@@ -2,11 +2,11 @@ import angular from 'angular';
 import 'angular-mocks';
 import {
   familyLifeMinistryId,
-  athletesInActionMinistryId,
+  aiaMinistryId,
 } from '../../../app/scripts/constants/ministryIds';
 import {
-  FamilyLifeGtmTagId,
-  AiaGtmTagId,
+  familyLifeGtmTagId,
+  aiaGtmTagId,
 } from '../../../app/scripts/constants/gtmTagIds';
 
 describe('Controller: registration', () => {
@@ -311,11 +311,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
 
       expect(gtmScript).not.toBeUndefined();
@@ -330,11 +330,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScript = scripts.find((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
 
       expect(gtmScript).toBeUndefined();
@@ -351,11 +351,11 @@ describe('Controller: registration', () => {
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScripts = scripts.filter((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScripts = noScripts.filter((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
 
       expect(gtmScripts.length).toEqual(1);
@@ -373,7 +373,7 @@ describe('Controller: registration', () => {
       const gtmScript = $document[0].querySelectorAll('#fl-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(FamilyLifeGtmTagId),
+        s.innerHTML.includes(familyLifeGtmTagId),
       );
 
       expect(gtmScript.length).toEqual(0);
@@ -409,14 +409,14 @@ describe('Controller: registration', () => {
     it('should render GTM script when event is Athletes In Action', () => {
       initializeController({
         ...testData.conference,
-        ministry: athletesInActionMinistryId,
+        ministry: aiaMinistryId,
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) => s.innerHTML.includes(AiaGtmTagId));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
+        s.innerHTML.includes(aiaGtmTagId),
       );
 
       expect(gtmScript).not.toBeUndefined();
@@ -430,10 +430,10 @@ describe('Controller: registration', () => {
       });
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
-      const gtmScript = scripts.find((s) => s.innerHTML.includes(AiaGtmTagId));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
+        s.innerHTML.includes(aiaGtmTagId),
       );
 
       expect(gtmScript).toBeUndefined();
@@ -443,18 +443,18 @@ describe('Controller: registration', () => {
     it('should not render duplicate GTM script if already rendered', () => {
       const conference = {
         ...testData.conference,
-        ministry: athletesInActionMinistryId,
+        ministry: aiaMinistryId,
       };
       initializeController(conference);
       initializeController(conference);
 
       const scripts = Array.from($document[0].querySelectorAll('script'));
       const gtmScripts = scripts.filter((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
+        s.innerHTML.includes(aiaGtmTagId),
       );
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScripts = noScripts.filter((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
+        s.innerHTML.includes(aiaGtmTagId),
       );
 
       expect(gtmScripts.length).toEqual(1);
@@ -464,7 +464,7 @@ describe('Controller: registration', () => {
     it('should remove GTM script on scope destroy', () => {
       initializeController({
         ...testData.conference,
-        ministry: athletesInActionMinistryId,
+        ministry: aiaMinistryId,
       });
 
       scope.$destroy();
@@ -472,7 +472,7 @@ describe('Controller: registration', () => {
       const gtmScript = $document[0].querySelectorAll('#aia-gtm');
       const noScripts = Array.from($document[0].querySelectorAll('noscript'));
       const gtmNoScript = noScripts.find((s) =>
-        s.innerHTML.includes(AiaGtmTagId),
+        s.innerHTML.includes(aiaGtmTagId),
       );
 
       expect(gtmScript.length).toEqual(0);

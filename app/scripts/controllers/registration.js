@@ -1,10 +1,6 @@
 import { getFullPercentage } from '../utils/conferenceLimits';
-import {
-  familyLifeMinistryId,
-  athletesInActionMinistryId,
-} from '../constants/ministryIds';
-import { FamilyLifeGtmTagId, AiaGtmTagId } from '../constants/gtmTagIds';
-import { loadGtmScript } from '../utils/loadGtmScript';
+import { familyLifeMinistryId, aiaMinistryId } from '../constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from '../constants/gtmTagIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -29,6 +25,7 @@ angular
       modalMessage,
       MinistriesCache,
       ministryPurposes,
+      GtmService,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -46,21 +43,14 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      loadGtmScript(
+      GtmService.loadGtmScript(
         familyLifeMinistryId,
         'fl-gtm',
-        FamilyLifeGtmTagId,
+        familyLifeGtmTagId,
         $scope,
-        $document,
       );
 
-      loadGtmScript(
-        athletesInActionMinistryId,
-        'aia-gtm',
-        AiaGtmTagId,
-        $scope,
-        $document,
-      );
+      GtmService.loadGtmScript(aiaMinistryId, 'aia-gtm', aiaGtmTagId, $scope);
 
       $scope.ministryName = MinistriesCache.getMinistryName(
         $scope.conference.ministry,

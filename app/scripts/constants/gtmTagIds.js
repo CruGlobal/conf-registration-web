@@ -1,2 +1,2 @@
-export const FamilyLifeGtmTagId = 'GTM-WJDNWVM7';
-export const AiaGtmTagId = 'GTM-KHJ69K5C';
+export const familyLifeGtmTagId = 'GTM-WJDNWVM7';
+export const aiaGtmTagId = 'GTM-KHJ69K5C';
