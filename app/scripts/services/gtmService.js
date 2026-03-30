@@ -25,7 +25,7 @@ angular
                 `;
         $document[0].body.insertBefore(noScript, $document[0].body.firstChild);
 
-        var cleanupScript = $rootScope.$on(
+        var unsubscribe = $rootScope.$on(
           '$routeChangeStart',
           function (event, next) {
             var path = next.originalPath;
@@ -37,7 +37,7 @@ angular
             ) {
               script.remove();
               noScript.remove();
-              cleanupScript();
+              unsubscribe();
             }
           },
         );
