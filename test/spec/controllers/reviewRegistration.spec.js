@@ -1,7 +1,17 @@
 import 'angular-mocks';
+import {
+  familyLifeMinistryId,
+  aiaMinistryId,
+} from '../../../app/scripts/constants/ministryIds';
+import {
+  familyLifeGtmTagId,
+  aiaGtmTagId,
+} from '../../../app/scripts/constants/gtmTagIds';
 
 describe('Controller: ReviewRegistrationCtrl', function () {
   let scope;
+  let $rootScope;
+  let $document;
   let testData;
   let mockWindow;
   let initController;
@@ -9,7 +19,14 @@ describe('Controller: ReviewRegistrationCtrl', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
   beforeEach(
-    angular.mock.inject(function ($rootScope, $controller, _testData_) {
+    angular.mock.inject(function (
+      _$rootScope_,
+      $controller,
+      _$document_,
+      _testData_,
+    ) {
+      $rootScope = _$rootScope_;
+      $document = _$document_;
       testData = _testData_;
 
       initController = (injected) => {
@@ -24,7 +41,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
         $controller('ReviewRegistrationCtrl', {
           $scope: scope,
           currentRegistration: testData.registration,
-          conference: testData.conference,
+          conference: injected?.conference || testData.conference,
           $window: mockWindow,
           ...injected,
         });
@@ -50,6 +67,289 @@ describe('Controller: ReviewRegistrationCtrl', function () {
 
     it('is true when allowGroupRegistrations is true for one registrant type', () => {
       expect(scope.allowGroupRegistration()).toBe(true);
+    });
+  });
+
+  describe('isFamilyLifeEvent', () => {
+    afterEach(() => {
+      $document[0].querySelectorAll('#fl-gtm').forEach((el) => el.remove());
+      $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
+    });
+
+    it('should render GTM script when event is Family Life', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: familyLifeMinistryId,
+        },
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+      expect(gtmNoScript).not.toBeUndefined();
+    });
+
+    it('should not render GTM script when event is not Family Life', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: 'some-other-ministry',
+        },
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).toBeUndefined();
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not render duplicate GTM script if already rendered', () => {
+      const conference = {
+        ...testData.conference,
+        ministry: familyLifeMinistryId,
+      };
+      initController({ conference });
+      initController({ conference });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScripts = scripts.filter((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScripts = noScripts.filter((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScripts.length).toEqual(1);
+      expect(gtmNoScripts.length).toEqual(1);
+    });
+
+    it('should remove GTM script when navigating away from registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: familyLifeMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/eventDashboard',
+        params: {},
+      });
+
+      const gtmScript = $document[0].querySelectorAll('#fl-gtm');
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript.length).toEqual(0);
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating within registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: familyLifeMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/register/:conferenceId/page/:pageId?',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating to review registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: familyLifeMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/reviewRegistration/:conferenceId',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes(familyLifeGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+    });
+
+    it('should not render GTM script when GTM tag ID is invalid', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: familyLifeMinistryId,
+        },
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) =>
+        s.innerHTML.includes('GTM-INVALID'),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes('GTM-INVALID'),
+      );
+
+      expect(gtmScript).toBeUndefined();
+      expect(gtmNoScript).toBeUndefined();
+    });
+  });
+
+  describe('isAthletesInActionEvent', () => {
+    afterEach(() => {
+      $document[0].querySelectorAll('#aia-gtm').forEach((el) => el.remove());
+      $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
+    });
+
+    it('should render GTM script when event is Athletes In Action', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: aiaMinistryId,
+        },
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScript).not.toBeUndefined();
+      expect(gtmNoScript).not.toBeUndefined();
+    });
+
+    it('should not render GTM script when event is not Athletes In Action', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: 'some-other-ministry',
+        },
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScript).toBeUndefined();
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not render duplicate GTM script if already rendered', () => {
+      const conference = {
+        ...testData.conference,
+        ministry: aiaMinistryId,
+      };
+      initController({ conference });
+      initController({ conference });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScripts = scripts.filter((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScripts = noScripts.filter((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScripts.length).toEqual(1);
+      expect(gtmNoScripts.length).toEqual(1);
+    });
+
+    it('should remove GTM script when navigating away from registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: aiaMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/eventDashboard',
+        params: {},
+      });
+
+      const gtmScript = $document[0].querySelectorAll('#aia-gtm');
+      const noScripts = Array.from($document[0].querySelectorAll('noscript'));
+      const gtmNoScript = noScripts.find((s) =>
+        s.innerHTML.includes(aiaGtmTagId),
+      );
+
+      expect(gtmScript.length).toEqual(0);
+      expect(gtmNoScript).toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating within registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: aiaMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/register/:conferenceId/page/:pageId?',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
+
+      expect(gtmScript).not.toBeUndefined();
+    });
+
+    it('should not remove GTM script when navigating to review registration', () => {
+      initController({
+        conference: {
+          ...testData.conference,
+          ministry: aiaMinistryId,
+        },
+      });
+
+      $rootScope.$broadcast('$routeChangeStart', {
+        originalPath: '/reviewRegistration/:conferenceId',
+        params: {},
+      });
+
+      const scripts = Array.from($document[0].querySelectorAll('script'));
+      const gtmScript = scripts.find((s) => s.innerHTML.includes(aiaGtmTagId));
+
+      expect(gtmScript).not.toBeUndefined();
     });
   });
 
