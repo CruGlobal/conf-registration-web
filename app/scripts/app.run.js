@@ -25,7 +25,6 @@ angular
 
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$routeChangeSuccess', (event, next) => {
-      $rootScope.loadingMsg = '';
       $rootScope.pageTitle = next.title;
       $rootScope.currentEventName =
         next.locals && next.locals.conference && next.locals.conference.name;
