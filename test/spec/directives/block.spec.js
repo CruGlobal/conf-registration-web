@@ -24,7 +24,7 @@ describe('Directive: blocks', () => {
       let globalUserSpy;
       beforeEach(() => {
         globalUserSpy = spyOn($rootScope, 'globalUser').and.returnValue({
-          employeeId: '0123456',
+          orca: true,
         });
         $scope.adminEditRegistrant = null;
         $scope.currentRegistrant =
@@ -58,7 +58,7 @@ describe('Directive: blocks', () => {
       });
 
       it('is false for non-staff', () => {
-        globalUserSpy.and.returnValue({ employeeId: null });
+        globalUserSpy.and.returnValue({ orca: false });
 
         $compile('<name-question></name-question>')($scope);
         $scope.$digest();
@@ -114,7 +114,7 @@ describe('Directive: blocks', () => {
       let globalUserSpy;
       beforeEach(() => {
         globalUserSpy = spyOn($rootScope, 'globalUser').and.returnValue({
-          employeeId: '0123456',
+          orca: true,
         });
         $scope.adminEditRegistrant = null;
         $scope.currentRegistrant =
@@ -138,7 +138,7 @@ describe('Directive: blocks', () => {
       });
 
       it('is false for non-staff', () => {
-        globalUserSpy.and.returnValue({ employeeId: null });
+        globalUserSpy.and.returnValue({ orca: false });
 
         $compile('<email-question></email-question>')($scope);
         $scope.$digest();
