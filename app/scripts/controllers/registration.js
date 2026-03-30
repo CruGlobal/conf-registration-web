@@ -1,5 +1,6 @@
 import { getFullPercentage } from '../utils/conferenceLimits';
-import { familyLifeMinistryId } from '../constants/ministryIds';
+import { familyLifeMinistryId, aiaMinistryId } from '../constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from '../constants/gtmTagIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -16,7 +17,6 @@ angular
       $http,
       $q,
       $interval,
-      $document,
       RegistrationCache,
       conference,
       currentRegistration,
@@ -24,6 +24,7 @@ angular
       modalMessage,
       MinistriesCache,
       ministryPurposes,
+      GtmService,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -41,32 +42,12 @@ angular
       var pageId = $routeParams.pageId;
       $scope.conference = angular.copy(conference);
 
-      if (
-        $scope.conference.ministry === familyLifeMinistryId &&
-        !$document[0].getElementById('fl-gtm')
-      ) {
-        const script = $document[0].createElement('script');
-        script.id = 'fl-gtm';
-        script.innerHTML = `
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-WJDNWVM7');
-        `;
-        $document[0].head.insertBefore(script, $document[0].head.firstChild);
+      if ($scope.conference.ministry === familyLifeMinistryId) {
+        GtmService.loadGtmScript('fl-gtm', familyLifeGtmTagId);
+      }
 
-        const noScript = $document[0].createElement('noscript');
-        noScript.innerHTML = `
-          <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WJDNWVM7"
-          height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        `;
-        $document[0].body.insertBefore(noScript, $document[0].body.firstChild);
-
-        $scope.$on('$destroy', () => {
-          script.remove();
-          noScript.remove();
-        });
+      if ($scope.conference.ministry === aiaMinistryId) {
+        GtmService.loadGtmScript('aia-gtm', aiaGtmTagId);
       }
 
       $scope.ministryName = MinistriesCache.getMinistryName(

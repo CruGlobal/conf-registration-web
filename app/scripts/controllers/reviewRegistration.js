@@ -2,6 +2,8 @@ import {
   isRegistrantCouple,
   findCoupleForSpouse,
 } from '../utils/coupleTypeUtils';
+import { familyLifeMinistryId, aiaMinistryId } from '../constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from '../constants/gtmTagIds';
 
 angular
   .module('confRegistrationWebApp')
@@ -25,6 +27,7 @@ angular
       validateRegistrant,
       analytics,
       globalPromotionService,
+      GtmService,
     ) {
       $rootScope.globalPage = {
         type: 'registration',
@@ -40,6 +43,14 @@ angular
           conference.ministry,
           conference.ministryActivity,
         );
+      }
+
+      if (conference.ministry === familyLifeMinistryId) {
+        GtmService.loadGtmScript('fl-gtm', familyLifeGtmTagId);
+      }
+
+      if (conference.ministry === aiaMinistryId) {
+        GtmService.loadGtmScript('aia-gtm', aiaGtmTagId);
       }
 
       // Couple-spouse related utility functions
