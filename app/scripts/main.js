@@ -83,6 +83,7 @@ import 'scripts/services/DateRangeService.js';
 import 'scripts/services/error.js';
 import 'scripts/services/globalPromotionService.ts';
 import 'scripts/services/growlService.js';
+import 'scripts/services/gtmService.js';
 import 'scripts/services/httpReturnStatusInterceptor.js';
 import 'scripts/services/httpUrlInterceptor.js';
 import 'scripts/services/loginDialog.js';
