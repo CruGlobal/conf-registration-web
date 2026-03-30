@@ -71,6 +71,11 @@ describe('Controller: ReviewRegistrationCtrl', function () {
   });
 
   describe('isFamilyLifeEvent', () => {
+    beforeEach(() => {
+      $document[0].querySelectorAll('#fl-gtm').forEach((el) => el.remove());
+      $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
+    });
+
     afterEach(() => {
       $document[0].querySelectorAll('#fl-gtm').forEach((el) => el.remove());
       $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
@@ -227,6 +232,11 @@ describe('Controller: ReviewRegistrationCtrl', function () {
   });
 
   describe('isAthletesInActionEvent', () => {
+    beforeEach(() => {
+      $document[0].querySelectorAll('#aia-gtm').forEach((el) => el.remove());
+      $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
+    });
+
     afterEach(() => {
       $document[0].querySelectorAll('#aia-gtm').forEach((el) => el.remove());
       $document[0].querySelectorAll('noscript').forEach((el) => el.remove());
