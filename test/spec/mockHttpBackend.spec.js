@@ -128,13 +128,6 @@ angular
         return [404];
       });
 
-    $httpBackend.whenGET(/^ministries\/?$/).respond(function () {
-      return [200, testData.ministries, {}];
-    });
-    $httpBackend.whenGET(/^types\/?$/).respond(function () {
-      return [200, testData.ministryPurposes || [], {}];
-    });
-
     $httpBackend
       .whenPUT(/^answers\/[-a-zA-Z0-9]+\/?$/)
       .respond(function (verb, url, data) {

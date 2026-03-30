@@ -22,8 +22,6 @@ angular
       currentRegistration,
       validateRegistrant,
       modalMessage,
-      MinistriesCache,
-      ministryPurposes,
       GtmService,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
@@ -49,18 +47,6 @@ angular
       if ($scope.conference.ministry === aiaMinistryId) {
         GtmService.loadGtmScript('aia-gtm', aiaGtmTagId);
       }
-
-      $scope.ministryName = MinistriesCache.getMinistryName(
-        $scope.conference.ministry,
-      );
-      $scope.activityName = MinistriesCache.getActivityName(
-        $scope.conference.ministry,
-        $scope.conference.ministryActivity,
-      );
-      const purpose = ministryPurposes?.find(
-        (p) => p.id === $scope.conference.type,
-      );
-      $scope.ministryPurposeName = purpose ? purpose.name : null;
 
       const getRegType = (id) =>
         $scope.conference.registrantTypes.find((type) => type.id === id);

@@ -42,6 +42,9 @@ angular
             })
             .catch(function (error) {
               defer.reject(error);
+            })
+            .finally(function () {
+              $rootScope.loadingMsg = '';
             });
         }
 
