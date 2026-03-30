@@ -21,7 +21,7 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
     templateUrl: nameQuestionTemplate,
     restrict: 'E',
     controller: function ($rootScope, $scope) {
-      if (!$scope.answer && !$scope.answer.value) {
+      if ($scope.answer && !$scope.answer.value) {
         $scope.answer.value = {};
       }
 
@@ -285,7 +285,7 @@ angular
               return campusNames.data;
             });
         };
-        if ($scope.answer.value) {
+        if ($scope.answer && $scope.answer.value) {
           $scope.searchCampuses($scope.answer.value).then((data) => {
             if (!data.length) {
               $scope.answer.value = '';
