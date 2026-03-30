@@ -18,11 +18,11 @@ describe('Directive: ertPayment', function () {
     $q = _$q_;
 
     spyOn($rootScope, 'globalUser').and.returnValue({
-      staffAccountNumber: '9870123457S',
+      staffAccountNumber: '9870123457',
     });
     spyOn(ProfileCache, 'clearCache');
     spyOn(ProfileCache, 'getCache').and.callFake(() =>
-      $q.resolve({ staffAccountNumber: '9870123457S' }),
+      $q.resolve({ staffAccountNumber: '9870123457' }),
     );
 
     scope = $rootScope.$new();
@@ -57,7 +57,7 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
     scope.$apply();
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('0123457');
+    expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
   });
 
   it('accountTypeChanged to STAFF should not prefill accountNumber when an admin payment', () => {

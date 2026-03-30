@@ -366,16 +366,13 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
-      function fetchAndSetStaffAccountNumber() {
+      function fetchStaffAccountNumber() {
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
         ProfileCache.getCache().then(
           function (profile) {
-            const staffAccountNumber = profile.staffAccountNumber;
-            $scope.currentPayment.transfer.accountNumber = staffAccountNumber
-              ? staffAccountNumber.replace(/\D/g, '').slice(-7)
-              : '';
+            $scope.currentPayment.transfer.accountNumber = profile.staffAccountNumber || '';
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
@@ -388,7 +385,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           $scope.currentPayment.transfer.accountType === 'STAFF' &&
           !$scope.isAdminPayment
         ) {
-          fetchAndSetStaffAccountNumber();
+          fetchStaffAccountNumber();
         } else {
           $scope.currentPayment.transfer.accountNumber = '';
         }
