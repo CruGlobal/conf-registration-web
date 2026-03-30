@@ -372,7 +372,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         ProfileCache.clearCache();
         ProfileCache.getCache().then(
           function (profile) {
-            $scope.currentPayment.transfer.accountNumber = profile.staffAccountNumber || '';
+            $scope.currentPayment.transfer.accountNumber =
+              profile.staffAccountNumber || '';
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
