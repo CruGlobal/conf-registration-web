@@ -26,7 +26,7 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
       }
 
       const user = $rootScope.globalUser();
-      const isStaff = user && user.orca;
+      const isStaff = user && (user.orca || user.employeeId);
       $scope.lockedStaffProfileBlock = Boolean(
         !$scope.adminEditRegistrant &&
           isStaff &&
@@ -77,7 +77,7 @@ angular
       restrict: 'E',
       controller: function ($rootScope, $scope) {
         const user = $rootScope.globalUser();
-        const isStaff = user && user.orca;
+        const isStaff = user && (user.orca || user.employeeId);
         $scope.lockedStaffProfileBlock = Boolean(
           !$scope.adminEditRegistrant &&
             isStaff &&
