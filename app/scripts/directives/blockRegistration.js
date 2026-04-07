@@ -86,10 +86,11 @@ angular
             weShouldInitializeAnswer,
           );
           $scope.answer = answer;
-          isNew &&
+          if (isNew && weShouldInitializeAnswer) {
             $scope.currentRegistration.registrants[
               registrantIndex
             ].answers.push($scope.answer);
+          }
 
           $scope.$watch(
             'answer',
