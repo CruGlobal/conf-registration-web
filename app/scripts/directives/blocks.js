@@ -26,6 +26,7 @@ angular.module('confRegistrationWebApp').directive('nameQuestion', function () {
       }
 
       const user = $rootScope.globalUser();
+      // TODO: Remove employeeId fallback once HCM goes live
       const isStaff = user && (user.orca || user.employeeId);
       $scope.lockedStaffProfileBlock = Boolean(
         !$scope.adminEditRegistrant &&
@@ -77,6 +78,7 @@ angular
       restrict: 'E',
       controller: function ($rootScope, $scope) {
         const user = $rootScope.globalUser();
+        // TODO: Remove employeeId fallback once HCM goes live
         const isStaff = user && (user.orca || user.employeeId);
         $scope.lockedStaffProfileBlock = Boolean(
           !$scope.adminEditRegistrant &&
