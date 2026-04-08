@@ -372,8 +372,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         ProfileCache.clearCache();
         ProfileCache.getCache().then(
           function (profile) {
+            // TODO: Remove employeeId fallback once HCM goes live
             $scope.currentPayment.transfer.accountNumber =
-              profile.staffAccountNumber || '';
+              profile.staffAccountNumber || profile.employeeId || '';
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
