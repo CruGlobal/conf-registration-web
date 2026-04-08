@@ -366,14 +366,22 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
+      function transformEmployeeIdIntoAccountNumber() {
+        const employeeId = $rootScope.globalUser().employeeId;
+        return employeeId ? employeeId.replace(/\D/g, '').slice(-7) : '';
+      }
+
       function fetchStaffAccountNumber() {
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
         ProfileCache.getCache().then(
           function (profile) {
+            // TODO: Remove employeeId fallback once HCM goes live
             $scope.currentPayment.transfer.accountNumber =
-              profile.staffAccountNumber || '';
+              profile.staffAccountNumber ||
+              transformEmployeeIdIntoAccountNumber() ||
+              '';
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
