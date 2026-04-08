@@ -379,7 +379,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           function (profile) {
             // TODO: Remove employeeId fallback once HCM goes live
             $scope.currentPayment.transfer.accountNumber =
-              profile.staffAccountNumber || transformEmployeeIdIntoAccountNumber() || '';
+              profile.staffAccountNumber ||
+              transformEmployeeIdIntoAccountNumber() ||
+              '';
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
