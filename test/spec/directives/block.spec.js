@@ -444,9 +444,7 @@ describe('Directive: blocks', () => {
     });
 
     it('clears the answer if campus id is not found for CAMPUS_V2', () => {
-      $httpBackend
-        .whenGET('campuses/connections/123')
-        .respond(() => [400, {}]);
+      $httpBackend.whenGET('campuses/connections/123').respond(() => [400, {}]);
 
       $scope.block.profileType = 'CAMPUS_V2';
       $scope.answer = { value: '123' };
