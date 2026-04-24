@@ -405,11 +405,11 @@ describe('Directive: blocks', () => {
 
     it('forms the searchCampuses params for CAMPUS_V2 correctly', () => {
       $scope.block.profileType = 'CAMPUS_V2';
-      $scope.block.content.name = 'San';
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
-      $scope.searchCampuses('San');
+      $httpBackend.expectGET('campuses/connections/search?name=San');
+      $scope.searchCampusesV2('San');
 
       expect($scope.params.name).toBe('San');
       expect($scope.params.limit).toBeUndefined();
@@ -443,6 +443,22 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
     });
 
+    it('clears the answer if campus id is not found for CAMPUS_V2', () => {
+      $httpBackend
+        .whenGET('campuses/connections/123')
+        .respond(() => [400, {}]);
+
+      $scope.block.profileType = 'CAMPUS_V2';
+      $scope.answer = { value: '123' };
+      $compile('<campus-question></campus-question>')($scope);
+
+      $httpBackend.flush();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.answer.value).toBe('');
+    });
+
     it('gets campus name when campus id is present on page load', () => {
       $httpBackend
         .whenGET('campuses/connections/123')
@@ -456,7 +472,19 @@ describe('Directive: blocks', () => {
       $httpBackend.verifyNoOutstandingExpectation();
       $httpBackend.verifyNoOutstandingRequest();
 
-      expect($scope.selectedCampusName).toBe('SFSU');
+      expect($scope.campusName).toBe('SFSU');
+    });
+
+    it('sets the answer value when a campus is selected', () => {
+      $scope.block.profileType = 'CAMPUS_V2';
+      $scope.answer = {};
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      $scope.selectCampus({ id: 123, name: 'SFSU' });
+
+      expect($scope.answer.value).toBe(123);
+      expect($scope.campusName).toBe('SFSU');
     });
   });
 

@@ -24,7 +24,7 @@
     ng-if="block.profileType === 'CAMPUS_V2'"
     id="block-input-{{block.id}}"
     type="text"
-    ng-model="answer.value"
+    ng-model="campusName"
     placeholder=""
     name="campus"
     autocomplete="off"
@@ -33,7 +33,8 @@
     class="form-control"
     show-errors
     ng-required="block.required"
-    uib-typeahead="campus.id as campus.name for campus in searchCampuses($viewValue)"
+    uib-typeahead="campus.name for campus in searchCampusesV2($viewValue)"
+    typeahead-on-select="selectCampus($item)"
     typeahead-loading="loadingCampuses"
     typeahead-min-length="2"
     typeahead-wait-ms="400"
@@ -41,7 +42,6 @@
     typeahead-no-results="campusNotFound"
     typeahead-show-hint="true"
   />
-  <p ng-if="selectedCampusName">Currently selected: {{selectedCampusName}}</p>
   <span
     class="form-control-feedback"
     title="Searching..."

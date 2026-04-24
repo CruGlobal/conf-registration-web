@@ -267,6 +267,7 @@ angular
     };
   });
 
+// All future campus questions should use CAMPUS_V2, but we need to keep the old one around for existing questions that use it
 angular
   .module('confRegistrationWebApp')
   .directive('campusQuestion', function () {
@@ -274,39 +275,45 @@ angular
       templateUrl: campusQuestionTemplate,
       restrict: 'E',
       controller: function ($scope, $http) {
-        const newCampus = $scope.block.profileType === 'CAMPUS_V2';
         $scope.searchCampuses = function (val) {
-          $scope.params = {};
-          if (newCampus) {
-            $scope.params.name = val;
-          } else {
-            $scope.params.limit = 15;
-          }
-          if (!newCampus && $scope.block.content.showInternationalCampuses) {
-            $scope.params = Object.assign($scope.params, {
-              includeInternational: true,
+          $scope.params = {
+            limit: 15,
+          };
+          $scope.params = $scope.block.content.showInternationalCampuses
+            ? Object.assign($scope.params, { includeInternational: true })
+            : $scope.params;
+          return $http
+            .get('campuses/' + val, { params: $scope.params })
+            .then(function (campusNames) {
+              return campusNames.data;
             });
-          }
-          if (newCampus) {
-            return $http
-              .get('campuses/connections/search', { params: $scope.params })
-              .then(function (campusNames) {
-                return campusNames.data.records;
-              });
-          } else {
-            return $http
-              .get('campuses/' + val, { params: $scope.params })
-              .then(function (campusNames) {
-                return campusNames.data;
-              });
-          }
         };
+
+        $scope.searchCampusesV2 = function (val) {
+          $scope.params = {
+            name: val,
+          };
+          return $http
+            .get('campuses/connections/search', { params: $scope.params })
+            .then(function (campusNames) {
+              return campusNames.data.records;
+            });
+        };
+
+        $scope.selectCampus = function (campus) {
+          $scope.answer.value = campus.id;
+          $scope.campusName = campus.name;
+        };
+
         if ($scope.answer.value) {
-          if (newCampus) {
+          if ($scope.block.profileType === 'CAMPUS_V2') {
             $http
               .get('campuses/connections/' + $scope.answer.value)
               .then((response) => {
-                $scope.selectedCampusName = response.data.name;
+                $scope.campusName = response.data.name;
+              })
+              .catch(() => {
+                $scope.answer.value = '';
               });
           } else {
             $scope.searchCampuses($scope.answer.value).then((data) => {
