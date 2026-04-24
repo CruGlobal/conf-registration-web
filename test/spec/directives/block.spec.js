@@ -390,26 +390,41 @@ describe('Directive: blocks', () => {
       $scope.block.content.showInternationalCampuses = true;
     }));
 
-    it('forms the searchCampuses params correctly', () => {
+    it('forms the searchCampuses params for CAMPUS correctly', () => {
+      $scope.block.profileType = 'CAMPUS';
       $scope.block.content.showInternationalCampuses = true;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
       $scope.searchCampuses('San');
 
-      expect($scope.params.limit).toBeDefined();
+      expect($scope.params.limit).toBe(15);
 
-      expect($scope.params.includeInternational).toBeDefined();
+      expect($scope.params.includeInternational).toBe(true);
     });
 
-    it("doesn't add includeInternational", () => {
+    it('forms the searchCampuses params for CAMPUS_V2 correctly', () => {
+      $scope.block.profileType = 'CAMPUS_V2';
+      $scope.block.content.name = 'San';
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      $scope.searchCampuses('San');
+
+      expect($scope.params.name).toBe('San');
+      expect($scope.params.limit).toBeUndefined();
+      expect($scope.params.includeInternational).toBeUndefined();
+    });
+
+    it("doesn't add includeInternational for CAMPUS", () => {
+      $scope.block.profileType = 'CAMPUS';
       $scope.block.content.showInternationalCampuses = false;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
       $scope.searchCampuses('San');
 
-      expect($scope.params.includeInternational).not.toBeDefined();
+      expect($scope.params.includeInternational).toBeUndefined();
     });
 
     it('checks the campus database if a answer is present on page load', () => {
@@ -417,6 +432,7 @@ describe('Directive: blocks', () => {
         .whenGET('campuses/SFSU?includeInternational=true&limit=15')
         .respond(() => [200, []]);
 
+      $scope.block.profileType = 'CAMPUS';
       $scope.answer = { value: 'SFSU' };
       $compile('<campus-question></campus-question>')($scope);
 
@@ -425,6 +441,22 @@ describe('Directive: blocks', () => {
       $httpBackend.verifyNoOutstandingRequest();
 
       expect($scope.answer.value).toBe('');
+    });
+
+    it('gets campus name when campus id is present on page load', () => {
+      $httpBackend
+        .whenGET('campuses/connections/123')
+        .respond(() => [200, { id: 123, name: 'SFSU' }]);
+
+      $scope.block.profileType = 'CAMPUS_V2';
+      $scope.answer = { value: 123 };
+      $compile('<campus-question></campus-question>')($scope);
+
+      $httpBackend.flush();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.selectedCampusName).toBe('SFSU');
     });
   });
 
