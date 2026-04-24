@@ -1,5 +1,6 @@
 <div class="form-group has-feedback">
   <input
+    ng-if="block.profileType === 'CAMPUS'"
     id="block-input-{{block.id}}"
     type="text"
     ng-model="answer.value"
@@ -19,6 +20,28 @@
     typeahead-no-results="campusNotFound"
     typeahead-show-hint="true"
   />
+  <input
+    ng-if="block.profileType === 'CAMPUS_V2'"
+    id="block-input-{{block.id}}"
+    type="text"
+    ng-model="answer.value"
+    placeholder=""
+    name="campus"
+    autocomplete="off"
+    aria-autocomplete="none"
+    aria-describedby="help-block-{{block.id}}"
+    class="form-control"
+    show-errors
+    ng-required="block.required"
+    uib-typeahead="campus.id as campus.name for campus in searchCampuses($viewValue)"
+    typeahead-loading="loadingCampuses"
+    typeahead-min-length="2"
+    typeahead-wait-ms="400"
+    typeahead-editable="false"
+    typeahead-no-results="campusNotFound"
+    typeahead-show-hint="true"
+  />
+  <p ng-if="selectedCampusName">Currently selected: {{selectedCampusName}}</p>
   <span
     class="form-control-feedback"
     title="Searching..."

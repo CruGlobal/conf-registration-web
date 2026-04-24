@@ -274,25 +274,47 @@ angular
       templateUrl: campusQuestionTemplate,
       restrict: 'E',
       controller: function ($scope, $http) {
+        const newCampus = $scope.block.profileType === 'CAMPUS_V2';
         $scope.searchCampuses = function (val) {
-          $scope.params = {
-            limit: 15,
-          };
-          $scope.params = $scope.block.content.showInternationalCampuses
-            ? Object.assign($scope.params, { includeInternational: true })
-            : $scope.params;
-          return $http
-            .get('campuses/' + val, { params: $scope.params })
-            .then(function (campusNames) {
-              return campusNames.data;
+          $scope.params = {};
+          if (newCampus) {
+            $scope.params.name = val;
+          } else {
+            $scope.params.limit = 15;
+          }
+          if (!newCampus && $scope.block.content.showInternationalCampuses) {
+            $scope.params = Object.assign($scope.params, {
+              includeInternational: true,
             });
+          }
+          if (newCampus) {
+            return $http
+              .get('campuses/connections/search', { params: $scope.params })
+              .then(function (campusNames) {
+                return campusNames.data.records;
+              });
+          } else {
+            return $http
+              .get('campuses/' + val, { params: $scope.params })
+              .then(function (campusNames) {
+                return campusNames.data;
+              });
+          }
         };
         if ($scope.answer.value) {
-          $scope.searchCampuses($scope.answer.value).then((data) => {
-            if (!data.length) {
-              $scope.answer.value = '';
-            }
-          });
+          if (newCampus) {
+            $http
+              .get('campuses/connections/' + $scope.answer.value)
+              .then((response) => {
+                $scope.selectedCampusName = response.data.name;
+              });
+          } else {
+            $scope.searchCampuses($scope.answer.value).then((data) => {
+              if (!data.length) {
+                $scope.answer.value = '';
+              }
+            });
+          }
         }
       },
     };

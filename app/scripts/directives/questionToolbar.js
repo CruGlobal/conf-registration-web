@@ -172,7 +172,7 @@ angular
             id: 'campusQuestion',
             defaultTitle:
               'Campus - Type the full name of your campus and choose from the list that appears',
-            defaultProfile: 'CAMPUS',
+            defaultProfile: 'CAMPUS_V2',
             iconClass: 'fa-university',
             name: 'Campus',
             defaultExportFieldTitle: 'Campus',
