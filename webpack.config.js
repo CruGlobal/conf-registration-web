@@ -13,6 +13,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
 const ci = process.env.CI === 'true';
+const coverage = ci || process.env.COVERAGE === 'true';
 const prod = process.env.GITHUB_REF === 'refs/heads/master';
 
 const htmlMinDefaults = {
@@ -34,6 +35,17 @@ module.exports = (env = {}) => {
   const isTest = env.test;
   return {
     mode: isBuild ? 'production' : 'development',
+    // Cache compiled modules to avoid cold webpack rebuild during retesting.
+    cache: isTest
+      ? {
+          type: 'filesystem',
+          buildDependencies: { config: [__filename] },
+          // Babel emits instrumented vs. uninstrumented modules depending on
+          // whether coverage is on (see babel-angular.config.js), so each
+          // value gets its own cache slot.
+          version: `coverage=${coverage}`,
+        }
+      : undefined,
     entry: {
       app: ['scripts/main.js', 'styles/style.scss'],
     },
@@ -72,16 +84,17 @@ module.exports = (env = {}) => {
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
         }),
-        new ESLintPlugin({
-          extensions: ['js', 'ts', 'tsx'],
-
-          // Show errors as warnings during development to prevent start/test commands from exiting
-          failOnError: isBuild || ci,
-          emitWarning: !isBuild && !ci,
-        }),
       ],
+      // ESLint runs separately via `yarn lint`, so skip the redundant pass
+      // when webpack is building the test bundle.
       !isTest
         ? [
+            new ESLintPlugin({
+              extensions: ['js', 'ts', 'tsx'],
+              // Show errors as warnings during development to prevent start/test commands from exiting
+              failOnError: isBuild || ci,
+              emitWarning: !isBuild && !ci,
+            }),
             new HtmlWebpackPlugin({
               template: 'app/index.ejs',
               prod: prod,
