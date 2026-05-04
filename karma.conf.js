@@ -9,6 +9,8 @@ const karmaWebpackConfig = {
   devtool: 'inline-source-map',
 };
 
+const coverage = process.env.CI === 'true' || process.env.COVERAGE === 'true';
+
 module.exports = function (config) {
   config.set({
     singleRun: true,
@@ -23,7 +25,7 @@ module.exports = function (config) {
       },
     },
 
-    reporters: ['mocha', 'coverage-istanbul'],
+    reporters: coverage ? ['mocha', 'coverage-istanbul'] : ['mocha'],
 
     files: ['test/all-tests.spec.js'],
 
