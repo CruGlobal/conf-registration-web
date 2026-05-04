@@ -23,8 +23,11 @@ module.exports = {
   env: {
     test: {
       plugins: [
-        'istanbul',
-        // Must run AFTER istanbul to properly annotate DI
+        ...(process.env.CI === 'true' || process.env.COVERAGE === 'true'
+          ? ['istanbul']
+          : []),
+        // Order-sensitive: when istanbul is included, angularjs-annotate must
+        // come after it to annotate the instrumented DI.
         'angularjs-annotate',
       ],
     },
