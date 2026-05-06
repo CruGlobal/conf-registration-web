@@ -59,7 +59,7 @@ angular
         staging: {
           apiUrl:
             'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production',
+          tsysEnvironment: 'staging',
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
