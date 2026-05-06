@@ -38,7 +38,8 @@ angular
     envServiceProvider.config({
       domains: {
         development: ['localhost'],
-        staging: ['stage.eventregistrationtool.com', '*.netlify.com'],
+        preview: ['*.netlify.app'],
+        staging: ['stage.eventregistrationtool.com'],
         production: [
           'www.eventregistrationtool.com',
           'eventregistrationtool.com',
@@ -46,6 +47,11 @@ angular
       },
       vars: {
         development: {
+          apiUrl:
+            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging',
+        },
+        preview: {
           apiUrl:
             'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
           tsysEnvironment: 'staging',
@@ -67,7 +73,8 @@ angular
 
     if (
       envServiceProvider.is('production') ||
-      envServiceProvider.is('staging')
+      envServiceProvider.is('staging') ||
+      envServiceProvider.is('preview')
     ) {
       $compileProvider.debugInfoEnabled(false);
     }
