@@ -16,6 +16,7 @@ const config = {
   },
   roots: ['<rootDir>/app/scripts/'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/*.test.[jt]s?(x)'],
+  testPathIgnorePatterns: ['/node_modules/', '\\.spec\\.js$'],
   setupFilesAfterEnv: ['<rootDir>/__tests__/util/setup.ts'],
   testEnvironment: 'jsdom',
 };

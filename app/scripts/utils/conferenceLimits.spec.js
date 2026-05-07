@@ -1,5 +1,5 @@
 import 'angular-mocks';
-import * as conferenceLimits from '../../../app/scripts/utils/conferenceLimits';
+import * as conferenceLimits from './conferenceLimits';
 
 describe('conferenceLimits', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));

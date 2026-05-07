@@ -1,4 +1,4 @@
-import * as coupleTypeUtils from '../../../app/scripts/utils/coupleTypeUtils';
+import * as coupleTypeUtils from './coupleTypeUtils';
 import 'angular-mocks';
 
 describe('coupleTypeUtils', () => {
