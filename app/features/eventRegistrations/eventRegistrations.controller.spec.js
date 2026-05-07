@@ -375,8 +375,8 @@ describe('Controller: eventRegistrations', function () {
 
     scope.showGroup();
 
-    expect(openModal.calls.mostRecent().args[0].templateUrl).not.toBe(
-      'views/modals/showGroup.html',
+    expect(openModal.calls.mostRecent().args[0].component).not.toBe(
+      'showGroupModal',
     );
   });
 

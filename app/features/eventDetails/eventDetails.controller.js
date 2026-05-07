@@ -5,9 +5,9 @@ import regTypesTemplate from 'features/eventDetails/regTypes.html';
 import paymentOptionsTemplate from 'features/eventDetails/paymentOptions.html';
 import promotionsTemplate from 'features/eventDetails/promotions.html';
 import contactInfoTemplate from 'features/eventDetails/contactInfo.html';
-import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
+import addRegistrantTypeModalTemplate from './addRegistrantType.html';
 import { allCountries } from 'country-region-data';
-import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
+import popupHyperlinkInformationTemplate from 'scripts/directives/popupHyperlinkInformation.html';
 import { getCurrentRegions } from 'scripts/filters/eventAddressFormat';
 import {
   findCoupleForSpouse,

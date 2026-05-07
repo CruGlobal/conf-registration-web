@@ -10,7 +10,7 @@ const config = {
     '!app/scripts/services/*.ts',
   ],
   coverageDirectory: 'coverage/jest',
-  moduleDirectories: ['node_modules', 'views'],
+  moduleDirectories: ['node_modules'],
   moduleNameMapper: {
     '\\.(html)$': '<rootDir>/__tests__/templateMock.ts',
   },

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import template from 'views/components/datepicker.html';
+import template from './datepicker.html';
 
 angular
   .module('confRegistrationWebApp')

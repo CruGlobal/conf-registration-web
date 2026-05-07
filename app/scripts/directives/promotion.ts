@@ -4,7 +4,7 @@ import { Conference } from 'conference';
 import { Promotion } from 'promotion';
 import { GlobalPromotion } from 'globalPromotion';
 import { MinistriesCache, MinistryActivity } from '../services/MinistriesCache';
-import template from 'views/components/promotion.html';
+import template from './promotion.html';
 
 interface PromotionScope extends IScope {
   // Bindings

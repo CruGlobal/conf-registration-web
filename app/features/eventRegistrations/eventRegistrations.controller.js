@@ -1,5 +1,5 @@
-import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
-import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
+import registrationsPaidPopoverTemplate from './registrationsPaidPopover.html';
+import formStatusPopoverTemplate from './formStatusPopover.html';
 import paymentsModalTemplate from 'features/paymentModal/paymentsModal.html';
 import editRegistrationModalTemplate from 'features/editRegistrationModal/editRegistration.html';
 import manualRegistrationModalTemplate from 'features/registrationModal/manualRegistration.html';

@@ -1,4 +1,4 @@
-import template from 'views/components/blockRegistration.html';
+import template from './blockRegistration.html';
 import { allCountries } from 'country-region-data';
 import { getCurrentRegions } from '../filters/eventAddressFormat';
 

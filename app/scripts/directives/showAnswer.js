@@ -1,4 +1,4 @@
-import template from 'views/components/answerDisplay.html';
+import template from './answerDisplay.html';
 
 angular.module('confRegistrationWebApp').directive('showAnswer', function () {
   return {

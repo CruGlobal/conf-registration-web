@@ -1,4 +1,4 @@
-import template from 'views/components/registrationTypeSelect.html';
+import template from './registrationTypeSelect.html';
 import { isCoupleType } from '../utils/coupleTypeUtils';
 
 angular

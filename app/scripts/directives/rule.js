@@ -1,4 +1,4 @@
-import template from 'views/components/rule.html';
+import template from './rule.html';
 
 angular.module('confRegistrationWebApp').directive('rule', function () {
   return {

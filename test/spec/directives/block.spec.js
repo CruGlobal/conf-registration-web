@@ -13,7 +13,7 @@ describe('Directive: blocks', () => {
       $scope = $rootScope.$new();
       $scope.currentRegistration = testData.registration;
       $scope.answer = {};
-      $templateCache.put('views/blocks/nameQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/nameQuestion.html', '');
 
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[1],
@@ -103,7 +103,7 @@ describe('Directive: blocks', () => {
 
       $scope = $rootScope.$new();
       $scope.currentRegistration = testData.registration;
-      $templateCache.put('views/blocks/emailQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/emailQuestion.html', '');
 
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[0].blocks[0],
@@ -189,7 +189,7 @@ describe('Directive: blocks', () => {
       $timeout = _$timeout_;
 
       $scope = $rootScope.$new();
-      $templateCache.put('views/blocks/radioQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/radioQuestion.html', '');
 
       $scope.conference = testData.conference;
       $scope.block = _.cloneDeep(
@@ -339,7 +339,7 @@ describe('Directive: blocks', () => {
       $rootScope = _$rootScope_;
 
       $scope = $rootScope.$new();
-      $templateCache.put('views/blocks/selectQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/selectQuestion.html', '');
 
       $scope.conference = testData.conference;
       $scope.block = _.cloneDeep(
@@ -383,7 +383,7 @@ describe('Directive: blocks', () => {
       $httpBackend = _$httpBackend_;
 
       $scope = $rootScope.$new();
-      $templateCache.put('views/blocks/campusQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/campusQuestion.html', '');
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[4],
       );
@@ -442,7 +442,7 @@ describe('Directive: blocks', () => {
       $timeout = _$timeout_;
 
       $scope = $rootScope.$new();
-      $templateCache.put('views/blocks/ethnicityQuestion.html', '');
+      $templateCache.put('scripts/directives/blocks/ethnicityQuestion.html', '');
 
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[4],

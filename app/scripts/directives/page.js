@@ -1,5 +1,5 @@
-import pageEditorTemplate from 'views/components/pageEditor.html';
-import pageRegistrationTemplate from 'views/components/pageRegistration.html';
+import pageEditorTemplate from './pageEditor.html';
+import pageRegistrationTemplate from './pageRegistration.html';
 
 angular.module('confRegistrationWebApp').directive('page', function ($route) {
   return {

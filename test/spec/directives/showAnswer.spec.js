@@ -15,7 +15,7 @@ describe('Directive: showAnswer', function () {
     testData = _testData_;
 
     scope = $rootScope.$new();
-    $templateCache.put('views/components/answerDisplay.html', '');
+    $templateCache.put('scripts/directives/answerDisplay.html', '');
 
     scope.conference = testData.conference;
     scope.registrant = testData.registration.registrants[0];

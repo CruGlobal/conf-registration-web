@@ -1,17 +1,17 @@
 import * as cruPayments from '@cruglobal/cru-payments/dist/cru-payments-cc';
 import { allCountries } from 'country-region-data';
 
-import template from 'views/components/payment.html';
-import creditCardTemplate from 'views/paymentMethods/creditCard.html';
-import creditCardOfflineTemplate from 'views/paymentMethods/creditCardOffline.html';
-import checkAdminTemplate from 'views/paymentMethods/checkAdmin.html';
-import checkTemplate from 'views/paymentMethods/check.html';
-import transferTemplate from 'views/paymentMethods/transfer.html';
-import scholarshipAdminTemplate from 'views/paymentMethods/scholarshipAdmin.html';
-import scholarshipTemplate from 'views/paymentMethods/scholarship.html';
-import giftCardTemplate from 'views/paymentMethods/giftCard.html';
-import payOnSiteTemplate from 'views/paymentMethods/payOnSite.html';
-import additionalExpenseTemplate from 'views/paymentMethods/additionalExpense.html';
+import template from './payment.html';
+import creditCardTemplate from './paymentMethods/creditCard.html';
+import creditCardOfflineTemplate from './paymentMethods/creditCardOffline.html';
+import checkAdminTemplate from './paymentMethods/checkAdmin.html';
+import checkTemplate from './paymentMethods/check.html';
+import transferTemplate from './paymentMethods/transfer.html';
+import scholarshipAdminTemplate from './paymentMethods/scholarshipAdmin.html';
+import scholarshipTemplate from './paymentMethods/scholarship.html';
+import giftCardTemplate from './paymentMethods/giftCard.html';
+import payOnSiteTemplate from './paymentMethods/payOnSite.html';
+import additionalExpenseTemplate from './paymentMethods/additionalExpense.html';
 
 angular.module('confRegistrationWebApp').directive('ertPayment', function () {
   return {

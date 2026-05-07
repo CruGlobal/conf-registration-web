@@ -1,4 +1,4 @@
-import template from 'views/components/adminNav.html';
+import template from './adminNav.html';
 
 angular
   .module('confRegistrationWebApp')

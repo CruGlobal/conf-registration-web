@@ -38,7 +38,7 @@ describe('Directive: blockEditor', function () {
     testData = _testData_;
 
     scope = $rootScope.$new();
-    $templateCache.put('views/components/blockEditor.html', '');
+    $templateCache.put('scripts/directives/blockEditor.html', '');
 
     scope.conference = testData.conference;
     scope.block = testData.conference.registrationPages[1].blocks[5];

@@ -19,7 +19,7 @@ describe('Directive: registrationTypeSelect', function () {
     });
 
     scope = $rootScope.$new();
-    $templateCache.put('views/components/registrationTypeSelect.html', '');
+    $templateCache.put('scripts/directives/registrationTypeSelect.html', '');
 
     scope.conference = testData.conference;
     scope.currentRegistration = testData.registration;

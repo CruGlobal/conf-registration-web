@@ -15,7 +15,7 @@ describe('Directive: rule', function () {
     testData = _testData_;
 
     scope = $rootScope.$new();
-    $templateCache.put('views/components/rule.html', '');
+    $templateCache.put('scripts/directives/rule.html', '');
 
     scope.conference = testData.conference;
     scope.conference.registrationPages = testData.conference.registrationPages;

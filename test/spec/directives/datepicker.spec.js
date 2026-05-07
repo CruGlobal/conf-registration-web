@@ -9,7 +9,10 @@ describe('Directive: datepicker', function () {
     $rootScope = _$rootScope_;
 
     scope = $rootScope.$new();
-    $templateCache.put('views/components/graduationDateQuestion.html', '');
+    $templateCache.put(
+      'scripts/directives/blocks/graduationDateQuestion.html',
+      '',
+    );
     element = $compile(
       '<crs-datetimepicker model="answer.value" input-id="input-{{1}}"</crs-datetimepicker>',
     )(scope);

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import template from 'views/components/pickadate.html';
+import template from './pickadate.html';
 
 angular
   .module('confRegistrationWebApp')

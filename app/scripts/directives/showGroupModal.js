@@ -1,4 +1,4 @@
-import template from 'views/components/showGroupModal.html';
+import template from './showGroupModal.html';
 
 angular.module('confRegistrationWebApp').component('showGroupModal', {
   templateUrl: template,

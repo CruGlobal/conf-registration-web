@@ -1,5 +1,5 @@
-import eventDashboardEventTemplate from 'views/components/eventDashboardEvent.html';
-import createEventModalTemplate from 'views/modals/createEvent.html';
+import eventDashboardEventTemplate from './eventDashboardEvent.html';
+import createEventModalTemplate from './createEvent.html';
 import accessEventModalTemplate from 'features/accessEvent/accessEvent.html';
 import cloneEventModalTemplate from 'features/cloneEvent/cloneEvent.html';
 

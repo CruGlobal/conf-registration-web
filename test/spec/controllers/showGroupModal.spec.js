@@ -6,7 +6,10 @@ describe('Component: showGroupModal', function () {
   let controller;
 
   beforeEach(inject(function ($compile, $rootScope, $templateCache) {
-    $templateCache.put('views/components/showGroupModal.html', '<div></div>');
+    $templateCache.put(
+      'scripts/directives/showGroupModal.html',
+      '<div></div>',
+    );
 
     const mockResolve = {
       groupName: 'Test Group',
