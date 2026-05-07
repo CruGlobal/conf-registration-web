@@ -1,9 +1,12 @@
 import {
   isRegistrantCouple,
   findCoupleForSpouse,
-} from '../utils/coupleTypeUtils';
-import { familyLifeMinistryId, aiaMinistryId } from '../constants/ministryIds';
-import { familyLifeGtmTagId, aiaGtmTagId } from '../constants/gtmTagIds';
+} from 'scripts/utils/coupleTypeUtils';
+import {
+  familyLifeMinistryId,
+  aiaMinistryId,
+} from 'scripts/constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from 'scripts/constants/gtmTagIds';
 
 angular
   .module('confRegistrationWebApp')

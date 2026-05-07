@@ -1,6 +1,9 @@
-import { getFullPercentage } from '../utils/conferenceLimits';
-import { familyLifeMinistryId, aiaMinistryId } from '../constants/ministryIds';
-import { familyLifeGtmTagId, aiaGtmTagId } from '../constants/gtmTagIds';
+import { getFullPercentage } from 'scripts/utils/conferenceLimits';
+import {
+  familyLifeMinistryId,
+  aiaMinistryId,
+} from 'scripts/constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from 'scripts/constants/gtmTagIds';
 
 angular
   .module('confRegistrationWebApp')

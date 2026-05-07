@@ -1,4 +1,4 @@
-import { findCoupleForSpouse } from '../utils/coupleTypeUtils';
+import { findCoupleForSpouse } from 'scripts/utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')

@@ -1,7 +1,7 @@
 import eventDashboardEventTemplate from 'views/components/eventDashboardEvent.html';
 import createEventModalTemplate from 'views/modals/createEvent.html';
-import accessEventModalTemplate from 'views/modals/accessEvent.html';
-import cloneEventModalTemplate from 'views/modals/cloneEvent.html';
+import accessEventModalTemplate from 'features/accessEvent/accessEvent.html';
+import cloneEventModalTemplate from 'features/cloneEvent/cloneEvent.html';
 
 angular
   .module('confRegistrationWebApp')

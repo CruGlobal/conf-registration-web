@@ -1,14 +1,14 @@
 import moment from 'moment';
-import eventInformationTemplate from 'views/eventDetails/eventInformation.html';
-import regOptionsTemplate from 'views/eventDetails/regOptions.html';
-import regTypesTemplate from 'views/eventDetails/regTypes.html';
-import paymentOptionsTemplate from 'views/eventDetails/paymentOptions.html';
-import promotionsTemplate from 'views/eventDetails/promotions.html';
-import contactInfoTemplate from 'views/eventDetails/contactInfo.html';
+import eventInformationTemplate from 'features/eventDetails/eventInformation.html';
+import regOptionsTemplate from 'features/eventDetails/regOptions.html';
+import regTypesTemplate from 'features/eventDetails/regTypes.html';
+import paymentOptionsTemplate from 'features/eventDetails/paymentOptions.html';
+import promotionsTemplate from 'features/eventDetails/promotions.html';
+import contactInfoTemplate from 'features/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from 'views/modals/addRegistrantType.html';
 import { allCountries } from 'country-region-data';
 import popupHyperlinkInformationTemplate from 'views/popupHyperlinkInformation.html';
-import { getCurrentRegions } from '../filters/eventAddressFormat';
+import { getCurrentRegions } from 'scripts/filters/eventAddressFormat';
 import {
   findCoupleForSpouse,
   findSpouseForCouple,
@@ -18,8 +18,11 @@ import {
   isCoupleOrSpouseType,
   isCoupleType,
   isSpouseType,
-} from '../utils/coupleTypeUtils';
-import { familyLifeMinistryId, wtrActivityId } from '../constants/ministryIds';
+} from 'scripts/utils/coupleTypeUtils';
+import {
+  familyLifeMinistryId,
+  wtrActivityId,
+} from 'scripts/constants/ministryIds';
 
 angular
   .module('confRegistrationWebApp')

@@ -1,9 +1,9 @@
 import angular from 'angular';
 import type { $RootScope } from 'injectables';
 import type { GlobalPromotion } from 'globalPromotion';
-import { GlobalPromotionService } from '../services/globalPromotionService';
-import { MinistryPermissions } from '../services/MinistryAdminsCache';
-import { MinistriesCache } from '../services/MinistriesCache';
+import { GlobalPromotionService } from 'scripts/services/globalPromotionService';
+import { MinistryPermissions } from 'scripts/services/MinistryAdminsCache';
+import { MinistriesCache } from 'scripts/services/MinistriesCache';
 import moment from 'moment';
 
 class GlobalPromotionsCtrl {

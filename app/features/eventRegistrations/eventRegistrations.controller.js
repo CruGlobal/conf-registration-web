@@ -1,13 +1,13 @@
 import registrationsPaidPopoverTemplate from 'views/components/registrationsPaidPopover.html';
 import formStatusPopoverTemplate from 'views/components/formStatusPopover.html';
-import paymentsModalTemplate from 'views/modals/paymentsModal.html';
-import editRegistrationModalTemplate from 'views/modals/editRegistration.html';
-import manualRegistrationModalTemplate from 'views/modals/manualRegistration.html';
-import { getFullPercentage } from '../utils/conferenceLimits';
+import paymentsModalTemplate from 'features/paymentModal/paymentsModal.html';
+import editRegistrationModalTemplate from 'features/editRegistrationModal/editRegistration.html';
+import manualRegistrationModalTemplate from 'features/registrationModal/manualRegistration.html';
+import { getFullPercentage } from 'scripts/utils/conferenceLimits';
 import {
   findCoupleRegistrants,
   isRegistrantCouple,
-} from '../utils/coupleTypeUtils';
+} from 'scripts/utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')

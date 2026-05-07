@@ -3,11 +3,8 @@ import 'angular-mocks';
 import {
   familyLifeMinistryId,
   aiaMinistryId,
-} from '../../../app/scripts/constants/ministryIds';
-import {
-  familyLifeGtmTagId,
-  aiaGtmTagId,
-} from '../../../app/scripts/constants/gtmTagIds';
+} from 'scripts/constants/ministryIds';
+import { familyLifeGtmTagId, aiaGtmTagId } from 'scripts/constants/gtmTagIds';
 
 describe('Controller: registration', () => {
   let scope,
