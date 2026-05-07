@@ -7,7 +7,7 @@ describe('Component: showGroupModal', function () {
 
   beforeEach(inject(function ($compile, $rootScope, $templateCache) {
     $templateCache.put(
-      'scripts/directives/showGroupModal.html',
+      'scripts/directives/showGroupModal/showGroupModal.html',
       '<div></div>',
     );
 

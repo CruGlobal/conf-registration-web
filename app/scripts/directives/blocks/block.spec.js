@@ -442,7 +442,10 @@ describe('Directive: blocks', () => {
       $timeout = _$timeout_;
 
       $scope = $rootScope.$new();
-      $templateCache.put('scripts/directives/blocks/ethnicityQuestion.html', '');
+      $templateCache.put(
+        'scripts/directives/blocks/ethnicityQuestion.html',
+        '',
+      );
 
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[4],

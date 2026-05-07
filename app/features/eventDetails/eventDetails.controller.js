@@ -7,7 +7,7 @@ import promotionsTemplate from 'features/eventDetails/promotions.html';
 import contactInfoTemplate from 'features/eventDetails/contactInfo.html';
 import addRegistrantTypeModalTemplate from './addRegistrantType.html';
 import { allCountries } from 'country-region-data';
-import popupHyperlinkInformationTemplate from 'scripts/directives/popupHyperlinkInformation.html';
+import popupHyperlinkInformationTemplate from 'scripts/directives/blockEditor/popupHyperlinkInformation.html';
 import { getCurrentRegions } from 'scripts/filters/eventAddressFormat';
 import {
   findCoupleForSpouse,

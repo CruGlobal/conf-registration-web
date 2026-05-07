@@ -16,7 +16,10 @@ describe('Directive: registrationTypeSelect visibleRegistrantTypes', function ()
     testRegistrantTypeData = _testRegistrantTypeData_;
 
     scope = $rootScope.$new();
-    $templateCache.put('scripts/directives/registrationTypeSelect.html', '');
+    $templateCache.put(
+      'scripts/directives/registrationTypeSelect/registrationTypeSelect.html',
+      '',
+    );
 
     scope.conference = testRegistrantTypeData.conference;
     scope.currentRegistration = testRegistrantTypeData.registration;

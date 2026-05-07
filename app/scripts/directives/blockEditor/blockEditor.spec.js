@@ -1,5 +1,5 @@
 import 'angular-mocks';
-import { familyLifeMinistryId } from '../../../app/scripts/constants/ministryIds';
+import { familyLifeMinistryId } from '../../constants/ministryIds';
 
 // Mock HTTP response to populate the service's internal blockTagTypes
 const mockBlockTagTypes = [
@@ -38,7 +38,7 @@ describe('Directive: blockEditor', function () {
     testData = _testData_;
 
     scope = $rootScope.$new();
-    $templateCache.put('scripts/directives/blockEditor.html', '');
+    $templateCache.put('scripts/directives/blockEditor/blockEditor.html', '');
 
     scope.conference = testData.conference;
     scope.block = testData.conference.registrationPages[1].blocks[5];

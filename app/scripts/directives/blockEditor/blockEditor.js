@@ -2,8 +2,8 @@ import template from './blockEditor.html';
 import popupHyperlinkInformationTemplate from './popupHyperlinkInformation.html';
 import choiceOptionsModalTemplate from './choiceOptions.html';
 import { allCountries } from 'country-region-data';
-import { getCurrentRegions } from '../filters/eventAddressFormat';
-import { familyLifeMinistryId } from '../constants/ministryIds';
+import { getCurrentRegions } from '../../filters/eventAddressFormat';
+import { familyLifeMinistryId } from '../../constants/ministryIds';
 
 angular.module('confRegistrationWebApp').directive('blockEditor', function () {
   return {

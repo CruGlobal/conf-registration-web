@@ -30,7 +30,7 @@ describe('Directive: ertPayment', function () {
     scope.registration = testData.registration;
     scope.currentPayment = {};
     scope.isAdminPayment = false;
-    $templateCache.put('scripts/directives/payment.html', '');
+    $templateCache.put('scripts/directives/payment/payment.html', '');
 
     element = $compile(
       '<div ert-payment payment="currentPayment" admin-payment="isAdminPayment" registration="registration"></div>',

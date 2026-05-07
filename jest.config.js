@@ -15,6 +15,7 @@ const config = {
     '\\.(html)$': '<rootDir>/__tests__/templateMock.ts',
   },
   roots: ['<rootDir>/app/scripts/'],
+  testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/*.test.[jt]s?(x)'],
   setupFilesAfterEnv: ['<rootDir>/__tests__/util/setup.ts'],
   testEnvironment: 'jsdom',
 };

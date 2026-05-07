@@ -5,7 +5,7 @@ describe('Directive: promotion', function () {
 
   let element, scope;
   beforeEach(inject(function ($compile, $rootScope, $templateCache, testData) {
-    $templateCache.put('scripts/directives/promotion.html', '');
+    $templateCache.put('scripts/directives/promotion/promotion.html', '');
 
     scope = $rootScope.$new();
     scope.promo = testData.conference.promotions[0];

@@ -11,3 +11,11 @@ const featureTestsContext = require.context(
   /\.spec\.js$/,
 );
 featureTestsContext.keys().forEach(featureTestsContext);
+
+// require all spec files colocated under app/scripts/
+const scriptsTestsContext = require.context(
+  '../app/scripts',
+  true,
+  /\.spec\.js$/,
+);
+scriptsTestsContext.keys().forEach(scriptsTestsContext);

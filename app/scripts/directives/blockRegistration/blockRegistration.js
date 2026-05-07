@@ -1,6 +1,6 @@
 import template from './blockRegistration.html';
 import { allCountries } from 'country-region-data';
-import { getCurrentRegions } from '../filters/eventAddressFormat';
+import { getCurrentRegions } from '../../filters/eventAddressFormat';
 
 angular
   .module('confRegistrationWebApp')

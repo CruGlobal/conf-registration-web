@@ -1,5 +1,5 @@
 import template from './registrationTypeSelect.html';
-import { isCoupleType } from '../utils/coupleTypeUtils';
+import { isCoupleType } from '../../utils/coupleTypeUtils';
 
 angular
   .module('confRegistrationWebApp')
