@@ -36,6 +36,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
       $scope.countries = allCountries;
+      $scope.disable = false;
 
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
@@ -382,6 +383,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
               profile.staffAccountNumber ||
               transformEmployeeIdIntoAccountNumber() ||
               '';
+
+            $scope.disable = !!profile.staffAccountNumber;
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
@@ -397,6 +400,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           fetchStaffAccountNumber();
         } else {
           $scope.currentPayment.transfer.accountNumber = '';
+          $scope.disable = false;
         }
         [
           $scope.currentPayment.transfer.businessUnit,
