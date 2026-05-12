@@ -63,11 +63,11 @@ describe('Directive: ertPayment', function () {
 
   it('accountTypeChanged to STAFF should prefill employeeId when not an admin payment and staffAccountNumber is not available', () => {
     $rootScope.globalUser.and.returnValue({
-    employeeId: '1234567',
-  });
-  ProfileCache.getCache.and.returnValue(
-    $q.resolve({ staffAccountNumber: '' }),
-  );
+      employeeId: '1234567',
+    });
+    ProfileCache.getCache.and.returnValue(
+      $q.resolve({ staffAccountNumber: '' }),
+    );
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
