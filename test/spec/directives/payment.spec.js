@@ -48,6 +48,7 @@ describe('Directive: ertPayment', function () {
     scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
+    expect(scope.accountNumberDisabled).toBe(false);
   });
 
   it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
@@ -58,12 +59,12 @@ describe('Directive: ertPayment', function () {
     scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
-    expect(scope.disable).toBe(true);
+    expect(scope.accountNumberDisabled).toBe(true);
   });
 
   it('accountTypeChanged to STAFF should prefill employeeId when not an admin payment and staffAccountNumber is not available', () => {
     $rootScope.globalUser.and.returnValue({
-      employeeId: '1234567',
+      employeeId: '0001234567',
     });
     ProfileCache.getCache.and.returnValue(
       $q.resolve({ staffAccountNumber: '' }),
@@ -75,7 +76,7 @@ describe('Directive: ertPayment', function () {
     scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('1234567');
-    expect(scope.disable).toBe(false);
+    expect(scope.accountNumberDisabled).toBe(false);
   });
 
   it('accountTypeChanged to STAFF should not prefill accountNumber when an admin payment', () => {
@@ -86,7 +87,7 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
-    expect(scope.disable).toBe(false);
+    expect(scope.accountNumberDisabled).toBe(false);
   });
 
   it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {
@@ -96,7 +97,7 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
-    expect(scope.disable).toBe(false);
+    expect(scope.accountNumberDisabled).toBe(false);
   });
 
   it('accountTypeChanged to NON_US_STAFF should pre-fill businessUnit and department', () => {
