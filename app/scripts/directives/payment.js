@@ -36,6 +36,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
       $scope.countries = allCountries;
+      $scope.accountNumberDisabled = false;
 
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
@@ -372,6 +373,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       }
 
       function fetchStaffAccountNumber() {
+        $scope.accountNumberDisabled = false;
+
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
@@ -382,9 +385,12 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
               profile.staffAccountNumber ||
               transformEmployeeIdIntoAccountNumber() ||
               '';
+
+            $scope.accountNumberDisabled = !!profile.staffAccountNumber;
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
+            $scope.accountNumberDisabled = false;
           },
         );
       }
@@ -397,6 +403,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           fetchStaffAccountNumber();
         } else {
           $scope.currentPayment.transfer.accountNumber = '';
+          $scope.accountNumberDisabled = false;
         }
         [
           $scope.currentPayment.transfer.businessUnit,
