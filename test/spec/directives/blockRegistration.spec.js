@@ -159,7 +159,7 @@ describe('Directive: blockRegistration', function () {
   });
 
   let validateRegistrant;
-  describe('shouldShowForRegistrantType', function () {
+  describe('initRegistrationMode', function () {
     beforeEach(function () {
       inject(function ($routeParams, _validateRegistrant_) {
         scope = $rootScope.$new();
@@ -181,20 +181,21 @@ describe('Directive: blockRegistration', function () {
 
         $routeParams.reg = 'test-registrant-id';
         validateRegistrant = _validateRegistrant_;
-        spyOn(validateRegistrant, 'shouldShowForRegistrantType');
+        spyOn(validateRegistrant, 'blockVisible');
       });
     });
 
-    it('should not set value to answers to questions/blocks that do not show for a registrant unless required', function () {
-      validateRegistrant.shouldShowForRegistrantType.and.returnValue(false);
+    it('should not initialize answer when block is not visible', function () {
+      validateRegistrant.blockVisible.and.returnValue(false);
       $compile('<div block-registration></div>')(scope);
       scope.$digest();
 
-      expect(['', null]).toContain(scope.answer.value);
+      expect(scope.answer).toBeUndefined();
+      expect(scope.currentRegistration.registrants[0].answers.length).toBe(0);
     });
 
-    it('should initialize answers to questions/blocks that show for a registrant', function () {
-      validateRegistrant.shouldShowForRegistrantType.and.returnValue(true);
+    it('should initialize answer when block is visible', function () {
+      validateRegistrant.blockVisible.and.returnValue(true);
       $compile('<div block-registration></div>')(scope);
       scope.$digest();
 
