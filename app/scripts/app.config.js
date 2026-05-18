@@ -1,17 +1,17 @@
-import landingTemplate from 'views/landing.html';
-import registrationTemplate from 'views/registration.html';
-import paymentApprovalTemplate from 'views/paymentApproval.html';
-import reviewRegistrationTemplate from 'views/reviewRegistration.html';
-import eventDashboardTemplate from 'views/eventDashboard.html';
-import eventOverviewTemplate from 'views/eventOverview.html';
-import eventRegistrationsTemplate from 'views/eventRegistrations.html';
-import paymentCashCheckReportTemplate from 'views/paymentCashCheckReport.html';
-import eventFormTemplate from 'views/eventForm.html';
-import eventDetailsTemplate from 'views/eventDetails.html';
-import eventPermissionsTemplate from 'views/eventPermissions.html';
-import globalPromotionsTemplate from 'views/globalPromotions.html';
-import helpTemplate from 'views/help.html';
-import oktaDescriptionTemplate from 'views/oktaDescription.html';
+import landingTemplate from 'features/landing/landing.html';
+import registrationTemplate from 'features/registration/registration.html';
+import paymentApprovalTemplate from 'features/paymentApproval/paymentApproval.html';
+import reviewRegistrationTemplate from 'features/reviewRegistration/reviewRegistration.html';
+import eventDashboardTemplate from 'features/eventDashboard/eventDashboard.html';
+import eventOverviewTemplate from 'features/eventOverview/eventOverview.html';
+import eventRegistrationsTemplate from 'features/eventRegistrations/eventRegistrations.html';
+import paymentCashCheckReportTemplate from 'features/paymentCashCheckReport/paymentCashCheckReport.html';
+import eventFormTemplate from 'features/eventForm/eventForm.html';
+import eventDetailsTemplate from 'features/eventDetails/eventDetails.html';
+import eventPermissionsTemplate from 'features/eventPermissions/eventPermissions.html';
+import globalPromotionsTemplate from 'features/globalPromotions/globalPromotions.html';
+import helpTemplate from 'features/help/help.html';
+import oktaDescriptionTemplate from 'features/oktaDescription/oktaDescription.html';
 
 angular
   .module('confRegistrationWebApp')
