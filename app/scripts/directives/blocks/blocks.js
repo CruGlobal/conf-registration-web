@@ -276,7 +276,8 @@ angular
       restrict: 'E',
       controller: function ($scope, $http) {
         if (
-          $scope.block.profileType === 'CAMPUS_V2' && $scope.answer &&
+          $scope.block.profileType === 'CAMPUS_V2' &&
+          $scope.answer &&
           angular.isObject($scope.answer.value)
         ) {
           $scope.campusName = $scope.answer.value.name;
