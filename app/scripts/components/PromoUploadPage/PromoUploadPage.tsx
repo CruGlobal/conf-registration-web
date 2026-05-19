@@ -14,7 +14,7 @@ import { Permissions } from 'permissions';
 import { PromoRegistration } from 'promoRegistration';
 import { PromotionReport } from 'promotionReport';
 import { RegistrationsData } from 'registrations';
-import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
+import journalUploadReviewModalTemplate from 'features/journalUploadReview/journalUploadReview.html';
 import { usePromoRegistrationList } from '../../hooks/usePromoRegistrationList';
 import { usePaymentsModal } from '../../hooks/usePaymentsModal';
 import { usePromoReport } from '../../hooks/usePromoReport';
