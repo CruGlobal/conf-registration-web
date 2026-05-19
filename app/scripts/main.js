@@ -96,6 +96,7 @@ import 'scripts/services/PermissionCache.js';
 import 'scripts/services/ProfileCache.js';
 import 'scripts/services/registration.js';
 import 'scripts/services/RegistrationCache.js';
+import 'scripts/services/transformCampusAnswerInterceptor.js';
 import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
 import 'scripts/services/validateRegistrant.js';

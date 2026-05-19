@@ -405,6 +405,7 @@ describe('Directive: blocks', () => {
 
     it('forms the searchCampuses params for CAMPUS_V2 correctly', () => {
       $scope.block.profileType = 'CAMPUS_V2';
+      $scope.answer = {};
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
 
@@ -443,11 +444,13 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
     });
 
-    it('clears the answer if campus id is not found for CAMPUS_V2', () => {
-      $httpBackend.whenGET('campuses/connections/123').respond(() => [400, {}]);
+    it('clears the answer if campus is not found for CAMPUS_V2', () => {
+      $httpBackend
+        .whenGET('campuses/connections/search?name=SFSU')
+        .respond(() => [200, { records: [] }]);
 
       $scope.block.profileType = 'CAMPUS_V2';
-      $scope.answer = { value: '123' };
+      $scope.answer = { value: { id: '123', name: 'SFSU' } };
       $compile('<campus-question></campus-question>')($scope);
 
       $httpBackend.flush();
@@ -457,13 +460,13 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe('');
     });
 
-    it('gets campus name when campus id is present on page load', () => {
+    it('gets campus name from enriched value on page load', () => {
       $httpBackend
-        .whenGET('campuses/connections/123')
-        .respond(() => [200, { id: 123, name: 'SFSU' }]);
+        .whenGET('campuses/connections/search?name=SFSU')
+        .respond(() => [200, { records: [{ id: 123, name: 'SFSU' }] }]);
 
       $scope.block.profileType = 'CAMPUS_V2';
-      $scope.answer = { value: 123 };
+      $scope.answer = { value: { id: 123, name: 'SFSU' } };
       $compile('<campus-question></campus-question>')($scope);
 
       $httpBackend.flush();

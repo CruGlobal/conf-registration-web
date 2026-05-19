@@ -275,6 +275,14 @@ angular
       templateUrl: campusQuestionTemplate,
       restrict: 'E',
       controller: function ($scope, $http) {
+        if (
+          $scope.block.profileType === 'CAMPUS_V2' &&
+          angular.isObject($scope.answer.value)
+        ) {
+          $scope.campusName = $scope.answer.value.name;
+          $scope.answer.value = $scope.answer.value.id;
+        }
+
         $scope.searchCampuses = function (val) {
           $scope.params = {
             limit: 15,
@@ -307,14 +315,11 @@ angular
 
         if ($scope.answer.value) {
           if ($scope.block.profileType === 'CAMPUS_V2') {
-            $http
-              .get('campuses/connections/' + $scope.answer.value)
-              .then((response) => {
-                $scope.campusName = response.data.name;
-              })
-              .catch(() => {
+            $scope.searchCampusesV2($scope.campusName).then((data) => {
+              if (!data.length) {
                 $scope.answer.value = '';
-              });
+              }
+            });
           } else {
             $scope.searchCampuses($scope.answer.value).then((data) => {
               if (!data.length) {
