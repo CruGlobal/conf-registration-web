@@ -4,7 +4,6 @@ angular
     // Transform campus answer objects to just their id before sending to the server
     function transform(answer) {
       if (
-        answer &&
         angular.isObject(answer.value) &&
         answer.value.id &&
         answer.value.name

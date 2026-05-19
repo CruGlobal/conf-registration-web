@@ -487,6 +487,17 @@ describe('Directive: blocks', () => {
       expect($scope.answer.value).toBe(123);
       expect($scope.campusName).toBe('SFSU');
     });
+
+    it('does not wipe answer when no campusName is set', () => {
+      $scope.block.profileType = 'CAMPUS_V2';
+      $scope.answer = { value: '123' };
+      $compile('<campus-question></campus-question>')($scope);
+      $scope.$digest();
+
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.answer.value).toBe('123');
+    });
   });
 
   describe('ethnicityQuestion', () => {

@@ -276,7 +276,7 @@ angular
       restrict: 'E',
       controller: function ($scope, $http) {
         if (
-          $scope.block.profileType === 'CAMPUS_V2' &&
+          $scope.block.profileType === 'CAMPUS_V2' && $scope.answer &&
           angular.isObject($scope.answer.value)
         ) {
           $scope.campusName = $scope.answer.value.name;
@@ -314,13 +314,14 @@ angular
         };
 
         if ($scope.answer.value) {
-          if ($scope.block.profileType === 'CAMPUS_V2') {
+          if ($scope.block.profileType === 'CAMPUS_V2' && $scope.campusName) {
             $scope.searchCampusesV2($scope.campusName).then((data) => {
               if (!data.length) {
                 $scope.answer.value = '';
+                $scope.campusName = '';
               }
             });
-          } else {
+          } else if ($scope.block.profileType !== 'CAMPUS_V2') {
             $scope.searchCampuses($scope.answer.value).then((data) => {
               if (!data.length) {
                 $scope.answer.value = '';
