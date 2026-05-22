@@ -2,7 +2,7 @@
   <input
     id="block-input-{{block.id}}"
     type="text"
-    ng-model="answer.value"
+    ng-model="campusName"
     placeholder=""
     name="campus"
     autocomplete="off"
@@ -11,10 +11,11 @@
     class="form-control"
     show-errors
     ng-required="block.required"
-    uib-typeahead="campus for campus in searchCampuses($viewValue)"
+    uib-typeahead="campus.name for campus in searchV2Campuses($viewValue)"
+    typeahead-on-select="selectCampus($item)"
     typeahead-loading="loadingCampuses"
     typeahead-min-length="2"
-    typeahead-wait-ms="200"
+    typeahead-wait-ms="400"
     typeahead-editable="false"
     typeahead-no-results="campusNotFound"
     typeahead-show-hint="true"

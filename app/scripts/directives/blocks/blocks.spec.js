@@ -390,8 +390,7 @@ describe('Directive: blocks', () => {
       $scope.block.content.showInternationalCampuses = true;
     }));
 
-    it('forms the searchCampuses params for CAMPUS correctly', () => {
-      $scope.block.profileType = 'CAMPUS';
+    it('forms the searchCampuses params correctly', () => {
       $scope.block.content.showInternationalCampuses = true;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
@@ -403,22 +402,7 @@ describe('Directive: blocks', () => {
       expect($scope.params.includeInternational).toBe(true);
     });
 
-    it('forms the searchCampuses params for CAMPUS_V2 correctly', () => {
-      $scope.block.profileType = 'CAMPUS_V2';
-      $scope.answer = {};
-      $compile('<campus-question></campus-question>')($scope);
-      $scope.$digest();
-
-      $httpBackend.expectGET('campuses/connections/search?name=San');
-      $scope.searchCampusesV2('San');
-
-      expect($scope.params.name).toBe('San');
-      expect($scope.params.limit).toBeUndefined();
-      expect($scope.params.includeInternational).toBeUndefined();
-    });
-
-    it("doesn't add includeInternational for CAMPUS", () => {
-      $scope.block.profileType = 'CAMPUS';
+    it("doesn't add includeInternational", () => {
       $scope.block.content.showInternationalCampuses = false;
       $compile('<campus-question></campus-question>')($scope);
       $scope.$digest();
@@ -433,7 +417,6 @@ describe('Directive: blocks', () => {
         .whenGET('campuses/SFSU?includeInternational=true&limit=15')
         .respond(() => [200, []]);
 
-      $scope.block.profileType = 'CAMPUS';
       $scope.answer = { value: 'SFSU' };
       $compile('<campus-question></campus-question>')($scope);
 
@@ -443,15 +426,52 @@ describe('Directive: blocks', () => {
 
       expect($scope.answer.value).toBe('');
     });
+  });
 
-    it('clears the answer if campus is not found for CAMPUS_V2', () => {
+  describe('campusV2Question', () => {
+    let $compile, $rootScope, $scope, $httpBackend;
+    beforeEach(inject((
+      _$compile_,
+      _$rootScope_,
+      _$timeout_,
+      $templateCache,
+      testData,
+      _$httpBackend_,
+    ) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+      $httpBackend = _$httpBackend_;
+
+      $scope = $rootScope.$new();
+      $templateCache.put(
+        'scripts/directives/blocks/campusV2Question.html',
+        '',
+      );
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[1].blocks[4],
+      );
+    }));
+
+    it('forms the searchV2Campuses params correctly', () => {
+      $scope.answer = {};
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+      $scope.$digest();
+
+      $httpBackend.expectGET('campuses/connections/search?name=San');
+      $scope.searchV2Campuses('San');
+
+      expect($scope.params.name).toBe('San');
+      expect($scope.params.limit).toBeUndefined();
+      expect($scope.params.includeInternational).toBeUndefined();
+    });
+
+    it('clears the answer if campus is not found', () => {
       $httpBackend
         .whenGET('campuses/connections/search?name=SFSU')
         .respond(() => [200, { records: [] }]);
 
-      $scope.block.profileType = 'CAMPUS_V2';
       $scope.answer = { value: { id: '123', name: 'SFSU' } };
-      $compile('<campus-question></campus-question>')($scope);
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
 
       $httpBackend.flush();
       $httpBackend.verifyNoOutstandingExpectation();
@@ -465,9 +485,8 @@ describe('Directive: blocks', () => {
         .whenGET('campuses/connections/search?name=SFSU')
         .respond(() => [200, { records: [{ id: 123, name: 'SFSU' }] }]);
 
-      $scope.block.profileType = 'CAMPUS_V2';
       $scope.answer = { value: { id: 123, name: 'SFSU' } };
-      $compile('<campus-question></campus-question>')($scope);
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
 
       $httpBackend.flush();
       $httpBackend.verifyNoOutstandingExpectation();
@@ -477,9 +496,8 @@ describe('Directive: blocks', () => {
     });
 
     it('sets the answer value when a campus is selected', () => {
-      $scope.block.profileType = 'CAMPUS_V2';
       $scope.answer = {};
-      $compile('<campus-question></campus-question>')($scope);
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
       $scope.$digest();
 
       $scope.selectCampus({ id: 123, name: 'SFSU' });
@@ -489,9 +507,8 @@ describe('Directive: blocks', () => {
     });
 
     it('does not wipe answer when no campusName is set', () => {
-      $scope.block.profileType = 'CAMPUS_V2';
       $scope.answer = { value: '123' };
-      $compile('<campus-question></campus-question>')($scope);
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
       $scope.$digest();
 
       $httpBackend.verifyNoOutstandingRequest();

@@ -13,6 +13,7 @@ import yearInSchoolQuestionTemplate from './yearInSchoolQuestion.html';
 import opportunitiesQuestionTemplate from './opportunitiesQuestion.html';
 import textareaQuestionTemplate from './textareaQuestion.html';
 import campusQuestionTemplate from './campusQuestion.html';
+import campusV2QuestionTemplate from './campusV2Question.html';
 import graduationDateQuestionTemplate from './graduationDateQuestion.html';
 import ethnicityQuestionTemplate from './ethnicityQuestion.html';
 
@@ -267,7 +268,6 @@ angular
     };
   });
 
-// All future campus questions should use CAMPUS_V2, but we need to keep the old one around for existing questions that use it
 angular
   .module('confRegistrationWebApp')
   .directive('campusQuestion', function () {
@@ -275,15 +275,6 @@ angular
       templateUrl: campusQuestionTemplate,
       restrict: 'E',
       controller: function ($scope, $http) {
-        if (
-          $scope.block.profileType === 'CAMPUS_V2' &&
-          $scope.answer &&
-          angular.isObject($scope.answer.value)
-        ) {
-          $scope.campusName = $scope.answer.value.name;
-          $scope.answer.value = $scope.answer.value.id;
-        }
-
         $scope.searchCampuses = function (val) {
           $scope.params = {
             limit: 15,
@@ -298,7 +289,30 @@ angular
             });
         };
 
-        $scope.searchCampusesV2 = function (val) {
+        if ($scope.answer.value) {
+          $scope.searchCampuses($scope.answer.value).then((data) => {
+            if (!data.length) {
+              $scope.answer.value = '';
+            }
+          });
+        }
+      },
+    };
+  });
+
+angular
+  .module('confRegistrationWebApp')
+  .directive('campusV2Question', function () {
+    return {
+      templateUrl: campusV2QuestionTemplate,
+      restrict: 'E',
+      controller: function ($scope, $http) {
+        if ($scope.answer && angular.isObject($scope.answer.value)) {
+          $scope.campusName = $scope.answer.value.name;
+          $scope.answer.value = $scope.answer.value.id;
+        }
+
+        $scope.searchV2Campuses = function (val) {
           $scope.params = {
             name: val,
           };
@@ -314,21 +328,13 @@ angular
           $scope.campusName = campus.name;
         };
 
-        if ($scope.answer.value) {
-          if ($scope.block.profileType === 'CAMPUS_V2' && $scope.campusName) {
-            $scope.searchCampusesV2($scope.campusName).then((data) => {
-              if (!data.length) {
-                $scope.answer.value = '';
-                $scope.campusName = '';
-              }
-            });
-          } else if ($scope.block.profileType !== 'CAMPUS_V2') {
-            $scope.searchCampuses($scope.answer.value).then((data) => {
-              if (!data.length) {
-                $scope.answer.value = '';
-              }
-            });
-          }
+        if ($scope.answer.value && $scope.campusName) {
+          $scope.searchV2Campuses($scope.campusName).then((data) => {
+            if (!data.length) {
+              $scope.answer.value = '';
+              $scope.campusName = '';
+            }
+          });
         }
       },
     };

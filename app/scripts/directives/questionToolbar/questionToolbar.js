@@ -169,7 +169,7 @@ angular
             name: 'Date of Birth',
           },
           {
-            id: 'campusQuestion',
+            id: 'campusV2Question',
             defaultTitle:
               'Campus - Type the full name of your campus and choose from the list that appears',
             defaultProfile: 'CAMPUS_V2',
