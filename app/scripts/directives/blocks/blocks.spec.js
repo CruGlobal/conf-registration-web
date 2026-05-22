@@ -443,10 +443,7 @@ describe('Directive: blocks', () => {
       $httpBackend = _$httpBackend_;
 
       $scope = $rootScope.$new();
-      $templateCache.put(
-        'scripts/directives/blocks/campusV2Question.html',
-        '',
-      );
+      $templateCache.put('scripts/directives/blocks/campusV2Question.html', '');
       $scope.block = _.cloneDeep(
         testData.conference.registrationPages[1].blocks[4],
       );
