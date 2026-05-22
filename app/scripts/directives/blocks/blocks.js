@@ -307,7 +307,7 @@ angular
       templateUrl: campusV2QuestionTemplate,
       restrict: 'E',
       controller: function ($scope, $http) {
-        if ($scope.answer && angular.isObject($scope.answer.value)) {
+        if (angular.isObject($scope.answer.value)) {
           $scope.campusName = $scope.answer.value.name;
           $scope.answer.value = $scope.answer.value.id;
         }
