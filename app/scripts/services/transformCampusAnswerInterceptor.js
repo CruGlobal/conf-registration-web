@@ -33,7 +33,8 @@ angular
         // Only transform data on PUT and POST requests
         if (
           (config.method === 'PUT' || config.method === 'POST') &&
-          config.data
+          config.data &&
+          /\/(answers|registrants|registrations)(\/|\?|$)/.test(config.url)
         ) {
           walk(config.data);
         }

@@ -3,14 +3,15 @@ import 'angular-mocks';
 describe('Service: transformCampusAnswerInterceptor', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var transformCampusAnswerInterceptor;
+  let transformCampusAnswerInterceptor;
   beforeEach(inject(function (_transformCampusAnswerInterceptor_) {
     transformCampusAnswerInterceptor = _transformCampusAnswerInterceptor_;
   }));
 
   it('transforms a single campus answer body on PUT', function () {
-    var config = {
+    const config = {
       method: 'PUT',
+      url: '/answers/answer-1',
       data: {
         id: 'answer-1',
         blockId: 'block-1',
@@ -24,8 +25,9 @@ describe('Service: transformCampusAnswerInterceptor', function () {
   });
 
   it('transforms campus answers nested in registrants and groupRegistrants', function () {
-    var config = {
+    const config = {
       method: 'PUT',
+      url: '/registrations/reg-1',
       data: {
         registrants: [
           {
@@ -57,8 +59,9 @@ describe('Service: transformCampusAnswerInterceptor', function () {
   });
 
   it('leaves non-campus answer shapes untouched', function () {
-    var config = {
+    const config = {
       method: 'PUT',
+      url: '/registrants/registrant-1',
       data: {
         answers: [
           { blockId: 'email-block', value: 'user@example.com' },
@@ -80,8 +83,24 @@ describe('Service: transformCampusAnswerInterceptor', function () {
   });
 
   it('does not transform on GET requests', function () {
-    var config = {
+    const config = {
       method: 'GET',
+      url: '/answers/answer-1',
+      data: {
+        blockId: 'campus-block',
+        value: { id: 'campus-1', name: 'Harvard' },
+      },
+    };
+
+    transformCampusAnswerInterceptor.request(config);
+
+    expect(config.data.value).toEqual({ id: 'campus-1', name: 'Harvard' });
+  });
+
+  it('does not transform requests to unrelated endpoints', function () {
+    const config = {
+      method: 'PUT',
+      url: '/payments/payment-1',
       data: {
         blockId: 'campus-block',
         value: { id: 'campus-1', name: 'Harvard' },
