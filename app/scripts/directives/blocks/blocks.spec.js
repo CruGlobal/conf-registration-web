@@ -397,9 +397,9 @@ describe('Directive: blocks', () => {
 
       $scope.searchCampuses('San');
 
-      expect($scope.params.limit).toBeDefined();
+      expect($scope.params.limit).toBe(15);
 
-      expect($scope.params.includeInternational).toBeDefined();
+      expect($scope.params.includeInternational).toBe(true);
     });
 
     it("doesn't add includeInternational", () => {
@@ -409,7 +409,7 @@ describe('Directive: blocks', () => {
 
       $scope.searchCampuses('San');
 
-      expect($scope.params.includeInternational).not.toBeDefined();
+      expect($scope.params.includeInternational).toBeUndefined();
     });
 
     it('checks the campus database if a answer is present on page load', () => {
@@ -425,6 +425,92 @@ describe('Directive: blocks', () => {
       $httpBackend.verifyNoOutstandingRequest();
 
       expect($scope.answer.value).toBe('');
+    });
+  });
+
+  describe('campusV2Question', () => {
+    let $compile, $rootScope, $scope, $httpBackend;
+    beforeEach(inject((
+      _$compile_,
+      _$rootScope_,
+      _$timeout_,
+      $templateCache,
+      testData,
+      _$httpBackend_,
+    ) => {
+      $compile = _$compile_;
+      $rootScope = _$rootScope_;
+      $httpBackend = _$httpBackend_;
+
+      $scope = $rootScope.$new();
+      $templateCache.put('scripts/directives/blocks/campusV2Question.html', '');
+      $scope.block = _.cloneDeep(
+        testData.conference.registrationPages[1].blocks[4],
+      );
+    }));
+
+    it('forms the searchV2Campuses params correctly', () => {
+      $scope.answer = {};
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+      $scope.$digest();
+
+      $httpBackend.expectGET('campuses/connections/search?name=San');
+      $scope.searchV2Campuses('San');
+
+      expect($scope.params.name).toBe('San');
+      expect($scope.params.limit).toBeUndefined();
+      expect($scope.params.includeInternational).toBeUndefined();
+    });
+
+    it('clears the answer if campus is not found', () => {
+      $httpBackend
+        .whenGET('campuses/connections/search?name=SFSU')
+        .respond(() => [200, { records: [] }]);
+
+      $scope.answer = { value: { id: '123', name: 'SFSU' } };
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+
+      $httpBackend.flush();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.answer.value).toBe('');
+    });
+
+    it('gets campus name from enriched value on page load', () => {
+      $httpBackend
+        .whenGET('campuses/connections/search?name=SFSU')
+        .respond(() => [200, { records: [{ id: 123, name: 'SFSU' }] }]);
+
+      $scope.answer = { value: { id: 123, name: 'SFSU' } };
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+
+      $httpBackend.flush();
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.campusName).toBe('SFSU');
+    });
+
+    it('sets the answer value when a campus is selected', () => {
+      $scope.answer = {};
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+      $scope.$digest();
+
+      $scope.selectCampus({ id: 123, name: 'SFSU' });
+
+      expect($scope.answer.value).toBe(123);
+      expect($scope.campusName).toBe('SFSU');
+    });
+
+    it('does not wipe answer when no campusName is set', () => {
+      $scope.answer = { value: '123' };
+      $compile('<campus-v2-question></campus-v2-question>')($scope);
+      $scope.$digest();
+
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect($scope.answer.value).toBe('123');
     });
   });
 

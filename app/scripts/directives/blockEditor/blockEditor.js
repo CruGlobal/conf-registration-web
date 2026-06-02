@@ -110,6 +110,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
             'selectQuestion',
             'birthDateQuestion',
             'campusQuestion',
+            'campusV2Question',
             'dormitoryQuestion',
           ],
           $scope.block.type,
@@ -150,6 +151,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
                 'selectQuestion',
                 'birthDateQuestion',
                 'campusQuestion',
+                'campusV2Question',
                 'dormitoryQuestion',
               ],
               $scope.block.type,
@@ -223,6 +225,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.typeToProfile.opportunitiesQuestion = 'OPPORTUNITIES';
       $scope.typeToProfile.birthDateQuestion = 'BIRTH_DATE';
       $scope.typeToProfile.campusQuestion = 'CAMPUS';
+      $scope.typeToProfile.campusV2Question = 'CAMPUS_V2';
       $scope.typeToProfile.dormitoryQuestion = 'DORMITORY';
       $scope.typeToProfile.graduationDateQuestion = 'GRADUATION_DATE';
       $scope.typeToProfile.ethnicityQuestion = 'ETHNICITY';
