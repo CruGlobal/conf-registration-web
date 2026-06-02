@@ -169,10 +169,10 @@ angular
             name: 'Date of Birth',
           },
           {
-            id: 'campusQuestion',
+            id: 'campusV2Question',
             defaultTitle:
               'Campus - Type the full name of your campus and choose from the list that appears',
-            defaultProfile: 'CAMPUS',
+            defaultProfile: 'CAMPUS_V2',
             iconClass: 'fa-university',
             name: 'Campus',
             defaultExportFieldTitle: 'Campus',

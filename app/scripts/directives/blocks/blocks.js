@@ -13,6 +13,7 @@ import yearInSchoolQuestionTemplate from './yearInSchoolQuestion.html';
 import opportunitiesQuestionTemplate from './opportunitiesQuestion.html';
 import textareaQuestionTemplate from './textareaQuestion.html';
 import campusQuestionTemplate from './campusQuestion.html';
+import campusV2QuestionTemplate from './campusV2Question.html';
 import graduationDateQuestionTemplate from './graduationDateQuestion.html';
 import ethnicityQuestionTemplate from './ethnicityQuestion.html';
 
@@ -287,10 +288,51 @@ angular
               return campusNames.data;
             });
         };
+
         if ($scope.answer.value) {
           $scope.searchCampuses($scope.answer.value).then((data) => {
             if (!data.length) {
               $scope.answer.value = '';
+            }
+          });
+        }
+      },
+    };
+  });
+
+angular
+  .module('confRegistrationWebApp')
+  .directive('campusV2Question', function () {
+    return {
+      templateUrl: campusV2QuestionTemplate,
+      restrict: 'E',
+      controller: function ($scope, $http) {
+        if (angular.isObject($scope.answer.value)) {
+          $scope.campusName = $scope.answer.value.name;
+          $scope.answer.value = $scope.answer.value.id;
+        }
+
+        $scope.searchV2Campuses = function (val) {
+          $scope.params = {
+            name: val,
+          };
+          return $http
+            .get('campuses/connections/search', { params: $scope.params })
+            .then(function (campusNames) {
+              return campusNames.data.records;
+            });
+        };
+
+        $scope.selectCampus = function (campus) {
+          $scope.answer.value = campus.id;
+          $scope.campusName = campus.name;
+        };
+
+        if ($scope.answer.value && $scope.campusName) {
+          $scope.searchV2Campuses($scope.campusName).then((data) => {
+            if (!data.length) {
+              $scope.answer.value = '';
+              $scope.campusName = '';
             }
           });
         }

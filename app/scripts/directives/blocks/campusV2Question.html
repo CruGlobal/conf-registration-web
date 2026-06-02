@@ -1,0 +1,38 @@
+<div class="form-group has-feedback">
+  <input
+    id="block-input-{{block.id}}"
+    type="text"
+    ng-model="campusName"
+    placeholder=""
+    name="campus"
+    autocomplete="off"
+    aria-autocomplete="none"
+    aria-describedby="help-block-{{block.id}}"
+    class="form-control"
+    show-errors
+    ng-required="block.required"
+    uib-typeahead="campus.name for campus in searchV2Campuses($viewValue)"
+    typeahead-on-select="selectCampus($item)"
+    typeahead-loading="loadingCampuses"
+    typeahead-min-length="2"
+    typeahead-wait-ms="400"
+    typeahead-editable="false"
+    typeahead-no-results="campusNotFound"
+    typeahead-show-hint="true"
+  />
+  <span
+    class="form-control-feedback"
+    title="Searching..."
+    ng-if="loadingCampuses"
+  >
+    <i class="fa fa-spinner fa-spin"></i>
+  </span>
+  <span
+    id="help-block-{{block.id}}"
+    ng-if="campusNotFound"
+    class="help-block"
+    translate
+  >
+    *Campus not found. Type the full name of your campus.
+  </span>
+</div>

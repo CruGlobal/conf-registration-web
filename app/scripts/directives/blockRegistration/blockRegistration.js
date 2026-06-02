@@ -185,6 +185,7 @@ angular
             case 'birthDateQuestion':
             case 'ethnicityQuestion':
             case 'campusQuestion':
+            case 'campusV2Question':
             case 'opportunitiesQuestion':
             case 'graduationDateQuestion':
               return blockDefault || '';
