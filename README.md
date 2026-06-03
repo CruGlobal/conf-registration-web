@@ -3,6 +3,22 @@
 [![CI](https://github.com/CruGlobal/conf-registration-web/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/CruGlobal/conf-registration-web/actions/workflows/ci.yml) [![codecov](https://codecov.io/gh/CruGlobal/conf-registration-web/branch/master/graph/badge.svg)](https://codecov.io/gh/CruGlobal/conf-registration-web)
 https://www.eventregistrationtool.com | https://stage.eventregistrationtool.com
 
+## Browser Support
+
+Browser and device usage based on GA4 28-day active users for eventregistrationtool.com (Apr 8 – May 5, 2026).
+
+**Targeted browsers** (Babel/browserslist `defaults`): the last 2 versions of Chrome, Edge, Firefox (and Firefox ESR), Safari (macOS & iOS), Opera, and Samsung Internet, plus any browser with over 0.5% global usage. Internet Explorer is not supported (IE < 10 is redirected to an unsupported-browser page).
+
+| Browser         | Share |     | Device  | Share |
+| :-------------- | :---- | :-- | :------ | :---- |
+| Safari          | 39.2% |     | Desktop | 53.2% |
+| Chrome          | 37.9% |     | Mobile  | 47.6% |
+| (not set)       | 19.2% |     | Tablet  | 0.4%  |
+| Edge            | 1.5%  |     |         |       |
+| Android Webview | 1.2%  |     |         |       |
+| Firefox         | 0.5%  |     |         |       |
+| Other           | <1%   |     |         |       |
+
 ## Development
 
 ### Setting up Node
