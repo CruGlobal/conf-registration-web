@@ -75,7 +75,7 @@ _Last updated: 2026-05-05 · review annually._
 
 **Targeted browsers** (Babel/browserslist `defaults`): the last 2 versions of Chrome, Edge, Firefox (and Firefox ESR), Safari (macOS & iOS), Opera, and Samsung Internet, plus any browser with over 0.5% global usage. Internet Explorer is not supported (IE < 10 is redirected to an unsupported-browser page).
 
-**By browser**
+**Usage by browser**
 
 | Browser         | Share |
 | :-------------- | :---- |
@@ -87,10 +87,14 @@ _Last updated: 2026-05-05 · review annually._
 | Firefox         | 0.5%  |
 | Other           | <1%   |
 
-**By device**
+_`(not set)` is GA4's bucket for traffic it can't attribute to a browser (bots, privacy tooling, stripped user-agents) — not an actual browser._
+
+**Usage by device**
 
 | Device  | Share |
 | :------ | :---- |
 | Desktop | 53.2% |
 | Mobile  | 47.6% |
 | Tablet  | 0.4%  |
+
+_Shares are rounded independently and may not sum to exactly 100%._
