@@ -1,9 +1,13 @@
-import template from 'views/modals/loginDialog.html';
+import template from './loginDialog.html';
 
 angular
   .module('confRegistrationWebApp')
   .service('loginDialog', function ($injector, $rootScope) {
     this.show = function (options) {
+      if ($rootScope.loginModalOpen) {
+        return;
+      }
+
       var loginDialogOptions = {
         templateUrl: template,
         controller: /*@ngInject*/ function (

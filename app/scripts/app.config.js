@@ -1,16 +1,17 @@
-import landingTemplate from 'views/landing.html';
-import registrationTemplate from 'views/registration.html';
-import paymentApprovalTemplate from 'views/paymentApproval.html';
-import reviewRegistrationTemplate from 'views/reviewRegistration.html';
-import eventDashboardTemplate from 'views/eventDashboard.html';
-import eventOverviewTemplate from 'views/eventOverview.html';
-import eventRegistrationsTemplate from 'views/eventRegistrations.html';
-import paymentCashCheckReportTemplate from 'views/paymentCashCheckReport.html';
-import eventFormTemplate from 'views/eventForm.html';
-import eventDetailsTemplate from 'views/eventDetails.html';
-import eventPermissionsTemplate from 'views/eventPermissions.html';
-import helpTemplate from 'views/help.html';
-import oktaDescriptionTemplate from 'views/oktaDescription.html';
+import landingTemplate from 'features/landing/landing.html';
+import registrationTemplate from 'features/registration/registration.html';
+import paymentApprovalTemplate from 'features/paymentApproval/paymentApproval.html';
+import reviewRegistrationTemplate from 'features/reviewRegistration/reviewRegistration.html';
+import eventDashboardTemplate from 'features/eventDashboard/eventDashboard.html';
+import eventOverviewTemplate from 'features/eventOverview/eventOverview.html';
+import eventRegistrationsTemplate from 'features/eventRegistrations/eventRegistrations.html';
+import paymentCashCheckReportTemplate from 'features/paymentCashCheckReport/paymentCashCheckReport.html';
+import eventFormTemplate from 'features/eventForm/eventForm.html';
+import eventDetailsTemplate from 'features/eventDetails/eventDetails.html';
+import eventPermissionsTemplate from 'features/eventPermissions/eventPermissions.html';
+import globalPromotionsTemplate from 'features/globalPromotions/globalPromotions.html';
+import helpTemplate from 'features/help/help.html';
+import oktaDescriptionTemplate from 'features/oktaDescription/oktaDescription.html';
 
 angular
   .module('confRegistrationWebApp')
@@ -33,11 +34,13 @@ angular
     $httpProvider.interceptors.push('unauthorizedInterceptor');
     $httpProvider.interceptors.push('statusInterceptor');
     $httpProvider.interceptors.push('validationInterceptor');
+    $httpProvider.interceptors.push('transformCampusAnswerInterceptor');
 
     envServiceProvider.config({
       domains: {
         development: ['localhost'],
-        staging: ['stage.eventregistrationtool.com', '*.netlify.com'],
+        preview: ['*.netlify.app'],
+        staging: ['stage.eventregistrationtool.com'],
         production: [
           'www.eventregistrationtool.com',
           'eventregistrationtool.com',
@@ -49,10 +52,15 @@ angular
             'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
           tsysEnvironment: 'staging',
         },
+        preview: {
+          apiUrl:
+            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+          tsysEnvironment: 'staging',
+        },
         staging: {
           apiUrl:
             'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
-          tsysEnvironment: 'production',
+          tsysEnvironment: 'staging',
         },
         production: {
           apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
@@ -66,7 +74,8 @@ angular
 
     if (
       envServiceProvider.is('production') ||
-      envServiceProvider.is('staging')
+      envServiceProvider.is('staging') ||
+      envServiceProvider.is('preview')
     ) {
       $compileProvider.debugInfoEnabled(false);
     }
@@ -331,13 +340,9 @@ angular
             return ConfCache.get($route.current.params.conferenceId, true);
           },
           currencies: function (ConfCache) {
-            return ConfCache.initCurrencies()
-              .then(function (data) {
-                return data;
-              })
-              .catch(function () {
-                return [];
-              });
+            return ConfCache.initCurrencies().catch(function () {
+              return [];
+            });
           },
         },
       })
@@ -437,6 +442,20 @@ angular
         title: gettext('Help'),
         templateUrl: helpTemplate,
         controller: 'helpCtrl',
+      })
+      .when('/globalPromotions', {
+        title: gettext('Global Promotions'),
+        templateUrl: globalPromotionsTemplate,
+        controller: 'globalPromotionsCtrl',
+        controllerAs: '$ctrl',
+        authorization: {
+          requireLogin: true,
+        },
+        resolve: {
+          ministries: function (MinistryAdminsCache) {
+            return MinistryAdminsCache.getAsync();
+          },
+        },
       })
       .when('/oktaDescription', {
         title: gettext('Okta Description'),

@@ -1,0 +1,43 @@
+.global-promotions {
+  .promotions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 15px;
+  }
+
+  .filters-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-top: 25px;
+  }
+  .status-label {
+    display: inline-block;
+    min-width: 70px;
+    vertical-align: middle;
+  }
+
+  .sort-button {
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  .amount-column {
+    width: 100px;
+  }
+}

@@ -1,0 +1,490 @@
+import 'angular-mocks';
+
+describe('Controller: eventForm', function () {
+  beforeEach(angular.mock.module('confRegistrationWebApp'));
+
+  let $controller,
+    $httpBackend,
+    $location,
+    $q,
+    $timeout,
+    ConfCache,
+    GrowlService,
+    modalMessage,
+    testData,
+    initController,
+    scope;
+  beforeEach(
+    angular.mock.inject(function (
+      $rootScope,
+      _$controller_,
+      _$httpBackend_,
+      _$location_,
+      _$q_,
+      _$timeout_,
+      _ConfCache_,
+      _GrowlService_,
+      _modalMessage_,
+      _testData_,
+    ) {
+      $controller = _$controller_;
+      $httpBackend = _$httpBackend_;
+      $location = _$location_;
+      $q = _$q_;
+      $timeout = _$timeout_;
+      ConfCache = _ConfCache_;
+      GrowlService = _GrowlService_;
+      modalMessage = _modalMessage_;
+      testData = _testData_;
+
+      initController = (injected) => {
+        scope = $rootScope.$new();
+
+        $controller('eventFormCtrl', {
+          $scope: scope,
+          conference: { ...testData.conference },
+          blockTagTypeService: {
+            loadBlockTagTypes: () => $q.resolve(testData.blockTagTypes),
+            blockTagTypes: () => testData.blockTagTypes,
+            clearCache: () => {},
+          },
+          ...injected,
+        });
+      };
+
+      initController();
+    }),
+  );
+
+  afterEach(() => {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
+
+  describe('saveForm', () => {
+    beforeEach(() => {
+      // Trigger the conference $watch so that oldObject is set on future $watch triggers
+      scope.$digest();
+    });
+
+    it('updates the conference cache and displays a notification', () => {
+      spyOn(ConfCache, 'update');
+      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated';
+      });
+      $httpBackend.flush();
+
+      expect(ConfCache.update).toHaveBeenCalledWith(
+        scope.conference.id,
+        scope.conference,
+      );
+
+      expect(scope.notify.class).toBe('alert-success');
+
+      $timeout.flush();
+
+      expect(scope.notify.class).toBeUndefined();
+    });
+
+    it('debounces saves', () => {
+      spyOn(ConfCache, 'update');
+      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
+
+      // Saves the form
+      scope.$apply(() => {
+        scope.conference.name = 'Updated1';
+      });
+      // Starts a timer to save the form later
+      scope.$apply(() => {
+        scope.conference.name = 'Updated2';
+      });
+      // Updates the timer to save the form later
+      scope.$apply(() => {
+        scope.conference.name = 'Updated3';
+      });
+
+      $httpBackend.flush();
+
+      expect(ConfCache.update).toHaveBeenCalledTimes(1);
+
+      $timeout.flush();
+      $httpBackend.flush();
+
+      expect(ConfCache.update).toHaveBeenCalledTimes(2);
+    });
+
+    it('displays errors', () => {
+      $httpBackend.expectPUT(/^conferences\/.+$/).respond(500, '');
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated';
+      });
+      $httpBackend.flush();
+
+      expect(scope.notify.class).toBe('alert-danger');
+    });
+  });
+
+  describe('previewForm', () => {
+    it('navigates to the preview page', () => {
+      spyOn($location, 'path');
+      scope.previewForm();
+
+      expect($location.path).toHaveBeenCalledWith(
+        `/preview/${testData.conference.id}/page/`,
+      );
+    });
+  });
+
+  describe('deletePage', () => {
+    beforeEach(() => {
+      spyOn(modalMessage, 'error');
+      scope.conference.registrationPages.push(
+        testData.waiverPage,
+        testData.rulesPage,
+      );
+    });
+
+    it('refuses to delete pages with an email profile question', () => {
+      scope.deletePage(testData.conference.registrationPages[0].id);
+
+      expect(modalMessage.error).toHaveBeenCalledTimes(1);
+      expect(modalMessage.error.calls.argsFor(0)[0].message).toBe(
+        'This page contains required profile questions and cannot be deleted.',
+      );
+    });
+
+    it('refuses to delete pages with a name profile question', () => {
+      scope.deletePage(testData.conference.registrationPages[1].id);
+
+      expect(modalMessage.error).toHaveBeenCalledTimes(1);
+      expect(modalMessage.error.calls.argsFor(0)[0].message).toBe(
+        'This page contains required profile questions and cannot be deleted.',
+      );
+    });
+
+    it('refuses to delete pages with a waiver profile question', () => {
+      scope.deletePage(testData.waiverPage.id);
+
+      expect(modalMessage.error).toHaveBeenCalledTimes(1);
+      expect(modalMessage.error.calls.argsFor(0)[0].message).toBe(
+        'This page contains required liability questions and cannot be deleted.',
+      );
+    });
+
+    it('deletes pages', () => {
+      spyOn(GrowlService, 'growl');
+      spyOn(modalMessage, 'confirm').and.returnValue($q.resolve());
+      const page = scope.conference.registrationPages[1];
+      page.blocks = page.blocks.filter((block) => block.profileType === null);
+
+      scope.deletePage(page.id, true);
+      scope.$digest();
+
+      expect(modalMessage.confirm).toHaveBeenCalledTimes(1);
+      const confirmationMessage =
+        modalMessage.confirm.calls.argsFor(0)[0].question;
+
+      expect(confirmationMessage).toContain(
+        `Are you sure you want to delete <strong>${page.title}</strong>?`,
+      );
+
+      expect(confirmationMessage).toContain(
+        'The following rules will also be deleted:',
+      );
+
+      expect(confirmationMessage).toContain(
+        '<strong>Multiple Choice Question</strong> = <strong>12</strong> on <strong>Question</strong>',
+      );
+
+      expect(GrowlService.growl).toHaveBeenCalledTimes(1);
+      expect(GrowlService.growl.calls.argsFor(0)[3]).toBe(
+        `Page "${page.title}" has been deleted.`,
+      );
+    });
+  });
+
+  describe('copyBlock', () => {
+    it('copies an existing block', () => {
+      const existingBlock = scope.conference.registrationPages[1].blocks[3];
+      scope.copyBlock(existingBlock.id);
+      const newBlock = scope.conference.registrationPages[1].blocks[4];
+
+      expect(newBlock.id).not.toBe(existingBlock.id);
+      expect(newBlock.position).toBe(4);
+      expect(newBlock.title).toBe(`${existingBlock.title} (copy)`);
+      expect(newBlock.rules[0].id).not.toBe(existingBlock.rules[0].id);
+      expect(newBlock.rules[0].blockId).toBe(newBlock.id);
+    });
+  });
+
+  describe('insertBlock', () => {
+    it('adds a new block without a default profile', () => {
+      const page = scope.conference.registrationPages[0];
+      const previousFirstBlock = page.blocks[0];
+      scope.insertBlock(
+        'nameQuestion',
+        page.id,
+        0,
+        'Name',
+        undefined,
+        undefined,
+      );
+      const newBlock = page.blocks[0];
+
+      expect(newBlock.pageId).toBe(page.id);
+      expect(newBlock.title).toBe('Name');
+      expect(page.blocks[1]).toBe(previousFirstBlock);
+    });
+
+    it('adds a new block with an unused default profile', () => {
+      const page = scope.conference.registrationPages[0];
+      scope.insertBlock(
+        'phoneQuestion',
+        page.id,
+        0,
+        'Telephone',
+        'PHONE',
+        undefined,
+      );
+
+      expect(page.blocks[0].profileType).toBe('PHONE');
+    });
+
+    it('adds a new block with a used default profile', () => {
+      const page = scope.conference.registrationPages[0];
+      scope.insertBlock(
+        'addressQuestion',
+        page.id,
+        0,
+        'Address',
+        'ADDRESS',
+        undefined,
+      );
+
+      expect(page.blocks[0].profileType).toBe(null);
+    });
+  });
+
+  describe('deleteBlock', () => {
+    var block;
+    beforeEach(() => {
+      block = testData.conference.registrationPages[1].blocks[4];
+    });
+
+    it('deletes a block', () => {
+      spyOn(GrowlService, 'growl');
+
+      scope.deleteBlock(block.id, true);
+
+      expect(GrowlService.growl).toHaveBeenCalledTimes(1);
+      expect(GrowlService.growl.calls.argsFor(0)[3]).toBe(
+        `"${block.title}" has been deleted.`,
+      );
+    });
+
+    it('refuses to delete a block with dependent rules', () => {
+      spyOn(modalMessage, 'error');
+      scope.conference.registrationPages.push(testData.rulesPage);
+
+      scope.deleteBlock(block.id, true);
+
+      expect(modalMessage.error).toHaveBeenCalledTimes(1);
+      const errorMessage = modalMessage.error.calls.argsFor(0)[0].message;
+
+      expect(errorMessage).toContain('<li>Question</li>');
+    });
+  });
+
+  describe('addNewPage', () => {
+    it('adds a new page', () => {
+      expect(scope.conference.registrationPages.length).toBe(3);
+
+      scope.addNewPage();
+      const newPage = scope.conference.registrationPages[3];
+
+      expect(scope.conference.registrationPages.length).toBe(4);
+      expect(newPage.title).toBe('Page 4');
+      expect($location.hash()).toBe('page4');
+    });
+  });
+
+  describe('togglePage', () => {
+    it('toggles page visibility', () => {
+      const pageId = scope.conference.registrationPages[0].id;
+
+      scope.togglePage(pageId);
+
+      expect(scope.isPageHidden(pageId)).toBe(true);
+
+      scope.togglePage(pageId);
+
+      expect(scope.isPageHidden(pageId)).toBe(false);
+    });
+  });
+
+  describe('buildBlockTagTypeMappings', () => {
+    it('builds the blockTagTypeMapping correctly', () => {
+      scope.buildBlockTagTypeMappings();
+
+      const pageOneBlocks = scope.conference.registrationPages[0].blocks;
+      const pageTwoBlocks = scope.conference.registrationPages[1].blocks;
+      const pageThreeBlocks = scope.conference.registrationPages[2].blocks;
+      const mockRegistrantTypes = [
+        { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+        { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+        { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+        { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+        { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+        { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+      ];
+
+      expect(scope.blockTagTypeMapping).toEqual([
+        {
+          blockId: pageOneBlocks[0].id,
+          title: pageOneBlocks[0].title,
+          blockTagTypeId: testData.blockTagTypes[0].id,
+          hiddenFromRegistrantTypes: [
+            { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+            { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+          ],
+          includedInRegistrantTypes: [
+            { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+            { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+            { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+            { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+          ],
+        },
+        {
+          blockId: pageTwoBlocks[0].id,
+          title: pageTwoBlocks[0].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [
+            { id: 'f3c2e1d4-7b8a-4c6f-9e2b-9876543210fe', name: 'Spouse' },
+          ],
+          includedInRegistrantTypes: [
+            { id: '67c70823-35bd-9262-416f-150e35a03514', name: 'Child' },
+            { id: '47de2c40-19dc-45b3-9663-5c005bd6464b', name: 'Staff' },
+            { id: '2b7ca963-0503-47c4-b9cf-6348d59542c3', name: 'Student' },
+            { id: 'b2c3d4e5-f6a7-8901-bcde-234567890abc', name: 'Couple' },
+            { id: 'a1b2c3d4-e5f6-7890-abcd-1234567890ef', name: 'Spouse' },
+          ],
+        },
+        {
+          blockId: pageTwoBlocks[1].id,
+          title: pageTwoBlocks[1].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[2].id,
+          title: pageTwoBlocks[2].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: mockRegistrantTypes,
+          includedInRegistrantTypes: [],
+        },
+        {
+          blockId: pageTwoBlocks[3].id,
+          title: pageTwoBlocks[3].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[4].id,
+          title: pageTwoBlocks[4].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[5].id,
+          title: pageTwoBlocks[5].title,
+          blockTagTypeId: '7a09d6f3-0c25-4281-aa60-b7702e713b9c',
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[6].id,
+          title: pageTwoBlocks[6].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[7].id,
+          title: pageTwoBlocks[7].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[8].id,
+          title: pageTwoBlocks[8].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[9].id,
+          title: pageTwoBlocks[9].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[10].id,
+          title: pageTwoBlocks[10].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[11].id,
+          title: pageTwoBlocks[11].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[12].id,
+          title: pageTwoBlocks[12].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageTwoBlocks[13].id,
+          title: pageTwoBlocks[13].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageThreeBlocks[0].id,
+          title: pageThreeBlocks[0].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageThreeBlocks[1].id,
+          title: pageThreeBlocks[1].title,
+          blockTagTypeId: null,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+        {
+          blockId: pageThreeBlocks[2].id,
+          title: pageThreeBlocks[2].title,
+          blockTagTypeId: testData.blockTagTypes[2].id,
+          hiddenFromRegistrantTypes: [],
+          includedInRegistrantTypes: mockRegistrantTypes,
+        },
+      ]);
+    });
+  });
+});
