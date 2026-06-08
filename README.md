@@ -66,3 +66,35 @@ To run against an ERT API server running on your localhost,
 edit https://github.com/CruGlobal/conf-registration-web/blob/master/app/scripts/app.js,
 replacing https://api.stage.eventregistrationtool.com with http://localhost:8080 in the `vars.development.apiUrl`
 property of the object passed to `envServiceProvider.config`.
+
+## Browser Support
+
+Browser and device usage based on GA4 28-day active users for eventregistrationtool.com (Apr 8 – May 5, 2026).
+
+_Last updated: 2026-05-05 · review annually._
+
+**Targeted browsers** (Babel/browserslist `defaults`): the last 2 versions of Chrome, Edge, Firefox (and Firefox ESR), Safari (macOS & iOS), Opera, and Samsung Internet, plus any browser with over 0.5% global usage. Internet Explorer is not supported (IE < 10 is redirected to an unsupported-browser page).
+
+**Usage by browser**
+
+| Browser         | Share |
+| :-------------- | :---- |
+| Safari          | 39.2% |
+| Chrome          | 37.9% |
+| (not set)       | 19.2% |
+| Edge            | 1.5%  |
+| Android Webview | 1.2%  |
+| Firefox         | 0.5%  |
+| Other           | <1%   |
+
+_`(not set)` is GA4's bucket for traffic it can't attribute to a browser (bots, privacy tooling, stripped user-agents) — not an actual browser._
+
+**Usage by device**
+
+| Device  | Share |
+| :------ | :---- |
+| Desktop | 53.2% |
+| Mobile  | 47.6% |
+| Tablet  | 0.4%  |
+
+_Shares are rounded independently and may not sum to exactly 100%._
