@@ -71,9 +71,7 @@ export const PromoUploadPage: FunctionComponent<PromoUploadPageProps> = ({
 
   const localizedCurrency = (amount: number) =>
     $filter('localizedCurrency')(amount, conference.currency.currencyCode);
-  const currencySymbol: string = $filter('localizedSymbol')(
-    conference.currency.currencyCode,
-  );
+  const currencySymbol: string = conference.currency.shortSymbol;
 
   const { open: openPaymentsModal } = usePaymentsModal({
     $http,
