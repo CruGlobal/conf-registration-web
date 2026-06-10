@@ -2,10 +2,13 @@ angular
   .module('confRegistrationWebApp')
   .filter('localizedCurrency', function ($locale) {
     return function (number, currencyCode) {
+      if (number === null || number === undefined) {
+        return '';
+      }
       let localeId = $locale.id ? $locale.id : 'en-us';
       return number.toLocaleString(localeId, {
         style: 'currency',
-        currency: currencyCode,
+        currency: currencyCode || 'USD',
       });
     };
   });
@@ -15,7 +18,11 @@ angular
   .filter('localizedSymbol', ($locale, $window) => {
     return (currencyCode) => {
       let localeId = $locale && $locale.id ? $locale.id : 'en-us';
-      let symbol = symbolFromFormatToParts(localeId, currencyCode, $window);
+      let symbol = symbolFromFormatToParts(
+        localeId,
+        currencyCode || 'USD',
+        $window,
+      );
       if (symbol) {
         return symbol;
       }
@@ -23,7 +30,7 @@ angular
       return number
         .toLocaleString(localeId, {
           style: 'currency',
-          currency: currencyCode,
+          currency: currencyCode || 'USD',
         })
         .replace(/[0., ]/g, '');
     };
