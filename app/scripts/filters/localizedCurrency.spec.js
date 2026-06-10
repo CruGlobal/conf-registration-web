@@ -31,24 +31,3 @@ describe('Filter: localizedCurrency', function () {
     expect(filter(null, 'USD')).toBe('');
   });
 });
-
-describe('Filter: localizedSymbol', function () {
-  let filter;
-
-  beforeEach(function () {
-    angular.mock.module('confRegistrationWebApp');
-
-    inject(function ($injector) {
-      filter = $injector.get('$filter')('localizedSymbol');
-    });
-  });
-
-  it('should format currency symbol', function () {
-    expect(filter('USD')).toBe('$');
-  });
-
-  it('should fall back to USD when currency code is missing', function () {
-    expect(filter(undefined)).toBe('$');
-    expect(filter(null)).toBe('$');
-  });
-});

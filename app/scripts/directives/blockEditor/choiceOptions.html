@@ -31,9 +31,7 @@
     <label translate>Additional Cost</label>
     <div class="input-group">
       <span class="input-group-addon" aria-hidden="true"
-        ><span class="currency-label"
-          >{{currency | localizedSymbol}}</span
-        ></span
+        ><span class="currency-label">{{currency.shortSymbol}}</span></span
       >
       <input
         type="text"
@@ -49,7 +47,7 @@
         <span translate
           >If the registrant selects this option, the total cost can be
           adjusted. Example: A book could add an additional {{5 |
-          localizedCurrency: currency}} to the cost.</span
+          localizedCurrency: currency.currencyCode}} to the cost.</span
         >
       </p>
     </div>
