@@ -1,5 +1,6 @@
 import 'scripts/clientSideRedirection.js';
 import 'scripts/app.module.js';
+import 'scripts/exceptionHandler.js';
 import 'scripts/app.config.js';
 import 'scripts/app.run.js';
 import 'scripts/app_enforceAuth.js';
