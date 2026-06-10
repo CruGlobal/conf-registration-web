@@ -26,6 +26,10 @@ describe('Filter: localizedCurrency', function () {
     expect(filter(123.12, null)).toContain('123.12');
   });
 
+  it('should fall back to USD when currency code is invalid', function () {
+    expect(filter(123.12, 'BOGUS')).toContain('123.12');
+  });
+
   it('should return an empty string when amount is missing', function () {
     expect(filter(undefined, 'USD')).toBe('');
     expect(filter(null, 'USD')).toBe('');

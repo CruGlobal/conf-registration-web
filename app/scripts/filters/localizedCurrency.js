@@ -1,3 +1,5 @@
+const defaultCurrency = 'USD';
+
 angular
   .module('confRegistrationWebApp')
   .filter('localizedCurrency', function ($locale) {
@@ -6,9 +8,16 @@ angular
         return '';
       }
       const localeId = $locale.id ? $locale.id : 'en-us';
-      return number.toLocaleString(localeId, {
-        style: 'currency',
-        currency: currencyCode || 'USD',
-      });
+      try {
+        return number.toLocaleString(localeId, {
+          style: 'currency',
+          currency: currencyCode || defaultCurrency,
+        });
+      } catch {
+        return number.toLocaleString(localeId, {
+          style: 'currency',
+          currency: defaultCurrency,
+        });
+      }
     };
   });
