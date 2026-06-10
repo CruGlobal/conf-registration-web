@@ -16,6 +16,20 @@ describe('Filter: localizedCurrency', function () {
 
     expect(filter(amount, 'USD')).toContain('123.12');
   });
+
+  it('should format zero amounts', function () {
+    expect(filter(0, 'USD')).toContain('0.00');
+  });
+
+  it('should fall back to USD when currency code is missing', function () {
+    expect(filter(123.12, undefined)).toContain('123.12');
+    expect(filter(123.12, null)).toContain('123.12');
+  });
+
+  it('should return an empty string when amount is missing', function () {
+    expect(filter(undefined, 'USD')).toBe('');
+    expect(filter(null, 'USD')).toBe('');
+  });
 });
 
 describe('Filter: localizedSymbol', function () {
@@ -31,5 +45,10 @@ describe('Filter: localizedSymbol', function () {
 
   it('should format currency symbol', function () {
     expect(filter('USD')).toBe('$');
+  });
+
+  it('should fall back to USD when currency code is missing', function () {
+    expect(filter(undefined)).toBe('$');
+    expect(filter(null)).toBe('$');
   });
 });
