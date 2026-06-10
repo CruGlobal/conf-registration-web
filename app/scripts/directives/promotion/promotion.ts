@@ -18,7 +18,7 @@ interface PromotionScope extends IScope {
   onDelete?: () => void;
 
   // Local state and methods
-  currencyCode: string;
+  currencySymbol: string;
   expanded: boolean;
   activities: MinistryActivity[];
   toggleExpanded: () => void;
@@ -37,7 +37,7 @@ angular.module('confRegistrationWebApp').directive('promotion', function () {
       onDelete: '&?',
     },
     controller($scope: PromotionScope, MinistriesCache: MinistriesCache) {
-      $scope.currencyCode = $scope.conference?.currency.currencyCode ?? 'USD';
+      $scope.currencySymbol = $scope.conference?.currency.shortSymbol ?? '$';
 
       $scope.expanded = false;
       $scope.toggleExpanded = function () {

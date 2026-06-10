@@ -349,7 +349,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
                 return $scope.block.type;
               },
               currency: function () {
-                return $scope.conference.currency.currencyCode;
+                return $scope.conference.currency;
               },
             },
           })
