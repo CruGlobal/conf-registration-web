@@ -82,12 +82,11 @@ angular
                 ? parseFloat(rule.value)
                 : rule.value;
             }
-            // Hide this block if the question that the rule is based on (parentBlock) is hidden or deleted.
-            // The parentBlock may have been deleted, leaving an orphaned rule.
+            // Hide this block if the question that the rule is based on (parentBlock) is hidden.
             let parentBlock = _.find(blocks, { id: rule.parentBlockId });
             if (
               conference &&
-              parentBlock &&
+              parentBlock && // the server strips out admin-only blocks, so the parent might be missing
               !blockVisibleRuleCheck(
                 parentBlock,
                 registrant,
