@@ -16,3 +16,12 @@ const rollbarConfig = {
 };
 
 export const Rollbar = new rollbar(rollbarConfig);
+
+// Attach the logged-in user to Rollbar items; pass null to clear on logout
+export const updateRollbarPerson = (person) => {
+  Rollbar.configure({
+    payload: {
+      person: person || {},
+    },
+  });
+};
