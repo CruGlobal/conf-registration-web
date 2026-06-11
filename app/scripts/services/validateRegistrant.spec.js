@@ -484,6 +484,45 @@ describe('Service: validateRegistrant', function () {
     });
   });
 
+  describe('orphaned rules (parent block deleted)', function () {
+    let conference, registrant, Q2Multiple;
+
+    beforeEach(() => {
+      conference = angular.copy(testData.conference);
+      // Delete Q1, the parent block that Q2's SHOW_QUESTION rule references
+      const page = conference.registrationPages[2];
+      page.blocks = page.blocks.filter(
+        (block) => block.id !== 'd6f1b12a-8c98-4e83-8857-1111111',
+      );
+      Q2Multiple = _.find(page.blocks, {
+        id: '38f8ece0-adf7-423d-9588-2222222',
+      });
+
+      registrant = angular.copy(testData.registration.registrants[0]);
+      // Registrant still has a stale answer for the deleted block
+      _.find(registrant.answers, {
+        blockId: 'd6f1b12a-8c98-4e83-8857-1111111',
+      }).value = 'radio option - show child';
+    });
+
+    it('blockVisible evaluates the rule against the stale answer without throwing', function () {
+      expect(
+        validateRegistrant.blockVisible(
+          Q2Multiple,
+          registrant,
+          false,
+          conference,
+        ),
+      ).toBe(true);
+    });
+
+    it('validate does not throw', function () {
+      expect(() =>
+        validateRegistrant.validate(conference, registrant),
+      ).not.toThrow();
+    });
+  });
+
   describe('shouldShowForRegistrantType()', function () {
     const registrant = { id: 'reg1', registrantTypeId: 'type1' };
 
