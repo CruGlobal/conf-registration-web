@@ -86,6 +86,7 @@ angular
             let parentBlock = _.find(blocks, { id: rule.parentBlockId });
             if (
               conference &&
+              parentBlock && // the server strips out admin-only blocks, so the parent might be missing
               !blockVisibleRuleCheck(
                 parentBlock,
                 registrant,
@@ -362,6 +363,12 @@ angular
               }
               break;
             case 'campusQuestion':
+              if (_.isEmpty(answer)) {
+                invalidBlocks.push(block.id);
+                return;
+              }
+              break;
+            case 'campusV2Question':
               if (_.isEmpty(answer)) {
                 invalidBlocks.push(block.id);
                 return;

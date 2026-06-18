@@ -13,7 +13,7 @@ import {
 import { JournalReport } from 'journalReport';
 import { RegistrationsData } from 'registrations';
 import { Permissions } from 'permissions';
-import journalUploadReviewModalTemplate from 'views/modals/journalUploadReview.html';
+import journalUploadReviewModalTemplate from 'features/journalUploadReview/journalUploadReview.html';
 import { useAccountTransfers } from '../../hooks/useAccountTransfers';
 import { usePaymentsModal } from '../../hooks/usePaymentsModal';
 import { useSelectedItems } from '../../hooks/useSelectedItems';
@@ -66,9 +66,7 @@ export const JournalUploadPage = ({
 
   const localizedCurrency = (amount: number) =>
     $filter('localizedCurrency')(amount, conference.currency.currencyCode);
-  const currencySymbol: string = $filter('localizedSymbol')(
-    conference.currency.currencyCode,
-  );
+  const currencySymbol: string = conference.currency.shortSymbol;
 
   const { open: openPaymentsModal } = usePaymentsModal({
     $http,

@@ -1,3 +1,5 @@
+import { updateRollbarPerson } from 'scripts/errorNotify.js';
+
 angular
   .module('confRegistrationWebApp')
   .service(
@@ -14,6 +16,11 @@ angular
           return $http.get(path).then(function (response) {
             var profileData = response.data;
             cache.put(path, profileData);
+            updateRollbarPerson({
+              id: profileData.id,
+              username: profileData.firstName + ' ' + profileData.lastName,
+              email: profileData.email,
+            });
             return profileData;
           });
         }
@@ -28,6 +35,7 @@ angular
 
       this.clearCache = function () {
         cache.remove(path);
+        updateRollbarPerson(null);
       };
 
       this.globalUser = function () {

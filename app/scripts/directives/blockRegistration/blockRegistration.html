@@ -1,0 +1,97 @@
+<div class="form-group">
+  <label
+    class="control-label"
+    id="block-label-{{block.id}}"
+    for="block-input-{{block.id}}"
+    ><span ng-bind-html="block.title"></span
+    ><em class="required" ng-if="block.required" aria-hidden="true"
+      >*</em
+    ></label
+  >
+
+  <ng-switch on="block.type">
+    <p
+      ng-switch-when="paragraphContent"
+      ng-if="isString(block.content.paragraph)"
+      ng-bind-html="block.content.paragraph"
+      class="display-linebreaks"
+    ></p>
+    <p
+      ng-switch-when="paragraphContent"
+      ng-if="isString(block.content)"
+      ng-bind-html="block.content"
+      class="display-linebreaks"
+    ></p>
+    <text-question block="block" ng-switch-when="textQuestion"></text-question>
+    <textarea-question
+      block="block"
+      ng-switch-when="textareaQuestion"
+    ></textarea-question>
+    <radio-question
+      block="block"
+      ng-switch-when="radioQuestion"
+    ></radio-question>
+    <checkbox-question
+      block="block"
+      ng-switch-when="checkboxQuestion"
+    ></checkbox-question>
+    <phone-question
+      block="block"
+      ng-switch-when="phoneQuestion"
+    ></phone-question>
+    <email-question
+      block="block"
+      ng-switch-when="emailQuestion"
+    ></email-question>
+    <select-question
+      block="block"
+      ng-switch-when="selectQuestion"
+    ></select-question>
+    <name-question block="block" ng-switch-when="nameQuestion"></name-question>
+    <address-question
+      block="block"
+      ng-switch-when="addressQuestion"
+    ></address-question>
+    <number-question
+      block="block"
+      ng-switch-when="numberQuestion"
+    ></number-question>
+    <gender-question
+      block="block"
+      ng-switch-when="genderQuestion"
+    ></gender-question>
+    <date-question block="block" ng-switch-when="dateQuestion"></date-question>
+    <date-question
+      block="block"
+      ng-switch-when="birthDateQuestion"
+    ></date-question>
+    <year-in-school-question
+      block="block"
+      ng-switch-when="yearInSchoolQuestion"
+    ></year-in-school-question>
+    <campus-question
+      block="block"
+      ng-switch-when="campusQuestion"
+    ></campus-question>
+    <campus-v2-question
+      block="block"
+      ng-switch-when="campusV2Question"
+    ></campus-v2-question>
+    <text-question
+      block="block"
+      ng-switch-when="dormitoryQuestion"
+    ></text-question>
+    <opportunities-question
+      block="block"
+      ng-switch-when="opportunitiesQuestion"
+    ></opportunities-question>
+    <graduation-date-question
+      block="block"
+      ng-switch-when="graduationDateQuestion"
+    ></graduation-date-question>
+    <ethnicity-question
+      block="block"
+      ng-switch-when="ethnicityQuestion"
+    ></ethnicity-question>
+  </ng-switch>
+</div>

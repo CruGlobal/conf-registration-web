@@ -3,7 +3,7 @@ import { $Http, $UibModal, ModalMessage } from 'injectables';
 import { Permissions } from 'permissions';
 import { PromotionRegistrationInfo } from 'promotionReport';
 import { Registration } from 'registration';
-import paymentsModalTemplate from 'views/modals/paymentsModal.html';
+import paymentsModalTemplate from 'features/paymentModal/paymentsModal.html';
 
 export const usePaymentsModal = ({
   $http,

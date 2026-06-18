@@ -1,4 +1,4 @@
-import template from 'views/modals/loginDialog.html';
+import template from './loginDialog.html';
 
 angular
   .module('confRegistrationWebApp')

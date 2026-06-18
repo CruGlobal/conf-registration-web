@@ -1,5 +1,5 @@
-import genericModalTemplate from 'views/modals/genericModal.html';
-import confirmModalTemplate from 'views/modals/confirmModal.html';
+import genericModalTemplate from './genericModal.html';
+import confirmModalTemplate from './confirmModal.html';
 
 angular
   .module('confRegistrationWebApp')
