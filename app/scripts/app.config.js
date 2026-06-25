@@ -54,7 +54,7 @@ angular
         },
         preview: {
           apiUrl:
-            'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+            'https://ert-hcm-stage.cru.org/eventhub-api/rest/',
           tsysEnvironment: 'staging',
         },
         staging: {
