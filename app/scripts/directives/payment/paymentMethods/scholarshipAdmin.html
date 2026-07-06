@@ -20,10 +20,28 @@
     <label>
       <span translate>Account Number</span>
       <input
+        ng-if="currentPayment.scholarship.accountType === 'STAFF'"
+        ng-model="currentPayment.scholarship.accountNumber"
+        type="text"
+        class="form-control"
+        placeholder=""
+        uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+        typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
+      />
+      <input
+        ng-if="currentPayment.scholarship.accountType !== 'STAFF'"
         ng-model="currentPayment.scholarship.accountNumber"
         type="text"
         class="form-control"
       />
+      <div
+        id="staff-account-lookup-error-{{$id}}"
+        class="text-danger"
+        ng-if="staffAccountLookupMessage"
+        role="alert"
+      >
+        {{staffAccountLookupMessage}}
+      </div>
     </label>
   </div>
 </div>

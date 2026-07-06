@@ -81,11 +81,29 @@
     <label>
       <span translate>Account Number</span>
       <input
+        ng-if="isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
+        ng-model="currentPayment.transfer.accountNumber"
+        type="text"
+        class="form-control"
+        placeholder=""
+        uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+        typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
+      />
+      <input
+        ng-if="!(isAdminPayment && currentPayment.transfer.accountType === 'STAFF')"
         ng-model="currentPayment.transfer.accountNumber"
         type="text"
         class="form-control"
         ng-disabled="accountNumberDisabled"
       />
+      <div
+        id="staff-account-lookup-error-{{$id}}"
+        class="text-danger"
+        ng-if="staffAccountLookupMessage"
+        role="alert"
+      >
+        {{staffAccountLookupMessage}}
+      </div>
     </label>
   </div>
 </div>
