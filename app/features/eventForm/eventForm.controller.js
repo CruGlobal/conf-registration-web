@@ -45,6 +45,22 @@ angular
       var formSaving = false;
       var formSavingTimeout;
       var formSavingNotifyTimeout;
+      
+      function normalizeCampusProfileTypes() {
+        (
+          ($scope.conference && $scope.conference.registrationPages) ||
+          []
+        ).forEach(function (page) {
+          (page.blocks || []).forEach(function (block) {
+            if (
+              block.type === 'campusV2Question' &&
+              block.profileType !== 'CAMPUS_V2'
+            ) {
+              block.profileType = 'CAMPUS_V2';
+            }
+          });
+        });
+      }
 
       function saveForm() {
         $timeout.cancel(formSavingTimeout);
@@ -56,6 +72,7 @@ angular
         }
 
         formSaving = true;
+        normalizeCampusProfileTypes();
         let conferenceWithoutImage = angular.copy($scope.conference);
         conferenceWithoutImage.image = null;
 

@@ -127,6 +127,29 @@ describe('Controller: eventForm', function () {
     });
   });
 
+  describe('normalizeCampusProfileTypes', () => {
+    beforeEach(() => {
+      scope.$digest();
+    });
+
+    it('forces campusV2Question blocks to the CAMPUS_V2 profile type on save', () => {
+      spyOn(ConfCache, 'update');
+      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
+      const page = scope.conference.registrationPages[0];
+
+      scope.$apply(() => {
+        page.blocks.push(
+          { id: 'campus-v2-block', type: 'campusV2Question', profileType: null },
+        );
+      });
+      $httpBackend.flush();
+
+      expect(
+        page.blocks.find((block) => block.id === 'campus-v2-block').profileType,
+      ).toBe('CAMPUS_V2');
+    });
+  });
+
   describe('previewForm', () => {
     it('navigates to the preview page', () => {
       spyOn($location, 'path');
