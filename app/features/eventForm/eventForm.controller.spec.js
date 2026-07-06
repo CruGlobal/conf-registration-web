@@ -132,23 +132,30 @@ describe('Controller: eventForm', function () {
       scope.$digest();
     });
 
-    it('forces campusV2Question blocks to the CAMPUS_V2 profile type on save', () => {
+    it('forces campusV2Question blocks to CAMPUS_V2 on save, leaving other blocks untouched', () => {
       spyOn(ConfCache, 'update');
       $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
       const page = scope.conference.registrationPages[0];
 
       scope.$apply(() => {
-        page.blocks.push({
-          id: 'campus-v2-block',
-          type: 'campusV2Question',
-          profileType: null,
-        });
+        page.blocks.push(
+          {
+            id: 'campus-v2-block',
+            type: 'campusV2Question',
+            profileType: null,
+          },
+          { id: 'name-block', type: 'nameQuestion', profileType: 'NAME' },
+        );
       });
       $httpBackend.flush();
 
       expect(
         page.blocks.find((block) => block.id === 'campus-v2-block').profileType,
       ).toBe('CAMPUS_V2');
+
+      expect(
+        page.blocks.find((block) => block.id === 'name-block').profileType,
+      ).toBe('NAME');
     });
   });
 
