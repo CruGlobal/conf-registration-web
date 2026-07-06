@@ -138,9 +138,11 @@ describe('Controller: eventForm', function () {
       const page = scope.conference.registrationPages[0];
 
       scope.$apply(() => {
-        page.blocks.push(
-          { id: 'campus-v2-block', type: 'campusV2Question', profileType: null },
-        );
+        page.blocks.push({
+          id: 'campus-v2-block',
+          type: 'campusV2Question',
+          profileType: null,
+        });
       });
       $httpBackend.flush();
 

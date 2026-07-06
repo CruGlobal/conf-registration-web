@@ -45,7 +45,7 @@ angular
       var formSaving = false;
       var formSavingTimeout;
       var formSavingNotifyTimeout;
-      
+
       function normalizeCampusProfileTypes() {
         (
           ($scope.conference && $scope.conference.registrationPages) ||
