@@ -57,6 +57,49 @@ describe('Controller: paymentModal', function () {
     expect(scope.canBeRefunded(giftCardPayment)).toBe(false);
   });
 
+  describe('selectStaffAccountNumber', () => {
+    it('applies the looked up account number to the edited payment', inject(function (
+      $q,
+      staffAccountService,
+    ) {
+      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
+        $q.resolve({ accountNumber: '9870123457', message: null }),
+      );
+      scope.editPayment = { transfer: {} };
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+      scope.$apply();
+
+      expect(staffAccountService.staffAccountNumberLookup).toHaveBeenCalledWith(
+        'staff@cru.org',
+        scope.conference.id,
+      );
+
+      expect(scope.editPayment.transfer.accountNumber).toBe('9870123457');
+    }));
+
+    it('displays the lookup message and leaves the account number empty', inject(function (
+      $q,
+      staffAccountService,
+    ) {
+      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
+        $q.resolve({
+          accountNumber: '',
+          message: 'No staff member was found with that email address.',
+        }),
+      );
+      scope.editPayment = { scholarship: {} };
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'scholarship');
+      scope.$apply();
+
+      expect(scope.editPayment.scholarship.accountNumber).toBe('');
+      expect(scope.staffAccountLookupMessage).toBe(
+        'No staff member was found with that email address.',
+      );
+    }));
+  });
+
   it('savePaymentEdits should validate check number', () => {
     let payment = { paymentType: 'CHECK', status: 'RECEIVED', check: {} };
 

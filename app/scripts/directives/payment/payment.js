@@ -30,6 +30,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       expenseTypesConstants,
       gettextCatalog,
       ProfileCache,
+      staffAccountService,
     ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
@@ -52,14 +53,10 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       };
 
       $scope.searchStaff = function (val) {
-        return $http
-          .get(
-            'registrations/' + $scope.currentRegistration.id + '/staffsearch',
-            { params: { name: val } },
-          )
-          .then(function (response) {
-            return response.data;
-          });
+        return staffAccountService.searchStaff(
+          val,
+          $scope.currentRegistration.id,
+        );
       };
 
       $scope.selectStaff = function (item) {
@@ -69,44 +66,15 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         };
       };
 
-      $scope.searchStaffAccountNumber = function (val) {
-        return $http
-          .get('conferences/' + $scope.conference.id + '/staffAccountNumber', {
-            params: { email: val },
-          })
-          .then(function (response) {
-            return response.data;
-          });
-      };
-
       $scope.selectStaffAccountNumber = function (item, paymentMethod) {
         $scope.staffAccountLookupMessage = null;
         $scope.currentPayment[paymentMethod].accountNumber = '';
-        $scope
-          .searchStaffAccountNumber(item.email)
-          .then(function (data) {
-            if (data && data.staffAccountNumber) {
-              $scope.currentPayment[paymentMethod].accountNumber =
-                data.staffAccountNumber;
-            } else {
-              // 204: no staff member found in the Global Registry
-              $scope.staffAccountLookupMessage = gettextCatalog.getString(
-                'No staff member was found with that email address.',
-              );
-            }
-          })
-          .catch(function (response) {
-            if (response.status === 403) {
-              $scope.staffAccountLookupMessage = gettextCatalog.getString(
-                'You do not have admin permission to look up staff accounts for this event.',
-              );
-            } else {
-              // 404: covers a range of cases, most commonly that this staff
-              // member does not have a staff account number on file.
-              $scope.staffAccountLookupMessage = gettextCatalog.getString(
-                'Unable to find a staff account number for this staff member.',
-              );
-            }
+        staffAccountService
+          .staffAccountNumberLookup(item.email, $scope.conference.id)
+          .then(function (result) {
+            $scope.currentPayment[paymentMethod].accountNumber =
+              result.accountNumber;
+            $scope.staffAccountLookupMessage = result.message;
           });
       };
 

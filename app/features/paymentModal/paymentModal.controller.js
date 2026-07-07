@@ -17,6 +17,7 @@ angular
       permissionConstants,
       expenseTypesConstants,
       globalPromotionService,
+      staffAccountService,
     ) {
       $scope.registration = registration;
       $scope.conference = conference;
@@ -27,6 +28,22 @@ angular
         registrationId: registration.id,
         amount: 0,
         sendEmailReceipt: false,
+      };
+
+      $scope.searchStaff = function (val) {
+        return staffAccountService.searchStaff(val, $scope.registration.id);
+      };
+
+      $scope.selectStaffAccountNumber = function (item, paymentMethod) {
+        $scope.staffAccountLookupMessage = null;
+        $scope.editPayment[paymentMethod].accountNumber = '';
+        staffAccountService
+          .staffAccountNumberLookup(item.email, $scope.conference.id)
+          .then(function (result) {
+            $scope.editPayment[paymentMethod].accountNumber =
+              result.accountNumber;
+            $scope.staffAccountLookupMessage = result.message;
+          });
       };
 
       $scope.findCoupleForSpouse = function (id) {
