@@ -554,27 +554,32 @@
                         </span>
                         <div class="col-sm-9">
                           <div
-                            class="has-feedback"
                             ng-if="editPayment.transfer.accountType === 'STAFF'"
                           >
-                            <input
-                              ng-model="editPayment.transfer.accountNumber"
-                              type="text"
-                              class="form-control"
-                              placeholder=""
-                              uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-                              typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
-                              typeahead-loading="loadingAccountNumber"
-                              typeahead-wait-ms="300"
-                              ng-disabled="editPayment.reported"
-                            />
-                            <span
-                              class="form-control-feedback"
-                              title="Searching..."
-                              ng-if="loadingAccountNumber"
-                            >
-                              <i class="fa fa-spinner fa-spin"></i>
+                            <span class="help-block" translate>
+                              Search by staff member name to look up their
+                              account number.
                             </span>
+                            <div class="has-feedback staff-account-search">
+                              <input
+                                ng-model="editPayment.transfer.accountNumber"
+                                type="text"
+                                class="form-control"
+                                placeholder=""
+                                uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+                                typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
+                                typeahead-loading="loadingAccountNumber"
+                                typeahead-wait-ms="300"
+                                ng-disabled="editPayment.reported"
+                              />
+                              <span
+                                class="form-control-feedback"
+                                title="Searching..."
+                                ng-if="loadingAccountNumber"
+                              >
+                                <i class="fa fa-spinner fa-spin"></i>
+                              </span>
+                            </div>
                           </div>
                           <input
                             ng-if="editPayment.transfer.accountType !== 'STAFF'"
@@ -627,27 +632,32 @@
                           </span>
                           <div class="col-sm-9">
                             <div
-                              class="has-feedback"
                               ng-if="editPayment.scholarship.accountType === 'STAFF'"
                             >
-                              <input
-                                ng-model="editPayment.scholarship.accountNumber"
-                                type="text"
-                                class="form-control"
-                                placeholder=""
-                                uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-                                typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
-                                typeahead-loading="loadingAccountNumber"
-                                typeahead-wait-ms="300"
-                                ng-disabled="editPayment.reported"
-                              />
-                              <span
-                                class="form-control-feedback"
-                                title="Searching..."
-                                ng-if="loadingAccountNumber"
-                              >
-                                <i class="fa fa-spinner fa-spin"></i>
+                              <span class="help-block" translate>
+                                Search by staff member name to look up their
+                                account number.
                               </span>
+                              <div class="has-feedback staff-account-search">
+                                <input
+                                  ng-model="editPayment.scholarship.accountNumber"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder=""
+                                  uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+                                  typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
+                                  typeahead-loading="loadingAccountNumber"
+                                  typeahead-wait-ms="300"
+                                  ng-disabled="editPayment.reported"
+                                />
+                                <span
+                                  class="form-control-feedback"
+                                  title="Searching..."
+                                  ng-if="loadingAccountNumber"
+                                >
+                                  <i class="fa fa-spinner fa-spin"></i>
+                                </span>
+                              </div>
                             </div>
                             <input
                               ng-if="editPayment.scholarship.accountType !== 'STAFF'"

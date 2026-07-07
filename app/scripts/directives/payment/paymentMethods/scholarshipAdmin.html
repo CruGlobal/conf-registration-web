@@ -19,27 +19,29 @@
   <div class="col-sm-12">
     <label>
       <span translate>Account Number</span>
-      <div
-        class="has-feedback"
-        ng-if="currentPayment.scholarship.accountType === 'STAFF'"
-      >
-        <input
-          ng-model="currentPayment.scholarship.accountNumber"
-          type="text"
-          class="form-control"
-          placeholder=""
-          uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-          typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
-          typeahead-loading="loadingAccountNumber"
-          typeahead-wait-ms="300"
-        />
-        <span
-          class="form-control-feedback"
-          title="Searching..."
-          ng-if="loadingAccountNumber"
-        >
-          <i class="fa fa-spinner fa-spin"></i>
+      <div ng-if="currentPayment.scholarship.accountType === 'STAFF'">
+        <span class="help-block" translate>
+          Search by staff member name to look up their account number.
         </span>
+        <div class="has-feedback staff-account-search">
+          <input
+            ng-model="currentPayment.scholarship.accountNumber"
+            type="text"
+            class="form-control"
+            placeholder=""
+            uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+            typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
+            typeahead-loading="loadingAccountNumber"
+            typeahead-wait-ms="300"
+          />
+          <span
+            class="form-control-feedback"
+            title="Searching..."
+            ng-if="loadingAccountNumber"
+          >
+            <i class="fa fa-spinner fa-spin"></i>
+          </span>
+        </div>
       </div>
       <input
         ng-if="currentPayment.scholarship.accountType !== 'STAFF'"
