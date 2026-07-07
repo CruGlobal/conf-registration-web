@@ -71,14 +71,12 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
 
       $scope.searchStaffAccountNumber = function (val) {
         return $http
-          .get(
-            'conferences/' + $scope.conference.id + '/staffAccountNumber',
-            { params: { email: val } },
-          )
+          .get('conferences/' + $scope.conference.id + '/staffAccountNumber', {
+            params: { email: val },
+          })
           .then(function (response) {
             return response.data;
-          }
-          );
+          });
       };
 
       $scope.selectStaffAccountNumber = function (item, paymentMethod) {

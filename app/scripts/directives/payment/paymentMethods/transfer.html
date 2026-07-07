@@ -80,15 +80,28 @@
   <div class="col-sm-12">
     <label>
       <span translate>Account Number</span>
-      <input
+      <div
+        class="has-feedback"
         ng-if="isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
-        ng-model="currentPayment.transfer.accountNumber"
-        type="text"
-        class="form-control"
-        placeholder=""
-        uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-        typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
-      />
+      >
+        <input
+          ng-model="currentPayment.transfer.accountNumber"
+          type="text"
+          class="form-control"
+          placeholder=""
+          uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
+          typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
+          typeahead-loading="loadingAccountNumber"
+          typeahead-wait-ms="300"
+        />
+        <span
+          class="form-control-feedback"
+          title="Searching..."
+          ng-if="loadingAccountNumber"
+        >
+          <i class="fa fa-spinner fa-spin"></i>
+        </span>
+      </div>
       <input
         ng-if="!(isAdminPayment && currentPayment.transfer.accountType === 'STAFF')"
         ng-model="currentPayment.transfer.accountNumber"

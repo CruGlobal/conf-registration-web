@@ -3,19 +3,21 @@ import 'angular-mocks';
 describe('Directive: ertPayment', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var scope, $rootScope, element, $compile, ProfileCache, $q;
+  var scope, $rootScope, element, $compile, ProfileCache, $q, $httpBackend;
   beforeEach(inject((
     _$rootScope_,
     $templateCache,
     _$compile_,
     _ProfileCache_,
     _$q_,
+    _$httpBackend_,
     testData,
   ) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     ProfileCache = _ProfileCache_;
     $q = _$q_;
+    $httpBackend = _$httpBackend_;
 
     spyOn($rootScope, 'globalUser').and.returnValue({
       staffAccountNumber: '9870123457',
@@ -126,6 +128,77 @@ describe('Directive: ertPayment', function () {
 
     expect(scope.currentPayment.transfer.businessUnit).toBe('');
     expect(scope.currentPayment.transfer.department).toBe('');
+  });
+
+  describe('selectStaffAccountNumber', () => {
+    it('sets accountNumber from the staff account lookup for a transfer', () => {
+      scope.currentPayment = { transfer: { accountType: 'STAFF' } };
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(200, { staffAccountNumber: '9870123457' });
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+      $httpBackend.flush();
+
+      expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
+    });
+
+    it('sets accountNumber from the staff account lookup for a scholarship', () => {
+      scope.currentPayment = { scholarship: { accountType: 'STAFF' } };
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(200, { staffAccountNumber: '9870123457' });
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'scholarship');
+      $httpBackend.flush();
+
+      expect(scope.currentPayment.scholarship.accountNumber).toBe('9870123457');
+    });
+
+    it('clears accountNumber and shows a message when no staff is found (204)', () => {
+      scope.currentPayment = { transfer: { accountType: 'STAFF' } };
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(204, '');
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+      $httpBackend.flush();
+
+      expect(scope.currentPayment.transfer.accountNumber).toBe('');
+      expect(scope.staffAccountLookupMessage).toBe(
+        'No staff member was found with that email address.',
+      );
+    });
+
+    it('shows a permission message when the lookup is forbidden (403)', () => {
+      scope.currentPayment = { transfer: { accountType: 'STAFF' } };
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(403, '');
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+      $httpBackend.flush();
+
+      expect(scope.currentPayment.transfer.accountNumber).toBe('');
+      expect(scope.staffAccountLookupMessage).toBe(
+        'You do not have admin permission to look up staff accounts for this event.',
+      );
+    });
+
+    it('shows a not found message for other errors (404)', () => {
+      scope.currentPayment = { transfer: { accountType: 'STAFF' } };
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(404, '');
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+      $httpBackend.flush();
+
+      expect(scope.currentPayment.transfer.accountNumber).toBe('');
+      expect(scope.staffAccountLookupMessage).toBe(
+        'Unable to find a staff account number for this staff member.',
+      );
+    });
   });
 
   it('validatePayment should validate required TRANSFER NON_US_STAFF operatingUnit field', () => {
