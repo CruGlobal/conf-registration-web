@@ -13,7 +13,7 @@ angular
           });
       };
 
-      this.searchStaffAccountNumber = function (val, conferenceId) {
+      function searchStaffAccountNumber(val, conferenceId) {
         return $http
           .get('conferences/' + conferenceId + '/staffAccountNumber', {
             params: { email: val },
@@ -21,10 +21,10 @@ angular
           .then(function (response) {
             return response.data;
           });
-      };
+      }
 
       this.staffAccountNumberLookup = function (email, conferenceId) {
-        return this.searchStaffAccountNumber(email, conferenceId).then(
+        return searchStaffAccountNumber(email, conferenceId).then(
           function (data) {
             if (data && data.staffAccountNumber) {
               return { accountNumber: data.staffAccountNumber, message: null };
@@ -45,8 +45,12 @@ angular
                   ? gettextCatalog.getString(
                       'You do not have admin permission to look up staff accounts for this event.',
                     )
-                  : gettextCatalog.getString(
+                  : response.status === 404
+                  ? gettextCatalog.getString(
                       'Unable to find a staff account number for this staff member.',
+                    )
+                  : gettextCatalog.getString(
+                      'An error occurred while looking up the staff account number.',
                     ),
             };
           },

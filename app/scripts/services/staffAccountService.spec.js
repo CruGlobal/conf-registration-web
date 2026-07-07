@@ -86,7 +86,7 @@ describe('Service: staffAccountService', function () {
       });
     });
 
-    it('returns a not found message for other errors (404)', () => {
+    it('returns a not found message for not found (404)', () => {
       var result;
       $httpBackend
         .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
@@ -102,6 +102,25 @@ describe('Service: staffAccountService', function () {
       expect(result).toEqual({
         accountNumber: '',
         message: 'Unable to find a staff account number for this staff member.',
+      });
+    });
+
+    it('returns a generic error message for other errors', () => {
+      var result;
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(500, '');
+
+      staffAccountService
+        .staffAccountNumberLookup('staff@cru.org', 'conf-1')
+        .then((r) => {
+          result = r;
+        });
+      $httpBackend.flush();
+
+      expect(result).toEqual({
+        accountNumber: '',
+        message: 'An error occurred while looking up the staff account number.',
       });
     });
   });

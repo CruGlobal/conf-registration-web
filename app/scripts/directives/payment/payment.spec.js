@@ -171,6 +171,23 @@ describe('Directive: ertPayment', function () {
         'No staff member was found with that email address.',
       );
     });
+
+    it('clears any prior lookup message before the new lookup resolves', () => {
+      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
+        $q.resolve({ accountNumber: '9870123457', message: null }),
+      );
+      scope.currentPayment = { transfer: { accountNumber: 'OLD' } };
+      scope.staffAccountLookupMessage = 'stale error from a previous lookup';
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+
+      expect(scope.staffAccountLookupMessage).toBeNull();
+      expect(scope.currentPayment.transfer.accountNumber).toBe('');
+
+      scope.$apply();
+
+      expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
+    });
   });
 
   it('validatePayment should validate required TRANSFER NON_US_STAFF operatingUnit field', () => {

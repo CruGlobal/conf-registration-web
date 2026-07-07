@@ -33,6 +33,7 @@
             typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
             typeahead-loading="loadingAccountNumber"
             typeahead-wait-ms="300"
+            typeahead-editable="false"
           />
           <span
             class="form-control-feedback"
@@ -49,12 +50,7 @@
         type="text"
         class="form-control"
       />
-      <div
-        id="staff-account-lookup-error-{{$id}}"
-        class="text-danger"
-        ng-if="staffAccountLookupMessage"
-        role="alert"
-      >
+      <div class="text-danger" ng-if="staffAccountLookupMessage" role="alert">
         {{staffAccountLookupMessage}}
       </div>
     </label>

@@ -571,6 +571,7 @@
                                 typeahead-loading="loadingAccountNumber"
                                 typeahead-wait-ms="300"
                                 ng-disabled="editPayment.reported"
+                                typeahead-editable="false"
                               />
                               <span
                                 class="form-control-feedback"
@@ -589,7 +590,6 @@
                             class="form-control"
                           />
                           <div
-                            id="staff-account-lookup-error-{{$id}}"
                             class="text-danger"
                             ng-if="staffAccountLookupMessage"
                             role="alert"
@@ -649,6 +649,7 @@
                                   typeahead-loading="loadingAccountNumber"
                                   typeahead-wait-ms="300"
                                   ng-disabled="editPayment.reported"
+                                  typeahead-editable="false"
                                 />
                                 <span
                                   class="form-control-feedback"
@@ -667,7 +668,6 @@
                               class="form-control"
                             />
                             <div
-                              id="staff-account-lookup-error-{{$id}}"
                               class="text-danger"
                               ng-if="staffAccountLookupMessage"
                               role="alert"

@@ -98,6 +98,26 @@ describe('Controller: paymentModal', function () {
         'No staff member was found with that email address.',
       );
     }));
+
+    it('clears any prior lookup message before the new lookup resolves', inject(function (
+      $q,
+      staffAccountService,
+    ) {
+      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
+        $q.resolve({ accountNumber: '9870123457', message: null }),
+      );
+      scope.editPayment = { transfer: { accountNumber: 'OLD' } };
+      scope.staffAccountLookupMessage = 'stale error from a previous lookup';
+
+      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
+
+      expect(scope.staffAccountLookupMessage).toBeNull();
+      expect(scope.editPayment.transfer.accountNumber).toBe('');
+
+      scope.$apply();
+
+      expect(scope.editPayment.transfer.accountNumber).toBe('9870123457');
+    }));
   });
 
   it('savePaymentEdits should validate check number', () => {
