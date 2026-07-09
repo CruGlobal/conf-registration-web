@@ -556,31 +556,13 @@
                           <div
                             ng-if="editPayment.transfer.accountType === 'STAFF'"
                           >
-                            <span class="help-block" translate>
-                              Search by staff member name to look up their
-                              account number.
-                            </span>
-                            <div class="has-feedback staff-account-search">
-                              <input
-                                ng-model="editPayment.transfer.accountNumber"
-                                type="text"
-                                class="form-control"
-                                placeholder=""
-                                uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-                                typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
-                                typeahead-loading="loadingAccountNumber"
-                                typeahead-wait-ms="300"
-                                ng-disabled="editPayment.reported"
-                                typeahead-editable="false"
-                              />
-                              <span
-                                class="form-control-feedback"
-                                title="Searching..."
-                                ng-if="loadingAccountNumber"
-                              >
-                                <i class="fa fa-spinner fa-spin"></i>
-                              </span>
-                            </div>
+                            <staff-account-search
+                              payment="editPayment.transfer"
+                              registration-id="registration.id"
+                              conference-id="conference.id"
+                              disabled="editPayment.reported"
+                            >
+                            </staff-account-search>
                           </div>
                           <input
                             ng-if="editPayment.transfer.accountType !== 'STAFF'"
@@ -589,13 +571,6 @@
                             type="text"
                             class="form-control"
                           />
-                          <div
-                            class="text-danger"
-                            ng-if="staffAccountLookupMessage"
-                            role="alert"
-                          >
-                            {{staffAccountLookupMessage}}
-                          </div>
                         </div>
                       </label>
                     </div>
@@ -634,31 +609,13 @@
                             <div
                               ng-if="editPayment.scholarship.accountType === 'STAFF'"
                             >
-                              <span class="help-block" translate>
-                                Search by staff member name to look up their
-                                account number.
-                              </span>
-                              <div class="has-feedback staff-account-search">
-                                <input
-                                  ng-model="editPayment.scholarship.accountNumber"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder=""
-                                  uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-                                  typeahead-on-select="selectStaffAccountNumber($item, 'scholarship')"
-                                  typeahead-loading="loadingAccountNumber"
-                                  typeahead-wait-ms="300"
-                                  ng-disabled="editPayment.reported"
-                                  typeahead-editable="false"
-                                />
-                                <span
-                                  class="form-control-feedback"
-                                  title="Searching..."
-                                  ng-if="loadingAccountNumber"
-                                >
-                                  <i class="fa fa-spinner fa-spin"></i>
-                                </span>
-                              </div>
+                              <staff-account-search
+                                payment="editPayment.scholarship"
+                                registration-id="registration.id"
+                                conference-id="conference.id"
+                                disabled="editPayment.reported"
+                              >
+                              </staff-account-search>
                             </div>
                             <input
                               ng-if="editPayment.scholarship.accountType !== 'STAFF'"
@@ -667,13 +624,6 @@
                               type="text"
                               class="form-control"
                             />
-                            <div
-                              class="text-danger"
-                              ng-if="staffAccountLookupMessage"
-                              role="alert"
-                            >
-                              {{staffAccountLookupMessage}}
-                            </div>
                           </div>
                         </label>
                       </div>

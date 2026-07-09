@@ -21,8 +21,8 @@ describe('Service: staffAccountService', function () {
         .expectGET(/registrations\/reg-1\/staffsearch\?name=john/)
         .respond(200, [{ firstName: 'John', lastName: 'Doe' }]);
 
-      staffAccountService.searchStaff('john', 'reg-1').then((r) => {
-        result = r;
+      staffAccountService.searchStaff('john', 'reg-1').then((lookupResult) => {
+        result = lookupResult;
       });
       $httpBackend.flush();
 

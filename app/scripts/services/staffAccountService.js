@@ -3,20 +3,20 @@ angular
   .service(
     'staffAccountService',
     function StaffAccountService($http, gettextCatalog) {
-      this.searchStaff = function (val, registrationId) {
+      this.searchStaff = function (name, registrationId) {
         return $http
           .get('registrations/' + registrationId + '/staffsearch', {
-            params: { name: val },
+            params: { name },
           })
           .then(function (response) {
             return response.data;
           });
       };
 
-      function searchStaffAccountNumber(val, conferenceId) {
+      function searchStaffAccountNumber(email, conferenceId) {
         return $http
           .get('conferences/' + conferenceId + '/staffAccountNumber', {
-            params: { email: val },
+            params: { email },
           })
           .then(function (response) {
             return response.data;

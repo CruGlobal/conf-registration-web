@@ -83,29 +83,12 @@
       <div
         ng-if="isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
       >
-        <span class="help-block" translate>
-          Search by staff member name to look up their account number.
-        </span>
-        <div class="has-feedback staff-account-search">
-          <input
-            ng-model="currentPayment.transfer.accountNumber"
-            type="text"
-            class="form-control"
-            placeholder=""
-            uib-typeahead="staff.lastName + ', ' + staff.firstName + ' (' + staff.email + ')' for staff in searchStaff($viewValue)"
-            typeahead-on-select="selectStaffAccountNumber($item, 'transfer')"
-            typeahead-loading="loadingAccountNumber"
-            typeahead-wait-ms="300"
-            typeahead-editable="false"
-          />
-          <span
-            class="form-control-feedback"
-            title="Searching..."
-            ng-if="loadingAccountNumber"
-          >
-            <i class="fa fa-spinner fa-spin"></i>
-          </span>
-        </div>
+        <staff-account-search
+          payment="currentPayment.transfer"
+          registration-id="currentRegistration.id"
+          conference-id="conference.id"
+        >
+        </staff-account-search>
       </div>
       <input
         ng-if="!(isAdminPayment && currentPayment.transfer.accountType === 'STAFF')"
@@ -114,9 +97,6 @@
         class="form-control"
         ng-disabled="accountNumberDisabled"
       />
-      <div class="text-danger" ng-if="staffAccountLookupMessage" role="alert">
-        {{staffAccountLookupMessage}}
-      </div>
     </label>
   </div>
 </div>

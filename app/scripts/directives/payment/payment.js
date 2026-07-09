@@ -52,9 +52,9 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
 
-      $scope.searchStaff = function (val) {
+      $scope.searchStaff = function (name) {
         return staffAccountService.searchStaff(
-          val,
+          name,
           $scope.currentRegistration.id,
         );
       };
@@ -64,18 +64,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           staffApprovalName: item.firstName + ' ' + item.lastName,
           staffEmail: item.email,
         };
-      };
-
-      $scope.selectStaffAccountNumber = function (item, paymentMethod) {
-        $scope.staffAccountLookupMessage = null;
-        $scope.currentPayment[paymentMethod].accountNumber = '';
-        staffAccountService
-          .staffAccountNumberLookup(item.email, $scope.conference.id)
-          .then(function (result) {
-            $scope.currentPayment[paymentMethod].accountNumber =
-              result.accountNumber;
-            $scope.staffAccountLookupMessage = result.message;
-          });
       };
 
       //payment validation

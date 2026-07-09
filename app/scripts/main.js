@@ -58,6 +58,7 @@ import 'scripts/directives/showAnswer/showAnswer.js';
 import 'scripts/directives/showGroupModal/showGroupModal.js';
 import 'scripts/directives/showErrors/showErrors.js';
 import 'scripts/directives/stringToNumber/stringToNumber.js';
+import 'scripts/directives/staffAccountSearch/staffAccountSearch.js';
 import 'scripts/directives/rule/rule.js';
 import 'scripts/directives/readFile/readFile.js';
 

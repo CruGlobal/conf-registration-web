@@ -136,57 +136,18 @@ describe('Directive: ertPayment', function () {
     expect(scope.currentPayment.transfer.department).toBe('');
   });
 
-  describe('selectStaffAccountNumber', () => {
-    it('applies the looked up account number to the selected payment method', () => {
-      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
-        $q.resolve({ accountNumber: '9870123457', message: null }),
-      );
-      scope.currentPayment = { transfer: {} };
-
-      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
-      scope.$apply();
-
-      expect(staffAccountService.staffAccountNumberLookup).toHaveBeenCalledWith(
-        'staff@cru.org',
-        scope.conference.id,
+  describe('searchStaff', () => {
+    it('delegates to staffAccountService with the current registration id', () => {
+      spyOn(staffAccountService, 'searchStaff').and.returnValue(
+        $q.resolve([{ firstName: 'John', lastName: 'Doe' }]),
       );
 
-      expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
-    });
+      scope.searchStaff('john');
 
-    it('displays the lookup message and leaves the account number empty', () => {
-      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
-        $q.resolve({
-          accountNumber: '',
-          message: 'No staff member was found with that email address.',
-        }),
+      expect(staffAccountService.searchStaff).toHaveBeenCalledWith(
+        'john',
+        scope.currentRegistration.id,
       );
-      scope.currentPayment = { scholarship: {} };
-
-      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'scholarship');
-      scope.$apply();
-
-      expect(scope.currentPayment.scholarship.accountNumber).toBe('');
-      expect(scope.staffAccountLookupMessage).toBe(
-        'No staff member was found with that email address.',
-      );
-    });
-
-    it('clears any prior lookup message before the new lookup resolves', () => {
-      spyOn(staffAccountService, 'staffAccountNumberLookup').and.returnValue(
-        $q.resolve({ accountNumber: '9870123457', message: null }),
-      );
-      scope.currentPayment = { transfer: { accountNumber: 'OLD' } };
-      scope.staffAccountLookupMessage = 'stale error from a previous lookup';
-
-      scope.selectStaffAccountNumber({ email: 'staff@cru.org' }, 'transfer');
-
-      expect(scope.staffAccountLookupMessage).toBeNull();
-      expect(scope.currentPayment.transfer.accountNumber).toBe('');
-
-      scope.$apply();
-
-      expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
     });
   });
 
