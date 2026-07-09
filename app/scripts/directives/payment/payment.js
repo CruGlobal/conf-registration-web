@@ -25,7 +25,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
-      $http,
       $rootScope,
       expenseTypesConstants,
       gettextCatalog,

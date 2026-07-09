@@ -39,8 +39,8 @@ describe('Service: staffAccountService', function () {
 
       staffAccountService
         .staffAccountNumberLookup('staff@cru.org', 'conf-1')
-        .then((r) => {
-          result = r;
+        .then((lookupResult) => {
+          result = lookupResult;
         });
       $httpBackend.flush();
 
@@ -55,8 +55,8 @@ describe('Service: staffAccountService', function () {
 
       staffAccountService
         .staffAccountNumberLookup('staff@cru.org', 'conf-1')
-        .then((r) => {
-          result = r;
+        .then((lookupResult) => {
+          result = lookupResult;
         });
       $httpBackend.flush();
 
@@ -74,8 +74,8 @@ describe('Service: staffAccountService', function () {
 
       staffAccountService
         .staffAccountNumberLookup('staff@cru.org', 'conf-1')
-        .then((r) => {
-          result = r;
+        .then((lookupResult) => {
+          result = lookupResult;
         });
       $httpBackend.flush();
 
@@ -94,8 +94,8 @@ describe('Service: staffAccountService', function () {
 
       staffAccountService
         .staffAccountNumberLookup('staff@cru.org', 'conf-1')
-        .then((r) => {
-          result = r;
+        .then((lookupResult) => {
+          result = lookupResult;
         });
       $httpBackend.flush();
 
@@ -113,8 +113,8 @@ describe('Service: staffAccountService', function () {
 
       staffAccountService
         .staffAccountNumberLookup('staff@cru.org', 'conf-1')
-        .then((r) => {
-          result = r;
+        .then((lookupResult) => {
+          result = lookupResult;
         });
       $httpBackend.flush();
 
