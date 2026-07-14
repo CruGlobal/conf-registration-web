@@ -86,6 +86,7 @@ angular
             let parentBlock = _.find(blocks, { id: rule.parentBlockId });
             if (
               conference &&
+              parentBlock && // the server strips out admin-only blocks, so the parent might be missing
               !blockVisibleRuleCheck(
                 parentBlock,
                 registrant,

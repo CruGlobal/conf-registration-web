@@ -225,7 +225,7 @@ angular.module('confRegistrationWebApp').directive('blockEditor', function () {
       $scope.typeToProfile.opportunitiesQuestion = 'OPPORTUNITIES';
       $scope.typeToProfile.birthDateQuestion = 'BIRTH_DATE';
       $scope.typeToProfile.campusQuestion = 'CAMPUS';
-      $scope.typeToProfile.campusV2Question = 'CAMPUS_V2';
+      //$scope.typeToProfile.campusV2Question = 'CAMPUS_V2';
       $scope.typeToProfile.dormitoryQuestion = 'DORMITORY';
       $scope.typeToProfile.graduationDateQuestion = 'GRADUATION_DATE';
       $scope.typeToProfile.ethnicityQuestion = 'ETHNICITY';
