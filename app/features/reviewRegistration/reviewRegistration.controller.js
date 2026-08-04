@@ -218,15 +218,16 @@ angular
       };
 
       // Display an error that occurred during registration completion
-      function handleRegistrationError(error) {
-        if (!error) {
+      function handleRegistrationError(error, paymentCharged) {
+        if (!paymentCharged && !error) {
           return;
         }
 
         modalMessage.error({
-          message:
-            error.message ||
-            'An error occurred while attempting to complete your registration.',
+          message: paymentCharged
+            ? 'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator.'
+            : error.message ||
+              'An error occurred while attempting to complete your registration.',
           forceAction: true,
         });
       }
@@ -246,6 +247,11 @@ angular
           : $route.reload();
       };
 
+      // Payment processing happens before registration completion.
+      // In the event that the payment succeeds but the registration fails to complete,
+      // we must ensure that the user cannot be charged again.
+      let paymentCharged = false;
+
       // Called when the user clicks the confirm button
       $scope.confirmRegistration = function () {
         $scope.submittingRegistration = true;
@@ -260,17 +266,30 @@ angular
             );
           })
           .then(function () {
+            // If the card was already charged on a previous attempt, skip
+            // payment entirely so a retry only re-runs the remaining steps.
+            if (paymentCharged) {
+              return;
+            }
+
             // If the payment type is a gift card, the API needs to know the full registration cost.
             if ($scope.currentPayment.paymentType === 'FL_GIFT_CARD') {
               $scope.currentPayment.amount =
                 currentRegistration.calculatedTotalDue;
             }
-            return payment.pay(
-              $scope.currentPayment,
-              conference,
-              currentRegistration,
-              $scope.acceptedPaymentMethods(),
-            );
+            return payment
+              .pay(
+                $scope.currentPayment,
+                conference,
+                currentRegistration,
+                $scope.acceptedPaymentMethods(),
+              )
+              .then(function (result) {
+                if (result) {
+                  paymentCharged = true;
+                }
+                return result;
+              });
           })
           .then(function () {
             return registration.completeRegistration(currentRegistration);
@@ -284,7 +303,10 @@ angular
             $scope.navigateToPostRegistrationPage();
           })
           .catch(function (response) {
-            handleRegistrationError((response && response.data) || response);
+            handleRegistrationError(
+              (response && response.data) || response,
+              paymentCharged,
+            );
 
             $scope.submittingRegistration = false;
           });
