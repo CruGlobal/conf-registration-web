@@ -75,6 +75,7 @@ module.exports = (env = {}) => {
           ROLLBAR_ACCESS_TOKEN:
             JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN) ||
             'development-token',
+          GIT_COMMIT_SHA: process.env.GITHUB_SHA,
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',
