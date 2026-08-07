@@ -217,6 +217,16 @@ angular
         });
       };
 
+      // Tell the user their card was charged, and who to contact about it.
+      function paymentChargedMessage() {
+        const message =
+          'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator';
+
+        return conference.contactPersonEmail
+          ? `${message}: ${conference.contactPersonEmail}`
+          : `${message}.`;
+      }
+
       // Display an error that occurred during registration completion
       function handleRegistrationError(error, paymentCharged) {
         if (!paymentCharged && !error) {
@@ -225,7 +235,7 @@ angular
 
         modalMessage.error({
           message: paymentCharged
-            ? 'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator.'
+            ? paymentChargedMessage()
             : error.message ||
               'An error occurred while attempting to complete your registration.',
           forceAction: true,
