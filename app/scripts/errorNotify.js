@@ -13,7 +13,7 @@ const rollbarConfig = {
     environment: location.hostname,
     client: {
       javascript: {
-        code_version: process.env.GIT_COMMIT_SHA,
+        code_version: process.env.GITHUB_SHA,
       },
     },
   },
