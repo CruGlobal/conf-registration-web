@@ -75,7 +75,8 @@ module.exports = (env = {}) => {
           ROLLBAR_ACCESS_TOKEN:
             JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN) ||
             'development-token',
-          GITHUB_SHA: process.env.GITHUB_SHA,
+          // GitHub actions sets GITHUB_SHA, Netlify sets COMMIT_REF
+          GIT_COMMIT_SHA: process.env.GITHUB_SHA || process.env.COMMIT_REF,
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',
