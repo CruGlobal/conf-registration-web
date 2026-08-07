@@ -529,7 +529,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
       expect(payment.pay).toHaveBeenCalledTimes(1);
     });
 
-    it('tells the user their card was charged when completion fails after payment', () => {
+    it('tells the user their card was charged and shows the event contact email when completion fails after payment', () => {
       scope.confirmRegistration();
       scope.$digest();
       payDeferred.resolve({ data: {} });
@@ -539,7 +539,7 @@ describe('Controller: ReviewRegistrationCtrl', function () {
 
       expect(modalMessage.error).toHaveBeenCalledWith({
         message:
-          'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator.',
+          'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator: xx@cru.org',
         forceAction: true,
       });
     });
