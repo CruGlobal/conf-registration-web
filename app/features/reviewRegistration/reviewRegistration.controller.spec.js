@@ -477,6 +477,87 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
+  describe('confirmRegistration payment safeguard', () => {
+    let $q;
+    let modalMessage;
+    let payment;
+    let registration;
+    let payDeferred;
+    let completeDeferred;
+
+    beforeEach(
+      angular.mock.inject(function (
+        _$q_,
+        _modalMessage_,
+        _payment_,
+        _registration_,
+      ) {
+        $q = _$q_;
+        modalMessage = _modalMessage_;
+        payment = _payment_;
+        registration = _registration_;
+
+        payDeferred = $q.defer();
+        completeDeferred = $q.defer();
+
+        spyOn(modalMessage, 'error');
+        spyOn(registration, 'validatePayment').and.returnValue($q.when());
+        spyOn(payment, 'pay').and.returnValue(payDeferred.promise);
+        spyOn(registration, 'completeRegistration').and.returnValue(
+          completeDeferred.promise,
+        );
+      }),
+    );
+
+    it('charges the card only once when completion fails and the user retries', () => {
+      // First attempt
+      scope.confirmRegistration();
+      scope.$digest();
+      payDeferred.resolve({ data: {} }); // card charged successfully
+      scope.$digest(); // completeRegistration is called
+      completeDeferred.reject({ data: {} }); // completion fails
+      scope.$digest();
+
+      expect(payment.pay).toHaveBeenCalledTimes(1);
+      expect(registration.completeRegistration).toHaveBeenCalledTimes(1);
+
+      // Second attempt
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(registration.completeRegistration).toHaveBeenCalledTimes(2);
+      expect(payment.pay).toHaveBeenCalledTimes(1);
+    });
+
+    it('tells the user their card was charged when completion fails after payment', () => {
+      scope.confirmRegistration();
+      scope.$digest();
+      payDeferred.resolve({ data: {} });
+      scope.$digest();
+      completeDeferred.reject({ data: {} });
+      scope.$digest();
+
+      expect(modalMessage.error).toHaveBeenCalledWith({
+        message:
+          'Your card was charged successfully, but there was a problem completing your registration. Please contact the event administrator.',
+        forceAction: true,
+      });
+    });
+
+    it('shows the generic error when the payment itself fails', () => {
+      scope.confirmRegistration();
+      scope.$digest();
+      payDeferred.reject({ data: { message: 'card declined' } });
+      scope.$digest();
+
+      expect(registration.completeRegistration).not.toHaveBeenCalled();
+      expect(modalMessage.error).toHaveBeenCalledWith({
+        message: 'card declined',
+        forceAction: true,
+      });
+    });
+  });
+
   describe('pageIsVisible', () => {
     it('returns true if any blocks are visible', () => {
       initController({
