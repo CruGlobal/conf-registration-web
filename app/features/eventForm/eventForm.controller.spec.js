@@ -174,7 +174,7 @@ describe('Controller: eventForm', function () {
       expect(
         page.blocks.find((block) => block.id === 'campus-1').profileType,
       ).toBe(null);
-      
+
       expect(
         page.blocks.find((block) => block.id === 'campus-2').profileType,
       ).toBe(null);
