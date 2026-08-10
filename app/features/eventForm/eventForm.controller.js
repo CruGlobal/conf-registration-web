@@ -46,6 +46,26 @@ angular
       var formSavingTimeout;
       var formSavingNotifyTimeout;
 
+      function normalizeCampusProfileTypes() {
+        var campusBlocks = [];
+        (
+          ($scope.conference && $scope.conference.registrationPages) ||
+          []
+        ).forEach(function (page) {
+          (page.blocks || []).forEach(function (block) {
+            if (block.type === 'campusV2Question') {
+              campusBlocks.push(block);
+            }
+          });
+        });
+
+        if (campusBlocks.length === 1) {
+          campusBlocks[0].profileType = 'CAMPUS_V2';
+        }
+
+        return campusBlocks.length;
+      }
+
       function saveForm() {
         $timeout.cancel(formSavingTimeout);
         if (formSaving) {
@@ -56,6 +76,7 @@ angular
         }
 
         formSaving = true;
+        var campusQuestionCount = normalizeCampusProfileTypes();
         let conferenceWithoutImage = angular.copy($scope.conference);
         conferenceWithoutImage.image = null;
 
@@ -66,17 +87,29 @@ angular
         })
           .then(function () {
             formSaving = false;
+
+            //Update cache
+            if (angular.isDefined($scope.conference)) {
+              ConfCache.update(conference.id, $scope.conference);
+            }
+
+            if (campusQuestionCount > 1) {
+              $scope.notify = {
+                class: 'alert-danger',
+                message: $sce.trustAsHtml(
+                  '<strong>Only one campus question is allowed per form.</strong> ' +
+                    'Please remove the extra campus question so it displays correctly.',
+                ),
+              };
+              return;
+            }
+
             $scope.notify = {
               class: 'alert-success',
               message: $sce.trustAsHtml(
                 '<strong>Saved!</strong> Your form has been saved.',
               ),
             };
-
-            //Update cache
-            if (angular.isDefined($scope.conference)) {
-              ConfCache.update(conference.id, $scope.conference);
-            }
 
             $timeout.cancel(formSavingNotifyTimeout);
             formSavingNotifyTimeout = $timeout(function () {
