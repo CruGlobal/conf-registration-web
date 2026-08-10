@@ -46,18 +46,14 @@ angular
       var formSavingTimeout;
       var formSavingNotifyTimeout;
 
+      // Enforce one campus question per form so the school name resolves correctly
+      // (a null profile shows the raw connection id). Returns the campus-question
+      // count so the caller can warn on duplicates.
       function normalizeCampusProfileTypes() {
-        var campusBlocks = [];
-        (
-          ($scope.conference && $scope.conference.registrationPages) ||
-          []
-        ).forEach(function (page) {
-          (page.blocks || []).forEach(function (block) {
-            if (block.type === 'campusV2Question') {
-              campusBlocks.push(block);
-            }
-          });
-        });
+        var campusBlocks = _.filter(
+          _.flatten(_.map($scope.conference.registrationPages, 'blocks')),
+          { type: 'campusV2Question' },
+        );
 
         if (campusBlocks.length === 1) {
           campusBlocks[0].profileType = 'CAMPUS_V2';
@@ -94,6 +90,7 @@ angular
             }
 
             if (campusQuestionCount > 1) {
+              $timeout.cancel(formSavingNotifyTimeout);
               $scope.notify = {
                 class: 'alert-danger',
                 message: $sce.trustAsHtml(
