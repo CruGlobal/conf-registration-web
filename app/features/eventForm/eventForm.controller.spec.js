@@ -266,6 +266,43 @@ describe('Controller: eventForm', function () {
 
       expect(page.blocks[0].profileType).toBe(null);
     });
+
+    it('adds the first campus question with the CAMPUS_V2 profile', () => {
+      const page = scope.conference.registrationPages[0];
+      scope.insertBlock(
+        'campusV2Question',
+        page.id,
+        0,
+        'Campus',
+        'CAMPUS_V2',
+        undefined,
+      );
+
+      expect(page.blocks[0].type).toBe('campusV2Question');
+      expect(page.blocks[0].profileType).toBe('CAMPUS_V2');
+    });
+
+    it('rejects a second campus question and warns instead of adding it', () => {
+      const page = scope.conference.registrationPages[0];
+      page.blocks.push({
+        id: 'existing-campus',
+        type: 'campusV2Question',
+        profileType: 'CAMPUS_V2',
+      });
+      const blockCount = page.blocks.length;
+
+      scope.insertBlock(
+        'campusV2Question',
+        page.id,
+        0,
+        'Campus',
+        'CAMPUS_V2',
+        undefined,
+      );
+
+      expect(page.blocks.length).toBe(blockCount);
+      expect(scope.notify.class).toBe('alert-danger');
+    });
   });
 
   describe('deleteBlock', () => {
