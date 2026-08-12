@@ -127,62 +127,6 @@ describe('Controller: eventForm', function () {
     });
   });
 
-  describe('normalizeCampusProfileTypes', () => {
-    beforeEach(() => {
-      scope.$digest();
-    });
-
-    it('forces the campus question to CAMPUS_V2 on save when there is exactly one, leaving other blocks untouched', () => {
-      spyOn(ConfCache, 'update');
-      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
-      const page = scope.conference.registrationPages[0];
-
-      scope.$apply(() => {
-        page.blocks.push(
-          {
-            id: 'campus-v2-block',
-            type: 'campusV2Question',
-            profileType: null,
-          },
-          { id: 'name-block', type: 'nameQuestion', profileType: 'NAME' },
-        );
-      });
-      $httpBackend.flush();
-
-      expect(
-        page.blocks.find((block) => block.id === 'campus-v2-block').profileType,
-      ).toBe('CAMPUS_V2');
-
-      expect(
-        page.blocks.find((block) => block.id === 'name-block').profileType,
-      ).toBe('NAME');
-    });
-
-    it('leaves profile types unchanged and warns when there is more than one campus question', () => {
-      spyOn(ConfCache, 'update');
-      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
-      const page = scope.conference.registrationPages[0];
-
-      scope.$apply(() => {
-        page.blocks.push(
-          { id: 'campus-1', type: 'campusV2Question', profileType: null },
-          { id: 'campus-2', type: 'campusV2Question', profileType: null },
-        );
-      });
-      $httpBackend.flush();
-
-      expect(
-        page.blocks.find((block) => block.id === 'campus-1').profileType,
-      ).toBe(null);
-
-      expect(
-        page.blocks.find((block) => block.id === 'campus-2').profileType,
-      ).toBe(null);
-
-      expect(scope.notify.class).toBe('alert-danger');
-    });
-  });
-
   describe('previewForm', () => {
     it('navigates to the preview page', () => {
       spyOn($location, 'path');
@@ -321,6 +265,43 @@ describe('Controller: eventForm', function () {
       );
 
       expect(page.blocks[0].profileType).toBe(null);
+    });
+
+    it('adds the first campus question with the CAMPUS_V2 profile', () => {
+      const page = scope.conference.registrationPages[0];
+      scope.insertBlock(
+        'campusV2Question',
+        page.id,
+        0,
+        'Campus',
+        'CAMPUS_V2',
+        undefined,
+      );
+
+      expect(page.blocks[0].type).toBe('campusV2Question');
+      expect(page.blocks[0].profileType).toBe('CAMPUS_V2');
+    });
+
+    it('rejects a second campus question and warns instead of adding it', () => {
+      const page = scope.conference.registrationPages[0];
+      page.blocks.push({
+        id: 'existing-campus',
+        type: 'campusV2Question',
+        profileType: 'CAMPUS_V2',
+      });
+      const blockCount = page.blocks.length;
+
+      scope.insertBlock(
+        'campusV2Question',
+        page.id,
+        0,
+        'Campus',
+        'CAMPUS_V2',
+        undefined,
+      );
+
+      expect(page.blocks.length).toBe(blockCount);
+      expect(scope.notify.class).toBe('alert-danger');
     });
   });
 

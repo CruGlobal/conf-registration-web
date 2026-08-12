@@ -46,22 +46,6 @@ angular
       var formSavingTimeout;
       var formSavingNotifyTimeout;
 
-      // Enforce one campus question per form so the school name resolves correctly
-      // (a null profile shows the raw connection id). Returns the campus-question
-      // count so the caller can warn on duplicates.
-      function normalizeCampusProfileTypes() {
-        var campusBlocks = _.filter(
-          _.flatMap($scope.conference.registrationPages, 'blocks'),
-          { type: 'campusV2Question' },
-        );
-
-        if (campusBlocks.length === 1) {
-          campusBlocks[0].profileType = 'CAMPUS_V2';
-        }
-
-        return campusBlocks.length;
-      }
-
       function saveForm() {
         $timeout.cancel(formSavingTimeout);
         if (formSaving) {
@@ -72,7 +56,6 @@ angular
         }
 
         formSaving = true;
-        var campusQuestionCount = normalizeCampusProfileTypes();
         let conferenceWithoutImage = angular.copy($scope.conference);
         conferenceWithoutImage.image = null;
 
@@ -83,30 +66,17 @@ angular
         })
           .then(function () {
             formSaving = false;
-
-            //Update cache
-            if (angular.isDefined($scope.conference)) {
-              ConfCache.update(conference.id, $scope.conference);
-            }
-
-            if (campusQuestionCount > 1) {
-              $timeout.cancel(formSavingNotifyTimeout);
-              $scope.notify = {
-                class: 'alert-danger',
-                message: $sce.trustAsHtml(
-                  '<strong>Only one campus question is allowed per form.</strong> ' +
-                    'Please remove the extra campus question so it displays correctly.',
-                ),
-              };
-              return;
-            }
-
             $scope.notify = {
               class: 'alert-success',
               message: $sce.trustAsHtml(
                 '<strong>Saved!</strong> Your form has been saved.',
               ),
             };
+
+            //Update cache
+            if (angular.isDefined($scope.conference)) {
+              ConfCache.update(conference.id, $scope.conference);
+            }
 
             $timeout.cancel(formSavingNotifyTimeout);
             formSavingNotifyTimeout = $timeout(function () {
@@ -290,6 +260,28 @@ angular
         defaultProfile,
         defaultExportFieldTitle,
       ) {
+        // Enforce one campus question per form so the school name resolves correctly
+        // (a null profile shows the raw connection id). Reject the insert and show
+        // an error message.
+        if (
+          blockType === 'campusV2Question' &&
+          _.some(_.flatMap($scope.conference.registrationPages, 'blocks'), {
+            type: 'campusV2Question',
+          })
+        ) {
+          $scope.notify = {
+            class: 'alert-danger',
+            message: $sce.trustAsHtml(
+              '<strong>Only one campus question is allowed per form.</strong>',
+            ),
+          };
+          $timeout.cancel(formSavingNotifyTimeout);
+          formSavingNotifyTimeout = $timeout(function () {
+            $scope.notify = {};
+          }, 2000);
+          return;
+        }
+
         var newPageIndex = _.findIndex($scope.conference.registrationPages, {
           id: newPage,
         });
