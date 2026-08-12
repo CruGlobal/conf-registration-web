@@ -51,7 +51,7 @@ angular
       // count so the caller can warn on duplicates.
       function normalizeCampusProfileTypes() {
         var campusBlocks = _.filter(
-          _.flatten(_.map($scope.conference.registrationPages, 'blocks')),
+          _.flatMap($scope.conference.registrationPages, 'blocks'),
           { type: 'campusV2Question' },
         );
 
