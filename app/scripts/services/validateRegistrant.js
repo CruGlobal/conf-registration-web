@@ -4,7 +4,49 @@ angular
   .module('confRegistrationWebApp')
   .service(
     'validateRegistrant',
-    function validateRegistrant($window, ruleTypeConstants, $filter) {
+    function validateRegistrant(
+      $window,
+      ruleTypeConstants,
+      $filter,
+      addressConstants,
+    ) {
+      const addressFormatIsValid = (value) => {
+        if (!value || !angular.isObject(value)) {
+          return true;
+        }
+
+        const { maxLengths, patterns } = addressConstants;
+
+        const isBlank = (field) =>
+          value[field] === null ||
+          angular.isUndefined(value[field]) ||
+          value[field] === '';
+
+        const tooLong = _.some(
+          _.keys(maxLengths),
+          (field) => !isBlank(field) && value[field].length > maxLengths[field],
+        );
+        if (tooLong) {
+          return false;
+        }
+
+        if (!isBlank('city') && !patterns.city.test(value.city)) {
+          return false;
+        }
+
+        return isBlank('zip') || patterns.zip.test(value.zip);
+      };
+
+      // Optional blocks are skipped, so a blank answer is always allowed. An
+      // address block is still format checked, which ignores blank fields
+      const needsValidation = (block) =>
+        block.required || block.type === 'addressQuestion';
+
+      const hasAddressFormatError = (block, answer) =>
+        block.type === 'addressQuestion' &&
+        answer &&
+        !addressFormatIsValid(answer.value);
+
       const blockVisibleRuleCheck = (
         block,
         registrant,
@@ -283,9 +325,11 @@ angular
           : _.flatten(_.map(conference.registrationPages, 'blocks'));
 
         _.forEach(blocks, (block) => {
+          if (block.adminOnly || !needsValidation(block)) {
+            return;
+          }
+
           if (
-            !block.required ||
-            block.adminOnly ||
             !blockVisibleRuleCheck(
               block,
               registrant,
@@ -298,6 +342,16 @@ angular
           }
 
           let answer = _.find(registrant.answers, { blockId: block.id });
+
+          if (hasAddressFormatError(block, answer)) {
+            invalidBlocks.push(block.id);
+            return;
+          }
+
+          if (!block.required) {
+            return;
+          }
+
           if (angular.isUndefined(answer)) {
             invalidBlocks.push(block.id);
             return;

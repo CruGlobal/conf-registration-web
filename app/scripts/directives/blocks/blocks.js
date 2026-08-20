@@ -47,6 +47,9 @@ angular
     return {
       templateUrl: addressQuestionTemplate,
       restrict: 'E',
+      controller: function ($scope, addressConstants) {
+        $scope.addressRules = addressConstants;
+      },
     };
   });
 
