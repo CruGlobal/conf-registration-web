@@ -553,7 +553,19 @@
                           Account Number
                         </span>
                         <div class="col-sm-9">
+                          <div
+                            ng-if="editPayment.transfer.accountType === 'STAFF'"
+                          >
+                            <staff-account-search
+                              payment="editPayment.transfer"
+                              registration-id="registration.id"
+                              conference-id="conference.id"
+                              disabled="editPayment.reported"
+                            >
+                            </staff-account-search>
+                          </div>
                           <input
+                            ng-if="editPayment.transfer.accountType !== 'STAFF'"
                             ng-model="editPayment.transfer.accountNumber"
                             ng-disabled="editPayment.reported"
                             type="text"
@@ -594,7 +606,19 @@
                             Account Number
                           </span>
                           <div class="col-sm-9">
+                            <div
+                              ng-if="editPayment.scholarship.accountType === 'STAFF'"
+                            >
+                              <staff-account-search
+                                payment="editPayment.scholarship"
+                                registration-id="registration.id"
+                                conference-id="conference.id"
+                                disabled="editPayment.reported"
+                              >
+                              </staff-account-search>
+                            </div>
                             <input
+                              ng-if="editPayment.scholarship.accountType !== 'STAFF'"
                               ng-model="editPayment.scholarship.accountNumber"
                               ng-disabled="editPayment.reported"
                               type="text"

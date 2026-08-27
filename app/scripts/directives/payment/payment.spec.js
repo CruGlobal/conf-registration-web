@@ -3,19 +3,27 @@ import 'angular-mocks';
 describe('Directive: ertPayment', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var scope, $rootScope, element, $compile, ProfileCache, $q;
+  var scope,
+    $rootScope,
+    element,
+    $compile,
+    ProfileCache,
+    $q,
+    staffAccountService;
   beforeEach(inject((
     _$rootScope_,
     $templateCache,
     _$compile_,
     _ProfileCache_,
     _$q_,
+    _staffAccountService_,
     testData,
   ) => {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     ProfileCache = _ProfileCache_;
     $q = _$q_;
+    staffAccountService = _staffAccountService_;
 
     spyOn($rootScope, 'globalUser').and.returnValue({
       staffAccountNumber: '9870123457',
@@ -126,6 +134,21 @@ describe('Directive: ertPayment', function () {
 
     expect(scope.currentPayment.transfer.businessUnit).toBe('');
     expect(scope.currentPayment.transfer.department).toBe('');
+  });
+
+  describe('searchStaff', () => {
+    it('delegates to staffAccountService with the current registration id', () => {
+      spyOn(staffAccountService, 'searchStaff').and.returnValue(
+        $q.resolve([{ firstName: 'John', lastName: 'Doe' }]),
+      );
+
+      scope.searchStaff('john');
+
+      expect(staffAccountService.searchStaff).toHaveBeenCalledWith(
+        'john',
+        scope.currentRegistration.id,
+      );
+    });
   });
 
   it('validatePayment should validate required TRANSFER NON_US_STAFF operatingUnit field', () => {

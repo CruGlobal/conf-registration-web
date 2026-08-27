@@ -80,7 +80,18 @@
   <div class="col-sm-12">
     <label>
       <span translate>Account Number</span>
+      <div
+        ng-if="isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
+      >
+        <staff-account-search
+          payment="currentPayment.transfer"
+          registration-id="currentRegistration.id"
+          conference-id="conference.id"
+        >
+        </staff-account-search>
+      </div>
       <input
+        ng-if="!(isAdminPayment && currentPayment.transfer.accountType === 'STAFF')"
         ng-model="currentPayment.transfer.accountNumber"
         type="text"
         class="form-control"
