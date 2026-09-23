@@ -260,6 +260,28 @@ angular
         defaultProfile,
         defaultExportFieldTitle,
       ) {
+        // Enforce one campus question per form so the school name resolves correctly
+        // (a null profile shows the raw connection id). Reject the insert and show
+        // an error message.
+        if (
+          blockType === 'campusV2Question' &&
+          _.some(_.flatMap($scope.conference.registrationPages, 'blocks'), {
+            type: 'campusV2Question',
+          })
+        ) {
+          $scope.notify = {
+            class: 'alert-danger',
+            message: $sce.trustAsHtml(
+              '<strong>Only one campus question is allowed per form.</strong>',
+            ),
+          };
+          $timeout.cancel(formSavingNotifyTimeout);
+          formSavingNotifyTimeout = $timeout(function () {
+            $scope.notify = {};
+          }, 2000);
+          return;
+        }
+
         var newPageIndex = _.findIndex($scope.conference.registrationPages, {
           id: newPage,
         });

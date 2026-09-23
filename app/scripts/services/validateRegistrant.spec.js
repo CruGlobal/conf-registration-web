@@ -1,7 +1,9 @@
 import 'angular-mocks';
 
 describe('Service: validateRegistrant', function () {
-  beforeEach(angular.mock.module('confRegistrationWebApp'));
+  beforeEach(() => {
+    angular.mock.module('confRegistrationWebApp');
+  });
 
   var validateRegistrant, testData;
   beforeEach(inject(function (_validateRegistrant_, _testData_) {
@@ -159,16 +161,17 @@ describe('Service: validateRegistrant', function () {
     ).toBe(1);
   });
 
-  it('should allow empty state and zip field when country is non-US', () => {
+  it('should allow empty state and zip field when the country has no regions', () => {
     const conference = angular.copy(testData.conference);
     conference.registrationPages[1].blocks[7].required = true;
 
     const registrant = angular.copy(testData.registration.registrants[0]);
     registrant.answers[8].value = {
-      country: 'UZ',
+      ...registrant.answers[8].value,
+      // Aruba has a single region, so no state is required.
+      country: 'AW',
       state: '',
       zip: '',
-      ...registrant.answers[8].value,
     };
 
     const registrantCountry = angular.copy(
@@ -181,6 +184,134 @@ describe('Service: validateRegistrant', function () {
     expect(
       validateRegistrant.validate(conference, registrantCountry).length,
     ).toBe(1);
+  });
+
+  it('should require a state for a non-US country that has regions', () => {
+    const conference = angular.copy(testData.conference);
+    conference.registrationPages[1].blocks[7].required = true;
+
+    const registrant = angular.copy(testData.registration.registrants[0]);
+    registrant.answers[8].value = {
+      ...registrant.answers[8].value,
+      // Uzbekistan has 14 regions, so one of them has to be selected.
+      country: 'UZ',
+      state: '',
+      zip: '',
+    };
+
+    expect(validateRegistrant.validate(conference, registrant).length).toBe(1);
+  });
+
+  describe('address format', () => {
+    let conference, registrant, addressBlock, campusBlock;
+    let addressAnswer, campusAnswer, parentAnswer;
+
+    beforeEach(() => {
+      conference = testData.conference;
+      registrant = testData.registration.registrants[0];
+      addressBlock = conference.registrationPages[1].blocks[7];
+      campusBlock = conference.registrationPages[1].blocks[13];
+      addressAnswer = registrant.answers[8];
+      campusAnswer = registrant.answers[12];
+      // The 'Parent' checkbox that the fixture's show question rule keys off.
+      parentAnswer = registrant.answers[10];
+      addressBlock.required = false;
+    });
+
+    const validate = () => validateRegistrant.validate(conference, registrant);
+
+    const showAddressWhenParentChecked = (checked) => {
+      addressBlock.rules = conference.registrationPages[1].blocks[12].rules;
+      parentAnswer.value = { A: checked };
+    };
+
+    it('accepts a clean address in a block that is not required', () => {
+      expect(validate()).toEqual([]);
+    });
+
+    it('accepts an answer whose value was never initialized', () => {
+      addressAnswer.value = null;
+
+      expect(validate()).toEqual([]);
+    });
+
+    it('flags a zip with no numbers in it', () => {
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags a city with no letters in it', () => {
+      addressAnswer.value.city = '12345';
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags a city longer than 50 characters', () => {
+      addressAnswer.value.city = 'a'.repeat(51);
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags an address line longer than 100 characters', () => {
+      addressAnswer.value.address1 = 'a'.repeat(101);
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags a zip longer than 10 characters', () => {
+      addressAnswer.value.zip = '1'.repeat(11);
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags a state longer than 50 characters', () => {
+      addressAnswer.value.state = 'a'.repeat(51);
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('flags a malformed zip in a required block', () => {
+      addressBlock.required = true;
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('ignores an address block hidden by a show question rule', () => {
+      showAddressWhenParentChecked(false);
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([]);
+    });
+
+    it('does not ignore an address block that is visible due to a show question rule', () => {
+      showAddressWhenParentChecked(true);
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([addressBlock.id]);
+    });
+
+    it('ignores an address block hidden for the registrant type', () => {
+      addressBlock.registrantTypes = [registrant.registrantTypeId];
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([]);
+    });
+
+    it('ignores an admin only address block', () => {
+      addressBlock.adminOnly = true;
+      addressAnswer.value.zip = 'ABCDEFG';
+
+      expect(validate()).toEqual([]);
+    });
+
+    it('leaves optional blocks of other types alone', () => {
+      campusBlock.required = false;
+      campusAnswer.value = '';
+
+      expect(validate()).toEqual([]);
+    });
   });
 
   it('choices should be visible based on rules', function () {

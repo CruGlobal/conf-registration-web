@@ -72,9 +72,10 @@ module.exports = (env = {}) => {
     plugins: concat(
       [
         new webpack.EnvironmentPlugin({
-          ROLLBAR_ACCESS_TOKEN:
-            JSON.stringify(process.env.ROLLBAR_ACCESS_TOKEN) ||
-            'development-token',
+          ROLLBAR_ACCESS_TOKEN: 'development-token',
+          // GitHub actions sets GITHUB_SHA, Netlify sets COMMIT_REF
+          GIT_COMMIT_SHA:
+            process.env.GITHUB_SHA || process.env.COMMIT_REF || 'development',
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',

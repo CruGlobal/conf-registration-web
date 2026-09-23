@@ -1,5 +1,6 @@
 import 'angular-mocks';
 import _ from 'lodash';
+import { getCurrentRegions } from '../../filters/eventAddressFormat';
 
 describe('Directive: blocks', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -662,6 +663,205 @@ describe('Directive: blocks', () => {
       $timeout.flush();
 
       expect($scope.answer.value).toBe('Option 1');
+    });
+  });
+
+  describe('addressQuestion', () => {
+    let $compile, $scope, $timeout;
+    beforeEach(inject((_$compile_, _$rootScope_, _$timeout_, testData) => {
+      $compile = _$compile_;
+      $timeout = _$timeout_;
+
+      $scope = _$rootScope_.$new();
+      $scope.block = testData.conference.registrationPages[1].blocks[7];
+      $scope.answer = testData.registration.registrants[0].answers[8];
+    }));
+
+    const compile = () => {
+      $compile('<address-question></address-question>')($scope);
+      $scope.$digest();
+      return $scope.addressForm;
+    };
+
+    const setField = (form, field, value) => {
+      $scope.answer.value[field] = value;
+      $scope.$digest();
+      return form[field];
+    };
+
+    const setCountry = (country) => {
+      $scope.answer.value.country = country;
+      $scope.$digest();
+    };
+
+    const stateSelectOf = (element) =>
+      element[0].querySelector('select[aria-label="State/Region"]');
+
+    const stateInputOf = (element) =>
+      element[0].querySelector('input[placeholder="State/Region"]');
+
+    it('accepts a well formed address', () => {
+      const form = compile();
+
+      expect(form.$valid).toBe(true);
+    });
+
+    it('rejects a zip with no numbers in it', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', 'ABCDEFG').$error.pattern).toBe(true);
+    });
+
+    it('accepts a US zip code', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', '11111').$valid).toBe(true);
+    });
+
+    it('accepts a US zip+4 code', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', '32832-1234').$valid).toBe(true);
+    });
+
+    it('accepts a UK postcode', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', 'SW1A 1AA').$valid).toBe(true);
+    });
+
+    it('accepts a Canadian postal code', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', 'K1A 0B1').$valid).toBe(true);
+    });
+
+    it('accepts a Dutch postal code', () => {
+      const form = compile();
+
+      expect(setField(form, 'zip', '1234 AB').$valid).toBe(true);
+    });
+
+    it('rejects a city with no letters in it', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', '12345').$error.pattern).toBe(true);
+    });
+
+    it('accepts a city name with an umlaut', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', 'Zürich').$valid).toBe(true);
+    });
+
+    it('accepts a city name with a tilde', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', 'São Paulo').$valid).toBe(true);
+    });
+
+    it('accepts a city name written in Japanese', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', '東京').$valid).toBe(true);
+    });
+
+    it('accepts a city name written in Cyrillic', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', 'Москва').$valid).toBe(true);
+    });
+
+    it('rejects a city longer than 50 characters', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', 'a'.repeat(51)).$error.maxlength).toBe(
+        true,
+      );
+    });
+
+    it('accepts a city of exactly 50 characters', () => {
+      const form = compile();
+
+      expect(setField(form, 'city', 'a'.repeat(50)).$valid).toBe(true);
+    });
+
+    it('rejects an address line longer than 100 characters', () => {
+      const form = compile();
+
+      expect(setField(form, 'address1', 'a'.repeat(101)).$error.maxlength).toBe(
+        true,
+      );
+    });
+
+    it('accepts an address line of exactly 100 characters', () => {
+      const form = compile();
+
+      expect(setField(form, 'address1', 'a'.repeat(100)).$valid).toBe(true);
+    });
+
+    it('ignores empty and null subfields', () => {
+      const form = compile();
+
+      $scope.answer.value = {
+        ...$scope.answer.value,
+        address1: null,
+        city: null,
+        zip: '',
+      };
+      $scope.$digest();
+
+      expect(form.city.$error.pattern).toBeUndefined();
+      expect(form.zip.$error.pattern).toBeUndefined();
+      expect(form.address1.$error.maxlength).toBeUndefined();
+    });
+
+    it('keeps an invalid value on the model so the page gate can see it', () => {
+      const form = compile();
+
+      form.zip.$setViewValue('ABCDE');
+      $timeout.flush();
+
+      expect(form.zip.$error.pattern).toBe(true);
+      expect($scope.answer.value.zip).toBe('ABCDE');
+    });
+
+    it('offers a state select for a country with regions', () => {
+      $scope.currentRegions = getCurrentRegions;
+      const element = $compile('<address-question></address-question>')($scope);
+      $scope.$digest();
+
+      expect(stateSelectOf(element)).not.toBeNull();
+      expect(stateInputOf(element)).toBeNull();
+    });
+
+    it('offers a free text state field for a country without regions', () => {
+      $scope.currentRegions = getCurrentRegions;
+      const element = $compile('<address-question></address-question>')($scope);
+      $scope.$digest();
+
+      setCountry('VA');
+
+      expect(stateSelectOf(element)).toBeNull();
+      expect(stateInputOf(element)).not.toBeNull();
+    });
+
+    it('rejects a state longer than 50 characters', () => {
+      $scope.currentRegions = getCurrentRegions;
+      const form = compile();
+      setCountry('VA');
+
+      expect(setField(form, 'state', 'a'.repeat(51)).$error.maxlength).toBe(
+        true,
+      );
+    });
+
+    it('accepts a state of exactly 50 characters', () => {
+      $scope.currentRegions = getCurrentRegions;
+      const form = compile();
+      setCountry('VA');
+
+      expect(setField(form, 'state', 'a'.repeat(50)).$valid).toBe(true);
     });
   });
 });

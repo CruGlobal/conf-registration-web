@@ -11,6 +11,11 @@ const rollbarConfig = {
   captureUnhandledRejections: false,
   payload: {
     environment: location.hostname,
+    client: {
+      javascript: {
+        code_version: process.env.GIT_COMMIT_SHA,
+      },
+    },
   },
   enabled: location.hostname !== 'localhost',
 };

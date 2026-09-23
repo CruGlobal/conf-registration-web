@@ -1,38 +1,55 @@
-<div class="row">
+<div class="row" ng-form="addressForm">
   <div class="col-sm-12 spacing-below-sm">
     <input
       show-errors="group"
       type="text"
       id="block-input-{{block.id}}"
+      name="address1"
       class="form-control"
       placeholder="{{ 'Address Line 1' | translate }}"
       ng-model="answer.value.address1"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ allowInvalid: true, debounce: 1000 }"
       ng-required="block.required"
       ng-disabled="editBlock"
+      maxlength="{{ addressRules.maxLengths.address1 }}"
     />
   </div>
   <div class="col-sm-12 spacing-below-sm">
     <input
+      show-errors="group"
       type="text"
-      class="form-control has-no-error"
+      name="address2"
+      class="form-control"
       placeholder="{{ 'Address Line 2' | translate }}"
       ng-model="answer.value.address2"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ allowInvalid: true, debounce: 1000 }"
       ng-disabled="editBlock"
+      maxlength="{{ addressRules.maxLengths.address2 }}"
     />
   </div>
   <div class="col-sm-6 stacked-spacing-col-sm">
     <input
       show-errors="group"
       type="text"
+      name="city"
       class="form-control"
       placeholder="{{ 'City' | translate }}"
+      aria-describedby="city-format-{{block.id}}"
       ng-model="answer.value.city"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ allowInvalid: true, debounce: 1000 }"
       ng-required="block.required"
       ng-disabled="editBlock"
+      maxlength="{{ addressRules.maxLengths.city }}"
+      ng-pattern="addressRules.patterns.city"
     />
+    <span
+      id="city-format-{{block.id}}"
+      class="help-block"
+      ng-if="addressForm.city.$error.pattern"
+      translate
+    >
+      City must include at least one letter.
+    </span>
   </div>
   <div class="col-sm-3 stacked-spacing-col-sm">
     <select
@@ -64,11 +81,13 @@
         | translate
       }}"
       type="text"
+      name="state"
       class="form-control"
       ng-model="answer.value.state"
       ng-model-options="{ debounce: 300 }"
       ng-required="block.required && answer.value.country === 'US'"
       ng-disabled="editBlock"
+      maxlength="{{ addressRules.maxLengths.state }}"
       ng-if="currentRegions(answer.value.country).length <= 1"
       placeholder="{{ 'State/Region' | translate }}"
     />
@@ -81,13 +100,26 @@
         | translate
       }}"
       type="text"
+      name="zip"
       class="form-control"
       placeholder="{{ answer.value.country !== 'US' ? 'ZIP' : 'Postal Code' | translate }}"
+      aria-describedby="zip-format-{{block.id}}"
       ng-model="answer.value.zip"
-      ng-model-options="{ debounce: 1000 }"
+      ng-model-options="{ allowInvalid: true, debounce: 1000 }"
       ng-required="block.required && answer.value.country === 'US'"
       ng-disabled="editBlock"
+      maxlength="{{ addressRules.maxLengths.zip }}"
+      ng-pattern="addressRules.patterns.zip"
     />
+    <span
+      id="zip-format-{{block.id}}"
+      class="help-block"
+      ng-if="addressForm.zip.$error.pattern"
+      translate
+    >
+      Postal code must contain at least one number, and can only include
+      letters, numbers, spaces, and hyphens.
+    </span>
   </div>
   <div class="col-sm-12 spacing-above-sm">
     <select

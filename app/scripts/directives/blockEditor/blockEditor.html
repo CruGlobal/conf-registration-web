@@ -41,7 +41,7 @@
     <button
       class="btn btn-default"
       ng-click="copyBlock(block.id)"
-      ng-disabled="!canCopy"
+      ng-disabled="!canCopy || block.type === 'campusV2Question'"
     >
       <i class="fa fa-clipboard"></i> <translate>Copy</translate>
     </button>
