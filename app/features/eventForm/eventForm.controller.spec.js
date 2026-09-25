@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import { Rollbar } from 'scripts/errorNotify.js';
 
 describe('Controller: eventForm', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -7,6 +8,7 @@ describe('Controller: eventForm', function () {
     $httpBackend,
     $location,
     $q,
+    $rootScope,
     $timeout,
     ConfCache,
     GrowlService,
@@ -16,7 +18,7 @@ describe('Controller: eventForm', function () {
     scope;
   beforeEach(
     angular.mock.inject(function (
-      $rootScope,
+      _$rootScope_,
       _$controller_,
       _$httpBackend_,
       _$location_,
@@ -27,6 +29,7 @@ describe('Controller: eventForm', function () {
       _modalMessage_,
       _testData_,
     ) {
+      $rootScope = _$rootScope_;
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
       $location = _$location_;
@@ -62,20 +65,45 @@ describe('Controller: eventForm', function () {
   });
 
   describe('saveForm', () => {
+    const NAME_BLOCK_ID = '122a15bf-0608-4813-834a-0d31a8c44c64';
+    let payloads;
+
+    const payloadBlockIds = (payload) =>
+      _.map(_.flatMap(payload.registrationPages, 'blocks'), 'id');
+
+    // Captures the body of exactly one PUT. The mock backend has a catch-all
+    // whenPUT for conferences, so a stray second PUT never throws on its own.
+    // Pair this with $httpBackend.flush(1) and verifyNoOutstandingRequest().
+    const expectOnePut = (status = 204) => {
+      $httpBackend
+        .expectPUT(/^conferences\/.+$/, (body) => {
+          payloads.push(JSON.parse(body));
+          return true;
+        })
+        .respond(status, '');
+    };
+
     beforeEach(() => {
       // Trigger the conference $watch so that oldObject is set on future $watch triggers
       scope.$digest();
+      payloads = [];
     });
 
     it('updates the conference cache and displays a notification', () => {
       spyOn(ConfCache, 'update');
-      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
+      expectOnePut();
 
       scope.$apply(() => {
         scope.conference.name = 'Updated';
       });
-      $httpBackend.flush();
+      // The save is debounced, so nothing has been sent yet
+      $httpBackend.verifyNoOutstandingRequest();
 
+      $timeout.flush();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(1);
+      expect(payloads[0].name).toBe('Updated');
       expect(ConfCache.update).toHaveBeenCalledWith(
         scope.conference.id,
         scope.conference,
@@ -90,40 +118,369 @@ describe('Controller: eventForm', function () {
 
     it('debounces saves', () => {
       spyOn(ConfCache, 'update');
-      $httpBackend.expectPUT(/^conferences\/.+$/).respond(204, '');
+      expectOnePut();
 
-      // Saves the form
       scope.$apply(() => {
         scope.conference.name = 'Updated1';
       });
-      // Starts a timer to save the form later
       scope.$apply(() => {
         scope.conference.name = 'Updated2';
       });
-      // Updates the timer to save the form later
       scope.$apply(() => {
         scope.conference.name = 'Updated3';
       });
+      $httpBackend.verifyNoOutstandingRequest();
 
-      $httpBackend.flush();
+      $timeout.flush();
+      $httpBackend.flush(1);
 
+      expect(payloads.length).toBe(1);
+      expect(payloads[0].name).toBe('Updated3');
       expect(ConfCache.update).toHaveBeenCalledTimes(1);
 
       $timeout.flush();
-      $httpBackend.flush();
-
-      expect(ConfCache.update).toHaveBeenCalledTimes(2);
+      $httpBackend.verifyNoOutstandingRequest();
     });
 
     it('displays errors', () => {
-      $httpBackend.expectPUT(/^conferences\/.+$/).respond(500, '');
+      expectOnePut(500);
 
       scope.$apply(() => {
         scope.conference.name = 'Updated';
       });
-      $httpBackend.flush();
+      $timeout.flush();
+      $httpBackend.flush(1);
 
       expect(scope.notify.class).toBe('alert-danger');
+    });
+
+    it('sends one PUT with the block intact when a block is moved by remove-then-insert across two digests', () => {
+      expectOnePut();
+      const sourcePage = scope.conference.registrationPages[1];
+      const targetPage = scope.conference.registrationPages[0];
+      const totalBlocks = payloadBlockIds(scope.conference).length;
+      const nameBlock = sourcePage.blocks[1];
+
+      expect(nameBlock.id).toBe(NAME_BLOCK_ID);
+
+      // angular-ui-tree removes the node in one $timeout and inserts it in a
+      // second $timeout, so a full digest runs between the two splices.
+      scope.$apply(() => {
+        sourcePage.blocks.splice(1, 1);
+      });
+      scope.$apply(() => {
+        targetPage.blocks.splice(1, 0, nameBlock);
+      });
+      $httpBackend.verifyNoOutstandingRequest();
+
+      $timeout.flush();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(1);
+      const ids = payloadBlockIds(payloads[0]);
+
+      expect(ids.length).toBe(totalBlocks);
+      expect(ids).toContain(NAME_BLOCK_ID);
+      expect(payloads[0].registrationPages[0].blocks[1].id).toBe(NAME_BLOCK_ID);
+
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('sends one PUT with every page and block when a page is moved across two digests', () => {
+      expectOnePut();
+      const pages = scope.conference.registrationPages;
+      const movedPage = pages[1];
+      const movedBlockIds = _.map(movedPage.blocks, 'id');
+
+      expect(pages.length).toBe(3);
+      expect(movedBlockIds.length).toBe(14);
+
+      scope.$apply(() => {
+        pages.splice(1, 1);
+      });
+      scope.$apply(() => {
+        pages.splice(2, 0, movedPage);
+      });
+      $httpBackend.verifyNoOutstandingRequest();
+
+      $timeout.flush();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(1);
+      expect(payloads[0].registrationPages.length).toBe(3);
+      expect(payloads[0].registrationPages[2].id).toBe(movedPage.id);
+      const ids = payloadBlockIds(payloads[0]);
+
+      expect(_.difference(movedBlockIds, ids)).toEqual([]);
+
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('sends a pending save immediately on $destroy and does not send it twice', () => {
+      expectOnePut();
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated';
+      });
+      $httpBackend.verifyNoOutstandingRequest();
+
+      scope.$destroy();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(1);
+      expect(payloads[0].name).toBe('Updated');
+
+      // The cancelled debounce timer must not send a second PUT
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('sends a pending save immediately on $locationChangeStart', () => {
+      expectOnePut();
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated';
+      });
+      $httpBackend.verifyNoOutstandingRequest();
+
+      $rootScope.$broadcast('$locationChangeStart');
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(1);
+      expect(payloads[0].name).toBe('Updated');
+
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('sends nothing on $destroy when no save is pending', () => {
+      scope.$destroy();
+
+      $httpBackend.verifyNoOutstandingRequest();
+
+      expect(payloads.length).toBe(0);
+    });
+
+    it('sends a second PUT with the latest data when an edit happens while a PUT is in flight', () => {
+      expectOnePut();
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated1';
+      });
+      $timeout.flush();
+      // First PUT is now in flight
+      scope.$apply(() => {
+        scope.conference.name = 'Updated2';
+      });
+      $httpBackend.flush(1);
+
+      expectOnePut();
+      $timeout.flush();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(2);
+      expect(payloads[0].name).toBe('Updated1');
+      expect(payloads[1].name).toBe('Updated2');
+
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('still sends the queued second PUT when $destroy happens while a PUT is in flight', () => {
+      expectOnePut();
+
+      scope.$apply(() => {
+        scope.conference.name = 'Updated1';
+      });
+      $timeout.flush();
+      // First PUT is now in flight
+      scope.$apply(() => {
+        scope.conference.name = 'Updated2';
+      });
+      scope.$destroy();
+      $httpBackend.flush(1);
+
+      expectOnePut();
+      $timeout.flush();
+      $httpBackend.flush(1);
+
+      expect(payloads.length).toBe(2);
+      expect(payloads[1].name).toBe('Updated2');
+
+      $timeout.flush();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    describe('missing block guard', () => {
+      const REFUSED_MESSAGE =
+        'eventForm: refused to save conference missing blocks';
+
+      beforeEach(() => {
+        spyOn(Rollbar, 'error');
+      });
+
+      it('refuses to send a payload that silently drops a block', () => {
+        scope.$apply(() => {
+          scope.conference.registrationPages[1].blocks.splice(1, 1);
+        });
+        $timeout.flush();
+
+        $httpBackend.verifyNoOutstandingRequest();
+
+        expect(payloads.length).toBe(0);
+        expect(scope.notify.class).toBe('alert-danger');
+        expect(scope.notify.message.toString()).toContain('Not saved.');
+        expect(Rollbar.error).toHaveBeenCalledTimes(1);
+        expect(Rollbar.error).toHaveBeenCalledWith(REFUSED_MESSAGE, {
+          conferenceId: scope.conference.id,
+          missingBlockIds: [NAME_BLOCK_ID],
+        });
+      });
+
+      it('allows a save after deleteBlock removes a block', () => {
+        expectOnePut();
+        const block = scope.conference.registrationPages[1].blocks[4];
+
+        scope.$apply(() => {
+          scope.deleteBlock(block.id);
+        });
+        $timeout.flush();
+        $httpBackend.flush(1);
+
+        expect(payloads.length).toBe(1);
+        expect(payloadBlockIds(payloads[0])).not.toContain(block.id);
+        expect(scope.notify.class).toBe('alert-success');
+        expect(Rollbar.error).not.toHaveBeenCalled();
+
+        $timeout.flush();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('allows a save after deletePage removes a page and its blocks', () => {
+        expectOnePut();
+        spyOn(modalMessage, 'confirm').and.returnValue($q.resolve());
+        const page = scope.conference.registrationPages[2];
+        const pageBlockIds = _.map(page.blocks, 'id');
+
+        expect(pageBlockIds.length).toBe(3);
+
+        scope.deletePage(page.id);
+        scope.$digest();
+        $timeout.flush();
+        $httpBackend.flush(1);
+
+        expect(payloads.length).toBe(1);
+        expect(payloads[0].registrationPages.length).toBe(2);
+        const ids = payloadBlockIds(payloads[0]);
+
+        expect(_.intersection(pageBlockIds, ids)).toEqual([]);
+        expect(scope.notify.class).toBe('alert-success');
+        expect(Rollbar.error).not.toHaveBeenCalled();
+
+        $timeout.flush();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
+
+      it('protects a block that was added and saved', () => {
+        expectOnePut();
+        const page = scope.conference.registrationPages[0];
+
+        scope.$apply(() => {
+          scope.insertBlock(
+            'textQuestion',
+            page.id,
+            0,
+            'New question',
+            undefined,
+            undefined,
+          );
+        });
+        const newBlockId = page.blocks[0].id;
+        $timeout.flush();
+        $httpBackend.flush(1);
+
+        expect(payloadBlockIds(payloads[0])).toContain(newBlockId);
+
+        scope.$apply(() => {
+          page.blocks.splice(0, 1);
+        });
+        $timeout.flush();
+
+        $httpBackend.verifyNoOutstandingRequest();
+
+        expect(payloads.length).toBe(1);
+        expect(scope.notify.class).toBe('alert-danger');
+        expect(Rollbar.error).toHaveBeenCalledWith(REFUSED_MESSAGE, {
+          conferenceId: scope.conference.id,
+          missingBlockIds: [newBlockId],
+        });
+      });
+
+      it('protects a block again after a delete is undone', () => {
+        expectOnePut();
+        const block = scope.conference.registrationPages[1].blocks[4];
+        const beforeDelete = angular.copy(scope.conference);
+
+        scope.$apply(() => {
+          scope.deleteBlock(block.id);
+        });
+        // Growl Undo swaps the conference for the pre-delete copy inside the
+        // debounce window, so the block never left the saved form
+        scope.$apply(() => {
+          scope.conference = beforeDelete;
+        });
+        $timeout.flush();
+        $httpBackend.flush(1);
+
+        expect(payloadBlockIds(payloads[0])).toContain(block.id);
+
+        scope.$apply(() => {
+          _.remove(scope.conference.registrationPages[1].blocks, {
+            id: block.id,
+          });
+        });
+        $timeout.flush();
+
+        $httpBackend.verifyNoOutstandingRequest();
+
+        expect(payloads.length).toBe(1);
+        expect(scope.notify.class).toBe('alert-danger');
+        expect(Rollbar.error).toHaveBeenCalledWith(REFUSED_MESSAGE, {
+          conferenceId: scope.conference.id,
+          missingBlockIds: [block.id],
+        });
+      });
+
+      it('allows a deleteBlock that happens while a PUT is in flight', () => {
+        expectOnePut();
+        const block = scope.conference.registrationPages[1].blocks[4];
+
+        scope.$apply(() => {
+          scope.conference.name = 'Updated';
+        });
+        $timeout.flush();
+        // First PUT (which still contains the block) is now in flight
+        scope.$apply(() => {
+          scope.deleteBlock(block.id);
+        });
+        $httpBackend.flush(1);
+
+        expect(payloadBlockIds(payloads[0])).toContain(block.id);
+
+        expectOnePut();
+        $timeout.flush();
+        $httpBackend.flush(1);
+
+        expect(payloads.length).toBe(2);
+        expect(payloadBlockIds(payloads[1])).not.toContain(block.id);
+        expect(scope.notify.class).toBe('alert-success');
+        expect(Rollbar.error).not.toHaveBeenCalled();
+
+        $timeout.flush();
+        $httpBackend.verifyNoOutstandingRequest();
+      });
     });
   });
 
