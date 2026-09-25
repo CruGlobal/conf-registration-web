@@ -19,7 +19,16 @@
   <div class="col-sm-12">
     <label>
       <span translate>Account Number</span>
+      <div ng-if="currentPayment.scholarship.accountType === 'STAFF'">
+        <staff-account-search
+          payment="currentPayment.scholarship"
+          registration-id="currentRegistration.id"
+          conference-id="conference.id"
+        >
+        </staff-account-search>
+      </div>
       <input
+        ng-if="currentPayment.scholarship.accountType !== 'STAFF'"
         ng-model="currentPayment.scholarship.accountNumber"
         type="text"
         class="form-control"

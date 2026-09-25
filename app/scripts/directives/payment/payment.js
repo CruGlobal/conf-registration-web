@@ -25,11 +25,11 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
-      $http,
       $rootScope,
       expenseTypesConstants,
       gettextCatalog,
       ProfileCache,
+      staffAccountService,
     ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
@@ -51,15 +51,11 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
 
-      $scope.searchStaff = function (val) {
-        return $http
-          .get(
-            'registrations/' + $scope.currentRegistration.id + '/staffsearch',
-            { params: { name: val } },
-          )
-          .then(function (response) {
-            return response.data;
-          });
+      $scope.searchStaff = function (name) {
+        return staffAccountService.searchStaff(
+          name,
+          $scope.currentRegistration.id,
+        );
       };
 
       $scope.selectStaff = function (item) {
