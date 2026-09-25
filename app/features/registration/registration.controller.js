@@ -405,7 +405,15 @@ angular
         );
       };
 
+      // The save currently in flight, or null. Callers that arrive while one is running join it
+      // rather than starting a second overlapping save.
+      var inFlightSave = null;
+
       function saveAllAnswers(showErrorModal = true) {
+        if (inFlightSave) {
+          return inFlightSave;
+        }
+
         var currentRegistrantOriginal = _.find(
           originalCurrentRegistration.registrants,
           { id: $scope.currentRegistrant },
@@ -426,34 +434,53 @@ angular
               }),
             )
           : [];
-        var answersToSave = [];
 
-        angular.forEach(
+        var changedAnswers = _.filter(
           currentRegistrant ? currentRegistrant.answers : [],
           function (a) {
             var savedAnswer = _.find(currentRegistrantOriginalAnswers, {
               id: a.id,
             });
-            if (
+            return (
               (angular.isUndefined(savedAnswer) ||
                 !angular.equals(savedAnswer.value, a.value)) &&
               !invalidBlocks.includes(a.blockId)
-            ) {
-              if ($scope.registerMode !== 'preview') {
-                answersToSave.push($http.put('answers/' + a.id, a));
-              }
-            }
+            );
           },
         );
 
+        if (!changedAnswers.length || $scope.registerMode === 'preview') {
+          return $q.resolve([]);
+        }
+
+        // Send the whole registration once rather than one request per changed answer. Answers
+        // omitted from the payload are left untouched by the server, so invalid ones are dropped
+        // here exactly as they were skipped before.
+        var registrationToSave = angular.copy($scope.currentRegistration);
+        var registrantToSave = _.find(registrationToSave.registrants, {
+          id: $scope.currentRegistrant,
+        });
+        if (registrantToSave) {
+          registrantToSave.answers = _.reject(
+            registrantToSave.answers,
+            function (a) {
+              return invalidBlocks.includes(a.blockId);
+            },
+          );
+        }
+
         $scope.savingAnswers = true;
-        return $q
-          .all(answersToSave)
+        inFlightSave = $http
+          .put(
+            'registrations/' + $scope.currentRegistration.id,
+            registrationToSave,
+          )
           .then((result) => {
             //update originalCurrentRegistration
             originalCurrentRegistration = angular.copy(
               $scope.currentRegistration,
             );
+            RegistrationCache.emptyCache();
 
             return result;
           })
@@ -471,7 +498,10 @@ angular
           })
           .finally(() => {
             $scope.savingAnswers = false;
+            inFlightSave = null;
           });
+
+        return inFlightSave;
       }
     },
   );
