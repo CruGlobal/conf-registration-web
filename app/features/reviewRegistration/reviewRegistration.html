@@ -370,6 +370,17 @@
           <div
             ng-show="!currentRegistration.completed && currentRegistration.remainingBalance > 0 && showPromotionsInput()"
           >
+            <!-- Remove after 09/21/2026. -->
+            <p class="text-danger" ng-if="showWtrSave50Promo()">
+              <i class="fa fa-tag"></i>
+              <strong>
+                <translate
+                  >Almost there! Add code SAVE50 now to lock in your 50%
+                  discount.
+                </translate>
+              </strong>
+            </p>
+
             <label translate for="promo-code">Add Promotion Code</label>
             <div class="input-group">
               <input

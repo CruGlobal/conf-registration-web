@@ -7,6 +7,8 @@ import {
   aiaMinistryId,
 } from 'scripts/constants/ministryIds';
 import { familyLifeGtmTagId, aiaGtmTagId } from 'scripts/constants/gtmTagIds';
+// Remove after 09/21/2026.
+import { showWtrSave50Promo } from 'scripts/utils/wtrSave50Promo';
 
 angular
   .module('confRegistrationWebApp')
@@ -525,6 +527,11 @@ angular
                 );
               });
           });
+      };
+
+      // Remove after 09/21/2026.
+      $scope.showWtrSave50Promo = function () {
+        return showWtrSave50Promo(conference, currentRegistration);
       };
 
       $scope.showPromotionsInput = function () {

@@ -1,3 +1,5 @@
+import { Rollbar } from 'scripts/errorNotify.js';
+
 angular
   .module('confRegistrationWebApp')
   .controller(
@@ -35,30 +37,91 @@ angular
             angular.isDefined(oldObject) &&
             !_.isEqual(newObject, oldObject)
           ) {
-            saveForm();
+            scheduleSave();
           }
         },
         true,
       );
       $scope.blockTagTypes = blockTagTypeService.blockTagTypes() || [];
 
+      // angular-ui-tree applies a drag as a remove in one $timeout and an
+      // insert in a second $timeout, with a full digest in between. Saving
+      // synchronously on the watch sent that in-between state (the dragged
+      // block on no page) to the API, which deleted the block's answers.
+      // Debouncing the save makes sure only the final state is sent.
+      var SAVE_DEBOUNCE_MS = 500;
       var formSaving = false;
+      var savePending = false;
       var formSavingTimeout;
       var formSavingNotifyTimeout;
 
+      // Guard: never send a payload that silently drops a question. A block
+      // missing from the PUT is treated by the API as a delete, and its
+      // answers are gone for good. Only deleteBlock and deletePage may remove
+      // blocks; they mark the ids as intentional.
+      var lastSavedBlockIds = blockIds(conference);
+      var intentionallyRemovedBlockIds = [];
+
+      function blockIds(conf) {
+        return _.map(_.flatMap(conf.registrationPages, 'blocks'), 'id');
+      }
+
+      function scheduleSave() {
+        $timeout.cancel(formSavingTimeout);
+        savePending = true;
+        formSavingTimeout = $timeout(saveForm, SAVE_DEBOUNCE_MS);
+      }
+
+      // Send a debounced save right away so in-app navigation does not
+      // leave the last edit sitting in memory. If a PUT is in flight,
+      // saveForm re-schedules itself; $timeout is not scope-bound, so the
+      // queued save still runs after this scope is gone.
+      function flushPendingSave() {
+        if (savePending) {
+          $timeout.cancel(formSavingTimeout);
+          saveForm();
+        }
+      }
+
       function saveForm() {
         $timeout.cancel(formSavingTimeout);
+        savePending = false;
         if (formSaving) {
-          formSavingTimeout = $timeout(function () {
-            saveForm();
-          }, 600);
+          // A PUT is in flight; try again once it settles
+          scheduleSave();
+          return;
+        }
+
+        let conferenceWithoutImage = angular.copy($scope.conference);
+        conferenceWithoutImage.image = null;
+
+        var payloadBlockIds = blockIds(conferenceWithoutImage);
+        var missingBlockIds = _.difference(
+          lastSavedBlockIds,
+          payloadBlockIds,
+          intentionallyRemovedBlockIds,
+        );
+        if (missingBlockIds.length) {
+          $scope.notify = {
+            class: 'alert-danger',
+            message: $sce.trustAsHtml(
+              '<strong>Not saved.</strong> This change would have removed a question and its answers. Please reload the page and try again.',
+            ),
+          };
+          // Keep the banner up: a 2s "Saved!" timer from an earlier success
+          // would otherwise clear it.
+          $timeout.cancel(formSavingNotifyTimeout);
+          Rollbar.error(
+            'eventForm: refused to save conference missing blocks',
+            {
+              conferenceId: conference.id,
+              missingBlockIds: missingBlockIds,
+            },
+          );
           return;
         }
 
         formSaving = true;
-        let conferenceWithoutImage = angular.copy($scope.conference);
-        conferenceWithoutImage.image = null;
-
         $http({
           method: 'PUT',
           url: 'conferences/' + conference.id,
@@ -66,6 +129,15 @@ angular
         })
           .then(function () {
             formSaving = false;
+            lastSavedBlockIds = payloadBlockIds;
+            // Drop marks the API has now acknowledged, and marks for blocks
+            // that are back in the form (growl Undo). Keep marks for blocks
+            // deleted while this PUT was in flight: they are still in this
+            // payload, so the next save must still be allowed to omit them.
+            intentionallyRemovedBlockIds = _.difference(
+              _.intersection(intentionallyRemovedBlockIds, payloadBlockIds),
+              blockIds($scope.conference),
+            );
             $scope.notify = {
               class: 'alert-success',
               message: $sce.trustAsHtml(
@@ -142,6 +214,8 @@ angular
           },
         );
 
+        var pageBlockIds = _.map(page.blocks, 'id');
+
         var confirmMessage =
           '<p>Are you sure you want to delete <strong>' +
           page.title +
@@ -206,6 +280,10 @@ angular
                 },
               );
             }
+            intentionallyRemovedBlockIds = _.union(
+              intentionallyRemovedBlockIds,
+              pageBlockIds,
+            );
             $scope.conference.registrationPages.splice(delPageIndex, 1);
           });
       };
@@ -364,6 +442,9 @@ angular
           GrowlService.growl($scope, 'conference', $scope.conference, message);
         }
 
+        intentionallyRemovedBlockIds = _.union(intentionallyRemovedBlockIds, [
+          blockId,
+        ]);
         _.remove(
           $scope.conference.registrationPages[
             previousBlockPositions[blockId].pageIndex
@@ -447,8 +528,16 @@ angular
         return _.includes(hiddenPages, id);
       };
 
+      // The event overview route resolve re-fetches the conference before
+      // $destroy fires, so the pending save must already be on the wire.
+      $scope.$on('$locationChangeStart', function () {
+        flushPendingSave();
+      });
+
       // Clear block tag types service cache when controller is destroyed (e.g., navigating away)
       $scope.$on('$destroy', function () {
+        flushPendingSave();
+        $timeout.cancel(formSavingNotifyTimeout);
         blockTagTypeService.clearCache();
       });
     },

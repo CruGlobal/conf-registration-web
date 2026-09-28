@@ -58,6 +58,7 @@ import 'scripts/directives/showAnswer/showAnswer.js';
 import 'scripts/directives/showGroupModal/showGroupModal.js';
 import 'scripts/directives/showErrors/showErrors.js';
 import 'scripts/directives/stringToNumber/stringToNumber.js';
+import 'scripts/directives/staffAccountSearch/staffAccountSearch.js';
 import 'scripts/directives/rule/rule.js';
 import 'scripts/directives/readFile/readFile.js';
 
@@ -97,6 +98,7 @@ import 'scripts/services/PermissionCache.js';
 import 'scripts/services/ProfileCache.js';
 import 'scripts/services/registration.js';
 import 'scripts/services/RegistrationCache.js';
+import 'scripts/services/staffAccountService.js';
 import 'scripts/services/transformCampusAnswerInterceptor.js';
 import 'scripts/services/unauthorizedInterceptor.js';
 import 'scripts/services/uuid.js';
