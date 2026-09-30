@@ -553,6 +553,9 @@
                           Account Number
                         </span>
                         <div class="col-sm-9">
+                          <staff-account-notice
+                            account-type="editPayment.transfer.accountType"
+                          ></staff-account-notice>
                           <div
                             ng-if="editPayment.transfer.accountType === 'STAFF'"
                           >
@@ -606,6 +609,9 @@
                             Account Number
                           </span>
                           <div class="col-sm-9">
+                            <staff-account-notice
+                              account-type="editPayment.scholarship.accountType"
+                            ></staff-account-notice>
                             <div
                               ng-if="editPayment.scholarship.accountType === 'STAFF'"
                             >

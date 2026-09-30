@@ -25,7 +25,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
-      $rootScope,
       expenseTypesConstants,
       gettextCatalog,
       ProfileCache,
@@ -37,6 +36,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $scope.creditCardCountry = 'US';
       $scope.countries = allCountries;
       $scope.accountNumberDisabled = false;
+      $scope.staffAccountNumberError = false;
 
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
@@ -363,30 +363,29 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
-      function transformEmployeeIdIntoAccountNumber() {
-        const employeeId = $rootScope.globalUser().employeeId;
-        return employeeId ? employeeId.replace(/\D/g, '').slice(-7) : '';
-      }
-
       function fetchStaffAccountNumber() {
         $scope.accountNumberDisabled = false;
+        $scope.staffAccountNumberError = false;
 
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
         ProfileCache.getCache().then(
           function (profile) {
-            // TODO: Remove employeeId fallback once HCM goes live
-            $scope.currentPayment.transfer.accountNumber =
-              profile.staffAccountNumber ||
-              transformEmployeeIdIntoAccountNumber() ||
-              '';
-
-            $scope.accountNumberDisabled = !!profile.staffAccountNumber;
+            if (profile.staffAccountNumber) {
+              $scope.currentPayment.transfer.accountNumber =
+                profile.staffAccountNumber;
+              $scope.accountNumberDisabled = true;
+            } else {
+              // No staff account number on the profile; the registrant must
+              // contact support.
+              $scope.currentPayment.transfer.accountNumber = '';
+              $scope.staffAccountNumberError = true;
+            }
           },
           function () {
             $scope.currentPayment.transfer.accountNumber = '';
-            $scope.accountNumberDisabled = false;
+            $scope.staffAccountNumberError = true;
           },
         );
       }
@@ -400,6 +399,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         } else {
           $scope.currentPayment.transfer.accountNumber = '';
           $scope.accountNumberDisabled = false;
+          $scope.staffAccountNumberError = false;
         }
         [
           $scope.currentPayment.transfer.businessUnit,
