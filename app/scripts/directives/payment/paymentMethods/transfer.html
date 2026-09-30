@@ -81,6 +81,22 @@
     <label>
       <span translate>Account Number</span>
       <div
+        class="alert alert-info"
+        ng-if="!isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
+      >
+        <em class="fa fa-info-circle"></em>
+        <span translate>
+          Cru Staff, as part of the new HR Hub, you have been assigned a new
+          Staff Account number which differs from your Designation number (your
+          Designation number remains the same). This new number is filled in for
+          you automatically here.
+        </span>
+      </div>
+      <staff-account-notice
+        ng-if="isAdminPayment"
+        account-type="currentPayment.transfer.accountType"
+      ></staff-account-notice>
+      <div
         ng-if="isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
       >
         <staff-account-search
