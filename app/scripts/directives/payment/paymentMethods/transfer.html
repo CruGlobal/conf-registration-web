@@ -113,6 +113,14 @@
         class="form-control"
         ng-disabled="accountNumberDisabled"
       />
+      <div class="text-danger" ng-if="staffAccountNumberError" role="alert">
+        <span translate
+          >Unable to get staff account number, please contact</span
+        >
+        <a href="mailto:support@eventregistrationtool.com"
+          >support@eventregistrationtool.com</a
+        >.
+      </div>
     </label>
   </div>
 </div>

@@ -25,9 +25,6 @@ describe('Directive: ertPayment', function () {
     $q = _$q_;
     staffAccountService = _staffAccountService_;
 
-    spyOn($rootScope, 'globalUser').and.returnValue({
-      staffAccountNumber: '9870123457',
-    });
     spyOn(ProfileCache, 'clearCache');
     spyOn(ProfileCache, 'getCache').and.callFake(() =>
       $q.resolve({ staffAccountNumber: '9870123457' }),
@@ -47,7 +44,7 @@ describe('Directive: ertPayment', function () {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('when ProfileCache.getCache fails, accountNumber should be set to empty string', () => {
+  it('when ProfileCache.getCache fails, accountNumber is cleared and an error is shown', () => {
     ProfileCache.getCache.and.returnValue($q.reject());
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
@@ -57,6 +54,7 @@ describe('Directive: ertPayment', function () {
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
     expect(scope.accountNumberDisabled).toBe(false);
+    expect(scope.staffAccountNumberError).toBe(true);
   });
 
   it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
@@ -68,12 +66,10 @@ describe('Directive: ertPayment', function () {
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
     expect(scope.accountNumberDisabled).toBe(true);
+    expect(scope.staffAccountNumberError).toBe(false);
   });
 
-  it('accountTypeChanged to STAFF should prefill employeeId when not an admin payment and staffAccountNumber is not available', () => {
-    $rootScope.globalUser.and.returnValue({
-      employeeId: '0001234567',
-    });
+  it('accountTypeChanged to STAFF shows an error when the profile has no staff account number', () => {
     ProfileCache.getCache.and.returnValue(
       $q.resolve({ staffAccountNumber: '' }),
     );
@@ -83,8 +79,9 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
     scope.$apply();
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('1234567');
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
     expect(scope.accountNumberDisabled).toBe(false);
+    expect(scope.staffAccountNumberError).toBe(true);
   });
 
   it('accountTypeChanged to STAFF should not prefill accountNumber when an admin payment', () => {
