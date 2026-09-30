@@ -1,9 +1,11 @@
 <span class="help-block" translate>
-  Search by staff member name to look up their account number.
+  Search by staff member name to look up their account. Their designation number
+  will be shown here.
 </span>
 <div class="has-feedback staff-account-search">
   <input
-    ng-model="payment.accountNumber"
+    ng-model="search.text"
+    ng-change="searchTextChanged()"
     type="text"
     class="form-control"
     placeholder=""

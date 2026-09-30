@@ -25,7 +25,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
-      $rootScope,
       expenseTypesConstants,
       gettextCatalog,
       ProfileCache,
@@ -36,7 +35,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
       $scope.countries = allCountries;
-      $scope.accountNumberDisabled = false;
+      $scope.designationNumber = '';
+      $scope.staffAccountErrorMessage = null;
 
       $scope.paymentMethodsViews = {
         CREDIT_CARD: creditCardTemplate,
@@ -363,32 +363,35 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         }
       });
 
-      function transformEmployeeIdIntoAccountNumber() {
-        const employeeId = $rootScope.globalUser().employeeId;
-        return employeeId ? employeeId.replace(/\D/g, '').slice(-7) : '';
+      function staffAccountFetchFailed() {
+        $scope.currentPayment.transfer.accountNumber = '';
+        $scope.designationNumber = '';
+        $scope.staffAccountErrorMessage = gettextCatalog.getString(
+          'Failed to fetch account details, please contact support.',
+        );
       }
 
       function fetchStaffAccountNumber() {
-        $scope.accountNumberDisabled = false;
+        $scope.currentPayment.transfer.accountNumber = '';
+        $scope.designationNumber = '';
+        $scope.staffAccountErrorMessage = null;
 
         // staffAccountNumber is fetched asynchronously after login
         // and may not be in the cached profile yet, so refetch to pick it up
         ProfileCache.clearCache();
-        ProfileCache.getCache().then(
-          function (profile) {
-            // TODO: Remove employeeId fallback once HCM goes live
-            $scope.currentPayment.transfer.accountNumber =
-              profile.staffAccountNumber ||
-              transformEmployeeIdIntoAccountNumber() ||
-              '';
+        ProfileCache.getCache().then(function (profile) {
+          if (!profile.staffAccountNumber) {
+            staffAccountFetchFailed();
+            return;
+          }
 
-            $scope.accountNumberDisabled = !!profile.staffAccountNumber;
-          },
-          function () {
-            $scope.currentPayment.transfer.accountNumber = '';
-            $scope.accountNumberDisabled = false;
-          },
-        );
+          // Staff know their designation number, so show that, but the API
+          // expects the staff account number
+          $scope.currentPayment.transfer.accountNumber =
+            profile.staffAccountNumber;
+          $scope.designationNumber =
+            profile.designationNumber || profile.staffAccountNumber;
+        }, staffAccountFetchFailed);
       }
 
       $scope.accountTypeChanged = () => {
@@ -399,7 +402,8 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
           fetchStaffAccountNumber();
         } else {
           $scope.currentPayment.transfer.accountNumber = '';
-          $scope.accountNumberDisabled = false;
+          $scope.designationNumber = '';
+          $scope.staffAccountErrorMessage = null;
         }
         [
           $scope.currentPayment.transfer.businessUnit,

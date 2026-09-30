@@ -161,7 +161,25 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
                 </th>
                 {rowType === 'accountTransfer' && (
                   <th>
-                    <a href="#">Reference</a>
+                    <a href="#" className="margin-right-xs">
+                      Reference
+                    </a>
+                    <OverlayTrigger
+                      trigger={['hover', 'focus']}
+                      placement="top"
+                      overlay={
+                        <Popover id="TransactionsTableReferencePopover">
+                          These are staff account numbers. They will not look
+                          like designation numbers, but they are the correct
+                          numbers.
+                        </Popover>
+                      }
+                    >
+                      <i
+                        className="fa fa-question-circle"
+                        data-testid="transactions-table-reference-popover"
+                      />
+                    </OverlayTrigger>
                   </th>
                 )}
                 {selectable && (

@@ -35,6 +35,29 @@ describe('Service: staffAccountService', function () {
       var result;
       $httpBackend
         .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
+        .respond(200, {
+          staffAccountNumber: '9870123457',
+          designationNumber: '0123457',
+        });
+
+      staffAccountService
+        .staffAccountNumberLookup('staff@cru.org', 'conf-1')
+        .then((lookupResult) => {
+          result = lookupResult;
+        });
+      $httpBackend.flush();
+
+      expect(result).toEqual({
+        accountNumber: '9870123457',
+        designationNumber: '0123457',
+        message: null,
+      });
+    });
+
+    it('returns an empty designation number when the API does not provide one', () => {
+      var result;
+      $httpBackend
+        .expectGET(/staffAccountNumber\?email=staff@cru\.org/)
         .respond(200, { staffAccountNumber: '9870123457' });
 
       staffAccountService
@@ -44,7 +67,11 @@ describe('Service: staffAccountService', function () {
         });
       $httpBackend.flush();
 
-      expect(result).toEqual({ accountNumber: '9870123457', message: null });
+      expect(result).toEqual({
+        accountNumber: '9870123457',
+        designationNumber: '',
+        message: null,
+      });
     });
 
     it('returns a message when no staff member is found (204)', () => {
@@ -62,6 +89,7 @@ describe('Service: staffAccountService', function () {
 
       expect(result).toEqual({
         accountNumber: '',
+        designationNumber: '',
         message: 'No staff member was found with that email address.',
       });
     });
@@ -81,6 +109,7 @@ describe('Service: staffAccountService', function () {
 
       expect(result).toEqual({
         accountNumber: '',
+        designationNumber: '',
         message:
           'You do not have admin permission to look up staff accounts for this event.',
       });
@@ -101,6 +130,7 @@ describe('Service: staffAccountService', function () {
 
       expect(result).toEqual({
         accountNumber: '',
+        designationNumber: '',
         message: 'Unable to find a staff account number for this staff member.',
       });
     });
@@ -120,6 +150,7 @@ describe('Service: staffAccountService', function () {
 
       expect(result).toEqual({
         accountNumber: '',
+        designationNumber: '',
         message: 'An error occurred while looking up the staff account number.',
       });
     });

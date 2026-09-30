@@ -140,6 +140,20 @@ describe('TransactionsTable component', () => {
     expect(getAllByRole('cell', { name: '1234567' })).not.toHaveLength(0);
   });
 
+  it('explains that references are staff account numbers', async () => {
+    const { getByTestId, findByText } = render(
+      <TransactionsTable {...props} />,
+    );
+
+    userEvent.hover(getByTestId('transactions-table-reference-popover'));
+
+    expect(
+      await findByText(
+        'These are staff account numbers. They will not look like designation numbers, but they are the correct numbers.',
+      ),
+    ).toBeInTheDocument();
+  });
+
   it('shows the promo upload columns', () => {
     const { queryByRole } = render(
       <TransactionsTable

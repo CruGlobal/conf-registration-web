@@ -27,11 +27,16 @@ angular
         return searchStaffAccountNumber(email, conferenceId).then(
           function (data) {
             if (data && data.staffAccountNumber) {
-              return { accountNumber: data.staffAccountNumber, message: null };
+              return {
+                accountNumber: data.staffAccountNumber,
+                designationNumber: data.designationNumber || '',
+                message: null,
+              };
             }
             // 204: no staff member found in the Global Registry
             return {
               accountNumber: '',
+              designationNumber: '',
               message: gettextCatalog.getString(
                 'No staff member was found with that email address.',
               ),
@@ -40,6 +45,7 @@ angular
           function (response) {
             return {
               accountNumber: '',
+              designationNumber: '',
               message:
                 response.status === 403
                   ? gettextCatalog.getString(

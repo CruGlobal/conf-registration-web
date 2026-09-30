@@ -90,12 +90,27 @@
         >
         </staff-account-search>
       </div>
+      <div
+        ng-if="!isAdminPayment && currentPayment.transfer.accountType === 'STAFF'"
+      >
+        <span class="help-block" translate>
+          This is your designation number.
+        </span>
+        <input
+          ng-model="designationNumber"
+          type="text"
+          class="form-control"
+          readonly
+        />
+        <div class="text-danger" ng-if="staffAccountErrorMessage" role="alert">
+          {{staffAccountErrorMessage}}
+        </div>
+      </div>
       <input
-        ng-if="!(isAdminPayment && currentPayment.transfer.accountType === 'STAFF')"
+        ng-if="currentPayment.transfer.accountType === 'NON_US_STAFF'"
         ng-model="currentPayment.transfer.accountNumber"
         type="text"
         class="form-control"
-        ng-disabled="accountNumberDisabled"
       />
     </label>
   </div>

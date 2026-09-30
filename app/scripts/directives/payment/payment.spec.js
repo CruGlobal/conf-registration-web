@@ -25,12 +25,12 @@ describe('Directive: ertPayment', function () {
     $q = _$q_;
     staffAccountService = _staffAccountService_;
 
-    spyOn($rootScope, 'globalUser').and.returnValue({
-      staffAccountNumber: '9870123457',
-    });
     spyOn(ProfileCache, 'clearCache');
     spyOn(ProfileCache, 'getCache').and.callFake(() =>
-      $q.resolve({ staffAccountNumber: '9870123457' }),
+      $q.resolve({
+        staffAccountNumber: '9870123457',
+        designationNumber: '0123457',
+      }),
     );
 
     scope = $rootScope.$new();
@@ -47,7 +47,10 @@ describe('Directive: ertPayment', function () {
     scope = element.isolateScope() || element.scope();
   }));
 
-  it('when ProfileCache.getCache fails, accountNumber should be set to empty string', () => {
+  const fetchFailedMessage =
+    'Failed to fetch account details, please contact support.';
+
+  it('when ProfileCache.getCache fails, shows an error and clears the account number', () => {
     ProfileCache.getCache.and.returnValue($q.reject());
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
@@ -56,10 +59,11 @@ describe('Directive: ertPayment', function () {
     scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
-    expect(scope.accountNumberDisabled).toBe(false);
+    expect(scope.designationNumber).toBe('');
+    expect(scope.staffAccountErrorMessage).toBe(fetchFailedMessage);
   });
 
-  it('accountTypeChanged to STAFF should prefill accountNumber when not an admin payment', () => {
+  it('accountTypeChanged to STAFF should show the designation number but send the staff account number when not an admin payment', () => {
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
     };
@@ -67,15 +71,14 @@ describe('Directive: ertPayment', function () {
     scope.$apply();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
-    expect(scope.accountNumberDisabled).toBe(true);
+    expect(scope.currentPayment.transfer.designationNumber).toBeUndefined();
+    expect(scope.designationNumber).toBe('0123457');
+    expect(scope.staffAccountErrorMessage).toBeNull();
   });
 
-  it('accountTypeChanged to STAFF should prefill employeeId when not an admin payment and staffAccountNumber is not available', () => {
-    $rootScope.globalUser.and.returnValue({
-      employeeId: '0001234567',
-    });
+  it('accountTypeChanged to STAFF should show the staff account number when there is no designation number', () => {
     ProfileCache.getCache.and.returnValue(
-      $q.resolve({ staffAccountNumber: '' }),
+      $q.resolve({ staffAccountNumber: '9870123457' }),
     );
     scope.currentPayment = {
       transfer: { accountType: 'STAFF', accountNumber: '123' },
@@ -83,8 +86,41 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
     scope.$apply();
 
-    expect(scope.currentPayment.transfer.accountNumber).toBe('1234567');
-    expect(scope.accountNumberDisabled).toBe(false);
+    expect(scope.currentPayment.transfer.accountNumber).toBe('9870123457');
+    expect(scope.designationNumber).toBe('9870123457');
+  });
+
+  it('accountTypeChanged to STAFF should show an error when there is no staff account number', () => {
+    ProfileCache.getCache.and.returnValue(
+      $q.resolve({
+        staffAccountNumber: null,
+        designationNumber: '0123457',
+        employeeId: '0001234567',
+      }),
+    );
+    scope.currentPayment = {
+      transfer: { accountType: 'STAFF', accountNumber: '123' },
+    };
+    scope.accountTypeChanged();
+    scope.$apply();
+
+    expect(scope.currentPayment.transfer.accountNumber).toBe('');
+    expect(scope.designationNumber).toBe('');
+    expect(scope.staffAccountErrorMessage).toBe(fetchFailedMessage);
+  });
+
+  it('accountTypeChanged away from STAFF should clear a previous error', () => {
+    ProfileCache.getCache.and.returnValue($q.resolve({}));
+    scope.currentPayment = { transfer: { accountType: 'STAFF' } };
+    scope.accountTypeChanged();
+    scope.$apply();
+
+    expect(scope.staffAccountErrorMessage).toBe(fetchFailedMessage);
+
+    scope.currentPayment.transfer.accountType = 'MINISTRY';
+    scope.accountTypeChanged();
+
+    expect(scope.staffAccountErrorMessage).toBeNull();
   });
 
   it('accountTypeChanged to STAFF should not prefill accountNumber when an admin payment', () => {
@@ -95,7 +131,7 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
-    expect(scope.accountNumberDisabled).toBe(false);
+    expect(ProfileCache.getCache).not.toHaveBeenCalled();
   });
 
   it('accountTypeChanged to something not equal to STAFF should not prefill accountNumber', () => {
@@ -105,7 +141,7 @@ describe('Directive: ertPayment', function () {
     scope.accountTypeChanged();
 
     expect(scope.currentPayment.transfer.accountNumber).toBe('');
-    expect(scope.accountNumberDisabled).toBe(false);
+    expect(scope.designationNumber).toBe('');
   });
 
   it('accountTypeChanged to NON_US_STAFF should pre-fill businessUnit and department', () => {
