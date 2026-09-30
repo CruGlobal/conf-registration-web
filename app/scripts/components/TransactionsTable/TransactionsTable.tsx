@@ -161,7 +161,25 @@ export const TransactionsTable = <RowType extends keyof RowTypes>({
                 </th>
                 {rowType === 'accountTransfer' && (
                   <th>
-                    <a href="#">Reference</a>
+                    <a href="#" className="margin-right-xs">
+                      Reference
+                    </a>
+                    <OverlayTrigger
+                      trigger={['hover', 'focus']}
+                      placement="top"
+                      overlay={
+                        <Popover id="TransactionsTableReferencePopover">
+                          As part of the new HR Hub, Cru staff have been
+                          assigned a new Staff Account number, which is
+                          different from their Designation number (their
+                          Designation number stays the same). Their new Staff
+                          Account number will fill in automatically when they
+                          select Staff Account as their payment option.
+                        </Popover>
+                      }
+                    >
+                      <i className="fa fa-question-circle" />
+                    </OverlayTrigger>
                   </th>
                 )}
                 {selectable && (

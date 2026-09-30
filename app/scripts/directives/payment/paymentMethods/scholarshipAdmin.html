@@ -19,6 +19,9 @@
   <div class="col-sm-12">
     <label>
       <span translate>Account Number</span>
+      <staff-account-notice
+        account-type="currentPayment.scholarship.accountType"
+      ></staff-account-notice>
       <div ng-if="currentPayment.scholarship.accountType === 'STAFF'">
         <staff-account-search
           payment="currentPayment.scholarship"
