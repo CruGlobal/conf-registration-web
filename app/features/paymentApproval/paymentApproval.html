@@ -21,23 +21,21 @@
         </div>
 
         <div class="form-group">
-          <label class="col-sm-3 control-label">
-            <span translate>Amount</span>
-            <div class="col-sm-9">
-              <div class="input-group">
-                <span class="input-group-addon" aria-hidden="true"
-                  ><span class="currency-label">
-                    {{conference.currency.shortSymbol}}
-                  </span>
+          <label class="col-sm-3 control-label" translate>Amount</label>
+          <div class="col-sm-9">
+            <div class="input-group">
+              <span class="input-group-addon" aria-hidden="true"
+                ><span class="currency-label">
+                  {{conference.currency.shortSymbol}}
                 </span>
-                <input
-                  type="text"
-                  ng-model="payment.amount"
-                  class="form-control marginless"
-                />
-              </div>
+              </span>
+              <input
+                type="text"
+                ng-model="payment.amount"
+                class="form-control marginless"
+              />
             </div>
-          </label>
+          </div>
         </div>
 
         <div class="form-group">
@@ -58,39 +56,37 @@
           class="form-group"
           ng-show="payment.scholarship.accountType === 'STAFF'"
         >
-          <label class="col-sm-3 control-label">
-            <span translate>Account Number</span>
-            <div class="col-sm-9">
-              <div class="alert alert-info">
-                <em class="fa fa-info-circle"></em>
-                <span translate>
-                  Cru Staff, as part of the new HR Hub, you have been assigned a
-                  new Staff Account number which differs from your Designation
-                  number (your Designation number remains the same). This new
-                  number is filled in for you automatically here.
-                </span>
-              </div>
-              <input
-                ng-model="payment.scholarship.accountNumber"
-                ng-change="staffAccountNumberError = false"
-                type="text"
-                class="form-control"
-                ng-disabled="accountNumberDisabled"
-              />
-              <div
-                class="text-danger"
-                ng-if="staffAccountNumberError"
-                role="alert"
-              >
-                <span translate
-                  >Unable to get staff account number, please contact</span
-                >
-                <a href="mailto:support@eventregistrationtool.com"
-                  >support@eventregistrationtool.com</a
-                >.
-              </div>
+          <label class="col-sm-3 control-label" translate>Account Number</label>
+          <div class="col-sm-9">
+            <div class="alert alert-info">
+              <em class="fa fa-info-circle"></em>
+              <span translate>
+                Cru Staff, as part of the new HR Hub, you have been assigned a
+                new Staff Account number which differs from your Designation
+                number (your Designation number remains the same). This new
+                number is filled in for you automatically here.
+              </span>
             </div>
-          </label>
+            <input
+              ng-model="payment.scholarship.accountNumber"
+              ng-change="staffAccountNumberError = false"
+              type="text"
+              class="form-control"
+              ng-disabled="accountNumberDisabled"
+            />
+            <div
+              class="text-danger"
+              ng-if="staffAccountNumberError"
+              role="alert"
+            >
+              <span translate
+                >Unable to get staff account number, please contact</span
+              >
+              <a href="mailto:support@eventregistrationtool.com"
+                >support@eventregistrationtool.com</a
+              >.
+            </div>
+          </div>
         </div>
 
         <div
