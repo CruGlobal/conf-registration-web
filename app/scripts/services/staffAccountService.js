@@ -2,7 +2,7 @@ angular
   .module('confRegistrationWebApp')
   .service(
     'staffAccountService',
-    function StaffAccountService($http, gettextCatalog) {
+    function StaffAccountService($http, gettextCatalog, ProfileCache) {
       this.searchStaff = function (name, registrationId) {
         return $http
           .get('registrations/' + registrationId + '/staffsearch', {
@@ -22,6 +22,23 @@ angular
             return response.data;
           });
       }
+
+      // Fill in the logged-in staff member's own account number from their
+      // profile. Resolves to the account number, or '' when none is on the
+      // profile or the fetch fails.
+      this.getProfileStaffAccountNumber = function () {
+        // staffAccountNumber is fetched asynchronously after login and may not
+        // be in the cached profile yet, so refetch to pick it up.
+        ProfileCache.clearCache();
+        return ProfileCache.getCache().then(
+          function (profile) {
+            return profile.staffAccountNumber || '';
+          },
+          function () {
+            return '';
+          },
+        );
+      };
 
       this.staffAccountNumberLookup = function (email, conferenceId) {
         return searchStaffAccountNumber(email, conferenceId).then(

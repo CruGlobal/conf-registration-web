@@ -3,10 +3,19 @@ import 'angular-mocks';
 describe('Service: staffAccountService', function () {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  var staffAccountService, $httpBackend;
-  beforeEach(inject((_staffAccountService_, _$httpBackend_) => {
+  var staffAccountService, $httpBackend, $rootScope, $q, ProfileCache;
+  beforeEach(inject((
+    _staffAccountService_,
+    _$httpBackend_,
+    _$rootScope_,
+    _$q_,
+    _ProfileCache_,
+  ) => {
     staffAccountService = _staffAccountService_;
     $httpBackend = _$httpBackend_;
+    $rootScope = _$rootScope_;
+    $q = _$q_;
+    ProfileCache = _ProfileCache_;
   }));
 
   afterEach(() => {
@@ -122,6 +131,50 @@ describe('Service: staffAccountService', function () {
         accountNumber: '',
         message: 'An error occurred while looking up the staff account number.',
       });
+    });
+  });
+
+  describe('getProfileStaffAccountNumber', () => {
+    it('refetches the profile and returns its staff account number', () => {
+      spyOn(ProfileCache, 'clearCache');
+      spyOn(ProfileCache, 'getCache').and.returnValue(
+        $q.resolve({ staffAccountNumber: '9870123457' }),
+      );
+      var result;
+
+      staffAccountService.getProfileStaffAccountNumber().then((number) => {
+        result = number;
+      });
+      $rootScope.$apply();
+
+      expect(ProfileCache.clearCache).toHaveBeenCalledWith();
+      expect(result).toBe('9870123457');
+    });
+
+    it('returns an empty string when the profile has no staff account number', () => {
+      spyOn(ProfileCache, 'clearCache');
+      spyOn(ProfileCache, 'getCache').and.returnValue($q.resolve({}));
+      var result = 'unset';
+
+      staffAccountService.getProfileStaffAccountNumber().then((number) => {
+        result = number;
+      });
+      $rootScope.$apply();
+
+      expect(result).toBe('');
+    });
+
+    it('returns an empty string when the profile fetch fails', () => {
+      spyOn(ProfileCache, 'clearCache');
+      spyOn(ProfileCache, 'getCache').and.returnValue($q.reject());
+      var result = 'unset';
+
+      staffAccountService.getProfileStaffAccountNumber().then((number) => {
+        result = number;
+      });
+      $rootScope.$apply();
+
+      expect(result).toBe('');
     });
   });
 });

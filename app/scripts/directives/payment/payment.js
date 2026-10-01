@@ -27,7 +27,6 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
       $scope,
       expenseTypesConstants,
       gettextCatalog,
-      ProfileCache,
       staffAccountService,
     ) {
       $scope.conference = $scope.$parent.conference;
@@ -367,14 +366,11 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         $scope.accountNumberDisabled = false;
         $scope.staffAccountNumberError = false;
 
-        // staffAccountNumber is fetched asynchronously after login
-        // and may not be in the cached profile yet, so refetch to pick it up
-        ProfileCache.clearCache();
-        ProfileCache.getCache().then(
-          function (profile) {
-            if (profile.staffAccountNumber) {
-              $scope.currentPayment.transfer.accountNumber =
-                profile.staffAccountNumber;
+        staffAccountService
+          .getProfileStaffAccountNumber()
+          .then(function (accountNumber) {
+            if (accountNumber) {
+              $scope.currentPayment.transfer.accountNumber = accountNumber;
               $scope.accountNumberDisabled = true;
             } else {
               // No staff account number on the profile; the registrant must
@@ -382,12 +378,7 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
               $scope.currentPayment.transfer.accountNumber = '';
               $scope.staffAccountNumberError = true;
             }
-          },
-          function () {
-            $scope.currentPayment.transfer.accountNumber = '';
-            $scope.staffAccountNumberError = true;
-          },
-        );
+          });
       }
 
       $scope.accountTypeChanged = () => {
