@@ -380,13 +380,28 @@ angular
             '$route',
             '$rootScope',
             'ProfileCache',
-            function ($location, $cookies, $route, $rootScope, ProfileCache) {
+            'staffLoginWarning',
+            function (
+              $location,
+              $cookies,
+              $route,
+              $rootScope,
+              ProfileCache,
+              staffLoginWarning,
+            ) {
               $cookies.put('crsAuthProviderType', '');
               $cookies.put('crsToken', $route.current.params.token);
               $rootScope.crsToken = $cookies.get('crsToken');
+              // the API flags staff who logged in with something other than Okta
+              const showStaffLoginWarning =
+                $route.current.params.staffLoginWarning === 'true';
+              $location.search('staffLoginWarning', null);
               ProfileCache.getCache()
                 .then(function (data) {
                   $cookies.put('crsAuthProviderType', data.authProviderType);
+                  if (showStaffLoginWarning) {
+                    staffLoginWarning.show(data.authProviderType);
+                  }
                 })
                 .catch(() => {
                   $cookies.remove('crsToken');
@@ -432,6 +447,7 @@ angular
             .then((response) => {
               $cookies.remove('crsToken');
               ProfileCache.clearCache();
+              $rootScope.staffLoginWarning = '';
               logoutService.logoutFormProviders(response);
               $cookies.remove('crsAuthProviderType');
               return '/';
