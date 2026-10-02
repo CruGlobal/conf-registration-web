@@ -150,6 +150,22 @@
       </div>
     </div>
 
+    <div
+      class="alert alert-warning staff-login-warning"
+      role="alert"
+      ng-if="staffLoginWarning"
+    >
+      <button
+        type="button"
+        class="close"
+        aria-label="Dismiss"
+        ng-click="dismissStaffLoginWarning()"
+      >
+        &times;
+      </button>
+      <p>{{ staffLoginWarning }}</p>
+    </div>
+
     <div ng-if="globalPage.type === 'admin' || globalPage.type === 'landing'">
       <div class="alert alert-warning growl-message" ng-show="growlMessage">
         <button type="button" class="close" ng-click="growlMessage=''">
