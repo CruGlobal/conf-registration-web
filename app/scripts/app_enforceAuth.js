@@ -109,7 +109,11 @@ angular
 
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$routeChangeError', function (event, current, previous) {
-      if (previous) {
+      // Right after signing in, the previous history entry is the sign in provider's authorize page.
+      // Going back there would start another sign in with an already used state, so go home instead.
+      // eslint-disable-next-line angular/no-private-call
+      const cameFromSignIn = previous?.$$route?.originalPath === '/auth/:token';
+      if (previous && !cameFromSignIn) {
         $window.history.back();
       } else {
         $location.path('/').replace();
