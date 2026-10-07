@@ -37,6 +37,12 @@ angular
               return 'Your sign in attempt took too long. Please try again.';
             case 'expiredSession':
               return 'Your session has expired, plesase sign in.';
+            case 'staleAuthentication':
+              // the API sends this when a sign in callback was already used, which usually means the
+              // user is signed in already, so only prompt when there is no session
+              return crsToken
+                ? undefined
+                : 'Your sign in could not be completed. Please try again.';
             default:
               return 'There was an error while trying to sign in. Please try again.';
           }

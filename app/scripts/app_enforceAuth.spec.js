@@ -49,3 +49,54 @@ describe('app_enforceAuth $routeChangeError', () => {
     expect($location.path).toHaveBeenCalledWith('/');
   });
 });
+
+describe('app_enforceAuth auth_error', () => {
+  let $rootScope, loginDialog;
+  let crsToken;
+
+  beforeEach(
+    angular.mock.module('confRegistrationWebApp', ($provide) => {
+      $provide.value('$cookies', {
+        get: (key) => (key === 'crsToken' ? crsToken : undefined),
+        put: angular.noop,
+        remove: angular.noop,
+      });
+    }),
+  );
+
+  beforeEach(inject((_$rootScope_, _loginDialog_) => {
+    $rootScope = _$rootScope_;
+    loginDialog = _loginDialog_;
+    spyOn(loginDialog, 'show');
+  }));
+
+  const routeChangeStart = (authError) =>
+    $rootScope.$broadcast('$routeChangeStart', {
+      params: { auth_error: authError },
+    });
+
+  it('prompts to sign in again after a stale callback when signed out', () => {
+    crsToken = undefined;
+    routeChangeStart('staleAuthentication');
+
+    expect(loginDialog.show).toHaveBeenCalledWith({
+      authError: 'Your sign in could not be completed. Please try again.',
+    });
+  });
+
+  it('does not prompt after a stale callback when already signed in', () => {
+    crsToken = 'token';
+    routeChangeStart('staleAuthentication');
+
+    expect(loginDialog.show).not.toHaveBeenCalled();
+  });
+
+  it('still prompts for other auth errors when signed in', () => {
+    crsToken = 'token';
+    routeChangeStart('expiredAuthentication');
+
+    expect(loginDialog.show).toHaveBeenCalledWith({
+      authError: 'Your sign in attempt took too long. Please try again.',
+    });
+  });
+});
