@@ -558,7 +558,7 @@ describe('Controller: registration', () => {
 
   describe('when saveAnswers fails', () => {
     beforeEach(() => {
-      $httpBackend.expectPUT(/answers\/.+/).respond(500, {
+      $httpBackend.expectPUT(/registrations\/.+/).respond(500, {
         parameterViolations: [
           {
             message: 'Failed validation',
@@ -608,7 +608,7 @@ describe('Controller: registration', () => {
 
   describe('when saveAnswers succeeds', () => {
     beforeEach(() => {
-      $httpBackend.expectPUT(/answers\/.+/).respond(200, {});
+      $httpBackend.expectPUT(/registrations\/.+/).respond(200, {});
       spyOn($location, 'path');
       scope.currentRegistration.registrants[0].answers[0].value = 'Changed';
     });
@@ -638,6 +638,53 @@ describe('Controller: registration', () => {
       expect($location.path).toHaveBeenCalledWith(
         `/reviewRegistration/${scope.conference.id}`,
       );
+    });
+  });
+
+  describe('saveAllAnswers', () => {
+    beforeEach(() => {
+      spyOn($location, 'path');
+    });
+
+    it('sends one PUT to the registration regardless of how many answers changed', () => {
+      const registrant = scope.currentRegistration.registrants[0];
+      registrant.answers[0].value = 'Changed';
+      registrant.answers[1].value = 'Also changed';
+
+      // expectPUT is order- and count-sensitive: a second request would fail the flush
+      $httpBackend
+        .expectPUT(`registrations/${scope.currentRegistration.id}`)
+        .respond(200, {});
+
+      scope.reviewRegistration();
+      $httpBackend.flush();
+
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('does not send a request when no answer changed', () => {
+      scope.reviewRegistration();
+
+      // nothing to flush; an unexpected request would throw here
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it('does not start a second save while one is already in flight', () => {
+      scope.currentRegistration.registrants[0].answers[0].value = 'Changed';
+
+      $httpBackend
+        .expectPUT(`registrations/${scope.currentRegistration.id}`)
+        .respond(200, {});
+
+      // a page change and the autosave interval firing together must not overlap
+      scope.goToNext();
+      scope.reviewRegistration();
+      $httpBackend.flush();
+
+      $httpBackend.verifyNoOutstandingExpectation();
+      $httpBackend.verifyNoOutstandingRequest();
     });
   });
 });
