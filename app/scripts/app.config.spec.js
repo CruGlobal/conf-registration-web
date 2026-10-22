@@ -3,7 +3,14 @@ import 'angular-mocks';
 describe('Route: /auth/:token', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let $injector, $location, $rootScope, $q, $cookies, ProfileCache, signIn;
+  let $injector,
+    $location,
+    $rootScope,
+    $q,
+    $cookies,
+    ProfileCache,
+    staffLoginWarning,
+    signIn;
 
   beforeEach(inject((
     _$injector_,
@@ -21,6 +28,8 @@ describe('Route: /auth/:token', () => {
     $q = _$q_;
     $cookies = _$cookies_;
     ProfileCache = $injector.get('ProfileCache');
+    staffLoginWarning = $injector.get('staffLoginWarning');
+    spyOn(staffLoginWarning, 'show');
     signIn = $route.routes['/auth/:token'].resolve.redirectToIntendedRoute;
 
     // MinistryAdminsCache reloads when the auth token changes
@@ -48,9 +57,7 @@ describe('Route: /auth/:token', () => {
 
     runSignIn({ staffLoginWarning: 'true' });
 
-    expect($rootScope.staffLoginWarning).toContain(
-      'You have logged in with Google.',
-    );
+    expect(staffLoginWarning.show).toHaveBeenCalledWith('GOOGLE');
 
     expect($location.search().staffLoginWarning).toBeUndefined();
     expect($location.path()).toBe('/');
@@ -63,26 +70,7 @@ describe('Route: /auth/:token', () => {
 
     runSignIn({});
 
-    expect($rootScope.staffLoginWarning).toBeFalsy();
+    expect(staffLoginWarning.show).not.toHaveBeenCalled();
     expect($location.path()).toBe('/');
   });
-});
-
-describe('Route: /logout', () => {
-  beforeEach(angular.mock.module('confRegistrationWebApp'));
-
-  it('clears the staff login warning', inject((
-    $injector,
-    $route,
-    $rootScope,
-    $httpBackend,
-  ) => {
-    $httpBackend.whenGET('auth/logout').respond(200, {});
-    $rootScope.staffLoginWarning = 'You have logged in with Google.';
-
-    $injector.invoke($route.routes['/logout'].resolveRedirectTo);
-    $httpBackend.flush();
-
-    expect($rootScope.staffLoginWarning).toBe('');
-  }));
 });
