@@ -37,6 +37,12 @@ angular
               return 'Your sign in attempt took too long. Please try again.';
             case 'expiredSession':
               return 'Your session has expired, plesase sign in.';
+            case 'staleAuthentication':
+              // the API sends this when a sign in callback was already used, which usually means the
+              // user is signed in already, so only prompt when there is no session
+              return crsToken
+                ? undefined
+                : 'Your sign in could not be completed. Please try again.';
             default:
               return 'There was an error while trying to sign in. Please try again.';
           }
@@ -109,7 +115,11 @@ angular
 
     // eslint-disable-next-line angular/on-watch
     $rootScope.$on('$routeChangeError', function (event, current, previous) {
-      if (previous) {
+      // Right after signing in, the previous history entry is the sign in provider's authorize page.
+      // Going back there would start another sign in with an already used state, so go home instead.
+      // eslint-disable-next-line angular/no-private-call
+      const cameFromSignIn = previous?.$$route?.originalPath === '/auth/:token';
+      if (previous && !cameFromSignIn) {
         $window.history.back();
       } else {
         $location.path('/').replace();

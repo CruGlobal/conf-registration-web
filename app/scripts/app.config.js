@@ -447,7 +447,6 @@ angular
             .then((response) => {
               $cookies.remove('crsToken');
               ProfileCache.clearCache();
-              $rootScope.staffLoginWarning = '';
               logoutService.logoutFormProviders(response);
               $cookies.remove('crsAuthProviderType');
               return '/';
