@@ -3,33 +3,30 @@ import 'angular-mocks';
 describe('Service: staffLoginWarning', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let staffLoginWarning, $rootScope;
+  let staffLoginWarning, modalMessage;
 
-  beforeEach(inject((_staffLoginWarning_, _$rootScope_) => {
+  beforeEach(inject((_staffLoginWarning_, _modalMessage_) => {
     staffLoginWarning = _staffLoginWarning_;
-    $rootScope = _$rootScope_;
+    modalMessage = _modalMessage_;
+    spyOn(modalMessage, 'error');
   }));
 
-  it('names the provider the staff member logged in with', () => {
+  it('opens a modal naming the provider the staff member logged in with', () => {
     staffLoginWarning.show('GOOGLE');
 
-    expect($rootScope.staffLoginWarning).toBe(
-      'You have logged in with Google. ERT only works properly for staff if they log in with Okta.',
-    );
+    expect(modalMessage.error).toHaveBeenCalledWith({
+      title: 'Please log in with Okta',
+      message:
+        'You have logged in with Google. ERT only works properly for staff if they log in with Okta.',
+      forceAction: true,
+    });
   });
 
   it('falls back to a generic provider name', () => {
     staffLoginWarning.show('SOMETHING_NEW');
 
-    expect($rootScope.staffLoginWarning).toContain(
+    expect(modalMessage.error.calls.mostRecent().args[0].message).toContain(
       'You have logged in with a provider other than Okta.',
     );
-  });
-
-  it('is cleared when dismissed', () => {
-    staffLoginWarning.show('FACEBOOK');
-    $rootScope.dismissStaffLoginWarning();
-
-    expect($rootScope.staffLoginWarning).toBe('');
   });
 });

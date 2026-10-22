@@ -3,7 +3,14 @@ import 'angular-mocks';
 describe('Route: /auth/:token', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  let $injector, $location, $rootScope, $q, $cookies, ProfileCache, signIn;
+  let $injector,
+    $location,
+    $rootScope,
+    $q,
+    $cookies,
+    ProfileCache,
+    staffLoginWarning,
+    signIn;
 
   beforeEach(inject((
     _$injector_,
@@ -21,6 +28,8 @@ describe('Route: /auth/:token', () => {
     $q = _$q_;
     $cookies = _$cookies_;
     ProfileCache = $injector.get('ProfileCache');
+    staffLoginWarning = $injector.get('staffLoginWarning');
+    spyOn(staffLoginWarning, 'show');
     signIn = $route.routes['/auth/:token'].resolve.redirectToIntendedRoute;
 
     // MinistryAdminsCache reloads when the auth token changes
@@ -48,9 +57,7 @@ describe('Route: /auth/:token', () => {
 
     runSignIn({ staffLoginWarning: 'true' });
 
-    expect($rootScope.staffLoginWarning).toContain(
-      'You have logged in with Google.',
-    );
+    expect(staffLoginWarning.show).toHaveBeenCalledWith('GOOGLE');
 
     expect($location.search().staffLoginWarning).toBeUndefined();
     expect($location.path()).toBe('/');
@@ -63,7 +70,7 @@ describe('Route: /auth/:token', () => {
 
     runSignIn({});
 
-    expect($rootScope.staffLoginWarning).toBeFalsy();
+    expect(staffLoginWarning.show).not.toHaveBeenCalled();
     expect($location.path()).toBe('/');
   });
 });
@@ -71,18 +78,45 @@ describe('Route: /auth/:token', () => {
 describe('Route: /logout', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  it('clears the staff login warning', inject((
+  afterEach(inject(($cookies) => {
+    $cookies.remove('crsToken');
+    $cookies.remove('crsAuthProviderType');
+  }));
+
+  it('clears the session and logs out of the provider', inject((
     $injector,
     $route,
-    $rootScope,
+    $q,
+    $cookies,
     $httpBackend,
+    MinistriesCache,
+    ProfileCache,
+    logoutService,
   ) => {
+    // MinistryAdminsCache reloads when the auth token changes
+    spyOn(MinistriesCache, 'get').and.returnValue($q.resolve([]));
+    $httpBackend.whenGET('ministries/admin').respond(200, []);
     $httpBackend.whenGET('auth/logout').respond(200, {});
-    $rootScope.staffLoginWarning = 'You have logged in with Google.';
+    $cookies.put('crsToken', 'token-123');
+    $cookies.put('crsAuthProviderType', 'GOOGLE');
+    spyOn(ProfileCache, 'clearCache');
+    spyOn(logoutService, 'logoutFormProviders');
 
-    $injector.invoke($route.routes['/logout'].resolveRedirectTo);
+    let redirect;
+    $injector
+      .invoke($route.routes['/logout'].resolveRedirectTo)
+      .then((path) => {
+        redirect = path;
+      });
     $httpBackend.flush();
 
-    expect($rootScope.staffLoginWarning).toBe('');
+    expect($cookies.get('crsToken')).toBeUndefined();
+    expect($cookies.get('crsAuthProviderType')).toBeUndefined();
+    expect(ProfileCache.clearCache).toHaveBeenCalledWith();
+    expect(logoutService.logoutFormProviders).toHaveBeenCalledWith(
+      jasmine.objectContaining({ data: {} }),
+    );
+
+    expect(redirect).toBe('/');
   }));
 });
