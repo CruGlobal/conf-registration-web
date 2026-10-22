@@ -74,3 +74,49 @@ describe('Route: /auth/:token', () => {
     expect($location.path()).toBe('/');
   });
 });
+
+describe('Route: /logout', () => {
+  beforeEach(angular.mock.module('confRegistrationWebApp'));
+
+  afterEach(inject(($cookies) => {
+    $cookies.remove('crsToken');
+    $cookies.remove('crsAuthProviderType');
+  }));
+
+  it('clears the session and logs out of the provider', inject((
+    $injector,
+    $route,
+    $q,
+    $cookies,
+    $httpBackend,
+    MinistriesCache,
+    ProfileCache,
+    logoutService,
+  ) => {
+    // MinistryAdminsCache reloads when the auth token changes
+    spyOn(MinistriesCache, 'get').and.returnValue($q.resolve([]));
+    $httpBackend.whenGET('ministries/admin').respond(200, []);
+    $httpBackend.whenGET('auth/logout').respond(200, {});
+    $cookies.put('crsToken', 'token-123');
+    $cookies.put('crsAuthProviderType', 'GOOGLE');
+    spyOn(ProfileCache, 'clearCache');
+    spyOn(logoutService, 'logoutFormProviders');
+
+    let redirect;
+    $injector
+      .invoke($route.routes['/logout'].resolveRedirectTo)
+      .then((path) => {
+        redirect = path;
+      });
+    $httpBackend.flush();
+
+    expect($cookies.get('crsToken')).toBeUndefined();
+    expect($cookies.get('crsAuthProviderType')).toBeUndefined();
+    expect(ProfileCache.clearCache).toHaveBeenCalledWith();
+    expect(logoutService.logoutFormProviders).toHaveBeenCalledWith(
+      jasmine.objectContaining({ data: {} }),
+    );
+
+    expect(redirect).toBe('/');
+  }));
+});
