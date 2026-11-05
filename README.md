@@ -56,6 +56,7 @@ Open [`http://localhost:9000`](http://localhost:9000) with your browser to see t
 - Each night, [Pipeline v2](.github/workflows/pipeline-v2.yml) builds the tip of `master` once and deploys that build to staging. You can also run it by hand from the Actions tab, but only on `master` or a `hotfix/<release tag>` branch. The build runs in the production environment, which allows only those branches.
 - Production gets the exact build that staging ran when someone promotes it. Nothing is rebuilt for production.
 - One build serves both sites. The page picks staging or production settings from the hostname at runtime.
+- Both sites serve their source maps next to the bundles, so the browser's devtools show the original source. The `org.cru.public-sourcemaps` label in the `Dockerfile` turns that on. The JavaScript maps also go to the error tracker, which uses them to make stack traces readable.
 - The `staging` branch and the "On Staging" label no longer deploy anything.
 
 ### Adding dependencies
