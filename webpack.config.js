@@ -12,10 +12,6 @@ const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const hostnames = require('./app/scripts/utils/hostnames.json');
 
-const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
-const ci = process.env.CI === 'true';
-const coverage = ci || process.env.COVERAGE === 'true';
-
 const htmlMinDefaults = {
   removeComments: true,
   removeCommentsFromCDATA: true,
@@ -31,8 +27,13 @@ const htmlMinDefaults = {
   removeStyleTypeAttributes: true,
 };
 
+// Everything read from the environment is read when the config is built, not
+// when this file loads, so one copy of it can build several configs.
 module.exports = (env = {}) => {
   const isTest = env.test;
+  const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
+  const ci = process.env.CI === 'true';
+  const coverage = ci || process.env.COVERAGE === 'true';
   return {
     mode: isBuild ? 'production' : 'development',
     // Cache compiled modules to avoid cold webpack rebuild during retesting.

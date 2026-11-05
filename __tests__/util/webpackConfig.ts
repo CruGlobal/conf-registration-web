@@ -1,8 +1,11 @@
 import { withEnv } from './withEnv';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const buildConfig = require('../../webpack.config.js');
+
 // Build the config webpack.config.js returns, as `yarn build` would see it
-// unless `env` says otherwise. The file reads the environment when it loads,
-// so each call loads a fresh copy.
+// unless `env` says otherwise. The file reads the environment only when its
+// function runs, so one loaded copy serves every call.
 export const loadWebpackConfig = (
   env: Record<string, string | undefined> = {},
 ): any =>
@@ -13,16 +16,11 @@ export const loadWebpackConfig = (
       GIT_SHA: undefined,
       GITHUB_SHA: undefined,
       COMMIT_REF: undefined,
+      CI: undefined,
+      COVERAGE: undefined,
       ...env,
     },
-    () => {
-      let config;
-      jest.isolateModules(() => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        config = require('../../webpack.config.js')();
-      });
-      return config;
-    },
+    () => buildConfig(),
   );
 
 export const findPlugins = (config: any, name: string): any[] =>
