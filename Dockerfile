@@ -28,13 +28,15 @@ RUN --mount=type=secret,id=ROLLBAR_ACCESS_TOKEN,env=ROLLBAR_ACCESS_TOKEN \
     --mount=type=secret,id=ROLLBAR_ENDPOINT,env=ROLLBAR_ENDPOINT \
     yarn build
 
-# Move every source map out of the site into a tree that mirrors its URL path,
-# so dist/app.1a2b.js.map becomes /sourcemaps/app.1a2b.js.map. Maps are never
-# served. The deploy uploads them to the error tracker instead.
+# Take every source map out of the site, so none is ever served. The
+# JavaScript maps go to a tree that mirrors their URL path, so
+# dist/app.1a2b.js.map becomes /sourcemaps/app.1a2b.js.map, and the deploy
+# uploads them to the error tracker. The CSS map is dropped: no stack frame
+# points at CSS.
 RUN set -eu; \
     mkdir /sourcemaps; \
     cd dist; \
-    find . -type f -name '*.map' -print | tar -cf - -T - | tar -xf - -C /sourcemaps; \
+    find . -type f -name '*.js.map' -print | tar -cf - -T - | tar -xf - -C /sourcemaps; \
     find . -type f -name '*.map' -delete; \
     if [ -n "$(find . -name '*.map' -print)" ]; then \
       echo "a .map file is still in the site" >&2; exit 1; \
