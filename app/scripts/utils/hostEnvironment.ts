@@ -19,3 +19,26 @@ export const environmentName = (hostname: string): string => {
   }
   return hostname;
 };
+
+// The envService environment, which picks the API and the payment processor's
+// mode. It uses the same whole-hostname match as the rest of this file, so only
+// a production host can reach the production API. Any host it doesn't know,
+// such as a new subdomain or a raw CloudFront domain, gets the staging API.
+export type ApiEnvironment =
+  | 'production'
+  | 'staging'
+  | 'preview'
+  | 'development';
+
+export const apiEnvironment = (hostname: string): ApiEnvironment => {
+  if (isProductionHostname(hostname)) {
+    return 'production';
+  }
+  if (hostnames.staging.includes(hostname)) {
+    return 'staging';
+  }
+  if (hostname.endsWith('.netlify.app')) {
+    return 'preview';
+  }
+  return 'development';
+};

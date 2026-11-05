@@ -6,7 +6,11 @@ import {
   loadWebpackConfig,
 } from '../../../__tests__/util/webpackConfig';
 import hostnames from './hostnames.json';
-import { environmentName, isProductionHostname } from './hostEnvironment';
+import {
+  apiEnvironment,
+  environmentName,
+  isProductionHostname,
+} from './hostEnvironment';
 
 const stagingTagManager =
   '&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x';
@@ -67,6 +71,42 @@ describe('hostEnvironment', () => {
       expect(environmentName('example-eventregistrationtool.com')).toBe(
         'example-eventregistrationtool.com',
       );
+    });
+  });
+
+  describe('apiEnvironment', () => {
+    it.each([
+      ['www.eventregistrationtool.com', 'production'],
+      ['eventregistrationtool.com', 'production'],
+      ['stage.eventregistrationtool.com', 'staging'],
+      ['deploy-preview-12--example.netlify.app', 'preview'],
+      ['localhost', 'development'],
+      ['127.0.0.1', 'development'],
+      ['d111111abcdef8.cloudfront.net', 'development'],
+    ])('gives %s the %s API', (hostname, environment) => {
+      expect(apiEnvironment(hostname)).toBe(environment);
+    });
+
+    // envService's own check() matched these to production, so a page that
+    // looked like staging would have taken real payments.
+    it.each([
+      'rc.eventregistrationtool.com',
+      'www.eventregistrationtool.com.example.com',
+      'example-eventregistrationtool.com',
+    ])('never gives %s the production API', (hostname) => {
+      expect(apiEnvironment(hostname)).toBe('development');
+    });
+
+    it.each([
+      ...hostnames.production,
+      ...hostnames.staging,
+      'localhost',
+      'rc.eventregistrationtool.com',
+    ])('agrees with the error report environment on %s', (hostname) => {
+      const usesProductionApi = apiEnvironment(hostname) === 'production';
+      const reportsProduction = environmentName(hostname) === 'production';
+
+      expect(usesProductionApi).toBe(reportsProduction);
     });
   });
 

@@ -1,5 +1,4 @@
 import 'angular-mocks';
-import hostnames from './utils/hostnames.json';
 
 describe('Route: /auth/:token', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -122,28 +121,33 @@ describe('Route: /logout', () => {
   }));
 });
 
-describe('Environment hosts', () => {
+describe('Environment', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
 
-  // envService chooses the API by these hosts. hostnames.json also decides
-  // Tag Manager, the staging banner and the error report environment, so this
-  // pins the API choice to what it was before that file existed.
-  it('chooses the API by the same hosts as before', inject((envService) => {
-    expect(envService.data.domains).toEqual({
-      development: ['localhost'],
-      preview: ['*.netlify.app'],
-      staging: ['stage.eventregistrationtool.com'],
-      production: [
-        'www.eventregistrationtool.com',
-        'eventregistrationtool.com',
-      ],
+  const stagingApi = {
+    apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+    tsysEnvironment: 'staging',
+  };
+
+  // Which host gets which environment is tested in hostEnvironment.test.ts.
+  // This pins what each environment talks to.
+  it('sends only production to the production API and payments', inject((
+    envService,
+  ) => {
+    expect(envService.data.vars).toEqual({
+      development: stagingApi,
+      preview: stagingApi,
+      staging: stagingApi,
+      production: {
+        apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+        tsysEnvironment: 'production',
+      },
     });
   }));
 
-  it('reads its staging and production hosts from hostnames.json', inject((
-    envService,
-  ) => {
-    expect(envService.data.domains.staging).toBe(hostnames.staging);
-    expect(envService.data.domains.production).toBe(hostnames.production);
+  it('picks the environment from the hostname', inject((envService) => {
+    // Karma serves the tests from localhost.
+    expect(window.location.hostname).toBe('localhost');
+    expect(envService.get()).toBe('development');
   }));
 });
