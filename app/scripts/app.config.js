@@ -12,6 +12,7 @@ import eventPermissionsTemplate from 'features/eventPermissions/eventPermissions
 import globalPromotionsTemplate from 'features/globalPromotions/globalPromotions.html';
 import helpTemplate from 'features/help/help.html';
 import oktaDescriptionTemplate from 'features/oktaDescription/oktaDescription.html';
+import hostnames from './utils/hostnames.json';
 
 angular
   .module('confRegistrationWebApp')
@@ -37,14 +38,13 @@ angular
     $httpProvider.interceptors.push('transformCampusAnswerInterceptor');
 
     envServiceProvider.config({
+      // The staging and production hosts come from the same list the page and
+      // the error reports use, so the API choice can't drift from them.
       domains: {
         development: ['localhost'],
         preview: ['*.netlify.app'],
-        staging: ['stage.eventregistrationtool.com'],
-        production: [
-          'www.eventregistrationtool.com',
-          'eventregistrationtool.com',
-        ],
+        staging: hostnames.staging,
+        production: hostnames.production,
       },
       vars: {
         development: {

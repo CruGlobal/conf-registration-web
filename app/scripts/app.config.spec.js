@@ -1,4 +1,5 @@
 import 'angular-mocks';
+import hostnames from './utils/hostnames.json';
 
 describe('Route: /auth/:token', () => {
   beforeEach(angular.mock.module('confRegistrationWebApp'));
@@ -118,5 +119,31 @@ describe('Route: /logout', () => {
     );
 
     expect(redirect).toBe('/');
+  }));
+});
+
+describe('Environment hosts', () => {
+  beforeEach(angular.mock.module('confRegistrationWebApp'));
+
+  // envService chooses the API by these hosts. hostnames.json also decides
+  // Tag Manager, the staging banner and the error report environment, so this
+  // pins the API choice to what it was before that file existed.
+  it('chooses the API by the same hosts as before', inject((envService) => {
+    expect(envService.data.domains).toEqual({
+      development: ['localhost'],
+      preview: ['*.netlify.app'],
+      staging: ['stage.eventregistrationtool.com'],
+      production: [
+        'www.eventregistrationtool.com',
+        'eventregistrationtool.com',
+      ],
+    });
+  }));
+
+  it('reads its staging and production hosts from hostnames.json', inject((
+    envService,
+  ) => {
+    expect(envService.data.domains.staging).toBe(hostnames.staging);
+    expect(envService.data.domains.production).toBe(hostnames.production);
   }));
 });
