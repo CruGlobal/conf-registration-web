@@ -1,0 +1,17 @@
+# Only what the image build reads goes in. Everything else, like tests, docs,
+# editor and local settings, and the CI files, stays out of the builder, and
+# editing it doesn't rebuild the bundle.
+*
+!package.json
+!yarn.lock
+!.yarnrc.yml
+!.yarn/releases
+!.yarn/patches
+!.yarn/plugins
+!app
+!types
+!webpack.config.js
+!babel.config.js
+!babel-angular.config.js
+# The build runs ESLint and fails on an error, so it needs the config.
+!.eslintrc.json

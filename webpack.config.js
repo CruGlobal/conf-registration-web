@@ -10,11 +10,7 @@ const {
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const { SubresourceIntegrityPlugin } = require('webpack-subresource-integrity');
 const ESLintPlugin = require('eslint-webpack-plugin');
-
-const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
-const ci = process.env.CI === 'true';
-const coverage = ci || process.env.COVERAGE === 'true';
-const prod = process.env.GITHUB_REF === 'refs/heads/master';
+const hostnames = require('./app/scripts/utils/hostnames.json');
 
 const htmlMinDefaults = {
   removeComments: true,
@@ -31,8 +27,13 @@ const htmlMinDefaults = {
   removeStyleTypeAttributes: true,
 };
 
+// Everything read from the environment is read when the config is built, not
+// when this file loads, so one copy of it can build several configs.
 module.exports = (env = {}) => {
   const isTest = env.test;
+  const isBuild = (process.env.npm_lifecycle_event || '').startsWith('build');
+  const ci = process.env.CI === 'true';
+  const coverage = ci || process.env.COVERAGE === 'true';
   return {
     mode: isBuild ? 'production' : 'development',
     // Cache compiled modules to avoid cold webpack rebuild during retesting.
@@ -72,10 +73,17 @@ module.exports = (env = {}) => {
     plugins: concat(
       [
         new webpack.EnvironmentPlugin({
-          ROLLBAR_ACCESS_TOKEN: 'development-token',
-          // GitHub actions sets GITHUB_SHA, Netlify sets COMMIT_REF
+          // Error reports are sent only when the build has both of these.
+          ROLLBAR_ACCESS_TOKEN: '',
+          ROLLBAR_ENDPOINT: '',
+          // The image build passes GIT_SHA, GitHub Actions sets GITHUB_SHA and
+          // Netlify sets COMMIT_REF. Dockerfile labels the source maps with
+          // the same GIT_SHA, so reports and maps name the same version.
           GIT_COMMIT_SHA:
-            process.env.GITHUB_SHA || process.env.COMMIT_REF || 'development',
+            process.env.GIT_SHA ||
+            process.env.GITHUB_SHA ||
+            process.env.COMMIT_REF ||
+            'development',
         }),
         new webpack.ProvidePlugin({
           $: 'jquery',
@@ -98,7 +106,9 @@ module.exports = (env = {}) => {
             }),
             new HtmlWebpackPlugin({
               template: 'app/index.ejs',
-              prod: prod,
+              // The same page serves staging and production, so it picks its
+              // Tag Manager environment and banner from the hostname.
+              productionHostnames: hostnames.production,
               minify: htmlMinDefaults,
             }),
           ]
@@ -205,7 +215,15 @@ module.exports = (env = {}) => {
       modules: [path.resolve(__dirname, 'app'), 'node_modules'],
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
-    devtool: 'source-map',
+    // A build emits its source maps but leaves the bundles without a
+    // sourceMappingURL comment. The image moves the maps out of the site, so
+    // they are never served, and the deploy sends them to the error tracker.
+    // Netlify previews and the dev server keep linked maps for the browser's
+    // devtools. The image build never sets NETLIFY.
+    devtool:
+      isBuild && process.env.NETLIFY !== 'true'
+        ? 'hidden-source-map'
+        : 'source-map',
     devServer: {
       historyApiFallback: true,
       port: 9000,

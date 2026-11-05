@@ -12,6 +12,7 @@ import eventPermissionsTemplate from 'features/eventPermissions/eventPermissions
 import globalPromotionsTemplate from 'features/globalPromotions/globalPromotions.html';
 import helpTemplate from 'features/help/help.html';
 import oktaDescriptionTemplate from 'features/oktaDescription/oktaDescription.html';
+import { apiEnvironment } from './utils/hostEnvironment';
 
 angular
   .module('confRegistrationWebApp')
@@ -37,15 +38,6 @@ angular
     $httpProvider.interceptors.push('transformCampusAnswerInterceptor');
 
     envServiceProvider.config({
-      domains: {
-        development: ['localhost'],
-        preview: ['*.netlify.app'],
-        staging: ['stage.eventregistrationtool.com'],
-        production: [
-          'www.eventregistrationtool.com',
-          'eventregistrationtool.com',
-        ],
-      },
       vars: {
         development: {
           apiUrl:
@@ -69,8 +61,11 @@ angular
       },
     });
 
-    // Determine which environment we are running in
-    envServiceProvider.check();
+    // Pick the environment from the hostname with the same rule the page and
+    // the error reports use (hostEnvironment.ts), so the API can't disagree
+    // with them. envService's own check() matches hosts loosely, and would
+    // send any host that contains a production hostname to the production API.
+    envServiceProvider.set(apiEnvironment(window.location.hostname));
 
     if (
       envServiceProvider.is('production') ||
