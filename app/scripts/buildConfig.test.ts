@@ -36,11 +36,12 @@ describe('webpack.config.js', () => {
     );
   });
 
+  // The deployed site serves its maps, so every kind of build links them.
   it.each([
-    ['a build', {}, 'hidden-source-map'],
-    ['a Netlify build', { NETLIFY: 'true' }, 'source-map'],
-    ['the dev server', { npm_lifecycle_event: 'start' }, 'source-map'],
-  ])('picks the source map style for %s', (_, env, devtool) => {
-    expect(loadWebpackConfig(env).devtool).toBe(devtool);
+    ['a build', {}],
+    ['a Netlify build', { NETLIFY: 'true' }],
+    ['the dev server', { npm_lifecycle_event: 'start' }],
+  ])('links the source maps for %s', (_, env) => {
+    expect(loadWebpackConfig(env).devtool).toBe('source-map');
   });
 });

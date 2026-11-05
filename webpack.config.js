@@ -215,15 +215,13 @@ module.exports = (env = {}) => {
       modules: [path.resolve(__dirname, 'app'), 'node_modules'],
       extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
-    // A build emits its source maps but leaves the bundles without a
-    // sourceMappingURL comment. The image moves the maps out of the site, so
-    // they are never served, and the deploy sends them to the error tracker.
-    // Netlify previews and the dev server keep linked maps for the browser's
-    // devtools. The image build never sets NETLIFY.
-    devtool:
-      isBuild && process.env.NETLIFY !== 'true'
-        ? 'hidden-source-map'
-        : 'source-map',
+    // Every build links its source maps, so the browser's devtools show the
+    // original source: the dev server, Netlify previews and the image the
+    // pipeline deploys. The image keeps the maps in the site, and its
+    // org.cru.public-sourcemaps label has the deploy serve them next to the
+    // bundles. It also copies the JavaScript maps out for the error tracker.
+    // The source is public in this repo, so serving the maps shows nothing new.
+    devtool: 'source-map',
     devServer: {
       historyApiFallback: true,
       port: 9000,

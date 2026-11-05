@@ -28,19 +28,35 @@ RUN --mount=type=secret,id=ROLLBAR_ACCESS_TOKEN,env=ROLLBAR_ACCESS_TOKEN \
     --mount=type=secret,id=ROLLBAR_ENDPOINT,env=ROLLBAR_ENDPOINT \
     yarn build
 
-# Take every source map out of the site, so none is ever served. The
-# JavaScript maps go to a tree that mirrors their URL path, so
-# dist/app.1a2b.js.map becomes /sourcemaps/app.1a2b.js.map, and the deploy
-# uploads them to the error tracker. The CSS map is dropped: no stack frame
-# points at CSS.
+# The source maps stay in the site, next to the files they map, and the
+# org.cru.public-sourcemaps label below has the deploy serve them. So the
+# browser's devtools show the original source, which is public in this repo
+# anyway. The CSS map is served too, for the styles.
+#
+# The JavaScript maps are also copied to a tree that mirrors their URL path,
+# so dist/app.1a2b.js.map becomes /sourcemaps/app.1a2b.js.map, and the deploy
+# uploads them to the error tracker. The CSS map isn't: no stack frame points
+# at CSS.
+#
+# The checks fail the build when there is no JavaScript map for the error
+# tracker, or a map sits next to no file of its name, or that file doesn't
+# name it in its last line, the sourceMappingURL comment devtools read.
 RUN set -eu; \
     mkdir /sourcemaps; \
     cd dist; \
     find . -type f -name '*.js.map' -print | tar -cf - -T - | tar -xf - -C /sourcemaps; \
-    find . -type f -name '*.map' -delete; \
-    if [ -n "$(find . -name '*.map' -print)" ]; then \
-      echo "a .map file is still in the site" >&2; exit 1; \
+    if [ -z "$(find /sourcemaps -type f -name '*.js.map' -print)" ]; then \
+      echo "the build wrote no JavaScript source maps" >&2; exit 1; \
     fi; \
+    find . -type f -name '*.map' -print | while read -r map; do \
+      file="${map%.map}"; \
+      if [ ! -f "$file" ]; then \
+        echo "$map is in the site, but $file is not" >&2; exit 1; \
+      fi; \
+      if ! tail -n 1 "$file" | grep -qF "sourceMappingURL=$(basename "$map")"; then \
+        echo "$file does not name its map, $(basename "$map")" >&2; exit 1; \
+      fi; \
+    done; \
     test -f index.html
 
 # The image the pipeline deploys. The deploy reads the site from one layer, so
@@ -52,3 +68,7 @@ COPY --from=builder /sourcemaps /cru/sourcemaps/
 # so both come from GIT_SHA.
 ARG GIT_SHA=""
 LABEL org.cru.sourcemaps=${GIT_SHA}
+# Serve the .map files under /site from the site's bucket. Only the exact
+# value "true" turns this on, and a deploy older than the pipeline release
+# that reads it leaves the maps out.
+LABEL org.cru.public-sourcemaps=true
