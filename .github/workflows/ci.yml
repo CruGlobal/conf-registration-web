@@ -84,7 +84,9 @@ jobs:
     environment:
       name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     needs: [build]
-    if: github.event_name == 'push'
+    # Parked, not removed: the site now builds and deploys through
+    # pipeline-v2.yml, and production changes only through a v2 promote.
+    if: false
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

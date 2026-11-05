@@ -1,7 +1,18 @@
 import rollbar from 'rollbar';
+import { environmentName } from './utils/hostEnvironment';
+
+const accessToken = process.env.ROLLBAR_ACCESS_TOKEN;
+const endpoint = process.env.ROLLBAR_ENDPOINT;
+
+// The build bakes in where reports go. A build without both the token and the
+// endpoint, like a laptop or a pull request check, gets a notifier that never
+// sends anything.
+const reporting =
+  Boolean(accessToken && endpoint) && location.hostname !== 'localhost';
 
 const rollbarConfig = {
-  accessToken: process.env.ROLLBAR_ACCESS_TOKEN,
+  accessToken,
+  ...(reporting ? { endpoint } : {}),
   ignoredMessages: [
     "undefined is not an object (evaluating '__gCrWeb.autofill.extractForms')",
   ],
@@ -10,14 +21,14 @@ const rollbarConfig = {
   captureUncaught: true,
   captureUnhandledRejections: false,
   payload: {
-    environment: location.hostname,
+    environment: environmentName(location.hostname),
     client: {
       javascript: {
         code_version: process.env.GIT_COMMIT_SHA,
       },
     },
   },
-  enabled: location.hostname !== 'localhost',
+  enabled: reporting,
 };
 
 export const Rollbar = new rollbar(rollbarConfig);

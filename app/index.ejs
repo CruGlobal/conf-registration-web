@@ -49,42 +49,43 @@
       };
       window.dataLayer = [];
     </script>
-    <% if(htmlWebpackPlugin.options.prod) { %>
+    <script>
+      // One build serves staging and production, so the hostname decides
+      // which Tag Manager environment loads and whether the staging banner
+      // shows. webpack.config.js passes in the production hostnames.
+      window.ertProductionHost =
+        <%= JSON.stringify(htmlWebpackPlugin.options.productionHostnames) %>.indexOf(
+          location.hostname
+        ) !== -1;
+    </script>
     <!-- Google Tag Manager -->
     <script>
-      (function (w, d, s, l, i) {
+      (function (w, d, s, l, i, e) {
         w[l] = w[l] || [];
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
         var f = d.getElementsByTagName(s)[0],
           j = d.createElement(s),
           dl = l != 'dataLayer' ? '&l=' + l : '';
         j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + e;
         f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-5VHJ5WH');
+      })(
+        window,
+        document,
+        'script',
+        'dataLayer',
+        'GTM-5VHJ5WH',
+        // Off the production hosts, load the container's staging environment.
+        window.ertProductionHost
+          ? ''
+          : '&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x'
+      );
     </script>
     <!-- End Google Tag Manager -->
-
-    <% } else { %>
-    <!-- Google Tag Manager -->
-    <script>
-      (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-          j = d.createElement(s),
-          dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' +
-          i +
-          dl +
-          '&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x';
-        f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-5VHJ5WH');
-    </script>
-    <!-- End Google Tag Manager -->
-    <% } %>
+    <!--
+      There is no noscript Tag Manager frame. It cannot check the hostname, and
+      the app shows nothing without JavaScript.
+    -->
 
     <!-- Font Awesome (Icons) -->
     <link
@@ -103,36 +104,12 @@
     >
       Skip to content
     </a>
-    <% if(htmlWebpackPlugin.options.prod) { %>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-5VHJ5WH"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <% } else { %>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript
-      ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-5VHJ5WH&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x"
-        height="0"
-        width="0"
-        style="display: none; visibility: hidden"
-      ></iframe
-    ></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <% } %>
     <link
       ng-if="globalPage.conference.cssUrl"
       ng-href="{{ globalPage.conference.cssUrl }}"
       rel="stylesheet"
     />
-    <% if(!htmlWebpackPlugin.options.prod) { %>
-    <div class="row previewRow">
+    <div class="row previewRow" id="stagingBanner" style="display: none">
       <div class="col-xs-12" style="font-size: 24px">Staging Environment</div>
       <div class="col-xs-12">
         <ul class="list-inline preview-nav">
@@ -142,7 +119,11 @@
         </ul>
       </div>
     </div>
-    <% } %>
+    <script>
+      if (!window.ertProductionHost) {
+        document.getElementById('stagingBanner').style.display = '';
+      }
+    </script>
 
     <div class="rootLoadingMsg" ng-if="loadingMsg">
       <div class="blueMsg">

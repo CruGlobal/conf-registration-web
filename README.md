@@ -52,8 +52,11 @@ Open [`http://localhost:9000`](http://localhost:9000) with your browser to see t
 
 ### Deployment
 
-- Development should be done against `master`. Code merged to `master` will be deployed immediately to the production environment.
-- The `staging` branch deploys immediately to the staging environment. You can hard reset the `staging` to whatever commit you want to deploy to stage or merge code into that branch.
+- Development should be done against `master`. Merging to `master` does not deploy anything by itself.
+- Each night, [Pipeline v2](.github/workflows/pipeline-v2.yml) builds the tip of `master` once and deploys that build to staging. You can also run it by hand from the Actions tab.
+- Production gets the exact build that staging ran when someone promotes it. Nothing is rebuilt for production.
+- One build serves both sites. The page picks staging or production settings from the hostname at runtime.
+- The `staging` branch and the "On Staging" label no longer deploy anything.
 
 ### Adding dependencies
 
