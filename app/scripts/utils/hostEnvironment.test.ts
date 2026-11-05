@@ -1,6 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import template from 'lodash/template';
+import {
+  indexPageOptions,
+  loadWebpackConfig,
+} from '../../../__tests__/util/webpackConfig';
 import hostnames from './hostnames.json';
 import { environmentName, isProductionHostname } from './hostEnvironment';
 
@@ -8,14 +12,14 @@ const stagingTagManager =
   '&gtm_auth=HdVc1ECyDcAYiRgPfaIcdA&gtm_preview=env-66&gtm_cookies_win=x';
 
 // Render app/index.ejs the way html-webpack-plugin does, with the options
-// webpack.config.js passes.
+// webpack.config.js gives it in a build.
 const renderPage = (): string =>
   template(
     fs.readFileSync(path.resolve(__dirname, '../../index.ejs'), 'utf8'),
     { interpolate: /<%=([\s\S]+?)%>/g },
   )({
     htmlWebpackPlugin: {
-      options: { productionHostnames: hostnames.production },
+      options: indexPageOptions(loadWebpackConfig()),
       files: { webpackManifest: '' },
     },
   });
