@@ -217,8 +217,12 @@ module.exports = (env = {}) => {
     // A build emits its source maps but leaves the bundles without a
     // sourceMappingURL comment. The image moves the maps out of the site, so
     // they are never served, and the deploy sends them to the error tracker.
-    // The dev server keeps linked maps for the browser's devtools.
-    devtool: isBuild ? 'hidden-source-map' : 'source-map',
+    // Netlify previews and the dev server keep linked maps for the browser's
+    // devtools. The image build never sets NETLIFY.
+    devtool:
+      isBuild && process.env.NETLIFY !== 'true'
+        ? 'hidden-source-map'
+        : 'source-map',
     devServer: {
       historyApiFallback: true,
       port: 9000,
