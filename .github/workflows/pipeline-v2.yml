@@ -21,6 +21,10 @@ on:
   schedule:
     - cron: '0 5 * * *'
 
+# No job gets the default GITHUB_TOKEN permissions. The build sets its own
+# below, and the deploy job dispatches with its own token.
+permissions: {}
+
 jobs:
   build:
     name: Build candidate
