@@ -24,7 +24,10 @@ const rollbarConfig = {
     environment: environmentName(location.hostname),
     client: {
       javascript: {
+        // The deploy uploads the source maps for this version, and the error
+        // tracker applies them to each report's stack trace.
         code_version: process.env.GIT_COMMIT_SHA,
+        source_map_enabled: true,
       },
     },
   },

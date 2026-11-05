@@ -18,9 +18,10 @@ describe('errorNotify', () => {
     expect(config.accessToken).toBe('example-token');
     expect(config.endpoint).toBe('https://errors.example.com/api/1/item/');
     expect(config.payload.environment).toBe('production');
-    expect(config.payload.client.javascript.code_version).toBe(
-      '0123456789abcdef0123456789abcdef01234567',
-    );
+    expect(config.payload.client.javascript).toEqual({
+      code_version: '0123456789abcdef0123456789abcdef01234567',
+      source_map_enabled: true,
+    });
   });
 
   it.each([
