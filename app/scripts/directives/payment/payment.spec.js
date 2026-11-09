@@ -265,4 +265,79 @@ describe('Directive: ertPayment', function () {
       );
     });
   });
+
+  describe('add_payment_info analytics', () => {
+    let analytics, testData;
+
+    beforeEach(inject((_analytics_, _testData_) => {
+      analytics = _analytics_;
+      testData = _testData_;
+      spyOn(analytics, 'trackAddPaymentInfo');
+      $rootScope.registerMode = 'register';
+    }));
+
+    const renderPayment = (isAdminPayment = false) => {
+      const parentScope = $rootScope.$new();
+      parentScope.conference = testData.conference;
+      parentScope.registration = testData.registration;
+      parentScope.currentPayment = { paymentType: 'CREDIT_CARD' };
+      parentScope.isAdminPayment = isAdminPayment;
+      const paymentElement = $compile(
+        '<div ert-payment payment="currentPayment" admin-payment="isAdminPayment" registration="registration"></div>',
+      )(parentScope);
+      parentScope.$digest();
+      return paymentElement;
+    };
+
+    it('does not track add_payment_info when the payment section first loads', () => {
+      renderPayment();
+
+      expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+    });
+
+    it('tracks add_payment_info when the attendee picks a payment method', () => {
+      renderPayment().triggerHandler('change');
+
+      expect(analytics.trackAddPaymentInfo).toHaveBeenCalledWith(
+        testData.conference,
+        testData.registration,
+        'CREDIT_CARD',
+      );
+    });
+
+    it('tracks add_payment_info when the attendee clicks into a payment field', () => {
+      renderPayment().triggerHandler({
+        type: 'focusin',
+        target: { type: 'text' },
+      });
+
+      expect(analytics.trackAddPaymentInfo).toHaveBeenCalledWith(
+        testData.conference,
+        testData.registration,
+        'CREDIT_CARD',
+      );
+    });
+
+    it('waits for the change event when a payment method radio gets focus, so payment_type is the new pick', () => {
+      renderPayment().triggerHandler({
+        type: 'focusin',
+        target: { type: 'radio' },
+      });
+
+      expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+    });
+
+    it('does not track add_payment_info on the admin payment screen', () => {
+      renderPayment(true).triggerHandler('change');
+
+      expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+    });
+
+    it('does not track add_payment_info in preview mode', () => {
+      $rootScope.registerMode = 'preview';
+      renderPayment().triggerHandler('change');
+
+      expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+    });
+  });
 });

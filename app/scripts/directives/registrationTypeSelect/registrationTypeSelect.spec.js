@@ -132,4 +132,40 @@ describe('Directive: registrationTypeSelect', function () {
       expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
     });
   });
+
+  describe('newRegistrant', () => {
+    let analytics;
+    beforeEach(inject((_analytics_, RegistrationCache) => {
+      analytics = _analytics_;
+      spyOn(analytics, 'trackEcommerce');
+      spyOn(RegistrationCache, 'update');
+    }));
+
+    it('sends a GA4 add_to_cart event for the chosen registrant type', () => {
+      const registrantType = testData.conference.registrantTypes[0];
+      scope.newRegistrant(registrantType.id);
+
+      expect(analytics.trackEcommerce).toHaveBeenCalledWith('add_to_cart', {
+        currency: 'USD',
+        value: registrantType.cost,
+        items: [
+          {
+            item_id: testData.conference.id,
+            item_name: testData.conference.name,
+            item_variant: registrantType.name,
+            price: registrantType.cost,
+            item_category: testData.conference.abbreviation,
+            quantity: 1,
+          },
+        ],
+      });
+    });
+
+    it('does not send add_to_cart in preview mode', () => {
+      $rootScope.registerMode = 'preview';
+      scope.newRegistrant(testData.conference.registrantTypes[0].id);
+
+      expect(analytics.trackEcommerce).not.toHaveBeenCalled();
+    });
+  });
 });
