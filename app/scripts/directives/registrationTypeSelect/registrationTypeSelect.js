@@ -15,6 +15,7 @@ angular
         RegistrationCache,
         uuid,
         modalMessage,
+        analytics,
       ) {
         $scope.visibleRegistrantTypes = angular.copy(
           $scope.conference.registrantTypes,
@@ -103,6 +104,28 @@ angular
         }
 
         $scope.newRegistrant = function (type) {
+          // Clicking Register is the "intent to register" step in the GA4 funnel. Skip preview so admins don't count.
+          if ($rootScope.registerMode !== 'preview') {
+            const registrantType = getRegistrantType(type);
+            const price =
+              registrantType.calculatedCurrentCost ?? registrantType.cost;
+
+            analytics.trackEcommerce('add_to_cart', {
+              currency: $scope.conference.currency.currencyCode,
+              value: price,
+              items: [
+                {
+                  item_id: $scope.conference.id,
+                  item_name: $scope.conference.name,
+                  item_variant: registrantType.name,
+                  price,
+                  item_category: $scope.conference.abbreviation,
+                  quantity: 1,
+                },
+              ],
+            });
+          }
+
           var newId = uuid();
           // Filter through all pages and remove any empty pages
           const validPages = $scope.conference.registrationPages.filter(

@@ -267,6 +267,9 @@ angular
       // Called when the user clicks the confirm button
       $scope.confirmRegistration = function () {
         $scope.submittingRegistration = true;
+        // Copy the registration as it was before this confirm, so purchase still sees the
+        // original completed flag and the totals even if a later step changes them.
+        const registrationBeforeConfirm = angular.copy(currentRegistration);
 
         $q.when()
           .then(function () {
@@ -311,7 +314,18 @@ angular
               eventID: conference.id,
               registeredEventName: conference.name,
             });
-
+            // GA4 purchase. Skip preview so admins don't count.
+            if ($rootScope.registerMode === 'preview') {
+              return;
+            }
+            // Wait for GTM to send it, or a redirect to another site can cancel the request.
+            // trackPurchase never rejects, so tracking can't land in the error handler below.
+            return analytics.trackPurchase(
+              conference,
+              registrationBeforeConfirm,
+            );
+          })
+          .then(function () {
             $scope.navigateToPostRegistrationPage();
           })
           .catch(function (response) {

@@ -468,6 +468,38 @@ describe('Controller: registration', () => {
     });
   });
 
+  describe('view_item analytics', () => {
+    let analytics;
+
+    beforeEach(inject((_analytics_) => {
+      analytics = _analytics_;
+      spyOn(analytics, 'trackViewItem');
+    }));
+
+    it('should track view_item on the welcome page', inject(($routeParams) => {
+      delete $routeParams.pageId;
+      initializeController(testData.conference);
+
+      expect(analytics.trackViewItem).toHaveBeenCalledWith(
+        jasmine.objectContaining({ id: testData.conference.id }),
+      );
+    }));
+
+    it('should not track view_item on a form page', () => {
+      initializeController(testData.conference);
+
+      expect(analytics.trackViewItem).not.toHaveBeenCalled();
+    });
+
+    it('should not track view_item in preview mode', inject(($routeParams) => {
+      delete $routeParams.pageId;
+      $rootScope.registerMode = 'preview';
+      initializeController(testData.conference);
+
+      expect(analytics.trackViewItem).not.toHaveBeenCalled();
+    }));
+  });
+
   it('should have validPages based on current registrant', () => {
     let validPages = scope.validPages;
 

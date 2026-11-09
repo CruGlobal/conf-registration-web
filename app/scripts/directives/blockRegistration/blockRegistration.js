@@ -10,10 +10,13 @@ angular
       restrict: 'A',
       controller: function (
         $scope,
+        $element,
+        $rootScope,
         $routeParams,
         RegistrationCache,
         uuid,
         validateRegistrant,
+        analytics,
       ) {
         $scope.isString = _.isString;
         $scope.countries = allCountries;
@@ -110,6 +113,20 @@ angular
             },
             true,
           );
+
+          // The attendee's first typing or pick is when they start filling out forms.
+          // Listen for browser input/change events, not answer changes, because form rules also
+          // change answers by themselves while the page renders. Those would count people who never typed.
+          // trackBeginCheckout only sends once per registrant. Skip preview so admins don't count.
+          $element.on('input change', () => {
+            if ($rootScope.registerMode !== 'preview') {
+              analytics.trackBeginCheckout(
+                $scope.conference,
+                $scope.currentRegistration,
+                registrantId,
+              );
+            }
+          });
         }
 
         function startDateChangeCallback(value) {

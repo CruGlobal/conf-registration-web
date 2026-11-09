@@ -26,6 +26,7 @@ angular
       validateRegistrant,
       modalMessage,
       GtmService,
+      analytics,
     ) {
       if (angular.isDefined($rootScope.currentRegistrationErrorMessage)) {
         modalMessage.error($rootScope.currentRegistrationErrorMessage);
@@ -49,6 +50,11 @@ angular
 
       if ($scope.conference.ministry === aiaMinistryId) {
         GtmService.loadGtmScript('aia-gtm', aiaGtmTagId);
+      }
+
+      // The Welcome page is the registration route with no page id. Skip preview so admins don't count as views.
+      if (!pageId && $rootScope.registerMode === 'register') {
+        analytics.trackViewItem($scope.conference);
       }
 
       const getRegType = (id) =>

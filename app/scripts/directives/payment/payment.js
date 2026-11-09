@@ -25,11 +25,32 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
+      $element,
+      $rootScope,
       expenseTypesConstants,
       gettextCatalog,
       staffAccountService,
+      analytics,
     ) {
       $scope.conference = $scope.$parent.conference;
+
+      // GA4 add_payment_info: the first time the attendee picks a payment method or clicks into a payment field.
+      // On a payment method radio, focus comes before the pick, so wait for its change event to get the new payment_type.
+      // Skip preview and the admin payment screen so staff entering payments don't count.
+      $element.on('focusin change', (event) => {
+        if (
+          (event.type === 'focusin' && event.target.type === 'radio') ||
+          $scope.isAdminPayment ||
+          $rootScope.registerMode === 'preview'
+        ) {
+          return;
+        }
+        analytics.trackAddPaymentInfo(
+          $scope.conference,
+          $scope.currentRegistration,
+          $scope.currentPayment?.paymentType,
+        );
+      });
       $scope.expenseTypesConstants = expenseTypesConstants;
       $scope.currentYear = new Date().getFullYear();
       $scope.creditCardCountry = 'US';
