@@ -1,0 +1,4 @@
+{
+  "production": ["www.eventregistrationtool.com", "eventregistrationtool.com"],
+  "staging": ["stage.eventregistrationtool.com"]
+}

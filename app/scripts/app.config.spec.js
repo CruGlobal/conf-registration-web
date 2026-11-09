@@ -120,3 +120,34 @@ describe('Route: /logout', () => {
     expect(redirect).toBe('/');
   }));
 });
+
+describe('Environment', () => {
+  beforeEach(angular.mock.module('confRegistrationWebApp'));
+
+  const stagingApi = {
+    apiUrl: 'https://api.stage.eventregistrationtool.com/eventhub-api/rest/',
+    tsysEnvironment: 'staging',
+  };
+
+  // Which host gets which environment is tested in hostEnvironment.test.ts.
+  // This pins what each environment talks to.
+  it('sends only production to the production API and payments', inject((
+    envService,
+  ) => {
+    expect(envService.data.vars).toEqual({
+      development: stagingApi,
+      preview: stagingApi,
+      staging: stagingApi,
+      production: {
+        apiUrl: 'https://api.eventregistrationtool.com/eventhub-api/rest/',
+        tsysEnvironment: 'production',
+      },
+    });
+  }));
+
+  it('picks the environment from the hostname', inject((envService) => {
+    // Karma serves the tests from localhost.
+    expect(window.location.hostname).toBe('localhost');
+    expect(envService.get()).toBe('development');
+  }));
+});

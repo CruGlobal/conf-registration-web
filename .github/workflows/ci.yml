@@ -7,8 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
-  contents: write
+  contents: read
 
 jobs:
   test:
@@ -84,7 +83,13 @@ jobs:
     environment:
       name: ${{ github.ref == 'refs/heads/master' && 'production' || 'staging' }}
     needs: [build]
-    if: github.event_name == 'push'
+    # Parked, not removed: the site now builds and deploys through
+    # pipeline-v2.yml, and production changes only through a v2 promote.
+    if: false
+    # Only this job signs in to AWS, so only it gets an OIDC token.
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
