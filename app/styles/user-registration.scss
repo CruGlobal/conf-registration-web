@@ -69,6 +69,11 @@ body.user-registration {
     .details-heading {
       font-size: 18px;
     }
+    // The event name on the review page uses details-heading so custom
+    // stylesheets can target it, but it keeps the larger page-title size.
+    .review-event-name {
+      font-size: 28px;
+    }
     .well {
       &.well-creme2 {
         background: variables.$creme2;
