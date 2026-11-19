@@ -1,0 +1,8 @@
+id: ert-native-promise-in-angular-service
+valid:
+  - 'if (cached) { return $q.resolve(cached); }'
+  - "return this.$http.get<Foo[]>('foo').then((response) => response.data);"
+invalid:
+  - 'if (cached) { return Promise.resolve(cached); }'
+  - 'return new Promise((resolve) => resolve(cached));'
+  - 'return Promise.reject(error);'

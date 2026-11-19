@@ -1,0 +1,12 @@
+diff --git a/app/features/landing/landing.controller.js b/app/features/landing/landing.controller.js
+--- a/app/features/landing/landing.controller.js
++++ b/app/features/landing/landing.controller.js
+@@ -139,6 +139,8 @@
+         }
+       };
+ 
++      // Capacity can go negative when admins add registrants past the limit,
++      // so anything at or below zero counts as full.
+       $scope.isEventRegistrationClosed = function (e) {
+         return (
+           (e.useTotalCapacity && e.availableCapacity <= 0) || e.manuallyClosed

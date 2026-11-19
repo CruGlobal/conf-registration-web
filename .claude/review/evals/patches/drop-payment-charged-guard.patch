@@ -1,0 +1,15 @@
+diff --git a/app/features/reviewRegistration/reviewRegistration.controller.js b/app/features/reviewRegistration/reviewRegistration.controller.js
+--- a/app/features/reviewRegistration/reviewRegistration.controller.js
++++ b/app/features/reviewRegistration/reviewRegistration.controller.js
+@@ -278,11 +278,6 @@
+             );
+           })
+           .then(function () {
+-            // If the card was already charged on a previous attempt, skip
+-            // payment entirely so a retry only re-runs the remaining steps.
+-            if (paymentCharged) {
+-              return;
+-            }
+ 
+             // If the payment type is a gift card, the API needs to know the full registration cost.
+             if ($scope.currentPayment.paymentType === 'FL_GIFT_CARD') {

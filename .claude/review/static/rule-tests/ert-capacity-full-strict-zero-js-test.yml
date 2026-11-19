@@ -1,0 +1,9 @@
+id: ert-capacity-full-strict-zero-js
+valid:
+  - 'const full = conference.useTotalCapacity && conference.availableCapacity <= 0;'
+  - 'if (e.availableCapacity < needed) { block(); }'
+  - 'const left = conference.availableSlots === 0;'
+invalid:
+  - 'const full = conference.useTotalCapacity && conference.availableCapacity === 0;'
+  - 'return (e.useTotalCapacity && e.availableCapacity == 0) || e.manuallyClosed;'
+  - 'if (0 === $scope.conference.availableCapacity) { close(); }'

@@ -1,0 +1,13 @@
+diff --git a/app/features/eventForm/eventForm.controller.js b/app/features/eventForm/eventForm.controller.js
+--- a/app/features/eventForm/eventForm.controller.js
++++ b/app/features/eventForm/eventForm.controller.js
+@@ -442,9 +442,6 @@
+           GrowlService.growl($scope, 'conference', $scope.conference, message);
+         }
+ 
+-        intentionallyRemovedBlockIds = _.union(intentionallyRemovedBlockIds, [
+-          blockId,
+-        ]);
+         _.remove(
+           $scope.conference.registrationPages[
+             previousBlockPositions[blockId].pageIndex

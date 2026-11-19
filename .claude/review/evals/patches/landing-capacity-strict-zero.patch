@@ -1,0 +1,12 @@
+diff --git a/app/features/landing/landing.controller.js b/app/features/landing/landing.controller.js
+--- a/app/features/landing/landing.controller.js
++++ b/app/features/landing/landing.controller.js
+@@ -141,7 +141,7 @@
+ 
+       $scope.isEventRegistrationClosed = function (e) {
+         return (
+-          (e.useTotalCapacity && e.availableCapacity <= 0) || e.manuallyClosed
++          (e.useTotalCapacity && e.availableCapacity === 0) || e.manuallyClosed
+         );
+       };
+     },

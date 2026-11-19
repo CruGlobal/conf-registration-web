@@ -1,0 +1,14 @@
+id: ert-capacity-full-strict-zero-js
+language: JavaScript
+severity: error
+message: Checking availableCapacity === 0 misses negative capacity, so a full event looks open.
+note: >-
+  Admins can add registrants past the limit, which pushes availableCapacity below zero.
+  Use `availableCapacity <= 0`, or better, one shared helper in app/scripts/utils/conferenceLimits.ts.
+  Mined from PRs #936, #953, #955, #956.
+rule:
+  any:
+    - pattern: $X.availableCapacity === 0
+    - pattern: $X.availableCapacity == 0
+    - pattern: 0 === $X.availableCapacity
+    - pattern: 0 == $X.availableCapacity
