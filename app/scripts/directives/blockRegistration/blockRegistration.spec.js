@@ -207,4 +207,94 @@ describe('Directive: blockRegistration', function () {
       expect(scope.currentRegistration.registrants[0].answers.length).toBe(1);
     });
   });
+
+  describe('begin_checkout analytics', function () {
+    let analytics;
+
+    beforeEach(inject(function ($routeParams, _analytics_, RegistrationCache) {
+      analytics = _analytics_;
+      spyOn(analytics, 'trackBeginCheckout');
+      spyOn(RegistrationCache, 'updateCurrent');
+
+      scope = $rootScope.$new();
+      scope.conference = testData.conference;
+      scope.currentRegistration = {
+        registrants: [
+          {
+            id: 'test-registrant-id',
+            registrantTypeId: 'test-type',
+            answers: [],
+          },
+        ],
+      };
+      scope.block = {
+        id: 'test-block-id',
+        type: 'textQuestion',
+        required: true,
+      };
+      $routeParams.reg = 'test-registrant-id';
+      $rootScope.registerMode = 'register';
+    }));
+
+    const renderBlock = () => {
+      const element = $compile('<div block-registration></div>')(scope);
+      scope.$digest();
+      return element;
+    };
+
+    it('does not track begin_checkout when the form first loads', function () {
+      renderBlock();
+
+      expect(analytics.trackBeginCheckout).not.toHaveBeenCalled();
+    });
+
+    it('does not track begin_checkout when a form rule changes an answer by itself', inject(function (
+      validateRegistrant,
+    ) {
+      // A checkbox option hidden by a rule gets unchecked by the app while the page renders.
+      scope.block = {
+        id: 'test-block-id',
+        type: 'checkboxQuestion',
+        required: true,
+        content: { choices: [{ value: 'hidden-choice' }] },
+      };
+      scope.currentRegistrant = 'test-registrant-id';
+      spyOn(validateRegistrant, 'choiceVisible').and.returnValue(false);
+      const element = renderBlock();
+
+      element
+        .scope()
+        .choiceVisible(scope.block, scope.block.content.choices[0]);
+      scope.$digest();
+
+      expect(analytics.trackBeginCheckout).not.toHaveBeenCalled();
+    }));
+
+    it('tracks begin_checkout when the attendee types an answer', function () {
+      renderBlock().triggerHandler('input');
+
+      expect(analytics.trackBeginCheckout).toHaveBeenCalledWith(
+        testData.conference,
+        scope.currentRegistration,
+        'test-registrant-id',
+      );
+    });
+
+    it('tracks begin_checkout when the attendee picks an answer', function () {
+      renderBlock().triggerHandler('change');
+
+      expect(analytics.trackBeginCheckout).toHaveBeenCalledWith(
+        testData.conference,
+        scope.currentRegistration,
+        'test-registrant-id',
+      );
+    });
+
+    it('does not track begin_checkout in preview mode', function () {
+      $rootScope.registerMode = 'preview';
+      renderBlock().triggerHandler('input');
+
+      expect(analytics.trackBeginCheckout).not.toHaveBeenCalled();
+    });
+  });
 });
