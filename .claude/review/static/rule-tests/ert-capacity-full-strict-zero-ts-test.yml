@@ -2,8 +2,11 @@ id: ert-capacity-full-strict-zero-ts
 valid:
   - 'const full = conference.useTotalCapacity && conference.availableCapacity <= 0;'
   - 'if (e.availableCapacity < needed) { block(); }'
+  - 'const open = conference.useTotalCapacity && conference.availableCapacity > 0;'
   - 'const left = conference.availableSlots === 0;'
 invalid:
   - 'const full = conference.useTotalCapacity && conference.availableCapacity === 0;'
   - 'return (e.useTotalCapacity && e.availableCapacity == 0) || e.manuallyClosed;'
   - 'if (0 === $scope.conference.availableCapacity) { close(); }'
+  - 'if (conference.availableCapacity !== 0) { register(); }'
+  - 'const open = 0 != e.availableCapacity;'

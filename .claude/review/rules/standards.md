@@ -85,7 +85,7 @@ Report each bold group below in `### Rule Checklist Results` as well.
 
 **Types**
 
-- [ ] `tsconfig.json` is `"strict": true` with `"isolatedModules": true` (the CLAUDE.md line about no strict mode is out of date), and `yarn lint:ts` passes
+- [ ] `tsconfig.json` is `"strict": true` with `"isolatedModules": true`, and `yarn lint:ts` passes
 - [ ] ESLint turns off `@typescript-eslint/no-explicit-any` and `@typescript-eslint/ban-ts-comment`, so lint won't catch `any`, `@ts-ignore`, or `@ts-expect-error`. Each new one has a reason in a comment; prefer a real type or `unknown`
 - [ ] Angular services used from TS are typed with `types/injectables.ts` (`$Http`, `$Q`, `$RootScope`, `$UibModal`, `$Window`, `$Filter`, `ModalMessage`, `RegistrationQueryParams`) or the service class; missing shapes get added there, not copied locally
 
@@ -115,7 +115,7 @@ Report each bold group below in `### Rule Checklist Results` as well.
 
 ## Mined from PR history
 
-- `.claude/CLAUDE.md` is out of date about layout. New route code goes in `app/features/<feature>/` (controller, `.html`, and `.controller.spec.js` together), directives in `app/scripts/directives/<name>/` with their template and spec, and `test/spec/` holds only shared fixtures. `app/views/` is gone. Flag new files in the old spots, even when CLAUDE.md seems to allow them. Almost every batch of PRs raised this.
+- New route code goes in `app/features/<feature>/` (controller, `.html`, and `.controller.spec.js` together), directives in `app/scripts/directives/<name>/` with their template and spec, and `test/spec/` holds only shared fixtures. `app/views/` is gone and `app/scripts/controllers/` holds only `angularUiTreeConfig.js`. Flag new files in the old spots. Almost every batch of PRs raised this, and older docs listed the old spots until PR #1018.
   <!-- evidence: PR #789, #924, #945, #977, #984, #1002 -->
 - Compare ministries and activities by id from `app/scripts/constants/ministryIds.js` (camelCase exports like `familyLifeMinistryId`, `wtrActivityId`), and keep GTM ids in `gtmTagIds.js`. Flag name checks (`getMinistry()?.name === 'Family Life'`) and UUID or `GTM-` literals written inline, and return early before an API call that only one ministry needs.
   <!-- evidence: PR #896, #954, #961, #967, #969, #977 -->

@@ -577,12 +577,26 @@ reviews_run: local
 
 # People-only approval. The bot never approves a PR that needs a person. Leave this block out
 # unless the repo sets it; both keys are optional (always defaults to false, paths to []).
-# These paths hold card data handling (TSYS tokenization, the card form, the gateway setting).
 human_approval:
   paths:
+    # Card data: TSYS tokenization, the card form, the admin card path, the gateway setting,
+    # and the files that decide which hosts get the production API and production TSYS.
     - 'app/scripts/services/payment.js'
     - 'app/scripts/directives/payment/**'
     - 'app/features/eventDetails/paymentOptions.html'
+    - 'app/features/paymentModal/paymentModal.controller.js'
+    - 'app/scripts/utils/{hostEnvironment.ts,hostnames.json}'
+    # CI, build and deploy, and the review harness itself. A writer can post their own
+    # report, so without these a change that weakens review or deploy could be bot-approved.
+    - '.github/workflows/**'
+    - 'webpack.config.js'
+    - 'Dockerfile'
+    - '.dockerignore'
+    - 'build.sh'
+    - '.claude/settings.json'
+    - '.claude/review/config.yml'
+    - '.claude/review/learnings/learnings.yml'
+    - '.claude/review/static/**'
 
 # Reports approve by default (`advisory`). Set `shadow` to post advice only; the
 # review workflow refuses a caller whose rollout_mode disagrees with this value,

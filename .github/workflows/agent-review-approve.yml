@@ -11,6 +11,8 @@ on:
   # synchronize. edited: a new base branch changes what the approval covered.
   pull_request_target:
     types: [synchronize, reopened, edited]
+# No job gets the default token permissions. Each job below sets its own.
+permissions: {}
 jobs:
   approve:
     # A review run locally and posted with "Post review to GitHub" starts with

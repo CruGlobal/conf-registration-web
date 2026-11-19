@@ -59,7 +59,7 @@ Generic baseline. `/agent-review:init` appends the repo-specific concerns; keep 
 
 **Where code goes**
 
-- Each route has a folder `app/features/<feature>/` with `<feature>.controller.js` (or `.ts`) and its `.html` templates. Routes are wired in `app/scripts/app.config.js` by importing the template and naming the controller. Older docs mention `app/views/` and `app/scripts/controllers/`, but `app/views/` is gone and `app/scripts/controllers/` only holds `angularUiTreeConfig.js`. Look for: new route code put in those old spots.
+- Each route has a folder `app/features/<feature>/` with `<feature>.controller.js` (or `.ts`) and its `.html` templates. Routes are wired in `app/scripts/app.config.js` by importing the template and naming the controller. `app/views/` is gone and `app/scripts/controllers/` only holds `angularUiTreeConfig.js`. Look for: new route code put in those old spots.
 - Shared AngularJS code goes in `app/scripts/services/`, `app/scripts/directives/<name>/`, and `app/scripts/filters/`. React components go in `app/scripts/components/<Name>/`, React hooks in `app/scripts/hooks/`, plain helpers in `app/scripts/utils/`, shared API types in `types/`, and constants in `app/scripts/constants/` or `services/constants.js`.
 - Every Angular file registers itself as a side effect, so it must be imported in `app/scripts/main.js` under the matching heading. Karma loads `main.js` too. Look for: a new controller, directive, filter, service, or `*_angular.ts` wrapper with no `main.js` import. It silently never registers.
 - `pages/` (Next.js 12, `*.page.tsx`, booted through `app/scripts/main-next.js`) is an experiment. `yarn build` does not build it and it is not deployed. Look for: real features added there.
