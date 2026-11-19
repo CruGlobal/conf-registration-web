@@ -1,0 +1,20 @@
+id: ert-no-trusted-html-on-data
+language: Html
+severity: error
+message: toTrustedHtml turns off AngularJS HTML sanitizing for this value.
+note: >-
+  Event descriptions, question titles and answers are entered by admins or registrants. Render them
+  with plain `ng-bind-html` so ngSanitize strips scripts and event handlers. toTrustedHtml is only for
+  text the app writes itself, in genericModal.html and confirmModal.html. Mined from PRs #778, #781, #783.
+ignores:
+  - '**/app/scripts/services/genericModal.html'
+  - '**/app/scripts/services/confirmModal.html'
+rule:
+  kind: attribute
+  all:
+    - has:
+        kind: attribute_name
+        regex: '^(ng-bind-html|data-ng-bind-html)$'
+    - has:
+        kind: quoted_attribute_value
+        regex: 'toTrustedHtml'

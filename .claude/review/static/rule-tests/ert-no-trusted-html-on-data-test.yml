@@ -1,0 +1,8 @@
+id: ert-no-trusted-html-on-data
+valid:
+  - '<p ng-bind-html="conference.description" class="display-linebreaks"></p>'
+  - '<span ng-bind-html="block.title"></span>'
+  - '<p ng-bind="message | toTrustedHtml"></p>'
+invalid:
+  - '<p ng-bind-html="conference.description | toTrustedHtml" class="display-linebreaks"></p>'
+  - '<span ng-bind-html="block.title|toTrustedHtml"></span>'

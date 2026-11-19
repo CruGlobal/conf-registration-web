@@ -1,0 +1,20 @@
+diff --git a/app/scripts/services/payment.js b/app/scripts/services/payment.js
+--- a/app/scripts/services/payment.js
++++ b/app/scripts/services/payment.js
+@@ -77,14 +77,14 @@
+             registration.pastPayments.length === 0 &&
+             Number(payment.amount) < registration.calculatedMinimumDeposit
+           ) {
+-            var minimumDeposit = $filter('localizedCurrency')(
++            var formattedMinimumDeposit = $filter('localizedCurrency')(
+               registration.calculatedMinimumDeposit,
+               conference.currency.currencyCode,
+             );
+             payment.errors.push(
+               gettextCatalog.getString(
+                 'You are required to pay at least the minimum deposit of {{minimumDeposit}} to register for this event.',
+-                { minimumDeposit: minimumDeposit },
++                { minimumDeposit: formattedMinimumDeposit },
+               ),
+             );
+           }

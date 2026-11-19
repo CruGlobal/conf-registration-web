@@ -1,0 +1,13 @@
+{
+  "enabledPlugins": {
+    "agent-review@cru-plugins": true
+  },
+  "extraKnownMarketplaces": {
+    "cru-plugins": {
+      "source": {
+        "source": "github",
+        "repo": "CruGlobal/claude-code-plugins"
+      }
+    }
+  }
+}

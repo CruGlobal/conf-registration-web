@@ -23,3 +23,7 @@ package-lock.json
 
 # Claude files
 .ai-review.json
+/.claude/review/metrics/
+/.claude/review/index/
+/.claude/review/learnings/pending/
+/.claude/review/learnings/findings.json

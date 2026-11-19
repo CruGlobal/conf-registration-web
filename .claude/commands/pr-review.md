@@ -30,7 +30,7 @@ MODE
 - Single exception: you MAY create ONE untracked file at repo root: `.ai-review.json`. Do not modify other files; do not stage/commit.
 
 === Stage 0 — Setup knowledge ===
-First, read the .CLAUDE/CLAUDE.md file to understand project conventions, architecture, and coding standards.
+First, read the .claude/CLAUDE.md file to understand project conventions, architecture, and coding standards.
 
 Then use search tools to build context for reuse analysis:
 
@@ -47,7 +47,7 @@ Then use search tools to build context for reuse analysis:
 
 Note common patterns for later reuse identification in Stages 2-3.
 
-Read .CLAUDE/CLAUDE.md to gather context for this repo.
+Read .claude/CLAUDE.md to gather context for this repo.
 
 Key business logic to validate:
 

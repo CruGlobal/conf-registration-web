@@ -1,0 +1,95 @@
+# Development evaluation set for this repo (visible to everyone, so prompts can
+# overfit to it). Keep a separate private holdout set for real gating.
+# Each seeded case is one small patch with one realistic defect taken from a
+# mined PR theme; clean controls must not be blocked.
+version: 1
+name: conf-registration-web-dev
+blocker_threshold: 7
+thresholds:
+  blocker_recall: 0.85
+  blocker_precision: 0.80
+  clean_false_blocker_rate: 0.05
+  false_positive_dismissal_rate: 0.20
+  category_recall: 0.70
+  minimum_runs: 50
+cases:
+  - id: registration-description-trusted-html
+    kind: seeded_bug
+    category: security
+    patch: patches/registration-description-trusted-html.patch
+    expected:
+      - id: unsanitized-admin-html
+        must_block: true
+        min_severity: 7
+        category: security
+        match:
+          paths: ['app/features/registration/**']
+          categories: [security, xss, injection]
+          message_any: [toTrustedHtml, sanitize, XSS, trustAsHtml, script]
+  - id: drop-payment-charged-guard
+    kind: seeded_bug
+    category: financial
+    patch: patches/drop-payment-charged-guard.patch
+    expected:
+      - id: double-charge-on-retry
+        must_block: true
+        min_severity: 7
+        category: financial
+        match:
+          paths: ['app/features/reviewRegistration/**']
+          categories: [financial, data-integrity, payments, correctness]
+          message_any: [paymentCharged, charged again, double, twice, retry]
+  - id: landing-capacity-strict-zero
+    kind: seeded_bug
+    category: registration-rules
+    patch: patches/landing-capacity-strict-zero.patch
+    expected:
+      - id: negative-capacity-shows-open
+        must_block: true
+        min_severity: 7
+        category: registration-rules
+        match:
+          paths: ['app/features/landing/**']
+          categories: [registration-rules, correctness, data-integrity]
+          message_any: [negative, '<= 0', '=== 0', availableCapacity, full]
+  - id: delete-block-skips-removed-ids
+    kind: seeded_bug
+    category: data-integrity
+    patch: patches/delete-block-skips-removed-ids.patch
+    expected:
+      - id: deleted-block-blocks-save
+        must_block: true
+        min_severity: 7
+        category: data-integrity
+        match:
+          paths: ['app/features/eventForm/**']
+          categories: [data-integrity, correctness]
+          message_any:
+            [
+              intentionallyRemovedBlockIds,
+              missingBlockIds,
+              deleteBlock,
+              answers,
+              save,
+            ]
+  - id: global-promotions-native-promise
+    kind: seeded_bug
+    category: angular-react-bridge
+    patch: patches/global-promotions-native-promise.patch
+    expected:
+      - id: native-promise-outside-digest
+        must_block: false
+        min_severity: 4
+        category: angular-react-bridge
+        match:
+          paths: ['app/scripts/services/**']
+          categories: [angular-react-bridge, architecture, correctness]
+          message_any: ['$q', digest, IPromise, native Promise, Promise.resolve]
+  - id: clean-rename-deposit-local
+    kind: clean_control
+    patch: patches/clean-rename-deposit-local.patch
+    expected: []
+  - id: clean-capacity-comment
+    kind: clean_control
+    patch: patches/clean-capacity-comment.patch
+    expected: []

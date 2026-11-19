@@ -1,0 +1,12 @@
+diff --git a/app/scripts/services/globalPromotionService.ts b/app/scripts/services/globalPromotionService.ts
+--- a/app/scripts/services/globalPromotionService.ts
++++ b/app/scripts/services/globalPromotionService.ts
+@@ -36,7 +36,7 @@
+     const cachedData =
+       this.globalPromotionsCache.get<GlobalPromotion[]>(cacheKey);
+     if (cachedData) {
+-      return $q.resolve(cachedData);
++      return Promise.resolve(cachedData);
+     }
+ 
+     this.$rootScope.loadingMsg = 'Loading Promotions';

@@ -1,0 +1,14 @@
+id: ert-native-promise-in-angular-service
+language: TypeScript
+severity: warning
+message: A native Promise in an AngularJS service resolves outside the digest cycle.
+note: >-
+  Views bound to the result will not update. Return `$q.resolve(...)` / `$q.reject(...)`
+  (injected `$q` or `import { $q } from 'ngimport'`) so callers get an IPromise. Mined from PRs #911, #914.
+files:
+  - '**/app/scripts/services/**'
+rule:
+  any:
+    - pattern: Promise.resolve($$$)
+    - pattern: Promise.reject($$$)
+    - pattern: new Promise($$$)

@@ -1,0 +1,12 @@
+diff --git a/app/features/registration/registration.html b/app/features/registration/registration.html
+--- a/app/features/registration/registration.html
++++ b/app/features/registration/registration.html
+@@ -112,7 +112,7 @@
+         Your spot is not reserved until you fully complete your registration
+         <strong>and</strong> pay. Register now to secure your spot!
+       </div>
+-      <p ng-bind-html="conference.description" class="display-linebreaks"></p>
++      <p ng-bind-html="conference.description | toTrustedHtml" class="display-linebreaks"></p>
+       <div class="well well-creme2" ng-show="conference.eventStartTime">
+         <h2 class="page-title border details-heading" translate>Event Dates</h2>
+         <p>

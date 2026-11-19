@@ -47,13 +47,12 @@ This is a **hybrid application** combining AngularJS (legacy) with React compone
 - `app/scripts/main.js` - Main entry point importing all modules
 - `app/scripts/app.module.js` - AngularJS module definition and dependencies
 - `app/scripts/app.config.js` - Routing configuration and environment setup
-- `app/scripts/controllers/` - AngularJS controllers for different views
+- `app/features/<feature>/` - One folder per route: its controller (`<feature>.controller.js` or `.ts`), its `.html` templates, and its Karma spec (`<feature>.controller.spec.js`)
 - `app/scripts/components/` - Mix of React components and AngularJS components
 - `app/scripts/services/` - AngularJS services and API interactions
 - `app/scripts/directives/` - AngularJS directives
 - `app/scripts/utils/` - Utility functions
 - `app/scripts/hooks/` - React hooks
-- `app/views/` - HTML templates for AngularJS routes
 
 #### Next.js Integration (`/pages`)
 
@@ -63,9 +62,10 @@ This is a **hybrid application** combining AngularJS (legacy) with React compone
 
 #### Testing
 
-- `test/spec/` - Karma/Jasmine tests for AngularJS components
-- `__tests__/` - Jest tests for React/TypeScript components
-- Uses dual test runners: **Karma** for AngularJS, **Jest** for React/TypeScript
+- Tests sit next to the code they test: `*.spec.js` (Karma/Jasmine) for AngularJS controllers, directives, services, and filters, including `.ts` ones; `*.test.ts(x)` (Jest) for React components and hooks under `app/scripts/`
+- `test/spec/` - Shared Karma fixtures and setup (`testData.spec.js`, `mockHttpBackend.spec.js`)
+- `__tests__/` - Shared Jest fixtures and setup (`fixtures.ts`, `util/setup.ts`)
+- Uses dual test runners: **Karma** for AngularJS, **Jest** for React
 
 ### Key Technologies & Dependencies
 
@@ -109,7 +109,7 @@ Environment-specific settings in `app.config.js`:
 - ESLint with Angular and React plugins
 - Prettier for consistent formatting
 - Husky for pre-commit hooks
-- No TypeScript strict mode for gradual migration
+- TypeScript strict mode is on (`"strict": true` in `tsconfig.json`); `.js` files are not type-checked
 
 ### API Integration
 
