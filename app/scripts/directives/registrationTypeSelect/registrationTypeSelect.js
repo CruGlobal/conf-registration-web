@@ -15,6 +15,7 @@ angular
         RegistrationCache,
         uuid,
         modalMessage,
+        analytics,
       ) {
         $scope.visibleRegistrantTypes = angular.copy(
           $scope.conference.registrantTypes,
@@ -122,6 +123,16 @@ angular
             'registrations/' + $scope.currentRegistration.id,
             $scope.currentRegistration,
             function () {
+              // GA4 add_to_cart: the Register click, sent only once the new person is saved.
+              // Skip preview so admins don't count.
+              if ($rootScope.registerMode !== 'preview') {
+                analytics.trackAddToCart(
+                  $scope.conference,
+                  $scope.currentRegistration,
+                  type,
+                  newId,
+                );
+              }
               RegistrationCache.emptyCache();
               $location
                 .path(

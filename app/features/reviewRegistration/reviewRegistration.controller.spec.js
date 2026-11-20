@@ -558,6 +558,133 @@ describe('Controller: ReviewRegistrationCtrl', function () {
     });
   });
 
+  describe('confirmRegistration GA4 purchase', () => {
+    let $q;
+    let analytics;
+    let payment;
+    let registration;
+
+    beforeEach(
+      angular.mock.inject(function (
+        _$q_,
+        _analytics_,
+        _payment_,
+        _registration_,
+      ) {
+        $q = _$q_;
+        analytics = _analytics_;
+        payment = _payment_;
+        registration = _registration_;
+
+        spyOn(analytics, 'trackPurchase');
+        spyOn(analytics, 'trackAddPaymentInfo');
+        spyOn(analytics, 'track');
+        spyOn(registration, 'validatePayment').and.returnValue($q.when());
+        spyOn(payment, 'pay').and.returnValue($q.when({ data: {} }));
+        spyOn(scope, 'navigateToPostRegistrationPage');
+      }),
+    );
+
+    it('fires purchase with the registration as it was before confirm', () => {
+      spyOn(registration, 'completeRegistration').and.callFake(() => {
+        scope.currentRegistration.completed = true;
+        return $q.when();
+      });
+      scope.currentRegistration.completed = false;
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(analytics.trackPurchase).toHaveBeenCalledWith(
+        scope.conference,
+        jasmine.objectContaining({
+          id: scope.currentRegistration.id,
+          completed: false,
+        }),
+      );
+    });
+
+    it('does not fire purchase when completing the registration fails', () => {
+      spyOn(registration, 'completeRegistration').and.returnValue(
+        $q.reject({ data: {} }),
+      );
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(analytics.trackPurchase).not.toHaveBeenCalled();
+    });
+
+    it('does not fire purchase in preview mode, but still leaves the page', () => {
+      spyOn(registration, 'completeRegistration').and.returnValue($q.when());
+      $rootScope.registerMode = 'preview';
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(analytics.trackPurchase).not.toHaveBeenCalled();
+      expect(scope.navigateToPostRegistrationPage).toHaveBeenCalledWith();
+    });
+
+    it('waits for the purchase to be sent before leaving the page', () => {
+      const purchaseSent = $q.defer();
+      analytics.trackPurchase.and.returnValue(purchaseSent.promise);
+      spyOn(registration, 'completeRegistration').and.returnValue($q.when());
+      scope.confirmRegistration();
+      scope.$digest();
+
+      expect(scope.navigateToPostRegistrationPage).not.toHaveBeenCalled();
+
+      purchaseSent.resolve();
+      scope.$digest();
+
+      expect(scope.navigateToPostRegistrationPage).toHaveBeenCalledWith();
+    });
+
+    describe('add_payment_info when there is no Payment section', () => {
+      beforeEach(() => {
+        spyOn(registration, 'completeRegistration').and.returnValue($q.when());
+        scope.currentRegistration.remainingBalance = 100;
+      });
+
+      it('sends payment_type None on Confirm when the total is $0', () => {
+        scope.currentRegistration.remainingBalance = 0;
+        scope.confirmRegistration();
+
+        expect(analytics.trackAddPaymentInfo).toHaveBeenCalledWith(
+          scope.conference,
+          scope.currentRegistration,
+          'NONE',
+        );
+      });
+
+      it('sends payment_type None on Confirm when the ticket types take no payments', () => {
+        spyOn(scope, 'acceptedPaymentMethods').and.returnValue(false);
+        scope.confirmRegistration();
+
+        expect(analytics.trackAddPaymentInfo).toHaveBeenCalledWith(
+          scope.conference,
+          scope.currentRegistration,
+          'NONE',
+        );
+      });
+
+      it('leaves it to the Payment section when the page shows one', () => {
+        spyOn(scope, 'acceptedPaymentMethods').and.returnValue({
+          acceptCreditCards: true,
+        });
+        scope.confirmRegistration();
+
+        expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+      });
+
+      it('does not send it in preview mode', () => {
+        scope.currentRegistration.remainingBalance = 0;
+        $rootScope.registerMode = 'preview';
+        scope.confirmRegistration();
+
+        expect(analytics.trackAddPaymentInfo).not.toHaveBeenCalled();
+      });
+    });
+  });
+
   describe('pageIsVisible', () => {
     it('returns true if any blocks are visible', () => {
       initController({

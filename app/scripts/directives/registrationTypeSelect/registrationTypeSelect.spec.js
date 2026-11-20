@@ -132,4 +132,47 @@ describe('Directive: registrationTypeSelect', function () {
       expect(scope.registrationTypeFull(registrantTypeSingle)).toBe(false);
     });
   });
+
+  describe('newRegistrant', () => {
+    let analytics, RegistrationCache, registrantTypeId;
+    beforeEach(inject((_analytics_, _RegistrationCache_, modalMessage) => {
+      analytics = _analytics_;
+      RegistrationCache = _RegistrationCache_;
+      registrantTypeId = testData.conference.registrantTypes[0].id;
+      spyOn(analytics, 'trackAddToCart');
+      spyOn(modalMessage, 'error');
+      // The save succeeds right away unless a test says otherwise.
+      spyOn(RegistrationCache, 'update').and.callFake(
+        (path, registration, onSuccess) => onSuccess(),
+      );
+    }));
+
+    it('sends GA4 add_to_cart for the new registrant once they are saved', () => {
+      scope.newRegistrant(registrantTypeId);
+      const newRegistrant = scope.currentRegistration.registrants.at(-1);
+
+      expect(analytics.trackAddToCart).toHaveBeenCalledWith(
+        testData.conference,
+        scope.currentRegistration,
+        registrantTypeId,
+        newRegistrant.id,
+      );
+    });
+
+    it('does not send add_to_cart when the save fails', () => {
+      RegistrationCache.update.and.callFake(
+        (path, registration, onSuccess, onError) => onError(),
+      );
+      scope.newRegistrant(registrantTypeId);
+
+      expect(analytics.trackAddToCart).not.toHaveBeenCalled();
+    });
+
+    it('does not send add_to_cart in preview mode', () => {
+      $rootScope.registerMode = 'preview';
+      scope.newRegistrant(registrantTypeId);
+
+      expect(analytics.trackAddToCart).not.toHaveBeenCalled();
+    });
+  });
 });
