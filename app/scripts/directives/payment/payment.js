@@ -25,9 +25,12 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
     },
     controller: function (
       $scope,
+      $element,
+      $rootScope,
       expenseTypesConstants,
       gettextCatalog,
       staffAccountService,
+      analytics,
     ) {
       $scope.conference = $scope.$parent.conference;
       $scope.expenseTypesConstants = expenseTypesConstants;
@@ -49,6 +52,28 @@ angular.module('confRegistrationWebApp').directive('ertPayment', function () {
         PAY_ON_SITE: payOnSiteTemplate,
         ADDITIONAL_EXPENSE: additionalExpenseTemplate,
       };
+
+      // GA4 add_payment_info: the first time the attendee picks a payment method or clicks
+      // into a payment field. The method often starts blank and the Amount box shows before it,
+      // so wait until one is picked to send the real payment_type. Nobody can Confirm without
+      // one. On a payment method radio, focus comes before the pick, so wait for its change
+      // event to get the new payment_type. Skip preview and the admin payment screen so staff
+      // entering payments don't count.
+      $element.on('focusin change', (event) => {
+        if (
+          !$scope.currentPayment?.paymentType ||
+          (event.type === 'focusin' && event.target.type === 'radio') ||
+          $scope.isAdminPayment ||
+          $rootScope.registerMode === 'preview'
+        ) {
+          return;
+        }
+        analytics.trackAddPaymentInfo(
+          $scope.conference,
+          $scope.currentRegistration,
+          $scope.currentPayment.paymentType,
+        );
+      });
 
       $scope.searchStaff = function (name) {
         return staffAccountService.searchStaff(

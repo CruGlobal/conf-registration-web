@@ -267,6 +267,25 @@ angular
       // Called when the user clicks the confirm button
       $scope.confirmRegistration = function () {
         $scope.submittingRegistration = true;
+        // Copy the registration as it was before this confirm. Purchase needs the original
+        // completed flag to tell a new registration from an add-on. Nothing below changes it
+        // today, but the copy keeps a later change from quietly breaking purchase.
+        const registrationBeforeConfirm = angular.copy(currentRegistration);
+
+        // GA4 add_payment_info normally fires from the Payment section. When there isn't one
+        // ($0 total, or no payment options), send it here so every event's funnel has the step.
+        // This matches the ng-if on the Payment section in reviewRegistration.html, so keep
+        // them in sync. Skip preview so admins don't count.
+        const hasPaymentSection =
+          $scope.acceptedPaymentMethods() &&
+          currentRegistration.remainingBalance > 0;
+        if (!hasPaymentSection && $rootScope.registerMode !== 'preview') {
+          analytics.trackAddPaymentInfo(
+            conference,
+            currentRegistration,
+            'NONE',
+          );
+        }
 
         $q.when()
           .then(function () {
@@ -311,7 +330,18 @@ angular
               eventID: conference.id,
               registeredEventName: conference.name,
             });
-
+            // GA4 purchase. Skip preview so admins don't count.
+            if ($rootScope.registerMode === 'preview') {
+              return;
+            }
+            // Wait for GTM to send it, or a redirect to another site can cancel the request.
+            // trackPurchase never rejects, so tracking can't land in the error handler below.
+            return analytics.trackPurchase(
+              conference,
+              registrationBeforeConfirm,
+            );
+          })
+          .then(function () {
             $scope.navigateToPostRegistrationPage();
           })
           .catch(function (response) {
